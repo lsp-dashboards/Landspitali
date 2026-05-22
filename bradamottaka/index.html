@@ -127,6 +127,14 @@
       var MOBILE_URL = "https://app.powerbi.com/view?r=eyJrIjoiNGZlODE2N2ItYzkwZS00ZWYzLTg2YzctMjg5NWY5MmU1NTkyIiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9";
       var MOBILE_BREAKPOINT = 768;
 
+      // Tracking setup.
+      // 1. Create an endpoint, for example the Google Apps Script file I provided.
+      // 2. Paste the deployed web app URL below.
+      // 3. Keep TRACKING_ENABLED as true.
+      var TRACKING_ENABLED = true;
+      var TRACKING_ENDPOINT = "https://script.google.com/macros/s/AKfycby3-AcGg9Lu6LkL_tSilvNPnuGb3lgm_3-ryt0a1A6-kz3P7gUlH3uLkpRQn2VJytepHg/exec";      	var TRACK_DEBUG_VISITS = false; // false keeps ?debug=1 tests out of the count.
+      var DASHBOARD_ID = "bradamottakan-fossvogi";
+
       function getUserAgent() {
         return navigator.userAgent || navigator.vendor || window.opera || "";
       }
@@ -146,6 +154,21 @@
         return width || docWidth || screen.width || 1024;
       }
 
+      function getViewportHeight() {
+        var height = window.innerHeight || 0;
+        var docHeight = 0;
+
+        if (document.documentElement && document.documentElement.clientHeight) {
+          docHeight = document.documentElement.clientHeight;
+        }
+
+        if (height && docHeight) {
+          return Math.min(height, docHeight);
+        }
+
+        return height || docHeight || screen.height || 768;
+      }
+
       function hasTouch() {
         return !!("ontouchstart" in window) || ((navigator.maxTouchPoints || 0) > 0);
       }
@@ -158,12 +181,14 @@
           /Mobile/i.test(ua);
       }
 
+      function isTabletUserAgent() {
+        var ua = getUserAgent();
+        return /iPad|Tablet|Android(?!.*Mobile)|Silk/i.test(ua);
+      }
+
       function shouldUseMobile() {
         var width = getViewportWidth();
-        var narrowScreen = width <= MOBILE_BREAKPOINT;
-        var smallTouchScreen = hasTouch() && width <= MOBILE_BREAKPOINT;
-
-        return isPhoneUserAgent() || narrowScreen || smallTouchScreen;
+        return isPhoneUserAgent() || width <= MOBILE_BREAKPOINT;
       }
 
       function isIeMode() {
@@ -171,20 +196,42 @@
         return !!document.documentMode || /MSIE|Trident/i.test(ua);
       }
 
+      function getQueryValue(name) {
+        var query = window.location.search || "";
+        var match;
+
+        if (window.URLSearchParams) {
+          return new URLSearchParams(query).get(name) || "";
+        }
+
+        match = new RegExp("[?&]" + name + "=([^&]*)", "i").exec(query);
+        return match ? decodeURIComponent(match[1].replace(/\+/g, " ")) : "";
+      }
+
       function hasQueryFlag(flagName) {
         var query = window.location.search || "";
-        var pattern = new RegExp("[?&]" + flagName + "(=1|=true|&|$)", "i");
+        var value;
+        var pattern;
+
+        if (window.URLSearchParams) {
+          value = new URLSearchParams(query).get(flagName);
+          return new URLSearchParams(query).has(flagName) &&
+            (value === null || value === "" || value === "1" || /^true$/i.test(value));
+        }
+
+        pattern = new RegExp("[?&]" + flagName + "(=1|=true|&|$)", "i");
         return pattern.test(query);
       }
 
       function forcedLayout() {
-        var query = window.location.search || "";
+        var value = getQueryValue("force") || getQueryValue("view") || "auto";
+        value = value.toLowerCase();
 
-        if (/[?&](force|view)=mobile(&|$|=)/i.test(query) || /[?&](force|view)=mobile/i.test(query)) {
+        if (value === "mobile") {
           return "mobile";
         }
 
-        if (/[?&](force|view)=desktop(&|$|=)/i.test(query) || /[?&](force|view)=desktop/i.test(query)) {
+        if (value === "desktop") {
           return "desktop";
         }
 
@@ -205,27 +252,204 @@
         return shouldUseMobile() ? MOBILE_URL : DESKTOP_URL;
       }
 
+      function getSelectedLayout(targetUrl) {
+        if (targetUrl === MOBILE_URL) {
+          return "mobile";
+        }
+
+        if (targetUrl === DESKTOP_URL) {
+          return "desktop";
+        }
+
+        return "unknown";
+      }
+
+      function getDeviceType() {
+        var width = getViewportWidth();
+
+        if (isPhoneUserAgent()) {
+          return "phone";
+        }
+
+        if (isTabletUserAgent()) {
+          return "tablet";
+        }
+
+        if (hasTouch() && width <= MOBILE_BREAKPOINT) {
+          return "small-touch-screen";
+        }
+
+        if (width <= MOBILE_BREAKPOINT) {
+          return "narrow-screen";
+        }
+
+        return "desktop";
+      }
+
+      function getBrowserFamily() {
+        var ua = getUserAgent();
+
+        if (/Edg/i.test(ua)) return "Edge";
+        if (/OPR|Opera/i.test(ua)) return "Opera";
+        if (/Chrome|CriOS/i.test(ua)) return "Chrome";
+        if (/Firefox|FxiOS/i.test(ua)) return "Firefox";
+        if (/Safari/i.test(ua) && !/Chrome|CriOS/i.test(ua)) return "Safari";
+        if (/MSIE|Trident/i.test(ua)) return "Internet Explorer";
+
+        return "Other";
+      }
+
+      function getOsFamily() {
+        var ua = getUserAgent();
+
+        if (/Windows/i.test(ua)) return "Windows";
+        if (/Android/i.test(ua)) return "Android";
+        if (/iPhone|iPad|iPod/i.test(ua)) return "iOS";
+        if (/Macintosh|Mac OS X/i.test(ua)) return "macOS";
+        if (/Linux/i.test(ua)) return "Linux";
+
+        return "Other";
+      }
+
+      function getTimezone() {
+        try {
+          if (window.Intl && Intl.DateTimeFormat) {
+            return Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+          }
+        } catch (error) {}
+
+        return "";
+      }
+
+      function getAllowedQueryParams() {
+        var allowed = ["force", "view", "debug", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+        var result = {};
+        var i;
+        var key;
+        var value;
+
+        for (i = 0; i < allowed.length; i += 1) {
+          key = allowed[i];
+          value = getQueryValue(key);
+
+          if (value) {
+            result[key] = value;
+          }
+        }
+
+        return result;
+      }
+
+      function makeRequestId() {
+        if (window.crypto && crypto.randomUUID) {
+          return crypto.randomUUID();
+        }
+
+        return "req-" + String(Date.now()) + "-" + Math.random().toString(16).slice(2);
+      }
+
+      function buildTrackingPayload(targetUrl) {
+        var selectedLayout = getSelectedLayout(targetUrl);
+
+        return {
+          eventType: "router_redirect",
+          dashboardId: DASHBOARD_ID,
+          selectedLayout: selectedLayout,
+          forcedLayout: forcedLayout(),
+          wouldAutoUseMobile: shouldUseMobile(),
+          deviceType: getDeviceType(),
+          browserFamily: getBrowserFamily(),
+          osFamily: getOsFamily(),
+          viewportWidth: getViewportWidth(),
+          viewportHeight: getViewportHeight(),
+          screenWidth: window.screen ? screen.width : null,
+          screenHeight: window.screen ? screen.height : null,
+          devicePixelRatio: window.devicePixelRatio || 1,
+          touch: hasTouch(),
+          maxTouchPoints: navigator.maxTouchPoints || 0,
+          language: navigator.language || "",
+          languages: navigator.languages ? navigator.languages.slice(0, 5).join(",") : "",
+          timezone: getTimezone(),
+          referrer: document.referrer || "",
+          pageHost: window.location.host,
+          pagePath: window.location.pathname,
+          pageUrl: window.location.origin + window.location.pathname,
+          query: getAllowedQueryParams(),
+          userAgent: getUserAgent(),
+          eventTimeClient: new Date().toISOString(),
+          requestId: makeRequestId()
+        };
+      }
+
+      function sendTracking(payload) {
+        var body;
+        var blob;
+        var queued;
+
+        if (!TRACKING_ENABLED || !TRACKING_ENDPOINT) {
+          return;
+        }
+
+        try {
+          body = JSON.stringify(payload);
+
+          if (navigator.sendBeacon) {
+            blob = new Blob([body], { type: "text/plain;charset=UTF-8" });
+            queued = navigator.sendBeacon(TRACKING_ENDPOINT, blob);
+
+            if (queued) {
+              return;
+            }
+          }
+
+          if (window.fetch) {
+            fetch(TRACKING_ENDPOINT, {
+              method: "POST",
+              mode: "no-cors",
+              keepalive: true,
+              headers: {
+                "Content-Type": "text/plain;charset=UTF-8"
+              },
+              body: body
+            }).catch(function () {});
+          }
+        } catch (error) {}
+      }
+
       function updateFallback(targetUrl) {
         var fallbackLink = document.getElementById("fallback-link");
         var routeNote = document.getElementById("route-note");
+        var selectedLayout = getSelectedLayout(targetUrl);
 
         if (fallbackLink) {
           fallbackLink.href = targetUrl;
         }
 
         if (routeNote && hasQueryFlag("debug")) {
-          routeNote.innerHTML = shouldUseMobile()
-            ? "Debug: mobile útgáfa valin."
-            : "Debug: desktop útgáfa valin.";
+          routeNote.innerHTML =
+            "Debug:<br>" +
+            "Valin útgáfa: " + selectedLayout + "<br>" +
+            "Tæki: " + getDeviceType() + "<br>" +
+            "Skjábreidd: " + getViewportWidth() + " px<br>" +
+            "Vafri: " + getBrowserFamily() + "<br>" +
+            "Stýrikerfi: " + getOsFamily() + "<br>" +
+            "Tracking: " + (TRACKING_ENABLED && TRACKING_ENDPOINT ? "virkt" : "óvirkt / endpoint vantar");
         }
       }
 
       function redirectToReport() {
         var targetUrl = getTargetUrl();
+        var debugMode = hasQueryFlag("debug");
+
         updateFallback(targetUrl);
 
         // Add ?debug=1 to the GitHub Pages URL to inspect the routing page without redirecting.
-        if (hasQueryFlag("debug")) {
+        // Debug visits are not counted unless TRACK_DEBUG_VISITS is changed to true.
+        if (!debugMode || TRACK_DEBUG_VISITS) {
+          sendTracking(buildTrackingPayload(targetUrl));
+        }
+
+        if (debugMode) {
           return;
         }
 
