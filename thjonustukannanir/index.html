@@ -14,7 +14,9 @@
       min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
       color: #102033;
-      background: #f4f7fa;
+      background:
+        radial-gradient(circle at top left, rgba(79, 111, 143, 0.12), transparent 34%),
+        linear-gradient(180deg, #f4f7fa 0%, #edf3f7 100%);
     }
 
     * {
@@ -35,13 +37,33 @@
     }
 
     .card {
-      max-width: 560px;
+      max-width: 590px;
       margin: 0 auto;
-      padding: 30px 24px;
-      background: #ffffff;
+      padding: 34px 26px 28px 26px;
+      background: rgba(255, 255, 255, 0.96);
       border: 1px solid #d9e1e8;
-      border-radius: 18px;
-      box-shadow: 0 16px 45px rgba(16, 32, 51, 0.10);
+      border-radius: 22px;
+      box-shadow: 0 18px 50px rgba(16, 32, 51, 0.12);
+      animation: cardEnter 420ms ease-out both;
+    }
+
+    @keyframes cardEnter {
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.985);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .logo {
+      max-width: 190px;
+      height: auto;
+      margin: 0 auto 18px auto;
+      display: block;
     }
 
     .eyebrow {
@@ -54,15 +76,51 @@
 
     h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 29px;
       line-height: 1.15;
+      letter-spacing: -0.02em;
     }
 
     .text {
-      margin: 14px 0 0 0;
+      max-width: 470px;
+      margin: 14px auto 0 auto;
       color: #5f6f82;
       font-size: 16px;
       line-height: 1.55;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #edf3f7;
+      color: #4F6F8F;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .loader-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #4F6F8F;
+      animation: pulseDot 900ms ease-in-out infinite;
+    }
+
+    @keyframes pulseDot {
+      0%,
+      100% {
+        opacity: 0.35;
+        transform: scale(0.85);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.15);
+      }
     }
 
     .button {
@@ -76,11 +134,14 @@
       font-weight: 700;
       text-decoration: none;
       box-shadow: 0 10px 24px rgba(79, 111, 143, 0.25);
+      transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
     }
 
     .button:hover,
     .button:focus {
       background: #435F7A;
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(79, 111, 143, 0.30);
     }
 
     .small {
@@ -89,6 +150,81 @@
       font-size: 13px;
       line-height: 1.45;
     }
+
+    .manual-links {
+      margin-top: 14px;
+      color: #7a8795;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .manual-links a {
+      color: #4F6F8F;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .manual-links a:hover,
+    .manual-links a:focus {
+      text-decoration: underline;
+    }
+
+    .debug-panel {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 12px;
+      background: #f7f9fb;
+      border: 1px solid #d9e1e8;
+      color: #516173;
+      font-size: 13px;
+      line-height: 1.5;
+      text-align: left;
+      overflow-wrap: anywhere;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: #8b98a7;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 520px) {
+      .page {
+        padding: 16px;
+      }
+
+      .card {
+        padding: 28px 18px 24px 18px;
+        border-radius: 18px;
+      }
+
+      .logo {
+        max-width: 165px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .text {
+        font-size: 15px;
+      }
+
+      .button {
+        width: 100%;
+        padding: 15px 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card,
+      .loader-dot,
+      .button {
+        animation: none;
+        transition: none;
+      }
+    }
   </style>
 </head>
 
@@ -96,19 +232,42 @@
   <main class="page">
     <div class="page-inner">
       <section class="card" aria-labelledby="page-title">
+        <img
+          class="logo"
+          src="https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png"
+          alt="Landspítali"
+        >
+
         <p class="eyebrow">Landspítali</p>
+
         <h1 id="page-title">Opna Þjónustukannanir ríkisstofnana</h1>
+
         <p class="text">
           Augnablik, þú ert send/ur í rétta útgáfu mælaborðsins eftir tæki og skjábreidd.
         </p>
 
-        <!-- Mobile URL is the safe fallback. If JavaScript fails, users still get the mobile version. -->
+        <div class="status-pill" aria-live="polite">
+          <span class="loader-dot" aria-hidden="true"></span>
+          Vel rétta útgáfu
+        </div>
+
         <a id="fallback-link" class="button" href="https://app.powerbi.com/view?r=eyJrIjoiNmMyZGI1ZjktOTIzMS00MjZlLWFmMjEtMzE2ZTRhYjcyYmQ3IiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9">
           Opna mælaborð
         </a>
 
+        <p id="manual-links" class="manual-links" hidden>
+          Velja handvirkt:
+          <a id="manual-mobile-link" href="?force=mobile&debug=1">mobile</a>
+          ·
+          <a id="manual-desktop-link" href="?force=desktop&debug=1">desktop</a>
+        </p>
+
         <p id="route-note" class="small">
           Ef ekkert gerist sjálfkrafa skaltu smella á takkann.
+        </p>
+
+        <p class="footer-note">
+          Mælaborðið opnast í Power BI.
         </p>
       </section>
     </div>
@@ -120,20 +279,26 @@
 
   <script>
     (function () {
-      // Þjónustukannanir ríkisstofnana: one GitHub Pages router per dashboard.
-      // The user should only see one island.is button. This page redirects immediately.
-
       var DESKTOP_URL = "https://app.powerbi.com/view?r=eyJrIjoiN2VjNTI5YzAtMGNjMC00MWQ1LTkwY2MtZTAzMzg2NWI4YTdlIiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9";
       var MOBILE_URL = "https://app.powerbi.com/view?r=eyJrIjoiNmMyZGI1ZjktOTIzMS00MjZlLWFmMjEtMzE2ZTRhYjcyYmQ3IiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9";
       var MOBILE_BREAKPOINT = 768;
 
-      // Tracking setup.
-      // 1. Create an endpoint, for example the Google Apps Script file I provided.
-      // 2. Paste the deployed web app URL below.
-      // 3. Keep TRACKING_ENABLED as true.
       var TRACKING_ENABLED = true;
-      var TRACKING_ENDPOINT = "https://script.google.com/macros/s/AKfycby3-AcGg9Lu6LkL_tSilvNPnuGb3lgm_3-ryt0a1A6-kz3P7gUlH3uLkpRQn2VJytepHg/exec";      	var TRACK_DEBUG_VISITS = false; // false keeps ?debug=1 tests out of the count.
+      var TRACKING_ENDPOINT = "https://script.google.com/macros/s/AKfycbw9GUbiwh3ZUDpIIqOu9Njh8FI0ILbNbFUfqHntMNcG5VolDukym0no84zhYe8IPHZsyQ/exec";
+
+      /*
+        TEST:
+        true  = ?debug=1 also writes a row to Google Sheets.
+        false = ?debug=1 only shows debug information and does not count.
+
+        LIVE:
+        Set this to false before publishing.
+      */
+      var TRACK_DEBUG_VISITS = false;
+
       var DASHBOARD_ID = "thjonustukannanir-rikisstofnana";
+      var DASHBOARD_NAME = "Þjónustukannanir ríkisstofnana";
+      var ENVIRONMENT = "prod";
 
       function getUserAgent() {
         return navigator.userAgent || navigator.vendor || window.opera || "";
@@ -191,17 +356,14 @@
         return isPhoneUserAgent() || width <= MOBILE_BREAKPOINT;
       }
 
-      function isIeMode() {
-        var ua = getUserAgent();
-        return !!document.documentMode || /MSIE|Trident/i.test(ua);
-      }
-
       function getQueryValue(name) {
         var query = window.location.search || "";
         var match;
+        var params;
 
         if (window.URLSearchParams) {
-          return new URLSearchParams(query).get(name) || "";
+          params = new URLSearchParams(query);
+          return params.get(name) || "";
         }
 
         match = new RegExp("[?&]" + name + "=([^&]*)", "i").exec(query);
@@ -211,11 +373,14 @@
       function hasQueryFlag(flagName) {
         var query = window.location.search || "";
         var value;
+        var params;
         var pattern;
 
         if (window.URLSearchParams) {
-          value = new URLSearchParams(query).get(flagName);
-          return new URLSearchParams(query).has(flagName) &&
+          params = new URLSearchParams(query);
+          value = params.get(flagName);
+
+          return params.has(flagName) &&
             (value === null || value === "" || value === "1" || /^true$/i.test(value));
         }
 
@@ -262,6 +427,29 @@
         }
 
         return "unknown";
+      }
+
+      function getRouteReason() {
+        var force = forcedLayout();
+        var width = getViewportWidth();
+
+        if (force === "mobile") {
+          return "forced_mobile";
+        }
+
+        if (force === "desktop") {
+          return "forced_desktop";
+        }
+
+        if (isPhoneUserAgent()) {
+          return "phone_user_agent";
+        }
+
+        if (width <= MOBILE_BREAKPOINT) {
+          return "viewport_under_breakpoint";
+        }
+
+        return "desktop_default";
       }
 
       function getDeviceType() {
@@ -321,8 +509,31 @@
         return "";
       }
 
+      function isLocalFile() {
+        return window.location.protocol === "file:";
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
       function getAllowedQueryParams() {
-        var allowed = ["force", "view", "debug", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+        var allowed = [
+          "force",
+          "view",
+          "debug",
+          "utm_source",
+          "utm_medium",
+          "utm_campaign",
+          "utm_content",
+          "utm_term"
+        ];
+
         var result = {};
         var i;
         var key;
@@ -348,13 +559,57 @@
         return "req-" + String(Date.now()) + "-" + Math.random().toString(16).slice(2);
       }
 
-      function buildTrackingPayload(targetUrl) {
-        var selectedLayout = getSelectedLayout(targetUrl);
+      function buildRouterUrl(overrides) {
+        var url;
+        var key;
 
+        try {
+          url = new URL(window.location.href);
+
+          for (key in overrides) {
+            if (Object.prototype.hasOwnProperty.call(overrides, key)) {
+              url.searchParams.set(key, overrides[key]);
+            }
+          }
+
+          return url.href;
+        } catch (error) {
+          return window.location.pathname;
+        }
+      }
+
+      function updateManualLinks() {
+        var manualLinks = document.getElementById("manual-links");
+        var mobileLink = document.getElementById("manual-mobile-link");
+        var desktopLink = document.getElementById("manual-desktop-link");
+
+        if (manualLinks && hasQueryFlag("debug")) {
+          manualLinks.hidden = false;
+        }
+
+        if (mobileLink) {
+          mobileLink.href = buildRouterUrl({
+            force: "mobile",
+            debug: "1"
+          });
+        }
+
+        if (desktopLink) {
+          desktopLink.href = buildRouterUrl({
+            force: "desktop",
+            debug: "1"
+          });
+        }
+      }
+
+      function buildTrackingPayload(targetUrl) {
         return {
           eventType: "router_redirect",
           dashboardId: DASHBOARD_ID,
-          selectedLayout: selectedLayout,
+          dashboardName: DASHBOARD_NAME,
+          environment: ENVIRONMENT,
+          selectedLayout: getSelectedLayout(targetUrl),
+          routeReason: getRouteReason(),
           forcedLayout: forcedLayout(),
           wouldAutoUseMobile: shouldUseMobile(),
           deviceType: getDeviceType(),
@@ -370,6 +625,14 @@
           language: navigator.language || "",
           languages: navigator.languages ? navigator.languages.slice(0, 5).join(",") : "",
           timezone: getTimezone(),
+          isLocalFile: isLocalFile(),
+
+          utmSource: getQueryValue("utm_source"),
+          utmMedium: getQueryValue("utm_medium"),
+          utmCampaign: getQueryValue("utm_campaign"),
+          utmContent: getQueryValue("utm_content"),
+          utmTerm: getQueryValue("utm_term"),
+
           referrer: document.referrer || "",
           pageHost: window.location.host,
           pagePath: window.location.pathname,
@@ -381,10 +644,50 @@
         };
       }
 
+      function buildFallbackTrackingUrl(payload) {
+        return TRACKING_ENDPOINT +
+          "?fallback=1" +
+          "&event_type=" + encodeURIComponent("router_redirect_get_fallback") +
+          "&dashboard_id=" + encodeURIComponent(payload.dashboardId || "") +
+          "&dashboard_name=" + encodeURIComponent(payload.dashboardName || "") +
+          "&environment=" + encodeURIComponent(payload.environment || "") +
+          "&selected_layout=" + encodeURIComponent(payload.selectedLayout || "") +
+          "&route_reason=" + encodeURIComponent(payload.routeReason || "") +
+          "&forced_layout=" + encodeURIComponent(payload.forcedLayout || "") +
+          "&would_auto_use_mobile=" + encodeURIComponent(String(payload.wouldAutoUseMobile || "")) +
+          "&device_type=" + encodeURIComponent(payload.deviceType || "") +
+          "&browser_family=" + encodeURIComponent(payload.browserFamily || "") +
+          "&os_family=" + encodeURIComponent(payload.osFamily || "") +
+          "&viewport_width=" + encodeURIComponent(String(payload.viewportWidth || "")) +
+          "&viewport_height=" + encodeURIComponent(String(payload.viewportHeight || "")) +
+          "&screen_width=" + encodeURIComponent(String(payload.screenWidth || "")) +
+          "&screen_height=" + encodeURIComponent(String(payload.screenHeight || "")) +
+          "&device_pixel_ratio=" + encodeURIComponent(String(payload.devicePixelRatio || "")) +
+          "&touch=" + encodeURIComponent(String(payload.touch || "")) +
+          "&max_touch_points=" + encodeURIComponent(String(payload.maxTouchPoints || "")) +
+          "&language=" + encodeURIComponent(payload.language || "") +
+          "&languages=" + encodeURIComponent(payload.languages || "") +
+          "&timezone=" + encodeURIComponent(payload.timezone || "") +
+          "&is_local_file=" + encodeURIComponent(String(payload.isLocalFile || "")) +
+          "&utm_source=" + encodeURIComponent(payload.utmSource || "") +
+          "&utm_medium=" + encodeURIComponent(payload.utmMedium || "") +
+          "&utm_campaign=" + encodeURIComponent(payload.utmCampaign || "") +
+          "&utm_content=" + encodeURIComponent(payload.utmContent || "") +
+          "&utm_term=" + encodeURIComponent(payload.utmTerm || "") +
+          "&referrer=" + encodeURIComponent(payload.referrer || "") +
+          "&page_host=" + encodeURIComponent(payload.pageHost || "") +
+          "&page_path=" + encodeURIComponent(payload.pagePath || "") +
+          "&page_url=" + encodeURIComponent(payload.pageUrl || "") +
+          "&user_agent=" + encodeURIComponent(payload.userAgent || "") +
+          "&request_id=" + encodeURIComponent(payload.requestId || "") +
+          "&t=" + encodeURIComponent(String(Date.now()));
+      }
+
       function sendTracking(payload) {
         var body;
         var blob;
         var queued;
+        var image;
 
         if (!TRACKING_ENABLED || !TRACKING_ENDPOINT) {
           return;
@@ -412,28 +715,48 @@
               },
               body: body
             }).catch(function () {});
+            return;
           }
-        } catch (error) {}
+
+          image = new Image();
+          image.src = buildFallbackTrackingUrl(payload);
+        } catch (error) {
+          try {
+            image = new Image();
+            image.src = buildFallbackTrackingUrl(payload);
+          } catch (fallbackError) {}
+        }
       }
 
       function updateFallback(targetUrl) {
         var fallbackLink = document.getElementById("fallback-link");
         var routeNote = document.getElementById("route-note");
         var selectedLayout = getSelectedLayout(targetUrl);
+        var trackingStatus = TRACKING_ENABLED && TRACKING_ENDPOINT ? "virkt" : "óvirkt / endpoint vantar";
 
         if (fallbackLink) {
           fallbackLink.href = targetUrl;
         }
 
+        updateManualLinks();
+
         if (routeNote && hasQueryFlag("debug")) {
+          routeNote.className = "debug-panel";
           routeNote.innerHTML =
-            "Debug:<br>" +
-            "Valin útgáfa: " + selectedLayout + "<br>" +
-            "Tæki: " + getDeviceType() + "<br>" +
-            "Skjábreidd: " + getViewportWidth() + " px<br>" +
-            "Vafri: " + getBrowserFamily() + "<br>" +
-            "Stýrikerfi: " + getOsFamily() + "<br>" +
-            "Tracking: " + (TRACKING_ENABLED && TRACKING_ENDPOINT ? "virkt" : "óvirkt / endpoint vantar");
+            "<strong>Debug</strong><br>" +
+            "Valin útgáfa: " + escapeHtml(selectedLayout) + "<br>" +
+            "Ástæða leiðar: " + escapeHtml(getRouteReason()) + "<br>" +
+            "Þvinguð leið: " + escapeHtml(forcedLayout()) + "<br>" +
+            "Tæki: " + escapeHtml(getDeviceType()) + "<br>" +
+            "Skjábreidd: " + escapeHtml(getViewportWidth()) + " px<br>" +
+            "Skjáhæð: " + escapeHtml(getViewportHeight()) + " px<br>" +
+            "Vafri: " + escapeHtml(getBrowserFamily()) + "<br>" +
+            "Stýrikerfi: " + escapeHtml(getOsFamily()) + "<br>" +
+            "Local file: " + escapeHtml(isLocalFile()) + "<br>" +
+            "Tracking: " + escapeHtml(trackingStatus) + "<br>" +
+            "Debug visits logged: " + escapeHtml(TRACK_DEBUG_VISITS) + "<br>" +
+            "UTM source: " + escapeHtml(getQueryValue("utm_source") || "none") + "<br>" +
+            "UTM campaign: " + escapeHtml(getQueryValue("utm_campaign") || "none");
         }
       }
 
@@ -443,8 +766,6 @@
 
         updateFallback(targetUrl);
 
-        // Add ?debug=1 to the GitHub Pages URL to inspect the routing page without redirecting.
-        // Debug visits are not counted unless TRACK_DEBUG_VISITS is changed to true.
         if (!debugMode || TRACK_DEBUG_VISITS) {
           sendTracking(buildTrackingPayload(targetUrl));
         }
@@ -453,13 +774,9 @@
           return;
         }
 
-        // Hidden Edge IE mode fallback. No visible text, just tries to escape the old rendering engine.
-        if (isIeMode() && /^https:\/\//i.test(targetUrl)) {
-          window.location.href = "microsoft-edge:" + targetUrl;
-          return;
-        }
-
-        window.location.replace(targetUrl);
+        setTimeout(function () {
+          window.location.replace(targetUrl);
+        }, 150);
       }
 
       if (document.readyState === "loading") {
