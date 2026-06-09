@@ -4,6 +4,8 @@
   var config = window.LSP_STATUS_CONFIG || {};
   var sampleData = window.LSP_STATUS_SAMPLE_DATA || null;
   var currentData = null;
+  var activeRequestId = 0;
+  var isRefreshing = false;
 
   function $(id) {
     return document.getElementById(id);
@@ -84,47 +86,69 @@
     else pill.textContent = "Óþekkt staða";
   }
 
+  function setRefreshButton(loading) {
+    var button = $("refresh-button");
+    if (!button) return;
+
+    button.disabled = !!loading;
+    button.textContent = loading ? "Sæki gögn..." : "Endurhlaða";
+  }
+
   function loadJsonp(url, timeoutMs) {
     return new Promise(function (resolve, reject) {
-      var callbackName = "__lspStatusCb" + Date.now() + Math.random().toString(16).slice(2);
+      var callbackName = "__lspStatusCb" + Date.now() + "_" + Math.random().toString(16).slice(2);
+      var callbackParam = config.callbackParam || "callback";
       var script = document.createElement("script");
+      var finished = false;
       var timeout = window.setTimeout(function () {
+        if (finished) return;
+        finished = true;
         cleanup();
         reject(new Error("Dashboard data request timed out"));
-      }, timeoutMs || 8000);
+      }, timeoutMs || 30000);
 
       function cleanup() {
         window.clearTimeout(timeout);
-        try { delete window[callbackName]; } catch (error) { window[callbackName] = undefined; }
+        try {
+          delete window[callbackName];
+        } catch (error) {
+          window[callbackName] = undefined;
+        }
         if (script.parentNode) script.parentNode.removeChild(script);
       }
 
       window[callbackName] = function (data) {
+        if (finished) return;
+        finished = true;
         cleanup();
         resolve(data);
       };
 
       script.onerror = function () {
+        if (finished) return;
+        finished = true;
         cleanup();
         reject(new Error("Dashboard data script failed to load"));
       };
 
-      script.src = addQuery(url, {
+      var queryParams = {
         api: config.api || "dashboard",
         format: config.format || "js",
-        callback: callbackName,
         cache_bust: String(Date.now())
-      });
+      };
+
+      queryParams[callbackParam] = callbackName;
+
+      script.src = addQuery(url, queryParams);
       document.head.appendChild(script);
     });
   }
 
   function loadData() {
-    setHealth("unknown");
     if (!config.dataEndpoint) {
       return Promise.reject(new Error("No data endpoint configured"));
     }
-    return loadJsonp(config.dataEndpoint);
+    return loadJsonp(config.dataEndpoint, Number(config.requestTimeoutMs) || 30000);
   }
 
   function renderKpis(data) {
@@ -275,15 +299,59 @@
   }
 
   function refresh() {
+    var requestId;
+
+    if (isRefreshing) {
+      return;
+    }
+
+    isRefreshing = true;
+    requestId = activeRequestId + 1;
+    activeRequestId = requestId;
+    setRefreshButton(true);
+
+    if (!currentData) {
+      setHealth("unknown");
+      showNotice("Sæki lifandi aggregate gögn...");
+    }
+
     loadData().then(function (data) {
+      if (requestId !== activeRequestId) {
+        return;
+      }
+
       render(data, "live");
     }).catch(function (error) {
+      if (requestId !== activeRequestId) {
+        return;
+      }
+
+      if (currentData) {
+        setHealth("warning");
+        showNotice("Endurhleðsla mistókst, sýni síðustu sóttu gögn: " + error.message);
+        return;
+      }
+
       if (config.allowSampleDataFallback && sampleData) {
         render(sampleData, "sample");
       } else {
         setHealth("error");
         showNotice("Náði ekki að sækja aggregate gögn: " + error.message);
       }
+    }).then(function () {
+      if (requestId !== activeRequestId) {
+        return;
+      }
+
+      isRefreshing = false;
+      setRefreshButton(false);
+    }, function () {
+      if (requestId !== activeRequestId) {
+        return;
+      }
+
+      isRefreshing = false;
+      setRefreshButton(false);
     });
   }
 
