@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <title>Opna mælaborð | Þjónustukannanir ríkisstofnana</title>
+  <title>Opna Þjónustukannanir ríkisstofnana | Þjónustukannanir ríkisstofnana</title>
 
   <style>
     html,
@@ -14,9 +14,7 @@
       min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
       color: #102033;
-      background:
-        radial-gradient(circle at top left, rgba(79, 111, 143, 0.12), transparent 34%),
-        linear-gradient(180deg, #f4f7fa 0%, #edf3f7 100%);
+      background: #f4f7fa;
     }
 
     * {
@@ -37,33 +35,13 @@
     }
 
     .card {
-      max-width: 590px;
+      max-width: 640px;
       margin: 0 auto;
-      padding: 34px 26px 28px 26px;
-      background: rgba(255, 255, 255, 0.96);
+      padding: 30px 24px;
+      background: #ffffff;
       border: 1px solid #d9e1e8;
-      border-radius: 22px;
-      box-shadow: 0 18px 50px rgba(16, 32, 51, 0.12);
-      animation: cardEnter 420ms ease-out both;
-    }
-
-    @keyframes cardEnter {
-      from {
-        opacity: 0;
-        transform: translateY(10px) scale(0.985);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .logo {
-      max-width: 190px;
-      height: auto;
-      margin: 0 auto 18px auto;
-      display: block;
+      border-radius: 18px;
+      box-shadow: 0 16px 45px rgba(16, 32, 51, 0.10);
     }
 
     .eyebrow {
@@ -76,54 +54,19 @@
 
     h1 {
       margin: 0;
-      font-size: 29px;
+      font-size: 28px;
       line-height: 1.15;
-      letter-spacing: -0.02em;
     }
 
     .text {
-      max-width: 470px;
-      margin: 14px auto 0 auto;
+      margin: 14px 0 0 0;
       color: #5f6f82;
       font-size: 16px;
       line-height: 1.55;
     }
 
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 18px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: #edf3f7;
-      color: #4F6F8F;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .loader-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #4F6F8F;
-      animation: pulseDot 900ms ease-in-out infinite;
-    }
-
-    @keyframes pulseDot {
-      0%,
-      100% {
-        opacity: 0.35;
-        transform: scale(0.85);
-      }
-
-      50% {
-        opacity: 1;
-        transform: scale(1.15);
-      }
-    }
-
-    .button {
+    .button,
+    .secondary-button {
       display: inline-block;
       margin-top: 22px;
       padding: 15px 22px;
@@ -134,96 +77,92 @@
       font-weight: 700;
       text-decoration: none;
       box-shadow: 0 10px 24px rgba(79, 111, 143, 0.25);
-      transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
     }
 
     .button:hover,
-    .button:focus {
+    .button:focus,
+    .secondary-button:hover,
+    .secondary-button:focus {
       background: #435F7A;
-      transform: translateY(-1px);
-      box-shadow: 0 12px 28px rgba(79, 111, 143, 0.30);
     }
 
-    .small {
+    .secondary-button {
+      margin: 10px 6px 0 6px;
+      padding: 11px 14px;
+      color: #22384f;
+      background: #e9eff5;
+      box-shadow: none;
+    }
+
+    .secondary-button:hover,
+    .secondary-button:focus {
+      background: #dce7f0;
+    }
+
+    .small,
+    #route-note {
       margin-top: 16px;
       color: #7a8795;
       font-size: 13px;
       line-height: 1.45;
     }
 
-    .manual-links {
-      margin-top: 14px;
-      color: #7a8795;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .manual-links a {
-      color: #4F6F8F;
-      font-weight: 700;
-      text-decoration: none;
-    }
-
-    .manual-links a:hover,
-    .manual-links a:focus {
-      text-decoration: underline;
-    }
-
-    .debug-panel {
-      margin-top: 16px;
-      padding: 12px;
-      border-radius: 12px;
-      background: #f7f9fb;
-      border: 1px solid #d9e1e8;
-      color: #516173;
-      font-size: 13px;
-      line-height: 1.5;
+    .debug-list {
+      margin: 20px auto 0 auto;
+      max-width: 520px;
+      display: grid;
+      grid-template-columns: minmax(120px, 190px) 1fr;
+      gap: 8px 12px;
       text-align: left;
+      color: #34495f;
+      font-size: 14px;
+    }
+
+    .debug-list dt {
+      font-weight: 700;
+      color: #102033;
+    }
+
+    .debug-list dd {
+      margin: 0;
       overflow-wrap: anywhere;
     }
 
-    .footer-note {
-      margin-top: 18px;
-      color: #8b98a7;
-      font-size: 12px;
-      line-height: 1.45;
+    .manual-links {
+      margin-top: 12px;
     }
 
-    @media (max-width: 520px) {
-      .page {
-        padding: 16px;
-      }
-
-      .card {
-        padding: 28px 18px 24px 18px;
-        border-radius: 18px;
-      }
-
-      .logo {
-        max-width: 165px;
-      }
-
-      h1 {
-        font-size: 24px;
-      }
-
-      .text {
-        font-size: 15px;
-      }
-
-      .button {
-        width: 100%;
-        padding: 15px 18px;
-      }
+    .dashboard-list {
+      margin-top: 20px;
+      display: grid;
+      gap: 10px;
+      text-align: left;
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .card,
-      .loader-dot,
-      .button {
-        animation: none;
-        transition: none;
-      }
+    .dashboard-row {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid #d9e1e8;
+      border-radius: 14px;
+      color: #102033;
+      text-decoration: none;
+      background: #fbfdff;
+    }
+
+    .dashboard-row img {
+      width: 54px;
+      height: 54px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .dashboard-row small {
+      display: block;
+      margin-top: 4px;
+      color: #6b7c8f;
     }
   </style>
 </head>
@@ -232,559 +171,115 @@
   <main class="page">
     <div class="page-inner">
       <section class="card" aria-labelledby="page-title">
-        <img
-          class="logo"
-          src="https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png"
-          alt="Landspítali"
-        >
-
         <p class="eyebrow">Landspítali</p>
-
         <h1 id="page-title">Opna Þjónustukannanir ríkisstofnana</h1>
-
         <p class="text">
           Augnablik, þú ert send/ur í rétta útgáfu mælaborðsins eftir tæki og skjábreidd.
         </p>
 
-        <div class="status-pill" aria-live="polite">
-          <span class="loader-dot" aria-hidden="true"></span>
-          Vel rétta útgáfu
-        </div>
-
+        <!-- Mobile URL is the safe fallback. If JavaScript fails, users still get the mobile version. -->
         <a id="fallback-link" class="button" href="https://app.powerbi.com/view?r=eyJrIjoiNmMyZGI1ZjktOTIzMS00MjZlLWFmMjEtMzE2ZTRhYjcyYmQ3IiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9">
           Opna mælaborð
         </a>
-
-        <p id="manual-links" class="manual-links" hidden>
-          Velja handvirkt:
-          <a id="manual-mobile-link" href="?force=mobile&debug=1">mobile</a>
-          ·
-          <a id="manual-desktop-link" href="?force=desktop&debug=1">desktop</a>
-        </p>
 
         <p id="route-note" class="small">
           Ef ekkert gerist sjálfkrafa skaltu smella á takkann.
         </p>
 
-        <p class="footer-note">
-          Mælaborðið opnast í Power BI.
-        </p>
+        <div id="router-extra" hidden></div>
       </section>
     </div>
   </main>
 
   <noscript>
     <meta http-equiv="refresh" content="0;url=https://app.powerbi.com/view?r=eyJrIjoiNmMyZGI1ZjktOTIzMS00MjZlLWFmMjEtMzE2ZTRhYjcyYmQ3IiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9">
+    <img src="https://script.google.com/macros/s/AKfycbxRoNEQwIxQUoxEMGzYizAB0_lP1MdqksGLu4fD7c94rzqUul3MW2_E9VCqeRzLK3vD/exec?event_type=router_noscript&amp;count_as_visit=true&amp;dashboard_key=thjonustukannanir&amp;dashboard_id=thjonustukannanir-rikisstofnana&amp;dashboard_name=%C3%9Ej%C3%B3nustukannanir+r%C3%ADkisstofnana&amp;public_card_title=%C3%9Ej%C3%B3nustukannanir&amp;public_entry_page=https%3A%2F%2Fisland.is%2Fs%2Flandspitali%2Fmaelabord&amp;selected_layout=mobile&amp;auto_selected_layout=mobile&amp;forced_layout=auto&amp;forced_layout_applied=false&amp;route_reason=noscript_mobile_fallback&amp;route_reason_detail=noscript+meta+refresh+uses+static+mobile+fallback&amp;device_class=noscript&amp;entry_source_category=noscript_unknown&amp;utm_content=thjonustukannanir&amp;page_path=%2FLandspitali%2Fthjonustukannanir%2F&amp;config_version=2026-06-07-prod-1&amp;router_core_version=2026-06-07-core-1&amp;config_source=noscript_static&amp;safe_fallback_used=true&amp;tracking_method=imageGet" alt="" width="1" height="1" style="position:absolute;left:-9999px;width:1px;height:1px;">
   </noscript>
 
   <script>
+    window.LSP_ROUTER_BOOTSTRAP = {
+  "dashboardKey": "thjonustukannanir",
+  "lockDashboard": true,
+  "trackingEndpoint": "https://script.google.com/macros/s/AKfycbxRoNEQwIxQUoxEMGzYizAB0_lP1MdqksGLu4fD7c94rzqUul3MW2_E9VCqeRzLK3vD/exec",
+  "publicEntry": {
+    "name": "Landspítali mælaborð",
+    "site": "island.is",
+    "pageUrl": "https://island.is/s/landspitali/maelabord",
+    "pagePath": "/s/landspitali/maelabord",
+    "defaultButtonText": "Skoða mælaborð",
+    "logoUrl": "https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png",
+    "lastVerifiedDate": "2026-06-07",
+    "allowedImageHosts": [
+      "images.ctfassets.net"
+    ]
+  },
+  "dashboard": {
+    "enabled": true,
+    "status": "active",
+    "dashboardId": "thjonustukannanir-rikisstofnana",
+    "dashboardKey": "thjonustukannanir",
+    "displayName": "Þjónustukannanir ríkisstofnana",
+    "routerDisplayTitle": "Þjónustukannanir ríkisstofnana",
+    "powerBiReportTitle": "Þjónustukannanir ríkisstofnana",
+    "pageTitle": "Opna Þjónustukannanir ríkisstofnana",
+    "commentName": "Þjónustukannanir ríkisstofnana",
+    "path": "thjonustukannanir",
+    "aliases": [
+      "thjonustukannanir",
+      "thjon",
+      "thjonusta",
+      "þjónustukannanir",
+      "þjón"
+    ],
+    "publicCard": {
+      "title": "Þjónustukannanir",
+      "description": "Niðurstöður þjónustukannana ríkisstofnana hjá Landspítala",
+      "buttonText": "Skoða mælaborð",
+      "iconUrl": "https://images.ctfassets.net/8k0h54kbe6bj/5eK6Vivq6aUDWj2mnOEsvS/7e5d5e7c03b92370ccee175ad01f8330/survey-linkimage.png?w=774&fm=webp&q=80",
+      "pageUrl": "https://island.is/s/landspitali/maelabord",
+      "published": true,
+      "stableUtmContent": "thjonustukannanir",
+      "lastVerifiedDate": "2026-06-07"
+    },
+    "desktopUrl": "https://app.powerbi.com/view?r=eyJrIjoiN2VjNTI5YzAtMGNjMC00MWQ1LTkwY2MtZTAzMzg2NWI4YTdlIiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9",
+    "mobileUrl": "https://app.powerbi.com/view?r=eyJrIjoiNmMyZGI1ZjktOTIzMS00MjZlLWFmMjEtMzE2ZTRhYjcyYmQ3IiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9",
+    "fallbackLayout": "mobile",
+    "mobileBreakpoint": 768,
+    "routePolicy": {
+      "phone": "mobile",
+      "tabletPortrait": "mobile",
+      "tabletLandscape": "desktop",
+      "narrowViewport": "mobile",
+      "desktop": "desktop",
+      "bot": "desktop"
+    },
+    "utmContent": "thjonustukannanir",
+    "governance": {
+      "ownerTeam": "Landspítali",
+      "technicalOwner": "Landspítali mælaborð / vefumsjón",
+      "contentOwner": "Landspítali",
+      "createdDate": "2026-06-07",
+      "lastReviewedDate": "2026-06-07",
+      "nextReviewDue": "2026-09-07"
+    }
+  }
+};
+  </script>
+  <script defer src="../assets/router-config.prod.js"></script>
+  <script defer src="../assets/router-core.v20260607-1.js"></script>
+  <script>
     (function () {
-      var DESKTOP_URL = "https://app.powerbi.com/view?r=eyJrIjoiN2VjNTI5YzAtMGNjMC00MWQ1LTkwY2MtZTAzMzg2NWI4YTdlIiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9";
-      var MOBILE_URL = "https://app.powerbi.com/view?r=eyJrIjoiNmMyZGI1ZjktOTIzMS00MjZlLWFmMjEtMzE2ZTRhYjcyYmQ3IiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9";
-      var MOBILE_BREAKPOINT = 768;
-
-      var TRACKING_ENABLED = true;
-      var TRACKING_ENDPOINT = "https://script.google.com/macros/s/AKfycbw9GUbiwh3ZUDpIIqOu9Njh8FI0ILbNbFUfqHntMNcG5VolDukym0no84zhYe8IPHZsyQ/exec";
-
-      /*
-        TEST:
-        true  = ?debug=1 also writes a row to Google Sheets.
-        false = ?debug=1 only shows debug information and does not count.
-
-        LIVE:
-        Set this to false before publishing.
-      */
-      var TRACK_DEBUG_VISITS = false;
-
-      var DASHBOARD_ID = "thjonustukannanir-rikisstofnana";
-      var DASHBOARD_NAME = "Þjónustukannanir ríkisstofnana";
-      var ENVIRONMENT = "prod";
-
-      function getUserAgent() {
-        return navigator.userAgent || navigator.vendor || window.opera || "";
+      // Þjónustukannanir ríkisstofnana: generated production wrapper. The locked master template is not modified.
+      var fallbackUrl = "https://app.powerbi.com/view?r=eyJrIjoiNmMyZGI1ZjktOTIzMS00MjZlLWFmMjEtMzE2ZTRhYjcyYmQ3IiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9";
+      function hasSafeMode() {
+        return /[?&](debug|health|status|list|dashboards|noredirect|manual)(=1|=true|&|$)/i.test(window.location.search || "");
       }
-
-      function getViewportWidth() {
-        var width = window.innerWidth || 0;
-        var docWidth = 0;
-
-        if (document.documentElement && document.documentElement.clientWidth) {
-          docWidth = document.documentElement.clientWidth;
+      window.setTimeout(function () {
+        if (!window.LSP_ROUTER_STARTED && !hasSafeMode()) {
+          window.location.replace(fallbackUrl);
         }
-
-        if (width && docWidth) {
-          return Math.min(width, docWidth);
-        }
-
-        return width || docWidth || screen.width || 1024;
-      }
-
-      function getViewportHeight() {
-        var height = window.innerHeight || 0;
-        var docHeight = 0;
-
-        if (document.documentElement && document.documentElement.clientHeight) {
-          docHeight = document.documentElement.clientHeight;
-        }
-
-        if (height && docHeight) {
-          return Math.min(height, docHeight);
-        }
-
-        return height || docHeight || screen.height || 768;
-      }
-
-      function hasTouch() {
-        return !!("ontouchstart" in window) || ((navigator.maxTouchPoints || 0) > 0);
-      }
-
-      function isPhoneUserAgent() {
-        var ua = getUserAgent();
-
-        return /iPhone|iPod|Windows Phone|IEMobile|BlackBerry|Opera Mini/i.test(ua) ||
-          /Android.*Mobile/i.test(ua) ||
-          /Mobile/i.test(ua);
-      }
-
-      function isTabletUserAgent() {
-        var ua = getUserAgent();
-        return /iPad|Tablet|Android(?!.*Mobile)|Silk/i.test(ua);
-      }
-
-      function shouldUseMobile() {
-        var width = getViewportWidth();
-        return isPhoneUserAgent() || width <= MOBILE_BREAKPOINT;
-      }
-
-      function getQueryValue(name) {
-        var query = window.location.search || "";
-        var match;
-        var params;
-
-        if (window.URLSearchParams) {
-          params = new URLSearchParams(query);
-          return params.get(name) || "";
-        }
-
-        match = new RegExp("[?&]" + name + "=([^&]*)", "i").exec(query);
-        return match ? decodeURIComponent(match[1].replace(/\+/g, " ")) : "";
-      }
-
-      function hasQueryFlag(flagName) {
-        var query = window.location.search || "";
-        var value;
-        var params;
-        var pattern;
-
-        if (window.URLSearchParams) {
-          params = new URLSearchParams(query);
-          value = params.get(flagName);
-
-          return params.has(flagName) &&
-            (value === null || value === "" || value === "1" || /^true$/i.test(value));
-        }
-
-        pattern = new RegExp("[?&]" + flagName + "(=1|=true|&|$)", "i");
-        return pattern.test(query);
-      }
-
-      function forcedLayout() {
-        var value = getQueryValue("force") || getQueryValue("view") || "auto";
-        value = value.toLowerCase();
-
-        if (value === "mobile") {
-          return "mobile";
-        }
-
-        if (value === "desktop") {
-          return "desktop";
-        }
-
-        return "auto";
-      }
-
-      function getTargetUrl() {
-        var force = forcedLayout();
-
-        if (force === "mobile") {
-          return MOBILE_URL;
-        }
-
-        if (force === "desktop") {
-          return DESKTOP_URL;
-        }
-
-        return shouldUseMobile() ? MOBILE_URL : DESKTOP_URL;
-      }
-
-      function getSelectedLayout(targetUrl) {
-        if (targetUrl === MOBILE_URL) {
-          return "mobile";
-        }
-
-        if (targetUrl === DESKTOP_URL) {
-          return "desktop";
-        }
-
-        return "unknown";
-      }
-
-      function getRouteReason() {
-        var force = forcedLayout();
-        var width = getViewportWidth();
-
-        if (force === "mobile") {
-          return "forced_mobile";
-        }
-
-        if (force === "desktop") {
-          return "forced_desktop";
-        }
-
-        if (isPhoneUserAgent()) {
-          return "phone_user_agent";
-        }
-
-        if (width <= MOBILE_BREAKPOINT) {
-          return "viewport_under_breakpoint";
-        }
-
-        return "desktop_default";
-      }
-
-      function getDeviceType() {
-        var width = getViewportWidth();
-
-        if (isPhoneUserAgent()) {
-          return "phone";
-        }
-
-        if (isTabletUserAgent()) {
-          return "tablet";
-        }
-
-        if (hasTouch() && width <= MOBILE_BREAKPOINT) {
-          return "small-touch-screen";
-        }
-
-        if (width <= MOBILE_BREAKPOINT) {
-          return "narrow-screen";
-        }
-
-        return "desktop";
-      }
-
-      function getBrowserFamily() {
-        var ua = getUserAgent();
-
-        if (/Edg/i.test(ua)) return "Edge";
-        if (/OPR|Opera/i.test(ua)) return "Opera";
-        if (/Chrome|CriOS/i.test(ua)) return "Chrome";
-        if (/Firefox|FxiOS/i.test(ua)) return "Firefox";
-        if (/Safari/i.test(ua) && !/Chrome|CriOS/i.test(ua)) return "Safari";
-        if (/MSIE|Trident/i.test(ua)) return "Internet Explorer";
-
-        return "Other";
-      }
-
-      function getOsFamily() {
-        var ua = getUserAgent();
-
-        if (/Windows/i.test(ua)) return "Windows";
-        if (/Android/i.test(ua)) return "Android";
-        if (/iPhone|iPad|iPod/i.test(ua)) return "iOS";
-        if (/Macintosh|Mac OS X/i.test(ua)) return "macOS";
-        if (/Linux/i.test(ua)) return "Linux";
-
-        return "Other";
-      }
-
-      function getTimezone() {
-        try {
-          if (window.Intl && Intl.DateTimeFormat) {
-            return Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-          }
-        } catch (error) {}
-
-        return "";
-      }
-
-      function isLocalFile() {
-        return window.location.protocol === "file:";
-      }
-
-      function escapeHtml(value) {
-        return String(value)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#039;");
-      }
-
-      function getAllowedQueryParams() {
-        var allowed = [
-          "force",
-          "view",
-          "debug",
-          "utm_source",
-          "utm_medium",
-          "utm_campaign",
-          "utm_content",
-          "utm_term"
-        ];
-
-        var result = {};
-        var i;
-        var key;
-        var value;
-
-        for (i = 0; i < allowed.length; i += 1) {
-          key = allowed[i];
-          value = getQueryValue(key);
-
-          if (value) {
-            result[key] = value;
-          }
-        }
-
-        return result;
-      }
-
-      function makeRequestId() {
-        if (window.crypto && crypto.randomUUID) {
-          return crypto.randomUUID();
-        }
-
-        return "req-" + String(Date.now()) + "-" + Math.random().toString(16).slice(2);
-      }
-
-      function buildRouterUrl(overrides) {
-        var url;
-        var key;
-
-        try {
-          url = new URL(window.location.href);
-
-          for (key in overrides) {
-            if (Object.prototype.hasOwnProperty.call(overrides, key)) {
-              url.searchParams.set(key, overrides[key]);
-            }
-          }
-
-          return url.href;
-        } catch (error) {
-          return window.location.pathname;
-        }
-      }
-
-      function updateManualLinks() {
-        var manualLinks = document.getElementById("manual-links");
-        var mobileLink = document.getElementById("manual-mobile-link");
-        var desktopLink = document.getElementById("manual-desktop-link");
-
-        if (manualLinks && hasQueryFlag("debug")) {
-          manualLinks.hidden = false;
-        }
-
-        if (mobileLink) {
-          mobileLink.href = buildRouterUrl({
-            force: "mobile",
-            debug: "1"
-          });
-        }
-
-        if (desktopLink) {
-          desktopLink.href = buildRouterUrl({
-            force: "desktop",
-            debug: "1"
-          });
-        }
-      }
-
-      function buildTrackingPayload(targetUrl) {
-        return {
-          eventType: "router_redirect",
-          dashboardId: DASHBOARD_ID,
-          dashboardName: DASHBOARD_NAME,
-          environment: ENVIRONMENT,
-          selectedLayout: getSelectedLayout(targetUrl),
-          routeReason: getRouteReason(),
-          forcedLayout: forcedLayout(),
-          wouldAutoUseMobile: shouldUseMobile(),
-          deviceType: getDeviceType(),
-          browserFamily: getBrowserFamily(),
-          osFamily: getOsFamily(),
-          viewportWidth: getViewportWidth(),
-          viewportHeight: getViewportHeight(),
-          screenWidth: window.screen ? screen.width : null,
-          screenHeight: window.screen ? screen.height : null,
-          devicePixelRatio: window.devicePixelRatio || 1,
-          touch: hasTouch(),
-          maxTouchPoints: navigator.maxTouchPoints || 0,
-          language: navigator.language || "",
-          languages: navigator.languages ? navigator.languages.slice(0, 5).join(",") : "",
-          timezone: getTimezone(),
-          isLocalFile: isLocalFile(),
-
-          utmSource: getQueryValue("utm_source"),
-          utmMedium: getQueryValue("utm_medium"),
-          utmCampaign: getQueryValue("utm_campaign"),
-          utmContent: getQueryValue("utm_content"),
-          utmTerm: getQueryValue("utm_term"),
-
-          referrer: document.referrer || "",
-          pageHost: window.location.host,
-          pagePath: window.location.pathname,
-          pageUrl: window.location.origin + window.location.pathname,
-          query: getAllowedQueryParams(),
-          userAgent: getUserAgent(),
-          eventTimeClient: new Date().toISOString(),
-          requestId: makeRequestId()
-        };
-      }
-
-      function buildFallbackTrackingUrl(payload) {
-        return TRACKING_ENDPOINT +
-          "?fallback=1" +
-          "&event_type=" + encodeURIComponent("router_redirect_get_fallback") +
-          "&dashboard_id=" + encodeURIComponent(payload.dashboardId || "") +
-          "&dashboard_name=" + encodeURIComponent(payload.dashboardName || "") +
-          "&environment=" + encodeURIComponent(payload.environment || "") +
-          "&selected_layout=" + encodeURIComponent(payload.selectedLayout || "") +
-          "&route_reason=" + encodeURIComponent(payload.routeReason || "") +
-          "&forced_layout=" + encodeURIComponent(payload.forcedLayout || "") +
-          "&would_auto_use_mobile=" + encodeURIComponent(String(payload.wouldAutoUseMobile || "")) +
-          "&device_type=" + encodeURIComponent(payload.deviceType || "") +
-          "&browser_family=" + encodeURIComponent(payload.browserFamily || "") +
-          "&os_family=" + encodeURIComponent(payload.osFamily || "") +
-          "&viewport_width=" + encodeURIComponent(String(payload.viewportWidth || "")) +
-          "&viewport_height=" + encodeURIComponent(String(payload.viewportHeight || "")) +
-          "&screen_width=" + encodeURIComponent(String(payload.screenWidth || "")) +
-          "&screen_height=" + encodeURIComponent(String(payload.screenHeight || "")) +
-          "&device_pixel_ratio=" + encodeURIComponent(String(payload.devicePixelRatio || "")) +
-          "&touch=" + encodeURIComponent(String(payload.touch || "")) +
-          "&max_touch_points=" + encodeURIComponent(String(payload.maxTouchPoints || "")) +
-          "&language=" + encodeURIComponent(payload.language || "") +
-          "&languages=" + encodeURIComponent(payload.languages || "") +
-          "&timezone=" + encodeURIComponent(payload.timezone || "") +
-          "&is_local_file=" + encodeURIComponent(String(payload.isLocalFile || "")) +
-          "&utm_source=" + encodeURIComponent(payload.utmSource || "") +
-          "&utm_medium=" + encodeURIComponent(payload.utmMedium || "") +
-          "&utm_campaign=" + encodeURIComponent(payload.utmCampaign || "") +
-          "&utm_content=" + encodeURIComponent(payload.utmContent || "") +
-          "&utm_term=" + encodeURIComponent(payload.utmTerm || "") +
-          "&referrer=" + encodeURIComponent(payload.referrer || "") +
-          "&page_host=" + encodeURIComponent(payload.pageHost || "") +
-          "&page_path=" + encodeURIComponent(payload.pagePath || "") +
-          "&page_url=" + encodeURIComponent(payload.pageUrl || "") +
-          "&user_agent=" + encodeURIComponent(payload.userAgent || "") +
-          "&request_id=" + encodeURIComponent(payload.requestId || "") +
-          "&t=" + encodeURIComponent(String(Date.now()));
-      }
-
-      function sendTracking(payload) {
-        var body;
-        var blob;
-        var queued;
-        var image;
-
-        if (!TRACKING_ENABLED || !TRACKING_ENDPOINT) {
-          return;
-        }
-
-        try {
-          body = JSON.stringify(payload);
-
-          if (navigator.sendBeacon) {
-            blob = new Blob([body], { type: "text/plain;charset=UTF-8" });
-            queued = navigator.sendBeacon(TRACKING_ENDPOINT, blob);
-
-            if (queued) {
-              return;
-            }
-          }
-
-          if (window.fetch) {
-            fetch(TRACKING_ENDPOINT, {
-              method: "POST",
-              mode: "no-cors",
-              keepalive: true,
-              headers: {
-                "Content-Type": "text/plain;charset=UTF-8"
-              },
-              body: body
-            }).catch(function () {});
-            return;
-          }
-
-          image = new Image();
-          image.src = buildFallbackTrackingUrl(payload);
-        } catch (error) {
-          try {
-            image = new Image();
-            image.src = buildFallbackTrackingUrl(payload);
-          } catch (fallbackError) {}
-        }
-      }
-
-      function updateFallback(targetUrl) {
-        var fallbackLink = document.getElementById("fallback-link");
-        var routeNote = document.getElementById("route-note");
-        var selectedLayout = getSelectedLayout(targetUrl);
-        var trackingStatus = TRACKING_ENABLED && TRACKING_ENDPOINT ? "virkt" : "óvirkt / endpoint vantar";
-
-        if (fallbackLink) {
-          fallbackLink.href = targetUrl;
-        }
-
-        updateManualLinks();
-
-        if (routeNote && hasQueryFlag("debug")) {
-          routeNote.className = "debug-panel";
-          routeNote.innerHTML =
-            "<strong>Debug</strong><br>" +
-            "Valin útgáfa: " + escapeHtml(selectedLayout) + "<br>" +
-            "Ástæða leiðar: " + escapeHtml(getRouteReason()) + "<br>" +
-            "Þvinguð leið: " + escapeHtml(forcedLayout()) + "<br>" +
-            "Tæki: " + escapeHtml(getDeviceType()) + "<br>" +
-            "Skjábreidd: " + escapeHtml(getViewportWidth()) + " px<br>" +
-            "Skjáhæð: " + escapeHtml(getViewportHeight()) + " px<br>" +
-            "Vafri: " + escapeHtml(getBrowserFamily()) + "<br>" +
-            "Stýrikerfi: " + escapeHtml(getOsFamily()) + "<br>" +
-            "Local file: " + escapeHtml(isLocalFile()) + "<br>" +
-            "Tracking: " + escapeHtml(trackingStatus) + "<br>" +
-            "Debug visits logged: " + escapeHtml(TRACK_DEBUG_VISITS) + "<br>" +
-            "UTM source: " + escapeHtml(getQueryValue("utm_source") || "none") + "<br>" +
-            "UTM campaign: " + escapeHtml(getQueryValue("utm_campaign") || "none");
-        }
-      }
-
-      function redirectToReport() {
-        var targetUrl = getTargetUrl();
-        var debugMode = hasQueryFlag("debug");
-
-        updateFallback(targetUrl);
-
-        if (!debugMode || TRACK_DEBUG_VISITS) {
-          sendTracking(buildTrackingPayload(targetUrl));
-        }
-
-        if (debugMode) {
-          return;
-        }
-
-        setTimeout(function () {
-          window.location.replace(targetUrl);
-        }, 150);
-      }
-
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", redirectToReport);
-      } else {
-        redirectToReport();
-      }
-    })();
+      }, 2500);
+    }());
   </script>
 </body>
 </html>
