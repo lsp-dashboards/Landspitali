@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="is">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Mælaborðsmælingar | Landspítali</title>
+  <link rel="stylesheet" href="assets/status-dashboard.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img id="brand-logo" alt="Landspítali" src="https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png">
+      <div>
+        <p class="eyebrow">Landspítali</p>
+        <h1>Mælaborðsmælingar</h1>
+      </div>
+    </div>
+    <div class="status-pill" id="health-pill">Sæki gögn</div>
+  </header>
+
+  <main class="shell">
+    <section class="notice" id="notice" hidden></section>
+
+    <section class="metadata-grid" aria-label="Staða gagna">
+      <article><span>Síðast uppfært</span><strong id="generated-at">-</strong></article>
+      <article><span>Síðasta mæling</span><strong id="last-event-time">-</strong></article>
+      <article><span>Síðasta samantekt</span><strong id="last-aggregation-time">-</strong></article>
+      <article><span>Config útgáfa</span><strong id="config-version">-</strong></article>
+    </section>
+
+    <section class="kpi-grid" id="kpi-grid" aria-label="Lykiltölur"></section>
+
+    <section class="panel wide">
+      <div class="panel-header">
+        <h2>Mælaborð</h2>
+        <button id="refresh-button" type="button">Endurhlaða</button>
+      </div>
+      <div class="table-wrap"><table id="dashboard-table"></table></div>
+    </section>
+
+    <section class="grid-two">
+      <article class="panel">
+        <h2>Opinber birting á island.is</h2>
+        <div class="table-wrap"><table id="public-card-table"></table></div>
+      </article>
+      <article class="panel">
+        <h2>Viðvaranir</h2>
+        <div id="warnings-panel" class="warning-list"></div>
+      </article>
+    </section>
+
+    <section class="grid-two">
+      <article class="panel">
+        <h2>Notkun eftir dögum</h2>
+        <div id="daily-bars" class="bars"></div>
+      </article>
+      <article class="panel">
+        <h2>Notkun eftir klukkustund</h2>
+        <div id="hourly-bars" class="bars compact"></div>
+      </article>
+    </section>
+
+    <section class="grid-two">
+      <article class="panel">
+        <h2>Tæki, vafri og stýrikerfi</h2>
+        <div class="table-wrap"><table id="device-table"></table></div>
+      </article>
+      <article class="panel">
+        <h2>Uppruni</h2>
+        <div class="table-wrap"><table id="source-table"></table></div>
+      </article>
+    </section>
+
+    <section class="grid-two">
+      <article class="panel">
+        <h2>Sjálfvirk leiðing</h2>
+        <div class="table-wrap"><table id="route-table"></table></div>
+      </article>
+      <article class="panel">
+        <h2>Spurningar sem við viljum ekki gleyma</h2>
+        <ul id="questions-list" class="question-list"></ul>
+      </article>
+    </section>
+  </main>
+
+  <script src="assets/status-config.js"></script>
+  <script src="assets/status-sample-data.js"></script>
+  <script src="assets/status-dashboard.js"></script>
+</body>
+</html>
