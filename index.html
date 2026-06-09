@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="is">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Landspítali mælaborð | Router</title>
+  <style>
+    html, body { margin: 0; min-height: 100%; font-family: Arial, Helvetica, sans-serif; color: #102033; background: #f4f7fa; }
+    * { box-sizing: border-box; }
+    .page { min-height: 100vh; display: table; width: 100%; padding: 24px; }
+    .page-inner { display: table-cell; vertical-align: middle; text-align: center; }
+    .card { max-width: 720px; margin: 0 auto; padding: 30px 24px; background: #ffffff; border: 1px solid #d9e1e8; border-radius: 18px; box-shadow: 0 16px 45px rgba(16, 32, 51, 0.10); }
+    .eyebrow { margin: 0 0 10px 0; color: #4F6F8F; font-size: 14px; font-weight: 700; letter-spacing: 0.02em; }
+    h1 { margin: 0; font-size: 28px; line-height: 1.15; }
+    .text, #route-note { margin: 14px 0 0 0; color: #5f6f82; font-size: 16px; line-height: 1.55; }
+    .button { display: none; }
+    .dashboard-list { margin-top: 20px; display: grid; gap: 10px; text-align: left; }
+    .dashboard-row { display: grid; grid-template-columns: 54px 1fr; gap: 12px; align-items: center; padding: 12px; border: 1px solid #d9e1e8; border-radius: 14px; color: #102033; text-decoration: none; background: #fbfdff; }
+    .dashboard-row img { width: 54px; height: 54px; object-fit: cover; border-radius: 12px; }
+    .dashboard-row small { display: block; margin-top: 4px; color: #6b7c8f; }
+    .debug-list { margin: 20px auto 0 auto; max-width: 520px; display: grid; grid-template-columns: minmax(120px, 190px) 1fr; gap: 8px 12px; text-align: left; color: #34495f; font-size: 14px; }
+    .debug-list dt { font-weight: 700; color: #102033; }
+    .debug-list dd { margin: 0; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="page-inner">
+      <section class="card" aria-labelledby="page-title">
+        <p class="eyebrow">Landspítali</p>
+        <h1 id="page-title">Veldu mælaborð</h1>
+        <p id="route-note" class="text">Þessi rótarsíða er innri router-skrá. Opinber inngangur er island.is.</p>
+        <a id="fallback-link" class="button" href="#">Opna mælaborð</a>
+        <div id="router-extra"></div>
+      </section>
+    </div>
+  </main>
+  <script>window.LSP_ROUTER_BOOTSTRAP = {
+  "dashboardKey": "",
+  "lockDashboard": false,
+  "trackingEndpoint": "https://script.google.com/macros/s/AKfycbxRoNEQwlxQUpxEMGzYizAB0_lP1MdqksGLu4fD7c94rzqUul3MW2_E9VCqeRzLK3wD/exec",
+  "publicEntry": {
+    "name": "Landspítali mælaborð",
+    "site": "island.is",
+    "pageUrl": "https://island.is/s/landspitali/maelabord",
+    "pagePath": "/s/landspitali/maelabord",
+    "defaultButtonText": "Skoða mælaborð",
+    "logoUrl": "https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png",
+    "lastVerifiedDate": "2026-06-07",
+    "allowedImageHosts": [
+      "images.ctfassets.net"
+    ]
+  }
+};</script>
+  <script defer src="assets/router-config.prod.js"></script>
+  <script defer src="assets/router-core.v20260607-1.js"></script>
+</body>
+</html>
