@@ -7,5 +7,6 @@ window.LSP_STATUS_CONFIG = {
   callbackParam: "callback",
   refreshMinutes: 5,
   allowSampleDataFallback: false,
-  allowedImageHosts: ["images.ctfassets.net"]
+  allowedImageHosts: ["images.ctfassets.net"],
+  status-dashboard/assets/status-config.js
 };
