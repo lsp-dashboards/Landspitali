@@ -6,6 +6,6 @@ window.LSP_STATUS_CONFIG = {
   format: "js",
   callbackParam: "callback",
   refreshMinutes: 5,
-  allowSampleDataFallback: true,
+  allowSampleDataFallback: false,
   allowedImageHosts: ["images.ctfassets.net"]
 };
