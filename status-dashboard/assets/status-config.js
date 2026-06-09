@@ -5,8 +5,8 @@ window.LSP_STATUS_CONFIG = {
   api: "dashboard",
   format: "js",
   callbackParam: "callback",
+  requestTimeoutMs: 30000,
   refreshMinutes: 5,
-  allowSampleDataFallback: false,
-  allowedImageHosts: ["images.ctfassets.net"],
-  requestTimeoutMs: 30000
+  allowSampleDataFallback: true,
+  allowedImageHosts: ["images.ctfassets.net"]
 };
