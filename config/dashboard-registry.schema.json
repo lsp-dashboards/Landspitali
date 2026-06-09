@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://landspitali.invalid/router/dashboard-registry.schema.json",
+  "title": "Landspítali Power BI router dashboard registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "configVersion", "routerName", "environment", "basePath", "publicEntry", "tracking", "routing", "ui", "dashboards"],
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "configVersion": { "type": "string" },
+    "routerName": { "type": "string" },
+    "routerMode": { "type": "string" },
+    "environment": { "enum": ["prod", "stage", "test", "dev"] },
+    "owner": { "type": "string" },
+    "basePath": { "type": "string", "pattern": "^/.*" },
+    "supportLabel": { "type": "string" },
+    "release": { "type": "object" },
+    "publicEntry": {
+      "type": "object",
+      "required": ["site", "pageUrl", "pagePath", "defaultButtonText", "logoUrl", "allowedImageHosts"],
+      "properties": {
+        "name": { "type": "string" },
+        "site": { "type": "string" },
+        "pageUrl": { "type": "string", "format": "uri" },
+        "pagePath": { "type": "string" },
+        "defaultButtonText": { "type": "string" },
+        "logoUrl": { "type": "string", "format": "uri" },
+        "lastVerifiedDate": { "type": "string" },
+        "allowedImageHosts": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "tracking": {
+      "type": "object",
+      "required": ["enabled", "endpoint", "schemaVersion", "transportOrder", "allowedQueryParams"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "endpoint": { "type": "string" },
+        "schemaVersion": { "type": "string" },
+        "diagnosticsEnabled": { "type": "boolean" },
+        "trackDebugViews": { "type": "boolean" },
+        "trackFallbackClicks": { "type": "boolean" },
+        "trackErrors": { "type": "boolean" },
+        "trackDirectoryViews": { "type": "boolean" },
+        "trackDiagnosticEvents": { "type": "boolean" },
+        "countDebugAsVisit": { "type": "boolean" },
+        "countBotsAsVisit": { "type": "boolean" },
+        "sampleRate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "redirectTimeoutMs": { "type": "number", "minimum": 0 },
+        "transportOrder": { "type": "array", "items": { "enum": ["sendBeacon", "fetchKeepalive", "imageGet"] }, "minItems": 1 },
+        "allowedQueryParams": { "type": "array", "items": { "type": "string" } },
+        "utmDefaults": { "type": "object" }
+      },
+      "additionalProperties": true
+    },
+    "routing": { "type": "object", "additionalProperties": true },
+    "ui": { "type": "object", "additionalProperties": true },
+    "sourceRules": { "type": "object", "additionalProperties": true },
+    "dashboards": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["enabled", "status", "dashboardId", "dashboardKey", "displayName", "path", "aliases", "publicCard", "desktopUrl", "mobileUrl", "fallbackLayout", "routePolicy", "governance"],
+        "properties": {
+          "enabled": { "type": "boolean" },
+          "status": { "enum": ["active", "maintenance", "disabled", "draft", "archived"] },
+          "dashboardId": { "type": "string" },
+          "dashboardKey": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "displayName": { "type": "string" },
+          "routerDisplayTitle": { "type": "string" },
+          "powerBiReportTitle": { "type": "string" },
+          "pageTitle": { "type": "string" },
+          "commentName": { "type": "string" },
+          "path": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "aliases": { "type": "array", "items": { "type": "string" } },
+          "publicCard": {
+            "type": "object",
+            "required": ["title", "description", "buttonText", "iconUrl", "pageUrl", "published", "stableUtmContent", "lastVerifiedDate"],
+            "additionalProperties": true
+          },
+          "desktopUrl": { "type": "string" },
+          "mobileUrl": { "type": "string" },
+          "fallbackLayout": { "enum": ["mobile", "desktop"] },
+          "mobileBreakpoint": { "type": "number" },
+          "routePolicy": { "type": "object" },
+          "utmContent": { "type": "string" },
+          "governance": {
+            "type": "object",
+            "required": ["ownerTeam", "technicalOwner", "contentOwner", "createdDate", "lastReviewedDate", "nextReviewDue"],
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  }
+}
