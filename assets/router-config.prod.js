@@ -31,7 +31,7 @@ window.LSP_ROUTER_CONFIG = {
   },
   "tracking": {
     "enabled": true,
-    "endpoint": "https://script.google.com/macros/s/AKfycby3-AcGg9Lu6LkL_tSilvNPnuGb3lgm_3-ryt0a1A6-kz3P7gUlH3uLkpRQn2VJytepHg/exec",
+    "endpoint": "https://script.google.com/macros/s/AKfycbxRoNEQwlxQUpxEMGzYizAB0_lP1MdqksGLu4fD7c94rzqUul3MW2_E9VCqeRzLK3wD/exec",
     "schemaVersion": "5",
     "diagnosticsEnabled": false,
     "trackDebugViews": true,
