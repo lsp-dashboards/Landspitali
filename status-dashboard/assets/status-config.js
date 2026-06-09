@@ -8,5 +8,5 @@ window.LSP_STATUS_CONFIG = {
   refreshMinutes: 5,
   allowSampleDataFallback: false,
   allowedImageHosts: ["images.ctfassets.net"],
-  status-dashboard/assets/status-config.js
+  requestTimeoutMs: 30000
 };
