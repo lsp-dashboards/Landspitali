@@ -10,7 +10,7 @@
   "release": {
     "packageVersion": "1.2.3",
     "releasedAt": "2026-06-07",
-    "coreVersion": "2026-06-10-core-1.2.5-hotfix.1",
+    "coreVersion": "2026-06-10-core-1.2.5-hotfix.2",
     "status": "official-first-production-version",
     "coreAssetFile": "router-core.v20260607-1.js",
     "configAssetFile": "router-config.v20260607-1.js"
