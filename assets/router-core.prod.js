@@ -1,7 +1,7 @@
 (function (window, document) {
   "use strict";
 
-  var CORE_VERSION = "2026-06-10-core-1.2.5-hotfix.5";
+  var CORE_VERSION = "2026-06-10-core-1.2.5-hotfix.8";
   var started = false;
   var sequence = 0;
   var requestId = makeRequestId();
@@ -397,6 +397,16 @@
     if (/Macintosh|Mac OS X/i.test(ua)) return "macOS";
     if (/Linux/i.test(ua)) return "Linux";
     return "Other";
+  }
+
+  function getOsVersionHint() {
+    var ua = getUserAgent();
+    var match = /Android\s+([0-9.]+)/i.exec(ua) ||
+      /CPU(?: iPhone)? OS\s+([0-9_]+)/i.exec(ua) ||
+      /Windows NT\s+([0-9.]+)/i.exec(ua) ||
+      /Mac OS X\s+([0-9_]+)/i.exec(ua);
+
+    return match && match[1] ? limit(match[1].replace(/_/g, "."), 80) : "";
   }
 
   function getTimezone() {
@@ -829,7 +839,7 @@
   function buildEvent(config, dashboard, routeDecision, eventType, mode, extra) {
     var source = normalizeSource(config);
     var themeSignal = getThemeSignal();
-    var diagnostics = !!(config.tracking && config.tracking.diagnosticsEnabled) || (mode && mode.debug && hasQueryFlag("diagnostics"));
+    var diagnostics = !!(config.tracking && config.tracking.diagnosticsEnabled) || !!(mode && (mode.debug || mode.noRedirect)) || hasQueryFlag("diagnostics");
     var payload = {
       schema_version: (config.tracking && config.tracking.schemaVersion) || config.schemaVersion || "5",
       event_id: nextEventId(),
@@ -851,11 +861,18 @@
       device_class: routeDecision ? routeDecision.deviceClass || getDeviceClass(config) : getDeviceClass(config),
       viewport_width: getViewportWidth(),
       viewport_height: getViewportHeight(),
+      screen_width: window.screen ? screen.width : "",
+      screen_height: window.screen ? screen.height : "",
+      device_pixel_ratio: window.devicePixelRatio || 1,
+      touch: hasTouch(),
+      max_touch_points: navigator.maxTouchPoints || 0,
       browser_family: getBrowserFamily(),
       browser_brand: getBrowserBrand(),
       browser_engine: getBrowserEngine(),
       browser_major_version: getBrowserMajorVersion(),
       os_family: getOsFamily(),
+      os_version_hint: getOsVersionHint(),
+      user_agent: limit(getUserAgent(), 500),
       language: limit(navigator.language || "", 40),
       languages: limit(getLanguages(), 160),
       timezone: limit(getTimezone(), 80),
@@ -924,35 +941,41 @@
   }
 
   function compactForImage(payload) {
+    // imageGet is the primary mobile-safe tracking transport.
+    // Hotfix 8: diagnostic fields are intentionally in the compact GET payload.
+    // Do not remove screen_width, screen_height, device_pixel_ratio or user_agent;
+    // Android/Samsung tests depend on these fields arriving through imageGet.
     var keys = [
       "schema_version", "event_id", "request_id", "event_type", "count_as_visit",
       "dashboard_key", "dashboard_id", "dashboard_name", "public_card_title", "public_entry_page",
       "selected_layout", "auto_selected_layout", "forced_layout", "forced_layout_applied",
-      "route_reason", "route_reason_detail", "device_class", "viewport_width", "viewport_height",
-      "browser_family", "browser_brand", "browser_engine", "browser_major_version", "os_family",
-      "os_version_hint", "language", "languages", "timezone", "color_scheme", "forced_colors",
-      "prefers_contrast", "inverted_colors", "forced_dark_detection", "samsung_dark_mode_status",
-      "theme_signal_quality", "connection_type", "page_host", "entry_source_category", "referrer_domain",
-      "utm_source", "utm_medium", "utm_campaign", "utm_content", "page_path", "config_version",
-      "router_core_version", "config_source", "safe_fallback_used", "tracking_method",
-      "warning_code", "warning_detail", "bot_reason", "user_agent", "screen_width", "screen_height",
-      "device_pixel_ratio", "touch", "max_touch_points"
+      "route_reason", "route_reason_detail", "device_class",
+      "viewport_width", "viewport_height", "screen_width", "screen_height",
+      "device_pixel_ratio", "touch", "max_touch_points",
+      "browser_family", "browser_brand", "browser_engine", "browser_major_version",
+      "os_family", "os_version_hint", "user_agent",
+      "language", "languages", "timezone",
+      "color_scheme", "forced_colors", "prefers_contrast", "inverted_colors",
+      "forced_dark_detection", "samsung_dark_mode_status", "theme_signal_quality",
+      "connection_type", "page_host", "entry_source_category", "referrer_domain",
+      "utm_source", "utm_medium", "utm_campaign", "utm_content",
+      "page_path", "config_version", "router_core_version", "config_source",
+      "safe_fallback_used", "tracking_method",
+      "warning_code", "warning_detail", "bot_reason"
     ];
     var result = {};
     var i;
     var key;
-    var camel;
+    var value;
 
     for (i = 0; i < keys.length; i += 1) {
       key = keys[i];
-      if (payload[key] !== undefined && payload[key] !== null && payload[key] !== "") {
-        result[key] = String(payload[key]);
-        camel = key.replace(/_([a-z])/g, function (match, letter) { return letter.toUpperCase(); });
-        if (camel !== key) {
-          result[camel] = String(payload[key]);
-        }
+      value = payload[key];
+      if (value !== undefined && value !== null && value !== "") {
+        result[key] = String(value);
       }
     }
+
     return result;
   }
 
@@ -1016,7 +1039,13 @@
           imagePayload.cb = String(Date.now()) + String(Math.random()).slice(2);
           image = new Image(1, 1);
           image.alt = "";
+          image.referrerPolicy = "no-referrer-when-downgrade";
           image.src = appendQuery(endpoint, imagePayload);
+          window.__lspTrackingPixels = window.__lspTrackingPixels || [];
+          window.__lspTrackingPixels.push(image);
+          if (window.__lspTrackingPixels.length > 30) {
+            window.__lspTrackingPixels.shift();
+          }
           return "imageGet";
         }
       } catch (error) {}
