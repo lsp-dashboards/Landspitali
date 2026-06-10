@@ -1,8 +1,8 @@
 // Generated from config/dashboard-registry.json. Do not hand-edit.
-// Config version: 2026-06-10-prod-v1.2.5-hotfix.5
+// Config version: 2026-06-10-prod-v1.2.5-hotfix.8
 window.LSP_ROUTER_CONFIG = {
   "schemaVersion": "7",
-  "configVersion": "2026-06-10-prod-v1.2.5-hotfix.5",
+  "configVersion": "2026-06-10-prod-v1.2.5-hotfix.8",
   "routerName": "Landspítali Power BI Router",
   "routerMode": "central-config-static-github-pages",
   "environment": "prod",
@@ -10,10 +10,10 @@ window.LSP_ROUTER_CONFIG = {
   "basePath": "/Landspitali/",
   "supportLabel": "Landspítali",
   "release": {
-    "packageVersion": "1.2.5-hotfix.5",
+    "packageVersion": "1.2.5-hotfix.8",
     "releasedAt": "2026-06-10",
-    "coreVersion": "2026-06-10-core-1.2.5-hotfix.5",
-    "status": "production-hotfix-android-diagnostics-theme-signal",
+    "coreVersion": "2026-06-10-core-1.2.5-hotfix.8",
+    "status": "production-hotfix-imageget-primary-payload-audited",
     "coreAssetFile": "router-core.v20260607-1.js",
     "configAssetFile": "router-config.v20260607-1.js"
   },
@@ -44,9 +44,7 @@ window.LSP_ROUTER_CONFIG = {
     "sampleRate": 1,
     "redirectTimeoutMs": 150,
     "transportOrder": [
-      "imageGet",
-      "sendBeacon",
-      "fetchKeepalive"
+      "imageGet"
     ],
     "allowedQueryParams": [
       "dashboard",
