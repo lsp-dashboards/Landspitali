@@ -247,7 +247,7 @@
   </main>
 
   <script>
-    var DATA_ENDPOINT = "https://script.google.com/macros/s/AKfycby3-AcGg9Lu6LkL_tSilvNPnuGb3lgm_3-ryt0a1A6-kz3P7gUlH3uLkpRQn2VJytepHg/exec";
+    var DATA_ENDPOINT = "https://script.google.com/macros/s/AKfycbxRoNEQwlxQUpxEMGzYizAB0_lP1MdqksGLu4fD7c94rzqUul3MW2_E9VCqeRzLK3wD/exec";
     var CALLBACK = "LandspitaliTrackerStatusDataV1";
 
     function num(value) {
@@ -439,7 +439,7 @@
       var script = document.createElement("script");
       var separator = DATA_ENDPOINT.indexOf("?") >= 0 ? "&" : "?";
       script.src = DATA_ENDPOINT + separator + "api=dashboard&callback=" + encodeURIComponent(CALLBACK) + "&v=" + Date.now();
-      script.onerror = function () { showError("Náði ekki sambandi við Apps Script endpoint."); };
+      script.onerror = function () { showError("Náði ekki sambandi við Apps Script endpoint. Notað endpoint: " + DATA_ENDPOINT + " . Prófaðu fyrst ?api=health og ?api=dashboard&format=js&callback=TestCallback í browser."); };
       document.body.appendChild(script);
     }
 
