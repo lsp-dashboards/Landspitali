@@ -170,48 +170,44 @@
     }
     .list-row.route { grid-template-columns: minmax(140px, 1.1fr) minmax(140px, 1fr) minmax(72px, .55fr) minmax(70px, .55fr) minmax(60px, .45fr); }
     .list-row.source { grid-template-columns: minmax(140px, 1fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(70px, .45fr); }
-    .list-row.warning {
+        .list-row.warning {
       grid-template-columns: auto minmax(0, 1fr) auto;
-      grid-template-areas:
-        "severity code count"
-        "severity dashboard count"
-        "severity text count";
       align-items: start;
-      gap: 6px 12px;
+      gap: 12px;
     }
-    .list-row.warning .warning-severity {
-      grid-area: severity;
-      align-self: start;
-      margin-top: 1px;
-      white-space: nowrap;
-    }
-    .list-row.warning .warning-code {
-      grid-area: code;
+    .warning-main {
       min-width: 0;
-      line-height: 1.25;
+      display: grid;
+      gap: 4px;
+    }
+    .warning-code {
+      font-weight: 900;
       overflow-wrap: anywhere;
-      word-break: break-word;
     }
-    .list-row.warning .warning-dashboard {
-      grid-area: dashboard;
-      min-width: 0;
+    .warning-dashboard {
       color: var(--muted);
       font-size: 12px;
-      line-height: 1.25;
       overflow-wrap: anywhere;
-      word-break: break-word;
     }
-    .list-row.warning .warning-text {
-      grid-area: text;
-      min-width: 0;
+    .warning-text {
+      color: var(--ink);
+      font-size: 12px;
       line-height: 1.35;
       overflow-wrap: anywhere;
-      word-break: break-word;
     }
-    .list-row.warning .warning-count {
-      grid-area: count;
-      align-self: center;
+    .warning-count {
+      justify-self: end;
       text-align: right;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .warning-count small {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
     }
     .list-head {
       color: var(--muted);
@@ -252,20 +248,20 @@
       .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
       .list-row,
       .list-row.route,
-      .list-row.source {
+      .list-row.source,
+      .list-row.warning {
         grid-template-columns: 1fr 1fr;
         gap: 8px 12px;
       }
-      .list-row.warning {
-        grid-template-columns: auto minmax(0, 1fr) auto;
-        grid-template-areas:
-          "severity code count"
-          "severity dashboard count"
-          "severity text count";
-        gap: 6px 10px;
-      }
       .list-head { display: none; }
       .number { text-align: left; }
+      .list-row.warning {
+        grid-template-columns: 1fr;
+      }
+      .warning-count {
+        justify-self: start;
+        text-align: left;
+      }
       .bar-row { grid-template-columns: minmax(82px, 110px) minmax(0, 1fr) minmax(48px, 64px); }
     }
   </style>
@@ -421,6 +417,12 @@
       if (/^desktop_viewport$/i.test(value)) return "Desktop viewport";
       if (/^phone_user_agent$/i.test(value)) return "Phone user agent";
       if (/^narrow_viewport$/i.test(value)) return "Narrow viewport";
+      if (/^samsung_forced_dark_possible$/i.test(value)) return "Samsung forced dark mögulegt";
+      if (/^samsung_android_reported_dark$/i.test(value)) return "Samsung reported dark";
+      if (/^samsung_android_forced_dark_detected$/i.test(value)) return "Samsung forced dark greint";
+      if (/^possible_only$/i.test(value)) return "óvíst / mögulegt";
+      if (/^detected$/i.test(value)) return "greint";
+      if (/^not_detected$/i.test(value)) return "ekki greint";
       return value;
     }
     function ageText(iso) {
@@ -528,12 +530,30 @@
       byId("metric-grid").innerHTML = html;
     }
 
+    function warningStatsByDashboard(data) {
+      var map = {};
+      (data.quality_warnings || []).forEach(function (row) {
+        var key = row.dashboard_key || "unknown";
+        if (!map[key]) map[key] = { types: 0, occurrences: 0 };
+        map[key].types += 1;
+        map[key].occurrences += number(row.count);
+      });
+      return map;
+    }
+
     function renderDashboards(data) {
       var cards = publicMap(data);
+      var warnings = warningStatsByDashboard(data);
       var rows = visibleRows(data.dashboards || []).sort(function (a, b) { return number(b.total_visits) - number(a.total_visits); });
       byId("dashboard-grid").innerHTML = rows.map(function (d) {
         var total = number(d.total_visits);
-        var warningClass = number(d.warning_count) ? "warn" : "good";
+        var warningStats = warnings[d.dashboard_key] || { types: number(d.warning_count), occurrences: 0 };
+        var warningTypes = number(warningStats.types || d.warning_count);
+        var warningOccurrences = number(warningStats.occurrences);
+        var warningClass = warningTypes ? "warn" : "good";
+        var warningLabel = warningTypes ?
+          "Viðvaranir: " + fmt(warningTypes) + " " + (warningTypes === 1 ? "tegund" : "tegundir") + (warningOccurrences ? " / " + fmt(warningOccurrences) + " tilvik" : "") :
+          "Viðvaranir: 0";
         return '<article class="dashboard-card">' +
           '<div class="dashboard-top"><img class="icon" src="' + safe(iconFor(d, cards)) + '" alt=""><div><div class="dashboard-title">' + safe(titleFor(d, cards)) + '</div><div class="dashboard-sub">' + safe(cleanId(d.dashboard_id || d.dashboard_key)) + '</div></div></div>' +
           '<div class="dashboard-stats">' +
@@ -542,7 +562,7 @@
             '<div class="stat"><span>30 dagar</span><strong>' + fmt(d.visits_30d) + '</strong></div>' +
             '<div class="stat"><span>Farsími</span><strong>' + pct(d.mobile_visits, total) + '</strong></div>' +
           '</div>' +
-          '<div class="pill-row" style="margin-top:12px;"><span class="chip ' + warningClass + '">Viðvaranir: ' + fmt(d.warning_count) + '</span><span class="chip">Síðast: ' + safe(ageText(d.last_event_time)) + '</span></div>' +
+          '<div class="pill-row" style="margin-top:12px;"><span class="chip ' + warningClass + '">' + safe(warningLabel) + '</span><span class="chip">Síðast: ' + safe(ageText(d.last_event_time)) + '</span></div>' +
         '</article>';
       }).join("") || '<div class="mini-detail">Engin mælaborðsgögn enn.</div>';
     }
@@ -567,20 +587,44 @@
       var k = data.kpis || {};
       var total = number(k.total_visits);
       var devices = data.device || [];
-      var darkVisits = devices.reduce(function (acc, row) { return acc + (row.color_scheme === "dark" ? number(row.visits) : 0); }, 0);
-      var samsungDark = devices.reduce(function (acc, row) {
-        var brand = row.browser_brand || row.browser_family || "";
-        return acc + (/Samsung Internet/i.test(brand) && row.color_scheme === "dark" ? number(row.visits) : 0);
+      var warnings = data.quality_warnings || [];
+      var confirmedDarkVisits = devices.reduce(function (acc, row) {
+        return acc + (row.color_scheme === "dark" ? number(row.visits) : 0);
       }, 0);
+      var confirmedLightVisits = devices.reduce(function (acc, row) {
+        return acc + (row.color_scheme === "light" ? number(row.visits) : 0);
+      }, 0);
+      var samsungConfirmedDark = devices.reduce(function (acc, row) {
+        var brand = row.browser_brand || row.browser_family || "";
+        var os = row.os_family || "";
+        return acc + (/Samsung Internet/i.test(brand) && /Android/i.test(os) && row.color_scheme === "dark" ? number(row.visits) : 0);
+      }, 0);
+      var samsungForcedPossibleFromWarnings = warnings.reduce(function (acc, row) {
+        return acc + (/^samsung_forced_dark_possible$/i.test(row.warning_code || "") ? number(row.count) : 0);
+      }, 0);
+      var samsungForcedPossibleFromDevices = devices.reduce(function (acc, row) {
+        var brand = row.browser_brand || row.browser_family || "";
+        var os = row.os_family || "";
+        var status = [row.samsung_dark_mode_status, row.theme_signal_quality, row.warning_code].join(" ");
+        return acc + (/Samsung Internet/i.test(brand) && /Android/i.test(os) && /possible/i.test(status) ? number(row.visits) : 0);
+      }, 0);
+      var samsungForcedPossible = samsungForcedPossibleFromWarnings || samsungForcedPossibleFromDevices;
       var fallbackRate = pct(k.fallback_error_count, total);
       var topBrowser = topGroup(devices, function (row) { return row.browser_brand || row.browser_family || "Óþekkt"; });
       var topLanguage = topGroup(devices, function (row) { return row.language || "Óþekkt"; });
       var topTimezone = topGroup(devices, function (row) { return row.timezone || "Óþekkt"; });
+      var browserText = topBrowser ?
+        "Algengasti vafri: " + pretty(topBrowser.key) +
+        ". Staðfest dark mode, allir vafrar: " + fmt(confirmedDarkVisits) +
+        ". Staðfest light mode, allir vafrar: " + fmt(confirmedLightVisits) +
+        ". Samsung Internet á Android með staðfest dark mode: " + fmt(samsungConfirmedDark) +
+        ". Samsung forced dark mögulegt/óvíst: " + fmt(samsungForcedPossible) + "." :
+        "Engin vafragögn enn.";
       var cards = [
         ["Notkun", fmt(total) + " taldar heimsóknir. island.is hlutfall er " + pct(k.island_is_visits, total) + "."],
         ["Leiðing", "Farsími " + pct(k.mobile_visits, total) + ", borðtölva " + pct(k.desktop_visits, total) + "."],
         ["Gæði", "Fallback/villur eru " + fmt(k.fallback_error_count) + " eða " + fallbackRate + " af talinni notkun."],
-        ["Vafraumhverfi", topBrowser ? "Algengasti vafri er " + pretty(topBrowser.key) + ". Dark mode: " + fmt(darkVisits) + ". Samsung Internet + dark mode: " + fmt(samsungDark) + "." : "Engin vafragögn enn."],
+        ["Vafraumhverfi", browserText],
         ["Tungumál og tímabelti", (topLanguage ? "Algengasta tungumál: " + pretty(topLanguage.key) + ". " : "") + (topTimezone ? "Algengasta tímabelti: " + pretty(topTimezone.key) + "." : "")]
       ];
       byId("insight-grid").innerHTML = cards.map(function (c) {
@@ -608,10 +652,20 @@
         var timezone = row.timezone || "";
         var contrast = row.prefers_contrast || "";
         var forced = row.forced_colors || "";
+        var forcedDark = row.forced_dark_detection || "";
+        var samsungStatus = row.samsung_dark_mode_status || "";
+        var signalQuality = row.theme_signal_quality || "";
+        var isSamsungAndroid = /Samsung Internet/i.test(brand) && /Android/i.test(row.os_family || "");
         var chipClass = (/Samsung Internet/i.test(brand) && row.color_scheme === "dark") ? " warn" : "";
+        var themeSignals = [scheme, forced, contrast].filter(Boolean).map(pretty).join(' · ');
+        var extraSignals = [forcedDark, samsungStatus, signalQuality].filter(Boolean).map(pretty).join(' · ');
+        if (!extraSignals && isSamsungAndroid && scheme !== "dark") {
+          extraSignals = "Samsung forced dark: mögulegt/óvíst";
+        }
         var environment = safe(pretty(row.os_family)) +
           ((language || timezone) ? '<br><small>' + safe([language, timezone].filter(Boolean).map(pretty).join(' · ')) + '</small>' : '') +
-          ((scheme || forced || contrast) ? '<br><small>Birting: ' + safe([scheme, forced, contrast].filter(Boolean).map(pretty).join(' · ')) + '</small>' : '');
+          (themeSignals ? '<br><small>Birting: ' + safe(themeSignals) + '</small>' : '') +
+          (extraSignals ? '<br><small>Merki: ' + safe(extraSignals) + '</small>' : '');
         return '<div class="list-row">' +
           '<strong>' + safe(titleFor(row, cards)) + '</strong>' +
           '<span class="chip">' + safe(pretty(row.device_class)) + '</span>' +
@@ -675,11 +729,13 @@
       byId("warning-list").innerHTML = rows.map(function (row) {
         var cls = row.severity === "error" ? "bad" : row.severity === "warning" ? "warn" : "good";
         return '<div class="list-row warning">' +
-          '<span class="chip ' + cls + ' warning-severity">' + safe(row.severity || "warning") + '</span>' +
-          '<strong class="warning-code">' + safe(row.warning_code || "warning") + '</strong>' +
-          '<span class="warning-dashboard">' + safe(row.dashboard_key || "-") + '</span>' +
-          '<span class="warning-text">' + safe(row.warning_text || "-") + '</span>' +
-          '<strong class="number warning-count">' + fmt(row.count) + '</strong>' +
+          '<span class="chip ' + cls + '">' + safe(row.severity || "warning") + '</span>' +
+          '<div class="warning-main">' +
+            '<div class="warning-code">' + safe(row.warning_code || "warning") + '</div>' +
+            '<div class="warning-dashboard">' + safe(row.dashboard_key || "-") + '</div>' +
+            '<div class="warning-text">' + safe(row.warning_text || "-") + '</div>' +
+          '</div>' +
+          '<strong class="warning-count"><small>Tilvik</small>' + fmt(row.count) + '</strong>' +
         '</div>';
       }).join("");
     }
