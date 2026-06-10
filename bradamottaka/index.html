@@ -526,24 +526,101 @@
         };
       }
 
+      function addTrackingParam(parts, key, value) {
+        if (value === undefined || value === null || value === "") {
+          return;
+        }
+
+        parts.push(encodeURIComponent(key) + "=" + encodeURIComponent(String(value)));
+      }
+
+      function getImageTrackingUrl(payload) {
+        var parts = [];
+        var query = payload.query || {};
+
+        addTrackingParam(parts, "eventType", payload.eventType);
+        addTrackingParam(parts, "countAsVisit", payload.countAsVisit ? "true" : "false");
+        addTrackingParam(parts, "eventId", payload.eventId);
+        addTrackingParam(parts, "requestId", payload.requestId);
+        addTrackingParam(parts, "dashboardKey", payload.dashboardKey);
+        addTrackingParam(parts, "dashboardId", payload.dashboardId);
+        addTrackingParam(parts, "dashboardName", payload.dashboardName);
+        addTrackingParam(parts, "publicCardTitle", payload.publicCardTitle);
+        addTrackingParam(parts, "publicEntryPage", payload.publicEntryPage);
+        addTrackingParam(parts, "selectedLayout", payload.selectedLayout);
+        addTrackingParam(parts, "autoSelectedLayout", payload.autoSelectedLayout);
+        addTrackingParam(parts, "forcedLayout", payload.forcedLayout);
+        addTrackingParam(parts, "forcedLayoutApplied", payload.forcedLayoutApplied ? "true" : "false");
+        addTrackingParam(parts, "routeReason", payload.routeReason);
+        addTrackingParam(parts, "routeReasonDetail", payload.routeReasonDetail);
+        addTrackingParam(parts, "deviceClass", payload.deviceClass);
+        addTrackingParam(parts, "viewportWidth", payload.viewportWidth);
+        addTrackingParam(parts, "viewportHeight", payload.viewportHeight);
+        addTrackingParam(parts, "browserFamily", payload.browserFamily);
+        addTrackingParam(parts, "browserBrand", payload.browserBrand);
+        addTrackingParam(parts, "browserEngine", payload.browserEngine);
+        addTrackingParam(parts, "browserMajorVersion", payload.browserMajorVersion);
+        addTrackingParam(parts, "osFamily", payload.osFamily);
+        addTrackingParam(parts, "osVersionHint", payload.osVersionHint);
+        addTrackingParam(parts, "screenWidth", payload.screenWidth);
+        addTrackingParam(parts, "screenHeight", payload.screenHeight);
+        addTrackingParam(parts, "devicePixelRatio", payload.devicePixelRatio);
+        addTrackingParam(parts, "touch", payload.touch ? "true" : "false");
+        addTrackingParam(parts, "maxTouchPoints", payload.maxTouchPoints);
+        addTrackingParam(parts, "language", payload.language);
+        addTrackingParam(parts, "timezone", payload.timezone);
+        addTrackingParam(parts, "colorScheme", payload.colorScheme);
+        addTrackingParam(parts, "forcedColors", payload.forcedColors);
+        addTrackingParam(parts, "prefersContrast", payload.prefersContrast);
+        addTrackingParam(parts, "invertedColors", payload.invertedColors);
+        addTrackingParam(parts, "connectionType", payload.connectionType);
+        addTrackingParam(parts, "referrer", payload.referrer);
+        addTrackingParam(parts, "pageHost", payload.pageHost);
+        addTrackingParam(parts, "pagePath", payload.pagePath);
+        addTrackingParam(parts, "configVersion", payload.configVersion);
+        addTrackingParam(parts, "routerCoreVersion", payload.routerCoreVersion);
+        addTrackingParam(parts, "configSource", payload.configSource);
+        addTrackingParam(parts, "safeFallbackUsed", payload.safeFallbackUsed ? "true" : "false");
+        addTrackingParam(parts, "trackingMethod", "imageGetFallback");
+        addTrackingParam(parts, "utm_source", query.utm_source);
+        addTrackingParam(parts, "utm_medium", query.utm_medium);
+        addTrackingParam(parts, "utm_campaign", query.utm_campaign);
+        addTrackingParam(parts, "utm_content", query.utm_content);
+        addTrackingParam(parts, "utm_term", query.utm_term);
+
+        return TRACKING_ENDPOINT + (TRACKING_ENDPOINT.indexOf("?") >= 0 ? "&" : "?") + parts.join("&");
+      }
+
+      function sendTrackingImageFallback(payload) {
+        var pixel;
+
+        try {
+          window.__lspTrackingPixels = window.__lspTrackingPixels || [];
+          pixel = new Image();
+          pixel.alt = "";
+          pixel.referrerPolicy = "no-referrer-when-downgrade";
+          pixel.src = getImageTrackingUrl(payload);
+          window.__lspTrackingPixels.push(pixel);
+        } catch (error) {}
+      }
+
       function sendTracking(payload) {
         var body;
         var blob;
-        var queued;
 
         if (!TRACKING_ENABLED || !TRACKING_ENDPOINT) {
           return;
         }
 
+        // Fire a GET pixel first. Apps Script accepts this as a compact fallback event.
+        // If POST also arrives, the shared eventId makes the duplicate harmless in aggregates.
+        sendTrackingImageFallback(payload);
+
         try {
           if (navigator.sendBeacon) {
             body = JSON.stringify(copyPayload(payload, "sendBeacon"));
             blob = new Blob([body], { type: "text/plain;charset=UTF-8" });
-            queued = navigator.sendBeacon(TRACKING_ENDPOINT, blob);
-
-            if (queued) {
-              return;
-            }
+            navigator.sendBeacon(TRACKING_ENDPOINT, blob);
           }
 
           if (window.fetch) {
@@ -603,13 +680,17 @@
           return;
         }
 
-        // Hidden Edge IE mode fallback. No visible text, just tries to escape the old rendering engine.
-        if (isIeMode() && /^https:\/\//i.test(targetUrl)) {
-          window.location.href = "microsoft-edge:" + targetUrl;
-          return;
-        }
+        // Give the fire-and-forget tracker a tiny head start before leaving the router page.
+        // This is short enough to be invisible, but it greatly improves Apps Script delivery.
+        window.setTimeout(function () {
+          // Hidden Edge IE mode fallback. No visible text, just tries to escape the old rendering engine.
+          if (isIeMode() && /^https:\/\//i.test(targetUrl)) {
+            window.location.href = "microsoft-edge:" + targetUrl;
+            return;
+          }
 
-        window.location.replace(targetUrl);
+          window.location.replace(targetUrl);
+        }, 150);
       }
 
       if (document.readyState === "loading") {
