@@ -1,7 +1,7 @@
 (function (window, document) {
   "use strict";
 
-  var CORE_VERSION = "2026-06-10-core-1.2.5-hotfix.2";
+  var CORE_VERSION = "2026-06-10-core-1.2.5-hotfix.5";
   var started = false;
   var sequence = 0;
   var requestId = makeRequestId();
@@ -226,19 +226,26 @@
 
   function getBrowserFamily() {
     var ua = getUserAgent();
-    if (/SamsungBrowser/i.test(ua)) return "Samsung Internet";
-    if (/EdgA\/|EdgiOS\/|Edg\//i.test(ua)) return "Edge";
+    if (/EdgA?\/|EdgiOS|Edg\//i.test(ua)) return "Edge";
     if (/OPR\/|Opera/i.test(ua)) return "Opera";
-    if (/CriOS\/|Chrome\//i.test(ua)) return "Chrome";
-    if (/FxiOS\/|Firefox\//i.test(ua)) return "Firefox";
-    if (/Safari\//i.test(ua) && !/Chrome\/|CriOS|Chromium|SamsungBrowser|EdgA\/|EdgiOS\/|Edg\//i.test(ua)) return "Safari";
+    if (/SamsungBrowser/i.test(ua)) return "Samsung Internet";
+    if (/Chrome\/|CriOS|Chromium/i.test(ua)) return "Chrome";
+    if (/Firefox\/|FxiOS/i.test(ua)) return "Firefox";
+    if (/Safari\//i.test(ua) && !/Chrome\/|CriOS|Chromium|SamsungBrowser|EdgA?\/|OPR\//i.test(ua)) return "Safari";
     if (/MSIE|Trident/i.test(ua)) return "Internet Explorer";
     return "Other";
   }
 
   function getBrowserMajorVersion() {
     var ua = getUserAgent();
-    var match = /(?:SamsungBrowser|EdgA|EdgiOS|Edg|Chrome|CriOS|Firefox|FxiOS|Version)\/(\d+)/i.exec(ua);
+    var match = /SamsungBrowser\/(\d+)/i.exec(ua) ||
+      /EdgA?\/(\d+)/i.exec(ua) ||
+      /EdgiOS\/(\d+)/i.exec(ua) ||
+      /Chrome\/(\d+)/i.exec(ua) ||
+      /CriOS\/(\d+)/i.exec(ua) ||
+      /Firefox\/(\d+)/i.exec(ua) ||
+      /FxiOS\/(\d+)/i.exec(ua) ||
+      /Version\/(\d+)/i.exec(ua);
     return match ? match[1] : "";
   }
 
@@ -249,10 +256,9 @@
   function getBrowserEngine() {
     var ua = getUserAgent();
     if (/MSIE|Trident/i.test(ua)) return "Trident";
-    if (/Firefox\//i.test(ua)) return "Gecko";
-    if (/iPhone|iPad|iPod/i.test(ua) && /CriOS\/|FxiOS\/|EdgiOS\//i.test(ua)) return "WebKit";
-    if (/SamsungBrowser|EdgA\/|Edg\/|OPR\/|Opera|Chrome\/|Chromium/i.test(ua)) return "Blink";
-    if (/Safari\//i.test(ua) || /AppleWebKit/i.test(ua)) return "WebKit";
+    if (/Firefox\/|FxiOS/i.test(ua)) return "Gecko";
+    if (/EdgA?\/|EdgiOS|OPR\/|Opera|SamsungBrowser|Chrome\/|CriOS|Chromium/i.test(ua)) return "Blink";
+    if (/AppleWebKit|Safari\//i.test(ua)) return "WebKit";
     return "unknown";
   }
 
@@ -264,55 +270,16 @@
     return "unknown";
   }
 
-  function parseCssRgb(value) {
-    var match = /rgba?\(\s*(\d+)(?:\s*,\s*|\s+)(\d+)(?:\s*,\s*|\s+)(\d+)/i.exec(String(value || ""));
-    if (!match) return null;
-    return [Number(match[1]), Number(match[2]), Number(match[3])];
-  }
-
-  function getAndroidForcedDarkHint() {
-    var ua = getUserAgent();
-    var probe;
-    var style;
-    var rgb;
-
-    if (!/Android|SamsungBrowser/i.test(ua)) {
-      return false;
-    }
-
-    try {
-      if (!document.documentElement || !window.getComputedStyle) {
-        return false;
-      }
-
-      probe = document.createElement("div");
-      probe.setAttribute("aria-hidden", "true");
-      probe.style.cssText = "position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;margin:0;padding:0;border:0;background-color:rgb(255,255,255);color:rgb(0,0,0);opacity:0.01;pointer-events:none;";
-      probe.textContent = ".";
-      document.documentElement.appendChild(probe);
-      style = window.getComputedStyle(probe);
-      rgb = parseCssRgb(style && style.backgroundColor);
-      document.documentElement.removeChild(probe);
-
-      return !!rgb && (rgb[0] + rgb[1] + rgb[2]) < 384;
-    } catch (error) {
-      try {
-        if (probe && probe.parentNode) {
-          probe.parentNode.removeChild(probe);
-        }
-      } catch (ignored) {}
-    }
-
-    return false;
-  }
-
-  function getColorScheme() {
+  function getReportedColorScheme() {
     try {
       if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
-      if (getAndroidForcedDarkHint()) return "dark";
       if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
     } catch (error) {}
     return "unknown";
+  }
+
+  function getColorScheme() {
+    return getReportedColorScheme();
   }
 
   function getForcedColors() {
@@ -331,6 +298,77 @@
 
   function getInvertedColors() {
     return mediaValue("(inverted-colors: inverted)", "inverted", "none");
+  }
+
+  function isSamsungInternetAndroid() {
+    var ua = getUserAgent();
+    return /SamsungBrowser/i.test(ua) && /Android/i.test(ua);
+  }
+
+  function detectForcedDarkRendering() {
+    var el = null;
+    var color = "";
+
+    try {
+      if (!document || !document.documentElement || !window.getComputedStyle) return "unknown";
+
+      el = document.createElement("div");
+      el.setAttribute("aria-hidden", "true");
+      el.style.cssText = [
+        "position:absolute",
+        "left:-9999px",
+        "top:-9999px",
+        "width:1px",
+        "height:1px",
+        "overflow:hidden",
+        "background-color:Canvas",
+        "color-scheme:light",
+        "pointer-events:none"
+      ].join(";");
+
+      document.documentElement.appendChild(el);
+      color = window.getComputedStyle(el).backgroundColor || "";
+      document.documentElement.removeChild(el);
+      el = null;
+
+      if (!color) return "unknown";
+      if (color !== "rgb(255, 255, 255)" && color !== "rgba(255, 255, 255, 1)") {
+        return "detected";
+      }
+
+      return "not_detected";
+    } catch (error) {
+      try {
+        if (el && el.parentNode) el.parentNode.removeChild(el);
+      } catch (ignored) {}
+      return "unknown";
+    }
+  }
+
+  function getThemeSignal() {
+    var reported = getReportedColorScheme();
+    var forcedDark = detectForcedDarkRendering();
+    var samsungAndroid = isSamsungInternetAndroid();
+    var samsungStatus = samsungAndroid ? "samsung_android" : "not_samsung_android";
+    var quality = reported === "unknown" ? "unknown" : "reported";
+
+    if (reported === "dark") {
+      samsungStatus = samsungAndroid ? "samsung_android_reported_dark" : samsungStatus;
+      quality = "reported";
+    } else if (forcedDark === "detected") {
+      samsungStatus = samsungAndroid ? "samsung_android_forced_dark_detected" : samsungStatus;
+      quality = "detected";
+    } else if (samsungAndroid && reported !== "dark") {
+      samsungStatus = "samsung_forced_dark_possible";
+      quality = "possible_only";
+    }
+
+    return {
+      colorScheme: reported,
+      forcedDarkDetection: forcedDark,
+      samsungDarkModeStatus: samsungStatus,
+      themeSignalQuality: quality
+    };
   }
 
   function getLanguages() {
@@ -790,6 +828,7 @@
 
   function buildEvent(config, dashboard, routeDecision, eventType, mode, extra) {
     var source = normalizeSource(config);
+    var themeSignal = getThemeSignal();
     var diagnostics = !!(config.tracking && config.tracking.diagnosticsEnabled) || (mode && mode.debug && hasQueryFlag("diagnostics"));
     var payload = {
       schema_version: (config.tracking && config.tracking.schemaVersion) || config.schemaVersion || "5",
@@ -820,10 +859,13 @@
       language: limit(navigator.language || "", 40),
       languages: limit(getLanguages(), 160),
       timezone: limit(getTimezone(), 80),
-      color_scheme: getColorScheme(),
+      color_scheme: themeSignal.colorScheme,
       forced_colors: getForcedColors(),
       prefers_contrast: getPrefersContrast(),
       inverted_colors: getInvertedColors(),
+      forced_dark_detection: themeSignal.forcedDarkDetection,
+      samsung_dark_mode_status: themeSignal.samsungDarkModeStatus,
+      theme_signal_quality: themeSignal.themeSignalQuality,
       connection_type: limit(getConnectionType(), 80),
       page_host: window.location.host || "",
       referrer_domain: source.referrerDomain,
@@ -844,6 +886,14 @@
     if (extra) {
       if (extra.warning_code) payload.warning_code = limit(extra.warning_code, 120);
       if (extra.warning_detail) payload.warning_detail = limit(extra.warning_detail, 300);
+    }
+
+    if (!payload.warning_code && themeSignal.forcedDarkDetection === "detected") {
+      payload.warning_code = "forced_dark_detected";
+      payload.warning_detail = "Auto/forced dark rendering detected with Canvas system-color probe. color_scheme remains reported preference.";
+    } else if (!payload.warning_code && themeSignal.samsungDarkModeStatus === "samsung_forced_dark_possible") {
+      payload.warning_code = "samsung_forced_dark_possible";
+      payload.warning_detail = "Samsung Internet on Android; reported color-scheme is " + themeSignal.colorScheme + "; browser forced dark may be visually active but is not exposed as a reliable signal.";
     }
 
     if (diagnostics) {
@@ -875,22 +925,32 @@
 
   function compactForImage(payload) {
     var keys = [
-      "schema_version", "event_id", "request_id", "event_type", "count_as_visit", "client_time",
+      "schema_version", "event_id", "request_id", "event_type", "count_as_visit",
       "dashboard_key", "dashboard_id", "dashboard_name", "public_card_title", "public_entry_page",
       "selected_layout", "auto_selected_layout", "forced_layout", "forced_layout_applied",
-      "route_reason", "route_reason_detail", "device_class",
-      "viewport_width", "viewport_height", "browser_family", "browser_brand", "browser_engine",
-      "browser_major_version", "os_family", "language", "languages", "timezone", "color_scheme",
-      "forced_colors", "prefers_contrast", "inverted_colors", "connection_type", "page_host",
-      "entry_source_category", "referrer_domain", "utm_source", "utm_medium", "utm_campaign", "utm_content",
-      "page_path", "config_version", "router_core_version", "config_source", "safe_fallback_used",
-      "tracking_method", "warning_code", "warning_detail", "error_message", "bot_reason"
+      "route_reason", "route_reason_detail", "device_class", "viewport_width", "viewport_height",
+      "browser_family", "browser_brand", "browser_engine", "browser_major_version", "os_family",
+      "os_version_hint", "language", "languages", "timezone", "color_scheme", "forced_colors",
+      "prefers_contrast", "inverted_colors", "forced_dark_detection", "samsung_dark_mode_status",
+      "theme_signal_quality", "connection_type", "page_host", "entry_source_category", "referrer_domain",
+      "utm_source", "utm_medium", "utm_campaign", "utm_content", "page_path", "config_version",
+      "router_core_version", "config_source", "safe_fallback_used", "tracking_method",
+      "warning_code", "warning_detail", "bot_reason", "user_agent", "screen_width", "screen_height",
+      "device_pixel_ratio", "touch", "max_touch_points"
     ];
     var result = {};
     var i;
+    var key;
+    var camel;
+
     for (i = 0; i < keys.length; i += 1) {
-      if (payload[keys[i]] !== undefined && payload[keys[i]] !== null && payload[keys[i]] !== "") {
-        result[keys[i]] = String(payload[keys[i]]);
+      key = keys[i];
+      if (payload[key] !== undefined && payload[key] !== null && payload[key] !== "") {
+        result[key] = String(payload[key]);
+        camel = key.replace(/_([a-z])/g, function (match, letter) { return letter.toUpperCase(); });
+        if (camel !== key) {
+          result[camel] = String(payload[key]);
+        }
       }
     }
     return result;
@@ -957,8 +1017,6 @@
           image = new Image(1, 1);
           image.alt = "";
           image.src = appendQuery(endpoint, imagePayload);
-          window.__lspTrackingPixels = window.__lspTrackingPixels || [];
-          window.__lspTrackingPixels.push(image);
           return "imageGet";
         }
       } catch (error) {}
@@ -1021,7 +1079,11 @@
     html += "<dt>Stýrikerfi</dt><dd>" + escapeHtml(getOsFamily()) + "</dd>";
     html += "<dt>Tungumál</dt><dd>" + escapeHtml(navigator.language || "") + "</dd>";
     html += "<dt>Tímabelti</dt><dd>" + escapeHtml(getTimezone()) + "</dd>";
-    html += "<dt>Birting</dt><dd>" + escapeHtml(getColorScheme()) + " / forced-colors: " + escapeHtml(getForcedColors()) + " / contrast: " + escapeHtml(getPrefersContrast()) + " / inverted: " + escapeHtml(getInvertedColors()) + "</dd>";
+    var themeSignal = getThemeSignal();
+    html += "<dt>Birting</dt><dd>" + escapeHtml(themeSignal.colorScheme) + " / forced-colors: " + escapeHtml(getForcedColors()) + "</dd>";
+    html += "<dt>Forced dark</dt><dd>" + escapeHtml(themeSignal.forcedDarkDetection) + "</dd>";
+    html += "<dt>Samsung dark</dt><dd>" + escapeHtml(themeSignal.samsungDarkModeStatus) + "</dd>";
+    html += "<dt>Theme signal</dt><dd>" + escapeHtml(themeSignal.themeSignalQuality) + "</dd>";
     html += "<dt>Uppruni</dt><dd>" + escapeHtml(source.entrySourceCategory) + "</dd>";
     html += "<dt>Config</dt><dd>" + escapeHtml(config.configVersion || "") + " / " + escapeHtml(config.__source || "") + "</dd>";
     html += "<dt>Router core</dt><dd>" + escapeHtml(CORE_VERSION) + "</dd>";
