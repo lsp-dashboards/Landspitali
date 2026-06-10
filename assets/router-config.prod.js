@@ -1,8 +1,8 @@
 // Generated from config/dashboard-registry.json. Do not hand-edit.
-// Config version: 2026-06-10-prod-1.2.3
+// Config version: 2026-06-10-prod-v1.2.5
 window.LSP_ROUTER_CONFIG = {
   "schemaVersion": "5",
-  "configVersion": "2026-06-10-prod-1.2.3",
+  "configVersion": "2026-06-10-prod-v1.2.5",
   "routerName": "Landspítali Power BI Router",
   "routerMode": "central-config-static-github-pages",
   "environment": "prod",
@@ -12,7 +12,7 @@ window.LSP_ROUTER_CONFIG = {
   "release": {
     "packageVersion": "1.2.3",
     "releasedAt": "2026-06-07",
-    "coreVersion": "2026-06-07-core-1",
+    "coreVersion": "2026-06-10-core-1.2.5",
     "status": "official-first-production-version",
     "coreAssetFile": "router-core.v20260607-1.js",
     "configAssetFile": "router-config.v20260607-1.js"
