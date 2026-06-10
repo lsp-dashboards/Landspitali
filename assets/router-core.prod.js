@@ -3,7 +3,7 @@
 (function (window, document) {
   "use strict";
 
-  var CORE_VERSION = "2026-06-07-core-1";
+  var CORE_VERSION = "2026-06-07-core-1-hotfix-1.2.2";
   var started = false;
   var sequence = 0;
   var requestId = makeRequestId();
@@ -757,7 +757,7 @@
   function compactForImage(payload) {
     var keys = [
       "schema_version", "event_id", "request_id", "event_type", "count_as_visit",
-      "dashboard_key", "dashboard_id", "selected_layout", "auto_selected_layout",
+      "dashboard_key", "dashboard_id", "dashboard_name", "public_card_title", "public_entry_page", "selected_layout", "auto_selected_layout",
       "forced_layout", "forced_layout_applied", "route_reason", "device_class",
       "viewport_width", "viewport_height", "browser_family", "os_family",
       "entry_source_category", "referrer_domain", "utm_source", "utm_medium", "utm_campaign", "utm_content",
