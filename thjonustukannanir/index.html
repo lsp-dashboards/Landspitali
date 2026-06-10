@@ -89,6 +89,59 @@
       font-size: 13px;
       line-height: 1.45;
     }
+
+    .router-extra[hidden] {
+      display: none;
+    }
+
+    .debug-list {
+      max-width: 440px;
+      margin: 18px auto 0 auto;
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 8px 12px;
+      text-align: left;
+      color: #5f6f82;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .debug-list dt {
+      margin: 0;
+      color: #102033;
+      font-weight: 700;
+    }
+
+    .debug-list dd {
+      margin: 0;
+      min-width: 0;
+      word-break: break-word;
+    }
+
+    .manual-links {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .secondary-button {
+      display: inline-block;
+      padding: 10px 14px;
+      border: 1px solid #d9e1e8;
+      border-radius: 12px;
+      color: #4F6F8F;
+      background: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .secondary-button:hover,
+    .secondary-button:focus {
+      border-color: #4F6F8F;
+    }
   </style>
 </head>
 
@@ -102,7 +155,7 @@
           Augnablik, þú ert send/ur í rétta útgáfu mælaborðsins eftir tæki og skjábreidd.
         </p>
 
-        <!-- Mobile URL is the safe fallback. If JavaScript fails, users still get the mobile version. -->
+        <!-- Mobile URL is the safe fallback. If JavaScript or central assets fail, users still get the mobile version. -->
         <a id="fallback-link" class="button" href="https://app.powerbi.com/view?r=eyJrIjoiNmMyZGI1ZjktOTIzMS00MjZlLWFmMjEtMzE2ZTRhYjcyYmQ3IiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9">
           Opna mælaborð
         </a>
@@ -110,6 +163,8 @@
         <p id="route-note" class="small">
           Ef ekkert gerist sjálfkrafa skaltu smella á takkann.
         </p>
+
+        <div id="router-extra" class="router-extra" hidden></div>
       </section>
     </div>
   </main>
@@ -119,586 +174,12 @@
   </noscript>
 
   <script>
-    (function () {
-      // Þjónustukannanir ríkisstofnana: one GitHub Pages router per dashboard.
-      // The user should only see one island.is button. This page redirects immediately.
-
-      var DESKTOP_URL = "https://app.powerbi.com/view?r=eyJrIjoiN2VjNTI5YzAtMGNjMC00MWQ1LTkwY2MtZTAzMzg2NWI4YTdlIiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9";
-      var MOBILE_URL = "https://app.powerbi.com/view?r=eyJrIjoiNmMyZGI1ZjktOTIzMS00MjZlLWFmMjEtMzE2ZTRhYjcyYmQ3IiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9";
-      var MOBILE_BREAKPOINT = 768;
-
-      // Tracking setup.
-      // 1. Create an endpoint, for example the Google Apps Script tracker.
-      // 2. Paste the deployed web app URL below.
-      // 3. Keep TRACKING_ENABLED as true.
-      var TRACKING_ENABLED = true;
-      var TRACKING_ENDPOINT = "https://script.google.com/macros/s/AKfycbxRoNEQwlxQUpxEMGzYizAB0_lP1MdqksGLu4fD7c94rzqUul3MW2_E9VCqeRzLK3wD/exec";
-      var TRACK_DEBUG_VISITS = false; // false keeps ?debug=1 tests out of the count.
-      var ROUTER_CORE_VERSION = "2026-06-10-router-v1";
-      var CONFIG_VERSION = "2026-06-10-prod-v1";
-      var DASHBOARD_KEY = "thjonustukannanir";
-      var DASHBOARD_ID = "thjonustukannanir-rikisstofnana";
-      var DASHBOARD_NAME = "Þjónustukannanir ríkisstofnana";
-      var PUBLIC_CARD_TITLE = "Þjónustukannanir";
-      var PUBLIC_ENTRY_PAGE = "/s/landspitali/maelabord";
-
-      function getUserAgent() {
-        return navigator.userAgent || navigator.vendor || window.opera || "";
-      }
-
-      function getViewportWidth() {
-        var width = window.innerWidth || 0;
-        var docWidth = 0;
-
-        if (document.documentElement && document.documentElement.clientWidth) {
-          docWidth = document.documentElement.clientWidth;
-        }
-
-        if (width && docWidth) {
-          return Math.min(width, docWidth);
-        }
-
-        return width || docWidth || screen.width || 1024;
-      }
-
-      function getViewportHeight() {
-        var height = window.innerHeight || 0;
-        var docHeight = 0;
-
-        if (document.documentElement && document.documentElement.clientHeight) {
-          docHeight = document.documentElement.clientHeight;
-        }
-
-        if (height && docHeight) {
-          return Math.min(height, docHeight);
-        }
-
-        return height || docHeight || screen.height || 768;
-      }
-
-      function hasTouch() {
-        return !!("ontouchstart" in window) || ((navigator.maxTouchPoints || 0) > 0);
-      }
-
-      function isPhoneUserAgent() {
-        var ua = getUserAgent();
-
-        return /iPhone|iPod|Windows Phone|IEMobile|BlackBerry|Opera Mini/i.test(ua) ||
-          /Android.*Mobile/i.test(ua) ||
-          /Mobile/i.test(ua);
-      }
-
-      function isTabletUserAgent() {
-        var ua = getUserAgent();
-        return /iPad|Tablet|Android(?!.*Mobile)|Silk/i.test(ua);
-      }
-
-      function shouldUseMobile() {
-        var width = getViewportWidth();
-        return isPhoneUserAgent() || width <= MOBILE_BREAKPOINT;
-      }
-
-      function isIeMode() {
-        var ua = getUserAgent();
-        return !!document.documentMode || /MSIE|Trident/i.test(ua);
-      }
-
-      function getQueryValue(name) {
-        var query = window.location.search || "";
-        var match;
-
-        if (window.URLSearchParams) {
-          return new URLSearchParams(query).get(name) || "";
-        }
-
-        match = new RegExp("[?&]" + name + "=([^&]*)", "i").exec(query);
-        return match ? decodeURIComponent(match[1].replace(/\+/g, " ")) : "";
-      }
-
-      function hasQueryFlag(flagName) {
-        var query = window.location.search || "";
-        var value;
-        var pattern;
-
-        if (window.URLSearchParams) {
-          value = new URLSearchParams(query).get(flagName);
-          return new URLSearchParams(query).has(flagName) &&
-            (value === null || value === "" || value === "1" || /^true$/i.test(value));
-        }
-
-        pattern = new RegExp("[?&]" + flagName + "(=1|=true|&|$)", "i");
-        return pattern.test(query);
-      }
-
-      function forcedLayout() {
-        var value = getQueryValue("force") || getQueryValue("view") || "auto";
-        value = value.toLowerCase();
-
-        if (value === "mobile") {
-          return "mobile";
-        }
-
-        if (value === "desktop") {
-          return "desktop";
-        }
-
-        return "auto";
-      }
-
-      function getAutoLayout() {
-        return shouldUseMobile() ? "mobile" : "desktop";
-      }
-
-      function getTargetUrl() {
-        var force = forcedLayout();
-
-        if (force === "mobile") {
-          return MOBILE_URL;
-        }
-
-        if (force === "desktop") {
-          return DESKTOP_URL;
-        }
-
-        return shouldUseMobile() ? MOBILE_URL : DESKTOP_URL;
-      }
-
-      function getSelectedLayout(targetUrl) {
-        if (targetUrl === MOBILE_URL) {
-          return "mobile";
-        }
-
-        if (targetUrl === DESKTOP_URL) {
-          return "desktop";
-        }
-
-        return "unknown";
-      }
-
-      function getRouteReason() {
-        var force = forcedLayout();
-
-        if (force === "mobile") return "forced_mobile";
-        if (force === "desktop") return "forced_desktop";
-        if (isPhoneUserAgent()) return "phone_user_agent";
-        if (getViewportWidth() <= MOBILE_BREAKPOINT) return "narrow_viewport";
-
-        return "desktop_viewport";
-      }
-
-      function getRouteReasonDetail() {
-        return "width=" + getViewportWidth() + "; phoneUA=" + (isPhoneUserAgent() ? "true" : "false") + "; forced=" + forcedLayout();
-      }
-
-      function getDeviceType() {
-        var width = getViewportWidth();
-
-        if (isPhoneUserAgent()) {
-          return "phone";
-        }
-
-        if (isTabletUserAgent()) {
-          return "tablet";
-        }
-
-        if (hasTouch() && width <= MOBILE_BREAKPOINT) {
-          return "small-touch-screen";
-        }
-
-        if (width <= MOBILE_BREAKPOINT) {
-          return "narrow-screen";
-        }
-
-        return "desktop";
-      }
-
-      function getBrowserFamily() {
-        var ua = getUserAgent();
-
-        if (/SamsungBrowser/i.test(ua)) return "Samsung Internet";
-        if (/Edg/i.test(ua)) return "Edge";
-        if (/OPR|Opera/i.test(ua)) return "Opera";
-        if (/Chrome|CriOS/i.test(ua)) return "Chrome";
-        if (/Firefox|FxiOS/i.test(ua)) return "Firefox";
-        if (/Safari/i.test(ua) && !/Chrome|CriOS/i.test(ua)) return "Safari";
-        if (/MSIE|Trident/i.test(ua)) return "Internet Explorer";
-
-        return "Other";
-      }
-
-      function getBrowserBrand() {
-        var ua = getUserAgent();
-
-        if (/SamsungBrowser/i.test(ua)) return "Samsung Internet";
-        if (/Edg/i.test(ua)) return "Microsoft Edge";
-        if (/OPR|Opera/i.test(ua)) return "Opera";
-        if (/CriOS/i.test(ua)) return "Chrome iOS";
-        if (/Chrome/i.test(ua)) return "Chrome";
-        if (/FxiOS/i.test(ua)) return "Firefox iOS";
-        if (/Firefox/i.test(ua)) return "Firefox";
-        if (/Safari/i.test(ua) && !/Chrome|CriOS/i.test(ua)) return "Safari";
-        if (/MSIE|Trident/i.test(ua)) return "Internet Explorer";
-
-        return "Other";
-      }
-
-      function getBrowserEngine() {
-        var ua = getUserAgent();
-
-        if (/MSIE|Trident/i.test(ua)) return "Trident";
-        if (/Firefox|FxiOS/i.test(ua)) return "Gecko";
-        if (/AppleWebKit/i.test(ua) && /Chrome|CriOS|Edg|SamsungBrowser|OPR/i.test(ua)) return "Blink";
-        if (/AppleWebKit/i.test(ua) || /Safari/i.test(ua)) return "WebKit";
-
-        return "unknown";
-      }
-
-      function getBrowserMajorVersion() {
-        var ua = getUserAgent();
-        var match = /SamsungBrowser\/(\d+)/i.exec(ua) || /Edg\/(\d+)/i.exec(ua) || /Chrome\/(\d+)/i.exec(ua) || /CriOS\/(\d+)/i.exec(ua) || /Firefox\/(\d+)/i.exec(ua) || /Version\/(\d+)/i.exec(ua);
-        return match && match[1] ? match[1] : "";
-      }
-
-      function getOsFamily() {
-        var ua = getUserAgent();
-
-        if (/Windows/i.test(ua)) return "Windows";
-        if (/Android/i.test(ua)) return "Android";
-        if (/iPhone|iPad|iPod/i.test(ua)) return "iOS";
-        if (/Macintosh|Mac OS X/i.test(ua)) return "macOS";
-        if (/Linux/i.test(ua)) return "Linux";
-
-        return "Other";
-      }
-
-      function getOsVersionHint() {
-        var ua = getUserAgent();
-        var match = /Android\s+([0-9.]+)/i.exec(ua) || /OS\s+([0-9_]+)/i.exec(ua) || /Windows NT\s+([0-9.]+)/i.exec(ua) || /Mac OS X\s+([0-9_]+)/i.exec(ua);
-        return match && match[1] ? match[1].replace(/_/g, ".") : "";
-      }
-
-      function getTimezone() {
-        try {
-          if (window.Intl && Intl.DateTimeFormat) {
-            return Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-          }
-        } catch (error) {}
-
-        return "";
-      }
-
-      function getMediaPreference(query, trueValue, falseValue) {
-        try {
-          if (window.matchMedia && window.matchMedia(query).matches) {
-            return trueValue;
-          }
-        } catch (error) {}
-
-        return falseValue;
-      }
-
-      function getColorScheme() {
-        if (getMediaPreference("(prefers-color-scheme: dark)", "dark", "") === "dark") return "dark";
-        if (getMediaPreference("(prefers-color-scheme: light)", "light", "") === "light") return "light";
-        if (getMediaPreference("(prefers-color-scheme: no-preference)", "no-preference", "") === "no-preference") return "no-preference";
-        return "unknown";
-      }
-
-      function getForcedColors() {
-        if (getMediaPreference("(forced-colors: active)", "active", "") === "active") return "active";
-        if (getMediaPreference("(forced-colors: none)", "none", "") === "none") return "none";
-        return "unknown";
-      }
-
-      function getPrefersContrast() {
-        if (getMediaPreference("(prefers-contrast: more)", "more", "") === "more") return "more";
-        if (getMediaPreference("(prefers-contrast: less)", "less", "") === "less") return "less";
-        if (getMediaPreference("(prefers-contrast: no-preference)", "no-preference", "") === "no-preference") return "no-preference";
-        return "unknown";
-      }
-
-      function getInvertedColors() {
-        if (getMediaPreference("(inverted-colors: inverted)", "inverted", "") === "inverted") return "inverted";
-        if (getMediaPreference("(inverted-colors: none)", "none", "") === "none") return "none";
-        return "unknown";
-      }
-
-      function getConnectionType() {
-        var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        return connection && connection.effectiveType ? connection.effectiveType : "";
-      }
-
-      function getAllowedQueryParams() {
-        var allowed = ["force", "view", "debug", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
-        var result = {};
-        var i;
-        var key;
-        var value;
-
-        for (i = 0; i < allowed.length; i += 1) {
-          key = allowed[i];
-          value = getQueryValue(key);
-
-          if (value) {
-            result[key] = value;
-          }
-        }
-
-        return result;
-      }
-
-      function makeRequestId() {
-        if (window.crypto && crypto.randomUUID) {
-          return crypto.randomUUID();
-        }
-
-        return "req-" + String(Date.now()) + "-" + Math.random().toString(16).slice(2);
-      }
-
-      function copyPayload(payload, trackingMethod) {
-        var copy = {};
-        var key;
-
-        for (key in payload) {
-          if (Object.prototype.hasOwnProperty.call(payload, key)) {
-            copy[key] = payload[key];
-          }
-        }
-
-        copy.trackingMethod = trackingMethod;
-        return copy;
-      }
-
-      function buildTrackingPayload(targetUrl, eventType, countAsVisit) {
-        var selectedLayout = getSelectedLayout(targetUrl);
-        var force = forcedLayout();
-
-        return {
-          schemaVersion: "6",
-          eventType: eventType || "router_redirect",
-          countAsVisit: !!countAsVisit,
-          eventId: makeRequestId(),
-          requestId: makeRequestId(),
-          dashboardKey: DASHBOARD_KEY,
-          dashboardId: DASHBOARD_ID,
-          dashboardName: DASHBOARD_NAME,
-          publicCardTitle: PUBLIC_CARD_TITLE,
-          publicEntryPage: PUBLIC_ENTRY_PAGE,
-          selectedLayout: selectedLayout,
-          autoSelectedLayout: getAutoLayout(),
-          forcedLayout: force,
-          forcedLayoutApplied: force !== "auto",
-          routeReason: getRouteReason(),
-          routeReasonDetail: getRouteReasonDetail(),
-          deviceClass: getDeviceType(),
-          browserFamily: getBrowserFamily(),
-          browserBrand: getBrowserBrand(),
-          browserEngine: getBrowserEngine(),
-          browserMajorVersion: getBrowserMajorVersion(),
-          osFamily: getOsFamily(),
-          osVersionHint: getOsVersionHint(),
-          viewportWidth: getViewportWidth(),
-          viewportHeight: getViewportHeight(),
-          screenWidth: window.screen ? screen.width : null,
-          screenHeight: window.screen ? screen.height : null,
-          devicePixelRatio: window.devicePixelRatio || 1,
-          touch: hasTouch(),
-          maxTouchPoints: navigator.maxTouchPoints || 0,
-          language: navigator.language || "",
-          languages: navigator.languages ? navigator.languages.slice(0, 5).join(",") : "",
-          timezone: getTimezone(),
-          colorScheme: getColorScheme(),
-          forcedColors: getForcedColors(),
-          prefersContrast: getPrefersContrast(),
-          invertedColors: getInvertedColors(),
-          connectionType: getConnectionType(),
-          referrer: document.referrer || "",
-          pageHost: window.location.host,
-          pagePath: window.location.pathname,
-          pageUrl: window.location.origin + window.location.pathname,
-          configVersion: CONFIG_VERSION,
-          routerCoreVersion: ROUTER_CORE_VERSION,
-          configSource: "embedded-router-v1",
-          safeFallbackUsed: false,
-          query: getAllowedQueryParams(),
-          userAgent: getUserAgent(),
-          eventTimeClient: new Date().toISOString()
-        };
-      }
-
-      function addTrackingParam(parts, key, value) {
-        if (value === undefined || value === null || value === "") {
-          return;
-        }
-
-        parts.push(encodeURIComponent(key) + "=" + encodeURIComponent(String(value)));
-      }
-
-      function getImageTrackingUrl(payload) {
-        var parts = [];
-        var query = payload.query || {};
-
-        addTrackingParam(parts, "eventType", payload.eventType);
-        addTrackingParam(parts, "countAsVisit", payload.countAsVisit ? "true" : "false");
-        addTrackingParam(parts, "eventId", payload.eventId);
-        addTrackingParam(parts, "requestId", payload.requestId);
-        addTrackingParam(parts, "dashboardKey", payload.dashboardKey);
-        addTrackingParam(parts, "dashboardId", payload.dashboardId);
-        addTrackingParam(parts, "dashboardName", payload.dashboardName);
-        addTrackingParam(parts, "publicCardTitle", payload.publicCardTitle);
-        addTrackingParam(parts, "publicEntryPage", payload.publicEntryPage);
-        addTrackingParam(parts, "selectedLayout", payload.selectedLayout);
-        addTrackingParam(parts, "autoSelectedLayout", payload.autoSelectedLayout);
-        addTrackingParam(parts, "forcedLayout", payload.forcedLayout);
-        addTrackingParam(parts, "forcedLayoutApplied", payload.forcedLayoutApplied ? "true" : "false");
-        addTrackingParam(parts, "routeReason", payload.routeReason);
-        addTrackingParam(parts, "routeReasonDetail", payload.routeReasonDetail);
-        addTrackingParam(parts, "deviceClass", payload.deviceClass);
-        addTrackingParam(parts, "viewportWidth", payload.viewportWidth);
-        addTrackingParam(parts, "viewportHeight", payload.viewportHeight);
-        addTrackingParam(parts, "browserFamily", payload.browserFamily);
-        addTrackingParam(parts, "browserBrand", payload.browserBrand);
-        addTrackingParam(parts, "browserEngine", payload.browserEngine);
-        addTrackingParam(parts, "browserMajorVersion", payload.browserMajorVersion);
-        addTrackingParam(parts, "osFamily", payload.osFamily);
-        addTrackingParam(parts, "osVersionHint", payload.osVersionHint);
-        addTrackingParam(parts, "screenWidth", payload.screenWidth);
-        addTrackingParam(parts, "screenHeight", payload.screenHeight);
-        addTrackingParam(parts, "devicePixelRatio", payload.devicePixelRatio);
-        addTrackingParam(parts, "touch", payload.touch ? "true" : "false");
-        addTrackingParam(parts, "maxTouchPoints", payload.maxTouchPoints);
-        addTrackingParam(parts, "language", payload.language);
-        addTrackingParam(parts, "timezone", payload.timezone);
-        addTrackingParam(parts, "colorScheme", payload.colorScheme);
-        addTrackingParam(parts, "forcedColors", payload.forcedColors);
-        addTrackingParam(parts, "prefersContrast", payload.prefersContrast);
-        addTrackingParam(parts, "invertedColors", payload.invertedColors);
-        addTrackingParam(parts, "connectionType", payload.connectionType);
-        addTrackingParam(parts, "referrer", payload.referrer);
-        addTrackingParam(parts, "pageHost", payload.pageHost);
-        addTrackingParam(parts, "pagePath", payload.pagePath);
-        addTrackingParam(parts, "configVersion", payload.configVersion);
-        addTrackingParam(parts, "routerCoreVersion", payload.routerCoreVersion);
-        addTrackingParam(parts, "configSource", payload.configSource);
-        addTrackingParam(parts, "safeFallbackUsed", payload.safeFallbackUsed ? "true" : "false");
-        addTrackingParam(parts, "trackingMethod", "imageGetFallback");
-        addTrackingParam(parts, "utm_source", query.utm_source);
-        addTrackingParam(parts, "utm_medium", query.utm_medium);
-        addTrackingParam(parts, "utm_campaign", query.utm_campaign);
-        addTrackingParam(parts, "utm_content", query.utm_content);
-        addTrackingParam(parts, "utm_term", query.utm_term);
-
-        return TRACKING_ENDPOINT + (TRACKING_ENDPOINT.indexOf("?") >= 0 ? "&" : "?") + parts.join("&");
-      }
-
-      function sendTrackingImageFallback(payload) {
-        var pixel;
-
-        try {
-          window.__lspTrackingPixels = window.__lspTrackingPixels || [];
-          pixel = new Image();
-          pixel.alt = "";
-          pixel.referrerPolicy = "no-referrer-when-downgrade";
-          pixel.src = getImageTrackingUrl(payload);
-          window.__lspTrackingPixels.push(pixel);
-        } catch (error) {}
-      }
-
-      function sendTracking(payload) {
-        var body;
-        var blob;
-
-        if (!TRACKING_ENABLED || !TRACKING_ENDPOINT) {
-          return;
-        }
-
-        // Fire a GET pixel first. Apps Script accepts this as a compact fallback event.
-        // If POST also arrives, the shared eventId makes the duplicate harmless in aggregates.
-        sendTrackingImageFallback(payload);
-
-        try {
-          if (navigator.sendBeacon) {
-            body = JSON.stringify(copyPayload(payload, "sendBeacon"));
-            blob = new Blob([body], { type: "text/plain;charset=UTF-8" });
-            navigator.sendBeacon(TRACKING_ENDPOINT, blob);
-          }
-
-          if (window.fetch) {
-            body = JSON.stringify(copyPayload(payload, "fetchKeepalive"));
-            fetch(TRACKING_ENDPOINT, {
-              method: "POST",
-              mode: "no-cors",
-              keepalive: true,
-              headers: {
-                "Content-Type": "text/plain;charset=UTF-8"
-              },
-              body: body
-            }).catch(function () {});
-          }
-        } catch (error) {}
-      }
-
-      function updateFallback(targetUrl) {
-        var fallbackLink = document.getElementById("fallback-link");
-        var routeNote = document.getElementById("route-note");
-        var selectedLayout = getSelectedLayout(targetUrl);
-
-        if (fallbackLink) {
-          fallbackLink.href = targetUrl;
-          fallbackLink.onclick = function () {
-            sendTracking(buildTrackingPayload(targetUrl, "fallback_click", false));
-          };
-        }
-
-        if (routeNote && hasQueryFlag("debug")) {
-          routeNote.innerHTML =
-            "Debug:<br>" +
-            "Mælaborð: " + DASHBOARD_NAME + "<br>" +
-            "Valin útgáfa: " + selectedLayout + "<br>" +
-            "Tæki: " + getDeviceType() + "<br>" +
-            "Skjábreidd: " + getViewportWidth() + " px<br>" +
-            "Vafri: " + getBrowserBrand() + " / " + getBrowserEngine() + "<br>" +
-            "Stýrikerfi: " + getOsFamily() + "<br>" +
-            "Dark mode: " + getColorScheme() + "<br>" +
-            "Tracking: " + (TRACKING_ENABLED && TRACKING_ENDPOINT ? "virkt" : "óvirkt / endpoint vantar");
-        }
-      }
-
-      function redirectToReport() {
-        var targetUrl = getTargetUrl();
-        var debugMode = hasQueryFlag("debug");
-
-        updateFallback(targetUrl);
-
-        // Add ?debug=1 to the GitHub Pages URL to inspect the routing page without redirecting.
-        // Debug visits are not counted unless TRACK_DEBUG_VISITS is changed to true.
-        if (!debugMode || TRACK_DEBUG_VISITS) {
-          sendTracking(buildTrackingPayload(targetUrl, debugMode ? "router_debug_view" : "router_redirect", !debugMode));
-        }
-
-        if (debugMode) {
-          return;
-        }
-
-        // Give the fire-and-forget tracker a tiny head start before leaving the router page.
-        // This is short enough to be invisible, but it greatly improves Apps Script delivery.
-        window.setTimeout(function () {
-          // Hidden Edge IE mode fallback. No visible text, just tries to escape the old rendering engine.
-          if (isIeMode() && /^https:\/\//i.test(targetUrl)) {
-            window.location.href = "microsoft-edge:" + targetUrl;
-            return;
-          }
-
-          window.location.replace(targetUrl);
-        }, 150);
-      }
-
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", redirectToReport);
-      } else {
-        redirectToReport();
-      }
-    })();
+    window.LSP_ROUTER_BOOTSTRAP = {
+      dashboardKey: "thjonustukannanir",
+      lockDashboard: true
+    };
   </script>
+  <script src="/Landspitali/assets/router-config.prod.js"></script>
+  <script src="/Landspitali/assets/router-core.prod.js"></script>
 </body>
 </html>
