@@ -1,7 +1,7 @@
 (function (window, document) {
   "use strict";
 
-  var CORE_VERSION = "2026-06-10-core-1.2.5";
+  var CORE_VERSION = "2026-06-10-core-1.2.5-hotfix.1";
   var started = false;
   var sequence = 0;
   var requestId = makeRequestId();
@@ -226,20 +226,20 @@
 
   function getBrowserFamily() {
     var ua = getUserAgent();
-    if (/Edg\//i.test(ua)) return "Edge";
-    if (/OPR\/|Opera/i.test(ua)) return "Opera";
     if (/SamsungBrowser/i.test(ua)) return "Samsung Internet";
-    if (/Chrome\/|CriOS/i.test(ua)) return "Chrome";
-    if (/Firefox\/|FxiOS/i.test(ua)) return "Firefox";
-    if (/Safari\//i.test(ua) && !/Chrome\/|CriOS|Chromium/i.test(ua)) return "Safari";
+    if (/EdgA\/|EdgiOS\/|Edg\//i.test(ua)) return "Edge";
+    if (/OPR\/|Opera/i.test(ua)) return "Opera";
+    if (/CriOS\/|Chrome\//i.test(ua)) return "Chrome";
+    if (/FxiOS\/|Firefox\//i.test(ua)) return "Firefox";
+    if (/Safari\//i.test(ua) && !/Chrome\/|CriOS|Chromium|SamsungBrowser|EdgA\/|EdgiOS\/|Edg\//i.test(ua)) return "Safari";
     if (/MSIE|Trident/i.test(ua)) return "Internet Explorer";
     return "Other";
   }
 
   function getBrowserMajorVersion() {
     var ua = getUserAgent();
-    var match = /(Edg|Chrome|CriOS|Firefox|FxiOS|Version|SamsungBrowser)\/(\d+)/i.exec(ua);
-    return match ? match[2] : "";
+    var match = /(?:SamsungBrowser|EdgA|EdgiOS|Edg|Chrome|CriOS|Firefox|FxiOS|Version)\/(\d+)/i.exec(ua);
+    return match ? match[1] : "";
   }
 
   function getBrowserBrand() {
@@ -249,9 +249,10 @@
   function getBrowserEngine() {
     var ua = getUserAgent();
     if (/MSIE|Trident/i.test(ua)) return "Trident";
-    if (/Firefox\/|FxiOS/i.test(ua)) return "Gecko";
-    if (/Edg\/|OPR\/|Opera|SamsungBrowser|Chrome\/|CriOS|Chromium/i.test(ua)) return "Blink";
-    if (/Safari\/i.test(ua)) return "WebKit";
+    if (/Firefox\//i.test(ua)) return "Gecko";
+    if (/iPhone|iPad|iPod/i.test(ua) && /CriOS\/|FxiOS\/|EdgiOS\//i.test(ua)) return "WebKit";
+    if (/SamsungBrowser|EdgA\/|Edg\/|OPR\/|Opera|Chrome\/|Chromium/i.test(ua)) return "Blink";
+    if (/Safari\//i.test(ua) || /AppleWebKit/i.test(ua)) return "WebKit";
     return "unknown";
   }
 
@@ -263,9 +264,52 @@
     return "unknown";
   }
 
+  function parseCssRgb(value) {
+    var match = /rgba?\(\s*(\d+)(?:\s*,\s*|\s+)(\d+)(?:\s*,\s*|\s+)(\d+)/i.exec(String(value || ""));
+    if (!match) return null;
+    return [Number(match[1]), Number(match[2]), Number(match[3])];
+  }
+
+  function getAndroidForcedDarkHint() {
+    var ua = getUserAgent();
+    var probe;
+    var style;
+    var rgb;
+
+    if (!/Android|SamsungBrowser/i.test(ua)) {
+      return false;
+    }
+
+    try {
+      if (!document.documentElement || !window.getComputedStyle) {
+        return false;
+      }
+
+      probe = document.createElement("div");
+      probe.setAttribute("aria-hidden", "true");
+      probe.style.cssText = "position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;margin:0;padding:0;border:0;background-color:rgb(255,255,255);color:rgb(0,0,0);opacity:0.01;pointer-events:none;";
+      probe.textContent = ".";
+      document.documentElement.appendChild(probe);
+      style = window.getComputedStyle(probe);
+      rgb = parseCssRgb(style && style.backgroundColor);
+      document.documentElement.removeChild(probe);
+
+      return !!rgb && (rgb[0] + rgb[1] + rgb[2]) < 384;
+    } catch (error) {
+      try {
+        if (probe && probe.parentNode) {
+          probe.parentNode.removeChild(probe);
+        }
+      } catch (ignored) {}
+    }
+
+    return false;
+  }
+
   function getColorScheme() {
     try {
       if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
+      if (getAndroidForcedDarkHint()) return "dark";
       if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
     } catch (error) {}
     return "unknown";
@@ -911,6 +955,8 @@
           image = new Image(1, 1);
           image.alt = "";
           image.src = appendQuery(endpoint, imagePayload);
+          window.__lspTrackingPixels = window.__lspTrackingPixels || [];
+          window.__lspTrackingPixels.push(image);
           return "imageGet";
         }
       } catch (error) {}
@@ -973,7 +1019,7 @@
     html += "<dt>Stýrikerfi</dt><dd>" + escapeHtml(getOsFamily()) + "</dd>";
     html += "<dt>Tungumál</dt><dd>" + escapeHtml(navigator.language || "") + "</dd>";
     html += "<dt>Tímabelti</dt><dd>" + escapeHtml(getTimezone()) + "</dd>";
-    html += "<dt>Birting</dt><dd>" + escapeHtml(getColorScheme()) + " / forced-colors: " + escapeHtml(getForcedColors()) + "</dd>";
+    html += "<dt>Birting</dt><dd>" + escapeHtml(getColorScheme()) + " / forced-colors: " + escapeHtml(getForcedColors()) + " / contrast: " + escapeHtml(getPrefersContrast()) + " / inverted: " + escapeHtml(getInvertedColors()) + "</dd>";
     html += "<dt>Uppruni</dt><dd>" + escapeHtml(source.entrySourceCategory) + "</dd>";
     html += "<dt>Config</dt><dd>" + escapeHtml(config.configVersion || "") + " / " + escapeHtml(config.__source || "") + "</dd>";
     html += "<dt>Router core</dt><dd>" + escapeHtml(CORE_VERSION) + "</dd>";
