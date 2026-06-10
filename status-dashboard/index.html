@@ -2,91 +2,448 @@
 <html lang="is">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <title>Mælaborðsmælingar | Landspítali</title>
-  <link rel="stylesheet" href="assets/status-dashboard.css">
+  <title>Landspítali router tracker | Status dashboard v1</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #0d1b2d;
+      --panel2: #10233a;
+      --line: rgba(255,255,255,.10);
+      --text: #edf4fb;
+      --muted: #99a9bd;
+      --soft: #c9d6e5;
+      --accent: #4F6F8F;
+      --good: #7cc9a2;
+      --warn: #f0c36a;
+      --bad: #ff8b8b;
+      --chip: rgba(79,111,143,.22);
+      --shadow: 0 20px 50px rgba(0,0,0,.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(79,111,143,.40), transparent 35rem),
+        radial-gradient(circle at bottom right, rgba(124,201,162,.18), transparent 34rem),
+        var(--bg);
+    }
+
+    .shell {
+      width: min(1480px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 30px 0 46px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.5fr .8fr;
+      gap: 18px;
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+
+    .hero-card, .panel, .kpi, .insight {
+      background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025));
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-card { padding: 28px; }
+    .eyebrow { color: var(--soft); font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
+    h1 { margin: 10px 0 10px; font-size: clamp(30px, 4vw, 56px); line-height: .95; }
+    .lead { margin: 0; color: var(--muted); line-height: 1.55; max-width: 74ch; }
+    .status-stack { display: grid; gap: 12px; }
+
+    .pillrow { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      color: var(--soft);
+      font-size: 13px;
+    }
+
+    .dot { width: 9px; height: 9px; border-radius: 99px; background: var(--good); box-shadow: 0 0 18px var(--good); }
+    .dot.warn { background: var(--warn); box-shadow: 0 0 18px var(--warn); }
+    .dot.bad { background: var(--bad); box-shadow: 0 0 18px var(--bad); }
+
+    .grid-kpi {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(150px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .kpi { padding: 18px; min-height: 132px; }
+    .kpi .label { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+    .kpi .value { font-size: 32px; font-weight: 800; letter-spacing: -.03em; }
+    .kpi .detail { color: var(--muted); font-size: 12px; line-height: 1.4; margin-top: 9px; }
+
+    .insights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .insight { padding: 18px; }
+    .insight h3 { margin: 0 0 8px; font-size: 16px; }
+    .insight p { margin: 0; color: var(--muted); line-height: 1.48; font-size: 13px; }
+    .insight strong { color: var(--text); }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .panel { padding: 18px; overflow: hidden; }
+    .panel-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 12px; }
+    .panel h2 { margin: 0; font-size: 18px; }
+    .panel-note { color: var(--muted); font-size: 12px; }
+    .table-wrap { width: 100%; overflow: auto; border-radius: 16px; border: 1px solid var(--line); }
+
+    table { width: 100%; border-collapse: collapse; min-width: 780px; background: rgba(0,0,0,.10); }
+    th, td { padding: 11px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; font-size: 13px; }
+    th { color: var(--soft); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; background: rgba(255,255,255,.045); position: sticky; top: 0; }
+    tr:hover td { background: rgba(255,255,255,.035); }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .tag { display: inline-block; padding: 4px 8px; border-radius: 99px; background: var(--chip); color: var(--soft); white-space: nowrap; }
+    .tag.good { background: rgba(124,201,162,.18); color: #bff0d8; }
+    .tag.warn { background: rgba(240,195,106,.18); color: #ffe0a0; }
+    .tag.bad { background: rgba(255,139,139,.18); color: #ffc6c6; }
+
+    .barrow { display: grid; gap: 10px; }
+    .baritem { display: grid; grid-template-columns: 130px 1fr 70px; gap: 10px; align-items: center; font-size: 13px; color: var(--soft); }
+    .bar { height: 12px; border-radius: 999px; background: rgba(255,255,255,.07); overflow: hidden; }
+    .bar > span { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--good)); border-radius: inherit; }
+
+    .footer { color: var(--muted); font-size: 12px; margin-top: 18px; line-height: 1.45; }
+    .hidden { display: none !important; }
+    .error { padding: 14px; background: rgba(255,139,139,.12); border: 1px solid rgba(255,139,139,.25); color: #ffd2d2; border-radius: 16px; }
+
+    @media (max-width: 1180px) {
+      .grid-kpi { grid-template-columns: repeat(3, 1fr); }
+      .hero, .layout { grid-template-columns: 1fr; }
+      .insights { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .shell { width: min(100% - 22px, 1480px); padding-top: 16px; }
+      .hero-card, .panel, .kpi, .insight { border-radius: 18px; }
+      .grid-kpi { grid-template-columns: 1fr 1fr; }
+      .kpi .value { font-size: 26px; }
+      table { min-width: 680px; }
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <img id="brand-logo" alt="Landspítali" src="https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png">
-      <div>
-        <p class="eyebrow">Landspítali</p>
-        <h1>Mælaborðsmælingar</h1>
-      </div>
-    </div>
-    <div class="status-pill" id="health-pill">Sæki gögn</div>
-  </header>
-
   <main class="shell">
-    <section class="notice" id="notice" hidden></section>
-
-    <section class="metadata-grid" aria-label="Staða gagna">
-      <article><span>Síðast uppfært</span><strong id="generated-at">-</strong></article>
-      <article><span>Síðasta mæling</span><strong id="last-event-time">-</strong></article>
-      <article><span>Síðasta samantekt</span><strong id="last-aggregation-time">-</strong></article>
-      <article><span>Config útgáfa</span><strong id="config-version">-</strong></article>
-    </section>
-
-    <section class="kpi-grid" id="kpi-grid" aria-label="Lykiltölur"></section>
-
-    <section class="panel wide">
-      <div class="panel-header">
-        <h2>Mælaborð</h2>
-        <button id="refresh-button" type="button">Endurhlaða</button>
+    <section class="hero">
+      <div class="hero-card">
+        <div class="eyebrow">Landspítali public dashboard router</div>
+        <h1>Tracker status dashboard v1</h1>
+        <p class="lead">Heildarmynd yfir router notkun, mobile/desktop leiðingu, upprunaumferð, browser/dark-mode merki og gæðavillur. Þetta er ekki bara teljari, þetta er litli flugturninn fyrir opinberu mælaborðin.</p>
+        <div class="pillrow">
+          <span class="pill"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn...</span></span>
+          <span class="pill" id="generated-pill">Generated: ...</span>
+          <span class="pill" id="cache-pill">Cache: ...</span>
+        </div>
       </div>
-      <div class="table-wrap"><table id="dashboard-table"></table></div>
+      <div class="status-stack">
+        <div class="kpi">
+          <div class="label">Síðasta mæling</div>
+          <div class="value" id="last-event">...</div>
+          <div class="detail">Ef þetta eldist of mikið er trackerinn líklega þagnaður eins og skrifstofuprinter klukkan 16:01.</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Síðasta samantekt</div>
+          <div class="value" id="last-aggregation">...</div>
+          <div class="detail">Aggregates eru endurreiknuð af Apps Script trigger.</div>
+        </div>
+      </div>
     </section>
 
-    <section class="grid-two">
-      <article class="panel">
-        <h2>Opinber birting á island.is</h2>
-        <div class="table-wrap"><table id="public-card-table"></table></div>
-      </article>
-      <article class="panel">
-        <h2>Viðvaranir</h2>
-        <div id="warnings-panel" class="warning-list"></div>
-      </article>
+    <section class="grid-kpi" id="kpis"></section>
+
+    <section id="error-box" class="error hidden"></section>
+
+    <section class="insights" id="insights"></section>
+
+    <section class="layout">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Mælaborð</h2>
+          <span class="panel-note">Total visits er hér með fremst í kastljósinu</span>
+        </div>
+        <div class="table-wrap"><table id="dashboard-table"></table></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Mobile vs desktop</h2>
+          <span class="panel-note">Hlutföll yfir allar taldar heimsóknir</span>
+        </div>
+        <div class="barrow" id="layout-bars"></div>
+      </div>
     </section>
 
-    <section class="grid-two">
-      <article class="panel">
-        <h2>Notkun eftir dögum</h2>
-        <div id="daily-bars" class="bars"></div>
-      </article>
-      <article class="panel">
-        <h2>Notkun eftir klukkustund</h2>
-        <div id="hourly-bars" class="bars compact"></div>
-      </article>
-    </section>
-
-    <section class="grid-two">
-      <article class="panel">
-        <h2>Tæki, vafri og stýrikerfi</h2>
+    <section class="layout">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Browser og rendering diagnostics</h2>
+          <span class="panel-note">Sér Samsung Internet og dark mode</span>
+        </div>
         <div class="table-wrap"><table id="device-table"></table></div>
-      </article>
-      <article class="panel">
-        <h2>Uppruni</h2>
-        <div class="table-wrap"><table id="source-table"></table></div>
-      </article>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Top browser brands</h2>
+          <span class="panel-note">Aggregated across dashboards</span>
+        </div>
+        <div class="barrow" id="browser-bars"></div>
+      </div>
     </section>
 
-    <section class="grid-two">
-      <article class="panel">
-        <h2>Sjálfvirk leiðing</h2>
+    <section class="layout">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Route reasons</h2>
+          <span class="panel-note">Sýnir mælaborð svo rows líti ekki út eins þegar dashboard_key er falinn</span>
+        </div>
         <div class="table-wrap"><table id="route-table"></table></div>
-      </article>
-      <article class="panel">
-        <h2>Spurningar sem við viljum ekki gleyma</h2>
-        <ul id="questions-list" class="question-list"></ul>
-      </article>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Uppruni</h2>
+          <span class="panel-note">island.is, QR, Teams, email, direct</span>
+        </div>
+        <div class="table-wrap"><table id="source-table"></table></div>
+      </div>
     </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Quality warnings</h2>
+        <span class="panel-note">Router canary birds, but with spreadsheets</span>
+      </div>
+      <div class="table-wrap"><table id="warning-table"></table></div>
+    </section>
+
+    <p class="footer">Privacy: engin nöfn, engin netföng, engar kennitölur, engin raw IP. Gögnin eru aggregate/status gögn úr Google Apps Script endpointinu.</p>
   </main>
 
-  <script src="assets/status-config.js"></script>
-  <script src="assets/status-sample-data.js"></script>
-  <script src="assets/status-dashboard.js"></script>
+  <script>
+    var DATA_ENDPOINT = "https://script.google.com/macros/s/AKfycby3-AcGg9Lu6LkL_tSilvNPnuGb3lgm_3-ryt0a1A6-kz3P7gUlH3uLkpRQn2VJytepHg/exec";
+    var CALLBACK = "LandspitaliTrackerStatusDataV1";
+
+    function num(value) {
+      var n = Number(value);
+      return isFinite(n) ? n : 0;
+    }
+
+    function fmt(value) {
+      return String(Math.round(num(value))).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function pct(part, whole) {
+      whole = num(whole);
+      if (!whole) return "0%";
+      return (Math.round(num(part) / whole * 1000) / 10).toString().replace(".", ",") + "%";
+    }
+
+    function safe(value) {
+      return String(value === undefined || value === null || value === "" ? "" : value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function ageText(iso) {
+      if (!iso) return "ekkert";
+      var d = new Date(iso);
+      if (!isFinite(d.getTime())) return String(iso).slice(0, 16);
+      var minutes = Math.round((Date.now() - d.getTime()) / 60000);
+      if (minutes < 1) return "núna";
+      if (minutes < 60) return minutes + " mín";
+      var hours = Math.round(minutes / 60);
+      if (hours < 48) return hours + " klst";
+      return Math.round(hours / 24) + " dagar";
+    }
+
+    function sortByVisits(rows) {
+      return (rows || []).slice().sort(function (a, b) { return num(b.visits || b.total_visits || b.count) - num(a.visits || a.total_visits || a.count); });
+    }
+
+    function sum(rows, field) {
+      return (rows || []).reduce(function (acc, row) { return acc + num(row[field]); }, 0);
+    }
+
+    function group(rows, keyFn) {
+      var out = {};
+      (rows || []).forEach(function (row) {
+        var key = keyFn(row) || "unknown";
+        out[key] = out[key] || { key: key, visits: 0, events: 0 };
+        out[key].visits += num(row.visits);
+        out[key].events += num(row.events);
+      });
+      return Object.keys(out).map(function (key) { return out[key]; });
+    }
+
+    function renderKpis(data) {
+      var k = data.kpis || {};
+      var cards = [
+        ["Total visits", fmt(k.total_visits), "Allar taldar heimsóknir frá byrjun varðveislu."],
+        ["Í dag", fmt(k.visits_today), "Heimsóknir í dag."],
+        ["7 dagar", fmt(k.visits_7d), "Nýleg notkun."],
+        ["30 dagar", fmt(k.visits_30d), "Mánaðarmynd."],
+        ["Mobile", pct(k.mobile_visits, k.total_visits), fmt(k.mobile_visits) + " heimsóknir fóru í mobile."],
+        ["Desktop", pct(k.desktop_visits, k.total_visits), fmt(k.desktop_visits) + " heimsóknir fóru í desktop."],
+        ["Fallback/errors", fmt(k.fallback_error_count), "Ætti helst að vera nálægt núlli."]
+      ];
+
+      document.getElementById("kpis").innerHTML = cards.map(function (c) {
+        return '<article class="kpi"><div class="label">' + safe(c[0]) + '</div><div class="value">' + safe(c[1]) + '</div><div class="detail">' + safe(c[2]) + '</div></article>';
+      }).join("");
+    }
+
+    function renderInsights(data) {
+      var k = data.kpis || {};
+      var device = data.device || [];
+      var warnings = data.quality_warnings || [];
+      var total = num(k.total_visits);
+      var samsungDark = device.reduce(function (acc, row) {
+        return acc + (((row.browser_brand === "Samsung Internet" || row.browser_family === "Samsung Internet") && row.color_scheme === "dark") ? num(row.visits) : 0);
+      }, 0);
+      var dark = device.reduce(function (acc, row) { return acc + (row.color_scheme === "dark" ? num(row.visits) : 0); }, 0);
+      var routeQuality = num(k.fallback_error_count) === 0 ? "Engin fallback/error lykt í gögnunum." : "Fallback/error count er " + fmt(k.fallback_error_count) + ". Þetta á að skoða.";
+      var hiddenDim = "Töflurnar sýna nú mælaborðsnafn í device/route/source, þannig fyrstu rows hætta að líta út eins þegar dashboard_key er ósýnilegur.";
+      var warningText = warnings.length ? warnings.length + " warning rows eru virk." : "Engar quality warnings í samantekt.";
+      var cards = [
+        ["Traffic signal", "<strong>" + fmt(total) + "</strong> total visits. Mobile share er <strong>" + pct(k.mobile_visits, total) + "</strong> og island.is share er <strong>" + pct(k.island_is_visits, total) + "</strong>."] ,
+        ["Rendering signal", "Dark mode visits: <strong>" + fmt(dark) + "</strong>. Samsung Internet + dark mode: <strong>" + fmt(samsungDark) + "</strong>. Þetta er litafuglinn sem við viljum fylgjast með."],
+        ["Quality signal", safe(routeQuality) + " " + safe(warningText) + " " + safe(hiddenDim)]
+      ];
+      document.getElementById("insights").innerHTML = cards.map(function (c) {
+        return '<article class="insight"><h3>' + safe(c[0]) + '</h3><p>' + c[1] + '</p></article>';
+      }).join("");
+    }
+
+    function table(id, headers, rows, rowFn) {
+      var html = '<thead><tr>' + headers.map(function (h) { return '<th>' + safe(h) + '</th>'; }).join("") + '</tr></thead><tbody>';
+      if (!rows || !rows.length) {
+        html += '<tr><td colspan="' + headers.length + '">Engin gögn enn.</td></tr>';
+      } else {
+        html += rows.map(rowFn).join("");
+      }
+      html += '</tbody>';
+      document.getElementById(id).innerHTML = html;
+    }
+
+    function renderTables(data) {
+      table("dashboard-table", ["Mælaborð", "Total", "Í dag", "7d", "30d", "Mobile", "Desktop", "Warnings", "Síðast"], sortByVisits(data.dashboards || []), function (d) {
+        return '<tr><td>' + safe(d.dashboard_name || d.dashboard_key) + '</td><td class="num"><strong>' + fmt(d.total_visits) + '</strong></td><td class="num">' + fmt(d.visits_today) + '</td><td class="num">' + fmt(d.visits_7d) + '</td><td class="num">' + fmt(d.visits_30d) + '</td><td class="num">' + fmt(d.mobile_visits) + '</td><td class="num">' + fmt(d.desktop_visits) + '</td><td class="num">' + fmt(d.warning_count) + '</td><td>' + safe(ageText(d.last_event_time)) + '</td></tr>';
+      });
+
+      table("device-table", ["Mælaborð", "Tæki", "Layout", "Browser", "Engine", "OS", "Color", "Visits"], sortByVisits(data.device || []).slice(0, 80), function (d) {
+        var risk = (d.browser_brand === "Samsung Internet" && d.color_scheme === "dark") ? " warn" : "";
+        return '<tr><td>' + safe(d.dashboard_name || d.dashboard_key) + '</td><td><span class="tag">' + safe(d.device_class) + '</span></td><td>' + safe(d.selected_layout) + '</td><td><span class="tag' + risk + '">' + safe(d.browser_brand || d.browser_family) + '</span></td><td>' + safe(d.browser_engine) + '</td><td>' + safe(d.os_family) + '</td><td>' + safe(d.color_scheme) + '</td><td class="num"><strong>' + fmt(d.visits) + '</strong></td></tr>';
+      });
+
+      table("route-table", ["Mælaborð", "Route reason", "Layout", "Forced", "Visits", "Events"], sortByVisits(data.routes || []), function (r) {
+        return '<tr><td>' + safe(r.dashboard_name || r.dashboard_key) + '</td><td>' + safe(r.route_reason) + '</td><td>' + safe(r.selected_layout) + '</td><td>' + safe(r.forced_layout) + '</td><td class="num"><strong>' + fmt(r.visits) + '</strong></td><td class="num">' + fmt(r.events) + '</td></tr>';
+      });
+
+      table("source-table", ["Mælaborð", "Source", "UTM source", "Medium", "Campaign", "Visits"], sortByVisits(data.sources || []).slice(0, 60), function (s) {
+        return '<tr><td>' + safe(s.dashboard_name || s.dashboard_key) + '</td><td><span class="tag">' + safe(s.entry_source_category) + '</span></td><td>' + safe(s.utm_source) + '</td><td>' + safe(s.utm_medium) + '</td><td>' + safe(s.utm_campaign) + '</td><td class="num"><strong>' + fmt(s.visits) + '</strong></td></tr>';
+      });
+
+      table("warning-table", ["Severity", "Warning", "Mælaborð", "Count", "Last seen"], sortByVisits(data.quality_warnings || []), function (w) {
+        var klass = w.severity === "warning" ? "warn" : (w.severity === "error" ? "bad" : "good");
+        return '<tr><td><span class="tag ' + klass + '">' + safe(w.severity) + '</span></td><td>' + safe(w.warning_text || w.warning_code) + '</td><td>' + safe(w.dashboard_key) + '</td><td class="num"><strong>' + fmt(w.count) + '</strong></td><td>' + safe(ageText(w.last_seen)) + '</td></tr>';
+      });
+    }
+
+    function renderBars(data) {
+      var k = data.kpis || {};
+      var total = num(k.total_visits);
+      var layoutRows = [
+        { key: "Mobile", visits: num(k.mobile_visits) },
+        { key: "Desktop", visits: num(k.desktop_visits) },
+        { key: "island.is", visits: num(k.island_is_visits) }
+      ];
+      document.getElementById("layout-bars").innerHTML = layoutRows.map(function (r) {
+        var width = total ? Math.min(100, Math.round(r.visits / total * 100)) : 0;
+        return '<div class="baritem"><span>' + safe(r.key) + '</span><div class="bar"><span style="width:' + width + '%"></span></div><strong>' + pct(r.visits, total) + '</strong></div>';
+      }).join("");
+
+      var browserRows = sortByVisits(group(data.device || [], function (r) { return r.browser_brand || r.browser_family || "unknown"; })).slice(0, 8);
+      var browserTotal = Math.max(sum(browserRows, "visits"), 1);
+      document.getElementById("browser-bars").innerHTML = browserRows.map(function (r) {
+        var width = Math.min(100, Math.round(r.visits / browserTotal * 100));
+        return '<div class="baritem"><span>' + safe(r.key) + '</span><div class="bar"><span style="width:' + width + '%"></span></div><strong>' + fmt(r.visits) + '</strong></div>';
+      }).join("") || '<p class="panel-note">Engin browser gögn enn.</p>';
+    }
+
+    function render(data) {
+      var h = data.health || {};
+      var dot = document.getElementById("health-dot");
+      dot.className = "dot" + (h.status === "ok" ? "" : " warn");
+      document.getElementById("health-text").textContent = h.status === "ok" ? "OK" : "Warning";
+      document.getElementById("generated-pill").textContent = "Generated: " + (data.generated_at || "...").slice(0, 19).replace("T", " ");
+      document.getElementById("cache-pill").textContent = "Cache: " + (data.cache && data.cache.hit ? "hit" : "miss/fresh");
+      document.getElementById("last-event").textContent = ageText(h.last_event_time);
+      document.getElementById("last-aggregation").textContent = ageText(h.last_aggregation_time);
+
+      renderKpis(data);
+      renderInsights(data);
+      renderTables(data);
+      renderBars(data);
+    }
+
+    function showError(message) {
+      var box = document.getElementById("error-box");
+      box.classList.remove("hidden");
+      box.textContent = message;
+      document.getElementById("health-dot").className = "dot bad";
+      document.getElementById("health-text").textContent = "Villa";
+    }
+
+    window[CALLBACK] = function (data) {
+      try {
+        if (!data || data.ok === false) {
+          showError("Endpoint skilaði ekki gildum dashboard gögnum.");
+          return;
+        }
+        render(data);
+      } catch (error) {
+        showError("Tókst ekki að birta gögn: " + error.message);
+      }
+    };
+
+    function loadData() {
+      var script = document.createElement("script");
+      var separator = DATA_ENDPOINT.indexOf("?") >= 0 ? "&" : "?";
+      script.src = DATA_ENDPOINT + separator + "api=dashboard&callback=" + encodeURIComponent(CALLBACK) + "&v=" + Date.now();
+      script.onerror = function () { showError("Náði ekki sambandi við Apps Script endpoint."); };
+      document.body.appendChild(script);
+    }
+
+    loadData();
+  </script>
 </body>
 </html>
