@@ -64,7 +64,7 @@
     .brand-row { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
     .brand-row img { width: 76px; height: auto; display: block; }
     .eyebrow { margin: 0 0 5px; color: var(--accent); font-size: 13px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
-    h1 { margin: 0; font-size: clamp(32px, 4.8vw, 58px); line-height: .96; letter-spacing: -.04em; hyphens: none; }
+    h1 { margin: 0; font-size: clamp(32px, 4.8vw, 58px); line-height: .96; letter-spacing: -.04em; }
     .lead { margin: 14px 0 0; max-width: 76ch; color: var(--muted); font-size: 16px; line-height: 1.56; }
 
     .pill-row { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 20px; }
@@ -120,24 +120,6 @@
     .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
     h2 { margin: 0; font-size: 20px; letter-spacing: -.02em; }
     .panel-note { color: var(--muted); font-size: 12px; text-align: right; }
-    .panel-head.compact { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
-    .soft-separator { border: 0; border-top: 1px solid var(--line); margin: 18px 0 0; }
-    h1,
-    h2,
-    .lead,
-    .dashboard-title,
-    .dashboard-sub,
-    .mini-value,
-    .mini-detail,
-    .metric strong,
-    .stat strong,
-    .pill,
-    .chip,
-    .bar-row span,
-    .list-row > * {
-      overflow-wrap: anywhere;
-      word-break: normal;
-    }
     .button {
       border: 0;
       border-radius: 13px;
@@ -177,7 +159,7 @@
     .list { display: grid; gap: 10px; }
     .list-row {
       display: grid;
-      grid-template-columns: minmax(145px, 1.2fr) minmax(70px, .62fr) minmax(86px, .72fr) minmax(112px, .9fr) minmax(80px, .7fr) minmax(88px, .6fr);
+      grid-template-columns: minmax(145px, 1.2fr) minmax(70px, .62fr) minmax(86px, .72fr) minmax(112px, .9fr) minmax(80px, .7fr) minmax(65px, .55fr);
       gap: 10px;
       align-items: center;
       padding: 11px 12px;
@@ -186,8 +168,8 @@
       background: var(--panel-soft);
       font-size: 13px;
     }
-    .list-row.route { grid-template-columns: minmax(140px, 1.1fr) minmax(140px, 1fr) minmax(72px, .55fr) minmax(70px, .55fr) minmax(88px, .6fr); }
-    .list-row.source { grid-template-columns: minmax(140px, 1fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(88px, .6fr); }
+    .list-row.route { grid-template-columns: minmax(140px, 1.1fr) minmax(140px, 1fr) minmax(72px, .55fr) minmax(70px, .55fr) minmax(60px, .45fr); }
+    .list-row.source { grid-template-columns: minmax(140px, 1fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(70px, .45fr); }
     .list-row.warning { grid-template-columns: minmax(92px, .55fr) minmax(140px, 1fr) minmax(110px, .85fr) minmax(180px, 1.35fr) minmax(54px, .35fr); }
     .list-head {
       color: var(--muted);
@@ -200,12 +182,12 @@
       padding-bottom: 0;
     }
     .list-row strong { font-weight: 900; }
-    .number { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; overflow-wrap: normal; word-break: keep-all; }
-    .list-head .number { letter-spacing: .025em; }
+    .number { text-align: right; font-variant-numeric: tabular-nums; }
     .chip { display: inline-flex; width: fit-content; max-width: 100%; padding: 5px 8px; border-radius: 999px; background: #eaf0f6; color: var(--ink); font-size: 12px; font-weight: 800; overflow-wrap: anywhere; }
     .chip.good { background: var(--good-bg); color: var(--good); }
     .chip.warn { background: var(--warn-bg); color: var(--warn); }
     .chip.bad { background: var(--bad-bg); color: var(--bad); }
+
     .insight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
     .insight { padding: 14px; border: 1px solid var(--line); border-radius: 17px; background: var(--panel-soft); }
     .insight h3 { margin: 0 0 6px; font-size: 15px; }
@@ -236,33 +218,6 @@
       .list-head { display: none; }
       .number { text-align: left; }
       .bar-row { grid-template-columns: minmax(82px, 110px) minmax(0, 1fr) minmax(48px, 64px); }
-      h1 { font-size: clamp(24px, 7.8vw, 38px); line-height: 1.02; white-space: nowrap; overflow-wrap: normal; word-break: keep-all; }
-      .lead { font-size: 15px; }
-      .dashboard-top { align-items: flex-start; }
-      .dashboard-title { font-size: 16px; }
-    }
-
-    @media (max-width: 480px) {
-      .shell { width: min(100% - 16px, 1420px); }
-      .hero-main { padding: 18px; }
-      .brand-row { gap: 8px; }
-      .brand-row img { width: 42px; }
-      h1 { font-size: clamp(20px, 6.4vw, 30px); letter-spacing: -.03em; white-space: nowrap; overflow-wrap: normal; word-break: keep-all; }
-      .metric-grid,
-      .dashboard-grid,
-      .insight-grid {
-        grid-template-columns: 1fr;
-      }
-      .dashboard-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .list-row,
-      .list-row.route,
-      .list-row.source,
-      .list-row.warning {
-        grid-template-columns: 1fr;
-      }
-      .bar-row {
-        grid-template-columns: 1fr minmax(0, 1fr) auto;
-      }
     }
   </style>
 </head>
@@ -313,15 +268,9 @@
       </article>
       <article class="panel">
         <div class="panel-head">
-          <h2>Útgáfur</h2>
-          <div class="panel-note">Valin Power BI útgáfa</div>
+          <h2>Útgáfur og uppruni</h2>
         </div>
         <div class="bar-list" id="layout-bars"></div>
-        <div class="panel-head compact">
-          <h2>Uppruni</h2>
-          <div class="panel-note">Hvaðan heimsóknin kom</div>
-        </div>
-        <div class="bar-list" id="source-bars"></div>
       </article>
     </section>
 
@@ -356,7 +305,7 @@
       </article>
       <article class="panel">
         <div class="panel-head">
-          <h2>Uppruni, sundurliðun</h2>
+          <h2>Uppruni</h2>
         </div>
         <div class="list" id="source-list"></div>
       </article>
@@ -556,42 +505,13 @@
     }
     function renderLayoutBars(data) {
       var k = data.kpis || {};
-      var rows = groupRows(data.routes || [], function (row) { return row.selected_layout || "unknown"; });
-
-      if (!rows.length) {
-        rows = groupRows(data.device || [], function (row) { return row.selected_layout || "unknown"; });
-      }
-
-      if (!rows.length) {
-        rows = [
-          { key: "mobile", visits: number(k.mobile_visits) },
-          { key: "desktop", visits: number(k.desktop_visits) }
-        ].filter(function (row) { return number(row.visits) > 0; });
-      }
-
-      rows = rows.sort(function (a, b) { return number(b.visits) - number(a.visits); });
-      var total = Math.max(sum(rows, "visits"), 1);
-      byId("layout-bars").innerHTML = rows.map(function (row) {
-        return bar(pretty(row.key), row.visits, total, true);
-      }).join("") || '<p class="mini-detail">Engin útgáfugögn enn.</p>';
-    }
-
-    function renderSourceBars(data) {
-      var k = data.kpis || {};
-      var rows = groupRows(data.sources || [], function (row) { return row.entry_source_category || row.utm_source || "unknown"; });
-
-      if (!rows.length && number(k.total_visits) > 0) {
-        rows = [
-          { key: "island_is_public", visits: number(k.island_is_visits) },
-          { key: "other", visits: Math.max(0, number(k.total_visits) - number(k.island_is_visits)) }
-        ].filter(function (row) { return number(row.visits) > 0; });
-      }
-
-      rows = rows.sort(function (a, b) { return number(b.visits) - number(a.visits); }).slice(0, 8);
-      var total = Math.max(sum(rows, "visits"), 1);
-      byId("source-bars").innerHTML = rows.map(function (row) {
-        return bar(pretty(row.key), row.visits, total, true);
-      }).join("") || '<p class="mini-detail">Engin upprunagögn enn.</p>';
+      var total = Math.max(number(k.total_visits), 0);
+      byId("layout-bars").innerHTML = [
+        bar("Farsími", k.mobile_visits, total),
+        bar("Borðtölva", k.desktop_visits, total),
+        bar("island.is", k.island_is_visits, total),
+        bar("Annað", total - number(k.island_is_visits), total)
+      ].join("");
     }
 
     function renderInsights(data) {
@@ -612,7 +532,7 @@
         ["Leiðing", "Farsími " + pct(k.mobile_visits, total) + ", borðtölva " + pct(k.desktop_visits, total) + "."],
         ["Gæði", "Fallback/villur eru " + fmt(k.fallback_error_count) + " eða " + fallbackRate + " af talinni notkun."],
         ["Vafraumhverfi", topBrowser ? "Algengasti vafri er " + pretty(topBrowser.key) + ". Dark mode: " + fmt(darkVisits) + ". Samsung Internet + dark mode: " + fmt(samsungDark) + "." : "Engin vafragögn enn."],
-        ["Tæknimerki", (topLanguage ? "Tungumál: " + pretty(topLanguage.key) + ". " : "") + (topTimezone ? "Tímabelti: " + pretty(topTimezone.key) + ". Þetta er ekki staðsetningargreining." : "")]
+        ["Tungumál og tímabelti", (topLanguage ? "Algengasta tungumál: " + pretty(topLanguage.key) + ". " : "") + (topTimezone ? "Algengasta tímabelti: " + pretty(topTimezone.key) + "." : "")]
       ];
       byId("insight-grid").innerHTML = cards.map(function (c) {
         return '<article class="insight"><h3>' + safe(c[0]) + '</h3><p>' + safe(c[1]) + '</p></article>';
@@ -630,22 +550,23 @@
     function renderDeviceList(data) {
       var cards = publicMap(data);
       var rows = sortVisits(data.device || []).slice(0, 14);
-      var html = '<div class="list-row list-head"><span>Mælaborð</span><span>Tæki</span><span>Útgáfa</span><span>Vafri</span><span>Stýrikerfi</span><span class="number">Heimsóknir</span></div>';
+      var html = '<div class="list-row list-head"><span>Mælaborð</span><span>Tæki</span><span>Útgáfa</span><span>Vafri</span><span>Umhverfi</span><span class="number">Heimsóknir</span></div>';
       html += rows.map(function (row) {
         var brand = row.browser_brand || row.browser_family || "Óþekkt";
         var engine = row.browser_engine || "";
         var scheme = row.color_scheme || "";
         var language = row.language || "";
+        var timezone = row.timezone || "";
         var contrast = row.prefers_contrast || "";
         var forced = row.forced_colors || "";
         var chipClass = (/Samsung Internet/i.test(brand) && row.color_scheme === "dark") ? " warn" : "";
         var environment = safe(pretty(row.os_family)) +
-          (language ? '<br><small>Tungumál: ' + safe(pretty(language)) + '</small>' : '') +
+          ((language || timezone) ? '<br><small>' + safe([language, timezone].filter(Boolean).map(pretty).join(' · ')) + '</small>' : '') +
           ((scheme || forced || contrast) ? '<br><small>Birting: ' + safe([scheme, forced, contrast].filter(Boolean).map(pretty).join(' · ')) + '</small>' : '');
         return '<div class="list-row">' +
           '<strong>' + safe(titleFor(row, cards)) + '</strong>' +
           '<span class="chip">' + safe(pretty(row.device_class)) + '</span>' +
-          '<span class="chip">' + safe(pretty(row.selected_layout)) + '</span>' +
+          '<span>' + safe(pretty(row.selected_layout)) + '</span>' +
           '<span><span class="chip' + chipClass + '">' + safe(pretty(brand)) + '</span>' + (engine ? '<br><small>' + safe(pretty(engine)) + '</small>' : '') + '</span>' +
           '<span>' + environment + '</span>' +
           '<strong class="number">' + fmt(row.visits) + '</strong>' +
@@ -719,7 +640,6 @@
       renderMetrics(data);
       renderDashboards(data);
       renderLayoutBars(data);
-      renderSourceBars(data);
       renderInsights(data);
       renderDeviceList(data);
       renderBrowserBars(data);
