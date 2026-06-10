@@ -32,7 +32,7 @@
       color: var(--ink);
       background:
         radial-gradient(circle at top left, rgba(79, 111, 143, .16), transparent 30rem),
-        linear-gradient(180deg, #f7fafc 0%, var(--bg) 46%, #eef3f7 100%);
+        linear-gradient(180deg, #f7fafc 0%, var(--bg) 48%, #eef3f7 100%);
     }
 
     .shell {
@@ -54,7 +54,7 @@
     .metric,
     .dashboard-card,
     .mini-card {
-      background: rgba(255, 255, 255, .92);
+      background: rgba(255, 255, 255, .94);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
@@ -151,7 +151,7 @@
     .stat strong { display: block; margin-top: 4px; font-size: 18px; }
 
     .bar-list { display: grid; gap: 11px; }
-    .bar-row { display: grid; grid-template-columns: minmax(90px, 132px) minmax(0, 1fr) minmax(56px, 76px); align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+    .bar-row { display: grid; grid-template-columns: minmax(92px, 132px) minmax(0, 1fr) minmax(56px, 76px); align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
     .bar-track { height: 13px; border-radius: 999px; background: #e8eef4; overflow: hidden; }
     .bar-fill { display: block; height: 100%; width: 0%; border-radius: inherit; background: var(--accent); }
     .bar-row strong { text-align: right; color: var(--ink); font-variant-numeric: tabular-nums; }
@@ -170,6 +170,7 @@
     }
     .list-row.route { grid-template-columns: minmax(140px, 1.1fr) minmax(140px, 1fr) minmax(72px, .55fr) minmax(70px, .55fr) minmax(60px, .45fr); }
     .list-row.source { grid-template-columns: minmax(140px, 1fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(70px, .45fr); }
+    .list-row.warning { grid-template-columns: minmax(92px, .55fr) minmax(140px, 1fr) minmax(110px, .85fr) minmax(180px, 1.35fr) minmax(54px, .35fr); }
     .list-head {
       color: var(--muted);
       text-transform: uppercase;
@@ -209,13 +210,14 @@
       .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
       .list-row,
       .list-row.route,
-      .list-row.source {
+      .list-row.source,
+      .list-row.warning {
         grid-template-columns: 1fr 1fr;
         gap: 8px 12px;
       }
       .list-head { display: none; }
       .number { text-align: left; }
-      .bar-row { grid-template-columns: minmax(78px, 105px) minmax(0, 1fr) minmax(48px, 64px); }
+      .bar-row { grid-template-columns: minmax(82px, 110px) minmax(0, 1fr) minmax(48px, 64px); }
     }
   </style>
 </head>
@@ -230,24 +232,24 @@
             <h1>Mælaborðsmælingar</h1>
           </div>
         </div>
-        <p class="lead">Yfirlit yfir opinber mælaborð, fjölda heimsókna, mobile/desktop leiðingu, uppruna, vafra og gæðamerki. Gögnin eru aggregate gögn frá Apps Script endpointi og eru ætluð til rekstrarvöktunar.</p>
+        <p class="lead">Stöðuyfirlit fyrir opinber mælaborð Landspítala. Hér sjást taldar heimsóknir, valin útgáfa, uppruni og tæknimerki sem nýtast við rekstur og gæðaprófanir.</p>
         <div class="pill-row">
           <span class="pill"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn</span></span>
-          <span class="pill" id="generated-pill">Generated: -</span>
+          <span class="pill" id="generated-pill">Uppfært: -</span>
           <span class="pill" id="cache-pill">Cache: -</span>
-          <span class="pill" id="version-pill">Version: v1.1</span>
+          <span class="pill" id="version-pill">Script: -</span>
         </div>
       </div>
       <div class="hero-side">
         <article class="mini-card">
           <div class="mini-label">Síðasta mæling</div>
           <div class="mini-value" id="last-event">-</div>
-          <div class="mini-detail">Síðasti router atburður sem endpointið hefur tekið á móti.</div>
+          <div class="mini-detail">Síðasti atburður sem endpointið tók á móti.</div>
         </article>
         <article class="mini-card">
           <div class="mini-label">Síðasta samantekt</div>
           <div class="mini-value" id="last-aggregation">-</div>
-          <div class="mini-detail">Síðasta keyrsla sem byggði aggregate gögnin fyrir stöðusíðuna.</div>
+          <div class="mini-detail">Síðasta keyrsla sem uppfærði samantektargögn.</div>
         </article>
       </div>
     </section>
@@ -266,8 +268,7 @@
       </article>
       <article class="panel">
         <div class="panel-head">
-          <h2>Mobile vs desktop</h2>
-          <span class="panel-note">Hlutföll af öllum taldum heimsóknum</span>
+          <h2>Útgáfur og uppruni</h2>
         </div>
         <div class="bar-list" id="layout-bars"></div>
       </article>
@@ -275,8 +276,7 @@
 
     <section class="panel" style="margin-bottom:18px;">
       <div class="panel-head">
-        <h2>Innsýn sem skiptir máli</h2>
-        <span class="panel-note">Rekstrarmerki úr aggregate gögnum</span>
+        <h2>Rekstrarinnsýn</h2>
       </div>
       <div class="insight-grid" id="insight-grid"></div>
     </section>
@@ -285,14 +285,12 @@
       <article class="panel">
         <div class="panel-head">
           <h2>Tæki, vafri og stýrikerfi</h2>
-          <span class="panel-note">Engin hliðarskrun, raðir brotna niður á minni skjám</span>
         </div>
         <div class="list" id="device-list"></div>
       </article>
       <article class="panel">
         <div class="panel-head">
-          <h2>Top browser brands</h2>
-          <span class="panel-note">Sameinað yfir mælaborð</span>
+          <h2>Vafrar</h2>
         </div>
         <div class="bar-list" id="browser-bars"></div>
       </article>
@@ -302,14 +300,12 @@
       <article class="panel">
         <div class="panel-head">
           <h2>Sjálfvirk leiðing</h2>
-          <span class="panel-note">Sýnir mælaborð til að forðast tvíræðar raðir</span>
         </div>
         <div class="list" id="route-list"></div>
       </article>
       <article class="panel">
         <div class="panel-head">
           <h2>Uppruni</h2>
-          <span class="panel-note">island.is, QR, Teams, email og direct</span>
         </div>
         <div class="list" id="source-list"></div>
       </article>
@@ -318,21 +314,19 @@
     <section class="section-grid">
       <article class="panel">
         <div class="panel-head">
-          <h2>Opinber birting</h2>
-          <span class="panel-note">Kort og icon sem eru á opinberu leiðinni</span>
+          <h2>Birting á island.is</h2>
         </div>
         <div class="dashboard-grid" id="public-grid"></div>
       </article>
       <article class="panel">
         <div class="panel-head">
-          <h2>Quality warnings</h2>
-          <span class="panel-note">Gæðamerki úr síðustu samantekt</span>
+          <h2>Gæðaviðvaranir</h2>
         </div>
         <div class="list" id="warning-list"></div>
       </article>
     </section>
 
-    <p class="footer">Privacy: engin nöfn, engin netföng, engar kennitölur, engin raw IP og engin Power BI gögn. Þetta eru aggregate/status gögn úr Google Apps Script endpointinu.</p>
+    <p class="footer">Persónuvernd: Engin nöfn, netföng, kennitölur, raw IP eða Power BI gögn. Síðan birtir eingöngu aggregate/status gögn úr Google Apps Script endpointi.</p>
   </main>
 
   <script>
@@ -357,8 +351,28 @@
     }
     function cleanName(value) {
       return String(value || "")
-        .replace(/Bráðamóttakan í Fossvogi/g, "Bráðamóttaka í Fossvogi")
-        .replace(/Opna Bráðamóttöku/g, "Opna Bráðamóttaka");
+        .replace(/Bráðamóttakan í Fossvogi/g, "Bráðamóttaka í Fossvogi");
+    }
+    function cleanId(value) {
+      return String(value || "")
+        .replace(/bradamottakan-fossvogi/g, "bradamottaka-fossvogi");
+    }
+    function pretty(value) {
+      value = String(value || "");
+      if (!value) return "-";
+      if (/^unknown$/i.test(value)) return "Óþekkt";
+      if (/^desktop$/i.test(value)) return "desktop";
+      if (/^mobile$/i.test(value)) return "mobile";
+      if (/^auto$/i.test(value)) return "auto";
+      if (/^island_is_public$/i.test(value)) return "island.is";
+      if (/^qr_code$/i.test(value)) return "QR";
+      if (/^internal_teams$/i.test(value)) return "Teams";
+      if (/^internal_email$/i.test(value)) return "Email";
+      if (/^direct$/i.test(value)) return "Direct";
+      if (/^desktop_viewport$/i.test(value)) return "Desktop viewport";
+      if (/^phone_user_agent$/i.test(value)) return "Phone user agent";
+      if (/^narrow_viewport$/i.test(value)) return "Narrow viewport";
+      return value;
     }
     function ageText(iso) {
       if (!iso) return "ekkert";
@@ -377,15 +391,21 @@
       if (!isFinite(d.getTime())) return String(iso).slice(0, 19).replace("T", " ");
       return new Intl.DateTimeFormat("is-IS", { dateStyle: "short", timeStyle: "short" }).format(d);
     }
+    function visibleRows(rows) {
+      return (rows || []).filter(function (row) {
+        var text = [row.device_class, row.browser_family, row.browser_brand, row.os_family, row.route_reason, row.entry_source_category].join(" ");
+        return number(row.visits || row.total_visits || row.count) > 0 && !/\btest\b/i.test(text);
+      });
+    }
     function sortVisits(rows) {
-      return (rows || []).slice().sort(function (a, b) { return number(b.visits || b.total_visits || b.count) - number(a.visits || a.total_visits || a.count); });
+      return visibleRows(rows).slice().sort(function (a, b) { return number(b.visits || b.total_visits || b.count) - number(a.visits || a.total_visits || a.count); });
     }
     function sum(rows, field) {
       return (rows || []).reduce(function (total, row) { return total + number(row[field]); }, 0);
     }
     function groupRows(rows, keyFn) {
       var map = {};
-      (rows || []).forEach(function (row) {
+      visibleRows(rows).forEach(function (row) {
         var key = keyFn(row) || "unknown";
         if (!map[key]) map[key] = { key: key, visits: 0, events: 0 };
         map[key].visits += number(row.visits);
@@ -418,8 +438,8 @@
       var status = failedMessage ? "error" : (h.status || "ok");
       var dot = byId("health-dot");
       dot.className = "dot" + (status === "ok" ? "" : status === "error" ? " bad" : " warn");
-      byId("health-text").textContent = status === "ok" ? "Staða: í lagi" : status === "error" ? "Villa" : "Viðvörun";
-      byId("generated-pill").textContent = "Generated: " + (data && data.generated_at ? dateShort(data.generated_at) : "-");
+      byId("health-text").textContent = status === "ok" ? "Staða í lagi" : status === "error" ? "Villa" : "Viðvörun";
+      byId("generated-pill").textContent = "Uppfært: " + (data && data.generated_at ? dateShort(data.generated_at) : "-");
       byId("cache-pill").textContent = "Cache: " + (data && data.cache ? (data.cache.hit ? "hit" : "fresh") : "-");
       byId("version-pill").textContent = "Script: " + ((data && data.script_version) || "-");
       byId("last-event").textContent = ageText(h.last_event_time);
@@ -444,49 +464,50 @@
       var k = data.kpis || {};
       var total = number(k.total_visits);
       var html = [
-        metric("Total visits", fmt(total), "Allar taldar raunheimsóknir."),
+        metric("Heildarheimsóknir", fmt(total), "Allar taldar raunheimsóknir."),
         metric("Í dag", fmt(k.visits_today), "Heimsóknir í dag."),
         metric("7 dagar", fmt(k.visits_7d), "Nýleg notkun."),
         metric("30 dagar", fmt(k.visits_30d), "Mánaðarmynd."),
-        metric("Mobile share", pct(k.mobile_visits, total), fmt(k.mobile_visits) + " mobile heimsóknir."),
-        metric("Desktop share", pct(k.desktop_visits, total), fmt(k.desktop_visits) + " desktop heimsóknir."),
-        metric("island.is", pct(k.island_is_visits, total), fmt(k.island_is_visits) + " heimsóknir merktar island.is."),
-        metric("Fallback / villur", fmt(k.fallback_error_count), "Smellir og villuatburðir sem þarf að fylgjast með.")
+        metric("Farsími", pct(k.mobile_visits, total), fmt(k.mobile_visits) + " heimsóknir."),
+        metric("Borðtölva", pct(k.desktop_visits, total), fmt(k.desktop_visits) + " heimsóknir."),
+        metric("island.is", pct(k.island_is_visits, total), fmt(k.island_is_visits) + " merktar island.is."),
+        metric("Fallback / villur", fmt(k.fallback_error_count), "Atburðir sem þarf að fylgjast með.")
       ].join("");
       byId("metric-grid").innerHTML = html;
     }
 
     function renderDashboards(data) {
       var cards = publicMap(data);
-      var rows = sortVisits(data.dashboards || []);
+      var rows = visibleRows(data.dashboards || []).sort(function (a, b) { return number(b.total_visits) - number(a.total_visits); });
       byId("dashboard-grid").innerHTML = rows.map(function (d) {
         var total = number(d.total_visits);
         var warningClass = number(d.warning_count) ? "warn" : "good";
         return '<article class="dashboard-card">' +
-          '<div class="dashboard-top"><img class="icon" src="' + safe(iconFor(d, cards)) + '" alt=""><div><div class="dashboard-title">' + safe(titleFor(d, cards)) + '</div><div class="dashboard-sub">' + safe(d.dashboard_id || d.dashboard_key) + '</div></div></div>' +
+          '<div class="dashboard-top"><img class="icon" src="' + safe(iconFor(d, cards)) + '" alt=""><div><div class="dashboard-title">' + safe(titleFor(d, cards)) + '</div><div class="dashboard-sub">' + safe(cleanId(d.dashboard_id || d.dashboard_key)) + '</div></div></div>' +
           '<div class="dashboard-stats">' +
-            '<div class="stat"><span>Total</span><strong>' + fmt(total) + '</strong></div>' +
+            '<div class="stat"><span>Samtals</span><strong>' + fmt(total) + '</strong></div>' +
             '<div class="stat"><span>Í dag</span><strong>' + fmt(d.visits_today) + '</strong></div>' +
-            '<div class="stat"><span>30d</span><strong>' + fmt(d.visits_30d) + '</strong></div>' +
-            '<div class="stat"><span>Mobile</span><strong>' + pct(d.mobile_visits, total) + '</strong></div>' +
+            '<div class="stat"><span>30 dagar</span><strong>' + fmt(d.visits_30d) + '</strong></div>' +
+            '<div class="stat"><span>Farsími</span><strong>' + pct(d.mobile_visits, total) + '</strong></div>' +
           '</div>' +
-          '<div class="pill-row" style="margin-top:12px;"><span class="chip ' + warningClass + '">Warnings: ' + fmt(d.warning_count) + '</span><span class="chip">Síðast: ' + safe(ageText(d.last_event_time)) + '</span></div>' +
+          '<div class="pill-row" style="margin-top:12px;"><span class="chip ' + warningClass + '">Viðvaranir: ' + fmt(d.warning_count) + '</span><span class="chip">Síðast: ' + safe(ageText(d.last_event_time)) + '</span></div>' +
         '</article>';
       }).join("") || '<div class="mini-detail">Engin mælaborðsgögn enn.</div>';
     }
 
-    function bar(label, value, total) {
+    function bar(label, value, total, asNumber) {
       var width = total ? Math.min(100, Math.round(number(value) / total * 100)) : 0;
-      return '<div class="bar-row"><span>' + safe(label) + '</span><div class="bar-track"><span class="bar-fill" style="width:' + width + '%"></span></div><strong>' + pct(value, total) + '</strong></div>';
+      var right = asNumber ? fmt(value) : pct(value, total);
+      return '<div class="bar-row"><span>' + safe(label) + '</span><div class="bar-track"><span class="bar-fill" style="width:' + width + '%"></span></div><strong>' + safe(right) + '</strong></div>';
     }
     function renderLayoutBars(data) {
       var k = data.kpis || {};
       var total = Math.max(number(k.total_visits), 0);
       byId("layout-bars").innerHTML = [
-        bar("Mobile", k.mobile_visits, total),
-        bar("Desktop", k.desktop_visits, total),
+        bar("Farsími", k.mobile_visits, total),
+        bar("Borðtölva", k.desktop_visits, total),
         bar("island.is", k.island_is_visits, total),
-        bar("Other/direct", total - number(k.island_is_visits), total)
+        bar("Annað", total - number(k.island_is_visits), total)
       ].join("");
     }
 
@@ -494,17 +515,19 @@
       var k = data.kpis || {};
       var total = number(k.total_visits);
       var devices = data.device || [];
+      var hasRenderingFields = devices.some(function (row) { return row.color_scheme || row.browser_brand || row.browser_engine; });
       var darkVisits = devices.reduce(function (acc, row) { return acc + (row.color_scheme === "dark" ? number(row.visits) : 0); }, 0);
       var samsungDark = devices.reduce(function (acc, row) {
         var brand = row.browser_brand || row.browser_family || "";
         return acc + (/Samsung Internet/i.test(brand) && row.color_scheme === "dark" ? number(row.visits) : 0);
       }, 0);
       var fallbackRate = pct(k.fallback_error_count, total);
+      var topBrowser = groupRows(devices, function (row) { return row.browser_brand || row.browser_family || "Óþekkt"; }).sort(function (a, b) { return number(b.visits) - number(a.visits); })[0];
       var cards = [
-        ["Umferð", fmt(total) + " total visits. island.is hlutfall er " + pct(k.island_is_visits, total) + "."],
-        ["Leiðing", "Mobile er " + pct(k.mobile_visits, total) + " og desktop er " + pct(k.desktop_visits, total) + "."],
+        ["Notkun", fmt(total) + " taldar heimsóknir. island.is hlutfall er " + pct(k.island_is_visits, total) + "."],
+        ["Leiðing", "Farsími " + pct(k.mobile_visits, total) + ", borðtölva " + pct(k.desktop_visits, total) + "."],
         ["Gæði", "Fallback/villur eru " + fmt(k.fallback_error_count) + " eða " + fallbackRate + " af talinni notkun."],
-        ["Rendering", "Dark mode: " + fmt(darkVisits) + ". Samsung Internet + dark mode: " + fmt(samsungDark) + "."]
+        hasRenderingFields ? ["Rendering", "Dark mode: " + fmt(darkVisits) + ". Samsung Internet + dark mode: " + fmt(samsungDark) + "."] : ["Vafrar", topBrowser ? "Algengasti vafri er " + topBrowser.key + " með " + fmt(topBrowser.visits) + " heimsóknir." : "Engin vafragögn enn."]
       ];
       byId("insight-grid").innerHTML = cards.map(function (c) {
         return '<article class="insight"><h3>' + safe(c[0]) + '</h3><p>' + safe(c[1]) + '</p></article>';
@@ -512,27 +535,27 @@
     }
 
     function renderBrowserBars(data) {
-      var rows = sortVisits(groupRows(data.device || [], function (row) { return row.browser_brand || row.browser_family || "unknown"; })).slice(0, 8);
+      var rows = groupRows(data.device || [], function (row) { return row.browser_brand || row.browser_family || "Óþekkt"; }).sort(function (a, b) { return number(b.visits) - number(a.visits); }).slice(0, 8);
       var total = Math.max(sum(rows, "visits"), 1);
       byId("browser-bars").innerHTML = rows.map(function (row) {
-        var width = Math.min(100, Math.round(number(row.visits) / total * 100));
-        return '<div class="bar-row"><span>' + safe(row.key) + '</span><div class="bar-track"><span class="bar-fill" style="width:' + width + '%"></span></div><strong>' + fmt(row.visits) + '</strong></div>';
-      }).join("") || '<p class="mini-detail">Engin browser gögn enn.</p>';
+        return bar(pretty(row.key), row.visits, total, true);
+      }).join("") || '<p class="mini-detail">Engin vafragögn enn.</p>';
     }
 
     function renderDeviceList(data) {
       var cards = publicMap(data);
       var rows = sortVisits(data.device || []).slice(0, 14);
-      var html = '<div class="list-row list-head"><span>Mælaborð</span><span>Tæki</span><span>Layout</span><span>Browser</span><span>OS</span><span class="number">Visits</span></div>';
+      var html = '<div class="list-row list-head"><span>Mælaborð</span><span>Tæki</span><span>Útgáfa</span><span>Vafri</span><span>Kerfi</span><span class="number">Heimsóknir</span></div>';
       html += rows.map(function (row) {
-        var brand = row.browser_brand || row.browser_family || "unknown";
+        var brand = row.browser_brand || row.browser_family || "Óþekkt";
         var chipClass = (/Samsung Internet/i.test(brand) && row.color_scheme === "dark") ? " warn" : "";
+        var sub = row.browser_engine || row.color_scheme || "";
         return '<div class="list-row">' +
           '<strong>' + safe(titleFor(row, cards)) + '</strong>' +
-          '<span class="chip">' + safe(row.device_class) + '</span>' +
-          '<span>' + safe(row.selected_layout) + '</span>' +
-          '<span><span class="chip' + chipClass + '">' + safe(brand) + '</span><br><small>' + safe(row.browser_engine || row.color_scheme || "") + '</small></span>' +
-          '<span>' + safe(row.os_family) + '</span>' +
+          '<span class="chip">' + safe(pretty(row.device_class)) + '</span>' +
+          '<span>' + safe(pretty(row.selected_layout)) + '</span>' +
+          '<span><span class="chip' + chipClass + '">' + safe(pretty(brand)) + '</span>' + (sub ? '<br><small>' + safe(pretty(sub)) + '</small>' : '') + '</span>' +
+          '<span>' + safe(pretty(row.os_family)) + '</span>' +
           '<strong class="number">' + fmt(row.visits) + '</strong>' +
         '</div>';
       }).join("");
@@ -542,13 +565,13 @@
     function renderRouteList(data) {
       var cards = publicMap(data);
       var rows = sortVisits(data.routes || []).slice(0, 14);
-      var html = '<div class="list-row route list-head"><span>Mælaborð</span><span>Ástæða</span><span>Layout</span><span>Forced</span><span class="number">Visits</span></div>';
+      var html = '<div class="list-row route list-head"><span>Mælaborð</span><span>Ástæða</span><span>Útgáfa</span><span>Þvingun</span><span class="number">Heimsóknir</span></div>';
       html += rows.map(function (row) {
         return '<div class="list-row route">' +
           '<strong>' + safe(titleFor(row, cards)) + '</strong>' +
-          '<span>' + safe(row.route_reason) + '</span>' +
-          '<span class="chip">' + safe(row.selected_layout) + '</span>' +
-          '<span>' + safe(row.forced_layout || "auto") + '</span>' +
+          '<span>' + safe(pretty(row.route_reason)) + '</span>' +
+          '<span class="chip">' + safe(pretty(row.selected_layout)) + '</span>' +
+          '<span>' + safe(pretty(row.forced_layout || "auto")) + '</span>' +
           '<strong class="number">' + fmt(row.visits) + '</strong>' +
         '</div>';
       }).join("");
@@ -558,11 +581,11 @@
     function renderSourceList(data) {
       var cards = publicMap(data);
       var rows = sortVisits(data.sources || []).slice(0, 14);
-      var html = '<div class="list-row source list-head"><span>Mælaborð</span><span>Uppruni</span><span>UTM source</span><span>Campaign</span><span class="number">Visits</span></div>';
+      var html = '<div class="list-row source list-head"><span>Mælaborð</span><span>Uppruni</span><span>UTM source</span><span>Herferð</span><span class="number">Heimsóknir</span></div>';
       html += rows.map(function (row) {
         return '<div class="list-row source">' +
           '<strong>' + safe(titleFor(row, cards)) + '</strong>' +
-          '<span class="chip">' + safe(row.entry_source_category) + '</span>' +
+          '<span class="chip">' + safe(pretty(row.entry_source_category)) + '</span>' +
           '<span>' + safe(row.utm_source || "-") + '</span>' +
           '<span>' + safe(row.utm_campaign || "-") + '</span>' +
           '<strong class="number">' + fmt(row.visits) + '</strong>' +
@@ -589,7 +612,7 @@
       }
       byId("warning-list").innerHTML = rows.map(function (row) {
         var cls = row.severity === "error" ? "bad" : row.severity === "warning" ? "warn" : "good";
-        return '<div class="list-row source">' +
+        return '<div class="list-row warning">' +
           '<span class="chip ' + cls + '">' + safe(row.severity || "warning") + '</span>' +
           '<strong>' + safe(row.warning_code || "warning") + '</strong>' +
           '<span>' + safe(row.dashboard_key || "-") + '</span>' +
@@ -618,11 +641,11 @@
     }
 
     function loadData() {
-      var callbackName = "__LSP_STATUS_V11_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+      var callbackName = "__LSP_STATUS_V124_" + Date.now() + "_" + Math.random().toString(16).slice(2);
       var script = document.createElement("script");
       var timeout = window.setTimeout(function () {
         cleanup();
-        showError("Náði ekki sambandi við Apps Script endpoint innan tímamarka. Prófaðu endpointið beint með api=health og api=dashboard.");
+        showError("Náði ekki sambandi við Apps Script endpoint innan tímamarka. Prófaðu api=health og api=dashboard beint á endpointinu.");
       }, 10000);
 
       function cleanup() {
