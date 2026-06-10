@@ -177,7 +177,7 @@
     .list { display: grid; gap: 10px; }
     .list-row {
       display: grid;
-      grid-template-columns: minmax(145px, 1.2fr) minmax(70px, .62fr) minmax(86px, .72fr) minmax(112px, .9fr) minmax(80px, .7fr) minmax(65px, .55fr);
+      grid-template-columns: minmax(145px, 1.2fr) minmax(70px, .62fr) minmax(86px, .72fr) minmax(112px, .9fr) minmax(80px, .7fr) minmax(88px, .6fr);
       gap: 10px;
       align-items: center;
       padding: 11px 12px;
@@ -186,8 +186,8 @@
       background: var(--panel-soft);
       font-size: 13px;
     }
-    .list-row.route { grid-template-columns: minmax(140px, 1.1fr) minmax(140px, 1fr) minmax(72px, .55fr) minmax(70px, .55fr) minmax(60px, .45fr); }
-    .list-row.source { grid-template-columns: minmax(140px, 1fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(70px, .45fr); }
+    .list-row.route { grid-template-columns: minmax(140px, 1.1fr) minmax(140px, 1fr) minmax(72px, .55fr) minmax(70px, .55fr) minmax(88px, .6fr); }
+    .list-row.source { grid-template-columns: minmax(140px, 1fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(88px, .6fr); }
     .list-row.warning { grid-template-columns: minmax(92px, .55fr) minmax(140px, 1fr) minmax(110px, .85fr) minmax(180px, 1.35fr) minmax(54px, .35fr); }
     .list-head {
       color: var(--muted);
@@ -200,7 +200,8 @@
       padding-bottom: 0;
     }
     .list-row strong { font-weight: 900; }
-    .number { text-align: right; font-variant-numeric: tabular-nums; }
+    .number { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; overflow-wrap: normal; word-break: keep-all; }
+    .list-head .number { letter-spacing: .025em; }
     .chip { display: inline-flex; width: fit-content; max-width: 100%; padding: 5px 8px; border-radius: 999px; background: #eaf0f6; color: var(--ink); font-size: 12px; font-weight: 800; overflow-wrap: anywhere; }
     .chip.good { background: var(--good-bg); color: var(--good); }
     .chip.warn { background: var(--warn-bg); color: var(--warn); }
