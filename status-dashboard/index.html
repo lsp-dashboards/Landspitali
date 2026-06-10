@@ -170,7 +170,49 @@
     }
     .list-row.route { grid-template-columns: minmax(140px, 1.1fr) minmax(140px, 1fr) minmax(72px, .55fr) minmax(70px, .55fr) minmax(60px, .45fr); }
     .list-row.source { grid-template-columns: minmax(140px, 1fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(120px, .85fr) minmax(70px, .45fr); }
-    .list-row.warning { grid-template-columns: minmax(92px, .55fr) minmax(140px, 1fr) minmax(110px, .85fr) minmax(180px, 1.35fr) minmax(54px, .35fr); }
+    .list-row.warning {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-areas:
+        "severity code count"
+        "severity dashboard count"
+        "severity text count";
+      align-items: start;
+      gap: 6px 12px;
+    }
+    .list-row.warning .warning-severity {
+      grid-area: severity;
+      align-self: start;
+      margin-top: 1px;
+      white-space: nowrap;
+    }
+    .list-row.warning .warning-code {
+      grid-area: code;
+      min-width: 0;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .list-row.warning .warning-dashboard {
+      grid-area: dashboard;
+      min-width: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .list-row.warning .warning-text {
+      grid-area: text;
+      min-width: 0;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .list-row.warning .warning-count {
+      grid-area: count;
+      align-self: center;
+      text-align: right;
+    }
     .list-head {
       color: var(--muted);
       text-transform: uppercase;
@@ -210,10 +252,17 @@
       .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
       .list-row,
       .list-row.route,
-      .list-row.source,
-      .list-row.warning {
+      .list-row.source {
         grid-template-columns: 1fr 1fr;
         gap: 8px 12px;
+      }
+      .list-row.warning {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-areas:
+          "severity code count"
+          "severity dashboard count"
+          "severity text count";
+        gap: 6px 10px;
       }
       .list-head { display: none; }
       .number { text-align: left; }
@@ -626,11 +675,11 @@
       byId("warning-list").innerHTML = rows.map(function (row) {
         var cls = row.severity === "error" ? "bad" : row.severity === "warning" ? "warn" : "good";
         return '<div class="list-row warning">' +
-          '<span class="chip ' + cls + '">' + safe(row.severity || "warning") + '</span>' +
-          '<strong>' + safe(row.warning_code || "warning") + '</strong>' +
-          '<span>' + safe(row.dashboard_key || "-") + '</span>' +
-          '<span>' + safe(row.warning_text || "-") + '</span>' +
-          '<strong class="number">' + fmt(row.count) + '</strong>' +
+          '<span class="chip ' + cls + ' warning-severity">' + safe(row.severity || "warning") + '</span>' +
+          '<strong class="warning-code">' + safe(row.warning_code || "warning") + '</strong>' +
+          '<span class="warning-dashboard">' + safe(row.dashboard_key || "-") + '</span>' +
+          '<span class="warning-text">' + safe(row.warning_text || "-") + '</span>' +
+          '<strong class="number warning-count">' + fmt(row.count) + '</strong>' +
         '</div>';
       }).join("");
     }
