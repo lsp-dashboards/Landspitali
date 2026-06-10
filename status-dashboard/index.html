@@ -226,10 +226,25 @@
     .chip.warn { background: var(--warn-bg); color: var(--warn); }
     .chip.bad { background: var(--bad-bg); color: var(--bad); }
 
-    .insight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
-    .insight { padding: 14px; border: 1px solid var(--line); border-radius: 17px; background: var(--panel-soft); }
-    .insight h3 { margin: 0 0 6px; font-size: 15px; }
+    .insight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(245px, 1fr)); gap: 14px; }
+    .insight { padding: 15px; border: 1px solid var(--line); border-radius: 17px; background: var(--panel-soft); min-height: 166px; }
+    .insight h3 { margin: 0 0 8px; font-size: 15px; }
     .insight p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .insight-value { margin: 3px 0 4px; font-size: 28px; line-height: 1; font-weight: 900; letter-spacing: -.03em; }
+    .insight-sub { color: var(--muted); font-size: 12px; line-height: 1.35; }
+    .mini-viz { display: grid; gap: 8px; margin-top: 12px; }
+    .mini-bar { display: grid; grid-template-columns: minmax(70px, .75fr) minmax(0, 1fr) minmax(42px, auto); gap: 8px; align-items: center; color: var(--muted); font-size: 12px; }
+    .mini-track { height: 10px; border-radius: 999px; background: #e8eef4; overflow: hidden; }
+    .mini-fill { display: block; height: 100%; width: 0%; border-radius: inherit; background: var(--accent); }
+    .mini-fill.good { background: var(--good); }
+    .mini-fill.warn { background: #e0a51c; }
+    .mini-fill.bad { background: var(--bad); }
+    .mini-bar strong { color: var(--ink); font-variant-numeric: tabular-nums; text-align: right; }
+    .signal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+    .signal-cell { padding: 9px 8px; border: 1px solid var(--line); border-radius: 13px; background: #fff; }
+    .signal-cell span { display: block; color: var(--muted); font-size: 10px; font-weight: 800; line-height: 1.2; }
+    .signal-cell strong { display: block; margin-top: 3px; font-size: 18px; line-height: 1; font-variant-numeric: tabular-nums; }
+    .insight-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 
     .footer { color: var(--muted); font-size: 12px; line-height: 1.45; margin-top: 18px; }
 
@@ -583,6 +598,24 @@
       ].join("");
     }
 
+    function miniBar(label, value, total, cssClass, asNumber) {
+      var width = total ? Math.min(100, Math.round(number(value) / total * 100)) : 0;
+      var right = asNumber ? fmt(value) : pct(value, total);
+      return '<div class="mini-bar"><span>' + safe(label) + '</span><div class="mini-track"><span class="mini-fill ' + safe(cssClass || '') + '" style="width:' + width + '%"></span></div><strong>' + safe(right) + '</strong></div>';
+    }
+
+    function signalCell(label, value) {
+      return '<div class="signal-cell"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div>';
+    }
+
+    function insightCard(title, value, subtitle, bodyHtml) {
+      return '<article class="insight"><h3>' + safe(title) + '</h3>' +
+        '<div class="insight-value">' + safe(value) + '</div>' +
+        '<div class="insight-sub">' + safe(subtitle || '') + '</div>' +
+        (bodyHtml || '') +
+      '</article>';
+    }
+
     function renderInsights(data) {
       var k = data.kpis || {};
       var total = number(k.total_visits);
@@ -599,6 +632,11 @@
         var os = row.os_family || "";
         return acc + (/Samsung Internet/i.test(brand) && /Android/i.test(os) && row.color_scheme === "dark" ? number(row.visits) : 0);
       }, 0);
+      var samsungAndroidVisits = devices.reduce(function (acc, row) {
+        var brand = row.browser_brand || row.browser_family || "";
+        var os = row.os_family || "";
+        return acc + (/Samsung Internet/i.test(brand) && /Android/i.test(os) ? number(row.visits) : 0);
+      }, 0);
       var samsungForcedPossibleFromWarnings = warnings.reduce(function (acc, row) {
         return acc + (/^samsung_forced_dark_possible$/i.test(row.warning_code || "") ? number(row.count) : 0);
       }, 0);
@@ -609,27 +647,49 @@
         return acc + (/Samsung Internet/i.test(brand) && /Android/i.test(os) && /possible/i.test(status) ? number(row.visits) : 0);
       }, 0);
       var samsungForcedPossible = samsungForcedPossibleFromWarnings || samsungForcedPossibleFromDevices;
+      var warningTypes = warnings.length;
+      var warningEvents = warnings.reduce(function (acc, row) { return acc + number(row.count); }, 0);
       var fallbackRate = pct(k.fallback_error_count, total);
       var topBrowser = topGroup(devices, function (row) { return row.browser_brand || row.browser_family || "Óþekkt"; });
       var topLanguage = topGroup(devices, function (row) { return row.language || "Óþekkt"; });
       var topTimezone = topGroup(devices, function (row) { return row.timezone || "Óþekkt"; });
-      var browserText = topBrowser ?
-        "Algengasti vafri: " + pretty(topBrowser.key) +
-        ". Staðfest dark mode, allir vafrar: " + fmt(confirmedDarkVisits) +
-        ". Staðfest light mode, allir vafrar: " + fmt(confirmedLightVisits) +
-        ". Samsung Internet á Android með staðfest dark mode: " + fmt(samsungConfirmedDark) +
-        ". Samsung forced dark mögulegt/óvíst: " + fmt(samsungForcedPossible) + "." :
-        "Engin vafragögn enn.";
-      var cards = [
-        ["Notkun", fmt(total) + " taldar heimsóknir. island.is hlutfall er " + pct(k.island_is_visits, total) + "."],
-        ["Leiðing", "Farsími " + pct(k.mobile_visits, total) + ", borðtölva " + pct(k.desktop_visits, total) + "."],
-        ["Gæði", "Fallback/villur eru " + fmt(k.fallback_error_count) + " eða " + fallbackRate + " af talinni notkun."],
-        ["Vafraumhverfi", browserText],
-        ["Tungumál og tímabelti", (topLanguage ? "Algengasta tungumál: " + pretty(topLanguage.key) + ". " : "") + (topTimezone ? "Algengasta tímabelti: " + pretty(topTimezone.key) + "." : "")]
-      ];
-      byId("insight-grid").innerHTML = cards.map(function (c) {
-        return '<article class="insight"><h3>' + safe(c[0]) + '</h3><p>' + safe(c[1]) + '</p></article>';
+      var browserRows = groupRows(devices, function (row) { return row.browser_brand || row.browser_family || "Óþekkt"; }).sort(function (a, b) { return number(b.visits) - number(a.visits); });
+      var browserTotal = Math.max(sum(browserRows, "visits"), 1);
+      var topBrowserBars = browserRows.slice(0, 3).map(function (row) {
+        return miniBar(pretty(row.key), row.visits, browserTotal, "", true);
       }).join("");
+      var layoutViz = '<div class="mini-viz">' +
+        miniBar("Farsími", k.mobile_visits, total, "good") +
+        miniBar("Borðtölva", k.desktop_visits, total, "") +
+      '</div>';
+      var originViz = '<div class="mini-viz">' +
+        miniBar("island.is", k.island_is_visits, total, "good") +
+        miniBar("Annað", total - number(k.island_is_visits), total, "warn") +
+      '</div>';
+      var qualityViz = '<div class="signal-grid">' +
+        signalCell("Fallback", fmt(k.fallback_error_count)) +
+        signalCell("Viðv. teg.", fmt(warningTypes)) +
+        signalCell("Tilvik", fmt(warningEvents)) +
+      '</div>';
+      var browserViz = '<div class="signal-grid">' +
+        signalCell("Dark", fmt(confirmedDarkVisits)) +
+        signalCell("Light", fmt(confirmedLightVisits)) +
+        signalCell("Samsung óvíst", fmt(samsungForcedPossible)) +
+      '</div>' +
+      '<div class="mini-viz">' + topBrowserBars + '</div>' +
+      '<div class="insight-sub" style="margin-top:9px;">Samsung Android: ' + fmt(samsungAndroidVisits) + ', staðfest dark: ' + fmt(samsungConfirmedDark) + '.</div>';
+      var languageViz = '<div class="insight-chips">' +
+        '<span class="chip">' + safe(topLanguage ? pretty(topLanguage.key) : "-") + '</span>' +
+        '<span class="chip">' + safe(topTimezone ? pretty(topTimezone.key) : "-") + '</span>' +
+      '</div>';
+      var cards = [
+        insightCard("Notkun", fmt(total), "Taldar heimsóknir. island.is: " + pct(k.island_is_visits, total) + ".", originViz),
+        insightCard("Leiðing", pct(k.mobile_visits, total), "Hlutfall sem fór í mobile útgáfu.", layoutViz),
+        insightCard("Gæði", fmt(k.fallback_error_count), "Fallback/villur: " + fallbackRate + " af talinni notkun.", qualityViz),
+        insightCard("Vafraumhverfi", topBrowser ? pretty(topBrowser.key) : "-", "Algengasti vafri. Dark/light eru staðfest merki, Samsung óvíst er sérflokkur.", browserViz),
+        insightCard("Tungumál og tímabelti", topLanguage ? pretty(topLanguage.key) : "-", "Algengasta tímabelti: " + (topTimezone ? pretty(topTimezone.key) : "-") + ".", languageViz)
+      ];
+      byId("insight-grid").innerHTML = cards.join("");
     }
 
     function renderBrowserBars(data) {
