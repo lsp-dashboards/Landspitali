@@ -1,7 +1,7 @@
 (function (window, document) {
   "use strict";
 
-  var CORE_VERSION = "2026-06-10-core-1.2.5-hotfix.1";
+  var CORE_VERSION = "2026-06-10-core-1.2.5-hotfix.2";
   var started = false;
   var sequence = 0;
   var requestId = makeRequestId();
@@ -875,14 +875,16 @@
 
   function compactForImage(payload) {
     var keys = [
-      "schema_version", "event_id", "request_id", "event_type", "count_as_visit",
-      "dashboard_key", "dashboard_id", "selected_layout", "auto_selected_layout",
-      "forced_layout", "forced_layout_applied", "route_reason", "device_class",
+      "schema_version", "event_id", "request_id", "event_type", "count_as_visit", "client_time",
+      "dashboard_key", "dashboard_id", "dashboard_name", "public_card_title", "public_entry_page",
+      "selected_layout", "auto_selected_layout", "forced_layout", "forced_layout_applied",
+      "route_reason", "route_reason_detail", "device_class",
       "viewport_width", "viewport_height", "browser_family", "browser_brand", "browser_engine",
       "browser_major_version", "os_family", "language", "languages", "timezone", "color_scheme",
       "forced_colors", "prefers_contrast", "inverted_colors", "connection_type", "page_host",
       "entry_source_category", "referrer_domain", "utm_source", "utm_medium", "utm_campaign", "utm_content",
-      "page_path", "config_version", "router_core_version", "config_source", "safe_fallback_used", "tracking_method"
+      "page_path", "config_version", "router_core_version", "config_source", "safe_fallback_used",
+      "tracking_method", "warning_code", "warning_detail", "error_message", "bot_reason"
     ];
     var result = {};
     var i;
