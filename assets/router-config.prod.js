@@ -1,8 +1,8 @@
 // Generated from config/dashboard-registry.json. Do not hand-edit.
-// Config version: 2026-06-10-prod-v1.2.5
+// Config version: 2026-06-10-prod-v1.2.5-hotfix.5
 window.LSP_ROUTER_CONFIG = {
-  "schemaVersion": "5",
-  "configVersion": "2026-06-10-prod-v1.2.5",
+  "schemaVersion": "7",
+  "configVersion": "2026-06-10-prod-v1.2.5-hotfix.5",
   "routerName": "Landspítali Power BI Router",
   "routerMode": "central-config-static-github-pages",
   "environment": "prod",
@@ -10,10 +10,10 @@ window.LSP_ROUTER_CONFIG = {
   "basePath": "/Landspitali/",
   "supportLabel": "Landspítali",
   "release": {
-    "packageVersion": "1.2.3",
-    "releasedAt": "2026-06-07",
-    "coreVersion": "2026-06-10-core-1.2.5-hotfix.2",
-    "status": "official-first-production-version",
+    "packageVersion": "1.2.5-hotfix.5",
+    "releasedAt": "2026-06-10",
+    "coreVersion": "2026-06-10-core-1.2.5-hotfix.5",
+    "status": "production-hotfix-android-diagnostics-theme-signal",
     "coreAssetFile": "router-core.v20260607-1.js",
     "configAssetFile": "router-config.v20260607-1.js"
   },
@@ -32,7 +32,7 @@ window.LSP_ROUTER_CONFIG = {
   "tracking": {
     "enabled": true,
     "endpoint": "https://script.google.com/macros/s/AKfycbxRoNEQwlxQUpxEMGzYizAB0_lP1MdqksGLu4fD7c94rzqUul3MW2_E9VCqeRzLK3wD/exec",
-    "schemaVersion": "6",
+    "schemaVersion": "7",
     "diagnosticsEnabled": false,
     "trackDebugViews": true,
     "trackFallbackClicks": true,
