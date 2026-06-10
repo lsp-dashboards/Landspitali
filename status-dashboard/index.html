@@ -284,7 +284,7 @@
     <section class="section-grid">
       <article class="panel">
         <div class="panel-head">
-          <h2>Tæki, vafri og stýrikerfi</h2>
+          <h2>Tæki og vafraumhverfi</h2>
         </div>
         <div class="list" id="device-list"></div>
       </article>
@@ -413,6 +413,9 @@
       });
       return Object.keys(map).map(function (key) { return map[key]; });
     }
+    function topGroup(rows, keyFn) {
+      return groupRows(rows || [], keyFn).sort(function (a, b) { return number(b.visits) - number(a.visits); })[0] || null;
+    }
     function imageUrl(url) {
       url = String(url || "");
       return /^https:\/\/images\.ctfassets\.net\//i.test(url) ? url : LOGO_URL;
@@ -515,19 +518,21 @@
       var k = data.kpis || {};
       var total = number(k.total_visits);
       var devices = data.device || [];
-      var hasRenderingFields = devices.some(function (row) { return row.color_scheme || row.browser_brand || row.browser_engine; });
       var darkVisits = devices.reduce(function (acc, row) { return acc + (row.color_scheme === "dark" ? number(row.visits) : 0); }, 0);
       var samsungDark = devices.reduce(function (acc, row) {
         var brand = row.browser_brand || row.browser_family || "";
         return acc + (/Samsung Internet/i.test(brand) && row.color_scheme === "dark" ? number(row.visits) : 0);
       }, 0);
       var fallbackRate = pct(k.fallback_error_count, total);
-      var topBrowser = groupRows(devices, function (row) { return row.browser_brand || row.browser_family || "Óþekkt"; }).sort(function (a, b) { return number(b.visits) - number(a.visits); })[0];
+      var topBrowser = topGroup(devices, function (row) { return row.browser_brand || row.browser_family || "Óþekkt"; });
+      var topLanguage = topGroup(devices, function (row) { return row.language || "Óþekkt"; });
+      var topTimezone = topGroup(devices, function (row) { return row.timezone || "Óþekkt"; });
       var cards = [
         ["Notkun", fmt(total) + " taldar heimsóknir. island.is hlutfall er " + pct(k.island_is_visits, total) + "."],
         ["Leiðing", "Farsími " + pct(k.mobile_visits, total) + ", borðtölva " + pct(k.desktop_visits, total) + "."],
         ["Gæði", "Fallback/villur eru " + fmt(k.fallback_error_count) + " eða " + fallbackRate + " af talinni notkun."],
-        hasRenderingFields ? ["Rendering", "Dark mode: " + fmt(darkVisits) + ". Samsung Internet + dark mode: " + fmt(samsungDark) + "."] : ["Vafrar", topBrowser ? "Algengasti vafri er " + topBrowser.key + " með " + fmt(topBrowser.visits) + " heimsóknir." : "Engin vafragögn enn."]
+        ["Vafraumhverfi", topBrowser ? "Algengasti vafri er " + pretty(topBrowser.key) + ". Dark mode: " + fmt(darkVisits) + ". Samsung Internet + dark mode: " + fmt(samsungDark) + "." : "Engin vafragögn enn."],
+        ["Tungumál og tímabelti", (topLanguage ? "Algengasta tungumál: " + pretty(topLanguage.key) + ". " : "") + (topTimezone ? "Algengasta tímabelti: " + pretty(topTimezone.key) + "." : "")]
       ];
       byId("insight-grid").innerHTML = cards.map(function (c) {
         return '<article class="insight"><h3>' + safe(c[0]) + '</h3><p>' + safe(c[1]) + '</p></article>';
@@ -545,17 +550,25 @@
     function renderDeviceList(data) {
       var cards = publicMap(data);
       var rows = sortVisits(data.device || []).slice(0, 14);
-      var html = '<div class="list-row list-head"><span>Mælaborð</span><span>Tæki</span><span>Útgáfa</span><span>Vafri</span><span>Kerfi</span><span class="number">Heimsóknir</span></div>';
+      var html = '<div class="list-row list-head"><span>Mælaborð</span><span>Tæki</span><span>Útgáfa</span><span>Vafri</span><span>Umhverfi</span><span class="number">Heimsóknir</span></div>';
       html += rows.map(function (row) {
         var brand = row.browser_brand || row.browser_family || "Óþekkt";
+        var engine = row.browser_engine || "";
+        var scheme = row.color_scheme || "";
+        var language = row.language || "";
+        var timezone = row.timezone || "";
+        var contrast = row.prefers_contrast || "";
+        var forced = row.forced_colors || "";
         var chipClass = (/Samsung Internet/i.test(brand) && row.color_scheme === "dark") ? " warn" : "";
-        var sub = row.browser_engine || row.color_scheme || "";
+        var environment = safe(pretty(row.os_family)) +
+          ((language || timezone) ? '<br><small>' + safe([language, timezone].filter(Boolean).map(pretty).join(' · ')) + '</small>' : '') +
+          ((scheme || forced || contrast) ? '<br><small>Birting: ' + safe([scheme, forced, contrast].filter(Boolean).map(pretty).join(' · ')) + '</small>' : '');
         return '<div class="list-row">' +
           '<strong>' + safe(titleFor(row, cards)) + '</strong>' +
           '<span class="chip">' + safe(pretty(row.device_class)) + '</span>' +
           '<span>' + safe(pretty(row.selected_layout)) + '</span>' +
-          '<span><span class="chip' + chipClass + '">' + safe(pretty(brand)) + '</span>' + (sub ? '<br><small>' + safe(pretty(sub)) + '</small>' : '') + '</span>' +
-          '<span>' + safe(pretty(row.os_family)) + '</span>' +
+          '<span><span class="chip' + chipClass + '">' + safe(pretty(brand)) + '</span>' + (engine ? '<br><small>' + safe(pretty(engine)) + '</small>' : '') + '</span>' +
+          '<span>' + environment + '</span>' +
           '<strong class="number">' + fmt(row.visits) + '</strong>' +
         '</div>';
       }).join("");
@@ -641,7 +654,7 @@
     }
 
     function loadData() {
-      var callbackName = "__LSP_STATUS_V124_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+      var callbackName = "__LSP_STATUS_V125_" + Date.now() + "_" + Math.random().toString(16).slice(2);
       var script = document.createElement("script");
       var timeout = window.setTimeout(function () {
         cleanup();
