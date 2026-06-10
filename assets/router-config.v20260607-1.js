@@ -1,8 +1,8 @@
 // Generated from config/dashboard-registry.json. Do not hand-edit.
-// Config version: 2026-06-07-prod-1
+// Config version: 2026-06-10-prod-1.2.3
 window.LSP_ROUTER_CONFIG = {
   "schemaVersion": "5",
-  "configVersion": "2026-06-07-prod-1",
+  "configVersion": "2026-06-10-prod-1.2.3",
   "routerName": "Landspítali Power BI Router",
   "routerMode": "central-config-static-github-pages",
   "environment": "prod",
@@ -10,7 +10,7 @@ window.LSP_ROUTER_CONFIG = {
   "basePath": "/Landspitali/",
   "supportLabel": "Landspítali",
   "release": {
-    "packageVersion": "1.0.0",
+    "packageVersion": "1.2.3",
     "releasedAt": "2026-06-07",
     "coreVersion": "2026-06-07-core-1",
     "status": "official-first-production-version",
@@ -44,9 +44,9 @@ window.LSP_ROUTER_CONFIG = {
     "sampleRate": 1,
     "redirectTimeoutMs": 150,
     "transportOrder": [
+      "imageGet",
       "sendBeacon",
-      "fetchKeepalive",
-      "imageGet"
+      "fetchKeepalive"
     ],
     "allowedQueryParams": [
       "dashboard",
@@ -106,7 +106,7 @@ window.LSP_ROUTER_CONFIG = {
     "tabletLandscapeLayout": "desktop",
     "narrowDesktopStrategy": "mobile",
     "fallbackLayout": "mobile",
-    "redirectDelayMs": 0,
+    "redirectDelayMs": 150,
     "manualLinksInDebug": true,
     "maintenanceMode": false,
     "maintenanceMessage": "Mælaborðið er tímabundið óaðgengilegt.",
@@ -169,18 +169,17 @@ window.LSP_ROUTER_CONFIG = {
     "bradamottaka": {
       "enabled": true,
       "status": "active",
-      "dashboardId": "bradamottakan-fossvogi",
+      "dashboardId": "bradamottaka-fossvogi",
       "dashboardKey": "bradamottaka",
-      "displayName": "Bráðamóttakan í Fossvogi",
-      "routerDisplayTitle": "Bráðamóttakan í Fossvogi",
-      "powerBiReportTitle": "Bráðamóttakan í Fossvogi",
+      "displayName": "Bráðamóttaka í Fossvogi",
+      "routerDisplayTitle": "Bráðamóttaka í Fossvogi",
+      "powerBiReportTitle": "Bráðamóttaka í Fossvogi",
       "pageTitle": "Opna Bráðamóttöku í Fossvogi",
-      "commentName": "Bráðamóttakan í Fossvogi",
+      "commentName": "Bráðamóttaka í Fossvogi",
       "path": "bradamottaka",
       "aliases": [
         "bradamottaka",
-        "bradamottakan",
-        "bradamottakan-fossvogi",
+        "bradamottaka-fossvogi",
         "brada",
         "bráða"
       ],
@@ -191,7 +190,7 @@ window.LSP_ROUTER_CONFIG = {
         "iconUrl": "https://images.ctfassets.net/8k0h54kbe6bj/68Ef7p57VqG1aYv99GbzB0/3b98fe5c7b3b11c7d01194a7e9caccd6/bradamottaka-linkimage.png?w=774&fm=webp&q=80",
         "pageUrl": "https://island.is/s/landspitali/maelabord",
         "published": true,
-        "stableUtmContent": "bradamottakan_fossvogi",
+        "stableUtmContent": "bradamottaka_fossvogi",
         "lastVerifiedDate": "2026-06-07"
       },
       "desktopUrl": "https://app.powerbi.com/view?r=eyJrIjoiNDU4MjNhOGYtMGM0NS00NDBkLThiM2MtNTA2MDFjNjNkNTliIiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9",
@@ -206,7 +205,7 @@ window.LSP_ROUTER_CONFIG = {
         "desktop": "desktop",
         "bot": "desktop"
       },
-      "utmContent": "bradamottakan_fossvogi",
+      "utmContent": "bradamottaka_fossvogi",
       "governance": {
         "ownerTeam": "Landspítali",
         "technicalOwner": "Landspítali mælaborð / vefumsjón",
