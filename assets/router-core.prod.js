@@ -1,9 +1,7 @@
-// Stable alias for the pinned production router core.
-// Prefer versioned filenames in dashboard wrappers.
 (function (window, document) {
   "use strict";
 
-  var CORE_VERSION = "2026-06-07-core-1-hotfix-1.2.2";
+  var CORE_VERSION = "2026-06-10-core-1.2.5";
   var started = false;
   var sequence = 0;
   var requestId = makeRequestId();
@@ -242,6 +240,71 @@
     var ua = getUserAgent();
     var match = /(Edg|Chrome|CriOS|Firefox|FxiOS|Version|SamsungBrowser)\/(\d+)/i.exec(ua);
     return match ? match[2] : "";
+  }
+
+  function getBrowserBrand() {
+    return getBrowserFamily();
+  }
+
+  function getBrowserEngine() {
+    var ua = getUserAgent();
+    if (/MSIE|Trident/i.test(ua)) return "Trident";
+    if (/Firefox\/|FxiOS/i.test(ua)) return "Gecko";
+    if (/Edg\/|OPR\/|Opera|SamsungBrowser|Chrome\/|CriOS|Chromium/i.test(ua)) return "Blink";
+    if (/Safari\/i.test(ua)) return "WebKit";
+    return "unknown";
+  }
+
+  function mediaValue(query, yesValue, noValue) {
+    try {
+      if (window.matchMedia && window.matchMedia(query).matches) return yesValue;
+      if (window.matchMedia) return noValue;
+    } catch (error) {}
+    return "unknown";
+  }
+
+  function getColorScheme() {
+    try {
+      if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
+      if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
+    } catch (error) {}
+    return "unknown";
+  }
+
+  function getForcedColors() {
+    return mediaValue("(forced-colors: active)", "active", "none");
+  }
+
+  function getPrefersContrast() {
+    try {
+      if (window.matchMedia && window.matchMedia("(prefers-contrast: more)").matches) return "more";
+      if (window.matchMedia && window.matchMedia("(prefers-contrast: less)").matches) return "less";
+      if (window.matchMedia && window.matchMedia("(prefers-contrast: custom)").matches) return "custom";
+      if (window.matchMedia && window.matchMedia("(prefers-contrast: no-preference)").matches) return "no-preference";
+    } catch (error) {}
+    return "unknown";
+  }
+
+  function getInvertedColors() {
+    return mediaValue("(inverted-colors: inverted)", "inverted", "none");
+  }
+
+  function getLanguages() {
+    try {
+      if (navigator.languages && navigator.languages.length) {
+        return navigator.languages.slice(0, 5).join(",");
+      }
+    } catch (error) {}
+    return navigator.language || "";
+  }
+
+  function getConnectionType() {
+    try {
+      var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return "unknown";
+      return connection.effectiveType || connection.type || "unknown";
+    } catch (error) {}
+    return "unknown";
   }
 
   function getOsFamily() {
@@ -706,7 +769,19 @@
       viewport_width: getViewportWidth(),
       viewport_height: getViewportHeight(),
       browser_family: getBrowserFamily(),
+      browser_brand: getBrowserBrand(),
+      browser_engine: getBrowserEngine(),
+      browser_major_version: getBrowserMajorVersion(),
       os_family: getOsFamily(),
+      language: limit(navigator.language || "", 40),
+      languages: limit(getLanguages(), 160),
+      timezone: limit(getTimezone(), 80),
+      color_scheme: getColorScheme(),
+      forced_colors: getForcedColors(),
+      prefers_contrast: getPrefersContrast(),
+      inverted_colors: getInvertedColors(),
+      connection_type: limit(getConnectionType(), 80),
+      page_host: window.location.host || "",
       referrer_domain: source.referrerDomain,
       entry_source_category: routeDecision && routeDecision.bot && routeDecision.bot.isBot ? (routeDecision.bot.isPreview ? "link_preview_bot" : "known_bot") : source.entrySourceCategory,
       utm_source: source.utmSource,
@@ -757,9 +832,11 @@
   function compactForImage(payload) {
     var keys = [
       "schema_version", "event_id", "request_id", "event_type", "count_as_visit",
-      "dashboard_key", "dashboard_id", "dashboard_name", "public_card_title", "public_entry_page", "selected_layout", "auto_selected_layout",
+      "dashboard_key", "dashboard_id", "selected_layout", "auto_selected_layout",
       "forced_layout", "forced_layout_applied", "route_reason", "device_class",
-      "viewport_width", "viewport_height", "browser_family", "os_family",
+      "viewport_width", "viewport_height", "browser_family", "browser_brand", "browser_engine",
+      "browser_major_version", "os_family", "language", "languages", "timezone", "color_scheme",
+      "forced_colors", "prefers_contrast", "inverted_colors", "connection_type", "page_host",
       "entry_source_category", "referrer_domain", "utm_source", "utm_medium", "utm_campaign", "utm_content",
       "page_path", "config_version", "router_core_version", "config_source", "safe_fallback_used", "tracking_method"
     ];
@@ -892,8 +969,11 @@
     html += "<dt>Ástæða</dt><dd>" + escapeHtml(routeDecision ? routeDecision.routeReasonDetail : "") + "</dd>";
     html += "<dt>Tæki</dt><dd>" + escapeHtml(routeDecision ? routeDecision.deviceClass : getDeviceClass(config)) + "</dd>";
     html += "<dt>Skjábreidd</dt><dd>" + escapeHtml(getViewportWidth()) + " px</dd>";
-    html += "<dt>Vafri</dt><dd>" + escapeHtml(getBrowserFamily()) + "</dd>";
+    html += "<dt>Vafri</dt><dd>" + escapeHtml(getBrowserBrand()) + " / " + escapeHtml(getBrowserEngine()) + "</dd>";
     html += "<dt>Stýrikerfi</dt><dd>" + escapeHtml(getOsFamily()) + "</dd>";
+    html += "<dt>Tungumál</dt><dd>" + escapeHtml(navigator.language || "") + "</dd>";
+    html += "<dt>Tímabelti</dt><dd>" + escapeHtml(getTimezone()) + "</dd>";
+    html += "<dt>Birting</dt><dd>" + escapeHtml(getColorScheme()) + " / forced-colors: " + escapeHtml(getForcedColors()) + "</dd>";
     html += "<dt>Uppruni</dt><dd>" + escapeHtml(source.entrySourceCategory) + "</dd>";
     html += "<dt>Config</dt><dd>" + escapeHtml(config.configVersion || "") + " / " + escapeHtml(config.__source || "") + "</dd>";
     html += "<dt>Router core</dt><dd>" + escapeHtml(CORE_VERSION) + "</dd>";
