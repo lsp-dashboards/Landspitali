@@ -120,6 +120,24 @@
     .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
     h2 { margin: 0; font-size: 20px; letter-spacing: -.02em; }
     .panel-note { color: var(--muted); font-size: 12px; text-align: right; }
+    .panel-head.compact { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+    .soft-separator { border: 0; border-top: 1px solid var(--line); margin: 18px 0 0; }
+    h1,
+    h2,
+    .lead,
+    .dashboard-title,
+    .dashboard-sub,
+    .mini-value,
+    .mini-detail,
+    .metric strong,
+    .stat strong,
+    .pill,
+    .chip,
+    .bar-row span,
+    .list-row > * {
+      overflow-wrap: anywhere;
+      word-break: normal;
+    }
     .button {
       border: 0;
       border-radius: 13px;
@@ -187,6 +205,9 @@
     .chip.good { background: var(--good-bg); color: var(--good); }
     .chip.warn { background: var(--warn-bg); color: var(--warn); }
     .chip.bad { background: var(--bad-bg); color: var(--bad); }
+    .icon-text { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+    .icon-symbol { flex: 0 0 auto; width: 1.25em; text-align: center; font-size: 14px; line-height: 1; }
+    .icon-text-label { min-width: 0; overflow-wrap: anywhere; }
 
     .insight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
     .insight { padding: 14px; border: 1px solid var(--line); border-radius: 17px; background: var(--panel-soft); }
@@ -218,6 +239,33 @@
       .list-head { display: none; }
       .number { text-align: left; }
       .bar-row { grid-template-columns: minmax(82px, 110px) minmax(0, 1fr) minmax(48px, 64px); }
+      h1 { font-size: clamp(27px, 10.5vw, 42px); line-height: 1.02; }
+      .lead { font-size: 15px; }
+      .dashboard-top { align-items: flex-start; }
+      .dashboard-title { font-size: 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .shell { width: min(100% - 16px, 1420px); }
+      .hero-main { padding: 18px; }
+      .brand-row { gap: 10px; }
+      .brand-row img { width: 48px; }
+      h1 { font-size: clamp(25px, 11vw, 36px); letter-spacing: -.03em; }
+      .metric-grid,
+      .dashboard-grid,
+      .insight-grid {
+        grid-template-columns: 1fr;
+      }
+      .dashboard-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .list-row,
+      .list-row.route,
+      .list-row.source,
+      .list-row.warning {
+        grid-template-columns: 1fr;
+      }
+      .bar-row {
+        grid-template-columns: 1fr minmax(0, 1fr) auto;
+      }
     }
   </style>
 </head>
@@ -268,9 +316,15 @@
       </article>
       <article class="panel">
         <div class="panel-head">
-          <h2>Útgáfur og uppruni</h2>
+          <h2>Útgáfur</h2>
+          <div class="panel-note">Valin Power BI útgáfa</div>
         </div>
         <div class="bar-list" id="layout-bars"></div>
+        <div class="panel-head compact">
+          <h2>Uppruni</h2>
+          <div class="panel-note">Hvaðan heimsóknin kom</div>
+        </div>
+        <div class="bar-list" id="source-bars"></div>
       </article>
     </section>
 
@@ -305,7 +359,7 @@
       </article>
       <article class="panel">
         <div class="panel-head">
-          <h2>Uppruni</h2>
+          <h2>Uppruni, sundurliðun</h2>
         </div>
         <div class="list" id="source-list"></div>
       </article>
@@ -363,6 +417,11 @@
       if (/^unknown$/i.test(value)) return "Óþekkt";
       if (/^desktop$/i.test(value)) return "desktop";
       if (/^mobile$/i.test(value)) return "mobile";
+      if (/^phone$/i.test(value)) return "Sími";
+      if (/^tablet$/i.test(value)) return "Spjaldtölva";
+      if (/^narrow-screen$/i.test(value)) return "Þröngur skjár";
+      if (/^small-touch-screen$/i.test(value)) return "Lítill snertiskjár";
+      if (/^other$/i.test(value)) return "Annað";
       if (/^auto$/i.test(value)) return "auto";
       if (/^island_is_public$/i.test(value)) return "island.is";
       if (/^qr_code$/i.test(value)) return "QR";
@@ -372,7 +431,60 @@
       if (/^desktop_viewport$/i.test(value)) return "Desktop viewport";
       if (/^phone_user_agent$/i.test(value)) return "Phone user agent";
       if (/^narrow_viewport$/i.test(value)) return "Narrow viewport";
+      if (/^desktop-view$/i.test(value)) return "Desktop view";
+      if (/^mobile-view$/i.test(value)) return "Mobile view";
       return value;
+    }
+    function tinyIcon(type, value) {
+      value = String(value || "").toLowerCase();
+
+      if (type === "device" || type === "layout") {
+        if (/phone|mobile|farsími|farsimi/.test(value)) return "📱";
+        if (/tablet|ipad/.test(value)) return "▭";
+        if (/narrow|small|touch/.test(value)) return "↔";
+        if (/desktop|borð|bord/.test(value)) return "🖥";
+        return "◌";
+      }
+
+      if (type === "browser") {
+        if (/samsung/.test(value)) return "🌐";
+        if (/edge/.test(value)) return "🌀";
+        if (/chrome|crios/.test(value)) return "🟢";
+        if (/firefox|fxios/.test(value)) return "🦊";
+        if (/safari/.test(value)) return "🧭";
+        if (/opera|opr/.test(value)) return "🔴";
+        if (/internet explorer|msie|trident/.test(value)) return "◫";
+        return "🌐";
+      }
+
+      if (type === "os") {
+        if (/windows/.test(value)) return "🪟";
+        if (/android/.test(value)) return "🤖";
+        if (/ios|macos|mac os|macintosh/.test(value)) return "🍎";
+        if (/linux/.test(value)) return "🐧";
+        return "⚙";
+      }
+
+      if (type === "source") {
+        if (/island|ísland/.test(value)) return "🇮🇸";
+        if (/qr/.test(value)) return "▦";
+        if (/teams/.test(value)) return "💬";
+        if (/email|mail/.test(value)) return "✉";
+        if (/direct/.test(value)) return "↗";
+        return "⎋";
+      }
+
+      if (type === "route") {
+        if (/phone/.test(value)) return "📱";
+        if (/narrow/.test(value)) return "↔";
+        if (/desktop/.test(value)) return "🖥";
+        return "⤴";
+      }
+
+      return "•";
+    }
+    function withIcon(type, value) {
+      return tinyIcon(type, value) + " " + pretty(value);
     }
     function ageText(iso) {
       if (!iso) return "ekkert";
@@ -505,13 +617,42 @@
     }
     function renderLayoutBars(data) {
       var k = data.kpis || {};
-      var total = Math.max(number(k.total_visits), 0);
-      byId("layout-bars").innerHTML = [
-        bar("Farsími", k.mobile_visits, total),
-        bar("Borðtölva", k.desktop_visits, total),
-        bar("island.is", k.island_is_visits, total),
-        bar("Annað", total - number(k.island_is_visits), total)
-      ].join("");
+      var rows = groupRows(data.routes || [], function (row) { return row.selected_layout || "unknown"; });
+
+      if (!rows.length) {
+        rows = groupRows(data.device || [], function (row) { return row.selected_layout || "unknown"; });
+      }
+
+      if (!rows.length) {
+        rows = [
+          { key: "mobile", visits: number(k.mobile_visits) },
+          { key: "desktop", visits: number(k.desktop_visits) }
+        ].filter(function (row) { return number(row.visits) > 0; });
+      }
+
+      rows = rows.sort(function (a, b) { return number(b.visits) - number(a.visits); });
+      var total = Math.max(sum(rows, "visits"), 1);
+      byId("layout-bars").innerHTML = rows.map(function (row) {
+        return bar(withIcon("layout", row.key), row.visits, total, true);
+      }).join("") || '<p class="mini-detail">Engin útgáfugögn enn.</p>';
+    }
+
+    function renderSourceBars(data) {
+      var k = data.kpis || {};
+      var rows = groupRows(data.sources || [], function (row) { return row.entry_source_category || row.utm_source || "unknown"; });
+
+      if (!rows.length && number(k.total_visits) > 0) {
+        rows = [
+          { key: "island_is_public", visits: number(k.island_is_visits) },
+          { key: "other", visits: Math.max(0, number(k.total_visits) - number(k.island_is_visits)) }
+        ].filter(function (row) { return number(row.visits) > 0; });
+      }
+
+      rows = rows.sort(function (a, b) { return number(b.visits) - number(a.visits); }).slice(0, 8);
+      var total = Math.max(sum(rows, "visits"), 1);
+      byId("source-bars").innerHTML = rows.map(function (row) {
+        return bar(withIcon("source", row.key), row.visits, total, true);
+      }).join("") || '<p class="mini-detail">Engin upprunagögn enn.</p>';
     }
 
     function renderInsights(data) {
@@ -531,8 +672,8 @@
         ["Notkun", fmt(total) + " taldar heimsóknir. island.is hlutfall er " + pct(k.island_is_visits, total) + "."],
         ["Leiðing", "Farsími " + pct(k.mobile_visits, total) + ", borðtölva " + pct(k.desktop_visits, total) + "."],
         ["Gæði", "Fallback/villur eru " + fmt(k.fallback_error_count) + " eða " + fallbackRate + " af talinni notkun."],
-        ["Vafraumhverfi", topBrowser ? "Algengasti vafri er " + pretty(topBrowser.key) + ". Dark mode: " + fmt(darkVisits) + ". Samsung Internet + dark mode: " + fmt(samsungDark) + "." : "Engin vafragögn enn."],
-        ["Tungumál og tímabelti", (topLanguage ? "Algengasta tungumál: " + pretty(topLanguage.key) + ". " : "") + (topTimezone ? "Algengasta tímabelti: " + pretty(topTimezone.key) + "." : "")]
+        ["Vafraumhverfi", topBrowser ? "Algengasti vafri er " + withIcon("browser", topBrowser.key) + ". Dark mode: " + fmt(darkVisits) + ". Samsung Internet + dark mode: " + fmt(samsungDark) + "." : "Engin vafragögn enn."],
+        ["Tæknimerki", (topLanguage ? "Tungumál: " + pretty(topLanguage.key) + ". " : "") + (topTimezone ? "Tímabelti: " + pretty(topTimezone.key) + ". Þetta er ekki staðsetningargreining." : "")]
       ];
       byId("insight-grid").innerHTML = cards.map(function (c) {
         return '<article class="insight"><h3>' + safe(c[0]) + '</h3><p>' + safe(c[1]) + '</p></article>';
@@ -543,31 +684,30 @@
       var rows = groupRows(data.device || [], function (row) { return row.browser_brand || row.browser_family || "Óþekkt"; }).sort(function (a, b) { return number(b.visits) - number(a.visits); }).slice(0, 8);
       var total = Math.max(sum(rows, "visits"), 1);
       byId("browser-bars").innerHTML = rows.map(function (row) {
-        return bar(pretty(row.key), row.visits, total, true);
+        return bar(withIcon("browser", row.key), row.visits, total, true);
       }).join("") || '<p class="mini-detail">Engin vafragögn enn.</p>';
     }
 
     function renderDeviceList(data) {
       var cards = publicMap(data);
       var rows = sortVisits(data.device || []).slice(0, 14);
-      var html = '<div class="list-row list-head"><span>Mælaborð</span><span>Tæki</span><span>Útgáfa</span><span>Vafri</span><span>Umhverfi</span><span class="number">Heimsóknir</span></div>';
+      var html = '<div class="list-row list-head"><span>Mælaborð</span><span>Tæki</span><span>Útgáfa</span><span>Vafri</span><span>Stýrikerfi</span><span class="number">Heimsóknir</span></div>';
       html += rows.map(function (row) {
         var brand = row.browser_brand || row.browser_family || "Óþekkt";
         var engine = row.browser_engine || "";
         var scheme = row.color_scheme || "";
         var language = row.language || "";
-        var timezone = row.timezone || "";
         var contrast = row.prefers_contrast || "";
         var forced = row.forced_colors || "";
         var chipClass = (/Samsung Internet/i.test(brand) && row.color_scheme === "dark") ? " warn" : "";
-        var environment = safe(pretty(row.os_family)) +
-          ((language || timezone) ? '<br><small>' + safe([language, timezone].filter(Boolean).map(pretty).join(' · ')) + '</small>' : '') +
+        var environment = safe(withIcon("os", row.os_family)) +
+          (language ? '<br><small>Tungumál: ' + safe(pretty(language)) + '</small>' : '') +
           ((scheme || forced || contrast) ? '<br><small>Birting: ' + safe([scheme, forced, contrast].filter(Boolean).map(pretty).join(' · ')) + '</small>' : '');
         return '<div class="list-row">' +
           '<strong>' + safe(titleFor(row, cards)) + '</strong>' +
-          '<span class="chip">' + safe(pretty(row.device_class)) + '</span>' +
-          '<span>' + safe(pretty(row.selected_layout)) + '</span>' +
-          '<span><span class="chip' + chipClass + '">' + safe(pretty(brand)) + '</span>' + (engine ? '<br><small>' + safe(pretty(engine)) + '</small>' : '') + '</span>' +
+          '<span class="chip">' + safe(withIcon("device", row.device_class)) + '</span>' +
+          '<span class="chip">' + safe(withIcon("layout", row.selected_layout)) + '</span>' +
+          '<span><span class="chip' + chipClass + '">' + safe(withIcon("browser", brand)) + '</span>' + (engine ? '<br><small>' + safe(pretty(engine)) + '</small>' : '') + '</span>' +
           '<span>' + environment + '</span>' +
           '<strong class="number">' + fmt(row.visits) + '</strong>' +
         '</div>';
@@ -582,8 +722,8 @@
       html += rows.map(function (row) {
         return '<div class="list-row route">' +
           '<strong>' + safe(titleFor(row, cards)) + '</strong>' +
-          '<span>' + safe(pretty(row.route_reason)) + '</span>' +
-          '<span class="chip">' + safe(pretty(row.selected_layout)) + '</span>' +
+          '<span>' + safe(withIcon("route", row.route_reason)) + '</span>' +
+          '<span class="chip">' + safe(withIcon("layout", row.selected_layout)) + '</span>' +
           '<span>' + safe(pretty(row.forced_layout || "auto")) + '</span>' +
           '<strong class="number">' + fmt(row.visits) + '</strong>' +
         '</div>';
@@ -598,7 +738,7 @@
       html += rows.map(function (row) {
         return '<div class="list-row source">' +
           '<strong>' + safe(titleFor(row, cards)) + '</strong>' +
-          '<span class="chip">' + safe(pretty(row.entry_source_category)) + '</span>' +
+          '<span class="chip">' + safe(withIcon("source", row.entry_source_category)) + '</span>' +
           '<span>' + safe(row.utm_source || "-") + '</span>' +
           '<span>' + safe(row.utm_campaign || "-") + '</span>' +
           '<strong class="number">' + fmt(row.visits) + '</strong>' +
@@ -640,6 +780,7 @@
       renderMetrics(data);
       renderDashboards(data);
       renderLayoutBars(data);
+      renderSourceBars(data);
       renderInsights(data);
       renderDeviceList(data);
       renderBrowserBars(data);
