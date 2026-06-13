@@ -346,8 +346,12 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
+      align-items: stretch;
     }
     .nested-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
       padding: 15px;
       border-radius: 18px;
       box-shadow: none;
@@ -360,12 +364,61 @@
       align-items: flex-start;
       margin-bottom: 12px;
     }
+    .nested-card .nested-head {
+      margin-bottom: 0;
+    }
     .nested-kpi {
       font-size: 24px;
       font-weight: 900;
       letter-spacing: -.035em;
       line-height: 1;
       white-space: nowrap;
+    }
+    .split-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .summary-stat {
+      min-height: 66px;
+      display: grid;
+      align-content: center;
+      gap: 5px;
+      padding: 10px 9px;
+      border: 1px solid var(--line-soft);
+      border-radius: 14px;
+      background: #fff;
+    }
+    .summary-stat span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.18;
+      letter-spacing: .045em;
+      text-transform: uppercase;
+    }
+    .summary-stat strong {
+      color: var(--ink);
+      font-size: 22px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.035em;
+      font-variant-numeric: tabular-nums;
+    }
+    .summary-stat.good { background: var(--good-bg); border-color: rgba(31, 122, 83, .2); }
+    .summary-stat.neutral { background: #fff; }
+    .summary-stat.warn { background: var(--warn-bg); border-color: rgba(147, 100, 0, .22); }
+    .split-subsection {
+      display: grid;
+      gap: 8px;
+    }
+    .subsection-label {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .055em;
+      text-transform: uppercase;
     }
 
     .bar-list { display: grid; gap: 10px; }
@@ -425,16 +478,29 @@
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 14px;
+      align-items: stretch;
     }
     .insight {
-      min-height: 174px;
+      min-height: 194px;
       padding: 15px;
       border-radius: 18px;
       box-shadow: none;
       background:
         linear-gradient(180deg, var(--panel-soft), #ffffff);
+      display: flex;
+      flex-direction: column;
+    }
+    .insight-header {
+      display: grid;
+      gap: 0;
+    }
+    .insight h3 {
+      min-height: 18px;
     }
     .insight-value {
+      height: 33px;
+      display: flex;
+      align-items: flex-end;
       margin: 8px 0 5px;
       font-size: 27px;
       line-height: 1;
@@ -442,8 +508,17 @@
       letter-spacing: -.035em;
       font-variant-numeric: tabular-nums;
     }
-    .insight-sub { color: var(--muted); font-size: 12px; line-height: 1.35; }
-    .mini-viz { display: grid; gap: 8px; margin-top: 12px; }
+    .insight-sub {
+      min-height: 38px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .insight-body {
+      margin-top: auto;
+      padding-top: 12px;
+    }
+    .mini-viz { display: grid; gap: 8px; }
     .mini-bar {
       display: grid;
       grid-template-columns: minmax(68px, .82fr) minmax(0, 1fr) minmax(42px, auto);
@@ -457,16 +532,19 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 8px;
-      margin-top: 10px;
     }
     .signal-cell {
+      min-height: 64px;
+      display: grid;
+      align-content: center;
+      gap: 5px;
       padding: 9px 8px;
       border: 1px solid var(--line-soft);
       border-radius: 13px;
       background: #fff;
     }
-    .signal-cell span { display: block; color: var(--muted); font-size: 10px; font-weight: 900; line-height: 1.2; text-transform: uppercase; letter-spacing: .035em; }
-    .signal-cell strong { display: block; margin-top: 4px; font-size: 18px; line-height: 1; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .signal-cell span { display: block; color: var(--muted); font-size: 9px; font-weight: 900; line-height: 1.15; text-transform: uppercase; letter-spacing: .035em; overflow-wrap: anywhere; }
+    .signal-cell strong { display: block; font-size: 19px; line-height: 1; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
     .spark {
       display: grid;
       grid-auto-flow: column;
@@ -558,6 +636,37 @@
       font-variant-numeric: tabular-nums;
       white-space: nowrap;
     }
+    .combo-number {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .combo-number strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1;
+      font-weight: 900;
+    }
+    .combo-number small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+    .publication-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 10px;
+    }
+    .publication-date {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
     .warning-main { min-width: 0; display: grid; gap: 4px; }
     .warning-code { font-weight: 900; overflow-wrap: anywhere; }
     .warning-dashboard { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
@@ -615,6 +724,8 @@
       .button { width: 100%; }
       .insight-grid { grid-template-columns: 1fr; }
       .tech-grid { grid-template-columns: 1fr; }
+      .split-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .summary-stat { min-height: 60px; }
       .combo-row,
       .list-row.route,
       .list-row.source {
@@ -641,6 +752,7 @@
       .bar-row strong,
       .mini-bar strong { text-align: left; }
       .signal-grid { grid-template-columns: 1fr 1fr; }
+      .split-summary { grid-template-columns: 1fr; }
       .combo-row,
       .list-row.route,
       .list-row.source { grid-template-columns: 1fr; }
@@ -786,6 +898,7 @@
       bradamottaka: "https://images.ctfassets.net/8k0h54kbe6bj/68Ef7p57VqG1aYv99GbzB0/3b98fe5c7b3b11c7d01194a7e9caccd6/bradamottaka-linkimage.png?w=774&fm=webp&q=80",
       thjonustukannanir: "https://images.ctfassets.net/8k0h54kbe6bj/5eK6Vivq6aUDWj2mnOEsvS/7e5d5e7c03b92370ccee175ad01f8330/survey-linkimage.png?w=774&fm=webp&q=80"
     };
+    var PUBLIC_DASHBOARD_PUBLISHED_AT = "2026-06-10T08:04:09.567Z";
 
     function byId(id) { return document.getElementById(id); }
     function number(value) { var n = Number(value); return isFinite(n) ? n : 0; }
@@ -844,7 +957,7 @@
       value = String(value || "").toLowerCase();
       if (value === "phone") return "Sími";
       if (value === "tablet") return "Spjaldtölva";
-      if (value === "desktop") return "Borðtölva";
+      if (value === "desktop") return "Tölva";
       if (value === "small-touch-screen") return "Lítill snertiskjár";
       if (value === "narrow-screen") return "Þröngur skjár";
       if (value === "unknown") return "Óþekkt";
@@ -865,7 +978,7 @@
     function labelRoute(value) {
       value = String(value || "");
       if (!value) return "Óþekkt";
-      if (/^desktop_viewport$/i.test(value)) return "Desktop skjábreidd";
+      if (/^desktop_viewport$/i.test(value)) return "Tölvuskjábreidd";
       if (/^phone_user_agent$/i.test(value)) return "Sími í user agent";
       if (/^narrow_viewport$/i.test(value)) return "Þröngur skjár";
       if (/^forced_mobile$/i.test(value)) return "Þvingað mobile";
@@ -885,6 +998,32 @@
       if (/^not_detected$/i.test(value)) return "ekki greint";
       if (/^unknown$/i.test(value)) return "Óþekkt";
       return value;
+    }
+    function browserLabel(row) {
+      row = row || {};
+      var brand = String(row.browser_brand || "");
+      var family = String(row.browser_family || "");
+      var combined = (brand + " " + family).trim();
+      if (/Samsung Internet/i.test(combined)) return "Samsung Internet";
+      return brand || family || "Óþekkt";
+    }
+    function isSamsungInternetRow(row) {
+      return /Samsung Internet/i.test(browserLabel(row));
+    }
+    function formatLongDate(iso) {
+      if (!iso) return "-";
+      var d = new Date(iso);
+      if (!isFinite(d.getTime())) return String(iso).slice(0, 10);
+      var months = ["janúar", "febrúar", "mars", "apríl", "maí", "júní", "júlí", "ágúst", "september", "október", "nóvember", "desember"];
+      return d.getDate() + ". " + months[d.getMonth()] + " " + d.getFullYear();
+    }
+    function daysSinceLabel(iso) {
+      var d = new Date(iso);
+      if (!isFinite(d.getTime())) return "dagatal óþekkt";
+      var days = Math.max(0, Math.floor((Date.now() - d.getTime()) / 86400000));
+      if (days === 0) return "birt í dag";
+      if (days === 1) return "1 dagur í birtingu";
+      return fmt(days) + " dagar í birtingu";
     }
     function labelSeverity(value) {
       value = String(value || "info").toLowerCase();
@@ -1005,10 +1144,18 @@
       });
       return newestIso(times);
     }
+    function technicalRows(data) {
+      return ((data && data.device) || []).filter(function (row) {
+        if (isTestRow(row)) return false;
+        if (visitValue(row) > 0) return true;
+        return isSamsungInternetRow(row) && eventValue(row) > 0;
+      });
+    }
     function groupedDeviceCombos(data, limit) {
       var map = {};
-      visibleRows((data && data.device) || []).forEach(function (row) {
-        var browser = row.browser_brand || row.browser_family || "Óþekkt";
+      limit = limit || 8;
+      technicalRows(data).forEach(function (row) {
+        var browser = browserLabel(row);
         var os = row.os_family || "Óþekkt";
         var theme = row.color_scheme || row.theme_signal_quality || "unknown";
         var key = [
@@ -1028,7 +1175,7 @@
             device_class: row.device_class,
             selected_layout: row.selected_layout,
             browser_family: row.browser_family,
-            browser_brand: row.browser_brand,
+            browser_brand: browser,
             browser_engine: row.browser_engine,
             os_family: row.os_family,
             color_scheme: row.color_scheme,
@@ -1037,19 +1184,46 @@
             theme_signal_quality: row.theme_signal_quality,
             visits: 0,
             events: 0,
-            combo_count: 0
+            combo_count: 0,
+            has_uncounted_signal: false
           };
         }
         map[key].visits += visitValue(row);
         map[key].events += eventValue(row);
         map[key].combo_count += 1;
+        if (visitValue(row) === 0 && eventValue(row) > 0) map[key].has_uncounted_signal = true;
       });
-      return Object.keys(map).map(function (key) { return map[key]; })
-        .sort(function (a, b) {
-          if (visitValue(b) !== visitValue(a)) return visitValue(b) - visitValue(a);
-          return eventValue(b) - eventValue(a);
-        })
-        .slice(0, limit || 8);
+      var allRows = Object.keys(map).map(function (key) { return map[key]; });
+      allRows.sort(function (a, b) {
+        if (visitValue(b) !== visitValue(a)) return visitValue(b) - visitValue(a);
+        return eventValue(b) - eventValue(a);
+      });
+      var result = allRows.filter(function (row) { return visitValue(row) > 0; }).slice(0, limit);
+      var samsungByDashboard = {};
+      allRows.filter(function (row) { return isSamsungInternetRow(row) && eventValue(row) > 0; }).forEach(function (row) {
+        var key = row.dashboard_key || "unknown";
+        if (!samsungByDashboard[key] || eventValue(row) > eventValue(samsungByDashboard[key])) samsungByDashboard[key] = row;
+      });
+      var samsungCandidates = Object.keys(samsungByDashboard).map(function (key) {
+        return samsungByDashboard[key];
+      }).filter(function (candidate) {
+        return !result.some(function (row) {
+          return row.dashboard_key === candidate.dashboard_key && isSamsungInternetRow(row);
+        });
+      }).sort(function (a, b) { return eventValue(b) - eventValue(a); });
+      samsungCandidates.forEach(function (candidate, index) {
+        if (result.length < limit) {
+          result.push(candidate);
+        } else {
+          var replaceAt = Math.max(0, result.length - samsungCandidates.length + index);
+          result[replaceAt] = candidate;
+        }
+      });
+      return result.sort(function (a, b) {
+        if (visitValue(b) !== visitValue(a)) return visitValue(b) - visitValue(a);
+        if (isSamsungInternetRow(a) !== isSamsungInternetRow(b)) return isSamsungInternetRow(a) ? 1 : -1;
+        return eventValue(b) - eventValue(a);
+      });
     }
 
     function warningGate(row) {
@@ -1090,11 +1264,13 @@
       options = options || {};
       var cls = options.className || "";
       var compact = options.compact ? " compact" : "";
+      var classAttr = cls ? " " + safe(cls) : "";
       var right = options.asNumber ? fmt(value) : pct(value, total);
-      return '<div class="bar-row' + compact + '"><span>' + safe(label) + '</span><div class="bar-track"><span class="bar-fill ' + safe(cls) + '" style="width:' + widthPct(value, total) + '%"></span></div><strong>' + safe(right) + '</strong></div>';
+      return '<div class="bar-row' + compact + '"><span>' + safe(label) + '</span><div class="bar-track"><span class="bar-fill' + classAttr + '" style="width:' + widthPct(value, total) + '%"></span></div><strong>' + safe(right) + '</strong></div>';
     }
     function miniBar(label, value, total, className, asNumber) {
-      return '<div class="mini-bar"><span>' + safe(label) + '</span><div class="mini-track"><span class="mini-fill ' + safe(className || "") + '" style="width:' + widthPct(value, total) + '%"></span></div><strong>' + safe(asNumber ? fmt(value) : pct(value, total)) + '</strong></div>';
+      var classAttr = className ? " " + safe(className) : "";
+      return '<div class="mini-bar"><span>' + safe(label) + '</span><div class="mini-track"><span class="mini-fill' + classAttr + '" style="width:' + widthPct(value, total) + '%"></span></div><strong>' + safe(asNumber ? fmt(value) : pct(value, total)) + '</strong></div>';
     }
     function signalCell(label, value) {
       return '<div class="signal-cell"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div>';
@@ -1172,7 +1348,7 @@
         metric("7 dagar", fmt(k.visits_7d), "Nýleg notkun yfir viku."),
         metric("30 dagar", fmt(k.visits_30d), "Mánaðarmynd notkunar."),
         metric("Mobile", pct(k.mobile_visits, total), fmt(k.mobile_visits) + " heimsóknir."),
-        metric("Desktop", pct(k.desktop_visits, total), fmt(k.desktop_visits) + " heimsóknir."),
+        metric("Tölva", pct(k.desktop_visits, total), fmt(k.desktop_visits) + " heimsóknir."),
         metric("island.is", pct(k.island_is_visits, total), fmt(k.island_is_visits) + " merktar island.is."),
         metric("Fallback / villur", fmt(k.fallback_error_count), confirmedEvents ? "Staðfest gæðatilvik: " + fmt(confirmedEvents) + "." : "Engin staðfest gæðatilvik í payload.")
       ].join("");
@@ -1234,22 +1410,36 @@
         return '<span class="chip neutral">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>';
       }).join("");
       byId("layout-source-panel").innerHTML =
-        '<article class="nested-card"><div class="nested-head"><div><h3>Útgáfur / leiðing</h3><div class="subtle">Hvaða útgáfa var valin og hvort leiðing var sjálfvirk eða þvinguð.</div></div><div class="nested-kpi">' + safe(pct(k.mobile_visits, total)) + '</div></div>' +
-          '<div class="bar-list">' +
+        '<article class="nested-card split-card">' +
+          '<div class="nested-head"><div><h3>Útgáfur / leiðing</h3><div class="subtle">Hvaða útgáfa var valin og hvort leiðing var sjálfvirk eða þvinguð.</div></div></div>' +
+          '<div class="split-summary">' +
+            '<div class="summary-stat good"><span>Mobile hlutfall</span><strong>' + safe(pct(k.mobile_visits, total)) + '</strong></div>' +
+            '<div class="summary-stat neutral"><span>Sjálfvirk leiðing</span><strong>' + fmt(auto) + '</strong></div>' +
+            '<div class="summary-stat ' + (forced ? 'warn' : 'neutral') + '"><span>Þvingað</span><strong>' + fmt(forced) + '</strong></div>' +
+          '</div>' +
+          '<div class="split-subsection"><div class="subsection-label">Útgáfuskipting</div><div class="bar-list">' +
             bar("Mobile", k.mobile_visits, total, { className: "good" }) +
-            bar("Desktop", k.desktop_visits, total, {}) +
-            bar("Sjálfvirkt", auto, routeTotal, { className: "good", asNumber: true }) +
-            bar("Þvingað", forced, routeTotal, { className: forced ? "warn" : "neutral", asNumber: true }) +
-          '</div><div class="mini-viz">' + (routeReasonBars || '<div class="subtle">Engin route samantekt.</div>') + '</div></article>' +
-        '<article class="nested-card"><div class="nested-head"><div><h3>Uppruni umferðar</h3><div class="subtle">Flokkar uppruna eru aðskildir frá layout ákvörðunum.</div></div><div class="nested-kpi">' + safe(pct(k.island_is_visits, total)) + '</div></div>' +
-          '<div class="bar-list">' +
+            bar("Tölva", k.desktop_visits, total, {}) +
+          '</div></div>' +
+          '<div class="split-subsection"><div class="subsection-label">Ástæður leiðingar</div><div class="mini-viz">' + (routeReasonBars || '<div class="subtle">Engin route samantekt.</div>') + '</div></div>' +
+        '</article>' +
+        '<article class="nested-card split-card">' +
+          '<div class="nested-head"><div><h3>Uppruni umferðar</h3><div class="subtle">Flokkar uppruna eru aðskildir frá ákvörðun um mobile eða desktop.</div></div></div>' +
+          '<div class="split-summary">' +
+            '<div class="summary-stat good"><span>island.is hlutfall</span><strong>' + safe(pct(k.island_is_visits, total)) + '</strong></div>' +
+            '<div class="summary-stat neutral"><span>island.is heimsóknir</span><strong>' + fmt(k.island_is_visits) + '</strong></div>' +
+            '<div class="summary-stat neutral"><span>Annað</span><strong>' + fmt(Math.max(0, total - number(k.island_is_visits))) + '</strong></div>' +
+          '</div>' +
+          '<div class="split-subsection"><div class="subsection-label">Upprunaskipting</div><div class="bar-list">' +
             bar("island.is", k.island_is_visits, total, { className: "good" }) +
             bar("Annað", Math.max(0, total - number(k.island_is_visits)), total, { className: "neutral" }) +
-          '</div><div class="mini-viz">' + (sourceBars || '<div class="subtle">Engin source samantekt.</div>') + '</div><div class="chip-row" style="margin-top:10px;">' + (campaignHtml || '<span class="chip neutral">Engar UTM upplýsingar</span>') + '</div></article>';
+          '</div></div>' +
+          '<div class="split-subsection"><div class="subsection-label">Efsta herferð / source</div><div class="chip-row">' + (campaignHtml || '<span class="chip neutral">Engar UTM upplýsingar</span>') + '</div></div>' +
+        '</article>';
     }
 
     function insightCard(title, value, subtitle, bodyHtml) {
-      return '<article class="insight"><h3>' + safe(title) + '</h3><div class="insight-value">' + safe(value) + '</div><div class="insight-sub">' + safe(subtitle || "") + '</div>' + (bodyHtml || '') + '</article>';
+      return '<article class="insight"><div class="insight-header"><h3>' + safe(title) + '</h3><div class="insight-value">' + safe(value) + '</div><div class="insight-sub">' + safe(subtitle || "") + '</div></div>' + (bodyHtml ? '<div class="insight-body">' + bodyHtml + '</div>' : '') + '</article>';
     }
     function renderInsights(data) {
       var k = data.kpis || {};
@@ -1265,7 +1455,7 @@
         return acc + (gate.hasGate ? gate.count : number(row.count));
       }, 0);
       var topSource = topGroup(sources, function (row) { return labelSource(row.entry_source_category); });
-      var topBrowser = topGroup(devices, function (row) { return row.browser_brand || row.browser_family || "Óþekkt"; });
+      var topBrowser = topGroup(devices, function (row) { return browserLabel(row); });
       var topDevice = topGroup(devices, function (row) { return labelDevice(row.device_class); });
       var topCampaign = topGroup(sources, function (row) { return row.utm_campaign || row.utm_source || "Engin UTM"; });
       var forced = routes.reduce(function (acc, row) {
@@ -1287,10 +1477,10 @@
       var aggregationAge = ageInfo(h.last_aggregation_time || h.dashboard_data_generated_at);
       var cards = [
         insightCard("Notkun", fmt(total), "Í dag: " + fmt(k.visits_today) + ", 7 dagar: " + fmt(k.visits_7d) + ", 30 dagar: " + fmt(k.visits_30d) + ".", dailySpark),
-        insightCard("Leiðing", pct(k.mobile_visits, total), "Mobile hlutfall. Þvinguð leiðing: " + pct(forced, routeTotal) + ".", '<div class="mini-viz">' + miniBar("Mobile", k.mobile_visits, total, "good") + miniBar("Desktop", k.desktop_visits, total, "") + miniBar("Þvingað", forced, routeTotal, forced ? "warn" : "neutral", true) + '</div>'),
+        insightCard("Leiðing", pct(k.mobile_visits, total), "Mobile hlutfall. Þvinguð leiðing: " + pct(forced, routeTotal) + ".", '<div class="mini-viz">' + miniBar("Mobile", k.mobile_visits, total, "good") + miniBar("Tölva", k.desktop_visits, total, "") + miniBar("Þvingað", forced, routeTotal, forced ? "warn" : "neutral", true) + '</div>'),
         insightCard("Uppruni", topSource ? topSource.key : "Óþekkt", "island.is: " + pct(k.island_is_visits, total) + ". Efsta UTM: " + (topCampaign ? topCampaign.key : "-") + ".", '<div class="mini-viz">' + miniBar("island.is", k.island_is_visits, total, "good") + miniBar("Annað", Math.max(0, total - number(k.island_is_visits)), total, "neutral") + '</div>'),
-        insightCard("Gæði", fmt(k.fallback_error_count), "Fallback/villur. Staðfest gæðatilvik: " + fmt(warningEvents) + ".", '<div class="signal-grid">' + signalCell("Fallback", fmt(k.fallback_error_count)) + signalCell("Viðv. teg.", fmt(confirmed.length)) + signalCell("Óstaðfest", fmt(unconfirmed.length)) + '</div>'),
-        insightCard("Tæknimerki", topBrowser ? topBrowser.key : "Óþekkt", "Algengasta tæki: " + (topDevice ? topDevice.key : "-") + ". Samsung óvissa er ekki staðfest dark mode.", '<div class="signal-grid">' + signalCell("Dark", fmt(dark)) + signalCell("Light", fmt(light)) + signalCell("Samsung óvíst", fmt(samsungPossible)) + '</div>'),
+        insightCard("Gæði", fmt(k.fallback_error_count), "Fallback/villur. Staðfest gæðatilvik: " + fmt(warningEvents) + ".", '<div class="signal-grid">' + signalCell("Fallback", fmt(k.fallback_error_count)) + signalCell("Staðfest", fmt(confirmed.length)) + signalCell("Óstaðfest", fmt(unconfirmed.length)) + '</div>'),
+        insightCard("Tæknimerki", topBrowser ? topBrowser.key : "Óþekkt", "Algengasta tæki: " + (topDevice ? topDevice.key : "-") + ". Samsung óvissa er ekki staðfest dark mode.", '<div class="signal-grid">' + signalCell("Dark", fmt(dark)) + signalCell("Light", fmt(light)) + signalCell("Samsung", fmt(samsungPossible)) + '</div>'),
         insightCard("Nýleg virkni", eventAge.label, "Síðasta talda heimsókn. Samantekt: " + aggregationAge.label + ".", hourlySpark)
       ];
       byId("insight-grid").innerHTML = cards.join("");
@@ -1301,17 +1491,19 @@
       var deviceRows = groupedDeviceCombos(data, 8);
       var comboHtml = '<div class="combo-row list-head"><span>Mælaborð</span><span>Tæki / útgáfa</span><span>Vafri / stýrikerfi</span><span class="number">Heimsóknir</span></div>';
       comboHtml += deviceRows.map(function (row) {
-        var browser = row.browser_brand || row.browser_family || "Óþekkt";
+        var browser = browserLabel(row);
         var os = row.os_family || "Óþekkt";
         var theme = labelTheme(row.color_scheme || row.theme_signal_quality || "unknown");
-        var samsung = (/Samsung Internet/i.test(browser) && /Android/i.test(os)) ? "Samsung Android, óvíst merki" : "";
+        var samsung = isSamsungInternetRow(row) && /Android/i.test(os) ? "Samsung Internet Android" : "";
+        var uncounted = visitValue(row) === 0 && eventValue(row) > 0 ? "Ótalið merki" : "";
         var merged = number(row.combo_count) > 1 ? fmt(row.combo_count) + " hráar samsetningar" : "";
-        var extra = [theme, samsung, merged].filter(Boolean).join(" · ");
+        var extra = [theme, samsung, uncounted, merged].filter(Boolean).join(" · ");
+        var countHtml = '<div class="combo-number"><strong>' + fmt(row.visits) + '</strong>' + (eventValue(row) !== visitValue(row) ? '<small>' + fmt(row.events) + ' atburðir</small>' : '') + '</div>';
         return '<div class="combo-row compact-combo">' +
           '<div><div class="combo-title">' + safe(titleFor(row, cards)) + '</div><div class="combo-meta">' + safe(cleanId(row.dashboard_id || row.dashboard_key)) + '</div></div>' +
           '<div><span class="chip accent">' + safe(labelDevice(row.device_class)) + '</span><div class="combo-meta">' + safe(labelLayout(row.selected_layout)) + '</div></div>' +
           '<div><span class="chip neutral">' + safe(browser) + '</span><div class="combo-meta">' + safe(os) + (extra ? ' · ' + safe(extra) : '') + '</div></div>' +
-          '<strong class="number">' + fmt(row.visits) + '</strong>' +
+          countHtml +
         '</div>';
       }).join("");
       if (!deviceRows.length) comboHtml = '<div class="message-card neutral"><strong>Engin tæknigögn enn.</strong><p>Device samantekt vantar í payload.</p></div>';
@@ -1324,12 +1516,12 @@
         }).join("") || '<div class="subtle">Engin gögn.</div>') + '</div></article>';
       }
       var right = '<div class="tech-grid">' +
-        distribution("Vafrar", data.device || [], function (row) { return row.browser_brand || row.browser_family || "Óþekkt"; }, 5) +
+        distribution("Vafrar", data.device || [], function (row) { return browserLabel(row); }, 5) +
         distribution("Stýrikerfi", data.device || [], function (row) { return row.os_family || "Óþekkt"; }, 5) +
         distribution("Tæki", data.device || [], function (row) { return labelDevice(row.device_class); }, 5) +
         distribution("Birtingarmerki", data.device || [], function (row) { return labelTheme(row.color_scheme || row.theme_signal_quality || "unknown"); }, 5) +
       '</div>';
-      byId("technical-panel").innerHTML = '<article class="tech-panel"><div class="nested-head"><div><h3>Toppsamsetningar</h3><div class="subtle">Sýnir samanteknar topplínur, sameinar endurteknar browser/OS/device samsetningar svo listinn verði ekki endalaus speglasalur.</div></div></div><div class="combo-list">' + comboHtml + '</div></article>' + right;
+      byId("technical-panel").innerHTML = '<article class="tech-panel"><div class="nested-head"><div><h3>Toppsamsetningar</h3><div class="subtle">Sýnir samanteknar topplínur. Samsung Internet er birt sem eigið vaframerki, líka þegar merkið er ótalið en gagnlegt til prófunar.</div></div></div><div class="combo-list">' + comboHtml + '</div></article>' + right;
     }
 
     function renderRouteList(data) {
@@ -1370,9 +1562,12 @@
     function renderPublicGrid(data) {
       var rows = data.public_cards || [];
       byId("public-grid").innerHTML = rows.map(function (card) {
-        return '<article class="dashboard-card">' +
+        var publishedAt = card.published_at || card.publishedAt || card.public_published_at || PUBLIC_DASHBOARD_PUBLISHED_AT;
+        var publishedMeta = publishedAt ? '<div class="publication-meta"><span class="chip accent">Frá ' + safe(formatLongDate(publishedAt)) + '</span><span class="chip neutral">' + safe(daysSinceLabel(publishedAt)) + '</span></div><div class="publication-date">Birtingartími: ' + safe(dateShort(publishedAt)) + '</div>' : '';
+        return '<article class="dashboard-card publication-card">' +
           '<div class="dashboard-top"><img class="icon" src="' + safe(imageUrl(card.icon_url || FALLBACK_ICONS[card.dashboard_key])) + '" alt=""><div><div class="dashboard-title">' + safe(cleanName(card.public_card_title)) + '</div><div class="dashboard-sub">' + safe(card.public_description || card.dashboard_key) + '</div></div></div>' +
           '<div class="chip-row"><span class="status-chip ' + (card.published ? 'good' : 'warn') + '"><span class="dot ' + (card.published ? '' : 'warn') + '"></span>' + (card.published ? 'Birt' : 'Ekki birt') + '</span><span class="chip neutral">' + safe(card.button_text || "Skoða mælaborð") + '</span></div>' +
+          publishedMeta +
         '</article>';
       }).join("") || '<div class="message-card neutral"><strong>Engin public-card gögn enn.</strong><p>Birtingarsamantekt vantar í payload.</p></div>';
     }
