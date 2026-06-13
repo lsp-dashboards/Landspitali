@@ -492,6 +492,7 @@
       display: grid;
       grid-template-columns: minmax(0, 1.18fr) minmax(340px, .82fr);
       gap: 14px;
+      align-items: start;
     }
     .tech-panel {
       padding: 15px;
@@ -503,6 +504,8 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
+      align-items: start;
+      grid-auto-rows: min-content;
     }
     .combo-list,
     .list { display: grid; gap: 8px; }
@@ -545,6 +548,10 @@
       color: var(--muted);
       font-size: 11px;
       line-height: 1.35;
+    }
+    .combo-row.compact-combo {
+      padding-top: 9px;
+      padding-bottom: 9px;
     }
     .number {
       text-align: right;
@@ -667,9 +674,9 @@
       </div>
       <div class="hero-side">
         <article class="mini-card">
-          <div class="mini-label">Síðasta mæling</div>
+          <div class="mini-label">Síðasta talda mæling</div>
           <div class="mini-value" id="last-event">-</div>
-          <div class="mini-detail" id="last-event-detail">Síðasti atburður sem endpointið tók á móti.</div>
+          <div class="mini-detail" id="last-event-detail">Síðasta talda heimsókn, ekki raw/test atburður.</div>
           <div class="fresh-line" aria-hidden="true"><span id="last-event-line" class="fresh-fill warn"></span></div>
         </article>
         <article class="mini-card">
@@ -973,6 +980,78 @@
       return map;
     }
 
+    function newestIso(values) {
+      var newest = "";
+      (values || []).forEach(function (value) {
+        if (!value) return;
+        var d = new Date(value);
+        if (!isFinite(d.getTime())) return;
+        if (!newest || d.getTime() > new Date(newest).getTime()) newest = value;
+      });
+      return newest;
+    }
+    function dashboardLastCountedTime(row) {
+      if (!row || number(row.total_visits || row.visits_30d || row.visits_7d || row.visits_today) <= 0) return "";
+      return firstValue(row, ["last_counted_event_time", "last_counted_visit_time", "last_visit_time", "last_event_counted_time", "last_event_time"]);
+    }
+    function latestCountedEventTime(data) {
+      var times = [];
+      if (!data) return "";
+      if (data.health) {
+        times.push(firstValue(data.health, ["last_counted_event_time", "last_counted_visit_time", "last_visit_time"]));
+      }
+      (data.dashboards || []).forEach(function (row) {
+        times.push(dashboardLastCountedTime(row));
+      });
+      return newestIso(times);
+    }
+    function groupedDeviceCombos(data, limit) {
+      var map = {};
+      visibleRows((data && data.device) || []).forEach(function (row) {
+        var browser = row.browser_brand || row.browser_family || "Óþekkt";
+        var os = row.os_family || "Óþekkt";
+        var theme = row.color_scheme || row.theme_signal_quality || "unknown";
+        var key = [
+          row.dashboard_key || "",
+          row.device_class || "",
+          row.selected_layout || "",
+          browser,
+          os,
+          theme
+        ].join("||");
+        if (!map[key]) {
+          map[key] = {
+            dashboard_key: row.dashboard_key,
+            dashboard_id: row.dashboard_id,
+            dashboard_name: row.dashboard_name,
+            public_card_title: row.public_card_title,
+            device_class: row.device_class,
+            selected_layout: row.selected_layout,
+            browser_family: row.browser_family,
+            browser_brand: row.browser_brand,
+            browser_engine: row.browser_engine,
+            os_family: row.os_family,
+            color_scheme: row.color_scheme,
+            forced_dark_detection: row.forced_dark_detection,
+            samsung_dark_mode_status: row.samsung_dark_mode_status,
+            theme_signal_quality: row.theme_signal_quality,
+            visits: 0,
+            events: 0,
+            combo_count: 0
+          };
+        }
+        map[key].visits += visitValue(row);
+        map[key].events += eventValue(row);
+        map[key].combo_count += 1;
+      });
+      return Object.keys(map).map(function (key) { return map[key]; })
+        .sort(function (a, b) {
+          if (visitValue(b) !== visitValue(a)) return visitValue(b) - visitValue(a);
+          return eventValue(b) - eventValue(a);
+        })
+        .slice(0, limit || 8);
+    }
+
     function warningGate(row) {
       var value;
       if (!row) return { hasGate: false, counted: false, count: 0 };
@@ -1046,11 +1125,17 @@
       byId("cache-pill").textContent = "Cache: " + (data && data.cache ? (data.cache.hit ? "hit" : "fresh") : "-");
       byId("version-pill").textContent = "Script: " + ((data && data.script_version) || "-");
       byId("schema-pill").textContent = "Schema: " + ((data && data.schema_version) || "-");
-      var eventAge = ageInfo(h.last_event_time);
+      var countedEventTime = latestCountedEventTime(data);
+      var rawEventTime = h.last_event_time;
+      var eventAge = ageInfo(countedEventTime);
       var aggregationAge = ageInfo(h.last_aggregation_time || h.dashboard_data_generated_at);
       byId("last-event").textContent = eventAge.label;
       byId("last-aggregation").textContent = aggregationAge.label;
-      byId("last-event-detail").textContent = h.last_event_time ? "Síðast skráð: " + dateShort(h.last_event_time) + "." : "Enginn atburður í heilsugögnum.";
+      if (countedEventTime) {
+        byId("last-event-detail").textContent = "Síðasta talda heimsókn: " + dateShort(countedEventTime) + (rawEventTime && rawEventTime !== countedEventTime ? ". Raw móttaka: " + dateShort(rawEventTime) + "." : ".");
+      } else {
+        byId("last-event-detail").textContent = rawEventTime ? "Engin talin heimsókn í aggregate payload. Raw móttaka: " + dateShort(rawEventTime) + "." : "Enginn talinn atburður í aggregate payload.";
+      }
       byId("last-aggregation-detail").textContent = (h.last_aggregation_time || h.dashboard_data_generated_at) ? "Samantekt: " + dateShort(h.last_aggregation_time || h.dashboard_data_generated_at) + "." : "Engin samantekt í heilsugögnum.";
       byId("last-event-line").className = "fresh-fill " + eventAge.className;
       byId("last-event-line").style.width = eventAge.width + "%";
@@ -1117,7 +1202,7 @@
             '<div class="stat"><span>Mobile</span><strong>' + pct(d.mobile_visits, total) + '</strong></div>' +
           '</div>' +
           '<div class="card-viz">' + stacked(d.mobile_visits, desktop, 0) +
-            '<div class="chip-row"><span class="status-chip ' + statusClass + '"><span class="dot ' + (statusClass === "good" ? "" : "warn") + '"></span>' + safe(statusText) + '</span><span class="chip neutral">Síðast: ' + safe(ageText(d.last_event_time)) + '</span></div>' +
+            '<div class="chip-row"><span class="status-chip ' + statusClass + '"><span class="dot ' + (statusClass === "good" ? "" : "warn") + '"></span>' + safe(statusText) + '</span><span class="chip neutral">Síðast talið: ' + safe(ageText(dashboardLastCountedTime(d))) + '</span></div>' +
           '</div>' +
         '</article>';
       }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn enn.</strong><p>Endpointið skilaði ekki dashboard samantekt.</p></div>';
@@ -1198,7 +1283,7 @@
       }, 0);
       var dailySpark = sparkBars((data.daily || []).filter(function (row) { return !isTestRow(row); }), "visits", "date");
       var hourlySpark = sparkBars((data.hourly || []).filter(function (row) { return !isTestRow(row); }), "visits", "hour_utc");
-      var eventAge = ageInfo(h.last_event_time);
+      var eventAge = ageInfo(latestCountedEventTime(data));
       var aggregationAge = ageInfo(h.last_aggregation_time || h.dashboard_data_generated_at);
       var cards = [
         insightCard("Notkun", fmt(total), "Í dag: " + fmt(k.visits_today) + ", 7 dagar: " + fmt(k.visits_7d) + ", 30 dagar: " + fmt(k.visits_30d) + ".", dailySpark),
@@ -1206,22 +1291,23 @@
         insightCard("Uppruni", topSource ? topSource.key : "Óþekkt", "island.is: " + pct(k.island_is_visits, total) + ". Efsta UTM: " + (topCampaign ? topCampaign.key : "-") + ".", '<div class="mini-viz">' + miniBar("island.is", k.island_is_visits, total, "good") + miniBar("Annað", Math.max(0, total - number(k.island_is_visits)), total, "neutral") + '</div>'),
         insightCard("Gæði", fmt(k.fallback_error_count), "Fallback/villur. Staðfest gæðatilvik: " + fmt(warningEvents) + ".", '<div class="signal-grid">' + signalCell("Fallback", fmt(k.fallback_error_count)) + signalCell("Viðv. teg.", fmt(confirmed.length)) + signalCell("Óstaðfest", fmt(unconfirmed.length)) + '</div>'),
         insightCard("Tæknimerki", topBrowser ? topBrowser.key : "Óþekkt", "Algengasta tæki: " + (topDevice ? topDevice.key : "-") + ". Samsung óvissa er ekki staðfest dark mode.", '<div class="signal-grid">' + signalCell("Dark", fmt(dark)) + signalCell("Light", fmt(light)) + signalCell("Samsung óvíst", fmt(samsungPossible)) + '</div>'),
-        insightCard("Nýleg virkni", eventAge.label, "Samantekt: " + aggregationAge.label + ". Nýjustu tímabil sjást sem smásúlur.", hourlySpark)
+        insightCard("Nýleg virkni", eventAge.label, "Síðasta talda heimsókn. Samantekt: " + aggregationAge.label + ".", hourlySpark)
       ];
       byId("insight-grid").innerHTML = cards.join("");
     }
 
     function renderTechnical(data) {
       var cards = publicMap(data);
-      var deviceRows = sortVisits(data.device || []).slice(0, 12);
+      var deviceRows = groupedDeviceCombos(data, 8);
       var comboHtml = '<div class="combo-row list-head"><span>Mælaborð</span><span>Tæki / útgáfa</span><span>Vafri / stýrikerfi</span><span class="number">Heimsóknir</span></div>';
       comboHtml += deviceRows.map(function (row) {
         var browser = row.browser_brand || row.browser_family || "Óþekkt";
         var os = row.os_family || "Óþekkt";
         var theme = labelTheme(row.color_scheme || row.theme_signal_quality || "unknown");
-        var samsung = (/Samsung Internet/i.test(browser) && /Android/i.test(os)) ? "Samsung Android" : "";
-        var extra = [theme, samsung].filter(Boolean).join(" · ");
-        return '<div class="combo-row">' +
+        var samsung = (/Samsung Internet/i.test(browser) && /Android/i.test(os)) ? "Samsung Android, óvíst merki" : "";
+        var merged = number(row.combo_count) > 1 ? fmt(row.combo_count) + " hráar samsetningar" : "";
+        var extra = [theme, samsung, merged].filter(Boolean).join(" · ");
+        return '<div class="combo-row compact-combo">' +
           '<div><div class="combo-title">' + safe(titleFor(row, cards)) + '</div><div class="combo-meta">' + safe(cleanId(row.dashboard_id || row.dashboard_key)) + '</div></div>' +
           '<div><span class="chip accent">' + safe(labelDevice(row.device_class)) + '</span><div class="combo-meta">' + safe(labelLayout(row.selected_layout)) + '</div></div>' +
           '<div><span class="chip neutral">' + safe(browser) + '</span><div class="combo-meta">' + safe(os) + (extra ? ' · ' + safe(extra) : '') + '</div></div>' +
@@ -1231,19 +1317,19 @@
       if (!deviceRows.length) comboHtml = '<div class="message-card neutral"><strong>Engin tæknigögn enn.</strong><p>Device samantekt vantar í payload.</p></div>';
 
       function distribution(title, rows, labelFn, limit) {
-        rows = topRows(rows, labelFn, limit || 6);
+        rows = topRows(rows, labelFn, limit || 5);
         var total = Math.max(sumRows(rows), 1);
         return '<article class="tech-panel"><div class="nested-head"><h3>' + safe(title) + '</h3></div><div class="bar-list">' + (rows.map(function (row) {
           return bar(row.key, row.visits, total, { compact: true, asNumber: true });
         }).join("") || '<div class="subtle">Engin gögn.</div>') + '</div></article>';
       }
       var right = '<div class="tech-grid">' +
-        distribution("Vafrar", data.device || [], function (row) { return row.browser_brand || row.browser_family || "Óþekkt"; }, 6) +
-        distribution("Stýrikerfi", data.device || [], function (row) { return row.os_family || "Óþekkt"; }, 6) +
-        distribution("Tæki", data.device || [], function (row) { return labelDevice(row.device_class); }, 6) +
-        distribution("Birtingarmerki", data.device || [], function (row) { return labelTheme(row.color_scheme || row.theme_signal_quality || "unknown"); }, 6) +
+        distribution("Vafrar", data.device || [], function (row) { return row.browser_brand || row.browser_family || "Óþekkt"; }, 5) +
+        distribution("Stýrikerfi", data.device || [], function (row) { return row.os_family || "Óþekkt"; }, 5) +
+        distribution("Tæki", data.device || [], function (row) { return labelDevice(row.device_class); }, 5) +
+        distribution("Birtingarmerki", data.device || [], function (row) { return labelTheme(row.color_scheme || row.theme_signal_quality || "unknown"); }, 5) +
       '</div>';
-      byId("technical-panel").innerHTML = '<article class="tech-panel"><div class="nested-head"><div><h3>Toppsamsetningar</h3><div class="subtle">Mælaborð, tæki, valin útgáfa, vafri, stýrikerfi og heimsóknir.</div></div></div><div class="combo-list">' + comboHtml + '</div></article>' + right;
+      byId("technical-panel").innerHTML = '<article class="tech-panel"><div class="nested-head"><div><h3>Toppsamsetningar</h3><div class="subtle">Sýnir samanteknar topplínur, sameinar endurteknar browser/OS/device samsetningar svo listinn verði ekki endalaus speglasalur.</div></div></div><div class="combo-list">' + comboHtml + '</div></article>' + right;
     }
 
     function renderRouteList(data) {
