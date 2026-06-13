@@ -333,13 +333,48 @@
       gap: 8px;
     }
     .stat {
-      padding: 10px;
+      min-height: 76px;
+      display: grid;
+      grid-template-rows: 30px 1fr;
+      align-items: center;
+      justify-items: center;
+      gap: 4px;
+      padding: 10px 8px;
       border-radius: 14px;
       background: var(--panel-soft);
       border: 1px solid var(--line-soft);
+      text-align: center;
     }
-    .stat span { display: block; color: var(--muted); font-size: 10px; font-weight: 900; line-height: 1.2; text-transform: uppercase; letter-spacing: .035em; }
-    .stat strong { display: block; margin-top: 4px; font-size: 18px; line-height: 1; font-variant-numeric: tabular-nums; }
+    .stat span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 30px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: .025em;
+      text-align: center;
+      overflow-wrap: normal;
+      word-break: normal;
+      hyphens: none;
+    }
+    .stat strong {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      align-self: end;
+      margin: 0;
+      font-size: 20px;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      text-align: center;
+      white-space: nowrap;
+    }
     .card-viz { display: grid; gap: 8px; margin-top: 12px; }
 
     .split-panel {
@@ -381,40 +416,49 @@
       margin-top: 2px;
     }
     .summary-stat {
-      min-height: 74px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      gap: 7px;
-      padding: 11px 10px;
+      min-height: 78px;
+      display: grid;
+      grid-template-rows: 30px 1fr;
+      align-items: center;
+      justify-items: center;
+      gap: 6px;
+      padding: 10px 8px;
       border: 1px solid var(--line-soft);
       border-radius: 14px;
       background: #fff;
-      text-align: left;
+      text-align: center;
     }
     .summary-stat span {
-      min-height: 22px;
+      min-height: 30px;
       display: flex;
-      align-items: flex-end;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
       color: var(--muted);
       font-size: 9.5px;
       font-weight: 900;
-      line-height: 1.12;
-      letter-spacing: .025em;
+      line-height: 1.08;
+      letter-spacing: .018em;
       text-transform: uppercase;
+      text-align: center;
       overflow-wrap: normal;
       word-break: normal;
       hyphens: none;
     }
     .summary-stat strong {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      align-self: end;
       color: var(--ink);
-      font-size: 22px;
+      font-size: 24px;
       line-height: 1;
       font-weight: 900;
       letter-spacing: -.035em;
       font-variant-numeric: tabular-nums;
       white-space: nowrap;
+      text-align: center;
     }
     .summary-stat.good { background: var(--good-bg); border-color: rgba(31, 122, 83, .2); }
     .summary-stat.neutral { background: #fff; }
@@ -486,7 +530,7 @@
 
     .insight-grid {
       display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
       align-items: stretch;
     }
@@ -540,49 +584,56 @@
     .mini-bar strong { color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
     .signal-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(68px, 1fr));
       gap: 8px;
     }
     .signal-cell {
-      min-height: 70px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
+      min-height: 72px;
+      display: grid;
+      grid-template-rows: 22px 1fr;
       align-items: center;
-      gap: 8px;
-      padding: 10px 8px;
+      justify-items: center;
+      gap: 6px;
+      padding: 10px 6px;
       border: 1px solid var(--line-soft);
       border-radius: 13px;
       background: #fff;
       text-align: center;
+      overflow: visible;
     }
     .signal-cell span {
-      min-height: 14px;
+      min-height: 22px;
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: center;
-      max-width: 100%;
+      width: 100%;
       color: var(--muted);
-      font-size: 8.5px;
+      font-size: 9px;
       font-weight: 900;
       line-height: 1;
       text-transform: uppercase;
-      letter-spacing: .01em;
+      letter-spacing: 0;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: clip;
+      overflow: visible;
+      text-overflow: unset;
       overflow-wrap: normal;
       word-break: normal;
       hyphens: none;
+      text-align: center;
     }
     .signal-cell strong {
-      display: block;
-      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      align-self: end;
+      font-size: 21px;
       line-height: 1;
       font-variant-numeric: tabular-nums;
       white-space: nowrap;
       overflow-wrap: normal;
       word-break: normal;
+      text-align: center;
     }
     .spark {
       display: grid;
@@ -735,7 +786,6 @@
 
     @media (max-width: 1280px) {
       .metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-      .insight-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
 
     @media (max-width: 1080px) {
@@ -745,6 +795,7 @@
       .technical-layout,
       .split-panel { grid-template-columns: 1fr; }
       .panel-note { max-width: 76ch; }
+      .insight-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 760px) {
@@ -764,7 +815,7 @@
       .insight-grid { grid-template-columns: 1fr; }
       .tech-grid { grid-template-columns: 1fr; }
       .split-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .summary-stat { min-height: 60px; }
+      .summary-stat { min-height: 74px; }
       .combo-row,
       .list-row.route,
       .list-row.source {
@@ -791,11 +842,12 @@
       .bar-row strong,
       .mini-bar strong { text-align: left; }
       .signal-grid { grid-template-columns: 1fr 1fr; }
+      .signal-cell span { font-size: 9px; }
       .split-summary { grid-template-columns: 1fr; }
       .combo-row,
       .list-row.route,
       .list-row.source { grid-template-columns: 1fr; }
-      .stat strong { font-size: 17px; }
+      .stat strong { font-size: 18px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1119,7 +1171,7 @@
       if (row && row.countAsVisit !== undefined) return (row.countAsVisit === true || String(row.countAsVisit).toLowerCase() === "true") ? number(row.events || row.count || row.visits) : 0;
       return visitValue(row);
     }
-    function rawSignalValue(row) { return number((row && (row.raw_signal_events || row.raw_events || row.events || row.raw_count || row.count)) || 0); }
+    function rawSignalValue(row) { return number((row && (row.raw_events || row.events || row.raw_count || row.count)) || 0); }
     function eventValue(row) { return countedEventValue(row); }
     function rowText(row) {
       return [row.dashboard_key, row.dashboard_id, row.device_class, row.browser_family, row.browser_brand, row.os_family, row.route_reason, row.entry_source_category, row.utm_source, row.utm_campaign].join(" ");
@@ -1531,7 +1583,7 @@
         insightCard("Leiðing", pct(k.mobile_visits, total), "Mobile hlutfall. Þvinguð leiðing: " + pct(forced, routeTotal) + ".", '<div class="mini-viz">' + miniBar("Mobile", k.mobile_visits, total, "good") + miniBar("Tölva", k.desktop_visits, total, "") + miniBar("Þvingað", forced, routeTotal, forced ? "warn" : "neutral", true) + '</div>'),
         insightCard("Uppruni", topSource ? topSource.key : "Óþekkt", "island.is: " + pct(k.island_is_visits, total) + ". Efsta UTM: " + (topCampaign ? topCampaign.key : "-") + ".", '<div class="mini-viz">' + miniBar("island.is", k.island_is_visits, total, "good") + miniBar("Annað", Math.max(0, total - number(k.island_is_visits)), total, "neutral") + '</div>'),
         insightCard("Gæði", fmt(k.fallback_error_count), "Fallback/villur. Staðfest gæðatilvik: " + fmt(warningEvents) + ".", '<div class="signal-grid">' + signalCell("Fallb.", fmt(k.fallback_error_count)) + signalCell("Staðf.", fmt(confirmed.length)) + signalCell("Óstaðf.", fmt(unconfirmed.length)) + '</div>'),
-        insightCard("Tæknimerki", topBrowser ? topBrowser.key : "Óþekkt", "Algengasta tæki: " + (topDevice ? topDevice.key : "-") + ". Samsung óvissa er ekki staðfest dark mode.", '<div class="signal-grid">' + signalCell("Dark", fmt(dark)) + signalCell("Light", fmt(light)) + signalCell("Samsung", fmt(samsungPossible)) + '</div>'),
+        insightCard("Tæknimerki", topBrowser ? topBrowser.key : "Óþekkt", "Algengasta tæki: " + (topDevice ? topDevice.key : "-") + ". Samsung óvissa er ekki staðfest dark mode.", '<div class="signal-grid">' + signalCell("Dark", fmt(dark)) + signalCell("Light", fmt(light)) + signalCell("Sams.", fmt(samsungPossible)) + '</div>'),
         insightCard("Nýleg virkni", eventAge.label, "Síðasta talda heimsókn. Samantekt: " + aggregationAge.label + ".", hourlySpark)
       ];
       byId("insight-grid").innerHTML = cards.join("");
