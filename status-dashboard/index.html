@@ -381,30 +381,40 @@
       margin-top: 2px;
     }
     .summary-stat {
-      min-height: 66px;
-      display: grid;
-      align-content: center;
-      gap: 5px;
-      padding: 10px 9px;
+      min-height: 74px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 7px;
+      padding: 11px 10px;
       border: 1px solid var(--line-soft);
       border-radius: 14px;
       background: #fff;
+      text-align: left;
     }
     .summary-stat span {
+      min-height: 22px;
+      display: flex;
+      align-items: flex-end;
       color: var(--muted);
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 900;
-      line-height: 1.18;
-      letter-spacing: .045em;
+      line-height: 1.12;
+      letter-spacing: .025em;
       text-transform: uppercase;
+      overflow-wrap: normal;
+      word-break: normal;
+      hyphens: none;
     }
     .summary-stat strong {
+      display: block;
       color: var(--ink);
       font-size: 22px;
       line-height: 1;
       font-weight: 900;
       letter-spacing: -.035em;
       font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
     .summary-stat.good { background: var(--good-bg); border-color: rgba(31, 122, 83, .2); }
     .summary-stat.neutral { background: #fff; }
@@ -534,17 +544,46 @@
       gap: 8px;
     }
     .signal-cell {
-      min-height: 64px;
-      display: grid;
-      align-content: center;
-      gap: 5px;
-      padding: 9px 8px;
+      min-height: 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 8px;
       border: 1px solid var(--line-soft);
       border-radius: 13px;
       background: #fff;
+      text-align: center;
     }
-    .signal-cell span { display: block; color: var(--muted); font-size: 9px; font-weight: 900; line-height: 1.15; text-transform: uppercase; letter-spacing: .035em; overflow-wrap: anywhere; }
-    .signal-cell strong { display: block; font-size: 19px; line-height: 1; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+    .signal-cell span {
+      min-height: 14px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      max-width: 100%;
+      color: var(--muted);
+      font-size: 8.5px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: .01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: clip;
+      overflow-wrap: normal;
+      word-break: normal;
+      hyphens: none;
+    }
+    .signal-cell strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      overflow-wrap: normal;
+      word-break: normal;
+    }
     .spark {
       display: grid;
       grid-auto-flow: column;
@@ -1072,8 +1111,16 @@
       if (!isFinite(d.getTime())) return String(iso).slice(0, 19).replace("T", " ");
       return new Intl.DateTimeFormat("is-IS", { dateStyle: "short", timeStyle: "short" }).format(d);
     }
-    function visitValue(row) { return number(row.visits || row.total_visits || row.count); }
-    function eventValue(row) { return number(row.events || row.count); }
+    function visitValue(row) { return number(row.visits || row.total_visits || row.counted_visits || row.production_visits || row.counted_count); }
+    function countedEventValue(row) {
+      var counted = firstValue(row, ["counted_events", "counted_event_count", "production_events", "production_count", "counted_count"]);
+      if (counted !== "") return number(counted);
+      if (row && row.count_as_visit !== undefined) return (row.count_as_visit === true || String(row.count_as_visit).toLowerCase() === "true") ? number(row.events || row.count || row.visits) : 0;
+      if (row && row.countAsVisit !== undefined) return (row.countAsVisit === true || String(row.countAsVisit).toLowerCase() === "true") ? number(row.events || row.count || row.visits) : 0;
+      return visitValue(row);
+    }
+    function rawSignalValue(row) { return number((row && (row.raw_signal_events || row.raw_events || row.events || row.raw_count || row.count)) || 0); }
+    function eventValue(row) { return countedEventValue(row); }
     function rowText(row) {
       return [row.dashboard_key, row.dashboard_id, row.device_class, row.browser_family, row.browser_brand, row.os_family, row.route_reason, row.entry_source_category, row.utm_source, row.utm_campaign].join(" ");
     }
@@ -1148,7 +1195,9 @@
       return ((data && data.device) || []).filter(function (row) {
         if (isTestRow(row)) return false;
         if (visitValue(row) > 0) return true;
-        return isSamsungInternetRow(row) && eventValue(row) > 0;
+        // Samsung Internet is kept as a technical signal even when count_as_visit=false;
+        // it must not add to visits or counted event totals.
+        return isSamsungInternetRow(row) && rawSignalValue(row) > 0;
       });
     }
     function groupedDeviceCombos(data, limit) {
@@ -1184,25 +1233,27 @@
             theme_signal_quality: row.theme_signal_quality,
             visits: 0,
             events: 0,
+            raw_signal_events: 0,
             combo_count: 0,
             has_uncounted_signal: false
           };
         }
         map[key].visits += visitValue(row);
-        map[key].events += eventValue(row);
+        map[key].events += countedEventValue(row);
+        map[key].raw_signal_events += rawSignalValue(row);
         map[key].combo_count += 1;
-        if (visitValue(row) === 0 && eventValue(row) > 0) map[key].has_uncounted_signal = true;
+        if (visitValue(row) === 0 && rawSignalValue(row) > 0) map[key].has_uncounted_signal = true;
       });
       var allRows = Object.keys(map).map(function (key) { return map[key]; });
       allRows.sort(function (a, b) {
         if (visitValue(b) !== visitValue(a)) return visitValue(b) - visitValue(a);
-        return eventValue(b) - eventValue(a);
+        return countedEventValue(b) - countedEventValue(a);
       });
       var result = allRows.filter(function (row) { return visitValue(row) > 0; }).slice(0, limit);
       var samsungByDashboard = {};
-      allRows.filter(function (row) { return isSamsungInternetRow(row) && eventValue(row) > 0; }).forEach(function (row) {
+      allRows.filter(function (row) { return isSamsungInternetRow(row) && rawSignalValue(row) > 0; }).forEach(function (row) {
         var key = row.dashboard_key || "unknown";
-        if (!samsungByDashboard[key] || eventValue(row) > eventValue(samsungByDashboard[key])) samsungByDashboard[key] = row;
+        if (!samsungByDashboard[key] || rawSignalValue(row) > rawSignalValue(samsungByDashboard[key])) samsungByDashboard[key] = row;
       });
       var samsungCandidates = Object.keys(samsungByDashboard).map(function (key) {
         return samsungByDashboard[key];
@@ -1210,7 +1261,7 @@
         return !result.some(function (row) {
           return row.dashboard_key === candidate.dashboard_key && isSamsungInternetRow(row);
         });
-      }).sort(function (a, b) { return eventValue(b) - eventValue(a); });
+      }).sort(function (a, b) { return rawSignalValue(b) - rawSignalValue(a); });
       samsungCandidates.forEach(function (candidate, index) {
         if (result.length < limit) {
           result.push(candidate);
@@ -1222,7 +1273,7 @@
       return result.sort(function (a, b) {
         if (visitValue(b) !== visitValue(a)) return visitValue(b) - visitValue(a);
         if (isSamsungInternetRow(a) !== isSamsungInternetRow(b)) return isSamsungInternetRow(a) ? 1 : -1;
-        return eventValue(b) - eventValue(a);
+        return countedEventValue(b) - countedEventValue(a);
       });
     }
 
@@ -1479,7 +1530,7 @@
         insightCard("Notkun", fmt(total), "Í dag: " + fmt(k.visits_today) + ", 7 dagar: " + fmt(k.visits_7d) + ", 30 dagar: " + fmt(k.visits_30d) + ".", dailySpark),
         insightCard("Leiðing", pct(k.mobile_visits, total), "Mobile hlutfall. Þvinguð leiðing: " + pct(forced, routeTotal) + ".", '<div class="mini-viz">' + miniBar("Mobile", k.mobile_visits, total, "good") + miniBar("Tölva", k.desktop_visits, total, "") + miniBar("Þvingað", forced, routeTotal, forced ? "warn" : "neutral", true) + '</div>'),
         insightCard("Uppruni", topSource ? topSource.key : "Óþekkt", "island.is: " + pct(k.island_is_visits, total) + ". Efsta UTM: " + (topCampaign ? topCampaign.key : "-") + ".", '<div class="mini-viz">' + miniBar("island.is", k.island_is_visits, total, "good") + miniBar("Annað", Math.max(0, total - number(k.island_is_visits)), total, "neutral") + '</div>'),
-        insightCard("Gæði", fmt(k.fallback_error_count), "Fallback/villur. Staðfest gæðatilvik: " + fmt(warningEvents) + ".", '<div class="signal-grid">' + signalCell("Fallback", fmt(k.fallback_error_count)) + signalCell("Staðfest", fmt(confirmed.length)) + signalCell("Óstaðfest", fmt(unconfirmed.length)) + '</div>'),
+        insightCard("Gæði", fmt(k.fallback_error_count), "Fallback/villur. Staðfest gæðatilvik: " + fmt(warningEvents) + ".", '<div class="signal-grid">' + signalCell("Fallb.", fmt(k.fallback_error_count)) + signalCell("Staðf.", fmt(confirmed.length)) + signalCell("Óstaðf.", fmt(unconfirmed.length)) + '</div>'),
         insightCard("Tæknimerki", topBrowser ? topBrowser.key : "Óþekkt", "Algengasta tæki: " + (topDevice ? topDevice.key : "-") + ". Samsung óvissa er ekki staðfest dark mode.", '<div class="signal-grid">' + signalCell("Dark", fmt(dark)) + signalCell("Light", fmt(light)) + signalCell("Samsung", fmt(samsungPossible)) + '</div>'),
         insightCard("Nýleg virkni", eventAge.label, "Síðasta talda heimsókn. Samantekt: " + aggregationAge.label + ".", hourlySpark)
       ];
@@ -1495,10 +1546,10 @@
         var os = row.os_family || "Óþekkt";
         var theme = labelTheme(row.color_scheme || row.theme_signal_quality || "unknown");
         var samsung = isSamsungInternetRow(row) && /Android/i.test(os) ? "Samsung Internet Android" : "";
-        var uncounted = visitValue(row) === 0 && eventValue(row) > 0 ? "Ótalið merki" : "";
+        var uncounted = visitValue(row) === 0 && rawSignalValue(row) > 0 ? "Ótalið tæknimerki" : "";
         var merged = number(row.combo_count) > 1 ? fmt(row.combo_count) + " hráar samsetningar" : "";
         var extra = [theme, samsung, uncounted, merged].filter(Boolean).join(" · ");
-        var countHtml = '<div class="combo-number"><strong>' + fmt(row.visits) + '</strong>' + (eventValue(row) !== visitValue(row) ? '<small>' + fmt(row.events) + ' atburðir</small>' : '') + '</div>';
+        var countHtml = '<div class="combo-number"><strong>' + fmt(row.visits) + '</strong>' + (visitValue(row) === 0 && rawSignalValue(row) > 0 ? '<small>ótalið</small>' : '') + '</div>';
         return '<div class="combo-row compact-combo">' +
           '<div><div class="combo-title">' + safe(titleFor(row, cards)) + '</div><div class="combo-meta">' + safe(cleanId(row.dashboard_id || row.dashboard_key)) + '</div></div>' +
           '<div><span class="chip accent">' + safe(labelDevice(row.device_class)) + '</span><div class="combo-meta">' + safe(labelLayout(row.selected_layout)) + '</div></div>' +
@@ -1521,7 +1572,7 @@
         distribution("Tæki", data.device || [], function (row) { return labelDevice(row.device_class); }, 5) +
         distribution("Birtingarmerki", data.device || [], function (row) { return labelTheme(row.color_scheme || row.theme_signal_quality || "unknown"); }, 5) +
       '</div>';
-      byId("technical-panel").innerHTML = '<article class="tech-panel"><div class="nested-head"><div><h3>Toppsamsetningar</h3><div class="subtle">Sýnir samanteknar topplínur. Samsung Internet er birt sem eigið vaframerki, líka þegar merkið er ótalið en gagnlegt til prófunar.</div></div></div><div class="combo-list">' + comboHtml + '</div></article>' + right;
+      byId("technical-panel").innerHTML = '<article class="tech-panel"><div class="nested-head"><div><h3>Toppsamsetningar</h3><div class="subtle">Sýnir taldar heimsóknir. Samsung Internet er haldið sem sérmerki þegar það sést í tæknisamantekt, en ótalin prófunarmerki eru ekki lögð við heimsóknir.</div></div></div><div class="combo-list">' + comboHtml + '</div></article>' + right;
     }
 
     function renderRouteList(data) {
