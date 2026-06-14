@@ -1407,6 +1407,31 @@
       gap: 10px;
     }
 
+    .delivery-viz-head > div {
+      min-width: 0;
+      display: grid;
+      gap: 5px;
+    }
+
+    .delivery-viz-head.with-extra {
+      align-items: flex-start;
+    }
+
+    .delivery-viz-head-extra {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .delivery-viz-head-extra .chip {
+      max-width: 100%;
+      padding: 4px 7px;
+      font-size: 10px;
+      line-height: 1.05;
+      white-space: normal;
+    }
+
     .delivery-viz-head span,
     .delivery-viz-value small,
     .delivery-viz-text small {
@@ -1524,6 +1549,31 @@
       line-height: 1;
       font-weight: 900;
     }
+
+    .delivery-viz-panel.stretch {
+      grid-template-rows: auto 18px minmax(0, 1fr);
+      align-content: stretch;
+      min-height: 218px;
+    }
+
+    .delivery-viz-panel.stretch .delivery-viz-items {
+      height: 100%;
+      min-height: 0;
+      grid-auto-rows: minmax(0, 1fr);
+      align-content: stretch;
+    }
+
+    .delivery-viz-panel.stretch .delivery-viz-item {
+      min-height: 0;
+      height: 100%;
+      align-content: center;
+    }
+
+    .delivery-viz-panel.stretch .delivery-viz-items.rows-1 { grid-template-rows: minmax(96px, 1fr); }
+    .delivery-viz-panel.stretch .delivery-viz-items.rows-2 { grid-template-rows: repeat(2, minmax(72px, 1fr)); }
+    .delivery-viz-panel.stretch .delivery-viz-items.rows-3 { grid-template-rows: repeat(3, minmax(62px, 1fr)); }
+    .delivery-viz-panel.stretch .delivery-viz-items.rows-4 { grid-template-rows: repeat(4, minmax(54px, 1fr)); }
+    .delivery-viz-panel.stretch .delivery-viz-items.rows-5 { grid-template-rows: repeat(5, minmax(48px, 1fr)); }
 
     .delivery-combo-list {
       display: grid;
@@ -1948,10 +1998,48 @@
       display: grid;
       grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
       gap: 14px;
-      align-items: stretch;
+      align-items: start;
     }
 
     .panorama-wide { grid-column: 1 / -1; }
+
+    .signal-panorama > .nested-card {
+      min-height: 0;
+    }
+
+    .panorama-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .panorama-card-head > div {
+      min-width: 0;
+    }
+
+    .panorama-card-head .chip-row {
+      justify-content: flex-end;
+      flex: 0 0 auto;
+      max-width: 48%;
+    }
+
+    .source-pulse-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .source-pulse-grid .delivery-viz-panel {
+      min-height: 176px;
+      background: rgba(255,255,255,.86);
+    }
+
+    .source-pulse-grid .delivery-viz-panel.stretch {
+      min-height: 176px;
+    }
 
     .matrix {
       display: grid;
@@ -2067,6 +2155,7 @@
       .insight-command { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .insight-stance { grid-column: 1 / -1; }
       .insight-panels { grid-template-columns: 1fr; }
+      .source-pulse-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 860px) {
@@ -2100,6 +2189,15 @@
       .matrix-row,
       .matrix-row.matrix-head { grid-template-columns: 1fr; }
       .matrix-row.matrix-head { display: none; }
+      .matrix-row { padding: 9px; }
+      .heat-cell { min-height: 54px; }
+      .panorama-card-head {
+        display: grid;
+      }
+      .panorama-card-head .chip-row {
+        justify-content: flex-start;
+        max-width: none;
+      }
       .dashboard-compare { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .combo-row,
       .combo-row.list-head,
@@ -2122,6 +2220,17 @@
       .warning-count { text-align: left; justify-self: start; }
       .bar-row { grid-template-columns: minmax(82px, 112px) minmax(0, 1fr) minmax(48px, auto); }
       .funnel-step::after { display: none; }
+      .delivery-viz-head {
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .delivery-viz-head strong {
+        white-space: normal;
+        text-align: left;
+      }
+      .delivery-viz-panel.stretch {
+        min-height: auto;
+      }
     }
 
     @media (max-width: 520px) {
@@ -2141,6 +2250,17 @@
       .gateway-flow { grid-template-columns: 1fr; overflow: visible; }
       .mini-card { grid-template-columns: 1fr; }
       .mini-value { grid-column: 1; grid-row: auto; }
+      .delivery-viz-item {
+        grid-template-columns: 38px minmax(0, 1fr);
+        align-items: start;
+      }
+      .delivery-viz-value {
+        grid-column: 2;
+        justify-items: start;
+        text-align: left;
+      }
+      .delivery-donut { width: 38px; }
+      .heat-cell strong { font-size: 16px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -3178,13 +3298,12 @@
     .master-ops-board {
       position: relative;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1.04fr) minmax(0, .96fr);
       grid-template-areas:
         "executive system"
-        "funnel funnel"
-        "metrics metrics";
+        "funnel metrics";
       gap: 14px;
-      align-items: start;
+      align-items: stretch;
     }
 
     .master-cell {
@@ -3200,7 +3319,8 @@
     .master-executive,
     .master-system,
     .master-funnel,
-    .master-freshness {
+    .master-freshness,
+    .master-metrics {
       padding: 15px;
       border: 1px solid var(--line);
       border-radius: 22px;
@@ -3359,8 +3479,94 @@
     }
 
     .master-metrics {
+      display: grid;
       margin: 0;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-rows: minmax(0, 1fr);
+      gap: 10px;
+      align-content: stretch;
+      height: 100%;
+      margin-bottom: 0;
+    }
+
+    .ops-signal-group {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 9px;
+      padding: 11px;
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.95), rgba(247,250,252,.86));
+    }
+
+    .ops-signal-group.good { background: var(--good-soft); border-color: var(--good-line); }
+    .ops-signal-group.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+    .ops-signal-group.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .ops-signal-group.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+
+    .ops-signal-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .ops-signal-head span,
+    .ops-signal-row span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: .055em;
+      text-transform: uppercase;
+    }
+
+    .ops-signal-head strong {
+      color: var(--ink);
+      font-size: clamp(19px, 1.7vw, 26px);
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .ops-signal-rows {
+      display: grid;
+      grid-auto-rows: minmax(0, 1fr);
+      gap: 7px;
+      align-content: stretch;
+      min-height: 0;
+    }
+
+    .ops-signal-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      min-height: 0;
+      padding: 7px 8px;
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      background: rgba(255,255,255,.78);
+    }
+
+    .ops-signal-row strong {
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .ops-signal-row .meter {
+      grid-column: 1 / -1;
+      height: 6px;
+      margin-top: -1px;
     }
 
     .system-compact-head {
@@ -3426,7 +3632,7 @@
     }
 
     @media (max-width: 1420px) {
-      .master-metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .master-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 1320px) {
@@ -4717,6 +4923,8 @@
     }
 
     .delivery-lane.performance {
+      grid-template-rows: minmax(104px, auto) auto auto minmax(0, 1fr);
+      align-content: stretch;
       background:
         linear-gradient(180deg, rgba(255,255,255,.98), rgba(246,252,249,.92)),
         radial-gradient(circle at 100% 0%, rgba(31,122,83,.08), transparent 70%);
@@ -4733,6 +4941,34 @@
       padding-top: 0;
       border-top: 0;
     }
+
+    .netmark-subsection {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr);
+      align-content: stretch;
+    }
+
+    .netmark-subsection .delivery-viz-panel.stretch {
+      height: 100%;
+      min-height: 0;
+    }
+
+    .netmark-subsection .delivery-viz-panel.stretch .delivery-viz-items {
+      min-height: 0;
+      align-content: stretch;
+    }
+
+    .netmark-subsection .delivery-viz-panel.stretch .delivery-viz-item {
+      min-height: 0;
+      height: 100%;
+    }
+
+    .netmark-subsection .delivery-viz-panel.stretch .delivery-viz-items.rows-1 { grid-template-rows: 1fr; }
+    .netmark-subsection .delivery-viz-panel.stretch .delivery-viz-items.rows-2 { grid-template-rows: repeat(2, minmax(0, 1fr)); }
+    .netmark-subsection .delivery-viz-panel.stretch .delivery-viz-items.rows-3 { grid-template-rows: repeat(3, minmax(0, 1fr)); }
+    .netmark-subsection .delivery-viz-panel.stretch .delivery-viz-items.rows-4 { grid-template-rows: repeat(4, minmax(0, 1fr)); }
+    .netmark-subsection .delivery-viz-panel.stretch .delivery-viz-items.rows-5 { grid-template-rows: repeat(5, minmax(0, 1fr)); }
 
     .delivery-section-label {
       color: var(--muted);
@@ -5075,7 +5311,7 @@
 
     .public-mini-metrics {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       align-items: stretch;
       justify-content: stretch;
     }
@@ -5276,8 +5512,39 @@
     }
 
     .tech-distribution-grid .delivery-viz-panel {
+      display: grid;
+      grid-template-rows: 30px 18px minmax(0, 1fr);
+      align-content: stretch;
       min-height: 190px;
     }
+
+    .tech-distribution-grid .delivery-viz-head {
+      min-height: 30px;
+      align-items: end;
+    }
+
+    .tech-distribution-grid .delivery-treemap {
+      align-self: start;
+    }
+
+    .tech-distribution-grid .delivery-viz-items {
+      height: 100%;
+      min-height: 0;
+      grid-auto-rows: minmax(0, 1fr);
+      align-content: stretch;
+    }
+
+    .tech-distribution-grid .delivery-viz-item {
+      min-height: 0;
+      height: 100%;
+      align-content: center;
+    }
+
+    .tech-distribution-grid .delivery-viz-items.rows-1 { grid-template-rows: 1fr; }
+    .tech-distribution-grid .delivery-viz-items.rows-2 { grid-template-rows: repeat(2, minmax(0, 1fr)); }
+    .tech-distribution-grid .delivery-viz-items.rows-3 { grid-template-rows: repeat(3, minmax(0, 1fr)); }
+    .tech-distribution-grid .delivery-viz-items.rows-4 { grid-template-rows: repeat(4, minmax(0, 1fr)); }
+    .tech-distribution-grid .delivery-viz-items.rows-5 { grid-template-rows: repeat(5, minmax(0, 1fr)); }
 
     .technical-audit-row {
       grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -5578,6 +5845,48 @@
       }
     }
 
+    @media (max-width: 860px) {
+      .insight-panels {
+        grid-template-columns: 1fr;
+      }
+
+      .insight-panel {
+        height: auto;
+        grid-template-rows: auto;
+      }
+
+      .insight-evidence-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+      }
+
+      .insight-evidence {
+        min-height: 84px;
+      }
+
+      .insight-evidence strong {
+        width: 100%;
+        min-width: 0;
+        line-height: 1.08;
+        overflow-wrap: break-word;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .insight-panel h3 {
+        font-size: 16px;
+        line-height: 1.15;
+      }
+
+      .insight-evidence {
+        padding: 10px;
+      }
+
+      .insight-evidence strong {
+        font-size: 20px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -5647,7 +5956,7 @@
             </article>
           </div>
         </div>
-        <div class="metric-grid overview-metrics master-metrics" id="metric-grid" aria-label="Lykiltölur"></div>
+        <div class="metric-grid overview-metrics master-metrics master-cell" id="metric-grid" aria-label="Lykiltölur"></div>
       </div>
     </section>
 
@@ -5988,6 +6297,11 @@
       if (value === "internal_email") return "Netpóstur";
       if (!value || value === "unknown") return "Óþekkt";
       return value;
+    }
+    function isDirectSource(value) {
+      var raw = String(value || "").toLowerCase();
+      var label = labelSource(value).toLowerCase();
+      return raw === "direct" || label === "beint";
     }
     function labelRoute(value) {
       value = String(value || "").toLowerCase();
@@ -6406,7 +6720,9 @@
       var cards = publicMap(data);
       var rows = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); }).slice(0, 6);
       if (!rows.length) return '<article class="nested-card"><h3>Dashboard heatmap</h3><div class="message-card neutral">Engin dashboard matrix gögn enn.</div></article>';
-      var html = '<article class="nested-card"><div><h3>Dashboard heatmap</h3><div class="subtle">Samanburður á MOBILE, DESKTOP og virkni dagsins eftir mælaborði.</div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Mælaborð</span><span>MOBILE</span><span>DESKTOP</span><span>Í dag</span></div>';
+      var totalVisits = sumRows(rows, "visits");
+      var today = rows.reduce(function (acc, row) { return acc + number(row.visits_today); }, 0);
+      var html = '<article class="nested-card"><div class="panorama-card-head"><div><h3>Dashboard heatmap</h3><div class="subtle">Samanburður á MOBILE, DESKTOP og virkni dagsins eftir mælaborði.</div></div><div class="chip-row"><span class="chip good">' + fmt(totalVisits) + ' heimsóknir</span><span class="chip info">' + fmt(today) + ' í dag</span></div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Mælaborð</span><span>MOBILE</span><span>DESKTOP</span><span>Í dag</span></div>';
       html += rows.map(function (row) {
         var total = Math.max(visitValue(row), 1);
         return '<div class="matrix-row"><div class="matrix-title">' + safe(titleFor(row, cards)) + '<small>' + safe(cleanId(row.dashboard_id || row.dashboard_key)) + '</small></div>' + heatCell("MOBILE", row.mobile_visits, total, "good", pct(row.mobile_visits, total)) + heatCell("DESKTOP", row.desktop_visits, total, "gateway", pct(row.desktop_visits, total)) + heatCell("Í dag", row.visits_today, Math.max(total, 1), row.visits_today ? "info" : "", fmt(row.visits_today)) + '</div>';
@@ -6417,7 +6733,8 @@
     function renderRouteMatrix(data) {
       var rows = routeReasonGroups(data);
       if (!rows.length) return '<article class="nested-card"><h3>Route matrix</h3><div class="message-card neutral">Engin route matrix gögn enn.</div></article>';
-      var html = '<article class="nested-card"><div><h3>Route matrix</h3><div class="subtle">Hvaða route ástæður leiða mest notkun og hvar þvinguð útgáfa kemur fyrir.</div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Ástæða</span><span>MOBILE</span><span>DESKTOP</span><span>Þvingað</span></div>';
+      var forcedTotal = rows.reduce(function (acc, row) { return acc + number(row.forced); }, 0);
+      var html = '<article class="nested-card"><div class="panorama-card-head"><div><h3>Route matrix</h3><div class="subtle">Hvaða route ástæður leiða mest notkun og hvar þvinguð útgáfa kemur fyrir.</div></div><div class="chip-row"><span class="chip gateway">' + fmt(rows.length) + ' ástæður</span><span class="chip ' + (forcedTotal ? 'warn' : 'good') + '">' + fmt(forcedTotal) + ' þvingað</span></div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Ástæða</span><span>MOBILE</span><span>DESKTOP</span><span>Þvingað</span></div>';
       html += rows.map(function (row) {
         var total = Math.max(row.total, 1);
         return '<div class="matrix-row"><div class="matrix-title">' + safe(row.key) + '<small>' + fmt(row.total) + ' heimsóknir</small></div>' + heatCell("MOBILE", row.mobile, total, "good", pct(row.mobile, total)) + heatCell("DESKTOP", row.desktop, total, "gateway", pct(row.desktop, total)) + heatCell("Þvingað", row.forced, total, row.forced ? "warn" : "", fmt(row.forced)) + '</div>';
@@ -6426,14 +6743,18 @@
     }
 
     function renderSourcePanorama(data) {
-      var sourceRows = topRows(visibleRows(data.sources || []), function (row) { return labelSource(row.entry_source_category); }, 6);
-      var campaignRows = topRows(visibleRows(data.sources || []), function (row) { return row.utm_campaign || row.utm_source || labelSource(row.entry_source_category); }, 8);
-      var total = Math.max(sumRows(sourceRows, "visits"), 1);
-      return '<article class="nested-card panorama-wide"><div><h3>Upprunaþungi</h3><div class="subtle">Samsett yfirlit yfir talinn uppruna og efstu herferðarmerki.</div></div><div class="split-panel" style="margin-top:12px;"><div class="bar-list">' +
-        (sourceRows.map(function (row) { return bar(row.key, row.visits, total, { className: row.key === "island.is" ? "good" : "gateway", asNumber: true }); }).join("") || '<div class="subtle">Engin source gögn.</div>') +
-        '</div><div class="chip-row">' +
-        (campaignRows.map(function (row) { return '<span class="chip accent">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engar herferðir</span>') +
-        '</div></div></article>';
+      var allSourceRows = visibleRows(data.sources || []);
+      var sourceRows = topRows(allSourceRows, function (row) { return labelSource(row.entry_source_category); }, 99);
+      var campaignRows = topRows(allSourceRows, function (row) { return row.utm_campaign || row.utm_source || labelSource(row.entry_source_category); }, 99);
+      var totalRaw = sumRows(sourceRows, "visits");
+      var campaignTotalRaw = sumRows(campaignRows, "visits");
+      var total = Math.max(totalRaw, 1);
+      var campaignTotal = Math.max(campaignTotalRaw, 1);
+      var island = sourceRows.reduce(function (acc, row) { return acc + (/island\.is/i.test(row.key) ? number(row.visits) : 0); }, 0);
+      return '<article class="nested-card panorama-wide source-pulse-card"><div class="panorama-card-head"><div><h3>Upprunaþungi</h3><div class="subtle">Talinn uppruni og efstu herferðarmerki lesin sem dreifing, ekki aukatalning.</div></div><div class="chip-row"><span class="chip good">island.is ' + pct(island, total) + '</span><span class="chip neutral">' + fmt(totalRaw) + ' taldar</span></div></div><div class="source-pulse-grid">' +
+        shareVizCard("Uppruni", sourceRows, total, { className: "good", unit: "heimsóknir", stretch: true, limit: 6, displayTotal: totalRaw }) +
+        shareVizCard("Herferðir / merki", campaignRows, campaignTotal, { className: "gateway", unit: "heimsóknir", stretch: true, limit: 6, displayTotal: campaignTotalRaw }) +
+      '</div></article>';
     }
 
     function renderSignalPanorama(data) {
@@ -6503,6 +6824,15 @@
       return '<article class="metric ' + safe(intent || "") + '"><div><span class="label">' + safe(label) + '</span><strong>' + safe(value) + '</strong></div><small>' + safe(detail) + '</small>' + meter + '</article>';
     }
 
+    function metricSignalRow(label, value, progress, className) {
+      var meter = progress === undefined ? "" : '<div class="meter"><span class="' + safe(className || "") + '" style="width:' + clamp(progress, 0, 100) + '%"></span></div>';
+      return '<div class="ops-signal-row"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong>' + meter + '</div>';
+    }
+
+    function metricSignalGroup(label, value, rows, className) {
+      return '<article class="ops-signal-group ' + safe(className || "") + '"><div class="ops-signal-head"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div><div class="ops-signal-rows">' + rows.join("") + '</div></article>';
+    }
+
     function renderMetrics(data) {
       var k = data.kpis || {};
       var f = data.root_index_funnel || data.root_index || {};
@@ -6515,19 +6845,30 @@
       var gatewayClicks = number(firstValue(f, ["clicks", "dashboard_clicks_count", "root_dashboard_clicks"]));
       var confirmed = confirmedWarningCount(data);
       var fallbackErrors = number(firstValue(k, ["confirmed_fallback_error_count", "production_fallback_error_count", "fallback_error_count"]));
+      var sourceRows = visibleRows(data.sources || []);
+      var island = number(k.island_is_visits);
+      var direct = sourceRows.reduce(function (acc, row) { return acc + (isDirectSource(row.entry_source_category) ? visitValue(row) : 0); }, 0);
       setHtml("metric-grid", [
-        metric("Heildarheimsóknir", fmt(total), "Allar taldar production heimsóknir.", 100, "good", "intent-visit"),
-        metric("Í dag", fmt(k.visits_today), "Heimsóknir skráðar í dag.", widthPct(k.visits_today, Math.max(k.visits_7d, 1)), "good", "intent-visit"),
-        metric("7 dagar", fmt(k.visits_7d), "Nýleg notkun yfir viku.", widthPct(k.visits_7d, Math.max(k.visits_30d, 1)), "", "intent-visit"),
-        metric("30 dagar", fmt(k.visits_30d), "Mánaðarmynd notkunar.", widthPct(k.visits_30d, Math.max(total, 1)), "", "intent-visit"),
-        metric("Mobile", pct(mobile, total), fmt(mobile) + " taldar heimsóknir.", widthPct(mobile, total), "good", "intent-visit"),
-        metric("Tölva", pct(desktop, total), fmt(desktop) + " taldar heimsóknir.", widthPct(desktop, total), "", "intent-visit"),
-        metric("Tablet/þröngt", fmt(tabletNarrow), "Talin tablet eða þröng skjáhegðun.", widthPct(tabletNarrow, total), "", "intent-visit"),
-        metric("island.is", pct(k.island_is_visits, total), fmt(k.island_is_visits) + " merktar island.is.", widthPct(k.island_is_visits, total), "good", "intent-source"),
-        metric("Signal gæði", shareValue(weakShare), "Veik eða óþekkt merki. Lægra er betra.", clamp(100 - weakShare * 100, 0, 100), k.confidence_health === "warning" ? "warn" : "good", "intent-quality"),
-        metric("Fallback / villur", fmt(fallbackErrors), "Staðfest rekstrarmerki, ekki ótalin prófun.", widthPct(fallbackErrors, Math.max(total, 1)), fallbackErrors ? "bad" : "good", "intent-quality"),
-        metric("Gateway", fmt(gatewayViews), "Root index views. Ekki dashboard visits.", widthPct(gatewayClicks, Math.max(gatewayViews, 1)), "gateway", "intent-gateway"),
-        metric("Staðfestar viðv.", fmt(confirmed), "Production warnings sem hækka stöðu.", confirmed ? 100 : 0, confirmed ? "warn" : "good", "intent-quality")
+        metricSignalGroup("Notkun", fmt(total), [
+          metricSignalRow("Í dag", fmt(k.visits_today), widthPct(k.visits_today, Math.max(total, 1)), "good"),
+          metricSignalRow("7 dagar", fmt(k.visits_7d), widthPct(k.visits_7d, Math.max(k.visits_30d, 1)), ""),
+          metricSignalRow("30 dagar", fmt(k.visits_30d), widthPct(k.visits_30d, Math.max(total, 1)), "")
+        ], "good"),
+        metricSignalGroup("Skjáhegðun", pct(mobile, total), [
+          metricSignalRow("Mobile", fmt(mobile), widthPct(mobile, total), "good"),
+          metricSignalRow("Tölva", fmt(desktop), widthPct(desktop, total), ""),
+          metricSignalRow("Tablet/þröngt", fmt(tabletNarrow), widthPct(tabletNarrow, total), "gateway")
+        ], "info"),
+        metricSignalGroup("Uppruni", pct(island, total), [
+          metricSignalRow("island.is", fmt(island), widthPct(island, total), "good"),
+          metricSignalRow("Beint", fmt(direct), widthPct(direct, total), "gateway"),
+          metricSignalRow("Gateway", fmt(gatewayViews), widthPct(gatewayClicks, Math.max(gatewayViews, 1)), "gateway")
+        ], "gateway"),
+        metricSignalGroup("Gæði", fmt(confirmed), [
+          metricSignalRow("Staðfestar viðv.", fmt(confirmed), confirmed ? 100 : 0, confirmed ? "warn" : "good"),
+          metricSignalRow("Signal gæði", shareValue(weakShare), clamp(100 - weakShare * 100, 0, 100), k.confidence_health === "warning" ? "warn" : "good"),
+          metricSignalRow("Fallback / villur", fmt(fallbackErrors), widthPct(fallbackErrors, Math.max(total, 1)), fallbackErrors ? "bad" : "good")
+        ], confirmed ? "warn" : "good")
       ].join(""));
     }
 
@@ -6998,13 +7339,17 @@
       rows = rows || [];
       total = Math.max(number(total) || sumRows(rows, "visits"), 1);
       var className = options.className ? " " + safe(options.className) : "";
+      if (options.stretch) className += " stretch";
+      var headerExtra = options.headerMeta ? '<div class="delivery-viz-head-extra">' + options.headerMeta + '</div>' : "";
+      var headClass = headerExtra ? " with-extra" : "";
       var unit = options.unit || "merki";
       var limit = options.limit || rows.length;
       rows = rows.slice(0, limit);
       if (!rows.length) {
-        return '<div class="delivery-viz-panel' + className + '"><div class="delivery-viz-head"><span>' + safe(label) + '</span><strong>0</strong></div><div class="subtle">Engin gögn.</div></div>';
+        return '<div class="delivery-viz-panel' + className + '"><div class="delivery-viz-head' + headClass + '"><div><span>' + safe(label) + '</span>' + headerExtra + '</div><strong>0</strong></div><div class="subtle">Engin gögn.</div></div>';
       }
-      var totalRows = sumRows(rows, "visits");
+      var rowCountClass = " rows-" + Math.min(rows.length, 5);
+      var totalRows = options.displayTotal !== undefined ? number(options.displayTotal) : sumRows(rows, "visits");
       var segments = rows.map(function (row, index) {
         var value = number(firstValue(row, ["visits", "value", "count", "events", "raw_signal_events"]));
         var rawShare = total ? value / total * 100 : 0;
@@ -7022,10 +7367,13 @@
           '<div class="delivery-viz-value"><strong>' + fmt(value) + '</strong><small>' + safe(pct(value, total)) + '</small></div>' +
         '</div>';
       }).join("");
-      return '<div class="delivery-viz-panel' + className + '"><div class="delivery-viz-head"><span>' + safe(label) + '</span><strong>' + fmt(totalRows) + ' alls</strong></div><div class="delivery-treemap" aria-hidden="true">' + segments + '</div><div class="delivery-viz-items">' + items + '</div></div>';
+      return '<div class="delivery-viz-panel' + className + '"><div class="delivery-viz-head' + headClass + '"><div><span>' + safe(label) + '</span>' + headerExtra + '</div><strong>' + fmt(totalRows) + ' alls</strong></div><div class="delivery-treemap" aria-hidden="true">' + segments + '</div><div class="delivery-viz-items' + rowCountClass + '">' + items + '</div></div>';
     }
-    function deliveryShareViz(label, rows, total, cls) {
-      return shareVizCard(label, rows, total, { className: cls || "", unit: "merki" });
+    function deliveryShareViz(label, rows, total, cls, options) {
+      options = options || {};
+      options.className = cls || options.className || "";
+      options.unit = options.unit || "merki";
+      return shareVizCard(label, rows, total, options);
     }
     function deliveryAudit(label, value, detail, cls) {
       var className = cls ? " " + safe(cls) : "";
@@ -7089,6 +7437,7 @@
       var connectionTotal = Math.max(sumRows(connectionRows, "visits"), 1);
       var connectionChips = connectionRows.map(function (row) { return '<span class="chip accent">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin netmerki</span>';
       var a11yChips = a11yRows.map(function (row) { return '<span class="chip neutral">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin aðgengismerki</span>';
+      var themeChips = '<span class="chip ' + (forcedSignals ? 'info' : 'neutral') + '">Auto-dark: ' + fmt(forcedSignals) + '</span><span class="chip ' + (samsungPossible ? 'info' : 'neutral') + '">Samsung: ' + fmt(samsungPossible) + '</span>';
       var comboTotal = Math.max(sumRows(combos, "visits"), 1);
       var comboHtml = combos.map(function (row) { return deliveryCombo(row, cards, comboTotal); }).join("") || '<div class="message-card neutral"><strong>Engar tækjasamsetningar</strong><p>Device/browser samantekt vantar í payload.</p></div>';
 
@@ -7102,12 +7451,12 @@
         '</div>' +
         '<div class="delivery-lanes">' +
           '<article class="delivery-lane featured"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Skjár og aðgengi</span><h3>Litaþema, viewport og aðgengi</h3><p class="delivery-lane-copy">Lesið eins og afhendingarmerki: bæði hlutfall og fjöldi sjást, en raw/diagnostic bætist ekki við taldar heimsóknir.</p></div><span class="delivery-pill">' + fmt(sumRows(countedDisplay)) + ' talin</span></div>' +
-            '<div class="delivery-display-stack">' + shareVizCard("Litaþema", themeRows, displayTotal, { className: "good", unit: "talin" }) + shareVizCard("Viewport", viewportRows, viewportTotal, { className: "gateway", unit: "talin" }) + '</div><div class="chip-row">' + a11yChips + '<span class="chip ' + (forcedSignals ? 'info' : 'neutral') + '">Auto-dark: ' + fmt(forcedSignals) + '</span><span class="chip ' + (samsungPossible ? 'info' : 'neutral') + '">Samsung: ' + fmt(samsungPossible) + '</span></div></article>' +
+            '<div class="delivery-display-stack">' + shareVizCard("Litaþema", themeRows, displayTotal, { className: "good", unit: "talin", headerMeta: themeChips }) + shareVizCard("Viewport", viewportRows, viewportTotal, { className: "gateway", unit: "talin", headerMeta: a11yChips }) + '</div></article>' +
           '<article class="delivery-lane featured combo-lane"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Tæki og vafri</span><h3>Samsetningar sem tracker sér</h3><p class="delivery-lane-copy">Fjórar stærstu samsetningar fylla reitinn svo munstur eftir mælaborði, tæki, vafra, OS og theme sé fljótt að lesa.</p></div><span class="delivery-pill">' + fmt(combos.length) + ' hópar</span></div><div class="delivery-signal-grid">' + deliverySignal("Hópar", fmt(combos.length), "info") + deliverySignal("Efsta tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? "info" : "gateway") + deliverySignal("Efsti vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? "" : "gateway") + '</div><div class="delivery-combo-list">' + comboHtml + '</div></article>' +
           '<article class="delivery-lane performance"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Flutningur og afköst</span><h3>Sending, payload og netmerki</h3><p class="delivery-lane-copy">Sendiaðferð, payload stærð og tenging eru afhendingarmerki. Cache hit er gott þegar gögnin eru fersk.</p></div><span class="delivery-pill">' + safe(cacheText) + '</span></div>' +
             '<div class="delivery-signal-grid">' + deliverySignal("Lítil geta", fmt(lowCap), lowCap ? "warn" : "good") + deliverySignal("Línur", fmt(trackerLines), "") + deliverySignal("Cache", cacheText, cacheText === "Hit" ? "good" : "gateway") + '</div>' +
             '<div class="delivery-subsection"><div class="delivery-section-label">Sending og payload</div><div class="delivery-viz-stack">' + deliveryShareViz("Sending", methodRows, methodTotal, "good") + deliveryShareViz("Payload", payloadRows, payloadTotal, "info") + '</div></div>' +
-            '<div class="delivery-subsection"><div class="delivery-section-label">Netmerki</div>' + deliveryShareViz("Netmerki", connectionRows, connectionTotal, "gateway") + '<div class="chip-row">' + connectionChips + '</div></div></article>' +
+            '<div class="delivery-subsection netmark-subsection">' + deliveryShareViz("Netmerki", connectionRows, connectionTotal, "gateway", { headerMeta: connectionChips, stretch: true }) + '</div></article>' +
         '</div>' +
         '<div class="delivery-audit">' +
           deliveryAudit("Tracker línur", fmt(trackerLines), "Taldar device/performance línur.", trackerLines ? "good" : "warn") +
@@ -7156,7 +7505,7 @@
       var rows = visibleRows(data.sources || []).sort(function (a, b) { return visitValue(b) - visitValue(a); }).slice(0, 14);
       var total = Math.max(sumRows(rows), 1);
       var island = rows.reduce(function (acc, row) { return acc + (/island_is_public/i.test(row.entry_source_category || "") ? visitValue(row) : 0); }, 0);
-      var direct = rows.reduce(function (acc, row) { return acc + (/direct/i.test(row.entry_source_category || "") ? visitValue(row) : 0); }, 0);
+      var direct = rows.reduce(function (acc, row) { return acc + (isDirectSource(row.entry_source_category) ? visitValue(row) : 0); }, 0);
       var topSource = topRows(rows, function (row) { return labelSource(row.entry_source_category); }, 1)[0];
       var campaigns = topRows(rows, function (row) { return row.utm_campaign || row.utm_source || labelSource(row.entry_source_category); }, 4);
       var topDashboard = rows[0];
@@ -7208,7 +7557,6 @@
       var newest = rows.slice().sort(function (a, b) { return new Date(publicPublishedAt(b) || 0) - new Date(publicPublishedAt(a) || 0); })[0];
       var newestLabel = newest ? cleanName(newest.public_card_title) : "-";
       var newestAge = newest ? daysSinceLabel(publicPublishedAt(newest)) : "Engin dagsetning";
-      var ctaReady = rows.every(function (card) { return !!(card.button_text || "Skoða mælaborð"); });
       var html = '<section class="public-console">' +
         '<div class="public-console-head">' +
           '<div><span class="tech-board-kicker">Opinber birting</span><h3>' + fmt(published) + '/' + fmt(rows.length) + ' kort birt</h3><p>Lesið sem birtingarstaða og útgáfusamræmi. Hver kortalína tengir birtingu við notkun, ferskleika og island.is uppruna þegar þau gögn eru til.</p></div>' +
@@ -7216,7 +7564,6 @@
             '<div class="public-mini-metric good"><span>Birt kort</span><strong>' + fmt(published) + '/' + fmt(rows.length) + '</strong><small>Opinber kort</small></div>' +
             '<div class="public-mini-metric ' + (hidden ? 'warn' : 'good') + '"><span>Óbirt</span><strong>' + fmt(hidden) + '</strong><small>' + (hidden ? 'þarf staðfestingu' : 'allt birt') + '</small></div>' +
             '<div class="public-mini-metric info"><span>Nýjast</span><strong>' + safe(newestAge) + '</strong><small>' + safe(newestLabel) + '</small></div>' +
-            '<div class="public-mini-metric gateway"><span>CTA</span><strong>' + safe(ctaReady ? "Tilbúið" : "Vantar") + '</strong><small>Skoða mælaborð</small></div>' +
           '</div>' +
         '</div><div class="public-publish-grid">';
       html += rows.map(function (card) {
