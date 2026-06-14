@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <title>Landspítali | Mælaborðsmælingar v1.5.1</title>
+  <title>Landspítali | Mælaborðsmælingar</title>
   <style>
     :root {
       color-scheme: light;
@@ -39,6 +39,11 @@
       --gateway-soft: #eef3f7;
       --visit: #18704b;
       --route: #4f6f8f;
+      --blue-soft: #e8f3fb;
+      --green-deep: #12643f;
+      --amber: #d99500;
+      --panel-glass: rgba(255, 255, 255, .82);
+      --grid-line: rgba(14, 36, 56, .075);
       --shadow: 0 18px 48px rgba(14, 36, 56, .075);
       --shadow-soft: 0 10px 26px rgba(14, 36, 56, .055);
       --radius-lg: 24px;
@@ -86,14 +91,14 @@
     }
 
     .shell {
-      width: min(1560px, calc(100% - 32px));
+      width: min(1720px, calc(100% - 36px));
       margin: 0 auto;
       padding: 22px 0 42px;
     }
 
     .command-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.38fr) minmax(310px, .62fr);
+      grid-template-columns: minmax(0, 1.16fr) minmax(360px, .84fr);
       gap: var(--gap);
       align-items: stretch;
       margin-bottom: var(--gap);
@@ -117,7 +122,8 @@
       position: relative;
       isolation: isolate;
       overflow: hidden;
-      padding: clamp(20px, 2.4vw, 30px);
+      padding: clamp(22px, 2.6vw, 34px);
+      background: linear-gradient(135deg, rgba(255, 255, 255, .98), rgba(247, 250, 252, .92));
     }
 
     .command-main::before {
@@ -384,19 +390,20 @@
 
     .metric-grid {
       display: grid;
-      grid-template-columns: repeat(11, minmax(118px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
       margin-bottom: var(--gap);
     }
 
     .metric {
-      min-height: 118px;
-      padding: 15px 14px;
+      min-height: 138px;
+      padding: 16px 15px;
       box-shadow: var(--shadow-soft);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 8px;
+      gap: 9px;
+      background: linear-gradient(180deg, #fff, var(--panel-soft));
     }
 
     .metric.intent-visit { border-top: 4px solid rgba(31, 122, 83, .65); }
@@ -437,8 +444,9 @@
     .metric .meter { height: 9px; margin-top: auto; }
 
     .panel {
-      padding: clamp(16px, 1.75vw, 22px);
+      padding: clamp(17px, 1.9vw, 24px);
       margin-bottom: var(--gap);
+      background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(250, 253, 255, .94));
     }
 
     .panel-head {
@@ -695,7 +703,7 @@
 
     .dashboard-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(292px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 14px;
     }
 
@@ -787,7 +795,7 @@
 
     .insight-grid {
       display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
     }
 
@@ -802,7 +810,7 @@
       background: linear-gradient(180deg, #fff, var(--panel-soft));
     }
 
-    .insight.wide { grid-column: span 2; }
+    .insight.wide { grid-column: span 1; }
     .insight h3 { font-size: 15px; }
 
     .insight-value {
@@ -1001,318 +1009,367 @@
 
 
 
-    /* v1.5.1: operational command layer, Power BI viewer compatibility and visual rebalance */
-    .metric-grid {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
+    .mega-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(360px, .92fr);
+      gap: var(--gap);
+      align-items: stretch;
+      margin-bottom: var(--gap);
+    }
+
+    .mega-grid > .panel,
+    .signal-panorama > .nested-card { margin-bottom: 0; }
+
+    .panel-compact { min-height: 100%; }
+
+    .executive-wrap {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 18px;
       align-items: stretch;
     }
 
-    .metric {
-      position: relative;
-      overflow: hidden;
-      min-height: 128px;
-      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,250,252,.96));
-    }
-
-    .metric::after {
-      content: "";
-      position: absolute;
-      inset: auto 12px 10px 12px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(79,111,143,.18), transparent);
-      pointer-events: none;
-    }
-
-    .metric.metric-emphasis {
-      grid-column: span 2;
-      min-height: 148px;
-      background:
-        radial-gradient(circle at 92% 14%, rgba(0,99,166,.12), transparent 54px),
-        linear-gradient(180deg, #ffffff, #f5fafc);
-    }
-
-    .metric.metric-emphasis strong {
-      font-size: clamp(30px, 3.4vw, 42px);
-      letter-spacing: -.055em;
-    }
-
-    .metric.intent-viewer { border-top: 4px solid rgba(164, 58, 58, .48); }
-    .metric.intent-transport { border-top: 4px solid rgba(79, 111, 143, .48); }
-
-    .ops-strip {
+    .score-dock {
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, .96fr) minmax(0, .96fr) minmax(0, .98fr);
-      gap: 14px;
-      margin: 0 0 var(--gap);
+      align-content: center;
+      justify-items: center;
+      gap: 11px;
+      min-width: 162px;
+      padding: 14px;
+      border: 1px solid var(--line-soft);
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(0, 99, 166, .12), transparent 70%),
+        #fff;
     }
 
-    .ops-card {
+    .score-ring {
+      --score: 0;
+      --score-color: var(--good);
       position: relative;
-      overflow: hidden;
-      min-height: 166px;
-      padding: 16px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      background: rgba(255, 255, 255, .95);
-      box-shadow: var(--shadow-soft);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      width: 128px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: conic-gradient(var(--score-color) calc(var(--score) * 1%), #e7eef4 0);
+      box-shadow: inset 0 0 0 1px rgba(14, 36, 56, .05), 0 12px 26px rgba(14, 36, 56, .08);
     }
 
-    .ops-card::before {
+    .score-ring.warn { --score-color: #dfa019; }
+    .score-ring.bad { --score-color: var(--bad); }
+
+    .score-ring::after {
       content: "";
       position: absolute;
-      inset: 0 auto 0 0;
-      width: 6px;
-      background: var(--accent);
+      inset: 12px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: inset 0 0 0 1px var(--line-soft);
     }
 
-    .ops-card.good::before { background: var(--good); }
-    .ops-card.warn::before { background: #dfa019; }
-    .ops-card.bad::before { background: var(--bad); }
-    .ops-card.viewer::before { background: linear-gradient(180deg, var(--bad), #c87926); }
-    .ops-card.gateway::before { background: var(--gateway); }
+    .score-ring strong,
+    .score-ring span {
+      position: relative;
+      z-index: 1;
+      display: block;
+      text-align: center;
+    }
 
-    .ops-kicker {
+    .score-ring strong {
+      color: var(--ink);
+      font-size: 36px;
+      line-height: .9;
+      font-weight: 900;
+      letter-spacing: -.06em;
+    }
+
+    .score-ring span {
+      margin-top: 5px;
       color: var(--muted);
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 900;
       letter-spacing: .08em;
       text-transform: uppercase;
     }
 
-    .ops-main {
-      color: var(--ink);
-      font-size: clamp(25px, 2.8vw, 36px);
-      line-height: 1;
-      font-weight: 900;
-      letter-spacing: -.045em;
-      white-space: nowrap;
-    }
-
-    .ops-copy {
+    .score-caption {
       color: var(--muted);
-      font-size: 12px;
-      line-height: 1.38;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.32;
+      text-align: center;
     }
 
-    .ops-footer {
-      margin-top: auto;
+    .executive-body { display: grid; align-content: start; gap: 12px; }
+
+    .executive-kicker {
+      color: var(--accent-dark);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .ops-grid {
       display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .ops-tile,
+    .patch-card,
+    .matrix-row,
+    .insight-line {
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .88);
+    }
+
+    .ops-tile {
+      min-height: 92px;
+      padding: 12px;
+      display: grid;
+      align-content: space-between;
       gap: 8px;
     }
 
-    .ops-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
+    .ops-tile.good { background: linear-gradient(180deg, #fff, var(--good-soft)); border-color: var(--good-line); }
+    .ops-tile.warn { background: linear-gradient(180deg, #fff, var(--warn-soft)); border-color: var(--warn-line); }
+    .ops-tile.bad { background: linear-gradient(180deg, #fff, var(--bad-soft)); border-color: var(--bad-line); }
+    .ops-tile.info { background: linear-gradient(180deg, #fff, var(--info-soft)); border-color: rgba(62, 98, 131, .22); }
+
+    .ops-label,
+    .patch-label,
+    .matrix-head span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: .065em;
+      text-transform: uppercase;
     }
 
-    .viewer-panel {
-      border-color: rgba(79,111,143,.24);
-      background:
-        radial-gradient(circle at 4% 0%, rgba(0,99,166,.08), transparent 17rem),
-        linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,250,252,.96));
+    .ops-value {
+      color: var(--ink);
+      font-size: 27px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      white-space: nowrap;
     }
 
-    .viewer-layout {
+    .ops-detail,
+    .patch-detail {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.32;
+    }
+
+    .action-list {
       display: grid;
-      grid-template-columns: minmax(0, .98fr) minmax(0, 1.02fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .insight-line {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 9px;
+      align-items: start;
+      padding: 10px 11px;
+      color: var(--ink-2);
+      font-size: 12px;
+      line-height: 1.32;
+    }
+
+    .insight-bullet {
+      width: 9px;
+      height: 9px;
+      margin-top: 3px;
+      border-radius: 999px;
+      background: var(--good);
+      box-shadow: 0 0 0 4px rgba(31, 122, 83, .12);
+    }
+
+    .insight-bullet.warn { background: #dfa019; box-shadow: 0 0 0 4px rgba(223, 160, 25, .14); }
+    .insight-bullet.bad { background: var(--bad); box-shadow: 0 0 0 4px rgba(164, 58, 58, .13); }
+    .insight-bullet.info { background: var(--info); box-shadow: 0 0 0 4px rgba(62, 98, 131, .12); }
+
+    .patch-hero {
+      display: grid;
+      gap: 8px;
+      padding: 15px;
+      border: 1px solid rgba(0, 99, 166, .18);
+      border-radius: 20px;
+      background:
+        linear-gradient(135deg, rgba(232, 243, 251, .88), rgba(255, 255, 255, .94)),
+        #fff;
+    }
+
+    .patch-hero strong {
+      color: var(--ink);
+      font-size: clamp(22px, 2.1vw, 30px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.035em;
+      overflow-wrap: anywhere;
+    }
+
+    .patch-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .patch-card {
+      min-height: 96px;
+      padding: 12px;
+      display: grid;
+      align-content: space-between;
+      gap: 8px;
+    }
+
+    .patch-card.good { background: var(--good-soft); border-color: var(--good-line); }
+    .patch-card.info { background: var(--info-soft); border-color: rgba(62, 98, 131, .22); }
+    .patch-card.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+
+    .patch-value {
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.1;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .tracker-lane {
+      display: grid;
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .lane-row {
+      display: grid;
+      grid-template-columns: minmax(110px, .9fr) minmax(0, 1fr) minmax(48px, auto);
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .lane-row strong { color: var(--ink); text-align: right; white-space: nowrap; }
+
+    .signal-panorama {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
       gap: 14px;
       align-items: stretch;
     }
 
-    .viewer-hero {
+    .panorama-wide { grid-column: 1 / -1; }
+
+    .matrix {
       display: grid;
-      gap: 14px;
-      align-content: start;
-      padding: 16px;
-      border: 1px solid var(--line-soft);
-      border-radius: 20px;
-      background:
-        radial-gradient(circle at 90% 8%, rgba(164,58,58,.10), transparent 86px),
-        linear-gradient(180deg, #ffffff, var(--panel-soft));
+      gap: 8px;
+      margin-top: 12px;
     }
 
-    .viewer-score {
+    .matrix-row {
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      gap: 14px;
-      align-items: center;
+      grid-template-columns: minmax(170px, 1.1fr) repeat(3, minmax(86px, .42fr));
+      gap: 8px;
+      align-items: stretch;
+      padding: 8px;
     }
 
-    .score-orb {
-      width: 94px;
-      height: 94px;
-      border-radius: 999px;
+    .matrix-row.matrix-head {
+      border: 0;
+      padding: 0 9px;
+      background: transparent;
+      align-items: end;
+    }
+
+    .matrix-title {
       display: grid;
-      place-items: center;
+      align-content: center;
       color: var(--ink);
-      font-size: 34px;
+      font-size: 12.5px;
+      line-height: 1.22;
       font-weight: 900;
-      letter-spacing: -.05em;
-      border: 1px solid var(--line);
-      background:
-        conic-gradient(var(--good) var(--score-good, 72%), #e7eef4 0),
-        #fff;
-      box-shadow: inset 0 0 0 12px #fff, var(--shadow-soft);
+      overflow-wrap: anywhere;
     }
 
-    .score-orb.warn { background: conic-gradient(#dfa019 var(--score-good, 52%), #e7eef4 0), #fff; }
-    .score-orb.bad { background: conic-gradient(var(--bad) var(--score-good, 28%), #e7eef4 0), #fff; }
-
-    .compat-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 9px;
+    .matrix-title small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 700;
+      line-height: 1.24;
     }
 
-    .compat-tile {
-      min-height: 92px;
-      padding: 10px 8px;
+    .heat-cell {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      min-height: 58px;
       display: grid;
-      grid-template-rows: 32px 1fr;
-      align-items: center;
+      align-content: center;
       justify-items: center;
+      gap: 4px;
+      padding: 9px 7px;
+      border: 1px solid var(--line-soft);
+      border-radius: 13px;
+      background: #fff;
       text-align: center;
-      border: 1px solid var(--line-soft);
-      border-radius: 15px;
-      background: #fff;
     }
 
-    .compat-tile.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .compat-tile.bad { background: var(--bad-soft); border-color: var(--bad-line); }
-    .compat-tile.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .compat-tile.good { background: var(--good-soft); border-color: var(--good-line); }
-
-    .compat-tile span {
-      color: var(--muted);
-      font-size: 9.2px;
-      line-height: 1.08;
-      font-weight: 900;
-      letter-spacing: .045em;
-      text-transform: uppercase;
+    .heat-cell > span {
+      position: absolute;
+      inset: auto auto 0 0;
+      z-index: -1;
+      height: 100%;
+      width: 0;
+      background: rgba(79, 111, 143, .12);
     }
 
-    .compat-tile strong {
+    .heat-cell.good > span { background: rgba(31, 122, 83, .14); }
+    .heat-cell.warn > span { background: rgba(223, 160, 25, .18); }
+    .heat-cell.bad > span { background: rgba(164, 58, 58, .14); }
+    .heat-cell.info > span { background: rgba(62, 98, 131, .14); }
+    .heat-cell.gateway > span { background: rgba(106, 125, 144, .16); }
+
+    .heat-cell strong {
       color: var(--ink);
-      font-size: 25px;
+      font-size: 18px;
       line-height: 1;
-      font-weight: 900;
-      letter-spacing: -.045em;
-    }
-
-    .viewer-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .viewer-row {
-      display: grid;
-      grid-template-columns: minmax(160px, 1.05fr) minmax(170px, 1.1fr) minmax(140px, .8fr) minmax(70px, auto);
-      gap: 10px;
-      align-items: center;
-      padding: 11px 12px;
-      border: 1px solid var(--line-soft);
-      border-radius: 15px;
-      background: #fff;
-    }
-
-    .viewer-row.risk {
-      background: linear-gradient(180deg, #fff, var(--bad-soft));
-      border-color: var(--bad-line);
-    }
-
-    .viewer-row.watch {
-      background: linear-gradient(180deg, #fff, var(--warn-soft));
-      border-color: var(--warn-line);
-    }
-
-    .viewer-row.info {
-      background: linear-gradient(180deg, #fff, var(--info-soft));
-      border-color: rgba(62,98,131,.22);
-    }
-
-    .viewer-title {
-      color: var(--ink);
-      font-size: 13px;
-      line-height: 1.18;
-      font-weight: 900;
-    }
-
-    .viewer-meta {
-      margin-top: 3px;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.3;
-    }
-
-    .viewer-number {
-      justify-self: end;
-      text-align: right;
-      color: var(--ink);
       font-weight: 900;
       white-space: nowrap;
     }
 
-    .viewer-number small {
-      display: block;
+    .heat-cell small {
       color: var(--muted);
-      font-size: 9px;
+      font-size: 9.5px;
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: .03em;
       text-transform: uppercase;
-      letter-spacing: .06em;
-      font-weight: 900;
-    }
-
-    .warning-cluster {
-      display: grid;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .warning-cluster-title {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: var(--panel-soft);
-      border: 1px solid var(--line-soft);
-      color: var(--ink);
-      font-size: 13px;
-      line-height: 1.25;
-      font-weight: 900;
-    }
-
-    .warning-code.viewer { color: var(--bad); }
-    .warning-code.transport { color: var(--accent-dark); }
-    .warning-code.router { color: var(--warn); }
-    .warning-code.display { color: var(--info); }
-
-    .support-note {
-      border: 1px solid rgba(62,98,131,.22);
-      border-radius: 16px;
-      background: var(--info-soft);
-      padding: 12px;
-      color: var(--info);
-      font-size: 12px;
-      line-height: 1.42;
     }
 
     @media (max-width: 1420px) {
-      .metric-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-      .metric.metric-emphasis { grid-column: span 2; }
-      .ops-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .viewer-layout { grid-template-columns: 1fr; }
-      .compat-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
       .insight-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .insight.wide { grid-column: span 1; }
+      .ops-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 1180px) {
       .command-grid,
+      .mega-grid,
+      .signal-panorama,
       .portfolio-layout,
       .technical-layout,
       .section-grid,
@@ -1342,17 +1399,18 @@
       .lead { font-size: 14px; }
       .refresh-button { width: 42px; height: 42px; border-radius: 14px; }
       .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-      .metric.metric-emphasis { grid-column: span 1; }
-      .ops-strip,
-      .viewer-layout { grid-template-columns: 1fr; }
-      .compat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .viewer-row { grid-template-columns: 1fr; }
-      .viewer-number { justify-self: start; text-align: left; }
       .freshness-stack { grid-template-columns: 1fr; }
       .mini-card { min-height: 100px; }
       .split-panel,
       .tech-side,
       .insight-grid { grid-template-columns: 1fr; }
+      .executive-wrap { grid-template-columns: 1fr; }
+      .score-dock { grid-template-columns: auto minmax(0, 1fr); justify-items: start; min-width: 0; }
+      .action-list { grid-template-columns: 1fr; }
+      .patch-grid { grid-template-columns: 1fr; }
+      .matrix-row,
+      .matrix-row.matrix-head { grid-template-columns: 1fr; }
+      .matrix-row.matrix-head { display: none; }
       .dashboard-compare { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .combo-row,
       .combo-row.list-head,
@@ -1380,11 +1438,12 @@
       .signal-cell span.one-line,
       .summary-stat span.one-line,
       .stat span.one-line { font-size: 8.5px; }
-      .metric-grid { grid-template-columns: 1fr; }
-      .compat-grid { grid-template-columns: 1fr; }
-      .viewer-score { grid-template-columns: 1fr; }
-      .score-orb { width: 84px; height: 84px; }
+      .metric-grid,
+      .ops-grid { grid-template-columns: 1fr; }
       .dashboard-compare { grid-template-columns: 1fr; }
+      .score-dock { grid-template-columns: 1fr; justify-items: center; }
+      .lane-row { grid-template-columns: 1fr; }
+      .lane-row strong { text-align: left; }
       .gateway-flow { grid-template-columns: 1fr; overflow: visible; }
       .mini-card { grid-template-columns: 1fr; }
       .mini-value { grid-column: 1; grid-row: auto; }
@@ -1414,7 +1473,7 @@
           </div>
           <button class="refresh-button" type="button" id="refresh-button" aria-label="Endurhlaða gögn" title="Endurhlaða gögn">↻</button>
         </div>
-        <p class="lead">Stöðuyfirlit fyrir opinber Power BI mælaborð Landspítala. Síðan sýnir taldar heimsóknir, leiðingu milli útgáfa, uppruna umferðar, gateway merki, Power BI viewer compatibility og tæknileg rekstrarmerki án persónuupplýsinga.</p>
+        <p class="lead">Stöðuyfirlit fyrir opinber Power BI mælaborð Landspítala. Síðan sýnir taldar heimsóknir, leiðingu milli útgáfa, uppruna umferðar, gateway merki og tæknileg rekstrarmerki án persónuupplýsinga.</p>
         <div class="pill-row" aria-label="Staða og útgáfur">
           <span class="pill"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn</span></span>
           <span class="pill" id="generated-pill" title="Uppfært: -">Uppfært: -</span>
@@ -1422,6 +1481,7 @@
           <span class="pill" id="version-pill">Script: -</span>
           <span class="pill" id="schema-pill">Schema: -</span>
           <span class="pill" id="config-pill">Config: -</span>
+          <span class="pill" id="tracker-pill">Tracker patch: -</span>
           <span class="pill" id="core-pill">Core: -</span>
         </div>
       </div>
@@ -1449,7 +1509,27 @@
 
     <div id="notice" class="notice" role="status"></div>
 
-    <section class="ops-strip" id="ops-radar-grid" aria-label="Rekstrarstöðumat"></section>
+    <section class="mega-grid" aria-label="Stjórnborð og tracker patch">
+      <article class="panel panel-compact" aria-labelledby="executive-title">
+        <div class="panel-head">
+          <div>
+            <h2 id="executive-title">Stjórnborð stöðu</h2>
+            <div class="panel-note">Samsett rekstrarstig, tafarlausar athuganir og jafnvægi milli notkunar, leiðingar, uppruna og ferskleika.</div>
+          </div>
+        </div>
+        <div id="executive-panel"></div>
+      </article>
+      <article class="panel panel-compact" aria-labelledby="patch-title">
+        <div class="panel-head">
+          <div>
+            <h2 id="patch-title">Tracker patch</h2>
+            <div class="panel-note">Staða nýjustu tracker uppfærslu, payload samnings, teljara-gates og aðgreiningar á gateway, diagnostic og töldum heimsóknum.</div>
+          </div>
+        </div>
+        <div id="tracker-patch-panel"></div>
+      </article>
+    </section>
+
 
     <section class="metric-grid" id="metric-grid" aria-label="Lykiltölur"></section>
 
@@ -1461,6 +1541,16 @@
         </div>
       </div>
       <div id="root-funnel-panel"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="panorama-title">
+      <div class="panel-head">
+        <div>
+          <h2 id="panorama-title">Signal panorama</h2>
+          <div class="panel-note">Heatmap-yfirlit sem sýnir hvaða mælaborð, leiðingarástæður og upprunarásir bera notkunina. Breiðari reitir merkja meiri þunga í flæðinu.</div>
+        </div>
+      </div>
+      <div id="signal-panorama-panel"></div>
     </section>
 
     <section class="portfolio-layout">
@@ -1505,16 +1595,6 @@
       <div class="technical-layout" id="technical-panel"></div>
     </section>
 
-    <section class="panel viewer-panel" aria-labelledby="viewer-compat-title">
-      <div class="panel-head">
-        <div>
-          <h2 id="viewer-compat-title">Power BI viewer compatibility</h2>
-          <div class="panel-note">Nýr tracker-patch flokkar óstudda eða óopinberlega studda vafra sérstaklega. Router getur virkað fullkomlega þó Power BI viewer festist á hleðslutákni í gömlum Smart TV/HbbTV vöfrum.</div>
-        </div>
-      </div>
-      <div id="viewer-compat-panel"></div>
-    </section>
-
     <section class="lower-grid">
       <article class="panel" aria-labelledby="display-title">
         <div class="panel-head"><div><h2 id="display-title">Skjár og aðgengi</h2><div class="panel-note">Reported theme, forced-dark óvissa, viewport flokkar og aðgengismerki. Reported gildi eru aðskilin frá óvissum eða inferred merkjum.</div></div></div>
@@ -1548,7 +1628,7 @@
       </article>
     </section>
 
-    <p class="footer">Persónuvernd: Engin nöfn, netföng, kennitölur, raw IP, raw user-agent texti eða Power BI innri gögn eru birt. Síðan birtir eingöngu aggregate/status gögn úr Google Apps Script endpointi, notar örugga HTML-escaping við birtingu og aðgreinir raw/diagnostic merki frá töldum heimsóknum.</p>
+    <p class="footer">Persónuvernd: Engin nöfn, netföng, kennitölur, raw IP, raw user-agent texti eða Power BI innri gögn eru birt. Síðan birtir eingöngu aggregate/status gögn úr Google Apps Script endpointi, notar örugga HTML-escaping við birtingu og aðgreinir gateway, raw, diagnostic og tracker-patch merki frá töldum heimsóknum.</p>
   </main>
 
   <script>
@@ -1560,7 +1640,7 @@
     };
     var PUBLIC_DASHBOARD_PUBLISHED_AT = "2026-06-10T08:04:09.567Z";
     var LOCAL_TZ = "Atlantic/Reykjavik";
-    var STATUS_DASHBOARD_VERSION = "2026-06-14-status-v1.5.1-powerbi-viewer-console";
+    var STATUS_DASHBOARD_VERSION = "2026-06-14-status-v1.6.0-tracker-patch-mega-console";
 
     function byId(id) { return document.getElementById(id); }
     function hasOwn(row, key) { return Object.prototype.hasOwnProperty.call(row || {}, key); }
@@ -1899,104 +1979,196 @@
     }
 
     function kpiValue(data, keys) { return number(firstValue(data.kpis || {}, keys)); }
-    function warningObservationCount(row) {
-      return number(firstValue(row || {}, ["count", "confirmed_count", "counted_count", "counted_visits", "production_visits", "production_count", "raw_count"]));
-    }
-    function warningFamily(code) {
-      code = String(code || "").toLowerCase();
-      if (/^powerbi_viewer_|unsupported_browser|browser_support/.test(code)) return "viewer";
-      if (/payload|imageget|transport|endpoint|cache|slow/.test(code)) return "transport";
-      if (/router|route|fallback|desktop|mobile|tablet|phone/.test(code)) return "router";
-      if (/dark|theme|samsung|contrast|color/.test(code)) return "display";
-      return "quality";
-    }
-    function familyLabel(family) {
-      if (family === "viewer") return "Power BI viewer";
-      if (family === "transport") return "Transport / payload";
-      if (family === "router") return "Router / leiðing";
-      if (family === "display") return "Skjár / þema";
-      return "Gæði";
-    }
-    function familyChipClass(family) {
-      if (family === "viewer") return "bad";
-      if (family === "transport") return "warn";
-      if (family === "router") return "warn";
-      if (family === "display") return "info";
-      return "neutral";
-    }
-    function warningOverview(data) {
-      var split = splitWarnings(data || {});
-      var overview = {
-        confirmedRows: split.confirmed.length,
-        confirmedObservations: 0,
-        uniqueConfirmedCodes: 0,
-        viewerRows: 0,
-        viewerObservations: 0,
-        transportRows: 0,
-        transportObservations: 0,
-        routerRows: 0,
-        routerObservations: 0,
-        displayInfoRows: 0,
-        diagnosticRows: split.diagnostic.length,
-        infoRows: split.info.length,
-        unconfirmedRows: split.unconfirmed.length,
-        codes: {},
-        families: {}
+    function confirmedWarningCount(data) { return splitWarnings(data || {}).confirmed.length; }
+
+
+    function trackerPatchInfo(data) {
+      data = data || {};
+      var tracker = data.tracker_patch || data.tracker || data.patch || data.release || {};
+      var version = firstValue(data, ["tracker_patch_version", "trackerPatchVersion", "tracker_version", "trackerVersion", "router_tracker_version", "routerTrackerVersion"]) || firstValue(tracker, ["version", "patch_version", "tracker_version", "release", "name"]);
+      var rawDate = firstValue(data, ["tracker_patch_date", "trackerPatchDate", "tracker_patch_at", "trackerUpdatedAt", "tracker_updated_at", "router_tracker_updated_at"]) || firstValue(tracker, ["patch_date", "updated_at", "generated_at", "date"]);
+      var statusVersion = STATUS_DASHBOARD_VERSION.replace(/^.*status-/, "");
+      return {
+        version: version || statusVersion,
+        statusVersion: statusVersion,
+        rawDate: rawDate || data.generated_at || "",
+        dateLabel: rawDate ? dateShort(rawDate) : (data.generated_at ? dateShort(data.generated_at) : "14.6.2026"),
+        script: scriptVersion(data.script_version),
+        schema: data.schema_version || "-",
+        config: data.config_version || "-",
+        core: data.core_version || (data.release && data.release.coreVersion) || "-"
       };
-      split.confirmed.forEach(function (row) {
-        var code = String(row.warning_code || row.code || "warning");
-        var family = warningFamily(code);
-        var observations = Math.max(1, warningObservationCount(row));
-        overview.codes[code] = true;
-        overview.confirmedObservations += observations;
-        overview.families[family] = (overview.families[family] || 0) + observations;
-        if (family === "viewer") { overview.viewerRows += 1; overview.viewerObservations += observations; }
-        else if (family === "transport") { overview.transportRows += 1; overview.transportObservations += observations; }
-        else if (family === "router") { overview.routerRows += 1; overview.routerObservations += observations; }
+    }
+
+    function opsModel(data) {
+      data = data || {};
+      var k = data.kpis || {};
+      var h = data.health || {};
+      var warningSplit = splitWarnings(data);
+      var total = number(firstValue(k, ["total_counted_visits", "counted_visits", "total_visits"]));
+      var mobile = number(firstValue(k, ["mobile_visits", "mobile_counted_visits"]));
+      var desktop = number(firstValue(k, ["desktop_visits", "desktop_counted_visits"]));
+      var island = number(k.island_is_visits);
+      var fallback = number(firstValue(k, ["confirmed_fallback_error_count", "production_fallback_error_count", "fallback_error_count"]));
+      var weakShare = k.weak_unknown_signal_share !== undefined ? number(k.weak_unknown_signal_share) : (number(k.weak_unknown_signal_count) / Math.max(number(k.total_events), 1));
+      var countedEventTime = firstValue(h, ["last_counted_event_time", "last_counted_visit_time", "last_visit_time"]) || latestCountedEventTime(data);
+      var rawEventTime = firstValue(h, ["last_raw_event_time", "last_event_time"]);
+      var aggregationTime = h.aggregation_generated_at || h.last_aggregation_time || h.dashboard_data_generated_at || data.aggregation_generated_at || data.generated_at;
+      var eventAge = ageInfo(countedEventTime);
+      var rawAge = ageInfo(rawEventTime);
+      var aggregationAge = ageInfo(aggregationTime);
+      var freshnessPenalty = (eventAge.minutes > 1440 ? 12 : eventAge.minutes > 360 ? 6 : 0) + (aggregationAge.minutes > 240 ? 8 : aggregationAge.minutes > 75 ? 3 : 0);
+      var score = clamp(100 - warningSplit.confirmed.length * 16 - fallback * 9 - weakShare * 38 - freshnessPenalty, 0, 100);
+      var tone = score >= 86 ? "good" : score >= 70 ? "warn" : "bad";
+      var dashboardRows = visibleRows(data.dashboards || []);
+      var routeRows = visibleRows(data.routes || []);
+      var sourceRows = visibleRows(data.sources || []);
+      return {
+        score: Math.round(score),
+        tone: tone,
+        total: total,
+        mobile: mobile,
+        desktop: desktop,
+        island: island,
+        fallback: fallback,
+        weakShare: weakShare,
+        warningSplit: warningSplit,
+        eventAge: eventAge,
+        rawAge: rawAge,
+        aggregationAge: aggregationAge,
+        countedEventTime: countedEventTime,
+        rawEventTime: rawEventTime,
+        aggregationTime: aggregationTime,
+        dashboardCount: dashboardRows.length,
+        routeRows: routeRows.length,
+        sourceRows: sourceRows.length
+      };
+    }
+
+    function opsTile(label, value, detail, cls) {
+      return '<article class="ops-tile ' + safe(cls || '') + '"><div class="ops-label">' + safe(label) + '</div><div class="ops-value">' + safe(value) + '</div><div class="ops-detail">' + safe(detail || '') + '</div></article>';
+    }
+
+    function actionItems(data, model) {
+      var items = [];
+      if (model.warningSplit.confirmed.length) items.push({ tone: "warn", text: "Skoða " + fmt(model.warningSplit.confirmed.length) + " staðfest rekstrarmerki í gæðaviðvörunum." });
+      if (model.fallback > 0) items.push({ tone: "bad", text: "Fallback eða villumerki fundust í production tölum. Rekja í tæki, vafra og payload köflum." });
+      if (model.weakShare > .12) items.push({ tone: "warn", text: "Veik eða óþekkt signal eru yfir 12%. Bæta má auðkenningu tækja og uppruna." });
+      if (model.eventAge.minutes > 360) items.push({ tone: "warn", text: "Síðasta talda heimsókn er orðin gömul. Athuga routing og Apps Script móttöku." });
+      if (model.aggregationAge.minutes > 75) items.push({ tone: "info", text: "Samantekt er ekki nýleg. Endurkeyrsla getur skýrt ferskleika áður en rýnt er í trend." });
+      if (!items.length) items.push({ tone: "good", text: "Engin staðfest production vandamál. Teljarar, gateway aðgreining og ferskleiki líta stöðugt út." });
+      items.push({ tone: "info", text: "Root/index, diagnostic og raw tæknimerki eru sýnd sérstaklega og hækka ekki taldar heimsóknir." });
+      return items.slice(0, 5);
+    }
+
+    function insightLine(item) {
+      return '<div class="insight-line"><span class="insight-bullet ' + safe(item.tone || '') + '"></span><span>' + safe(item.text) + '</span></div>';
+    }
+
+    function renderExecutivePanel(data) {
+      var model = opsModel(data);
+      var patch = trackerPatchInfo(data);
+      var title = model.tone === "good" ? "Rekstur stöðugur" : model.tone === "warn" ? "Athugun í gangi" : "Brýnt að skoða";
+      var detail = "Byggt á " + fmt(model.total) + " töldum heimsóknum, " + fmt(model.dashboardCount) + " mælaborðum og " + fmt(model.warningSplit.confirmed.length) + " staðfestum viðvörunum.";
+      var actions = actionItems(data, model).map(insightLine).join("");
+      setHtml("executive-panel",
+        '<div class="executive-wrap">' +
+          '<div class="score-dock"><div class="score-ring ' + safe(model.tone) + '" style="--score:' + safe(model.score) + '"><div><strong>' + fmt(model.score) + '</strong><span>stig</span></div></div><div class="score-caption">Samsett rekstrarstaða<br>Tracker: ' + safe(patch.version) + '</div></div>' +
+          '<div class="executive-body"><div><div class="executive-kicker">Mega status console</div><h3>' + safe(title) + '</h3><p class="subtle" style="margin:7px 0 0;">' + safe(detail) + '</p></div>' +
+            '<div class="ops-grid">' +
+              opsTile("Heimsóknir", fmt(model.total), "Mobile " + pct(model.mobile, model.total) + " · Tölva " + pct(model.desktop, model.total), "good") +
+              opsTile("Uppruni", pct(model.island, model.total), "island.is merktar heimsóknir", "info") +
+              opsTile("Ferskleiki", model.eventAge.label, "Síðasta talda heimsókn", model.eventAge.className) +
+              opsTile("Gæði", fmt(model.warningSplit.confirmed.length), "Staðfest production merki", model.warningSplit.confirmed.length ? "warn" : "good") +
+            '</div>' +
+            '<div class="action-list">' + actions + '</div>' +
+          '</div>' +
+        '</div>');
+    }
+
+    function patchCard(label, value, detail, cls) {
+      return '<article class="patch-card ' + safe(cls || '') + '"><div class="patch-label">' + safe(label) + '</div><div class="patch-value">' + safe(value) + '</div><div class="patch-detail">' + safe(detail || '') + '</div></article>';
+    }
+
+    function lane(label, value, total, cls, rightText) {
+      return '<div class="lane-row"><span>' + safe(label) + '</span><div class="bar-track"><span class="bar-fill ' + safe(cls || '') + '" style="width:' + widthPct(value, total) + '%"></span></div><strong>' + safe(rightText || pct(value, total)) + '</strong></div>';
+    }
+
+    function renderTrackerPatchPanel(data) {
+      var model = opsModel(data);
+      var patch = trackerPatchInfo(data);
+      var countedRows = visibleRows(data.dashboards || []).length + visibleRows(data.routes || []).length + visibleRows(data.sources || []).length;
+      var diagnosticRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && isDiagnosticRow(row); }).length;
+      var uncountedRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && hasExplicitUncountedFlag(row); }).length;
+      setHtml("tracker-patch-panel",
+        '<div class="patch-hero"><div class="chip-row"><span class="chip accent">Status UI</span><span class="chip good">Production gate</span><span class="chip gateway">Gateway split</span></div><strong>' + safe(patch.version) + '</strong><div class="subtle">Patch dagsetning: ' + safe(patch.dateLabel) + '. Script ' + safe(patch.script) + ', schema ' + safe(patch.schema) + ', config ' + safe(patch.config) + '.</div></div>' +
+        '<div class="patch-grid">' +
+          patchCard("Teljarar", "count_as_visit", "False, debug, test og diagnostic línur eru ekki lagðar við heimsóknir.", "good") +
+          patchCard("Root gateway", "aðskilið", "Root views og smellir birtast í funnel en ekki í dashboard heimsóknum.", "info") +
+          patchCard("Raw merki", fmt(diagnosticRows + uncountedRows), "Ótalin tæknimerki sýnileg til greiningar án þess að hækka notkun.", diagnosticRows + uncountedRows ? "info" : "good") +
+          patchCard("Ferskleiki", model.aggregationAge.label, "Samantektargögn frá Apps Script dashboard endpointi.", model.aggregationAge.className) +
+        '</div>' +
+        '<div class="tracker-lane">' +
+          lane("Taldar línur", countedRows, Math.max(countedRows + diagnosticRows + uncountedRows, 1), "good", fmt(countedRows)) +
+          lane("Diagnostic", diagnosticRows, Math.max(countedRows + diagnosticRows + uncountedRows, 1), "", fmt(diagnosticRows)) +
+          lane("Ótalið", uncountedRows, Math.max(countedRows + diagnosticRows + uncountedRows, 1), "gateway", fmt(uncountedRows)) +
+        '</div>');
+    }
+
+    function heatCell(label, value, total, cls, displayValue) {
+      return '<div class="heat-cell ' + safe(cls || '') + '"><span style="width:' + widthPct(value, total) + '%"></span><strong>' + safe(displayValue || fmt(value)) + '</strong><small>' + safe(label) + '</small></div>';
+    }
+
+    function routeReasonGroups(data) {
+      var map = {};
+      visibleRows(data.routes || []).forEach(function (row) {
+        var key = labelRoute(row.route_reason);
+        if (!map[key]) map[key] = { key: key, total: 0, mobile: 0, desktop: 0, forced: 0 };
+        var value = visitValue(row);
+        map[key].total += value;
+        if (/^mobile$/i.test(row.selected_layout || "")) map[key].mobile += value;
+        if (/^desktop$/i.test(row.selected_layout || "")) map[key].desktop += value;
+        if (!/^auto$/i.test(row.forced_layout || "auto")) map[key].forced += value;
       });
-      split.info.concat(split.unconfirmed).forEach(function (row) {
-        if (warningFamily(row.warning_code || row.code) === "display") overview.displayInfoRows += 1;
-      });
-      overview.uniqueConfirmedCodes = Object.keys(overview.codes).length;
-      return overview;
+      return Object.keys(map).map(function (key) { return map[key]; }).sort(function (a, b) { return b.total - a.total; }).slice(0, 7);
     }
-    function confirmedWarningCount(data) { return warningOverview(data || {}).confirmedRows; }
-    function confirmedWarningObservationCount(data) { return warningOverview(data || {}).confirmedObservations; }
-    function isViewerWarningCode(code) { return warningFamily(code) === "viewer"; }
-    function isTransportWarningCode(code) { return warningFamily(code) === "transport"; }
-    function warningVerb(overview) {
-      if (!overview.confirmedRows) return "Engar staðfestar rekstrarviðvaranir";
-      return overview.uniqueConfirmedCodes + " tegundir / " + overview.confirmedRows + " línur";
+
+    function renderDashboardMatrix(data) {
+      var cards = publicMap(data);
+      var rows = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); }).slice(0, 6);
+      if (!rows.length) return '<article class="nested-card"><h3>Dashboard heatmap</h3><div class="message-card neutral">Engin dashboard matrix gögn enn.</div></article>';
+      var html = '<article class="nested-card"><div><h3>Dashboard heatmap</h3><div class="subtle">Samanburður á mobile, tölvu og virkni dagsins eftir mælaborði.</div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Mælaborð</span><span>Mobile</span><span>Tölva</span><span>Í dag</span></div>';
+      html += rows.map(function (row) {
+        var total = Math.max(visitValue(row), 1);
+        return '<div class="matrix-row"><div class="matrix-title">' + safe(titleFor(row, cards)) + '<small>' + safe(cleanId(row.dashboard_id || row.dashboard_key)) + '</small></div>' + heatCell("Mobile", row.mobile_visits, total, "good", pct(row.mobile_visits, total)) + heatCell("Tölva", row.desktop_visits, total, "gateway", pct(row.desktop_visits, total)) + heatCell("Í dag", row.visits_today, Math.max(total, 1), row.visits_today ? "info" : "", fmt(row.visits_today)) + '</div>';
+      }).join("");
+      return html + '</div></article>';
     }
-    function majorVersionFromRow(row) {
-      var value = firstValue(row || {}, ["browser_major_version", "browser_full_version", "browser_version", "version"]);
-      var match = String(value || "").match(/\d+(\.\d+)?/);
-      return match ? Number(match[0]) : 0;
+
+    function renderRouteMatrix(data) {
+      var rows = routeReasonGroups(data);
+      if (!rows.length) return '<article class="nested-card"><h3>Route matrix</h3><div class="message-card neutral">Engin route matrix gögn enn.</div></article>';
+      var html = '<article class="nested-card"><div><h3>Route matrix</h3><div class="subtle">Hvaða route ástæður leiða mest notkun og hvar þvinguð útgáfa kemur fyrir.</div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Ástæða</span><span>Mobile</span><span>Desktop</span><span>Forced</span></div>';
+      html += rows.map(function (row) {
+        var total = Math.max(row.total, 1);
+        return '<div class="matrix-row"><div class="matrix-title">' + safe(row.key) + '<small>' + fmt(row.total) + ' heimsóknir</small></div>' + heatCell("Mobile", row.mobile, total, "good", pct(row.mobile, total)) + heatCell("Desktop", row.desktop, total, "gateway", pct(row.desktop, total)) + heatCell("Forced", row.forced, total, row.forced ? "warn" : "", fmt(row.forced)) + '</div>';
+      }).join("");
+      return html + '</div></article>';
     }
-    function isSmartTvSignal(row) {
-      row = row || {};
-      var text = [row.inferred_device_class, row.device_class, row.inferred_form_factor, row.inferred_screen_context, row.inferred_browser_context, row.browser_brand, row.browser_family].join(" ");
-      return /smart.?tv|hbbtv|tv browser|android_tv|google_tv|tizen|webos|roku|fire_tv|apple_tv/i.test(text) || valueLooksTrue(row.inferred_is_smart_tv);
+
+    function renderSourcePanorama(data) {
+      var sourceRows = topRows(visibleRows(data.sources || []), function (row) { return labelSource(row.entry_source_category); }, 6);
+      var campaignRows = topRows(visibleRows(data.sources || []), function (row) { return row.utm_campaign || row.utm_source || labelSource(row.entry_source_category); }, 8);
+      var total = Math.max(sumRows(sourceRows, "visits"), 1);
+      return '<article class="nested-card panorama-wide"><div><h3>Upprunaþungi</h3><div class="subtle">Samsett yfirlit yfir talinn uppruna og efstu herferðarmerki.</div></div><div class="split-panel" style="margin-top:12px;"><div class="bar-list">' +
+        (sourceRows.map(function (row) { return bar(row.key, row.visits, total, { className: row.key === "island.is" ? "good" : "gateway", asNumber: true }); }).join("") || '<div class="subtle">Engin source gögn.</div>') +
+        '</div><div class="chip-row">' +
+        (campaignRows.map(function (row) { return '<span class="chip accent">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engar herferðir</span>') +
+        '</div></div></article>';
     }
-    function isLegacyViewerBrowserRow(row) {
-      row = row || {};
-      var family = String(row.browser_family || row.browser_brand || "").toLowerCase();
-      var brand = String(row.browser_brand || "").toLowerCase();
-      var combined = family + " " + brand + " " + String(row.browser_engine || "").toLowerCase();
-      var version = majorVersionFromRow(row);
-      if (/internet explorer|msie|trident/.test(combined)) return true;
-      if (!version) return false;
-      if (/edge|edg/.test(combined)) return version < 120;
-      if (/firefox|fxios/.test(combined)) return version <= 93;
-      if (/safari/.test(combined) && !/chrome|chromium|crios|opr|opera|edge|edg/.test(combined)) return version < 16.4;
-      if (/chrome|chromium|opera|opr|blink/.test(combined)) return version <= 94;
-      if (isSmartTvSignal(row) && version <= 94) return true;
-      return false;
-    }
-    function viewerRiskRows(data) {
-      var warnings = (data.quality_warnings || []).filter(function (row) { return isViewerWarningCode(row.warning_code || row.code); });
-      var envRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && (isSmartTvSignal(row) || isLegacyViewerBrowserRow(row)); });
-      return { warnings: warnings, environments: envRows };
+
+    function renderSignalPanorama(data) {
+      setHtml("signal-panorama-panel", '<div class="signal-panorama">' + renderDashboardMatrix(data) + renderRouteMatrix(data) + renderSourcePanorama(data) + '</div>');
     }
 
     function setStatus(data, failedMessage) {
@@ -2014,6 +2186,9 @@
       setText("version-pill", "Script: " + scriptVersion(data.script_version));
       setText("schema-pill", "Schema: " + (data.schema_version || "-"));
       setText("config-pill", "Config: " + (data.config_version || "-"));
+      var patchInfo = trackerPatchInfo(data);
+      setText("tracker-pill", "Tracker patch: " + patchInfo.version);
+      if (byId("tracker-pill")) byId("tracker-pill").title = "Tracker patch " + patchInfo.version + " · " + patchInfo.dateLabel;
       setText("core-pill", "Core: " + (data.core_version || (data.release && data.release.coreVersion) || "-") + " | Status: " + STATUS_DASHBOARD_VERSION.replace("2026-06-14-status-", ""));
 
       var countedEventTime = firstValue(h, ["last_counted_event_time", "last_counted_visit_time"]) || latestCountedEventTime(data);
@@ -2047,12 +2222,7 @@
         notice.textContent = failedMessage;
         notice.className = "notice show bad";
       } else if (warningSplit.confirmed.length) {
-        var overview = warningOverview(data);
-        var focus = [];
-        if (overview.viewerRows) focus.push("Power BI viewer: " + overview.viewerRows);
-        if (overview.transportRows) focus.push("transport/payload: " + overview.transportRows);
-        if (overview.routerRows) focus.push("router: " + overview.routerRows);
-        notice.textContent = "Staðfest rekstrarviðvörun: " + warningVerb(overview) + " þarf að skoða" + (focus.length ? " (" + focus.join(", ") + ")." : ".");
+        notice.textContent = "Staðfest rekstrarviðvörun: " + warningSplit.confirmed.length + " merki þarf að skoða.";
         notice.className = "notice show warn";
       } else if (h.warnings && h.warnings.length) {
         notice.textContent = "Upplýsing úr health payload: " + h.warnings.join(", ") + ". Þetta hækkar ekki viðvörunarstöðu nema production gate staðfesti merkið.";
@@ -2071,7 +2241,6 @@
     function renderMetrics(data) {
       var k = data.kpis || {};
       var f = data.root_index_funnel || data.root_index || {};
-      var overview = warningOverview(data);
       var total = number(firstValue(k, ["total_counted_visits", "counted_visits", "total_visits"]));
       var mobile = number(firstValue(k, ["mobile_visits", "mobile_counted_visits"]));
       var desktop = number(firstValue(k, ["desktop_visits", "desktop_counted_visits"]));
@@ -2079,100 +2248,22 @@
       var weakShare = k.weak_unknown_signal_share !== undefined ? number(k.weak_unknown_signal_share) : (number(k.weak_unknown_signal_count) / Math.max(number(k.total_events), 1));
       var gatewayViews = number(firstValue(f, ["views", "root_views", "root_index_views"]));
       var gatewayClicks = number(firstValue(f, ["clicks", "dashboard_clicks_count", "root_dashboard_clicks"]));
+      var confirmed = confirmedWarningCount(data);
       var fallbackErrors = number(firstValue(k, ["confirmed_fallback_error_count", "production_fallback_error_count", "fallback_error_count"]));
       setHtml("metric-grid", [
-        metric("Heildarheimsóknir", fmt(total), "Allar taldar production heimsóknir.", 100, "good", "intent-visit metric-emphasis"),
+        metric("Heildarheimsóknir", fmt(total), "Allar taldar production heimsóknir.", 100, "good", "intent-visit"),
         metric("Í dag", fmt(k.visits_today), "Heimsóknir skráðar í dag.", widthPct(k.visits_today, Math.max(k.visits_7d, 1)), "good", "intent-visit"),
         metric("7 dagar", fmt(k.visits_7d), "Nýleg notkun yfir viku.", widthPct(k.visits_7d, Math.max(k.visits_30d, 1)), "", "intent-visit"),
         metric("30 dagar", fmt(k.visits_30d), "Mánaðarmynd notkunar.", widthPct(k.visits_30d, Math.max(total, 1)), "", "intent-visit"),
         metric("Mobile", pct(mobile, total), fmt(mobile) + " taldar heimsóknir.", widthPct(mobile, total), "good", "intent-visit"),
         metric("Tölva", pct(desktop, total), fmt(desktop) + " taldar heimsóknir.", widthPct(desktop, total), "", "intent-visit"),
-        metric("Tablet/þröngt", fmt(tabletNarrow), "Tablet eða þröng skjáhegðun.", widthPct(tabletNarrow, total), "", "intent-visit"),
+        metric("Tablet/þröngt", fmt(tabletNarrow), "Talin tablet eða þröng skjáhegðun.", widthPct(tabletNarrow, total), "", "intent-visit"),
         metric("island.is", pct(k.island_is_visits, total), fmt(k.island_is_visits) + " merktar island.is.", widthPct(k.island_is_visits, total), "good", "intent-source"),
-        metric("PBI viewer", fmt(overview.viewerRows), "Óstuddur/áhættu vafri eftir nýja tracker patch.", overview.viewerRows ? 100 : 0, overview.viewerRows ? "bad" : "good", "intent-viewer"),
-        metric("Transport", fmt(overview.transportRows), "Payload, imageGet eða endpoint merki.", overview.transportRows ? 100 : 0, overview.transportRows ? "warn" : "good", "intent-transport"),
         metric("Signal gæði", shareValue(weakShare), "Veik eða óþekkt merki. Lægra er betra.", clamp(100 - weakShare * 100, 0, 100), k.confidence_health === "warning" ? "warn" : "good", "intent-quality"),
-        metric("Staðfestar viðv.", fmt(overview.confirmedRows), overview.uniqueConfirmedCodes + " tegundir. " + fmt(overview.confirmedObservations) + " athuganir.", overview.confirmedRows ? 100 : 0, overview.confirmedRows ? "warn" : "good", "intent-quality")
+        metric("Fallback / villur", fmt(fallbackErrors), "Staðfest rekstrarmerki, ekki ótalin prófun.", widthPct(fallbackErrors, Math.max(total, 1)), fallbackErrors ? "bad" : "good", "intent-quality"),
+        metric("Gateway", fmt(gatewayViews), "Root index views. Ekki dashboard visits.", widthPct(gatewayClicks, Math.max(gatewayViews, 1)), "gateway", "intent-gateway"),
+        metric("Staðfestar viðv.", fmt(confirmed), "Production warnings sem hækka stöðu.", confirmed ? 100 : 0, confirmed ? "warn" : "good", "intent-quality")
       ].join(""));
-    }
-
-    function renderOpsRadar(data) {
-      var k = data.kpis || {};
-      var overview = warningOverview(data);
-      var f = data.root_index_funnel || data.root_index || {};
-      var total = number(firstValue(k, ["total_counted_visits", "counted_visits", "total_visits"]));
-      var mobile = number(k.mobile_visits);
-      var desktop = number(k.desktop_visits);
-      var clickToOpen = number(firstValue(f, ["click_to_open_rate"]));
-      var gatewayClicks = number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"]));
-      var gatewayOpens = number(firstValue(f, ["counted_opens", "counted_visits", "opens"])) || total;
-      if (!clickToOpen && gatewayClicks) clickToOpen = gatewayOpens / Math.max(gatewayClicks, 1);
-      var viewerClass = overview.viewerRows ? "viewer bad" : "good";
-      var transportClass = overview.transportRows ? "warn" : "good";
-      var routingClass = number(k.mobile_visits) || number(k.desktop_visits) ? "good" : "warn";
-      var overallClass = overview.confirmedRows ? "warn" : "good";
-      setHtml("ops-radar-grid",
-        opsCard("Rekstrarstaða", overview.confirmedRows ? warningVerb(overview) : "Grænt", overview.confirmedRows ? "Staðfest merki eru flokkuð eftir viewer, transport og router svo viðvörunin verði aðgerðahæf." : "Engin staðfest production merki í quality payload.", overallClass, ["Viðv.: " + fmt(overview.confirmedRows), "Tegundir: " + fmt(overview.uniqueConfirmedCodes)]) +
-        opsCard("Power BI viewer", overview.viewerRows ? fmt(overview.viewerRows) + " áhættulínur" : "Í lagi", overview.viewerRows ? "Router virkaði, en Power BI viewer gæti festst á gömlum/óstuddum vafra." : "Enginn óstuddur Power BI viewer greindur í nýjustu samantekt.", viewerClass, ["Obs: " + fmt(overview.viewerObservations), "TV/WebView sérmerkt"]) +
-        opsCard("Leiðing", pct(mobile, Math.max(total, 1)) + " mobile", "Sjálfvirk útgáfuval er lesið úr töldum heimsóknum. Gateway er haldið aðskildu frá visit tölum.", routingClass, ["Desktop: " + pct(desktop, Math.max(total, 1)), "Visits: " + fmt(total)]) +
-        opsCard("Gateway → opnun", gatewayClicks ? pct(gatewayOpens, gatewayClicks) : "-", "Hlutfall root/index smella sem skila sér í talda opnun, þegar root funnel er tiltækt.", "gateway", ["Clicks: " + fmt(gatewayClicks), "Opens: " + fmt(gatewayOpens)])
-      );
-    }
-    function opsCard(kicker, value, copy, className, chips) {
-      return '<article class="ops-card ' + safe(className || "") + '"><div class="ops-kicker">' + safe(kicker) + '</div><div class="ops-main">' + safe(value) + '</div><div class="ops-copy">' + safe(copy) + '</div><div class="ops-footer"><div class="ops-chips">' + (chips || []).map(function (chip) { return '<span class="chip neutral">' + safe(chip) + '</span>'; }).join("") + '</div></div></article>';
-    }
-
-    function renderViewerCompatibility(data) {
-      var panel = byId("viewer-compat-panel");
-      if (!panel) return;
-      var split = splitWarnings(data);
-      var overview = warningOverview(data);
-      var risk = viewerRiskRows(data);
-      var warningRows = risk.warnings.slice().sort(function (a, b) { return warningObservationCount(b) - warningObservationCount(a); });
-      var envRows = risk.environments.slice().sort(function (a, b) { return visitValue(b) - visitValue(a) || rawSignalValue(b) - rawSignalValue(a); });
-      var forcedDarkRows = (data.quality_warnings || []).filter(function (row) { return /forced_dark|samsung_forced_dark/i.test(row.warning_code || row.code || ""); });
-      var totalViewerSignals = warningRows.reduce(function (acc, row) { return acc + Math.max(1, warningObservationCount(row)); }, 0);
-      var unsupportedRows = warningRows.filter(function (row) { return /unsupported/i.test(row.warning_code || ""); });
-      var notOfficialRows = warningRows.filter(function (row) { return /not_officially_supported|support_unknown/i.test(row.warning_code || ""); });
-      var score = overview.viewerRows ? Math.max(8, 100 - overview.viewerRows * 22) : 100;
-      var orbClass = overview.viewerRows > 2 ? "bad" : overview.viewerRows ? "warn" : "";
-      var envTotal = Math.max(1, envRows.reduce(function (acc, row) { return acc + Math.max(visitValue(row), rawSignalValue(row)); }, 0));
-      var hero = '<div class="viewer-hero"><div class="viewer-score"><div class="score-orb ' + orbClass + '" style="--score-good:' + clamp(score, 0, 100) + '%">' + fmt(score) + '</div><div><h3>Viewer support posture</h3><div class="subtle" style="margin-top:6px;">Nýr tracker-patch setur Power BI viewer-vafra í eigin rekstrarflokk. Þetta kemur í veg fyrir að Smart TV/HbbTV vandamál birtist bara sem forced-dark draugur.</div><div class="chip-row" style="margin-top:10px;"><span class="chip ' + (overview.viewerRows ? 'bad' : 'good') + '">' + (overview.viewerRows ? 'Viewer risk' : 'Enginn viewer risk') + '</span><span class="chip neutral">Signals: ' + fmt(totalViewerSignals) + '</span><span class="chip info">Forced dark er diagnostic</span></div></div></div>' +
-        '<div class="compat-grid">' +
-          '<div class="compat-tile ' + (unsupportedRows.length ? 'bad' : 'good') + '"><span>Óstuddur viewer</span><strong>' + fmt(unsupportedRows.length) + '</strong></div>' +
-          '<div class="compat-tile ' + (notOfficialRows.length ? 'warn' : 'good') + '"><span>Óopinber stuðningur</span><strong>' + fmt(notOfficialRows.length) + '</strong></div>' +
-          '<div class="compat-tile ' + (envRows.length ? 'info' : 'good') + '"><span>TV/legacy env.</span><strong>' + fmt(envRows.length) + '</strong></div>' +
-          '<div class="compat-tile info"><span>Theme diagnostic</span><strong>' + fmt(forcedDarkRows.length) + '</strong></div>' +
-        '</div>' +
-        '<div class="support-note"><strong>Lestrarlykill:</strong> Gateway og router geta verið í lagi þó Power BI sjálft hlaðist ekki í gömlum sjónvarpsvafra. Þessi reitur bendir á viewer runtime, ekki router bilun.</div></div>';
-      var list = '<div class="viewer-list">';
-      if (warningRows.length) {
-        list += '<div class="warning-cluster-title"><span class="chip bad">Viewer warnings</span><span>' + safe(warningRows.length + ' warning rows úr tracker patch') + '</span></div>';
-        list += warningRows.map(function (row) { return viewerWarningRow(row); }).join("");
-      }
-      if (envRows.length) {
-        list += '<div class="warning-cluster-title"><span class="chip info">Affected environments</span><span>Gamalt TV/WebView/legacy samhengi úr device aggregate</span></div>';
-        list += envRows.slice(0, 8).map(function (row) { return viewerEnvironmentRow(row, envTotal); }).join("");
-      }
-      if (!warningRows.length && !envRows.length) {
-        list += '<div class="message-card good"><strong>Engin viewer compatibility áhætta í payload</strong><p class="subtle">Power BI viewer warnings birtast hér þegar trackerinn sér óstuddan eða óopinberlega studdan viewer-vafra.</p></div>';
-      }
-      list += '</div>';
-      panel.innerHTML = '<div class="viewer-layout">' + hero + '<article class="nested-card"><h3>Aðgerðalistinn</h3><div class="subtle" style="margin-top:6px;">Forgangsröðun: unsupported browser fyrst, síðan Smart TV/WebView umhverfi og theme diagnostics.</div>' + list + '</article></div>';
-    }
-    function viewerWarningRow(row) {
-      var code = row.warning_code || row.code || "powerbi_viewer_warning";
-      var family = warningFamily(code);
-      var obs = Math.max(1, warningObservationCount(row));
-      var cls = /unsupported/i.test(code) ? "risk" : "watch";
-      return '<div class="viewer-row ' + cls + '"><div><div class="viewer-title">' + safe(code) + '</div><div class="viewer-meta">' + safe(row.dashboard_key || "-") + ' · ' + safe(row.confidence_band || row.signal_quality || "") + '</div></div><div class="viewer-meta">' + safe(row.warning_text || row.message || "Óstuddur eða óvenjulegur viewer-vafri greindist.") + '</div><span class="chip ' + safe(familyChipClass(family)) + '">' + safe(familyLabel(family)) + '</span><div class="viewer-number">' + fmt(obs) + '<small>athug.</small></div></div>';
-    }
-    function viewerEnvironmentRow(row, total) {
-      var browser = browserLabel(row) + (majorVersionFromRow(row) ? ' ' + majorVersionFromRow(row) : '');
-      var env = [labelDevice(row.inferred_device_class || row.device_class), row.os_family || '', row.inferred_browser_context || ''].filter(Boolean).join(' · ');
-      var amount = Math.max(visitValue(row), rawSignalValue(row));
-      var cls = isLegacyViewerBrowserRow(row) ? "risk" : "info";
-      return '<div class="viewer-row ' + cls + '"><div><div class="viewer-title">' + safe(browser) + '</div><div class="viewer-meta">' + safe(env) + '</div></div><div><div class="bar-track"><span class="bar-fill ' + (cls === 'risk' ? 'bad' : 'gateway') + '" style="width:' + widthPct(amount, total) + '%"></span></div><div class="viewer-meta" style="margin-top:5px;">' + safe(row.dashboard_key || row.dashboard_name || '-') + '</div></div><span class="chip ' + (cls === 'risk' ? 'bad' : 'info') + '">' + (cls === 'risk' ? 'Legacy viewer' : 'TV/WebView') + '</span><div class="viewer-number">' + fmt(amount) + '<small>merki</small></div></div>';
     }
 
     function renderRootFunnel(data) {
@@ -2483,23 +2574,15 @@
 
     function renderWarnings(data) {
       var split = splitWarnings(data);
-      var overview = warningOverview(data);
       var html = "";
-      if (!split.confirmed.length) {
-        html += '<div class="message-card good"><strong>Engar staðfestar rekstrarviðvaranir</strong><p class="subtle">Quality payload inniheldur ekki staðfest production tilvik sem má nota sem rekstrarviðvörun.</p></div>';
-      } else {
-        html += '<div class="message-card warn"><strong>Staðfest production viðvörun</strong><p class="subtle">' + safe(warningVerb(overview)) + ' úr quality payload. Viewer, transport og router merki eru flokkuð í aðgerðahæfa hópa.</p></div>';
-        html += warningCluster("viewer", split.confirmed);
-        html += warningCluster("transport", split.confirmed);
-        html += warningCluster("router", split.confirmed);
-        html += warningCluster("quality", split.confirmed);
-      }
+      if (!split.confirmed.length) html += '<div class="message-card good"><strong>Engar staðfestar rekstrarviðvaranir</strong><p class="subtle">Quality payload inniheldur ekki staðfest production tilvik sem má nota sem rekstrarviðvörun.</p></div>';
+      else html += '<div class="message-card warn"><strong>Staðfest production viðvörun</strong><p class="subtle">Þessi merki hafa production/count gate eða explicit confirmed flag.</p></div>' + split.confirmed.map(function (row) { return warningRow(row, "confirmed"); }).join("");
       if (split.unconfirmed.length) {
-        html += '<div class="message-card info"><strong>Óstaðfest samantektarmerki</strong><p class="subtle">Þessi merki vantar count_as_visit eða annað production gate í dashboard payload og hækka ekki viðvörunarstöðu.</p></div>';
+        html += '<div class="message-card info"><strong>Óstaðfest samantektarmerki</strong><p class="subtle">Þessi merki vantar count_as_visit eða annað talið production gate í dashboard payload og hækka ekki viðvörunarstöðu.</p></div>';
         html += split.unconfirmed.map(function (row) { return warningRow(row, "unconfirmed"); }).join("");
       }
       if (split.info.length) {
-        html += '<div class="message-card info"><strong>Upplýsingamerki</strong><p class="subtle">Informational tæknimerki sem styðja rekstrargreiningu en eru ekki warnings. Forced-dark fer hingað eftir nýja tracker patch.</p></div>';
+        html += '<div class="message-card info"><strong>Upplýsingamerki</strong><p class="subtle">Informational tæknimerki sem styðja rekstrargreiningu en eru ekki warnings.</p></div>';
         html += split.info.map(function (row) { return warningRow(row, "info"); }).join("");
       }
       if (split.diagnostic.length) {
@@ -2508,20 +2591,11 @@
       }
       setHtml("warning-list", html);
     }
-    function warningCluster(family, rows) {
-      rows = (rows || []).filter(function (row) { return warningFamily(row.warning_code || row.code) === family || (family === "quality" && ["viewer", "transport", "router", "display"].indexOf(warningFamily(row.warning_code || row.code)) < 0); });
-      if (!rows.length) return "";
-      var observations = rows.reduce(function (acc, row) { return acc + Math.max(1, warningObservationCount(row)); }, 0);
-      return '<div class="warning-cluster"><div class="warning-cluster-title"><span class="chip ' + safe(familyChipClass(family)) + '">' + safe(familyLabel(family)) + '</span><span>' + safe(rows.length + ' línur / ' + observations + ' athuganir') + '</span></div>' + rows.map(function (row) { return warningRow(row, "confirmed"); }).join("") + '</div>';
-    }
     function warningRow(row, group) {
-      var code = row.warning_code || row.code || "warning";
-      var family = warningFamily(code);
       var severity = String(row.severity || (group === "confirmed" ? "warning" : "info")).toLowerCase();
-      var cls = group === "confirmed" ? (family === "viewer" ? "bad" : severity === "error" ? "bad" : "warn") : group === "diagnostic" ? "neutral" : "info";
-      var label = group === "confirmed" ? (family === "viewer" ? "viewer" : severity === "error" ? "villa" : "warning") : group === "diagnostic" ? "diagnostic" : group === "info" ? "info" : "óstaðfest";
-      var obs = warningObservationCount(row);
-      return '<div class="list-row warning"><span class="chip ' + cls + '">' + safe(label) + '</span><div class="warning-main"><div class="warning-code ' + safe(family) + '">' + safe(code) + '</div><div class="warning-dashboard">' + safe(row.dashboard_key || row.dashboard_id || "-") + ' · ' + safe(familyLabel(family)) + ' · ' + safe(row.confidence_band || row.signal_quality || "") + '</div><div class="warning-text">' + safe(row.warning_text || row.message || "-") + '</div><div class="subtle">Ráðlegging: ' + safe(row.recommendation || "-") + '</div></div><strong class="warning-count"><small>Tal./diag.</small>' + fmt(obs) + ' / ' + fmt(row.diagnostic_count || row.raw_count || 0) + '</strong></div>';
+      var cls = group === "confirmed" ? (severity === "error" ? "bad" : "warn") : group === "diagnostic" ? "neutral" : "info";
+      var label = group === "confirmed" ? (severity === "error" ? "villa" : "warning") : group === "diagnostic" ? "diagnostic" : group === "info" ? "info" : "óstaðfest";
+      return '<div class="list-row warning"><span class="chip ' + cls + '">' + safe(label) + '</span><div class="warning-main"><div class="warning-code">' + safe(row.warning_code || row.code || "warning") + '</div><div class="warning-dashboard">' + safe(row.dashboard_key || row.dashboard_id || "-") + ' · ' + safe(row.confidence_band || row.signal_quality || row.scope || "") + '</div><div class="warning-text">' + safe(row.warning_text || row.message || "-") + '</div><div class="subtle">Ráðlegging: ' + safe(row.recommendation || "-") + '</div></div><strong class="warning-count"><small>Tal./diag.</small>' + fmt(countWarnings(row)) + ' / ' + fmt(row.diagnostic_count || row.raw_count || 0) + '</strong></div>';
     }
 
     function sectionError(id, title, error) {
@@ -2536,15 +2610,16 @@
     }
     function render(data) {
       setStatus(data, "");
-      safeRender("ops-radar-grid", "Rekstrarstöðumat", function () { renderOpsRadar(data); });
+      safeRender("executive-panel", "Stjórnborð stöðu", function () { renderExecutivePanel(data); });
+      safeRender("tracker-patch-panel", "Tracker patch", function () { renderTrackerPatchPanel(data); });
       safeRender("metric-grid", "Lykiltölur", function () { renderMetrics(data); });
       safeRender("root-funnel-panel", "Gateway funnel", function () { renderRootFunnel(data); });
+      safeRender("signal-panorama-panel", "Signal panorama", function () { renderSignalPanorama(data); });
       safeRender("dashboard-grid", "Mælaborð", function () { renderDashboards(data); });
       safeRender("dashboard-comparison", "Samanburður", function () { renderDashboardComparison(data); });
       safeRender("layout-source-panel", "Leiðing og uppruni", function () { renderLayoutAndSource(data); });
       safeRender("insight-grid", "Rekstrarinnsýn", function () { renderInsights(data); });
       safeRender("technical-panel", "Tæki og vafraumhverfi", function () { renderTechnical(data); });
-      safeRender("viewer-compat-panel", "Power BI viewer compatibility", function () { renderViewerCompatibility(data); });
       safeRender("display-panel", "Skjár og aðgengi", function () { renderDisplayPanel(data); });
       safeRender("performance-panel", "Flutningur og afköst", function () { renderPerformancePanel(data); });
       safeRender("route-list", "Sjálfvirk leiðing", function () { renderRouteList(data); });
