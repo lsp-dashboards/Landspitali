@@ -1957,11 +1957,303 @@
       .quality-score { width: 100%; aspect-ratio: auto; min-height: 82px; border-radius: 18px; }
     }
 
+
+    /* Master operations board refinement */
+    .command-grid.command-grid-solo {
+      grid-template-columns: 1fr;
+      align-items: center;
+      padding-bottom: clamp(22px, 2.7vw, 36px);
+    }
+
+    .command-grid.command-grid-solo .command-main {
+      width: 100%;
+      max-width: 1720px;
+    }
+
+    .hero-system-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 14px;
+      width: fit-content;
+      max-width: 100%;
+      margin-top: 18px;
+      padding: 10px 12px;
+      border: 1px solid rgba(216, 226, 234, .92);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .62);
+      box-shadow: 0 14px 36px rgba(14, 36, 56, .05);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-system-tags {
+      flex-wrap: nowrap;
+    }
+
+    #hero-core-title {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 4px 2px 4px 6px;
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.1;
+      font-weight: 900;
+      letter-spacing: -.01em;
+      white-space: nowrap;
+    }
+
+    .hero-core-detail {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.25;
+      white-space: nowrap;
+    }
+
+    .master-ops-shell {
+      padding: clamp(18px, 2vw, 26px);
+    }
+
+    .master-ops-board {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(380px, .64fr);
+      grid-template-areas:
+        "executive system"
+        "funnel freshness"
+        "metrics metrics";
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .master-cell {
+      min-width: 0;
+    }
+
+    .master-executive { grid-area: executive; }
+    .master-system { grid-area: system; }
+    .master-funnel { grid-area: funnel; }
+    .master-freshness { grid-area: freshness; }
+    .master-metrics { grid-area: metrics; }
+
+    .master-executive,
+    .master-system,
+    .master-funnel,
+    .master-freshness {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, .86);
+      box-shadow: 0 12px 30px rgba(14, 36, 56, .045);
+    }
+
+    .master-funnel .gateway-flow {
+      grid-template-columns: repeat(5, minmax(112px, 1fr));
+      gap: 8px;
+    }
+
+    .master-funnel .funnel-step {
+      min-height: 116px;
+      padding: 13px 12px;
+    }
+
+    .master-funnel .gateway-analysis {
+      grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
+    }
+
+    .master-freshness .freshness-stack {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      align-content: stretch;
+    }
+
+    .master-freshness .mini-card {
+      min-height: 0;
+      align-content: center;
+      background:
+        linear-gradient(140deg, rgba(255,255,255,.92), rgba(247,250,252,.78)),
+        radial-gradient(circle at 100% 0%, rgba(0,99,166,.08), transparent 70%);
+      border-color: rgba(216,226,234,.9);
+      box-shadow: none;
+    }
+
+    .master-metrics {
+      margin: 0;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .system-compact-head {
+      margin-bottom: 12px;
+    }
+
+    .system-compact-head .subtle {
+      margin-top: 6px;
+    }
+
+    .quality-summary-grid .signal-cell {
+      min-height: 148px;
+      grid-template-rows: 38px 1fr;
+    }
+
+    .quality-summary-grid .signal-cell strong {
+      align-self: center;
+      font-size: clamp(36px, 3.8vw, 52px);
+      letter-spacing: -.06em;
+    }
+
+    .quality-items .list-row.warning,
+    .list-row.warning {
+      grid-template-columns: auto minmax(0, 1fr) minmax(104px, 124px);
+      align-items: stretch;
+    }
+
+    .warning-count {
+      align-self: stretch;
+      justify-self: stretch;
+      min-height: 86px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 6px;
+      padding: 10px;
+      border: 1px solid rgba(216, 226, 234, .94);
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(237,244,250,.9));
+      color: var(--ink);
+      text-align: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.75);
+    }
+
+    .warning-count small {
+      margin: 0;
+      color: var(--muted);
+      font-size: 9.5px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: .065em;
+      text-transform: uppercase;
+    }
+
+    .warning-count span {
+      display: block;
+      font-size: clamp(25px, 2.2vw, 34px);
+      line-height: .9;
+      font-weight: 900;
+      letter-spacing: -.055em;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1420px) {
+      .master-metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 1320px) {
+      .master-ops-board {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "executive"
+          "system"
+          "funnel"
+          "freshness"
+          "metrics";
+      }
+
+      .master-freshness .freshness-stack {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 1180px) {
+      .master-funnel .gateway-flow {
+        grid-template-columns: repeat(5, minmax(128px, 1fr));
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+
+      .master-funnel .gateway-analysis {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .hero-system-strip {
+        width: 100%;
+        align-items: flex-start;
+      }
+
+      .hero-system-tags {
+        flex-wrap: wrap;
+      }
+
+      .hero-core-detail {
+        white-space: normal;
+      }
+
+      .master-executive,
+      .master-system,
+      .master-funnel,
+      .master-freshness {
+        border-radius: 18px;
+        padding: 13px;
+      }
+
+      .master-freshness .freshness-stack,
+      .master-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .quality-items .list-row.warning,
+      .list-row.warning {
+        grid-template-columns: 1fr;
+      }
+
+      .warning-count {
+        justify-self: stretch;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 520px) {
+      #hero-core-title {
+        width: 100%;
+        padding-left: 0;
+      }
+    }
+
+
+
+    /* Counter badge final override */
+    .warning-count-main {
+      display: block;
+      color: var(--ink);
+      font-size: clamp(38px, 4.2vw, 58px) !important;
+      line-height: .82;
+      font-weight: 900;
+      letter-spacing: -.07em;
+      white-space: nowrap;
+    }
+
+    .warning-count em {
+      display: block;
+      margin-top: 1px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1;
+      font-style: normal;
+      font-weight: 900;
+      letter-spacing: .01em;
+      white-space: nowrap;
+    }
+
   </style>
 </head>
 <body>
   <main class="shell">
-    <section class="command-grid" aria-labelledby="page-title">
+    <section class="command-grid command-grid-solo" aria-labelledby="page-title">
       <div class="command-main">
         <div class="hero-title-row">
           <div class="brand-row">
@@ -1974,72 +2266,70 @@
           <button class="refresh-button" type="button" id="refresh-button" aria-label="Endurhlaða gögn" title="Endurhlaða gögn">↻</button>
         </div>
         <p class="lead">Stöðuyfirlit fyrir opinber Power BI mælaborð Landspítala. Síðan sýnir taldar heimsóknir, leiðingu milli útgáfa, uppruna umferðar, gateway merki og tæknileg rekstrarmerki án persónuupplýsinga.</p>
-        <div class="pill-row" aria-label="Staða og útgáfur">
+        <div class="hero-system-strip" aria-label="Rekstrarkjarni og talningarhlið">
+          <div class="chip-row hero-system-tags">
+            <span class="chip accent">Status UI</span>
+            <span class="chip good">Production gate</span>
+            <span class="chip gateway">Gateway split</span>
+            <strong id="hero-core-title">Rekstrarkjarni v1.6.0</strong>
+          </div>
+          <div class="hero-core-detail" id="hero-core-detail">Config v1.4.0 · Core v1.6.0 · Script v1.2.2 · schema 9.</div>
+        </div>
+        <div class="pill-row" aria-label="Staða og uppfærsla">
           <span class="pill"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn</span></span>
           <span class="pill" id="generated-pill" title="Uppfært: -">Uppfært: -</span>
           <span class="pill" id="cache-pill">Cache: -</span>
-          <span class="pill" id="version-pill">Script: -</span>
-          <span class="pill" id="schema-pill">Schema: -</span>
-          <span class="pill" id="config-pill">Config: -</span>
-          <span class="pill" id="core-pill">Core: -</span>
         </div>
-      </div>
-      <div class="freshness-stack" aria-label="Ferskleiki gagna">
-        <article class="mini-card">
-          <div class="mini-label">Síðasta talda mæling</div>
-          <div class="mini-detail" id="last-event-detail">Síðasta talda heimsókn, ekki raw/test atburður.</div>
-          <div class="mini-value" id="last-event">-</div>
-          <div class="freshness-track" id="last-event-track"><span></span></div>
-        </article>
-        <article class="mini-card">
-          <div class="mini-label">Síðasti raw atburður</div>
-          <div class="mini-detail" id="last-raw-event-detail">Raw/test/diagnostic móttaka, ekki talin heimsókn.</div>
-          <div class="mini-value" id="last-raw-event">-</div>
-          <div class="freshness-track" id="last-raw-event-track"><span></span></div>
-        </article>
-        <article class="mini-card">
-          <div class="mini-label">Síðasta samantekt</div>
-          <div class="mini-detail" id="last-aggregation-detail">Síðasta keyrsla sem uppfærði samantektargögn.</div>
-          <div class="mini-value" id="last-aggregation">-</div>
-          <div class="freshness-track" id="last-aggregation-track"><span></span></div>
-        </article>
       </div>
     </section>
 
     <div id="notice" class="notice" role="status"></div>
 
-    <section class="panel overview-shell" aria-labelledby="overview-title">
+    <section class="panel overview-shell master-ops-shell" aria-labelledby="overview-title">
       <div class="panel-head overview-head">
         <div>
           <h2 id="overview-title">Rekstraryfirlit</h2>
-          <div class="panel-note">Ein samstillt sýn yfir heilsu, taldar heimsóknir, gateway flæði, leiðingu, uppruna, ferskleika og gæðamerki. Gateway, raw og diagnostic línur eru sýndar sér svo taldar heimsóknir haldist hreinar.</div>
+          <div class="panel-note">Ein samstillt sýn yfir rekstrarstöðu, teljara, gateway leið, ferskleika og gæðamerki. Root, raw og diagnostic merki eru sýnd sem rekstrarmerki en haldin utan taldra heimsókna.</div>
         </div>
       </div>
-      <div class="overview-stage">
-        <div id="executive-panel"></div>
-        <div id="system-panel"></div>
-      </div>
-      <div class="metric-grid overview-metrics" id="metric-grid" aria-label="Lykiltölur"></div>
-      <div class="overview-layers">
-        <article class="overview-module" aria-labelledby="gateway-funnel-title">
-          <div class="module-head">
-            <div>
-              <h3 id="gateway-funnel-title">Gateway flæði</h3>
-              <div class="subtle">Root index views og dashboard-smellir eru gateway telemetry og því aðskilin frá töldum dashboard heimsóknum.</div>
-            </div>
+      <div class="master-ops-board">
+        <div class="master-cell master-executive" id="executive-panel"></div>
+        <div class="master-cell master-system" id="system-panel"></div>
+        <div class="master-cell master-funnel" id="root-funnel-panel"></div>
+        <div class="master-cell master-freshness">
+          <div class="freshness-stack master-freshness-stack" aria-label="Ferskleiki gagna">
+            <article class="mini-card">
+              <div class="mini-label">Síðasta talda mæling</div>
+              <div class="mini-detail" id="last-event-detail">Síðasta talda heimsókn, ekki raw/test atburður.</div>
+              <div class="mini-value" id="last-event">-</div>
+              <div class="freshness-track" id="last-event-track"><span></span></div>
+            </article>
+            <article class="mini-card">
+              <div class="mini-label">Síðasti raw atburður</div>
+              <div class="mini-detail" id="last-raw-event-detail">Raw/test/diagnostic móttaka, ekki talin heimsókn.</div>
+              <div class="mini-value" id="last-raw-event">-</div>
+              <div class="freshness-track" id="last-raw-event-track"><span></span></div>
+            </article>
+            <article class="mini-card">
+              <div class="mini-label">Síðasta samantekt</div>
+              <div class="mini-detail" id="last-aggregation-detail">Síðasta keyrsla sem uppfærði samantektargögn.</div>
+              <div class="mini-value" id="last-aggregation">-</div>
+              <div class="freshness-track" id="last-aggregation-track"><span></span></div>
+            </article>
           </div>
-          <div id="root-funnel-panel"></div>
-        </article>
-        <article class="overview-module" aria-labelledby="panorama-title">
-          <div class="module-head">
-            <div>
-              <h3 id="panorama-title">Flæðisýn</h3>
-              <div class="subtle">Þyngd mælaborða, route ástæður og upprunarásir í einni læsilegri mynd.</div>
-            </div>
-          </div>
-          <div id="signal-panorama-panel"></div>
-        </article>
+        </div>
+        <div class="metric-grid overview-metrics master-metrics" id="metric-grid" aria-label="Lykiltölur"></div>
       </div>
+    </section>
+
+    <section class="panel" aria-labelledby="panorama-title">
+      <div class="panel-head">
+        <div>
+          <h2 id="panorama-title">Signal panorama</h2>
+          <div class="panel-note">Heatmap-yfirlit sem sýnir hvaða mælaborð, leiðingarástæður og upprunarásir bera notkunina. Breiðari reitir merkja meiri þunga í flæðinu.</div>
+        </div>
+      </div>
+      <div id="signal-panorama-panel"></div>
     </section>
 
     <section class="portfolio-layout">
@@ -2127,7 +2417,17 @@
       bradamottaka: "https://images.ctfassets.net/8k0h54kbe6bj/68Ef7p57VqG1aYv99GbzB0/3b98fe5c7b3b11c7d01194a7e9caccd6/bradamottaka-linkimage.png?w=774&fm=webp&q=80",
       thjonustukannanir: "https://images.ctfassets.net/8k0h54kbe6bj/5eK6Vivq6aUDWj2mnOEsvS/7e5d5e7c03b92370ccee175ad01f8330/survey-linkimage.png?w=774&fm=webp&q=80"
     };
-    var PUBLIC_DASHBOARD_PUBLISHED_AT = "2026-06-10T08:04:09.567Z";
+    var PUBLIC_DASHBOARD_PUBLISHED_AT = "2026-06-14T00:57:00.000Z";
+    var PUBLIC_CARD_PUBLISHED_AT_BY_KEY = {
+      bradamottaka: PUBLIC_DASHBOARD_PUBLISHED_AT,
+      "bradamottaka-fossvogi": PUBLIC_DASHBOARD_PUBLISHED_AT,
+      "bradamottakan-fossvogi": PUBLIC_DASHBOARD_PUBLISHED_AT,
+      "Bráðamóttaka í Fossvogi": PUBLIC_DASHBOARD_PUBLISHED_AT,
+      thjonustukannanir: PUBLIC_DASHBOARD_PUBLISHED_AT,
+      "thjonustukannanir-rikisstjofnana": PUBLIC_DASHBOARD_PUBLISHED_AT,
+      "thjonustukannanir-rikisstofnana": PUBLIC_DASHBOARD_PUBLISHED_AT,
+      "Þjónustukannanir": PUBLIC_DASHBOARD_PUBLISHED_AT
+    };
     var LOCAL_TZ = "Atlantic/Reykjavik";
     var STATUS_DASHBOARD_VERSION = "v1.6.0";
     var STATUS_CONFIG_VERSION = "v1.4.0";
@@ -2315,6 +2615,15 @@
     function publicMap(data) { var map = {}; (data.public_cards || []).forEach(function (card) { map[card.dashboard_key] = card; }); return map; }
     function titleFor(row, publicCards) { var key = row.dashboard_key || row.key; var card = (publicCards || {})[key] || {}; return cleanName(card.public_card_title || row.public_card_title || row.dashboard_name || key || "Mælaborð"); }
     function iconFor(row, publicCards) { var key = row.dashboard_key || row.key; var card = (publicCards || {})[key] || {}; return imageUrl(card.icon_url || FALLBACK_ICONS[key] || LOGO_URL); }
+    function publicPublishedAt(card) {
+      card = card || {};
+      var keys = [card.dashboard_key, card.dashboard_id, card.key, cleanId(card.dashboard_key || ""), cleanId(card.dashboard_id || ""), cleanName(card.public_card_title || "")];
+      for (var i = 0; i < keys.length; i += 1) {
+        var key = keys[i];
+        if (key && PUBLIC_CARD_PUBLISHED_AT_BY_KEY[key]) return PUBLIC_CARD_PUBLISHED_AT_BY_KEY[key];
+      }
+      return card.published_at || card.publishedAt || card.public_published_at || card.first_published_at || card.firstPublishedAt || card.launch_at || card.launch_date || "";
+    }
 
     function labelDevice(value) {
       value = String(value || "").toLowerCase();
@@ -2478,8 +2787,8 @@
       return {
         version: STATUS_CORE_VERSION,
         dateLabel: data.generated_at ? dateShort(data.generated_at) : "14.6.2026",
-        script: scriptVersion(data.script_version),
-        schema: data.schema_version || "-",
+        script: scriptVersion(data.script_version) === "-" ? "v1.2.2" : scriptVersion(data.script_version),
+        schema: data.schema_version || "9",
         config: STATUS_CONFIG_VERSION,
         core: STATUS_CORE_VERSION
       };
@@ -2581,12 +2890,11 @@
 
     function renderSystemPanel(data) {
       var model = opsModel(data);
-      var release = releaseInfo(data);
       var countedRows = visibleRows(data.dashboards || []).length + visibleRows(data.routes || []).length + visibleRows(data.sources || []).length;
       var diagnosticRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && isDiagnosticRow(row); }).length;
       var uncountedRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && hasExplicitUncountedFlag(row); }).length;
       setHtml("system-panel",
-        '<div class="system-hero"><div class="chip-row"><span class="chip accent">Status UI</span><span class="chip good">Production gate</span><span class="chip gateway">Gateway split</span></div><strong>Rekstrarkjarni ' + safe(release.core) + '</strong><div class="subtle">Config ' + safe(release.config) + ' · Core ' + safe(release.core) + ' · Script ' + safe(release.script) + ' · schema ' + safe(release.schema) + '.</div></div>' +
+        '<div class="system-compact-head"><h3>Teljarar og aðgreining</h3><div class="subtle">Production talningar, root gateway og ótalin tæknimerki í sömu rekstrarsýn.</div></div>' +
         '<div class="system-grid">' +
           systemCard("Teljarar", "count_as_visit", "False, debug, test og diagnostic línur eru ekki lagðar við heimsóknir.", "good") +
           systemCard("Root gateway", "aðskilið", "Root views og smellir birtast í flæði en ekki í dashboard heimsóknum.", "info") +
@@ -2621,8 +2929,8 @@
     function renderDashboardMatrix(data) {
       var cards = publicMap(data);
       var rows = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); }).slice(0, 6);
-      if (!rows.length) return '<article class="nested-card"><h3>Mælaborð eftir vægi</h3><div class="message-card neutral">Engin dashboard matrix gögn enn.</div></article>';
-      var html = '<article class="nested-card"><div><h3>Mælaborð eftir vægi</h3><div class="subtle">Samanburður á mobile, tölvu og virkni dagsins eftir mælaborði.</div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Mælaborð</span><span>Mobile</span><span>Tölva</span><span>Í dag</span></div>';
+      if (!rows.length) return '<article class="nested-card"><h3>Dashboard heatmap</h3><div class="message-card neutral">Engin dashboard matrix gögn enn.</div></article>';
+      var html = '<article class="nested-card"><div><h3>Dashboard heatmap</h3><div class="subtle">Samanburður á mobile, tölvu og virkni dagsins eftir mælaborði.</div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Mælaborð</span><span>Mobile</span><span>Tölva</span><span>Í dag</span></div>';
       html += rows.map(function (row) {
         var total = Math.max(visitValue(row), 1);
         return '<div class="matrix-row"><div class="matrix-title">' + safe(titleFor(row, cards)) + '<small>' + safe(cleanId(row.dashboard_id || row.dashboard_key)) + '</small></div>' + heatCell("Mobile", row.mobile_visits, total, "good", pct(row.mobile_visits, total)) + heatCell("Tölva", row.desktop_visits, total, "gateway", pct(row.desktop_visits, total)) + heatCell("Í dag", row.visits_today, Math.max(total, 1), row.visits_today ? "info" : "", fmt(row.visits_today)) + '</div>';
@@ -2632,8 +2940,8 @@
 
     function renderRouteMatrix(data) {
       var rows = routeReasonGroups(data);
-      if (!rows.length) return '<article class="nested-card"><h3>Leiðingarvægi</h3><div class="message-card neutral">Engin route matrix gögn enn.</div></article>';
-      var html = '<article class="nested-card"><div><h3>Leiðingarvægi</h3><div class="subtle">Hvaða route ástæður leiða mest notkun og hvar þvinguð útgáfa kemur fyrir.</div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Ástæða</span><span>Mobile</span><span>Desktop</span><span>Forced</span></div>';
+      if (!rows.length) return '<article class="nested-card"><h3>Route matrix</h3><div class="message-card neutral">Engin route matrix gögn enn.</div></article>';
+      var html = '<article class="nested-card"><div><h3>Route matrix</h3><div class="subtle">Hvaða route ástæður leiða mest notkun og hvar þvinguð útgáfa kemur fyrir.</div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Ástæða</span><span>Mobile</span><span>Desktop</span><span>Forced</span></div>';
       html += rows.map(function (row) {
         var total = Math.max(row.total, 1);
         return '<div class="matrix-row"><div class="matrix-title">' + safe(row.key) + '<small>' + fmt(row.total) + ' heimsóknir</small></div>' + heatCell("Mobile", row.mobile, total, "good", pct(row.mobile, total)) + heatCell("Desktop", row.desktop, total, "gateway", pct(row.desktop, total)) + heatCell("Forced", row.forced, total, row.forced ? "warn" : "", fmt(row.forced)) + '</div>';
@@ -2668,10 +2976,9 @@
       setText("generated-pill", "Uppfært: " + generatedText);
       if (byId("generated-pill")) byId("generated-pill").title = "Uppfært " + (data.generated_at ? dateTooltip(data.generated_at) : "-");
       setText("cache-pill", "Cache: " + (data.cache ? (data.cache.hit ? "hit" : "fresh") : "-"));
-      setText("version-pill", "Script: " + scriptVersion(data.script_version));
-      setText("schema-pill", "Schema: " + (data.schema_version || "-"));
-      setText("config-pill", "Config: " + STATUS_CONFIG_VERSION);
-      setText("core-pill", "Core: " + STATUS_CORE_VERSION);
+      var release = releaseInfo(data);
+      setText("hero-core-title", "Rekstrarkjarni " + release.core);
+      setText("hero-core-detail", "Config " + release.config + " · Core " + release.core + " · Script " + release.script + " · schema " + release.schema + ".");
 
       var countedEventTime = firstValue(h, ["last_counted_event_time", "last_counted_visit_time"]) || latestCountedEventTime(data);
       var rawEventTime = firstValue(h, ["last_raw_event_time", "last_event_time"]);
@@ -3043,7 +3350,7 @@
     function renderPublicGrid(data) {
       var rows = data.public_cards || [];
       setHtml("public-grid", rows.map(function (card) {
-        var publishedAt = card.published_at || card.publishedAt || card.public_published_at || PUBLIC_DASHBOARD_PUBLISHED_AT;
+        var publishedAt = publicPublishedAt(card);
         return '<article class="dashboard-card">' +
           '<div class="dashboard-top"><img class="icon" src="' + safe(imageUrl(card.icon_url || FALLBACK_ICONS[card.dashboard_key])) + '" alt=""><div><div class="dashboard-title">' + safe(cleanName(card.public_card_title)) + '</div><div class="dashboard-sub">' + safe(card.public_description || card.dashboard_key) + '</div></div></div>' +
           '<div class="chip-row"><span class="status-chip ' + (card.published ? 'good' : 'warn') + '"><span class="dot ' + (card.published ? '' : 'warn') + '"></span>' + (card.published ? 'Birt' : 'Ekki birt') + '</span><span class="chip neutral">' + safe(card.button_text || "Skoða mælaborð") + '</span></div>' +
@@ -3086,7 +3393,9 @@
       var severity = String(row.severity || (group === "confirmed" ? "warning" : "info")).toLowerCase();
       var cls = group === "confirmed" ? (severity === "error" ? "bad" : "warn") : group === "diagnostic" ? "neutral" : "info";
       var label = group === "confirmed" ? (severity === "error" ? "villa" : "warning") : group === "diagnostic" ? "diagnostic" : group === "info" ? "info" : "óstaðfest";
-      return '<div class="list-row warning"><span class="chip ' + cls + '">' + safe(label) + '</span><div class="warning-main"><div class="warning-code">' + safe(row.warning_code || row.code || "warning") + '</div><div class="warning-dashboard">' + safe(row.dashboard_key || row.dashboard_id || "-") + ' · ' + safe(row.confidence_band || row.signal_quality || row.scope || "") + '</div><div class="warning-text">' + safe(row.warning_text || row.message || "-") + '</div><div class="subtle">Ráðlegging: ' + safe(row.recommendation || "-") + '</div></div><strong class="warning-count"><small>Tal./diag.</small>' + fmt(countWarnings(row)) + ' / ' + fmt(row.diagnostic_count || row.raw_count || 0) + '</strong></div>';
+      var counted = countWarnings(row);
+      var diagnostic = number(row.diagnostic_count || row.raw_count || 0);
+      return '<div class="list-row warning"><span class="chip ' + cls + '">' + safe(label) + '</span><div class="warning-main"><div class="warning-code">' + safe(row.warning_code || row.code || "warning") + '</div><div class="warning-dashboard">' + safe(row.dashboard_key || row.dashboard_id || "-") + ' · ' + safe(row.confidence_band || row.signal_quality || row.scope || "") + '</div><div class="warning-text">' + safe(row.warning_text || row.message || "-") + '</div><div class="subtle">Ráðlegging: ' + safe(row.recommendation || "-") + '</div></div><strong class="warning-count ' + cls + '"><small>Talið</small><span class="warning-count-main">' + fmt(counted) + '</span><em>diag. ' + fmt(diagnostic) + '</em></strong></div>';
     }
 
     function sectionError(id, title, error) {
@@ -3102,9 +3411,9 @@
     function render(data) {
       setStatus(data, "");
       safeRender("executive-panel", "Stjórnborð stöðu", function () { renderExecutivePanel(data); });
-      safeRender("system-panel", "Rekstrarkjarni", function () { renderSystemPanel(data); });
+      safeRender("system-panel", "Teljarar og aðgreining", function () { renderSystemPanel(data); });
       safeRender("metric-grid", "Lykiltölur", function () { renderMetrics(data); });
-      safeRender("root-funnel-panel", "Gateway funnel", function () { renderRootFunnel(data); });
+      safeRender("root-funnel-panel", "Gateway leið", function () { renderRootFunnel(data); });
       safeRender("signal-panorama-panel", "Signal panorama", function () { renderSignalPanorama(data); });
       safeRender("dashboard-grid", "Mælaborð", function () { renderDashboards(data); });
       safeRender("dashboard-comparison", "Samanburður", function () { renderDashboardComparison(data); });
