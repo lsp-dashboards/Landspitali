@@ -938,6 +938,267 @@
     .combo-number strong { display: block; color: var(--ink); font-size: 18px; line-height: 1; font-weight: 900; }
     .combo-number small { display: block; margin-top: 4px; color: var(--muted); font-size: 9.5px; font-weight: 900; letter-spacing: .04em; text-transform: uppercase; }
 
+    .delivery-shell {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.94)),
+        radial-gradient(circle at 100% 0%, rgba(0,99,166,.06), transparent 30rem);
+    }
+
+    .delivery-board {
+      display: grid;
+      gap: 14px;
+    }
+
+    .delivery-hero {
+      display: grid;
+      grid-template-columns: minmax(300px, 1.18fr) repeat(4, minmax(0, .62fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .delivery-verdict,
+    .delivery-stat,
+    .delivery-lane,
+    .delivery-audit-card {
+      border: 1px solid var(--line-soft);
+      border-radius: 18px;
+      background: rgba(255,255,255,.9);
+      box-shadow: none;
+    }
+
+    .delivery-verdict {
+      display: grid;
+      align-content: center;
+      gap: 9px;
+      padding: 15px;
+    }
+
+    .delivery-kicker,
+    .delivery-stat span,
+    .delivery-lane-kicker,
+    .delivery-audit-card span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: .065em;
+      text-transform: uppercase;
+    }
+
+    .delivery-verdict strong {
+      display: block;
+      color: var(--ink);
+      font-size: clamp(20px, 1.7vw, 28px);
+      line-height: 1.02;
+      font-weight: 900;
+      letter-spacing: -.035em;
+    }
+
+    .delivery-verdict p {
+      max-width: 76ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.38;
+    }
+
+    .delivery-stat {
+      min-height: 104px;
+      display: grid;
+      align-content: space-between;
+      gap: 8px;
+      padding: 12px;
+    }
+
+    .delivery-stat.good { background: var(--good-soft); border-color: var(--good-line); }
+    .delivery-stat.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+    .delivery-stat.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .delivery-stat.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+
+    .delivery-stat strong {
+      color: var(--ink);
+      font-size: clamp(22px, 2.1vw, 31px);
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: -.05em;
+      white-space: nowrap;
+    }
+
+    .delivery-stat small {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+    }
+
+    .delivery-lanes {
+      display: grid;
+      grid-template-columns: minmax(0, .98fr) minmax(0, 1.08fr) minmax(0, .94fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .delivery-lane {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      min-height: 0;
+    }
+
+    .delivery-lane-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .delivery-lane h3 {
+      margin-top: 5px;
+      font-size: 17px;
+      line-height: 1.08;
+      letter-spacing: -.025em;
+    }
+
+    .delivery-lane-copy {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.34;
+    }
+
+    .delivery-pill {
+      flex: 0 0 auto;
+      display: inline-grid;
+      place-items: center;
+      min-height: 34px;
+      padding: 7px 11px;
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      background: var(--panel-soft);
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .delivery-signal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .delivery-signal {
+      min-height: 66px;
+      display: grid;
+      align-content: center;
+      gap: 4px;
+      padding: 10px;
+      border: 1px solid var(--line-soft);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .delivery-signal.good { background: var(--good-soft); border-color: var(--good-line); }
+    .delivery-signal.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+    .delivery-signal.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .delivery-signal.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+
+    .delivery-signal span {
+      color: var(--muted);
+      font-size: 9.5px;
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: .055em;
+      text-transform: uppercase;
+    }
+
+    .delivery-signal strong {
+      color: var(--ink);
+      font-size: 22px;
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: -.045em;
+      white-space: nowrap;
+    }
+
+    .delivery-bars {
+      display: grid;
+      gap: 8px;
+    }
+
+    .delivery-combo-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .delivery-combo {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 58px;
+      padding: 10px 11px;
+      border: 1px solid var(--line-soft);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .delivery-combo-title {
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.15;
+      font-weight: 900;
+    }
+
+    .delivery-combo-meta {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    .delivery-combo-count {
+      color: var(--ink);
+      font-size: 22px;
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: -.045em;
+      white-space: nowrap;
+    }
+
+    .delivery-audit {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .delivery-audit-card {
+      min-height: 74px;
+      display: grid;
+      align-content: space-between;
+      gap: 6px;
+      padding: 11px;
+    }
+
+    .delivery-audit-card.good { background: var(--good-soft); border-color: var(--good-line); }
+    .delivery-audit-card.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+    .delivery-audit-card.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .delivery-audit-card.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+
+    .delivery-audit-card strong {
+      color: var(--ink);
+      font-size: 22px;
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: -.045em;
+      white-space: nowrap;
+    }
+
+    .delivery-audit-card small {
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 1.24;
+    }
+
     .list {
       display: grid;
       gap: 9px;
@@ -1381,6 +1642,10 @@
       .gateway-flow { grid-template-columns: repeat(5, minmax(120px, 1fr)); overflow-x: auto; padding-bottom: 4px; }
       .gateway-analysis { grid-template-columns: 1fr; }
       .tech-side { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .delivery-hero { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .delivery-verdict { grid-column: 1 / -1; }
+      .delivery-lanes { grid-template-columns: 1fr; }
+      .delivery-audit { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 860px) {
@@ -1417,6 +1682,9 @@
       .dashboard-compare { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .combo-row,
       .combo-row.list-head,
+      .delivery-hero,
+      .delivery-signal-grid,
+      .delivery-audit,
       .list-row,
       .list-row.route,
       .list-row.source,
@@ -3752,15 +4020,14 @@
       <div class="technical-layout" id="technical-panel"></div>
     </section>
 
-    <section class="lower-grid">
-      <article class="panel" aria-labelledby="display-title">
-        <div class="panel-head"><div><h2 id="display-title">Skjár og aðgengi</h2><div class="panel-note">Reported theme, forced-dark óvissa, viewport flokkar og aðgengismerki. Reported gildi eru aðskilin frá óvissum eða inferred merkjum.</div></div></div>
-        <div class="split-panel" id="display-panel"></div>
-      </article>
-      <article class="panel" aria-labelledby="performance-title">
-        <div class="panel-head"><div><h2 id="performance-title">Flutningur og afköst</h2><div class="panel-note">Transport, payload stærð, cache og net-/tækjamerki þegar þau eru tiltæk. Compact diagnostic yfirlit án sjónræns hávaða.</div></div></div>
-        <div class="split-panel" id="performance-panel"></div>
-      </article>
+    <section class="panel delivery-shell" aria-labelledby="delivery-title">
+      <div class="panel-head">
+        <div>
+          <h2 id="delivery-title">Skjár, tæki og afhending</h2>
+          <div class="panel-note">Sameinar skjáhegðun, aðgengi, vafra/tæki, tracker sendingu, payload, cache og netmerki. Ótalin eða diagnostic merki eru sýnd sem rekstrarathuganir en ekki lögð við heimsóknir.</div>
+        </div>
+      </div>
+      <div class="delivery-board" id="delivery-panel"></div>
     </section>
 
     <section class="section-grid source-public-grid">
@@ -4923,33 +5190,94 @@
       '</div><p class="subtle" style="margin:10px 0 0;">Þessi merki eru notuð til rekstrargreiningar. Þau hækka ekki taldar heimsóknir nema payload merki þau sérstaklega sem production heimsóknir.</p></article>';
     }
 
-    function renderDisplayPanel(data) {
-      var rows = rowsFrom(data, "display", "device");
-      var counted = visibleRows(rows);
-      var total = Math.max(sumRows(counted), 1);
-      var dark = counted.reduce(function (acc, row) { return acc + (/^dark$/i.test(row.color_scheme || row.prefers_color_scheme || "") ? visitValue(row) : 0); }, 0);
-      var light = counted.reduce(function (acc, row) { return acc + (/^light$/i.test(row.color_scheme || row.prefers_color_scheme || "") ? visitValue(row) : 0); }, 0);
-      var noPreference = counted.reduce(function (acc, row) { return acc + (/no-preference/i.test(row.color_scheme || row.prefers_color_scheme || "") ? visitValue(row) : 0); }, 0);
-      var unknown = Math.max(0, sumRows(counted) - dark - light - noPreference);
-      var forcedSignals = rows.reduce(function (acc, row) { return acc + (!isHardTestRow(row) && /detected|forced/i.test(row.forced_dark_detection || row.forced_dark_status || "") ? (rawSignalValue(row) || visitValue(row)) : 0); }, 0);
-      var samsungPossible = rows.reduce(function (acc, row) { return acc + (!isHardTestRow(row) && (/samsung_forced_dark_possible/i.test(row.samsung_dark_mode_status || "") || isSamsungInternetRow(row)) ? rawSignalValue(row) : 0); }, 0);
-      var viewportRows = topRows(counted, function (row) { return labelViewport(row.viewport_bucket || row.display_class); }, 5);
-      var a11yRows = topRows(counted, labelA11y, 5);
-      setHtml("display-panel", '<article class="nested-card"><h3>Litaþema</h3><div class="subtle">Bein vaframerki eru talin sér. Auto-dark og Samsung merki eru sýnd sem athuganir, ekki bætt við dark/light.</div><div class="signal-grid">' + signalCell("Dark", fmt(dark)) + signalCell("Light", fmt(light)) + signalCell("Engin stilling", fmt(noPreference)) + signalCell("Óþekkt", fmt(unknown)) + signalCell("Auto-dark", fmt(forcedSignals), forcedSignals ? "info" : "") + signalCell("Samsung", fmt(samsungPossible), samsungPossible ? "info" : "") + '</div><div class="bar-list" style="margin-top:12px;">' + bar("Dark stilling", dark, total, { className: "good" }) + bar("Light stilling", light, total, {}) + bar("Engin stilling", noPreference, total, { className: "gateway" }) + '</div></article>' +
-        '<article class="nested-card"><h3>Skjáflokkar og aðgengi</h3><div class="subtle">Skjábreidd og aðgengisstillingar sem hjálpa að skilja hvort rétt útgáfa var valin.</div><div class="bar-list">' + (viewportRows.map(function (row) { return bar(row.key, row.visits, Math.max(sumRows(viewportRows, "visits"), 1), { asNumber: true }); }).join("") || '<div class="subtle">Engin display gögn.</div>') + '</div><div class="chip-row" style="margin-top:12px;">' + (a11yRows.map(function (row) { return '<span class="chip neutral">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin aðgengismerki</span>') + '</div></article>');
+    function deliveryStat(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="delivery-stat' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
     }
+    function deliverySignal(label, value, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<div class="delivery-signal' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div>';
+    }
+    function deliveryAudit(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="delivery-audit-card' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function deliveryCombo(row, cards) {
+      var browser = browserLabel(row);
+      var os = row.os_family || "Óþekkt";
+      var device = labelDevice(row.device_class || row.inferred_device_class);
+      var layout = labelLayout(row.selected_layout);
+      var theme = labelTheme(row.color_scheme || "unknown");
+      var flags = [device, layout, browser, os, theme].filter(Boolean).join(" · ");
+      var uncounted = row.visits === 0 && row.raw_signal_events > 0 ? " · ótalið tæknimerki" : "";
+      return '<div class="delivery-combo"><div><div class="delivery-combo-title">' + safe(titleFor(row, cards)) + '</div><div class="delivery-combo-meta">' + safe(flags + uncounted) + '</div></div><div class="delivery-combo-count">' + fmt(row.visits || row.raw_signal_events) + '</div></div>';
+    }
+    function renderDeliveryPanel(data) {
+      var k = data.kpis || {};
+      var cards = publicMap(data);
+      var totalVisits = number(firstValue(k, ["total_counted_visits", "counted_visits", "total_visits"])) || sumRows(visibleRows(data.dashboards || []));
+      var displayRows = rowsFrom(data, "display", "device");
+      var countedDisplay = visibleRows(displayRows);
+      var displayTotal = Math.max(sumRows(countedDisplay), totalVisits, 1);
+      var dark = countedDisplay.reduce(function (acc, row) { return acc + (/^dark$/i.test(row.color_scheme || row.prefers_color_scheme || "") ? visitValue(row) : 0); }, 0);
+      var light = countedDisplay.reduce(function (acc, row) { return acc + (/^light$/i.test(row.color_scheme || row.prefers_color_scheme || "") ? visitValue(row) : 0); }, 0);
+      var noPreference = countedDisplay.reduce(function (acc, row) { return acc + (/no-preference/i.test(row.color_scheme || row.prefers_color_scheme || "") ? visitValue(row) : 0); }, 0);
+      var unknownTheme = Math.max(0, sumRows(countedDisplay) - dark - light - noPreference);
+      var forcedSignals = displayRows.reduce(function (acc, row) { return acc + (!isHardTestRow(row) && /detected|forced/i.test(row.forced_dark_detection || row.forced_dark_status || "") ? (rawSignalValue(row) || visitValue(row)) : 0); }, 0);
+      var samsungPossible = displayRows.reduce(function (acc, row) { return acc + (!isHardTestRow(row) && (/samsung_forced_dark_possible/i.test(row.samsung_dark_mode_status || "") || isSamsungInternetRow(row)) ? rawSignalValue(row) : 0); }, 0);
+      var viewportRows = topRows(countedDisplay, function (row) { return labelViewport(row.viewport_bucket || row.display_class); }, 5);
+      var a11yRows = topRows(countedDisplay, labelA11y, 4);
 
-    function renderPerformancePanel(data) {
-      var rows = rowsFrom(data, "performance", "device");
-      var counted = visibleRows(rows);
-      var total = Math.max(sumRows(counted), 1);
-      var methodRows = topRows(counted, function (row) { return labelTransport(row.tracker_send_method || row.tracking_method); }, 5);
-      var payloadRows = topRows(counted, function (row) { return labelPayload(row.payload_size_bucket); }, 5);
-      var connectionRows = topRows(counted, function (row) { return labelConnection(row.connection_effective_type || row.connection_type); }, 5);
-      var lowCap = counted.reduce(function (acc, row) { return acc + (String(row.low_capability_device).toLowerCase() === "true" ? visitValue(row) : 0); }, 0);
+      var perfRows = rowsFrom(data, "performance", "device");
+      var countedPerf = visibleRows(perfRows);
+      var perfTotal = Math.max(sumRows(countedPerf), totalVisits, 1);
+      var methodRows = topRows(countedPerf, function (row) { return labelTransport(row.tracker_send_method || row.tracking_method); }, 4);
+      var payloadRows = topRows(countedPerf, function (row) { return labelPayload(row.payload_size_bucket); }, 4);
+      var connectionRows = topRows(countedPerf, function (row) { return labelConnection(row.connection_effective_type || row.connection_type); }, 4);
+      var lowCap = countedPerf.reduce(function (acc, row) { return acc + (String(row.low_capability_device).toLowerCase() === "true" ? visitValue(row) : 0); }, 0);
       var cacheText = data.cache ? (data.cache.hit ? "Hit" : "Fresh") : "-";
-      setHtml("performance-panel", '<article class="nested-card"><h3>Sending og cache</h3><div class="subtle">Hvernig tracker-merki berast og hvort dashboard payload kom úr cache.</div><div class="bar-list">' + (methodRows.map(function (row) { return bar(row.key, row.visits, Math.max(sumRows(methodRows, "visits"), 1), { asNumber: true }); }).join("") || '<div class="subtle">Engin sendigögn.</div>') + '</div><div class="summary-strip" style="margin-top:12px;">' + summaryStat("Lítil geta", fmt(lowCap), lowCap ? "warn" : "") + summaryStat("Línur", fmt(counted.length), "") + summaryStat("Cache", cacheText, cacheText === "Hit" ? "good" : "") + '</div></article>' +
-        '<article class="nested-card"><h3>Payload og tenging</h3><div class="subtle">Stærð sendinga og netmerki þegar vafri gefur þau upp.</div><div class="bar-list">' + (payloadRows.map(function (row) { return bar(row.key, row.visits, total, { asNumber: true }); }).join("") || '<div class="subtle">Engin payload gögn.</div>') + '</div><div class="chip-row" style="margin-top:12px;">' + (connectionRows.map(function (row) { return '<span class="chip accent">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin tengigögn</span>') + '</div></article>');
+      var trackerLines = countedPerf.length || countedDisplay.length;
+
+      var topBrowser = topRows(rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 1)[0];
+      var topDevice = topRows(rowsFrom(data, "device_confidence", "device"), function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 1)[0];
+      var topViewport = viewportRows[0];
+      var combos = groupedDeviceCombos(data, 4);
+      var weakShare = k.weak_unknown_signal_share !== undefined ? number(k.weak_unknown_signal_share) : (number(k.weak_unknown_signal_count) / Math.max(number(k.total_events), 1));
+      var diagnosticRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && isDiagnosticRow(row); }).length;
+      var concernCount = (lowCap ? 1 : 0) + (forcedSignals ? 1 : 0) + (samsungPossible ? 1 : 0) + (weakShare > .12 ? 1 : 0);
+      var verdict = concernCount ? "Tæknimerki til skoðunar" : "Afhending lítur stöðug út";
+      var verdictCopy = "Tölurnar hér eru teknar úr tracker og dashboard payload: skjár, litaþema, vafri, tæki, sendingaraðferð, payload stærð, cache og netmerki. Greiningarmerki eru sýnd sér og hækka ekki heimsóknir.";
+      var viewportTotal = Math.max(sumRows(viewportRows, "visits"), 1);
+      var methodTotal = Math.max(sumRows(methodRows, "visits"), 1);
+      var payloadTotal = Math.max(sumRows(payloadRows, "visits"), 1);
+      var connectionChips = connectionRows.map(function (row) { return '<span class="chip accent">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin netmerki</span>';
+      var a11yChips = a11yRows.map(function (row) { return '<span class="chip neutral">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin aðgengismerki</span>';
+      var comboHtml = combos.map(function (row) { return deliveryCombo(row, cards); }).join("") || '<div class="message-card neutral"><strong>Engar tækjasamsetningar</strong><p>Device/browser samantekt vantar í payload.</p></div>';
+
+      setHtml("delivery-panel",
+        '<div class="delivery-hero">' +
+          '<article class="delivery-verdict"><span class="delivery-kicker">Tæknileg afhending</span><strong>' + safe(verdict) + '</strong><p>' + safe(verdictCopy) + '</p><div class="chip-row"><span class="chip ' + (concernCount ? 'warn' : 'good') + '">' + fmt(concernCount) + ' athuganir</span><span class="chip neutral">' + fmt(trackerLines) + ' tracker línur</span><span class="chip neutral">Cache: ' + safe(cacheText) + '</span></div></article>' +
+          deliveryStat("Tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir" : "Engin dreifing", "info") +
+          deliveryStat("Vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir" : "Engin vafragögn", "") +
+          deliveryStat("Skjár", topViewport ? topViewport.key : "Óþekkt", topViewport ? fmt(topViewport.visits) + " heimsóknir" : "Engin skjágögn", "gateway") +
+          deliveryStat("Sending", methodRows[0] ? methodRows[0].key : "Óþekkt", methodRows[0] ? fmt(methodRows[0].visits) + " merki" : "Engin sendingargögn", cacheText === "Hit" ? "good" : "") +
+        '</div>' +
+        '<div class="delivery-lanes">' +
+          '<article class="delivery-lane"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Skjár og aðgengi</span><h3>Litaþema, viewport og aðgengismerki</h3><p class="delivery-lane-copy">Bein vaframerki eru lesin sér. Auto-dark og Samsung merki eru rekstrarathuganir, ekki viðbætt dark/light talning.</p></div><span class="delivery-pill">' + fmt(sumRows(countedDisplay)) + ' talin</span></div>' +
+            '<div class="delivery-signal-grid">' + deliverySignal("Dark", fmt(dark), "good") + deliverySignal("Light", fmt(light), "") + deliverySignal("Óþekkt", fmt(unknownTheme), unknownTheme ? "gateway" : "") + deliverySignal("Engin stilling", fmt(noPreference), "gateway") + deliverySignal("Auto-dark", fmt(forcedSignals), forcedSignals ? "info" : "") + deliverySignal("Samsung", fmt(samsungPossible), samsungPossible ? "info" : "") + '</div>' +
+            '<div class="delivery-bars">' + bar("Dark stilling", dark, displayTotal, { className: "good" }) + bar("Light stilling", light, displayTotal, {}) + bar("Engin stilling", noPreference, displayTotal, { className: "gateway" }) + (viewportRows.map(function (row) { return bar(row.key, row.visits, viewportTotal, { asNumber: true, compact: true }); }).join("") || '<div class="subtle">Engin viewport gögn.</div>') + '</div><div class="chip-row">' + a11yChips + '</div></article>' +
+          '<article class="delivery-lane"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Tæki og vafri</span><h3>Samsetningar sem tracker sér</h3><p class="delivery-lane-copy">Sýnir mælaborð, tæki, útgáfu, vafra og stýrikerfi í sömu línu svo vandamál megi rekja hraðar.</p></div><span class="delivery-pill">' + fmt(combos.length) + ' hópar</span></div><div class="delivery-combo-list">' + comboHtml + '</div></article>' +
+          '<article class="delivery-lane"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Flutningur og afköst</span><h3>Sending, payload og netmerki</h3><p class="delivery-lane-copy">Tracker sendingar og payload stærð eru lesin sem rekstrarmerki. Cache hit er gott þegar payload er ferskur.</p></div><span class="delivery-pill">' + safe(cacheText) + '</span></div>' +
+            '<div class="delivery-signal-grid">' + deliverySignal("Lítil geta", fmt(lowCap), lowCap ? "warn" : "good") + deliverySignal("Línur", fmt(trackerLines), "") + deliverySignal("Cache", cacheText, cacheText === "Hit" ? "good" : "") + '</div>' +
+            '<div class="delivery-bars">' + (methodRows.map(function (row) { return bar(row.key, row.visits, methodTotal, { asNumber: true }); }).join("") || '<div class="subtle">Engin sendigögn.</div>') + (payloadRows.map(function (row) { return bar(row.key, row.visits, payloadTotal, { asNumber: true, compact: true }); }).join("") || '<div class="subtle">Engin payload gögn.</div>') + '</div><div class="chip-row">' + connectionChips + '</div></article>' +
+        '</div>' +
+        '<div class="delivery-audit">' +
+          deliveryAudit("Tracker línur", fmt(trackerLines), "Taldar device/performance línur.", trackerLines ? "good" : "warn") +
+          deliveryAudit("Payload", payloadRows[0] ? payloadRows[0].key : "Óþekkt", payloadRows[0] ? fmt(payloadRows[0].visits) + " merki" : "Vantar stærð", payloadRows[0] ? "info" : "gateway") +
+          deliveryAudit("Netmerki", connectionRows[0] ? connectionRows[0].key : "Óþekkt", connectionRows[0] ? fmt(connectionRows[0].visits) + " merki" : "Vafri gaf ekki upp", connectionRows[0] ? "" : "gateway") +
+          deliveryAudit("Veik merki", shareValue(weakShare), "Veik eða óþekkt signal.", weakShare > .12 ? "warn" : "good") +
+          deliveryAudit("Diagnostic", fmt(diagnosticRows), "Sýnt sér, ekki heimsóknir.", diagnosticRows ? "info" : "good") +
+        '</div>');
     }
 
     function routeContextFor(row, data) {
@@ -5108,8 +5436,7 @@
       safeRender("layout-source-panel", "Leiðing og uppruni", function () { renderLayoutAndSource(data); });
       safeRender("insight-grid", "Rekstrarinnsýn", function () { renderInsights(data); });
       safeRender("technical-panel", "Tæki og vafraumhverfi", function () { renderTechnical(data); });
-      safeRender("display-panel", "Skjár og aðgengi", function () { renderDisplayPanel(data); });
-      safeRender("performance-panel", "Flutningur og afköst", function () { renderPerformancePanel(data); });
+      safeRender("delivery-panel", "Skjár, tæki og afhending", function () { renderDeliveryPanel(data); });
       safeRender("route-list", "Sjálfvirk leiðing", function () { renderRouteList(data); });
       safeRender("source-list", "Uppruni", function () { renderSourceList(data); });
       safeRender("public-grid", "Birting á island.is", function () { renderPublicGrid(data); });
