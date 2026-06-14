@@ -162,6 +162,11 @@
     .metric small { display: block; margin-top: 9px; color: var(--muted); font-size: 12px; line-height: 1.4; }
     .metric .meter { margin-top: 12px; }
 
+    .gateway-funnel-grid { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: 14px; align-items: stretch; }
+    .gateway-funnel-grid .nested-card { min-height: 100%; }
+    .funnel-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
+    .funnel-note { margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+
     .section-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; margin-bottom: 18px; align-items: start; }
     .section-grid.wide-left { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); }
     .panel { padding: 18px; }
@@ -511,6 +516,11 @@
       .signal-cell span { font-size: 8.5px; }
       .metric-grid { grid-template-columns: 1fr; }
     }
+
+    @media (max-width: 720px) {
+      .gateway-funnel-grid { grid-template-columns: 1fr; }
+      .funnel-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
   </style>
 </head>
 <body>
@@ -564,26 +574,14 @@
 
     <section class="metric-grid" id="metric-grid" aria-label="Lykiltölur"></section>
 
-    <section class="section-grid" aria-label="Gateway og breakpoint QA">
-      <article class="panel">
-        <div class="panel-head"><div><h2>Gateway funnel</h2><div class="panel-note">Root index views og smellir eru gateway telemetry, ekki taldar dashboard heimsóknir.</div></div></div>
-        <div class="split-panel" id="gateway-funnel-panel"></div>
-      </article>
-      <article class="panel">
-        <div class="panel-head"><div><h2>Breakpoint QA</h2><div class="panel-note">Screenshot-drifin route policy: 360 px mobile og 1410 px desktop eru lykilviðmið.</div></div></div>
-        <div class="list" id="breakpoint-qa-panel"></div>
-      </article>
-    </section>
-
-    <section class="section-grid" aria-label="Tækjaflokkun og útgáfuheilsa">
-      <article class="panel">
-        <div class="panel-head"><div><h2>Tækjaflokkun</h2><div class="panel-note">Aggregate device taxonomy, confidence og living-room merki án einstaklingsauðkenna.</div></div></div>
-        <div class="split-panel" id="taxonomy-panel"></div>
-      </article>
-      <article class="panel">
-        <div class="panel-head"><div><h2>Útgáfu- og contract heilsa</h2><div class="panel-note">Config, core, schema og Apps Script samræmi úr aggregate payload.</div></div></div>
-        <div class="split-panel" id="version-health-panel"></div>
-      </article>
+    <section class="panel" style="margin-bottom:18px;" aria-labelledby="gateway-funnel-title">
+      <div class="panel-head">
+        <div>
+          <h2 id="gateway-funnel-title">Gateway funnel</h2>
+          <div class="panel-note">Root index views og smellir eru aðgreindir frá töldum dashboard heimsóknum.</div>
+        </div>
+      </div>
+      <div class="gateway-funnel-grid" id="root-funnel-panel"></div>
     </section>
 
     <section class="section-grid wide-left">
@@ -667,6 +665,7 @@
     };
     var PUBLIC_DASHBOARD_PUBLISHED_AT = "2026-06-10T08:04:09.567Z";
     var LOCAL_TZ = "Atlantic/Reykjavik";
+    var STATUS_DASHBOARD_VERSION = "2026-06-13-status-v1.4.0-relaunch.1";
 
     function byId(id) { return document.getElementById(id); }
     function number(value) { var n = Number(value); return isFinite(n) ? n : 0; }
@@ -922,7 +921,7 @@
       byId("version-pill").textContent = "Script: " + scriptVersion(data.script_version);
       byId("schema-pill").textContent = "Schema: " + safe(data.schema_version || "-");
       if (byId("config-pill")) byId("config-pill").textContent = "Config: " + safe(data.config_version || "-");
-      if (byId("core-pill")) byId("core-pill").textContent = "Core: " + safe(data.core_version || (data.release && data.release.coreVersion) || "-");
+      if (byId("core-pill")) byId("core-pill").textContent = "Core: " + safe(data.core_version || (data.release && data.release.coreVersion) || "-") + " | Status: " + STATUS_DASHBOARD_VERSION.replace("2026-06-13-status-", "");
       var countedEventTime = firstValue(h, ["last_counted_event_time", "last_counted_visit_time"]) || latestCountedEventTime(data);
       var rawEventTime = firstValue(h, ["last_raw_event_time", "last_event_time"]);
       var diagnosticEventTime = firstValue(h, ["last_diagnostic_event_time"]);
@@ -952,6 +951,33 @@
       var meter = progress === undefined ? "" : '<div class="meter"><span class="' + safe(className || "") + '" style="width:' + Math.max(0, Math.min(100, progress)) + '%"></span></div>';
       return '<article class="metric"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail) + '</small>' + meter + '</article>';
     }
+
+    function renderRootFunnel(data) {
+      var f = data.root_index_funnel || data.root_index || {};
+      var panel = byId("root-funnel-panel");
+      var clicks = number(f.clicks);
+      var counted = number(f.counted_opens);
+      var arrivals = number(f.router_arrivals);
+      var views = number(f.views);
+      var clickRate = clicks ? pct(counted, clicks) : "0%";
+      var dashboardRows = (f.dashboard_clicks || []).slice(0, 8);
+      var sourceRows = (f.source_mix || []).slice(0, 8);
+      var maxDashboard = Math.max(1, dashboardRows.reduce(function (acc, row) { return Math.max(acc, number(row.clicks)); }, 0));
+      var maxSource = Math.max(1, sourceRows.reduce(function (acc, row) { return Math.max(acc, number(row.events)); }, 0));
+      if (!panel) return;
+      if (!views && !clicks && !arrivals && !counted) {
+        panel.innerHTML = '<article class="nested-card"><h3>Engin gateway gögn enn</h3><p class="subtle">Root index telemetry birtist hér þegar schema 9 Apps Script og nýja rótarsíðan eru komin í notkun. Þetta er eðlilegt í fyrstu prófun.</p></article>' +
+          '<article class="nested-card"><h3>Talning</h3><div class="signal-grid">' + signalCell("Root", "ótalið") + signalCell("Smellir", "ótalið") + signalCell("Opnanir", "taldar") + signalCell("Visit", "aðgreint") + '</div><p class="funnel-note">Root index views og root_dashboard_click eru gateway telemetry, ekki dashboard heimsóknir.</p></article>';
+        return;
+      }
+      panel.innerHTML = '<article class="nested-card"><h3>Funnel yfirlit</h3><div class="funnel-summary">' +
+        summaryStat("Views", fmt(views), "") + summaryStat("Clicks", fmt(clicks), "") + summaryStat("Router", fmt(arrivals), "") + summaryStat("Open", fmt(counted), "good") +
+        '</div><div class="bar-list">' + bar("View to click", clicks, Math.max(views, 1), { asNumber: false }) + bar("Click to open", counted, Math.max(clicks, 1), { className: counted ? "good" : "", asNumber: false }) + bar("Fallback", number(f.fallback_clicks), Math.max(clicks, 1), { className: number(f.fallback_clicks) ? "warn" : "", asNumber: true }) + '</div><p class="funnel-note">Click-to-open: ' + safe(clickRate) + '. Síðasti smellur: ' + safe(dateShort(f.last_root_click_time)) + '. Síðasta router komu: ' + safe(dateShort(f.last_router_arrival_time)) + '.</p></article>' +
+        '<article class="nested-card"><h3>Val og uppruni</h3><div class="bar-list">' +
+        (dashboardRows.map(function (row) { return bar(row.dashboard_key || "unknown", row.clicks, maxDashboard, { asNumber: true }); }).join("") || '<div class="subtle">Engir dashboard smellir enn.</div>') +
+        '</div><div class="chip-row" style="margin-top:12px;">' + (sourceRows.map(function (row) { return '<span class="chip accent">' + safe(row.source || "unknown") + ': ' + fmt(row.events) + '</span>'; }).join("") || '<span class="chip neutral">Enginn uppruni enn</span>') + '</div></article>';
+    }
+
     function renderMetrics(data) {
       var k = data.kpis || {};
       var total = number(k.total_visits);
@@ -966,9 +992,8 @@
         metric("Tablet/þröngt", fmt(number(k.tablet_visits) + number(k.narrow_visits)), "Talin tablet eða þröng skjáhegðun.", widthPct(number(k.tablet_visits) + number(k.narrow_visits), total)),
         metric("Signal gæði", weakShare, "Veik eða óþekkt merki af raw/aggregate.", Math.max(0, 100 - number(k.weak_unknown_signal_share) * 100), k.confidence_health === "warning" ? "warn" : "good"),
         metric("island.is", pct(k.island_is_visits, total), fmt(k.island_is_visits) + " merktar island.is.", widthPct(k.island_is_visits, total), "good"),
-        metric("Gateway", fmt(k.root_dashboard_clicks), "Root card clicks. Ekki taldar dashboard heimsóknir.", widthPct(k.root_counted_dashboard_opens, Math.max(k.root_dashboard_clicks, 1))),
-        metric("Living-room", fmt(k.smart_tv_living_room_visits), "TV/console/set-top heimsóknir ef greindar.", widthPct(k.smart_tv_living_room_visits, Math.max(total, 1))),
-        metric("Fallback / villur", fmt(k.fallback_error_count), "Staðfest rekstrarmerki, ekki ótalin prófun.", widthPct(k.fallback_error_count, Math.max(total, 1)), "bad")
+        metric("Fallback / villur", fmt(k.fallback_error_count), "Staðfest rekstrarmerki, ekki ótalin prófun.", widthPct(k.fallback_error_count, Math.max(total, 1)), "bad"),
+        metric("Gateway", fmt(number((data.root_index_funnel || {}).views)), "Root index views, ekki dashboard visits.", widthPct(number((data.root_index_funnel || {}).clicks), Math.max(number((data.root_index_funnel || {}).views), 1)))
       ].join("");
     }
 
@@ -1218,65 +1243,10 @@
         '<article class="nested-card"><h3>Payload og net</h3><div class="bar-list">' + payloadRows.map(function (row) { return bar(row.key, row.visits, total, { asNumber: true }); }).join("") + '</div><div class="chip-row" style="margin-top:12px;">' + (connectionRows.map(function (row) { return '<span class="chip accent">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin connection gögn</span>') + '</div></article>';
     }
 
-
-    function renderGatewayFunnel(data) {
-      var k = data.kpis || {};
-      var views = number(k.root_index_views);
-      var clicks = number(k.root_dashboard_clicks);
-      var arrivals = number(k.root_router_arrivals);
-      var opens = number(k.root_counted_dashboard_opens);
-      var failures = number(k.root_config_load_failures);
-      var rows = visibleRows(data.root_index || []).sort(function (a, b) { return number(b.dashboard_card_clicks) - number(a.dashboard_card_clicks); }).slice(0, 6);
-      byId("gateway-funnel-panel").innerHTML =
-        '<article class="nested-card"><h3>Funnel</h3><div class="summary-strip">' +
-          summaryStat("Views", fmt(views), "") + summaryStat("Clicks", fmt(clicks), "") + summaryStat("Opens", fmt(opens), opens ? "good" : "") +
-        '</div><div class="bar-list" style="margin-top:12px;">' +
-          bar("Root views", views, Math.max(views, clicks, arrivals, opens, 1), { asNumber: true }) +
-          bar("Card clicks", clicks, Math.max(views, clicks, arrivals, opens, 1), { asNumber: true }) +
-          bar("Router arrivals", arrivals, Math.max(views, clicks, arrivals, opens, 1), { asNumber: true }) +
-          bar("Counted opens", opens, Math.max(views, clicks, arrivals, opens, 1), { asNumber: true, className: "good" }) +
-        '</div><div class="chip-row" style="margin-top:12px;"><span class="chip neutral">Conversion: ' + safe(pct(opens, Math.max(clicks, 1))) + '</span><span class="chip ' + (failures ? 'warn' : 'good') + '">Config failures: ' + fmt(failures) + '</span></div></article>' +
-        '<article class="nested-card"><h3>Eftir mælaborði</h3><div class="bar-list">' + (rows.map(function (row) { return bar(row.dashboard_name || row.dashboard_key || "Óþekkt", number(row.dashboard_card_clicks), Math.max(clicks, 1), { asNumber: true }); }).join("") || '<div class="subtle">Engin root-index aggregate gögn enn.</div>') + '</div></article>';
-    }
-
-    function renderBreakpointQa(data) {
-      var rows = visibleRows(data.breakpoint_qa || []).sort(function (a, b) { return number(b.confirmed_mismatch_count || b.mismatch_count) - number(a.confirmed_mismatch_count || a.mismatch_count); }).slice(0, 12);
-      byId("breakpoint-qa-panel").innerHTML = rows.map(function (row) {
-        var mismatch = number(row.confirmed_mismatch_count || row.mismatch_count);
-        return '<div class="list-row route"><div><strong>' + safe(row.dashboard_name || row.dashboard_key || "Óþekkt") + '</strong><span>' + safe(row.breakpoint_zone || "unknown") + ' · expected ' + safe(row.expected_layout || "-") + ' · observed ' + safe(row.observed_selected_layout || "-") + '</span></div><div><strong>' + safe(labelRoute(row.route_reason || "unknown")) + '</strong><span>' + safe(row.recommendation || "") + '</span></div><div class="number"><strong>' + fmt(mismatch) + '</strong><span>frávik</span></div></div>';
-      }).join("") || '<div class="message-card neutral"><strong>Engin breakpoint QA gögn enn.</strong><p>Keyrðu aggregateRecent eftir að schema 9 events hafa borist.</p></div>';
-    }
-
-    function renderTaxonomyPanels(data) {
-      var taxonomy = visibleRows(data.device_taxonomy || []);
-      var living = visibleRows(data.living_room_devices || []);
-      var totalTax = taxonomy.reduce(function (acc, row) { return acc + visitValue(row); }, 0);
-      var totalLiving = living.reduce(function (acc, row) { return acc + visitValue(row); }, 0);
-      var classRows = topRows(taxonomy, function (row) { return row.inferred_device_class || "Óþekkt"; }, 6);
-      var bandRows = topRows(taxonomy, function (row) { return row.inferred_confidence_band || "Óþekkt"; }, 5);
-      var livingRows = topRows(living, function (row) { return (row.device_family || "living") + (row.device_subtype ? " · " + row.device_subtype : ""); }, 6);
-      byId("taxonomy-panel").innerHTML =
-        '<article class="nested-card"><h3>Device taxonomy</h3><div class="bar-list">' + (classRows.map(function (row) { return bar(row.key, row.visits, Math.max(totalTax, 1), { asNumber: true }); }).join("") || '<div class="subtle">Engin schema 9 taxonomy gögn.</div>') + '</div></article>' +
-        '<article class="nested-card"><h3>Confidence og living-room</h3><div class="bar-list">' + (bandRows.map(function (row) { return bar(row.key, row.visits, Math.max(totalTax, 1), { asNumber: true }); }).join("") || '<div class="subtle">Engin confidence gögn.</div>') + '</div><div class="chip-row" style="margin-top:12px;">' + (livingRows.map(function (row) { return '<span class="chip accent">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin TV/console/set-top merki</span>') + '</div><div class="summary-strip" style="margin-top:12px;">' + summaryStat("Living", fmt(totalLiving), totalLiving ? "warn" : "") + summaryStat("Console", fmt((data.kpis || {}).console_living_room_visits), "") + summaryStat("Set-top", fmt((data.kpis || {}).set_top_box_visits), "") + '</div></article>';
-    }
-
-    function renderVersionHealth(data) {
-      var rows = visibleRows(data.version_health || []).sort(function (a, b) { return number(b.events) - number(a.events); }).slice(0, 5);
-      var current = rows[0] || {};
-      var missing = [];
-      ["root_index", "breakpoint_qa", "device_taxonomy", "living_room_devices", "version_health"].forEach(function (key) { if (!data[key]) missing.push(key); });
-      byId("version-health-panel").innerHTML =
-        '<article class="nested-card"><h3>Núverandi contract</h3><div class="summary-strip">' + summaryStat("Schema", safe(data.schema_version || current.schema_version || "-"), "good") + summaryStat("Script", scriptVersion(data.script_version || current.script_version), "good") + summaryStat("Rows", fmt(rows.length), "") + '</div><div class="chip-row" style="margin-top:12px;"><span class="chip neutral">Config: ' + safe(data.config_version || current.config_version || "-") + '</span><span class="chip neutral">Core: ' + safe(data.core_version || current.core_version || "-") + '</span><span class="chip ' + (missing.length ? 'warn' : 'good') + '">Payload: ' + (missing.length ? 'vantar ' + missing.length : 'samræmt') + '</span></div></article>' +
-        '<article class="nested-card"><h3>Version rows</h3><div class="bar-list">' + (rows.map(function (row) { return bar('Schema ' + (row.schema_version || '-') + ' · ' + scriptVersion(row.script_version), number(row.events), Math.max(sumRows(rows, "events"), 1), { asNumber: true }); }).join("") || '<div class="subtle">Engin version-health aggregate gögn enn.</div>') + '</div></article>';
-    }
-
     function render(data) {
       setStatus(data, "");
       renderMetrics(data);
-      renderGatewayFunnel(data);
-      renderBreakpointQa(data);
-      renderTaxonomyPanels(data);
-      renderVersionHealth(data);
+      renderRootFunnel(data);
       renderDashboards(data);
       renderDashboardComparison(data);
       renderLayoutAndSource(data);
