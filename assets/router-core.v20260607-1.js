@@ -1,10 +1,16 @@
 (function (window, document) {
   "use strict";
 
-  var CORE_VERSION = "2026-06-10-core-1.2.5-hotfix.8";
+  var CORE_VERSION = "2026-06-13-core-1.4.0-relaunch.1";
   var started = false;
   var sequence = 0;
   var requestId = makeRequestId();
+  var scriptErrorCount = 0;
+
+  try {
+    window.addEventListener("error", function () { scriptErrorCount += 1; });
+    window.addEventListener("unhandledrejection", function () { scriptErrorCount += 1; });
+  } catch (error) {}
 
   window.LSP_ROUTER_STARTED = false;
   window.LSP_ROUTER_CORE_VERSION = CORE_VERSION;
@@ -371,6 +377,684 @@
     };
   }
 
+
+
+  function roundNumber(value, decimals) {
+    var number = Number(value);
+    var factor = Math.pow(10, decimals || 0);
+    if (!isFinite(number)) return "";
+    return Math.round(number * factor) / factor;
+  }
+
+  function safeJson(value, max) {
+    var text = "";
+    try {
+      text = JSON.stringify(value || {});
+    } catch (error) {
+      text = "{}";
+    }
+    return limit(text, max || 500);
+  }
+
+  function matches(query) {
+    try {
+      return !!(window.matchMedia && window.matchMedia(query).matches);
+    } catch (error) {}
+    return false;
+  }
+
+  function mediaState(query, yesValue, noValue) {
+    try {
+      if (!window.matchMedia) return "unknown";
+      return window.matchMedia(query).matches ? yesValue : noValue;
+    } catch (error) {}
+    return "unknown";
+  }
+
+  function getVisualViewportInfo() {
+    var vv = window.visualViewport;
+    if (!vv) {
+      return { available: false, width: "", height: "", scale: "" };
+    }
+    return {
+      available: true,
+      width: roundNumber(vv.width || 0, 0),
+      height: roundNumber(vv.height || 0, 0),
+      scale: roundNumber(vv.scale || 1, 2)
+    };
+  }
+
+  function getOrientationInfo() {
+    var orientation = (window.screen && window.screen.orientation) || {};
+    var type = orientation.type || (getViewportWidth() >= getViewportHeight() ? "landscape" : "portrait");
+    var angle = orientation.angle;
+    if (angle === undefined || angle === null || angle === "") {
+      angle = window.orientation;
+    }
+    return {
+      type: limit(type || "unknown", 40),
+      angle: numberOrEmpty(angle),
+      isLandscape: getViewportWidth() >= getViewportHeight()
+    };
+  }
+
+  function numberOrEmpty(value) {
+    var number = Number(value);
+    return isFinite(number) ? number : "";
+  }
+
+  function getAspectRatio() {
+    var width = getViewportWidth();
+    var height = getViewportHeight();
+    if (!width || !height) return "";
+    return roundNumber(width / height, 2);
+  }
+
+  function getViewportBucket(width) {
+    width = Number(width || getViewportWidth());
+    if (width < 360) return "xs_lt_360";
+    if (width < 480) return "phone_360_479";
+    if (width < 768) return "phone_480_767";
+    if (width < 1024) return "tablet_768_1023";
+    if (width < 1280) return "desktop_1024_1279";
+    if (width < 1536) return "desktop_1280_1535";
+    return "wide_1536_plus";
+  }
+
+  function getBreakpointBucket(config, dashboard) {
+    var width = getViewportWidth();
+    var mobile = Number(dashboard && dashboard.mobileBreakpoint) || Number(config.routing && config.routing.mobileBreakpoint) || 768;
+    var tablet = Number(config.routing && config.routing.tabletBreakpoint) || 1024;
+    if (width <= mobile) return "mobile_breakpoint";
+    if (width <= tablet) return "tablet_breakpoint";
+    return "desktop_breakpoint";
+  }
+
+  function getDisplayClass(config, dashboard) {
+    var width = getViewportWidth();
+    var height = getViewportHeight();
+    var mobile = Number(dashboard && dashboard.mobileBreakpoint) || Number(config.routing && config.routing.mobileBreakpoint) || 768;
+    var tablet = Number(config.routing && config.routing.tabletBreakpoint) || 1024;
+    if (width <= mobile) return hasTouch() ? "small_touch_viewport" : "narrow_viewport";
+    if (width <= tablet && hasTouch()) return height > width ? "tablet_portrait_viewport" : "tablet_landscape_viewport";
+    if (width <= tablet) return "narrow_desktop_viewport";
+    if (width >= 1920) return "large_desktop_or_display";
+    return "desktop_viewport";
+  }
+
+  function getNavigationType() {
+    try {
+      if (window.performance && performance.getEntriesByType) {
+        var entries = performance.getEntriesByType("navigation");
+        if (entries && entries[0] && entries[0].type) return limit(entries[0].type, 40);
+      }
+      if (window.performance && performance.navigation) {
+        if (performance.navigation.type === 1) return "reload";
+        if (performance.navigation.type === 2) return "back_forward";
+        return "navigate";
+      }
+    } catch (error) {}
+    return "unknown";
+  }
+
+  function getPerformanceTimings() {
+    var result = { supported: false, domContentLoadedMs: "", loadEventMs: "" };
+    try {
+      if (window.performance && performance.getEntriesByType) {
+        var entries = performance.getEntriesByType("navigation");
+        var nav = entries && entries[0];
+        if (nav) {
+          result.supported = true;
+          result.domContentLoadedMs = roundNumber(nav.domContentLoadedEventEnd || nav.domContentLoadedEventStart || 0, 0);
+          result.loadEventMs = roundNumber(nav.loadEventEnd || 0, 0);
+          return result;
+        }
+      }
+      if (window.performance && performance.timing) {
+        var t = performance.timing;
+        result.supported = true;
+        if (t.domContentLoadedEventEnd && t.navigationStart) result.domContentLoadedMs = Math.max(0, t.domContentLoadedEventEnd - t.navigationStart);
+        if (t.loadEventEnd && t.navigationStart) result.loadEventMs = Math.max(0, t.loadEventEnd - t.navigationStart);
+      }
+    } catch (error) {}
+    return result;
+  }
+
+  function getConnectionStats() {
+    var c;
+    try {
+      c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!c) return { effectiveType: "unknown", downlink: "", rtt: "", saveData: false, signalQuality: "unsupported" };
+      return {
+        effectiveType: limit(c.effectiveType || c.type || "unknown", 40),
+        downlink: numberOrEmpty(c.downlink),
+        rtt: numberOrEmpty(c.rtt),
+        saveData: !!c.saveData,
+        signalQuality: c.effectiveType || c.type ? "reported" : "partial"
+      };
+    } catch (error) {}
+    return { effectiveType: "unknown", downlink: "", rtt: "", saveData: false, signalQuality: "error" };
+  }
+
+  function getInputSignals() {
+    var primaryPointer = matches("(pointer: coarse)") ? "coarse" : (matches("(pointer: fine)") ? "fine" : (matches("(pointer: none)") ? "none" : "unknown"));
+    var anyCoarse = matches("(any-pointer: coarse)");
+    var anyFine = matches("(any-pointer: fine)");
+    var hoverPrimary = matches("(hover: hover)") ? "hover" : (matches("(hover: none)") ? "none" : "unknown");
+    var anyHover = matches("(any-hover: hover)") ? "hover" : (matches("(any-hover: none)") ? "none" : "unknown");
+    var maxTouch = navigator.maxTouchPoints || 0;
+    var touch = hasTouch();
+    var hybrid = !!(touch && anyFine);
+    var keyboardMouse = !!(!touch && anyFine && anyHover === "hover");
+    var remote = !!(primaryPointer === "coarse" && anyHover === "none" && !touch && getViewportWidth() >= 1024);
+    return {
+      hasTouch: touch,
+      maxTouchPoints: maxTouch,
+      pointerPrimary: primaryPointer,
+      anyPointerCoarse: anyCoarse,
+      anyPointerFine: anyFine,
+      hoverPrimary: hoverPrimary,
+      anyHover: anyHover,
+      touchClass: touch ? (hybrid ? "hybrid_touch_mouse" : "touch") : (remote ? "remote_or_coarse" : "keyboard_mouse"),
+      hybridTouchMouseLikely: hybrid,
+      keyboardMouseLikely: keyboardMouse,
+      remoteControlLikely: remote,
+      stylusPossible: !!(touch && anyFine && maxTouch > 0)
+    };
+  }
+
+  function getPrefersReducedMotion() {
+    return mediaState("(prefers-reduced-motion: reduce)", "reduce", "no-preference");
+  }
+
+  function getPrefersReducedData() {
+    return mediaState("(prefers-reduced-data: reduce)", "reduce", "no-preference");
+  }
+
+  function getColorGamut() {
+    if (matches("(color-gamut: rec2020)")) return "rec2020";
+    if (matches("(color-gamut: p3)")) return "p3";
+    if (matches("(color-gamut: srgb)")) return "srgb";
+    return window.matchMedia ? "unknown" : "unsupported";
+  }
+
+  function getDynamicRange() {
+    if (matches("(dynamic-range: high)")) return "high";
+    if (matches("(dynamic-range: standard)")) return "standard";
+    return window.matchMedia ? "unknown" : "unsupported";
+  }
+
+  function getThemeEvidence(themeSignal) {
+    return {
+      prefers_color_scheme: themeSignal.colorScheme,
+      forced_dark_detection: themeSignal.forcedDarkDetection,
+      samsung_dark_mode_status: themeSignal.samsungDarkModeStatus,
+      forced_colors: getForcedColors(),
+      prefers_contrast: getPrefersContrast(),
+      inverted_colors: getInvertedColors(),
+      reduced_motion: getPrefersReducedMotion(),
+      reduced_data: getPrefersReducedData(),
+      color_gamut: getColorGamut(),
+      dynamic_range: getDynamicRange()
+    };
+  }
+
+  function getThemeConfidenceBand(themeSignal) {
+    if (themeSignal.themeSignalQuality === "reported" || themeSignal.themeSignalQuality === "detected") return "high";
+    if (themeSignal.themeSignalQuality === "possible_only") return "weak inference";
+    return "unknown";
+  }
+
+  function getBrowserFullVersion() {
+    var ua = getUserAgent();
+    var match = /SamsungBrowser\/([0-9.]+)/i.exec(ua) ||
+      /EdgA?\/([0-9.]+)/i.exec(ua) ||
+      /EdgiOS\/([0-9.]+)/i.exec(ua) ||
+      /Chrome\/([0-9.]+)/i.exec(ua) ||
+      /CriOS\/([0-9.]+)/i.exec(ua) ||
+      /Firefox\/([0-9.]+)/i.exec(ua) ||
+      /FxiOS\/([0-9.]+)/i.exec(ua) ||
+      /Version\/([0-9.]+)/i.exec(ua);
+    return match && match[1] ? limit(match[1], 80) : "";
+  }
+
+  function getBrowserVersionSource() {
+    return getBrowserFullVersion() ? "user_agent" : "unknown";
+  }
+
+  function getNavigatorPlatform() {
+    try { return limit(navigator.platform || "", 80); } catch (error) {}
+    return "";
+  }
+
+  function getNavigatorVendor() {
+    try { return limit(navigator.vendor || "", 120); } catch (error) {}
+    return "";
+  }
+
+  function uaReducedLikely() {
+    var ua = getUserAgent();
+    if (/Chrome\/[0-9]+\.0\.0\.0/i.test(ua)) return true;
+    if (/Edg\/[0-9]+\.0\.0\.0/i.test(ua)) return true;
+    return false;
+  }
+
+  function isWebView() {
+    var ua = getUserAgent();
+    if (/; wv\)|\bwv\b|Version\/4\.0 Chrome/i.test(ua)) return true;
+    if (/iPhone|iPad|iPod/i.test(ua) && /AppleWebKit/i.test(ua) && !/Safari/i.test(ua)) return true;
+    return false;
+  }
+
+  function getInAppBrowserFamily() {
+    var ua = getUserAgent();
+    if (/Teams\//i.test(ua) || /TeamsMobile/i.test(ua)) return "Teams";
+    if (/Outlook-iOS|Outlook-Android|Microsoft Outlook/i.test(ua)) return "Outlook";
+    if (/FBAN|FBAV|FB_IAB/i.test(ua)) return "Facebook";
+    if (/Instagram/i.test(ua)) return "Instagram";
+    if (/LinkedInApp|LinkedIn/i.test(ua)) return "LinkedIn";
+    if (/Slack/i.test(ua)) return "Slack";
+    if (isWebView()) return "Generic WebView";
+    return "none";
+  }
+
+  function getFeatureSupport() {
+    var c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    return {
+      user_agent_data: !!navigator.userAgentData,
+      high_entropy_uach: !!(navigator.userAgentData && navigator.userAgentData.getHighEntropyValues),
+      visual_viewport: !!window.visualViewport,
+      send_beacon: !!navigator.sendBeacon,
+      fetch_keepalive: !!window.fetch,
+      match_media: !!window.matchMedia,
+      performance_navigation: !!(window.performance && performance.getEntriesByType),
+      network_information: !!c,
+      device_posture_api: !!(window.DevicePosture || (navigator && navigator.devicePosture)),
+      gamepad_api: !!(navigator && navigator.getGamepads),
+      device_memory: navigator.deviceMemory !== undefined,
+      hardware_concurrency: navigator.hardwareConcurrency !== undefined,
+      css_supports: !!(window.CSS && CSS.supports)
+    };
+  }
+
+  function confidenceBand(score) {
+    score = Number(score) || 0;
+    if (score >= 90) return "very high confidence";
+    if (score >= 70) return "high confidence";
+    if (score >= 50) return "medium confidence";
+    if (score >= 30) return "weak inference";
+    return "unknown or insufficient evidence";
+  }
+
+  function compactBand(score) {
+    score = Number(score) || 0;
+    if (score >= 90) return "very_high";
+    if (score >= 70) return "high";
+    if (score >= 50) return "medium";
+    if (score >= 30) return "weak";
+    return "unknown";
+  }
+
+  function payloadSizeBucket(bytes) {
+    bytes = Number(bytes) || 0;
+    if (bytes <= 0) return "unknown";
+    if (bytes < 1500) return "lt_1_5kb";
+    if (bytes < 3000) return "1_5kb_3kb";
+    if (bytes < 5000) return "3kb_5kb";
+    if (bytes < 6200) return "5kb_6_2kb";
+    return "gte_6_2kb";
+  }
+
+  function inferDeviceConfidence(config) {
+    var ua = getUserAgent();
+    var width = getViewportWidth();
+    var height = getViewportHeight();
+    var touch = hasTouch();
+    var maxTouch = navigator.maxTouchPoints || 0;
+    var platform = getNavigatorPlatform();
+    var vendorNav = getNavigatorVendor();
+    var browser = getBrowserFamily();
+    var os = getOsFamily();
+    var input = getInputSignals();
+    var evidence = [];
+    var flags = [];
+    var contradictions = [];
+    var score = 20;
+    var cls = "unknown";
+    var subclass = "";
+    var vendor = "";
+    var model = "";
+    var family = "";
+    var ecosystem = "unknown";
+    var formFactor = "unknown";
+    var screenContext = "unknown";
+    var inputContext = input.touchClass || "unknown";
+    var browserContext = getInAppBrowserFamily() !== "none" ? "in_app_browser" : (isWebView() ? "webview" : "browser");
+    var consoleFamily = "";
+    var tvOs = "";
+    var detectionVersion = config.deviceDetection && config.deviceDetection.version ? config.deviceDetection.version : "2026-06-13-device-taxonomy-2";
+    var aspect = getAspectRatio();
+    var uaStrong = false;
+
+    function addEvidence(text, points) {
+      evidence.push(text);
+      if (points) score += points;
+    }
+    function setClass(nextClass, nextSubclass, nextVendor, points, text) {
+      cls = nextClass || cls;
+      subclass = nextSubclass || subclass;
+      vendor = nextVendor || vendor;
+      uaStrong = points >= 50 || uaStrong;
+      addEvidence(text, points || 0);
+    }
+
+    if (width < 480) screenContext = "compact_phone_viewport";
+    else if (width < 768) screenContext = "wide_phone_viewport";
+    else if (width < 900) screenContext = height >= width ? "tablet_portrait_viewport" : "small_landscape_viewport";
+    else if (width < 1024) screenContext = "policy_zone_900_1023";
+    else if (width < 1280) screenContext = "small_desktop_or_tablet_landscape";
+    else if (width < 1920) screenContext = "desktop_viewport";
+    else screenContext = "large_desktop_or_public_display";
+
+    if (/PlayStation|PS4|PS5|PlayStation 4|PlayStation 5/i.test(ua)) {
+      setClass("game_console", "playstation", "Sony", 78, "explicit PlayStation UA token");
+      consoleFamily = "PlayStation";
+      ecosystem = "sony_playstation";
+      formFactor = "living_room_console";
+    } else if (/Xbox|Xbox One|Xbox Series X|Xbox Series S/i.test(ua)) {
+      setClass("game_console", "xbox", "Microsoft", 78, "explicit Xbox UA token");
+      consoleFamily = "Xbox";
+      ecosystem = "microsoft_xbox";
+      formFactor = "living_room_console";
+    } else if (/NintendoBrowser|Nintendo Switch|WiiU|Wii/i.test(ua)) {
+      setClass("game_console", "nintendo", "Nintendo", 78, "explicit Nintendo UA token");
+      consoleFamily = /Switch/i.test(ua) ? "Nintendo Switch" : "Nintendo";
+      ecosystem = "nintendo";
+      formFactor = "living_room_console_or_handheld";
+    } else if (/AppleTV|Apple TV/i.test(ua)) {
+      setClass("smart_tv", "apple_tv_like", "Apple", 78, "explicit Apple TV UA token");
+      tvOs = "Apple TV";
+      ecosystem = "apple_tv";
+      formFactor = "living_room_tv";
+    } else if (/Tizen/i.test(ua)) {
+      setClass("smart_tv", "samsung_tizen_tv", "Samsung", 78, "explicit Tizen TV UA token");
+      tvOs = "Tizen";
+      ecosystem = "samsung_tizen";
+      formFactor = "living_room_tv";
+    } else if (/Web0S|webOS|NetCast/i.test(ua)) {
+      setClass("smart_tv", "lg_webos_tv", "LG", 78, "explicit webOS/NetCast TV UA token");
+      tvOs = "webOS";
+      ecosystem = "lg_webos";
+      formFactor = "living_room_tv";
+    } else if (/Roku|RokuBrowser|DIAL/i.test(ua)) {
+      setClass("smart_tv", "roku", "Roku", 78, "explicit Roku UA token");
+      tvOs = "Roku";
+      ecosystem = "roku";
+      formFactor = "living_room_tv";
+    } else if (/AFT[A-Z0-9]*|Fire TV/i.test(ua)) {
+      setClass("smart_tv", "fire_tv_like", "Amazon", 78, "explicit Fire TV/AFT UA token");
+      tvOs = "Fire TV";
+      ecosystem = "amazon_fire_tv";
+      formFactor = "living_room_tv";
+    } else if (/Android TV|GoogleTV|Google TV/i.test(ua)) {
+      setClass("smart_tv", /GoogleTV|Google TV/i.test(ua) ? "google_tv_like" : "android_tv", "Google", 78, "explicit Android TV / Google TV UA token");
+      tvOs = /GoogleTV|Google TV/i.test(ua) ? "Google TV" : "Android TV";
+      ecosystem = "android_tv";
+      formFactor = "living_room_tv";
+    } else if (/CrKey|Chromecast/i.test(ua)) {
+      setClass("set_top_box", "chromecast_like", "Google", 68, "explicit Chromecast/CrKey UA token");
+      tvOs = "Chromecast";
+      ecosystem = "google_cast";
+      formFactor = "living_room_tv";
+    } else if (/HbbTV|SmartTV|SMART-TV|BRAVIA|VIERA|AquosBrowser|Hisense|NetTV|DTV/i.test(ua)) {
+      setClass("smart_tv", "generic_tv_browser", "", 68, "explicit smart TV/browser UA token");
+      tvOs = /BRAVIA/i.test(ua) ? "Sony TV" : (/VIERA/i.test(ua) ? "Panasonic TV" : "generic TV");
+      ecosystem = "living_room_tv";
+      formFactor = "living_room_tv";
+    } else if (/SHIELD|MiBOX|MIBOX|Mi Box/i.test(ua)) {
+      setClass("set_top_box", "android_tv_box_like", /SHIELD/i.test(ua) ? "NVIDIA" : "Xiaomi", 72, "explicit Android TV box UA token");
+      ecosystem = "android_tv_box";
+      formFactor = "set_top_box";
+    } else if (/iPhone|iPod/i.test(ua)) {
+      setClass("phone", "iphone", "Apple", 76, "explicit iPhone/iPod UA token");
+      ecosystem = "apple_ios";
+      formFactor = "phone";
+    } else if (/iPad/i.test(ua)) {
+      setClass("tablet", "ipad", "Apple", 76, "explicit iPad UA token");
+      ecosystem = "apple_ipados";
+      formFactor = "tablet";
+    } else if (/Macintosh/i.test(ua) && /Safari|AppleWebKit/i.test(ua) && touch && maxTouch > 1) {
+      setClass("tablet", "ipad_like_desktop_mode", "Apple", 56, "Macintosh UA plus WebKit and touch points suggests iPadOS desktop mode");
+      ecosystem = "apple_ipados";
+      formFactor = "tablet";
+    } else if (/Android/i.test(ua) && /Mobile/i.test(ua)) {
+      setClass("phone", "android_phone", "", 66, "Android Mobile UA token");
+      ecosystem = "android";
+      formFactor = "phone";
+    } else if (/Android/i.test(ua) && !/Mobile/i.test(ua)) {
+      if (!touch && width >= 1024 && Number(aspect) >= 1.55) {
+        setClass("set_top_box", "android_box_or_tablet_ambiguous", "", 45, "Android UA without Mobile, no touch and TV-like viewport");
+        ecosystem = "android_ambiguous_living_room";
+        formFactor = "set_top_box_or_tablet";
+        flags.push("Android without Mobile can mean tablet, desktop-mode browser or TV box");
+      } else {
+        setClass("tablet", "android_tablet_like", "", 52, "Android UA without Mobile token");
+        ecosystem = "android";
+        formFactor = "tablet";
+      }
+    } else if (/CrOS/i.test(ua) && touch) {
+      setClass("desktop_or_tablet", "chromeos_tablet_like", "Google", 40, "ChromeOS plus touch");
+      ecosystem = "chromeos";
+      formFactor = "chromeos_tablet_or_laptop";
+    } else if (/Windows/i.test(ua) && touch) {
+      setClass("desktop_or_hybrid", "windows_touch_hybrid_possible", "Microsoft", 28, "Windows plus touch");
+      ecosystem = "windows";
+      formFactor = "hybrid_or_desktop";
+      flags.push("Surface/hybrid is weak inference unless explicit model token is present");
+    } else if (isPhoneUserAgent()) {
+      setClass("phone", "phone_ua_parser_match", "", 60, "phone UA parser match");
+      formFactor = "phone";
+    } else if (isTabletUserAgent()) {
+      setClass("tablet", "tablet_ua_parser_match", "", 54, "tablet UA parser match");
+      formFactor = "tablet";
+    } else if (width <= 480 && touch) {
+      setClass("phone", "viewport_phone_touch", "", 35, "phone-sized viewport plus touch");
+      formFactor = "phone";
+    } else if (width <= 1024 && touch) {
+      setClass("tablet_or_touch_laptop", "touch_viewport_ambiguous", "", 25, "tablet-sized viewport plus touch without strong UA token");
+      formFactor = "tablet_or_touch_laptop";
+    } else if (width >= 1920 && !touch) {
+      setClass("desktop", "desktop_or_public_display", "", 42, "large viewport and no touch");
+      formFactor = "desktop_or_public_display";
+      flags.push("large non-touch viewport is weak kiosk/public display evidence, not TV by itself");
+    } else if (width >= 1024) {
+      setClass("desktop", "desktop_sized_browser", "", 42, "desktop-sized viewport");
+      formFactor = "desktop";
+    }
+
+    var modelMatch = /(SM-[A-Z0-9]+|Pixel\s?[A-Z0-9 ]+|Nexus\s?[A-Z0-9 ]+|AFT[A-Z0-9]+|SHIELD|MiBOX|MIBOX)/i.exec(ua);
+    if (modelMatch && modelMatch[1]) model = limit(modelMatch[1], 80);
+    if (/SM-X/i.test(model || ua)) {
+      vendor = "Samsung";
+      family = "Galaxy Tab";
+      cls = "tablet";
+      subclass = "samsung_galaxy_tab";
+      ecosystem = "android_samsung";
+      formFactor = "tablet";
+      score = Math.max(score, 95);
+      evidence.push("Samsung SM-X model prefix indicates Galaxy Tab family");
+    } else if (/Samsung|SM-/i.test(ua)) {
+      vendor = vendor || "Samsung";
+      family = family || "Galaxy";
+      ecosystem = ecosystem === "unknown" ? "android_samsung" : ecosystem;
+    }
+
+    if (navigator.userAgentData && navigator.userAgentData.mobile === true && cls === "unknown") {
+      cls = "phone";
+      formFactor = "phone";
+      score = Math.max(score, 70);
+      evidence.push("UA-CH mobile=true");
+    }
+    if (touch && input.anyPointerFine && /phone|smart_tv|game_console/i.test(cls)) {
+      contradictions.push("fine pointer plus touch may indicate hybrid/browser emulation");
+      if (!uaStrong) score -= 10;
+    }
+    if (!touch && /phone|tablet/i.test(cls) && !/AppleTV|SmartTV|Tizen|Roku|AFT|Android TV/i.test(ua)) {
+      contradictions.push("mobile/tablet class without touch support");
+      score -= 12;
+    }
+    if (/Mobile/i.test(ua) && /smart_tv|set_top_box|game_console/i.test(cls)) {
+      contradictions.push("Mobile token on living-room class; user agent may be spoofed");
+      score -= 8;
+    }
+    if (uaReducedLikely()) flags.push("reduced UA likely; exact browser/platform inference limited");
+    if (getInAppBrowserFamily() !== "none") evidence.push("in-app browser family: " + getInAppBrowserFamily());
+
+    score = Math.max(0, Math.min(100, Math.round(score)));
+
+    return {
+      inferredDeviceClass: cls,
+      inferredDeviceSubclass: subclass,
+      inferredDeviceVendor: vendor,
+      inferredDeviceModel: model,
+      inferredModelFamily: family,
+      inferredDeviceEcosystem: ecosystem,
+      inferredFormFactor: formFactor,
+      inferredScreenContext: screenContext,
+      inferredInputContext: inputContext,
+      inferredBrowserContext: browserContext,
+      inferredIsPhone: cls === "phone",
+      inferredIsLargePhone: cls === "phone" && width >= 390,
+      inferredIsSmallPhone: cls === "phone" && width < 390,
+      inferredIsTablet: cls === "tablet" || cls === "tablet_or_touch_laptop" || cls === "desktop_or_tablet",
+      inferredIsLargeTablet: (cls === "tablet" || cls === "tablet_or_touch_laptop") && width >= 900,
+      inferredIsIpadLike: subclass === "ipad" || subclass === "ipad_like_desktop_mode",
+      inferredIsIpadDesktopMode: subclass === "ipad_like_desktop_mode",
+      inferredIsAndroidTabletLike: /Android/i.test(ua) && cls === "tablet",
+      inferredIsSamsungGalaxyTabLike: family === "Galaxy Tab",
+      inferredIsChromeosTabletLike: subclass === "chromeos_tablet_like",
+      inferredIsWindowsTouchHybrid: subclass === "windows_touch_hybrid_possible",
+      inferredIsSurfaceLike: subclass === "windows_touch_hybrid_possible",
+      inferredIsFoldablePossible: !!((window.DevicePosture || (navigator && navigator.devicePosture)) || (navigator.userAgentData && navigator.userAgentData.mobile && width >= 600 && touch)),
+      inferredDevicePosture: (window.DevicePosture || (navigator && navigator.devicePosture)) ? "api_available" : "unknown",
+      inferredIsDesktopLike: cls === "desktop" || cls === "desktop_or_hybrid" || cls === "desktop_or_tablet",
+      inferredIsLaptopLike: /Macintosh|Windows|CrOS/i.test(ua) && width >= 1024 && width < 1920 && input.keyboardMouseLikely,
+      inferredIsKioskOrPublicDisplayPossible: width >= 1920 && !touch,
+      inferredIsSmartTv: cls === "smart_tv",
+      inferredTvOs: tvOs,
+      inferredIsAppleTvLike: subclass === "apple_tv_like",
+      inferredIsAndroidTv: subclass === "android_tv",
+      inferredIsGoogleTvLike: subclass === "google_tv_like",
+      inferredIsFireTvLike: subclass === "fire_tv_like",
+      inferredIsTizenTv: subclass === "samsung_tizen_tv",
+      inferredIsWebosTv: subclass === "lg_webos_tv",
+      inferredIsRoku: subclass === "roku",
+      inferredIsAndroidTvBoxLike: subclass === "android_tv_box_like" || subclass === "chromecast_like",
+      inferredIsSetTopBoxLike: cls === "set_top_box" || /box|chromecast/i.test(subclass),
+      inferredIsGameConsole: cls === "game_console",
+      inferredConsoleFamily: consoleFamily,
+      inferredIsPlaystation: consoleFamily === "PlayStation",
+      inferredIsXbox: consoleFamily === "Xbox",
+      inferredIsNintendo: /^Nintendo/i.test(consoleFamily),
+      inferredIsVrHeadsetLike: /Quest|Oculus|Meta Quest|VR/i.test(ua),
+      inferredIsCarBrowserLike: /CarPlay|Android Auto|Automotive/i.test(ua),
+      inferredIsEReaderLike: /Kindle|Kobo|Nook|Silk/i.test(ua) && !/AFT/i.test(ua),
+      inferredIsWebview: isWebView(),
+      inferredInAppBrowserFamily: getInAppBrowserFamily(),
+      inferredIsBot: false,
+      inferredIsLinkPreview: false,
+      inferredConfidenceScore: score,
+      inferredConfidenceBand: confidenceBand(score),
+      inferredConfidenceBandCompact: compactBand(score),
+      inferredConfidenceReason: limit(evidence.join("; ") || "insufficient evidence", 260),
+      inferredPrimaryEvidence: limit(evidence[0] || "insufficient evidence", 180),
+      inferredEvidenceJson: safeJson({ evidence: evidence, width: width, height: height, touch: touch, maxTouchPoints: maxTouch, platform: platform, vendor: vendorNav, browser: browser, os: os, aspectRatio: aspect }, 900),
+      inferredWarningFlagsJson: safeJson({ flags: flags }, 500),
+      inferredContradictionFlagsJson: safeJson({ contradictions: contradictions }, 500),
+      inferredDetectionVersion: detectionVersion
+    };
+  }
+
+  function hashString(value) {
+    var hash = 0;
+    var i;
+    value = String(value || "");
+    for (i = 0; i < value.length; i += 1) {
+      hash = ((hash << 5) - hash) + value.charCodeAt(i);
+      hash = hash & hash;
+    }
+    return "h" + Math.abs(hash).toString(16);
+  }
+
+  function getRoutePolicyResult(routeDecision) {
+    if (!routeDecision) return "unknown";
+    if (routeDecision.forcedLayoutApplied) return "forced_override";
+    if (routeDecision.safeFallbackUsed) return "safe_fallback";
+    if (routeDecision.bot && routeDecision.bot.isBot) return routeDecision.bot.isPreview ? "link_preview_policy" : "bot_policy";
+    return "policy_auto";
+  }
+
+  function getCountExclusionReason(eventType, mode, routeDecision, config, counted) {
+    if (counted) return "";
+    eventType = String(eventType || "");
+    if (mode && mode.debug) return "debug_mode";
+    if (mode && mode.noRedirect) return "no_redirect_mode";
+    if (mode && mode.health) return "health_mode";
+    if (mode && mode.list) return "list_mode";
+    if (/diagnostic/i.test(eventType)) return "diagnostic_event";
+    if (/manual/i.test(eventType)) return "manual_event";
+    if (/debug/i.test(eventType)) return "debug_event";
+    if (/test/i.test(eventType)) return "test_event";
+    if (routeDecision && routeDecision.bot && routeDecision.bot.isBot) return routeDecision.bot.isPreview ? "link_preview_bot" : "known_bot";
+    if (eventType !== "router_redirect" && eventType !== "router_noscript") return "non_visit_event";
+    return "count_as_visit_false";
+  }
+
+  function getUachBasic() {
+    var result = { available: false, brandsJson: "", mobile: "", platform: "", signalQuality: "unsupported" };
+    try {
+      if (!navigator.userAgentData) return result;
+      result.available = true;
+      result.brandsJson = safeJson(navigator.userAgentData.brands || [], 300);
+      result.mobile = navigator.userAgentData.mobile === true ? "true" : (navigator.userAgentData.mobile === false ? "false" : "");
+      result.platform = limit(navigator.userAgentData.platform || "", 80);
+      result.signalQuality = "low_entropy";
+    } catch (error) {
+      result.signalQuality = "error";
+    }
+    return result;
+  }
+
+  function collectUachHighEntropy(callback) {
+    var basic = getUachBasic();
+    var hints = ["architecture", "bitness", "model", "platformVersion", "fullVersionList", "formFactors", "wow64"];
+    if (!navigator.userAgentData || !navigator.userAgentData.getHighEntropyValues) {
+      callback(basic);
+      return;
+    }
+    try {
+      navigator.userAgentData.getHighEntropyValues(hints).then(function (values) {
+        basic.architecture = limit(values.architecture || "", 80);
+        basic.bitness = limit(values.bitness || "", 20);
+        basic.model = limit(values.model || "", 120);
+        basic.platformVersion = limit(values.platformVersion || "", 120);
+        basic.fullVersionListJson = safeJson(values.fullVersionList || [], 500);
+        basic.formFactorsJson = safeJson(values.formFactors || [], 300);
+        basic.wow64 = values.wow64 === true ? "true" : (values.wow64 === false ? "false" : "");
+        basic.signalQuality = "high_entropy_returned";
+        callback(basic);
+      }).catch(function (error) {
+        basic.error = limit(error && error.message ? error.message : String(error), 160);
+        basic.signalQuality = "high_entropy_error";
+        callback(basic);
+      });
+    } catch (error) {
+      basic.error = limit(error && error.message ? error.message : String(error), 160);
+      basic.signalQuality = "high_entropy_error";
+      callback(basic);
+    }
+  }
+
   function getLanguages() {
     try {
       if (navigator.languages && navigator.languages.length) {
@@ -473,27 +1157,54 @@
     var referrerDomain = getHostname(document.referrer || "");
     var rules = config.sourceRules || {};
     var source = "direct";
+    var confidence = "medium confidence";
+    var reason = "no referrer or UTM source";
+    var inApp = getInAppBrowserFamily();
 
     if (utmSource) {
+      confidence = "high confidence";
       if (/^island\.is$/i.test(utmSource) || /^islandis$/i.test(utmSource)) {
         source = "island_is_public";
+        reason = "utm_source indicates island.is";
+      } else if (/^root_index$/i.test(utmSource) || /^public_gateway$/i.test(utmSource)) {
+        source = "root_index";
+        reason = "utm_source indicates root index gateway";
       } else if (/^qr$/i.test(utmSource) || /^qrcode$/i.test(utmSource)) {
         source = "qr_code";
+        reason = "utm_source indicates QR";
       } else if (/teams/i.test(utmSource)) {
         source = "internal_teams";
+        reason = "utm_source indicates Teams";
       } else if (/outlook|email|mail/i.test(utmSource) || /email/i.test(utmMedium)) {
         source = "internal_email";
+        reason = "utm source/medium indicates email";
       } else if (/sharepoint|intranet/i.test(utmSource)) {
         source = "internal_intranet";
+        reason = "utm_source indicates intranet/sharepoint";
       } else {
         source = "campaign_or_other_utm";
+        reason = "utm_source present but not recognized as public/internal predefined source";
       }
     } else if (sameDomainOrSubdomain(referrerDomain, rules.islandDomains || [])) {
       source = "island_is_public";
+      confidence = "high confidence";
+      reason = "referrer domain matches island.is";
     } else if (sameDomainOrSubdomain(referrerDomain, rules.internalDomains || [])) {
       source = "internal_referrer";
+      confidence = "medium confidence";
+      reason = "referrer domain matches configured internal domain";
+    } else if (/teams/i.test(inApp)) {
+      source = "internal_teams";
+      confidence = "medium confidence";
+      reason = "Teams in-app browser detected";
+    } else if (/outlook/i.test(inApp)) {
+      source = "internal_email";
+      confidence = "medium confidence";
+      reason = "Outlook in-app browser detected";
     } else if (referrerDomain) {
       source = "external_referrer";
+      confidence = "medium confidence";
+      reason = "external referrer domain present";
     }
 
     return {
@@ -504,7 +1215,9 @@
       utmCampaign: limit(params.utm_campaign || "", 120),
       utmContent: limit(params.utm_content || "", 120),
       utmTerm: limit(params.utm_term || "", 120),
-      utmId: limit(params.utm_id || "", 120)
+      utmId: limit(params.utm_id || "", 120),
+      sourceConfidenceBand: confidence,
+      sourceReason: reason
     };
   }
 
@@ -719,45 +1432,71 @@
     var dashboardPolicy = (dashboard && dashboard.routePolicy) || {};
     var width = getViewportWidth();
     var height = getViewportHeight();
+    var visual = getVisualViewportInfo();
+    var usableWidth = visual.available && visual.width ? Math.min(width, Number(visual.width) || width) : width;
+    var usableHeight = visual.available && visual.height ? Math.min(height, Number(visual.height) || height) : height;
     var mobileBreakpoint = Number(dashboard && dashboard.mobileBreakpoint) || Number(routing.mobileBreakpoint) || 768;
+    var tabletLandscapeDesktopMinWidth = Number(dashboardPolicy.tabletLandscapeDesktopMinWidth) || Number(routing.tabletLandscapeDesktopMinWidth) || 1024;
+    var tabletLandscapeMinHeight = Number(dashboardPolicy.tabletLandscapeMinHeight) || Number(routing.tabletLandscapeMinHeight) || 600;
+    var desktopMinWidth = Number(dashboardPolicy.desktopMinWidth) || Number(routing.desktopMinWidth) || 1280;
+    var narrowDesktopMaxWidth = Number(dashboardPolicy.narrowDesktopMaxWidth) || Number(routing.narrowDesktopMaxWidth) || 1023;
     var isTablet = isTabletUserAgent();
     var isPhone = isPhoneUserAgent();
+    var landscape = usableWidth >= usableHeight;
     var layout;
     var reason;
     var detail;
+    var inferred = inferDeviceConfidence(config);
 
     if (bot.isBot) {
       layout = dashboardPolicy.bot || routing.previewBotLayout || "desktop";
       return { layout: layout, reason: bot.isPreview ? "link_preview_bot" : "known_bot", detail: bot.reason || "bot or preview user agent" };
     }
 
-    if (isPhone) {
-      layout = dashboardPolicy.phone || "mobile";
-      return { layout: layout, reason: "phone_user_agent", detail: "phone user agent selected " + layout };
+    if (isPhone || inferred.inferredIsPhone || usableWidth < 768) {
+      layout = dashboardPolicy.phone || dashboardPolicy.largePhone || "mobile";
+      return { layout: layout, reason: isPhone ? "phone_user_agent" : "phone_or_narrow_viewport", detail: "usable viewport " + usableWidth + " px selected " + layout };
     }
 
-    if (isTablet) {
-      if ((routing.tabletStrategy || "auto-by-orientation") === "desktop") {
-        return { layout: "desktop", reason: "tablet_policy_desktop", detail: "tablet strategy desktop" };
+    if (inferred.inferredIsSmartTv || inferred.inferredIsGameConsole || inferred.inferredIsSetTopBoxLike) {
+      if (usableWidth >= tabletLandscapeDesktopMinWidth) {
+        layout = inferred.inferredIsGameConsole ? (dashboardPolicy.console || dashboardPolicy.desktop || "desktop") : (dashboardPolicy.smartTv || dashboardPolicy.desktop || "desktop");
+        return { layout: layout, reason: inferred.inferredIsGameConsole ? "console_policy" : "living_room_policy", detail: "living-room class with usable width " + usableWidth + " px selected " + layout };
       }
-      if ((routing.tabletStrategy || "auto-by-orientation") === "mobile") {
-        return { layout: "mobile", reason: "tablet_policy_mobile", detail: "tablet strategy mobile" };
-      }
-      if (height > width) {
+      layout = dashboardPolicy.narrowViewport || dashboardPolicy.fallback || routing.fallbackLayout || "mobile";
+      return { layout: layout, reason: "living_room_narrow_fallback", detail: "living-room class but usable width below " + tabletLandscapeDesktopMinWidth + " px" };
+    }
+
+    if (isTablet || inferred.inferredIsTablet) {
+      if (!landscape) {
         layout = dashboardPolicy.tabletPortrait || routing.tabletPortraitLayout || "mobile";
-        return { layout: layout, reason: "tablet_portrait", detail: "tablet portrait selected " + layout };
+        return { layout: layout, reason: "tablet_portrait", detail: "tablet portrait usable viewport " + usableWidth + "×" + usableHeight + " selected " + layout };
       }
-      layout = dashboardPolicy.tabletLandscape || routing.tabletLandscapeLayout || "desktop";
-      return { layout: layout, reason: "tablet_landscape", detail: "tablet landscape selected " + layout };
+      if (usableWidth >= tabletLandscapeDesktopMinWidth && usableHeight >= tabletLandscapeMinHeight) {
+        layout = String(dashboardPolicy.tabletLandscape || "").indexOf("desktop") === 0 ? "desktop" : (dashboardPolicy.tabletLandscape || routing.tabletLandscapeLayout || "desktop");
+        return { layout: layout, reason: "tablet_landscape_policy_desktop", detail: "tablet landscape usable width " + usableWidth + " >= " + tabletLandscapeDesktopMinWidth + " and height " + usableHeight + " >= " + tabletLandscapeMinHeight };
+      }
+      layout = dashboardPolicy.tabletPortrait || dashboardPolicy.narrowViewport || routing.narrowDesktopStrategy || "mobile";
+      return { layout: layout, reason: "tablet_landscape_policy_mobile", detail: "tablet landscape usable viewport below desktop policy threshold" };
     }
 
-    if (width <= mobileBreakpoint) {
+    if (usableWidth <= mobileBreakpoint) {
       layout = dashboardPolicy.narrowViewport || routing.narrowDesktopStrategy || "mobile";
-      return { layout: layout, reason: "narrow_viewport", detail: "viewport width " + width + " <= " + mobileBreakpoint };
+      return { layout: layout, reason: "narrow_viewport", detail: "usable viewport width " + usableWidth + " <= " + mobileBreakpoint };
+    }
+
+    if (usableWidth <= narrowDesktopMaxWidth) {
+      layout = dashboardPolicy.narrowDesktop || dashboardPolicy.narrowViewport || routing.narrowDesktopStrategy || "mobile";
+      return { layout: layout, reason: "narrow_desktop_policy", detail: "usable viewport width " + usableWidth + " <= narrow desktop max " + narrowDesktopMaxWidth };
+    }
+
+    if (usableWidth < desktopMinWidth) {
+      layout = dashboardPolicy.desktopPolicyZone || dashboardPolicy.desktop || "desktop";
+      return { layout: layout, reason: "desktop_policy_zone", detail: "usable viewport width " + usableWidth + " is policy zone below desktopMinWidth " + desktopMinWidth };
     }
 
     layout = dashboardPolicy.desktop || "desktop";
-    return { layout: layout, reason: "desktop_viewport", detail: "desktop width " + width + " selected " + layout };
+    return { layout: layout, reason: "desktop_viewport", detail: "desktop usable width " + usableWidth + " selected " + layout };
   }
 
   function decideRoute(config, dashboard) {
@@ -840,12 +1579,28 @@
     var source = normalizeSource(config);
     var themeSignal = getThemeSignal();
     var diagnostics = !!(config.tracking && config.tracking.diagnosticsEnabled) || !!(mode && (mode.debug || mode.noRedirect)) || hasQueryFlag("diagnostics");
-    var payload = {
+    var visualViewport = getVisualViewportInfo();
+    var orientationInfo = getOrientationInfo();
+    var performanceTimings = getPerformanceTimings();
+    var connection = getConnectionStats();
+    var input = getInputSignals();
+    var inferred = inferDeviceConfidence(config);
+    var uach = getUachBasic();
+    var counted;
+    var payload;
+
+    if (routeDecision && routeDecision.bot) {
+      inferred.inferredIsBot = !!routeDecision.bot.isBot;
+      inferred.inferredIsLinkPreview = !!routeDecision.bot.isPreview;
+    }
+
+    counted = countForEvent(eventType, mode || {}, routeDecision, config);
+    payload = {
       schema_version: (config.tracking && config.tracking.schemaVersion) || config.schemaVersion || "5",
       event_id: nextEventId(),
       request_id: requestId,
       event_type: eventType,
-      count_as_visit: countForEvent(eventType, mode || {}, routeDecision, config),
+      count_as_visit: counted,
       client_time: new Date().toISOString(),
       dashboard_key: dashboard ? dashboard.dashboardKey || "" : "",
       dashboard_id: dashboard ? dashboard.dashboardId || "" : "",
@@ -891,13 +1646,155 @@
       utm_medium: source.utmMedium,
       utm_campaign: source.utmCampaign,
       utm_content: source.utmContent || (dashboard ? dashboard.utmContent || (dashboard.publicCard && dashboard.publicCard.stableUtmContent) || "" : ""),
+      utm_term: source.utmTerm,
+      utm_id: source.utmId,
+      source_confidence_band: source.sourceConfidenceBand,
+      source_reason: source.sourceReason,
       page_path: window.location.pathname || "",
       config_version: config.configVersion || "",
       router_core_version: CORE_VERSION,
       config_source: config.__source || "",
       safe_fallback_used: routeDecision ? !!routeDecision.safeFallbackUsed : false,
       tracking_method: "pending",
-      error_message: extra && extra.error_message ? limit(extra.error_message, 400) : ""
+      error_message: extra && extra.error_message ? limit(extra.error_message, 400) : "",
+      count_exclusion_reason: getCountExclusionReason(eventType, mode || {}, routeDecision, config, counted),
+      event_tier: diagnostics ? "debug_or_diagnostic" : "core_production",
+      layout_source: routeDecision ? routeDecision.layoutSource || "auto" : "unknown",
+      would_auto_use_mobile: routeDecision ? routeDecision.autoSelectedLayout === "mobile" : false,
+      route_policy_result: getRoutePolicyResult(routeDecision),
+      tablet_strategy_result: routeDecision && /tablet/i.test(routeDecision.routeReason || "") ? routeDecision.routeReason : "not_tablet_route",
+      narrow_desktop_strategy_result: routeDecision && /narrow/i.test(routeDecision.routeReason || "") ? routeDecision.routeReason : "not_narrow_route",
+      target_url_type: routeDecision && isPowerBiPublishUrl(routeDecision.targetUrl) ? "powerbi_publish_to_web" : "unknown",
+      target_url_key_or_hash: routeDecision ? hashString(routeDecision.targetUrl) : "",
+      fallback_reason: routeDecision && routeDecision.safeFallbackUsed ? routeDecision.routeReasonDetail || routeDecision.routeReason : "",
+      debug_mode: !!(mode && mode.debug),
+      no_redirect_mode: !!(mode && mode.noRedirect),
+      bot_reason: routeDecision && routeDecision.bot ? limit(routeDecision.bot.reason || "", 100) : "",
+      link_preview_reason: routeDecision && routeDecision.bot && routeDecision.bot.isPreview ? limit(routeDecision.bot.reason || "", 100) : "",
+      layout_viewport_width: getViewportWidth(),
+      layout_viewport_height: getViewportHeight(),
+      visual_viewport_available: visualViewport.available,
+      visual_viewport_width: visualViewport.width,
+      visual_viewport_height: visualViewport.height,
+      visual_viewport_scale: visualViewport.scale,
+      screen_avail_width: window.screen ? numberOrEmpty(screen.availWidth) : "",
+      screen_avail_height: window.screen ? numberOrEmpty(screen.availHeight) : "",
+      orientation_type: orientationInfo.type,
+      orientation_angle: orientationInfo.angle,
+      is_landscape: orientationInfo.isLandscape,
+      aspect_ratio: getAspectRatio(),
+      viewport_bucket: getViewportBucket(),
+      breakpoint_bucket: getBreakpointBucket(config, dashboard),
+      display_class: getDisplayClass(config, dashboard),
+      page_visibility_state: document.visibilityState || "unknown",
+      navigation_type: getNavigationType(),
+      dom_content_loaded_ms: performanceTimings.domContentLoadedMs,
+      load_event_ms: performanceTimings.loadEventMs,
+      redirect_delay_ms: Number(config.routing && config.routing.redirectDelayMs) || 0,
+      script_error_count: scriptErrorCount,
+      browser_zoom_or_scale_hint: visualViewport.scale && Number(visualViewport.scale) !== 1 ? "visual_viewport_scale_" + visualViewport.scale : "none_detected",
+      has_touch: input.hasTouch,
+      pointer_primary: input.pointerPrimary,
+      any_pointer_coarse: input.anyPointerCoarse,
+      any_pointer_fine: input.anyPointerFine,
+      hover_primary: input.hoverPrimary,
+      any_hover: input.anyHover,
+      touch_class: input.touchClass,
+      hybrid_touch_mouse_likely: input.hybridTouchMouseLikely,
+      keyboard_mouse_likely: input.keyboardMouseLikely,
+      remote_control_likely: input.remoteControlLikely,
+      stylus_possible: input.stylusPossible,
+      prefers_color_scheme: themeSignal.colorScheme,
+      prefers_reduced_motion: getPrefersReducedMotion(),
+      prefers_reduced_data: getPrefersReducedData(),
+      color_gamut: getColorGamut(),
+      dynamic_range: getDynamicRange(),
+      theme_confidence_band: getThemeConfidenceBand(themeSignal),
+      uach_available: uach.available,
+      uach_brands_json: uach.brandsJson,
+      uach_mobile: uach.mobile,
+      uach_platform: uach.platform,
+      uach_signal_quality: uach.signalQuality,
+      browser_full_version: getBrowserFullVersion(),
+      browser_version_source: getBrowserVersionSource(),
+      os_version: getOsVersionHint(),
+      os_version_source: getOsVersionHint() ? "user_agent" : "unknown",
+      navigator_platform_raw: getNavigatorPlatform(),
+      navigator_vendor: getNavigatorVendor(),
+      ua_reduced_likely: uaReducedLikely(),
+      is_webview: isWebView(),
+      in_app_browser_family: getInAppBrowserFamily(),
+      hardware_concurrency: navigator.hardwareConcurrency || "",
+      device_memory_gb: navigator.deviceMemory || "",
+      connection_effective_type: connection.effectiveType,
+      connection_downlink: connection.downlink,
+      connection_rtt: connection.rtt,
+      connection_save_data: connection.saveData,
+      connection_signal_quality: connection.signalQuality,
+      performance_supported: performanceTimings.supported,
+      device_posture_api_available: getFeatureSupport().device_posture_api,
+      gamepad_api_available: getFeatureSupport().gamepad_api,
+      tracker_send_method: "pending",
+      tracker_send_status: "pending",
+      endpoint_result_known: false,
+      endpoint_slow_possible: false,
+      inferred_device_class: inferred.inferredDeviceClass,
+      inferred_device_subclass: inferred.inferredDeviceSubclass,
+      inferred_device_vendor: inferred.inferredDeviceVendor,
+      inferred_device_model: inferred.inferredDeviceModel,
+      inferred_model_family: inferred.inferredModelFamily,
+      inferred_is_phone: inferred.inferredIsPhone,
+      inferred_is_tablet: inferred.inferredIsTablet,
+      inferred_is_ipad_like: inferred.inferredIsIpadLike,
+      inferred_is_android_tablet_like: inferred.inferredIsAndroidTabletLike,
+      inferred_is_samsung_galaxy_tab_like: inferred.inferredIsSamsungGalaxyTabLike,
+      inferred_is_surface_like: inferred.inferredIsSurfaceLike,
+      inferred_is_chromeos_tablet_like: inferred.inferredIsChromeosTabletLike,
+      inferred_is_smart_tv: inferred.inferredIsSmartTv,
+      inferred_tv_os: inferred.inferredTvOs,
+      inferred_is_console: inferred.inferredIsConsole,
+      inferred_is_foldable_possible: inferred.inferredIsFoldablePossible,
+      inferred_device_posture: inferred.inferredDevicePosture,
+      inferred_is_kiosk_or_public_display_possible: inferred.inferredIsKioskOrPublicDisplayPossible,
+      inferred_device_ecosystem: inferred.inferredDeviceEcosystem,
+      inferred_form_factor: inferred.inferredFormFactor,
+      inferred_screen_context: inferred.inferredScreenContext,
+      inferred_input_context: inferred.inferredInputContext,
+      inferred_browser_context: inferred.inferredBrowserContext,
+      inferred_is_large_phone: inferred.inferredIsLargePhone,
+      inferred_is_small_phone: inferred.inferredIsSmallPhone,
+      inferred_is_large_tablet: inferred.inferredIsLargeTablet,
+      inferred_is_ipad_desktop_mode: inferred.inferredIsIpadDesktopMode,
+      inferred_is_windows_touch_hybrid: inferred.inferredIsWindowsTouchHybrid,
+      inferred_is_desktop_like: inferred.inferredIsDesktopLike,
+      inferred_is_laptop_like: inferred.inferredIsLaptopLike,
+      inferred_is_apple_tv_like: inferred.inferredIsAppleTvLike,
+      inferred_is_android_tv: inferred.inferredIsAndroidTv,
+      inferred_is_google_tv_like: inferred.inferredIsGoogleTvLike,
+      inferred_is_fire_tv_like: inferred.inferredIsFireTvLike,
+      inferred_is_tizen_tv: inferred.inferredIsTizenTv,
+      inferred_is_webos_tv: inferred.inferredIsWebosTv,
+      inferred_is_roku: inferred.inferredIsRoku,
+      inferred_is_android_tv_box_like: inferred.inferredIsAndroidTvBoxLike,
+      inferred_is_set_top_box_like: inferred.inferredIsSetTopBoxLike,
+      inferred_is_game_console: inferred.inferredIsGameConsole,
+      inferred_console_family: inferred.inferredConsoleFamily,
+      inferred_is_playstation: inferred.inferredIsPlaystation,
+      inferred_is_xbox: inferred.inferredIsXbox,
+      inferred_is_nintendo: inferred.inferredIsNintendo,
+      inferred_is_vr_headset_like: inferred.inferredIsVrHeadsetLike,
+      inferred_is_car_browser_like: inferred.inferredIsCarBrowserLike,
+      inferred_is_e_reader_like: inferred.inferredIsEReaderLike,
+      inferred_is_webview: inferred.inferredIsWebview,
+      inferred_in_app_browser_family: inferred.inferredInAppBrowserFamily,
+      inferred_is_bot: inferred.inferredIsBot,
+      inferred_is_link_preview: inferred.inferredIsLinkPreview,
+      inferred_confidence_score: inferred.inferredConfidenceScore,
+      inferred_confidence_band: inferred.inferredConfidenceBand,
+      inferred_confidence_band_compact: inferred.inferredConfidenceBandCompact,
+      inferred_confidence_reason: inferred.inferredConfidenceReason,
+      inferred_primary_evidence: inferred.inferredPrimaryEvidence,
+      inferred_detection_version: inferred.inferredDetectionVersion
     };
 
     if (extra) {
@@ -924,6 +1821,11 @@
       payload.timezone = limit(getTimezone(), 80);
       payload.browser_major_version = getBrowserMajorVersion();
       payload.bot_reason = routeDecision && routeDecision.bot ? limit(routeDecision.bot.reason || "", 100) : "";
+      payload.theme_evidence_json = safeJson(getThemeEvidence(themeSignal), 700);
+      payload.browser_feature_support_json = safeJson(getFeatureSupport(), 700);
+      payload.inferred_evidence_json = inferred.inferredEvidenceJson;
+      payload.inferred_warning_flags_json = inferred.inferredWarningFlagsJson;
+      payload.inferred_contradiction_flags_json = inferred.inferredContradictionFlagsJson;
     }
 
     return payload;
@@ -958,10 +1860,39 @@
       "color_scheme", "forced_colors", "prefers_contrast", "inverted_colors",
       "forced_dark_detection", "samsung_dark_mode_status", "theme_signal_quality",
       "connection_type", "page_host", "entry_source_category", "referrer_domain",
-      "utm_source", "utm_medium", "utm_campaign", "utm_content",
+      "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "utm_id",
+      "source_confidence_band", "source_reason",
       "page_path", "config_version", "router_core_version", "config_source",
       "safe_fallback_used", "tracking_method",
-      "warning_code", "warning_detail", "bot_reason"
+      "warning_code", "warning_detail", "bot_reason", "count_exclusion_reason", "event_tier",
+      "layout_source", "would_auto_use_mobile", "route_policy_result", "tablet_strategy_result",
+      "narrow_desktop_strategy_result", "target_url_type", "target_url_key_or_hash", "fallback_reason",
+      "debug_mode", "no_redirect_mode", "link_preview_reason",
+      "layout_viewport_width", "layout_viewport_height", "visual_viewport_available", "visual_viewport_width",
+      "visual_viewport_height", "visual_viewport_scale", "screen_avail_width", "screen_avail_height",
+      "orientation_type", "orientation_angle", "is_landscape", "aspect_ratio", "viewport_bucket",
+      "breakpoint_bucket", "display_class", "page_visibility_state", "navigation_type",
+      "dom_content_loaded_ms", "load_event_ms", "redirect_delay_ms", "script_error_count",
+      "browser_zoom_or_scale_hint", "has_touch", "pointer_primary", "any_pointer_coarse", "any_pointer_fine",
+      "hover_primary", "any_hover", "touch_class", "hybrid_touch_mouse_likely", "keyboard_mouse_likely",
+      "remote_control_likely", "stylus_possible", "prefers_color_scheme", "prefers_reduced_motion",
+      "prefers_reduced_data", "color_gamut", "dynamic_range", "theme_confidence_band",
+      "uach_available", "uach_mobile", "uach_platform", "uach_signal_quality",
+      "browser_full_version", "browser_version_source", "os_version", "os_version_source",
+      "navigator_platform_raw", "navigator_vendor", "ua_reduced_likely", "is_webview", "in_app_browser_family",
+      "hardware_concurrency", "device_memory_gb", "connection_effective_type", "connection_downlink",
+      "connection_rtt", "connection_save_data", "connection_signal_quality", "performance_supported",
+      "device_posture_api_available", "gamepad_api_available",
+      "tracker_send_method", "tracker_send_status", "tracker_send_start_ms", "tracker_send_ms",
+      "tracker_payload_size_bytes", "payload_size_bytes", "payload_size_bucket", "imageget_url_length", "imageget_payload_near_limit", "endpoint_result_known",
+      "endpoint_slow_possible", "inferred_device_class", "inferred_device_subclass", "inferred_device_vendor",
+      "inferred_model_family", "inferred_device_ecosystem", "inferred_form_factor", "inferred_screen_context",
+      "inferred_input_context", "inferred_browser_context", "inferred_is_phone", "inferred_is_large_phone", "inferred_is_tablet", "inferred_is_large_tablet", "inferred_is_ipad_like", "inferred_is_ipad_desktop_mode",
+      "inferred_is_android_tablet_like", "inferred_is_samsung_galaxy_tab_like", "inferred_is_surface_like", "inferred_is_windows_touch_hybrid",
+      "inferred_is_chromeos_tablet_like", "inferred_is_smart_tv", "inferred_tv_os", "inferred_is_apple_tv_like", "inferred_is_android_tv", "inferred_is_google_tv_like", "inferred_is_fire_tv_like", "inferred_is_tizen_tv", "inferred_is_webos_tv", "inferred_is_roku", "inferred_is_console", "inferred_is_game_console", "inferred_console_family",
+      "inferred_is_android_tv_box_like", "inferred_is_set_top_box_like", "inferred_is_foldable_possible", "inferred_device_posture", "inferred_is_kiosk_or_public_display_possible",
+      "inferred_is_webview", "inferred_in_app_browser_family", "inferred_is_bot", "inferred_is_link_preview", "inferred_confidence_score", "inferred_confidence_band", "inferred_confidence_band_compact", "inferred_primary_evidence", "inferred_detection_version",
+      "inferred_confidence_reason"
     ];
     var result = {};
     var i;
@@ -977,6 +1908,33 @@
     }
 
     return result;
+  }
+
+
+  function encodedQueryLength(params) {
+    var length = 0;
+    var key;
+    for (key in params) {
+      if (Object.prototype.hasOwnProperty.call(params, key)) {
+        length += encodeURIComponent(key).length + 1 + encodeURIComponent(params[key]).length + 1;
+      }
+    }
+    return length;
+  }
+
+  function pruneImagePayload(config, endpoint, params) {
+    var maxLength = Number(config.tracking && config.tracking.maxImageGetUrlLength) || 6500;
+    var removable = ["user_agent", "languages", "route_reason_detail", "warning_detail", "navigator_vendor", "navigator_platform_raw", "browser_full_version", "inferred_confidence_reason"];
+    var i;
+    while (endpoint.length + encodedQueryLength(params) > maxLength && removable.length) {
+      delete params[removable.shift()];
+    }
+    params.tracker_payload_size_bytes = String(encodedQueryLength(params));
+    params.payload_size_bytes = params.tracker_payload_size_bytes;
+    params.payload_size_bucket = payloadSizeBucket(params.payload_size_bytes);
+    params.imageget_url_length = String(endpoint.length + encodedQueryLength(params));
+    params.imageget_payload_near_limit = endpoint.length + encodedQueryLength(params) > Math.round(maxLength * (Number(config.tracking && config.tracking.imageGetNearLimitRatio) || 0.82));
+    return params;
   }
 
   function appendQuery(url, params) {
@@ -1014,15 +1972,25 @@
       try {
         if (method === "sendBeacon" && navigator.sendBeacon) {
           payload.tracking_method = "sendBeacon";
+          payload.tracker_send_method = "sendBeacon";
+          payload.tracker_send_start_ms = Date.now();
           body = JSON.stringify(payload);
+          payload.tracker_payload_size_bytes = body.length;
+          payload.payload_size_bytes = body.length;
           blob = new Blob([body], { type: "text/plain;charset=UTF-8" });
           queued = navigator.sendBeacon(endpoint, blob);
+          payload.tracker_send_ms = Math.max(0, Date.now() - Number(payload.tracker_send_start_ms || Date.now()));
+          payload.tracker_send_status = queued ? "queued" : "not_queued";
           if (queued) return "sendBeacon";
         }
 
         if (method === "fetchKeepalive" && window.fetch) {
           payload.tracking_method = "fetchKeepalive";
+          payload.tracker_send_method = "fetchKeepalive";
+          payload.tracker_send_start_ms = Date.now();
           body = JSON.stringify(payload);
+          payload.tracker_payload_size_bytes = body.length;
+          payload.payload_size_bytes = body.length;
           window.fetch(endpoint, {
             method: "POST",
             mode: "no-cors",
@@ -1030,18 +1998,30 @@
             headers: { "Content-Type": "text/plain;charset=UTF-8" },
             body: body
           }).catch(function () {});
+          payload.tracker_send_ms = Math.max(0, Date.now() - Number(payload.tracker_send_start_ms || Date.now()));
+          payload.tracker_send_status = "queued";
           return "fetchKeepalive";
         }
 
         if (method === "imageGet") {
           payload.tracking_method = "imageGet";
+          payload.tracker_send_method = "imageGet";
+          payload.tracker_send_start_ms = Date.now();
           imagePayload = compactForImage(payload);
           imagePayload.cb = String(Date.now()) + String(Math.random()).slice(2);
+          imagePayload = pruneImagePayload(config, endpoint, imagePayload);
+          payload.tracker_payload_size_bytes = imagePayload.tracker_payload_size_bytes;
+          payload.payload_size_bytes = imagePayload.payload_size_bytes;
+          payload.imageget_url_length = imagePayload.imageget_url_length;
+          payload.payload_size_bucket = imagePayload.payload_size_bucket;
+          payload.imageget_payload_near_limit = imagePayload.imageget_payload_near_limit;
           image = new Image(1, 1);
           image.alt = "";
           image.referrerPolicy = "no-referrer-when-downgrade";
           image.src = appendQuery(endpoint, imagePayload);
           window.__lspTrackingPixels = window.__lspTrackingPixels || [];
+          payload.tracker_send_ms = Math.max(0, Date.now() - Number(payload.tracker_send_start_ms || Date.now()));
+          payload.tracker_send_status = "queued";
           window.__lspTrackingPixels.push(image);
           if (window.__lspTrackingPixels.length > 30) {
             window.__lspTrackingPixels.shift();
@@ -1052,6 +2032,67 @@
     }
 
     return "not_sent";
+  }
+
+
+
+  function sendDiagnosticEnrichment(config, basePayload, mode) {
+    var endpoint = config.tracking && config.tracking.endpoint;
+    var enabled = !!(config.tracking && config.tracking.diagnosticEnrichmentEnabled);
+    var shouldSend = enabled && endpoint && (hasQueryFlag("diagnostics") || (mode && (mode.debug || mode.noRedirect)));
+    if (!shouldSend) return;
+    if (!(navigator.sendBeacon || window.fetch)) return;
+
+    collectUachHighEntropy(function (uach) {
+      var payload = clone(basePayload) || {};
+      var body;
+      var blob;
+      payload.event_id = nextEventId();
+      payload.event_type = "router_diagnostic_enrichment";
+      payload.count_as_visit = false;
+      payload.count_exclusion_reason = "diagnostic_enrichment";
+      payload.event_tier = "diagnostic_enrichment";
+      payload.tracking_method = navigator.sendBeacon ? "sendBeacon" : "fetchKeepalive";
+      payload.tracker_send_method = payload.tracking_method;
+      payload.tracker_send_start_ms = Date.now();
+      payload.uach_available = uach.available;
+      payload.uach_brands_json = uach.brandsJson || "";
+      payload.uach_mobile = uach.mobile || "";
+      payload.uach_platform = uach.platform || "";
+      payload.uach_architecture = uach.architecture || "";
+      payload.uach_bitness = uach.bitness || "";
+      payload.uach_model = uach.model || "";
+      payload.uach_platform_version = uach.platformVersion || "";
+      payload.uach_full_version_list_json = uach.fullVersionListJson || "";
+      payload.uach_form_factors_json = uach.formFactorsJson || "";
+      payload.uach_wow64 = uach.wow64 || "";
+      payload.uach_error = uach.error || "";
+      payload.uach_signal_quality = uach.signalQuality || "unknown";
+      payload.theme_evidence_json = payload.theme_evidence_json || safeJson(getThemeEvidence(getThemeSignal()), 700);
+      payload.browser_feature_support_json = payload.browser_feature_support_json || safeJson(getFeatureSupport(), 700);
+      body = JSON.stringify(payload);
+      if (body.length > (Number(config.tracking && config.tracking.diagnosticEnrichmentMaxBytes) || 16000)) {
+        payload.diagnostic_payload_too_large = true;
+        payload.uach_full_version_list_json = "";
+        payload.browser_feature_support_json = "";
+        payload.theme_evidence_json = "";
+        payload.inferred_evidence_json = "";
+        payload.inferred_warning_flags_json = "";
+        payload.inferred_contradiction_flags_json = "";
+        body = JSON.stringify(payload);
+      }
+      payload.tracker_payload_size_bytes = body.length;
+      payload.payload_size_bytes = body.length;
+      payload.payload_size_bucket = payloadSizeBucket(body.length);
+      try {
+        if (navigator.sendBeacon) {
+          blob = new Blob([JSON.stringify(payload)], { type: "text/plain;charset=UTF-8" });
+          navigator.sendBeacon(endpoint, blob);
+        } else if (window.fetch) {
+          window.fetch(endpoint, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: JSON.stringify(payload) }).catch(function () {});
+        }
+      } catch (error) {}
+    });
   }
 
   function getElement(id) {
@@ -1274,12 +2315,14 @@
           payload = buildEvent(config, dashboard, routeDecision, mode.debug ? "router_debug_view" : "router_manual_view", mode, {});
           payload.count_as_visit = false;
           sendTracking(config, payload);
+          sendDiagnosticEnrichment(config, payload, mode);
         }
         return;
       }
 
       payload = buildEvent(config, dashboard, routeDecision, "router_redirect", mode, {});
       sendTracking(config, payload);
+      sendDiagnosticEnrichment(config, payload, mode);
 
       window.setTimeout(function () {
         redirectToTarget(routeDecision.targetUrl);
