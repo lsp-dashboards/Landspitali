@@ -8,18 +8,30 @@
   <title>Opna mælaborð | Þjónustukannanir ríkisstofnana</title>
 
   <style>
+    :root {
+      --bg: #f4f7fa;
+      --panel: #ffffff;
+      --ink: #102033;
+      --muted: #617287;
+      --line: #d9e1e8;
+      --accent: #4F6F8F;
+      --accent-dark: #435F7A;
+      --accent-soft: #eaf1f7;
+      --shadow: 0 16px 45px rgba(16, 32, 51, 0.10);
+    }
+
     html,
     body {
       margin: 0;
       min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
-      color: #102033;
-      background: #f4f7fa;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(79, 111, 143, .14), transparent 28rem),
+        var(--bg);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; min-width: 0; }
 
     .page {
       min-height: 100vh;
@@ -35,53 +47,83 @@
     }
 
     .card {
-      max-width: 560px;
+      max-width: 620px;
       margin: 0 auto;
-      padding: 30px 24px;
-      background: #ffffff;
-      border: 1px solid #d9e1e8;
-      border-radius: 18px;
-      box-shadow: 0 16px 45px rgba(16, 32, 51, 0.10);
+      padding: 28px 24px 26px;
+      background: rgba(255, 255, 255, .96);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .brand-logo {
+      width: 112px;
+      height: auto;
+      display: block;
+      flex: 0 0 auto;
+    }
+
+    .dashboard-icon {
+      width: 58px;
+      height: 58px;
+      object-fit: cover;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #f8fbfd;
+      flex: 0 0 auto;
     }
 
     .eyebrow {
-      margin: 0 0 10px 0;
-      color: #4F6F8F;
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
+      margin: 0 0 9px 0;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     h1 {
       margin: 0;
-      font-size: 28px;
-      line-height: 1.15;
+      font-size: clamp(27px, 5vw, 38px);
+      line-height: 1.08;
+      letter-spacing: -.035em;
     }
 
     .text {
-      margin: 14px 0 0 0;
-      color: #5f6f82;
+      margin: 14px auto 0 auto;
+      max-width: 48ch;
+      color: var(--muted);
       font-size: 16px;
       line-height: 1.55;
     }
 
     .button {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
       margin-top: 22px;
-      padding: 15px 22px;
-      border-radius: 14px;
+      padding: 14px 22px;
+      border-radius: 15px;
       color: #ffffff;
-      background: #4F6F8F;
+      background: var(--accent);
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 900;
       text-decoration: none;
       box-shadow: 0 10px 24px rgba(79, 111, 143, 0.25);
     }
 
     .button:hover,
-    .button:focus {
-      background: #435F7A;
-    }
+    .button:focus { background: var(--accent-dark); }
+    .button:focus-visible, .secondary-button:focus-visible { outline: 3px solid rgba(79, 111, 143, .30); outline-offset: 3px; }
 
     .small {
       margin-top: 16px;
@@ -90,33 +132,22 @@
       line-height: 1.45;
     }
 
-    .router-extra[hidden] {
-      display: none;
-    }
+    .router-extra[hidden] { display: none; }
 
     .debug-list {
-      max-width: 440px;
+      max-width: 470px;
       margin: 18px auto 0 auto;
       display: grid;
       grid-template-columns: max-content 1fr;
       gap: 8px 12px;
       text-align: left;
-      color: #5f6f82;
+      color: var(--muted);
       font-size: 13px;
       line-height: 1.4;
     }
 
-    .debug-list dt {
-      margin: 0;
-      color: #102033;
-      font-weight: 700;
-    }
-
-    .debug-list dd {
-      margin: 0;
-      min-width: 0;
-      word-break: break-word;
-    }
+    .debug-list dt { margin: 0; color: var(--ink); font-weight: 900; }
+    .debug-list dd { margin: 0; min-width: 0; word-break: break-word; }
 
     .manual-links {
       margin-top: 18px;
@@ -129,18 +160,24 @@
     .secondary-button {
       display: inline-block;
       padding: 10px 14px;
-      border: 1px solid #d9e1e8;
+      border: 1px solid var(--line);
       border-radius: 12px;
-      color: #4F6F8F;
+      color: var(--accent);
       background: #ffffff;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
       text-decoration: none;
     }
 
     .secondary-button:hover,
-    .secondary-button:focus {
-      border-color: #4F6F8F;
+    .secondary-button:focus { border-color: var(--accent); }
+
+    @media (max-width: 540px) {
+      .page { padding: 14px; }
+      .card { padding: 20px 16px; border-radius: 18px; }
+      .brand-row { align-items: flex-start; }
+      .brand-logo { width: 96px; }
+      .dashboard-icon { width: 50px; height: 50px; border-radius: 14px; }
     }
   </style>
 </head>
@@ -149,8 +186,12 @@
   <main class="page">
     <div class="page-inner">
       <section class="card" aria-labelledby="page-title">
+        <div class="brand-row">
+          <img class="dashboard-icon" src="https://images.ctfassets.net/8k0h54kbe6bj/5eK6Vivq6aUDWj2mnOEsvS/7e5d5e7c03b92370ccee175ad01f8330/survey-linkimage.png?w=774&fm=webp&q=80" alt="" decoding="async">
+          <img class="brand-logo" src="https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png" alt="Landspítali" decoding="async">
+        </div>
         <p class="eyebrow">Landspítali</p>
-        <h1 id="page-title">Opna Þjónustukannanir ríkisstofnana</h1>
+        <h1 id="page-title">Þjónustukannanir ríkisstofnana</h1>
         <p class="text">
           Augnablik, þú ert send/ur í rétta útgáfu mælaborðsins eftir tæki og skjábreidd.
         </p>
@@ -179,7 +220,7 @@
       lockDashboard: true
     };
   </script>
-  <script src="/Landspitali/assets/router-config.prod.js?v=20260610-hotfix8"></script>
-  <script src="/Landspitali/assets/router-core.prod.js?v=20260610-hotfix8"></script>
+  <script src="/Landspitali/assets/router-config.prod.js?v=20260613-relaunch1"></script>
+  <script src="/Landspitali/assets/router-core.prod.js?v=20260613-relaunch1"></script>
 </body>
 </html>
