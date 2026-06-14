@@ -443,6 +443,30 @@
     return isFinite(number) ? number : "";
   }
 
+  function getRouteViewportWidth() {
+    var visual = getVisualViewportInfo();
+    var width = Number(visual && visual.width) || 0;
+    return width || getViewportWidth();
+  }
+
+  function getRouteViewportHeight() {
+    var visual = getVisualViewportInfo();
+    var height = Number(visual && visual.height) || 0;
+    return height || getViewportHeight();
+  }
+
+  function getRouteBreakpointZone(width) {
+    width = Number(width || getRouteViewportWidth());
+    if (width <= 480) return "compact_phone_0_480";
+    if (width <= 767) return "wide_phone_481_767";
+    if (width <= 899) return "tablet_portrait_768_899";
+    if (width <= 1023) return "policy_zone_900_1023";
+    if (width <= 1279) return "small_desktop_1024_1279";
+    if (width <= 1409) return "desktop_1280_1409";
+    if (width <= 1420) return "desktop_validation_1410";
+    return "wide_desktop_1421_plus";
+  }
+
   function getAspectRatio() {
     var width = getViewportWidth();
     var height = getViewportHeight();
@@ -462,23 +486,18 @@
   }
 
   function getBreakpointBucket(config, dashboard) {
-    var width = getViewportWidth();
-    var mobile = Number(dashboard && dashboard.mobileBreakpoint) || Number(config.routing && config.routing.mobileBreakpoint) || 768;
-    var tablet = Number(config.routing && config.routing.tabletBreakpoint) || 1024;
-    if (width <= mobile) return "mobile_breakpoint";
-    if (width <= tablet) return "tablet_breakpoint";
-    return "desktop_breakpoint";
+    var width = getRouteViewportWidth();
+    return getRouteBreakpointZone(width);
   }
 
   function getDisplayClass(config, dashboard) {
-    var width = getViewportWidth();
-    var height = getViewportHeight();
-    var mobile = Number(dashboard && dashboard.mobileBreakpoint) || Number(config.routing && config.routing.mobileBreakpoint) || 768;
-    var tablet = Number(config.routing && config.routing.tabletBreakpoint) || 1024;
-    if (width <= mobile) return hasTouch() ? "small_touch_viewport" : "narrow_viewport";
-    if (width <= tablet && hasTouch()) return height > width ? "tablet_portrait_viewport" : "tablet_landscape_viewport";
-    if (width <= tablet) return "narrow_desktop_viewport";
-    if (width >= 1920) return "large_desktop_or_display";
+    var width = getRouteViewportWidth();
+    var height = getRouteViewportHeight();
+    if (width <= 767) return hasTouch() ? "phone_viewport" : "narrow_viewport";
+    if (width <= 899) return height >= width ? "tablet_portrait_viewport" : "narrow_landscape_viewport";
+    if (width <= 1023) return hasTouch() ? "tablet_or_large_phone_policy_zone" : "narrow_desktop_viewport";
+    if (width <= 1279) return hasTouch() ? "tablet_landscape_or_small_desktop" : "small_desktop_viewport";
+    if (width >= 1920) return "large_desktop_or_public_display";
     return "desktop_viewport";
   }
 
@@ -669,11 +688,15 @@
       match_media: !!window.matchMedia,
       performance_navigation: !!(window.performance && performance.getEntriesByType),
       network_information: !!c,
-      device_posture_api: !!(window.DevicePosture || (navigator && navigator.devicePosture)),
-      gamepad_api: !!(navigator && navigator.getGamepads),
       device_memory: navigator.deviceMemory !== undefined,
       hardware_concurrency: navigator.hardwareConcurrency !== undefined,
-      css_supports: !!(window.CSS && CSS.supports)
+      css_supports: !!(window.CSS && CSS.supports),
+      device_posture_api: !!(navigator.devicePosture || window.DevicePosture),
+      device_posture_media_query: !!(window.matchMedia && (matches("(device-posture: folded)") || matches("(device-posture: continuous)"))),
+      gamepad_api: !!navigator.getGamepads,
+      reduced_data_media_query: !!window.matchMedia,
+      color_gamut_media_query: !!window.matchMedia,
+      dynamic_range_media_query: !!window.matchMedia
     };
   }
 
@@ -686,33 +709,14 @@
     return "unknown or insufficient evidence";
   }
 
-  function compactBand(score) {
-    score = Number(score) || 0;
-    if (score >= 90) return "very_high";
-    if (score >= 70) return "high";
-    if (score >= 50) return "medium";
-    if (score >= 30) return "weak";
-    return "unknown";
-  }
-
-  function payloadSizeBucket(bytes) {
-    bytes = Number(bytes) || 0;
-    if (bytes <= 0) return "unknown";
-    if (bytes < 1500) return "lt_1_5kb";
-    if (bytes < 3000) return "1_5kb_3kb";
-    if (bytes < 5000) return "3kb_5kb";
-    if (bytes < 6200) return "5kb_6_2kb";
-    return "gte_6_2kb";
-  }
-
   function inferDeviceConfidence(config) {
     var ua = getUserAgent();
-    var width = getViewportWidth();
-    var height = getViewportHeight();
+    var width = getRouteViewportWidth();
+    var height = getRouteViewportHeight();
+    var layoutWidth = getViewportWidth();
     var touch = hasTouch();
     var maxTouch = navigator.maxTouchPoints || 0;
     var platform = getNavigatorPlatform();
-    var vendorNav = getNavigatorVendor();
     var browser = getBrowserFamily();
     var os = getOsFamily();
     var input = getInputSignals();
@@ -727,191 +731,175 @@
     var family = "";
     var ecosystem = "unknown";
     var formFactor = "unknown";
-    var screenContext = "unknown";
-    var inputContext = input.touchClass || "unknown";
-    var browserContext = getInAppBrowserFamily() !== "none" ? "in_app_browser" : (isWebView() ? "webview" : "browser");
-    var consoleFamily = "";
     var tvOs = "";
-    var detectionVersion = config.deviceDetection && config.deviceDetection.version ? config.deviceDetection.version : "2026-06-13-device-taxonomy-2";
-    var aspect = getAspectRatio();
-    var uaStrong = false;
+    var consoleFamily = "";
+    var isAndroidTv = false;
+    var isGoogleTv = false;
+    var isFireTv = false;
+    var isTizen = false;
+    var isWebos = false;
+    var isRoku = false;
+    var isAppleTv = false;
+    var isAndroidBox = false;
+    var isSetTopBox = false;
+    var isPlayStation = false;
+    var isXbox = false;
+    var isNintendo = false;
+    var isVr = false;
+    var isCar = false;
+    var isEReader = false;
+    var isIpadDesktopMode = false;
+    var isWindowsHybrid = false;
+    var isFoldable = false;
+    var isChromeosTablet = false;
+    var isSurfaceLike = false;
+    var posture = "unknown";
+    var bot = detectBot(config || {});
+    var tvToken = /Smart[- ]?TV|SmartTV|HbbTV|Tizen|Web0S|webOS|NetCast|Roku|AFT[A-Z0-9]*|Android TV|GoogleTV|Google TV|CrKey|AppleTV|Apple TV|BRAVIA|VIERA|AquosBrowser|Hisense|NetTV|DTV|TV Safari|TV Browser/i;
+    var consoleToken = /PlayStation|PS4|PS5|Xbox|Xbox One|Xbox Series|NintendoBrowser|Nintendo Switch|WiiU|\bWii\b/i;
+    var setTopToken = /MiBOX|MIBOX|Mi Box|SHIELD Android TV|NVIDIA SHIELD|IPTV|SetTopBox|STB|DuneHD|MAG[0-9]|AFT[A-Z0-9]*/i;
 
-    function addEvidence(text, points) {
+    function add(text, points) {
       evidence.push(text);
-      if (points) score += points;
-    }
-    function setClass(nextClass, nextSubclass, nextVendor, points, text) {
-      cls = nextClass || cls;
-      subclass = nextSubclass || subclass;
-      vendor = nextVendor || vendor;
-      uaStrong = points >= 50 || uaStrong;
-      addEvidence(text, points || 0);
+      score += Number(points) || 0;
     }
 
-    if (width < 480) screenContext = "compact_phone_viewport";
-    else if (width < 768) screenContext = "wide_phone_viewport";
-    else if (width < 900) screenContext = height >= width ? "tablet_portrait_viewport" : "small_landscape_viewport";
-    else if (width < 1024) screenContext = "policy_zone_900_1023";
-    else if (width < 1280) screenContext = "small_desktop_or_tablet_landscape";
-    else if (width < 1920) screenContext = "desktop_viewport";
-    else screenContext = "large_desktop_or_public_display";
+    function setClass(value, sub, baseScore, why) {
+      cls = value || cls;
+      subclass = sub || subclass;
+      if (baseScore !== undefined && baseScore !== null) score = Math.max(score, Number(baseScore));
+      if (why) evidence.push(why);
+    }
 
-    if (/PlayStation|PS4|PS5|PlayStation 4|PlayStation 5/i.test(ua)) {
-      setClass("game_console", "playstation", "Sony", 78, "explicit PlayStation UA token");
-      consoleFamily = "PlayStation";
-      ecosystem = "sony_playstation";
-      formFactor = "living_room_console";
-    } else if (/Xbox|Xbox One|Xbox Series X|Xbox Series S/i.test(ua)) {
-      setClass("game_console", "xbox", "Microsoft", 78, "explicit Xbox UA token");
-      consoleFamily = "Xbox";
-      ecosystem = "microsoft_xbox";
-      formFactor = "living_room_console";
-    } else if (/NintendoBrowser|Nintendo Switch|WiiU|Wii/i.test(ua)) {
-      setClass("game_console", "nintendo", "Nintendo", 78, "explicit Nintendo UA token");
-      consoleFamily = /Switch/i.test(ua) ? "Nintendo Switch" : "Nintendo";
-      ecosystem = "nintendo";
-      formFactor = "living_room_console_or_handheld";
-    } else if (/AppleTV|Apple TV/i.test(ua)) {
-      setClass("smart_tv", "apple_tv_like", "Apple", 78, "explicit Apple TV UA token");
-      tvOs = "Apple TV";
-      ecosystem = "apple_tv";
-      formFactor = "living_room_tv";
-    } else if (/Tizen/i.test(ua)) {
-      setClass("smart_tv", "samsung_tizen_tv", "Samsung", 78, "explicit Tizen TV UA token");
-      tvOs = "Tizen";
-      ecosystem = "samsung_tizen";
-      formFactor = "living_room_tv";
-    } else if (/Web0S|webOS|NetCast/i.test(ua)) {
-      setClass("smart_tv", "lg_webos_tv", "LG", 78, "explicit webOS/NetCast TV UA token");
-      tvOs = "webOS";
-      ecosystem = "lg_webos";
-      formFactor = "living_room_tv";
-    } else if (/Roku|RokuBrowser|DIAL/i.test(ua)) {
-      setClass("smart_tv", "roku", "Roku", 78, "explicit Roku UA token");
-      tvOs = "Roku";
-      ecosystem = "roku";
-      formFactor = "living_room_tv";
-    } else if (/AFT[A-Z0-9]*|Fire TV/i.test(ua)) {
-      setClass("smart_tv", "fire_tv_like", "Amazon", 78, "explicit Fire TV/AFT UA token");
-      tvOs = "Fire TV";
-      ecosystem = "amazon_fire_tv";
-      formFactor = "living_room_tv";
-    } else if (/Android TV|GoogleTV|Google TV/i.test(ua)) {
-      setClass("smart_tv", /GoogleTV|Google TV/i.test(ua) ? "google_tv_like" : "android_tv", "Google", 78, "explicit Android TV / Google TV UA token");
-      tvOs = /GoogleTV|Google TV/i.test(ua) ? "Google TV" : "Android TV";
-      ecosystem = "android_tv";
-      formFactor = "living_room_tv";
-    } else if (/CrKey|Chromecast/i.test(ua)) {
-      setClass("set_top_box", "chromecast_like", "Google", 68, "explicit Chromecast/CrKey UA token");
-      tvOs = "Chromecast";
-      ecosystem = "google_cast";
-      formFactor = "living_room_tv";
-    } else if (/HbbTV|SmartTV|SMART-TV|BRAVIA|VIERA|AquosBrowser|Hisense|NetTV|DTV/i.test(ua)) {
-      setClass("smart_tv", "generic_tv_browser", "", 68, "explicit smart TV/browser UA token");
-      tvOs = /BRAVIA/i.test(ua) ? "Sony TV" : (/VIERA/i.test(ua) ? "Panasonic TV" : "generic TV");
-      ecosystem = "living_room_tv";
-      formFactor = "living_room_tv";
-    } else if (/SHIELD|MiBOX|MIBOX|Mi Box/i.test(ua)) {
-      setClass("set_top_box", "android_tv_box_like", /SHIELD/i.test(ua) ? "NVIDIA" : "Xiaomi", 72, "explicit Android TV box UA token");
-      ecosystem = "android_tv_box";
-      formFactor = "set_top_box";
+    if (bot.isBot) {
+      cls = bot.isPreview ? "link_preview_bot" : "bot";
+      formFactor = "bot";
+      score = 96;
+      evidence.push("known bot or link-preview UA token: " + bot.reason);
+    } else if (consoleToken.test(ua)) {
+      cls = "game_console";
+      formFactor = "living_room";
+      score = 96;
+      if (/PlayStation|PS4|PS5/i.test(ua)) { consoleFamily = "PlayStation"; isPlayStation = true; vendor = "Sony"; }
+      else if (/Xbox/i.test(ua)) { consoleFamily = "Xbox"; isXbox = true; vendor = "Microsoft"; }
+      else if (/Nintendo|Wii/i.test(ua)) { consoleFamily = /Switch/i.test(ua) ? "Nintendo Switch" : "Nintendo"; isNintendo = true; vendor = "Nintendo"; }
+      evidence.push("explicit game-console UA token");
+    } else if (tvToken.test(ua) || setTopToken.test(ua)) {
+      cls = tvToken.test(ua) ? "smart_tv" : "set_top_box";
+      formFactor = "living_room";
+      score = tvToken.test(ua) ? 94 : 86;
+      if (/Tizen/i.test(ua)) { isTizen = true; tvOs = "Tizen"; vendor = "Samsung"; family = "Samsung Tizen TV"; }
+      if (/Web0S|webOS|NetCast/i.test(ua)) { isWebos = true; tvOs = "webOS"; vendor = vendor || "LG"; family = family || "LG webOS TV"; }
+      if (/Roku/i.test(ua)) { isRoku = true; tvOs = "Roku"; vendor = vendor || "Roku"; family = family || "Roku"; }
+      if (/Android TV/i.test(ua)) { isAndroidTv = true; tvOs = "Android TV"; ecosystem = "Android TV"; family = family || "Android TV"; }
+      if (/GoogleTV|Google TV/i.test(ua)) { isGoogleTv = true; isAndroidTv = true; tvOs = "Google TV"; ecosystem = "Google TV"; family = family || "Google TV"; }
+      if (/AFT[A-Z0-9]*/i.test(ua)) { isFireTv = true; tvOs = "Fire TV"; ecosystem = "Amazon Fire TV"; vendor = vendor || "Amazon"; family = family || "Fire TV"; }
+      if (/CrKey/i.test(ua)) { isGoogleTv = true; tvOs = tvOs || "Chromecast"; ecosystem = "Google Cast"; family = family || "Chromecast"; }
+      if (/AppleTV|Apple TV/i.test(ua)) { isAppleTv = true; tvOs = "Apple TV"; ecosystem = "Apple"; vendor = "Apple"; family = "Apple TV-like"; }
+      if (/BRAVIA/i.test(ua)) { vendor = vendor || "Sony"; family = family || "Sony BRAVIA TV-like"; }
+      if (/VIERA/i.test(ua)) { vendor = vendor || "Panasonic"; family = family || "Panasonic VIERA TV-like"; }
+      if (setTopToken.test(ua)) { isSetTopBox = true; isAndroidBox = /Android|MiBOX|SHIELD|AFT/i.test(ua); }
+      evidence.push(tvToken.test(ua) ? "explicit smart-TV/living-room UA token" : "explicit set-top/Android-box UA token");
+      if (touch) { contradictions.push("TV/set-top token with touch support"); score -= 12; }
+    } else if (/OculusBrowser|Quest|PicoBrowser|VR/i.test(ua)) {
+      cls = "vr_headset"; subclass = "vr_browser"; formFactor = "headset"; isVr = true; score = 88; evidence.push("VR/headset browser UA token");
+    } else if (/Kindle|Silk|Kobo|PocketBook|EReader/i.test(ua)) {
+      cls = "e_reader"; subclass = "reader_browser"; formFactor = "e_reader"; isEReader = true; score = 82; evidence.push("e-reader UA token");
+    } else if (/CarBrowser|Tesla|Automotive|AAGL|AppleCoreMedia.*Car/i.test(ua)) {
+      cls = "car_browser"; subclass = "infotainment"; formFactor = "car"; isCar = true; score = 82; evidence.push("car/infotainment UA token");
     } else if (/iPhone|iPod/i.test(ua)) {
-      setClass("phone", "iphone", "Apple", 76, "explicit iPhone/iPod UA token");
-      ecosystem = "apple_ios";
-      formFactor = "phone";
+      setClass("phone", "iphone", 96, "explicit iPhone/iPod UA token");
+      vendor = "Apple"; ecosystem = "Apple"; formFactor = width >= 390 ? "large_phone" : "phone";
     } else if (/iPad/i.test(ua)) {
-      setClass("tablet", "ipad", "Apple", 76, "explicit iPad UA token");
-      ecosystem = "apple_ipados";
-      formFactor = "tablet";
+      setClass("tablet", "ipad", 96, "explicit iPad UA token");
+      vendor = "Apple"; ecosystem = "Apple"; formFactor = width >= 1024 ? "large_tablet" : "tablet";
     } else if (/Macintosh/i.test(ua) && /Safari|AppleWebKit/i.test(ua) && touch && maxTouch > 1) {
-      setClass("tablet", "ipad_like_desktop_mode", "Apple", 56, "Macintosh UA plus WebKit and touch points suggests iPadOS desktop mode");
-      ecosystem = "apple_ipados";
-      formFactor = "tablet";
+      setClass("tablet", "ipad_like_desktop_mode", 78, "Macintosh UA plus multi-touch suggests iPadOS desktop mode");
+      vendor = "Apple"; ecosystem = "Apple"; formFactor = width >= 1024 ? "large_tablet" : "tablet"; isIpadDesktopMode = true;
+      flags.push("exact iPad model cannot be detected from browser evidence");
     } else if (/Android/i.test(ua) && /Mobile/i.test(ua)) {
-      setClass("phone", "android_phone", "", 66, "Android Mobile UA token");
-      ecosystem = "android";
-      formFactor = "phone";
-    } else if (/Android/i.test(ua) && !/Mobile/i.test(ua)) {
-      if (!touch && width >= 1024 && Number(aspect) >= 1.55) {
-        setClass("set_top_box", "android_box_or_tablet_ambiguous", "", 45, "Android UA without Mobile, no touch and TV-like viewport");
-        ecosystem = "android_ambiguous_living_room";
-        formFactor = "set_top_box_or_tablet";
-        flags.push("Android without Mobile can mean tablet, desktop-mode browser or TV box");
+      setClass("phone", width >= 390 ? "large_android_phone" : "android_phone", 88, "Android Mobile UA token");
+      ecosystem = "Android"; formFactor = width >= 390 ? "large_phone" : "phone";
+    } else if (/Android/i.test(ua)) {
+      ecosystem = "Android";
+      if (!touch && width >= 960 && width > height) {
+        setClass("set_top_box", "android_box_ambiguous", 58, "Android without Mobile plus no touch and TV-like landscape viewport");
+        isAndroidBox = true; isSetTopBox = true; formFactor = "living_room_possible";
+        flags.push("Android without Mobile can mean tablet, TV box or unusual browser mode");
       } else {
-        setClass("tablet", "android_tablet_like", "", 52, "Android UA without Mobile token");
-        ecosystem = "android";
-        formFactor = "tablet";
+        setClass("tablet", width >= 1024 ? "large_android_tablet" : "android_tablet", 74, "Android UA without Mobile token");
+        formFactor = width >= 1024 ? "large_tablet" : "tablet";
+        if (width >= 768 && touch) add("tablet-sized viewport plus touch", 8);
       }
-    } else if (/CrOS/i.test(ua) && touch) {
-      setClass("desktop_or_tablet", "chromeos_tablet_like", "Google", 40, "ChromeOS plus touch");
-      ecosystem = "chromeos";
-      formFactor = "chromeos_tablet_or_laptop";
+    } else if (/CrOS/i.test(ua)) {
+      ecosystem = "ChromeOS";
+      if (touch && width <= 1280) {
+        setClass("desktop_or_tablet", "chromeos_tablet_like", 62, "ChromeOS plus touch and tablet/small-desktop viewport");
+        isChromeosTablet = true; formFactor = "chromeos_tablet_like";
+      } else {
+        setClass("desktop", "chromeos_laptop_or_desktop", 72, "ChromeOS desktop/laptop viewport evidence");
+        formFactor = "laptop_or_desktop";
+      }
     } else if (/Windows/i.test(ua) && touch) {
-      setClass("desktop_or_hybrid", "windows_touch_hybrid_possible", "Microsoft", 28, "Windows plus touch");
-      ecosystem = "windows";
-      formFactor = "hybrid_or_desktop";
-      flags.push("Surface/hybrid is weak inference unless explicit model token is present");
+      isWindowsHybrid = true;
+      setClass(width <= 1368 ? "desktop_or_hybrid" : "desktop_touch", "windows_touch_hybrid_possible", 44, "Windows plus touch; Surface/hybrid is weak inference only");
+      isSurfaceLike = width <= 1368;
+      ecosystem = "Windows"; formFactor = "touch_hybrid_possible";
+      flags.push("Do not claim Surface model without explicit evidence");
     } else if (isPhoneUserAgent()) {
-      setClass("phone", "phone_ua_parser_match", "", 60, "phone UA parser match");
-      formFactor = "phone";
+      setClass("phone", "phone_ua_generic", 84, "generic phone UA parser match");
+      formFactor = width >= 390 ? "large_phone" : "phone";
     } else if (isTabletUserAgent()) {
-      setClass("tablet", "tablet_ua_parser_match", "", 54, "tablet UA parser match");
-      formFactor = "tablet";
+      setClass("tablet", "tablet_ua_generic", 76, "generic tablet UA parser match");
+      formFactor = width >= 1024 ? "large_tablet" : "tablet";
     } else if (width <= 480 && touch) {
-      setClass("phone", "viewport_phone_touch", "", 35, "phone-sized viewport plus touch");
+      setClass("phone", "viewport_touch_phone_possible", 55, "phone-sized viewport plus touch");
       formFactor = "phone";
-    } else if (width <= 1024 && touch) {
-      setClass("tablet_or_touch_laptop", "touch_viewport_ambiguous", "", 25, "tablet-sized viewport plus touch without strong UA token");
+    } else if (width <= 767 && touch) {
+      setClass("phone", "large_phone_or_small_tablet_possible", 52, "wide phone viewport plus touch");
+      formFactor = "large_phone";
+    } else if (width <= 1023 && touch) {
+      setClass("tablet_or_touch_laptop", "touch_tablet_policy_zone", 46, "tablet-sized viewport plus touch without strong UA token");
       formFactor = "tablet_or_touch_laptop";
-    } else if (width >= 1920 && !touch) {
-      setClass("desktop", "desktop_or_public_display", "", 42, "large viewport and no touch");
-      formFactor = "desktop_or_public_display";
-      flags.push("large non-touch viewport is weak kiosk/public display evidence, not TV by itself");
+    } else if (width >= 1280 || layoutWidth >= 1280) {
+      setClass("desktop", "desktop_sized_browser", 70, "desktop-sized viewport");
+      formFactor = input.keyboardMouseLikely ? "desktop_or_laptop" : "desktop_sized_browser";
     } else if (width >= 1024) {
-      setClass("desktop", "desktop_sized_browser", "", 42, "desktop-sized viewport");
-      formFactor = "desktop";
+      setClass("desktop", "small_desktop_sized_browser", 62, "small desktop or tablet landscape viewport");
+      formFactor = "small_desktop_or_tablet_landscape";
     }
 
-    var modelMatch = /(SM-[A-Z0-9]+|Pixel\s?[A-Z0-9 ]+|Nexus\s?[A-Z0-9 ]+|AFT[A-Z0-9]+|SHIELD|MiBOX|MIBOX)/i.exec(ua);
+    var modelMatch = /(SM-[A-Z0-9]+|Pixel\s?[A-Z0-9 ]+|Nexus\s?[A-Z0-9 ]+|AFT[A-Z0-9]+|MiBOX|MIBOX|SHIELD)/i.exec(ua);
     if (modelMatch && modelMatch[1]) model = limit(modelMatch[1], 80);
     if (/SM-X/i.test(model || ua)) {
-      vendor = "Samsung";
-      family = "Galaxy Tab";
-      cls = "tablet";
-      subclass = "samsung_galaxy_tab";
-      ecosystem = "android_samsung";
-      formFactor = "tablet";
-      score = Math.max(score, 95);
-      evidence.push("Samsung SM-X model prefix indicates Galaxy Tab family");
+      vendor = "Samsung"; family = "Galaxy Tab"; cls = "tablet"; subclass = "samsung_galaxy_tab"; score = Math.max(score, 95); formFactor = width >= 1024 ? "large_tablet" : "tablet";
+      evidence.push("Samsung SM-X model prefix");
     } else if (/Samsung|SM-/i.test(ua)) {
-      vendor = vendor || "Samsung";
-      family = family || "Galaxy";
-      ecosystem = ecosystem === "unknown" ? "android_samsung" : ecosystem;
+      vendor = vendor || "Samsung"; family = family || "Galaxy";
     }
 
     if (navigator.userAgentData && navigator.userAgentData.mobile === true && cls === "unknown") {
-      cls = "phone";
-      formFactor = "phone";
-      score = Math.max(score, 70);
-      evidence.push("UA-CH mobile=true");
+      cls = "phone"; formFactor = width >= 390 ? "large_phone" : "phone"; score = 70; evidence.push("UA-CH mobile=true");
     }
-    if (touch && input.anyPointerFine && /phone|smart_tv|game_console/i.test(cls)) {
-      contradictions.push("fine pointer plus touch may indicate hybrid/browser emulation");
-      if (!uaStrong) score -= 10;
-    }
-    if (!touch && /phone|tablet/i.test(cls) && !/AppleTV|SmartTV|Tizen|Roku|AFT|Android TV/i.test(ua)) {
-      contradictions.push("mobile/tablet class without touch support");
-      score -= 12;
-    }
-    if (/Mobile/i.test(ua) && /smart_tv|set_top_box|game_console/i.test(cls)) {
-      contradictions.push("Mobile token on living-room class; user agent may be spoofed");
-      score -= 8;
-    }
-    if (uaReducedLikely()) flags.push("reduced UA likely; exact browser/platform inference limited");
-    if (getInAppBrowserFamily() !== "none") evidence.push("in-app browser family: " + getInAppBrowserFamily());
 
-    score = Math.max(0, Math.min(100, Math.round(score)));
+    try {
+      if (navigator.devicePosture && navigator.devicePosture.type) posture = limit(navigator.devicePosture.type, 40);
+      else if (matches("(device-posture: folded)")) posture = "folded";
+      else if (matches("(device-posture: continuous)")) posture = "continuous";
+    } catch (error) {}
+    if (posture === "folded" || posture === "continuous") { isFoldable = true; add("Device Posture signal available", 20); }
+    if (!isFoldable && navigator.userAgentData && navigator.userAgentData.mobile && touch && width >= 600 && width <= 950) {
+      isFoldable = true; flags.push("foldable possible from mobile UA-CH plus wide touch viewport; not a model claim");
+    }
 
+    if (!tvToken.test(ua) && !setTopToken.test(ua) && width >= 1920 && !touch) {
+      flags.push("large non-touch viewport suggests kiosk/public display more than TV unless UA token supports TV");
+    }
+    if (/Android/i.test(ua) && !/Mobile/i.test(ua) && !tvToken.test(ua) && !touch && width >= 1024) {
+      flags.push("Android without Mobile and no TV token is ambiguous: tablet, desktop mode or TV box");
+    }
+
+    score = Math.max(0, Math.min(100, score));
     return {
       inferredDeviceClass: cls,
       inferredDeviceSubclass: subclass,
@@ -920,58 +908,55 @@
       inferredModelFamily: family,
       inferredDeviceEcosystem: ecosystem,
       inferredFormFactor: formFactor,
-      inferredScreenContext: screenContext,
-      inferredInputContext: inputContext,
-      inferredBrowserContext: browserContext,
+      inferredScreenContext: getRouteBreakpointZone(width) + "; " + (width >= height ? "landscape" : "portrait"),
+      inferredInputContext: input.touchClass + "; pointer=" + input.pointerPrimary + "; hover=" + input.hoverPrimary,
+      inferredBrowserContext: browser + "; " + getInAppBrowserFamily() + "; " + (isWebView() ? "webview" : "browser"),
       inferredIsPhone: cls === "phone",
-      inferredIsLargePhone: cls === "phone" && width >= 390,
-      inferredIsSmallPhone: cls === "phone" && width < 390,
-      inferredIsTablet: cls === "tablet" || cls === "tablet_or_touch_laptop" || cls === "desktop_or_tablet",
-      inferredIsLargeTablet: (cls === "tablet" || cls === "tablet_or_touch_laptop") && width >= 900,
+      inferredIsLargePhone: formFactor === "large_phone",
+      inferredIsTablet: cls === "tablet" || cls === "tablet_or_touch_laptop" || formFactor === "tablet" || formFactor === "large_tablet",
+      inferredIsLargeTablet: formFactor === "large_tablet",
       inferredIsIpadLike: subclass === "ipad" || subclass === "ipad_like_desktop_mode",
-      inferredIsIpadDesktopMode: subclass === "ipad_like_desktop_mode",
+      inferredIsIpadDesktopMode: isIpadDesktopMode,
       inferredIsAndroidTabletLike: /Android/i.test(ua) && cls === "tablet",
       inferredIsSamsungGalaxyTabLike: family === "Galaxy Tab",
-      inferredIsChromeosTabletLike: subclass === "chromeos_tablet_like",
-      inferredIsWindowsTouchHybrid: subclass === "windows_touch_hybrid_possible",
-      inferredIsSurfaceLike: subclass === "windows_touch_hybrid_possible",
-      inferredIsFoldablePossible: !!((window.DevicePosture || (navigator && navigator.devicePosture)) || (navigator.userAgentData && navigator.userAgentData.mobile && width >= 600 && touch)),
-      inferredDevicePosture: (window.DevicePosture || (navigator && navigator.devicePosture)) ? "api_available" : "unknown",
-      inferredIsDesktopLike: cls === "desktop" || cls === "desktop_or_hybrid" || cls === "desktop_or_tablet",
-      inferredIsLaptopLike: /Macintosh|Windows|CrOS/i.test(ua) && width >= 1024 && width < 1920 && input.keyboardMouseLikely,
-      inferredIsKioskOrPublicDisplayPossible: width >= 1920 && !touch,
+      inferredIsWindowsTouchHybrid: isWindowsHybrid,
+      inferredIsSurfaceLike: isSurfaceLike,
+      inferredIsChromeosTabletLike: isChromeosTablet,
+      inferredIsFoldablePossible: isFoldable,
+      inferredDevicePosture: posture,
+      inferredIsDesktopLike: cls === "desktop" || cls === "desktop_touch" || cls === "desktop_or_hybrid" || cls === "desktop_or_tablet",
+      inferredIsLaptopLike: (cls === "desktop" && input.keyboardMouseLikely && width < 1800) || /CrOS|Macintosh|Windows/i.test(ua) && input.keyboardMouseLikely && width < 1800,
+      inferredIsKioskOrPublicDisplayPossible: width >= 1920 && !touch && cls !== "smart_tv" && cls !== "game_console",
       inferredIsSmartTv: cls === "smart_tv",
+      inferredIsAppleTvLike: isAppleTv,
+      inferredIsAndroidTv: isAndroidTv,
+      inferredIsGoogleTvLike: isGoogleTv,
+      inferredIsFireTvLike: isFireTv,
+      inferredIsTizenTv: isTizen,
+      inferredIsWebosTv: isWebos,
+      inferredIsRoku: isRoku,
+      inferredIsAndroidTvBoxLike: isAndroidBox,
+      inferredIsSetTopBoxLike: isSetTopBox,
       inferredTvOs: tvOs,
-      inferredIsAppleTvLike: subclass === "apple_tv_like",
-      inferredIsAndroidTv: subclass === "android_tv",
-      inferredIsGoogleTvLike: subclass === "google_tv_like",
-      inferredIsFireTvLike: subclass === "fire_tv_like",
-      inferredIsTizenTv: subclass === "samsung_tizen_tv",
-      inferredIsWebosTv: subclass === "lg_webos_tv",
-      inferredIsRoku: subclass === "roku",
-      inferredIsAndroidTvBoxLike: subclass === "android_tv_box_like" || subclass === "chromecast_like",
-      inferredIsSetTopBoxLike: cls === "set_top_box" || /box|chromecast/i.test(subclass),
-      inferredIsGameConsole: cls === "game_console",
+      inferredIsConsole: cls === "game_console",
       inferredConsoleFamily: consoleFamily,
-      inferredIsPlaystation: consoleFamily === "PlayStation",
-      inferredIsXbox: consoleFamily === "Xbox",
-      inferredIsNintendo: /^Nintendo/i.test(consoleFamily),
-      inferredIsVrHeadsetLike: /Quest|Oculus|Meta Quest|VR/i.test(ua),
-      inferredIsCarBrowserLike: /CarPlay|Android Auto|Automotive/i.test(ua),
-      inferredIsEReaderLike: /Kindle|Kobo|Nook|Silk/i.test(ua) && !/AFT/i.test(ua),
+      inferredIsPlaystation: isPlayStation,
+      inferredIsXbox: isXbox,
+      inferredIsNintendo: isNintendo,
+      inferredIsVrHeadsetLike: isVr,
+      inferredIsCarBrowserLike: isCar,
+      inferredIsEReaderLike: isEReader,
       inferredIsWebview: isWebView(),
       inferredInAppBrowserFamily: getInAppBrowserFamily(),
-      inferredIsBot: false,
-      inferredIsLinkPreview: false,
+      inferredIsBot: !!bot.isBot,
+      inferredIsLinkPreview: !!bot.isPreview,
       inferredConfidenceScore: score,
       inferredConfidenceBand: confidenceBand(score),
-      inferredConfidenceBandCompact: compactBand(score),
       inferredConfidenceReason: limit(evidence.join("; ") || "insufficient evidence", 260),
-      inferredPrimaryEvidence: limit(evidence[0] || "insufficient evidence", 180),
-      inferredEvidenceJson: safeJson({ evidence: evidence, width: width, height: height, touch: touch, maxTouchPoints: maxTouch, platform: platform, vendor: vendorNav, browser: browser, os: os, aspectRatio: aspect }, 900),
-      inferredWarningFlagsJson: safeJson({ flags: flags }, 500),
-      inferredContradictionFlagsJson: safeJson({ contradictions: contradictions }, 500),
-      inferredDetectionVersion: detectionVersion
+      inferredPrimaryEvidence: limit(evidence[0] || "insufficient evidence", 160),
+      inferredDetectionVersion: "2026-06-13-device-taxonomy-1",
+      inferredEvidenceJson: safeJson({ evidence: evidence, contradictions: contradictions, width: width, height: height, touch: touch, maxTouchPoints: maxTouch, platform: platform, browser: browser, os: os, input: input }, 900),
+      inferredWarningFlagsJson: safeJson({ flags: flags, contradictions: contradictions }, 600)
     };
   }
 
@@ -1157,54 +1142,29 @@
     var referrerDomain = getHostname(document.referrer || "");
     var rules = config.sourceRules || {};
     var source = "direct";
-    var confidence = "medium confidence";
-    var reason = "no referrer or UTM source";
-    var inApp = getInAppBrowserFamily();
 
     if (utmSource) {
-      confidence = "high confidence";
-      if (/^island\.is$/i.test(utmSource) || /^islandis$/i.test(utmSource)) {
-        source = "island_is_public";
-        reason = "utm_source indicates island.is";
-      } else if (/^root_index$/i.test(utmSource) || /^public_gateway$/i.test(utmSource)) {
+      if (/^root_index$|^gateway$|^landspitali_gateway$/i.test(utmSource) || /^root_index$/i.test(limit(params.from || "", 80))) {
         source = "root_index";
-        reason = "utm_source indicates root index gateway";
+      } else if (/^island\.is$/i.test(utmSource) || /^islandis$/i.test(utmSource)) {
+        source = "island_is_public";
       } else if (/^qr$/i.test(utmSource) || /^qrcode$/i.test(utmSource)) {
         source = "qr_code";
-        reason = "utm_source indicates QR";
       } else if (/teams/i.test(utmSource)) {
         source = "internal_teams";
-        reason = "utm_source indicates Teams";
       } else if (/outlook|email|mail/i.test(utmSource) || /email/i.test(utmMedium)) {
         source = "internal_email";
-        reason = "utm source/medium indicates email";
       } else if (/sharepoint|intranet/i.test(utmSource)) {
         source = "internal_intranet";
-        reason = "utm_source indicates intranet/sharepoint";
       } else {
         source = "campaign_or_other_utm";
-        reason = "utm_source present but not recognized as public/internal predefined source";
       }
     } else if (sameDomainOrSubdomain(referrerDomain, rules.islandDomains || [])) {
       source = "island_is_public";
-      confidence = "high confidence";
-      reason = "referrer domain matches island.is";
     } else if (sameDomainOrSubdomain(referrerDomain, rules.internalDomains || [])) {
       source = "internal_referrer";
-      confidence = "medium confidence";
-      reason = "referrer domain matches configured internal domain";
-    } else if (/teams/i.test(inApp)) {
-      source = "internal_teams";
-      confidence = "medium confidence";
-      reason = "Teams in-app browser detected";
-    } else if (/outlook/i.test(inApp)) {
-      source = "internal_email";
-      confidence = "medium confidence";
-      reason = "Outlook in-app browser detected";
     } else if (referrerDomain) {
       source = "external_referrer";
-      confidence = "medium confidence";
-      reason = "external referrer domain present";
     }
 
     return {
@@ -1215,9 +1175,7 @@
       utmCampaign: limit(params.utm_campaign || "", 120),
       utmContent: limit(params.utm_content || "", 120),
       utmTerm: limit(params.utm_term || "", 120),
-      utmId: limit(params.utm_id || "", 120),
-      sourceConfidenceBand: confidence,
-      sourceReason: reason
+      utmId: limit(params.utm_id || "", 120)
     };
   }
 
@@ -1430,73 +1388,60 @@
   function decideAutoLayout(config, dashboard, bot) {
     var routing = config.routing || {};
     var dashboardPolicy = (dashboard && dashboard.routePolicy) || {};
-    var width = getViewportWidth();
-    var height = getViewportHeight();
-    var visual = getVisualViewportInfo();
-    var usableWidth = visual.available && visual.width ? Math.min(width, Number(visual.width) || width) : width;
-    var usableHeight = visual.available && visual.height ? Math.min(height, Number(visual.height) || height) : height;
-    var mobileBreakpoint = Number(dashboard && dashboard.mobileBreakpoint) || Number(routing.mobileBreakpoint) || 768;
-    var tabletLandscapeDesktopMinWidth = Number(dashboardPolicy.tabletLandscapeDesktopMinWidth) || Number(routing.tabletLandscapeDesktopMinWidth) || 1024;
-    var tabletLandscapeMinHeight = Number(dashboardPolicy.tabletLandscapeMinHeight) || Number(routing.tabletLandscapeMinHeight) || 600;
-    var desktopMinWidth = Number(dashboardPolicy.desktopMinWidth) || Number(routing.desktopMinWidth) || 1280;
-    var narrowDesktopMaxWidth = Number(dashboardPolicy.narrowDesktopMaxWidth) || Number(routing.narrowDesktopMaxWidth) || 1023;
-    var isTablet = isTabletUserAgent();
+    var width = getRouteViewportWidth();
+    var height = getRouteViewportHeight();
+    var isLandscape = width >= height;
+    var phoneMax = Number(dashboardPolicy.phoneMaxWidth) || Number(routing.phoneMaxWidth) || 767;
+    var compactPhoneMax = Number(dashboardPolicy.compactPhoneMaxWidth) || Number(routing.compactPhoneMaxWidth) || 480;
+    var tabletPortraitMax = Number(dashboardPolicy.tabletPortraitMaxWidth) || Number(routing.tabletPortraitMaxWidth) || 899;
+    var narrowDesktopMax = Number(dashboardPolicy.narrowDesktopMaxWidth) || Number(routing.narrowTabletMaxWidth) || 1023;
+    var tabletLandscapeDesktopMin = Number(dashboardPolicy.tabletLandscapeDesktopMinWidth) || Number(routing.tabletLandscapeDesktopMinWidth) || 1024;
+    var desktopMin = Number(dashboardPolicy.desktopMinWidth) || Number(routing.desktopMinWidth) || 1280;
     var isPhone = isPhoneUserAgent();
-    var landscape = usableWidth >= usableHeight;
+    var isTablet = isTabletUserAgent();
     var layout;
-    var reason;
-    var detail;
-    var inferred = inferDeviceConfidence(config);
 
     if (bot.isBot) {
       layout = dashboardPolicy.bot || routing.previewBotLayout || "desktop";
       return { layout: layout, reason: bot.isPreview ? "link_preview_bot" : "known_bot", detail: bot.reason || "bot or preview user agent" };
     }
 
-    if (isPhone || inferred.inferredIsPhone || usableWidth < 768) {
-      layout = dashboardPolicy.phone || dashboardPolicy.largePhone || "mobile";
-      return { layout: layout, reason: isPhone ? "phone_user_agent" : "phone_or_narrow_viewport", detail: "usable viewport " + usableWidth + " px selected " + layout };
+    if (width <= compactPhoneMax) {
+      layout = dashboardPolicy.phone || "mobile";
+      return { layout: layout, reason: "compact_phone_viewport", detail: "usable viewport width " + width + " <= " + compactPhoneMax + "; mobile report protects readability" };
     }
 
-    if (inferred.inferredIsSmartTv || inferred.inferredIsGameConsole || inferred.inferredIsSetTopBoxLike) {
-      if (usableWidth >= tabletLandscapeDesktopMinWidth) {
-        layout = inferred.inferredIsGameConsole ? (dashboardPolicy.console || dashboardPolicy.desktop || "desktop") : (dashboardPolicy.smartTv || dashboardPolicy.desktop || "desktop");
-        return { layout: layout, reason: inferred.inferredIsGameConsole ? "console_policy" : "living_room_policy", detail: "living-room class with usable width " + usableWidth + " px selected " + layout };
+    if (isPhone || width <= phoneMax) {
+      layout = dashboardPolicy.largePhone || dashboardPolicy.phone || "mobile";
+      return { layout: layout, reason: isPhone ? "phone_user_agent_and_viewport" : "wide_phone_viewport", detail: "phone/wide-phone zone " + width + "x" + height + " selected " + layout };
+    }
+
+    if (isTablet && !isLandscape) {
+      layout = dashboardPolicy.tabletPortrait || routing.tabletPortraitLayout || "mobile";
+      return { layout: layout, reason: "tablet_portrait_policy", detail: "tablet-like portrait viewport " + width + "x" + height + " selected " + layout };
+    }
+
+    if (width <= tabletPortraitMax) {
+      layout = dashboardPolicy.tabletPortrait || routing.tabletPortraitLayout || "mobile";
+      return { layout: layout, reason: "tablet_portrait_width_policy", detail: "viewport width " + width + " in 768-899 policy zone selected " + layout };
+    }
+
+    if (width <= narrowDesktopMax) {
+      if (isTablet && isLandscape && width >= tabletLandscapeDesktopMin) {
+        layout = dashboardPolicy.tabletLandscape || routing.tabletLandscapeLayout || "desktop";
+        return { layout: layout, reason: "tablet_landscape_policy", detail: "tablet landscape viewport reached desktop threshold " + width };
       }
-      layout = dashboardPolicy.narrowViewport || dashboardPolicy.fallback || routing.fallbackLayout || "mobile";
-      return { layout: layout, reason: "living_room_narrow_fallback", detail: "living-room class but usable width below " + tabletLandscapeDesktopMinWidth + " px" };
-    }
-
-    if (isTablet || inferred.inferredIsTablet) {
-      if (!landscape) {
-        layout = dashboardPolicy.tabletPortrait || routing.tabletPortraitLayout || "mobile";
-        return { layout: layout, reason: "tablet_portrait", detail: "tablet portrait usable viewport " + usableWidth + "×" + usableHeight + " selected " + layout };
-      }
-      if (usableWidth >= tabletLandscapeDesktopMinWidth && usableHeight >= tabletLandscapeMinHeight) {
-        layout = String(dashboardPolicy.tabletLandscape || "").indexOf("desktop") === 0 ? "desktop" : (dashboardPolicy.tabletLandscape || routing.tabletLandscapeLayout || "desktop");
-        return { layout: layout, reason: "tablet_landscape_policy_desktop", detail: "tablet landscape usable width " + usableWidth + " >= " + tabletLandscapeDesktopMinWidth + " and height " + usableHeight + " >= " + tabletLandscapeMinHeight };
-      }
-      layout = dashboardPolicy.tabletPortrait || dashboardPolicy.narrowViewport || routing.narrowDesktopStrategy || "mobile";
-      return { layout: layout, reason: "tablet_landscape_policy_mobile", detail: "tablet landscape usable viewport below desktop policy threshold" };
-    }
-
-    if (usableWidth <= mobileBreakpoint) {
-      layout = dashboardPolicy.narrowViewport || routing.narrowDesktopStrategy || "mobile";
-      return { layout: layout, reason: "narrow_viewport", detail: "usable viewport width " + usableWidth + " <= " + mobileBreakpoint };
-    }
-
-    if (usableWidth <= narrowDesktopMaxWidth) {
       layout = dashboardPolicy.narrowDesktop || dashboardPolicy.narrowViewport || routing.narrowDesktopStrategy || "mobile";
-      return { layout: layout, reason: "narrow_desktop_policy", detail: "usable viewport width " + usableWidth + " <= narrow desktop max " + narrowDesktopMaxWidth };
+      return { layout: layout, reason: "narrow_desktop_policy", detail: "viewport width " + width + " <= " + narrowDesktopMax + "; content screenshots favor mobile below 1024px" };
     }
 
-    if (usableWidth < desktopMinWidth) {
-      layout = dashboardPolicy.desktopPolicyZone || dashboardPolicy.desktop || "desktop";
-      return { layout: layout, reason: "desktop_policy_zone", detail: "usable viewport width " + usableWidth + " is policy zone below desktopMinWidth " + desktopMinWidth };
+    if (width >= tabletLandscapeDesktopMin && width < desktopMin) {
+      layout = isTablet || hasTouch() ? (dashboardPolicy.tabletLandscape || routing.tabletLandscapeLayout || "desktop") : (dashboardPolicy.smallDesktop || dashboardPolicy.desktop || "desktop");
+      return { layout: layout, reason: isTablet || hasTouch() ? "tablet_landscape_or_small_desktop_policy" : "small_desktop_policy", detail: "usable viewport width " + width + " in 1024-1279 desktop-capable zone selected " + layout };
     }
 
     layout = dashboardPolicy.desktop || "desktop";
-    return { layout: layout, reason: "desktop_viewport", detail: "desktop usable width " + usableWidth + " selected " + layout };
+    return { layout: layout, reason: "desktop_viewport", detail: "usable viewport width " + width + " >= " + desktopMin + " selected " + layout };
   }
 
   function decideRoute(config, dashboard) {
@@ -1646,10 +1591,6 @@
       utm_medium: source.utmMedium,
       utm_campaign: source.utmCampaign,
       utm_content: source.utmContent || (dashboard ? dashboard.utmContent || (dashboard.publicCard && dashboard.publicCard.stableUtmContent) || "" : ""),
-      utm_term: source.utmTerm,
-      utm_id: source.utmId,
-      source_confidence_band: source.sourceConfidenceBand,
-      source_reason: source.sourceReason,
       page_path: window.location.pathname || "",
       config_version: config.configVersion || "",
       router_core_version: CORE_VERSION,
@@ -1732,8 +1673,6 @@
       connection_save_data: connection.saveData,
       connection_signal_quality: connection.signalQuality,
       performance_supported: performanceTimings.supported,
-      device_posture_api_available: getFeatureSupport().device_posture_api,
-      gamepad_api_available: getFeatureSupport().gamepad_api,
       tracker_send_method: "pending",
       tracker_send_status: "pending",
       endpoint_result_known: false,
@@ -1743,31 +1682,25 @@
       inferred_device_vendor: inferred.inferredDeviceVendor,
       inferred_device_model: inferred.inferredDeviceModel,
       inferred_model_family: inferred.inferredModelFamily,
-      inferred_is_phone: inferred.inferredIsPhone,
-      inferred_is_tablet: inferred.inferredIsTablet,
-      inferred_is_ipad_like: inferred.inferredIsIpadLike,
-      inferred_is_android_tablet_like: inferred.inferredIsAndroidTabletLike,
-      inferred_is_samsung_galaxy_tab_like: inferred.inferredIsSamsungGalaxyTabLike,
-      inferred_is_surface_like: inferred.inferredIsSurfaceLike,
-      inferred_is_chromeos_tablet_like: inferred.inferredIsChromeosTabletLike,
-      inferred_is_smart_tv: inferred.inferredIsSmartTv,
-      inferred_tv_os: inferred.inferredTvOs,
-      inferred_is_console: inferred.inferredIsConsole,
-      inferred_is_foldable_possible: inferred.inferredIsFoldablePossible,
-      inferred_device_posture: inferred.inferredDevicePosture,
-      inferred_is_kiosk_or_public_display_possible: inferred.inferredIsKioskOrPublicDisplayPossible,
       inferred_device_ecosystem: inferred.inferredDeviceEcosystem,
       inferred_form_factor: inferred.inferredFormFactor,
       inferred_screen_context: inferred.inferredScreenContext,
       inferred_input_context: inferred.inferredInputContext,
       inferred_browser_context: inferred.inferredBrowserContext,
+      inferred_is_phone: inferred.inferredIsPhone,
       inferred_is_large_phone: inferred.inferredIsLargePhone,
-      inferred_is_small_phone: inferred.inferredIsSmallPhone,
+      inferred_is_tablet: inferred.inferredIsTablet,
       inferred_is_large_tablet: inferred.inferredIsLargeTablet,
+      inferred_is_ipad_like: inferred.inferredIsIpadLike,
       inferred_is_ipad_desktop_mode: inferred.inferredIsIpadDesktopMode,
+      inferred_is_android_tablet_like: inferred.inferredIsAndroidTabletLike,
+      inferred_is_samsung_galaxy_tab_like: inferred.inferredIsSamsungGalaxyTabLike,
+      inferred_is_surface_like: inferred.inferredIsSurfaceLike,
       inferred_is_windows_touch_hybrid: inferred.inferredIsWindowsTouchHybrid,
+      inferred_is_chromeos_tablet_like: inferred.inferredIsChromeosTabletLike,
       inferred_is_desktop_like: inferred.inferredIsDesktopLike,
       inferred_is_laptop_like: inferred.inferredIsLaptopLike,
+      inferred_is_smart_tv: inferred.inferredIsSmartTv,
       inferred_is_apple_tv_like: inferred.inferredIsAppleTvLike,
       inferred_is_android_tv: inferred.inferredIsAndroidTv,
       inferred_is_google_tv_like: inferred.inferredIsGoogleTvLike,
@@ -1777,7 +1710,8 @@
       inferred_is_roku: inferred.inferredIsRoku,
       inferred_is_android_tv_box_like: inferred.inferredIsAndroidTvBoxLike,
       inferred_is_set_top_box_like: inferred.inferredIsSetTopBoxLike,
-      inferred_is_game_console: inferred.inferredIsGameConsole,
+      inferred_tv_os: inferred.inferredTvOs,
+      inferred_is_console: inferred.inferredIsConsole,
       inferred_console_family: inferred.inferredConsoleFamily,
       inferred_is_playstation: inferred.inferredIsPlaystation,
       inferred_is_xbox: inferred.inferredIsXbox,
@@ -1787,14 +1721,19 @@
       inferred_is_e_reader_like: inferred.inferredIsEReaderLike,
       inferred_is_webview: inferred.inferredIsWebview,
       inferred_in_app_browser_family: inferred.inferredInAppBrowserFamily,
+      inferred_is_foldable_possible: inferred.inferredIsFoldablePossible,
+      inferred_device_posture: inferred.inferredDevicePosture,
+      inferred_is_kiosk_or_public_display_possible: inferred.inferredIsKioskOrPublicDisplayPossible,
       inferred_is_bot: inferred.inferredIsBot,
       inferred_is_link_preview: inferred.inferredIsLinkPreview,
       inferred_confidence_score: inferred.inferredConfidenceScore,
       inferred_confidence_band: inferred.inferredConfidenceBand,
-      inferred_confidence_band_compact: inferred.inferredConfidenceBandCompact,
       inferred_confidence_reason: inferred.inferredConfidenceReason,
       inferred_primary_evidence: inferred.inferredPrimaryEvidence,
-      inferred_detection_version: inferred.inferredDetectionVersion
+      inferred_detection_version: inferred.inferredDetectionVersion,
+      payload_size_bucket: "pending",
+      imageget_payload_near_limit: false,
+      diagnostic_payload_too_large: false
     };
 
     if (extra) {
@@ -1825,7 +1764,6 @@
       payload.browser_feature_support_json = safeJson(getFeatureSupport(), 700);
       payload.inferred_evidence_json = inferred.inferredEvidenceJson;
       payload.inferred_warning_flags_json = inferred.inferredWarningFlagsJson;
-      payload.inferred_contradiction_flags_json = inferred.inferredContradictionFlagsJson;
     }
 
     return payload;
@@ -1860,8 +1798,7 @@
       "color_scheme", "forced_colors", "prefers_contrast", "inverted_colors",
       "forced_dark_detection", "samsung_dark_mode_status", "theme_signal_quality",
       "connection_type", "page_host", "entry_source_category", "referrer_domain",
-      "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "utm_id",
-      "source_confidence_band", "source_reason",
+      "utm_source", "utm_medium", "utm_campaign", "utm_content",
       "page_path", "config_version", "router_core_version", "config_source",
       "safe_fallback_used", "tracking_method",
       "warning_code", "warning_detail", "bot_reason", "count_exclusion_reason", "event_tier",
@@ -1882,17 +1819,15 @@
       "navigator_platform_raw", "navigator_vendor", "ua_reduced_likely", "is_webview", "in_app_browser_family",
       "hardware_concurrency", "device_memory_gb", "connection_effective_type", "connection_downlink",
       "connection_rtt", "connection_save_data", "connection_signal_quality", "performance_supported",
-      "device_posture_api_available", "gamepad_api_available",
       "tracker_send_method", "tracker_send_status", "tracker_send_start_ms", "tracker_send_ms",
-      "tracker_payload_size_bytes", "payload_size_bytes", "payload_size_bucket", "imageget_url_length", "imageget_payload_near_limit", "endpoint_result_known",
+      "tracker_payload_size_bytes", "payload_size_bytes", "imageget_url_length", "endpoint_result_known",
       "endpoint_slow_possible", "inferred_device_class", "inferred_device_subclass", "inferred_device_vendor",
-      "inferred_model_family", "inferred_device_ecosystem", "inferred_form_factor", "inferred_screen_context",
-      "inferred_input_context", "inferred_browser_context", "inferred_is_phone", "inferred_is_large_phone", "inferred_is_tablet", "inferred_is_large_tablet", "inferred_is_ipad_like", "inferred_is_ipad_desktop_mode",
+      "inferred_model_family", "inferred_device_ecosystem", "inferred_form_factor", "inferred_screen_context", "inferred_input_context", "inferred_browser_context", "inferred_is_phone", "inferred_is_large_phone", "inferred_is_tablet", "inferred_is_large_tablet", "inferred_is_ipad_like", "inferred_is_ipad_desktop_mode",
       "inferred_is_android_tablet_like", "inferred_is_samsung_galaxy_tab_like", "inferred_is_surface_like", "inferred_is_windows_touch_hybrid",
-      "inferred_is_chromeos_tablet_like", "inferred_is_smart_tv", "inferred_tv_os", "inferred_is_apple_tv_like", "inferred_is_android_tv", "inferred_is_google_tv_like", "inferred_is_fire_tv_like", "inferred_is_tizen_tv", "inferred_is_webos_tv", "inferred_is_roku", "inferred_is_console", "inferred_is_game_console", "inferred_console_family",
-      "inferred_is_android_tv_box_like", "inferred_is_set_top_box_like", "inferred_is_foldable_possible", "inferred_device_posture", "inferred_is_kiosk_or_public_display_possible",
-      "inferred_is_webview", "inferred_in_app_browser_family", "inferred_is_bot", "inferred_is_link_preview", "inferred_confidence_score", "inferred_confidence_band", "inferred_confidence_band_compact", "inferred_primary_evidence", "inferred_detection_version",
-      "inferred_confidence_reason"
+      "inferred_is_chromeos_tablet_like", "inferred_is_desktop_like", "inferred_is_laptop_like", "inferred_is_smart_tv", "inferred_is_apple_tv_like", "inferred_is_android_tv", "inferred_is_google_tv_like", "inferred_is_fire_tv_like", "inferred_is_tizen_tv", "inferred_is_webos_tv", "inferred_is_roku", "inferred_is_android_tv_box_like", "inferred_is_set_top_box_like", "inferred_tv_os", "inferred_is_console", "inferred_console_family", "inferred_is_playstation", "inferred_is_xbox", "inferred_is_nintendo", "inferred_is_vr_headset_like", "inferred_is_car_browser_like", "inferred_is_e_reader_like", "inferred_is_webview", "inferred_in_app_browser_family",
+      "inferred_is_foldable_possible", "inferred_device_posture", "inferred_is_kiosk_or_public_display_possible",
+      "inferred_is_bot", "inferred_is_link_preview", "inferred_confidence_score", "inferred_confidence_band",
+      "inferred_confidence_reason", "inferred_primary_evidence", "inferred_detection_version", "payload_size_bucket", "imageget_payload_near_limit", "diagnostic_payload_too_large"
     ];
     var result = {};
     var i;
@@ -1922,18 +1857,27 @@
     return length;
   }
 
+  function payloadSizeBucket(value) {
+    var n = Number(value) || 0;
+    if (!n) return "unknown";
+    if (n < 2000) return "lt_2kb";
+    if (n < 4000) return "2_4kb";
+    if (n < 6000) return "4_6kb";
+    if (n < 7500) return "6_7_5kb";
+    return "over_7_5kb";
+  }
+
   function pruneImagePayload(config, endpoint, params) {
     var maxLength = Number(config.tracking && config.tracking.maxImageGetUrlLength) || 6500;
-    var removable = ["user_agent", "languages", "route_reason_detail", "warning_detail", "navigator_vendor", "navigator_platform_raw", "browser_full_version", "inferred_confidence_reason"];
-    var i;
+    var removable = ["user_agent", "languages", "route_reason_detail", "warning_detail", "navigator_vendor", "navigator_platform_raw", "browser_full_version", "inferred_confidence_reason", "inferred_primary_evidence", "inferred_screen_context", "inferred_input_context", "inferred_browser_context"];
     while (endpoint.length + encodedQueryLength(params) > maxLength && removable.length) {
       delete params[removable.shift()];
     }
     params.tracker_payload_size_bytes = String(encodedQueryLength(params));
     params.payload_size_bytes = params.tracker_payload_size_bytes;
-    params.payload_size_bucket = payloadSizeBucket(params.payload_size_bytes);
     params.imageget_url_length = String(endpoint.length + encodedQueryLength(params));
-    params.imageget_payload_near_limit = endpoint.length + encodedQueryLength(params) > Math.round(maxLength * (Number(config.tracking && config.tracking.imageGetNearLimitRatio) || 0.82));
+    params.payload_size_bucket = payloadSizeBucket(params.payload_size_bytes);
+    params.imageget_payload_near_limit = String(Number(params.imageget_url_length || 0) > Math.floor(maxLength * 0.85));
     return params;
   }
 
@@ -2013,8 +1957,6 @@
           payload.tracker_payload_size_bytes = imagePayload.tracker_payload_size_bytes;
           payload.payload_size_bytes = imagePayload.payload_size_bytes;
           payload.imageget_url_length = imagePayload.imageget_url_length;
-          payload.payload_size_bucket = imagePayload.payload_size_bucket;
-          payload.imageget_payload_near_limit = imagePayload.imageget_payload_near_limit;
           image = new Image(1, 1);
           image.alt = "";
           image.referrerPolicy = "no-referrer-when-downgrade";
@@ -2071,25 +2013,26 @@
       payload.theme_evidence_json = payload.theme_evidence_json || safeJson(getThemeEvidence(getThemeSignal()), 700);
       payload.browser_feature_support_json = payload.browser_feature_support_json || safeJson(getFeatureSupport(), 700);
       body = JSON.stringify(payload);
-      if (body.length > (Number(config.tracking && config.tracking.diagnosticEnrichmentMaxBytes) || 16000)) {
-        payload.diagnostic_payload_too_large = true;
-        payload.uach_full_version_list_json = "";
-        payload.browser_feature_support_json = "";
-        payload.theme_evidence_json = "";
-        payload.inferred_evidence_json = "";
-        payload.inferred_warning_flags_json = "";
-        payload.inferred_contradiction_flags_json = "";
-        body = JSON.stringify(payload);
-      }
       payload.tracker_payload_size_bytes = body.length;
       payload.payload_size_bytes = body.length;
       payload.payload_size_bucket = payloadSizeBucket(body.length);
+      if (body.length > (Number(config.tracking && config.tracking.diagnosticEnrichmentMaxBytes) || 18000)) {
+        payload.diagnostic_payload_too_large = true;
+        delete payload.browser_feature_support_json;
+        delete payload.theme_evidence_json;
+        delete payload.inferred_evidence_json;
+        delete payload.inferred_warning_flags_json;
+        body = JSON.stringify(payload);
+        payload.tracker_payload_size_bytes = body.length;
+        payload.payload_size_bytes = body.length;
+        payload.payload_size_bucket = payloadSizeBucket(body.length);
+      }
       try {
         if (navigator.sendBeacon) {
-          blob = new Blob([JSON.stringify(payload)], { type: "text/plain;charset=UTF-8" });
+          blob = new Blob([body], { type: "text/plain;charset=UTF-8" });
           navigator.sendBeacon(endpoint, blob);
         } else if (window.fetch) {
-          window.fetch(endpoint, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: JSON.stringify(payload) }).catch(function () {});
+          window.fetch(endpoint, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: body }).catch(function () {});
         }
       } catch (error) {}
     });
