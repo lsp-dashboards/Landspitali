@@ -54,7 +54,7 @@
     }
 
     * { box-sizing: border-box; min-width: 0; }
-    html { min-height: 100%; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    html { min-height: 100%; overflow-x: hidden; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     body {
       margin: 0;
       min-height: 100%;
@@ -2487,13 +2487,13 @@
     .master-ops-board {
       position: relative;
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(380px, .64fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       grid-template-areas:
         "executive system"
         "funnel funnel"
         "metrics metrics";
       gap: 14px;
-      align-items: stretch;
+      align-items: start;
     }
 
     .master-cell {
@@ -2517,18 +2517,115 @@
       box-shadow: 0 12px 30px rgba(14, 36, 56, .045);
     }
 
+    .master-executive .executive-wrap,
+    .master-system {
+      height: auto;
+    }
+
+    .master-executive .executive-wrap {
+      grid-template-columns: 148px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .master-executive .score-dock {
+      min-width: 0;
+      padding: 12px;
+      align-content: start;
+      align-self: start;
+    }
+
+    .master-executive .score-ring {
+      width: 108px;
+    }
+
+    .master-executive .score-caption {
+      font-size: 11px;
+    }
+
+    .master-executive .ops-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .master-executive .ops-tile {
+      min-height: 74px;
+      padding: 10px;
+      gap: 6px;
+    }
+
+    .master-executive .ops-value {
+      font-size: 23px;
+    }
+
+    .master-executive .action-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .master-executive .insight-line {
+      padding: 9px 10px;
+    }
+
+    .master-system .system-compact-head {
+      margin-bottom: 10px;
+    }
+
+    .master-system .system-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .master-system .system-card {
+      min-height: 76px;
+      padding: 10px;
+      gap: 6px;
+    }
+
+    .master-system .system-value {
+      font-size: 16px;
+      line-height: 1.05;
+    }
+
+    .master-system .system-detail {
+      font-size: 10.5px;
+      line-height: 1.25;
+    }
+
+    .master-system .system-lane {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 9px;
+    }
+
+    .master-system .lane-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 5px 8px;
+      padding: 0;
+    }
+
+    .master-system .lane-row .bar-track {
+      grid-column: 1 / -1;
+      height: 8px;
+    }
+
     .master-funnel .gateway-flow {
       grid-template-columns: repeat(5, minmax(112px, 1fr));
       gap: 8px;
     }
 
     .master-funnel .funnel-step {
-      min-height: 116px;
-      padding: 13px 12px;
+      min-height: 98px;
+      padding: 11px 12px;
     }
 
-    .master-funnel .gateway-analysis {
-      grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
+    .master-funnel .funnel-value {
+      font-size: clamp(23px, 2.2vw, 32px);
+    }
+
+    .master-funnel .gateway-ops-grid {
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
     }
 
     .master-freshness .freshness-stack {
@@ -2670,6 +2767,13 @@
         grid-template-columns: 1fr;
       }
 
+      .master-executive .executive-wrap,
+      .master-executive .action-list,
+      .master-system .system-grid,
+      .master-system .system-lane {
+        grid-template-columns: 1fr;
+      }
+
       .quality-items .list-row.warning,
       .list-row.warning {
         grid-template-columns: 1fr;
@@ -2773,7 +2877,7 @@
 
     .gateway-ops-grid {
       display: grid;
-      grid-template-columns: minmax(350px, .95fr) minmax(350px, 1fr) minmax(280px, .72fr);
+      grid-template-columns: minmax(320px, .9fr) minmax(420px, 1.1fr);
       gap: 14px;
       align-items: start;
       margin-top: 14px;
@@ -2852,6 +2956,61 @@
 
     .gateway-note {
       margin-top: 11px;
+    }
+
+    .gateway-read-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .gateway-read-footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .gateway-read-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 52px;
+      padding: 10px 12px;
+      border: 1px solid var(--line-soft);
+      border-radius: 15px;
+      background: rgba(255,255,255,.92);
+    }
+
+    .gateway-read-row.good { background: var(--good-soft); border-color: var(--good-line); }
+    .gateway-read-row.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .gateway-read-row.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .gateway-read-row.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+
+    .gateway-read-row span {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1.15;
+    }
+
+    .gateway-read-row small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.28;
+    }
+
+    .gateway-read-value {
+      color: var(--ink);
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.045em;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
     }
 
     .gateway-signal-grid {
@@ -4263,10 +4422,10 @@
       setHtml("system-panel",
         '<div class="system-compact-head"><h3>Teljarar og aðgreining</h3><div class="subtle">Production talningar, root gateway og ótalin tæknimerki í sömu rekstrarsýn.</div></div>' +
         '<div class="system-grid">' +
-          systemCard("Teljarar", "Taldar opnanir", "Aðeins production opnanir fara í heimsóknatölur. Próf, debug og diagnostic eru aðgreind.", "good") +
-          systemCard("Root gateway", "aðskilið", "Root views og smellir birtast í flæði en ekki í dashboard heimsóknum.", "info") +
-          systemCard("Raw merki", fmt(diagnosticRows + uncountedRows), "Ótalin tæknimerki sýnileg til greiningar án þess að hækka notkun.", diagnosticRows + uncountedRows ? "info" : "good") +
-          systemCard("Samantekt", model.aggregationAge.label, "Síðasta Apps Script keyrsla sem byggir dashboard gögnin.", model.aggregationAge.className) +
+          systemCard("Teljarar", "Talið", "Aðeins production opnanir hækka heimsóknir.", "good") +
+          systemCard("Root gateway", "Sér", "Root views og smellir eru rekstrarmerki.", "info") +
+          systemCard("Raw merki", fmt(diagnosticRows + uncountedRows), "Ótalin tæknimerki til greiningar.", diagnosticRows + uncountedRows ? "info" : "good") +
+          systemCard("Samantekt", model.aggregationAge.label, "Apps Script dashboard gögn.", model.aggregationAge.className) +
         '</div>' +
         '<div class="system-lane">' +
           lane("Taldar línur", countedRows, Math.max(countedRows + diagnosticRows + uncountedRows, 1), "good", fmt(countedRows)) +
@@ -4422,6 +4581,10 @@
       ].join(""));
     }
 
+    function gatewayReadRow(label, value, detail, cls) {
+      return '<div class="gateway-read-row ' + safe(cls || '') + '"><div><span>' + safe(label) + '</span><small>' + safe(detail || '') + '</small></div><div class="gateway-read-value">' + safe(value) + '</div></div>';
+    }
+
     function renderRootFunnel(data) {
       var f = data.root_index_funnel || data.root_index || {};
       var k = data.kpis || {};
@@ -4454,15 +4617,14 @@
       var coherent = (!views || clicks <= views) && (!clicks || arrivals <= clicks) && (!arrivals || counted <= arrivals);
       var noteClass = coherent ? "info" : "warn";
       var noteText = coherent
-        ? "Gateway merkin mynda samfellda mælingu fyrir þessa lotu. Tölurnar eru samt sýndar sem fjöldar svo þær blandist ekki við heildarheimsóknir."
-        : "Gateway merkin eru ekki sami grunnur og allar dashboard heimsóknir. Því eru þau sýnd sem mældir fjöldar, ekki sem prósentufunnel.";
+        ? "Fjöldar, ekki prósentufunnel"
+        : "Ólíkir talningargrunnar";
       var analysis = '<div class="gateway-ops-grid">' +
-        '<article class="nested-card"><div><h3>Mæld gateway merki</h3><div class="subtle">Raðað sem athugunarspor úr rótarsíðu og router. Þetta er ekki conversion-prósenta.</div></div><div class="gateway-signal-grid" aria-label="Mæld gateway merki í röð">' +
-          signalTile("Rótarsíða opnuð", views, "Opnun á opinberri gateway síðu.", "gateway", "1") +
-          signalTile("Mælaborðskort valið", clicks, "Smellur á kort áður en router tekur við.", clicks ? "gateway" : "", "2") +
-          signalTile("Router tók við", arrivals, "Arrival-merki sem getur leitt í rétta útgáfu.", arrivals ? "info" : "", "3") +
-          signalTile("Gateway-opnun talin", counted, "Production opnun sem tengist þessu flæði.", counted ? "good" : "", "4") +
-        '</div><div class="message-card ' + noteClass + ' gateway-note"><strong>Hvernig á að lesa þetta</strong><p>' + safe(noteText) + ' Heildar dashboard heimsóknir núna: ' + fmt(totalCounted) + '.</p></div><p class="subtle">Síðasti smellur: ' + safe(dateShort(f.last_root_click_time)) + '. Síðasta router koma: ' + safe(dateShort(f.last_router_arrival_time)) + '.</p></article>' +
+        '<article class="nested-card gateway-read-card"><div><h3>Lesa flæðið</h3><div class="subtle">Þétt yfirlit á gateway merkjum án tvítekins lóðrétts ferlis.</div></div><div class="gateway-read-list">' +
+          gatewayReadRow("Gateway sýni", fmt(views) + " / " + fmt(clicks), "Rótarsíða og kortasmellir.", "gateway") +
+          gatewayReadRow("Router tók við", fmt(arrivals), "Arrival-merki til útgáfuvals.", arrivals ? "info" : "") +
+          gatewayReadRow("Talin opnun", fmt(counted), "Production opnun í þessu flæði.", counted ? "good" : "") +
+        '</div><div class="gateway-read-footer"><span class="chip ' + noteClass + '">' + safe(noteText) + '</span><span class="chip neutral">Dashboard: ' + fmt(totalCounted) + '</span><span class="chip neutral">Smellur: ' + safe(dateShort(f.last_root_click_time)) + '</span><span class="chip neutral">Router: ' + safe(dateShort(f.last_router_arrival_time)) + '</span></div></article>' +
         '<article class="nested-card gateway-reconcile-card"><div><h3>Talningargrunnur</h3><div class="subtle">Root/router sýnið er greiningargrunnur. Talið source mix er notkunargrunnur.</div></div><div class="reconcile-banner"><strong>Lesa sem tvö aðskilin sjónarhorn</strong><p>Gateway getur sýnt „Beint“ á meðan taldar dashboard heimsóknir eru að mestu island.is. Þess vegna er notkunin lesin úr hægri dálki.</p></div><div class="reconcile-grid"><div class="gateway-context-block"><div class="group-label"><span>Gateway sýni</span><small>root/router</small></div><div class="bar-list">' +
           (dashboardRows.map(function (row) { return bar(titleFor({ dashboard_key: row.dashboard_key || row.dashboard }, publicMap(data)), number(row.clicks || row.events || row.count), maxDashboard, { asNumber: true, className: "gateway" }); }).join("") || '<div class="subtle">Engir root dashboard smellir í payload.</div>') +
         '</div><div class="summary-group" style="margin-top:10px;"><div class="group-label">Root/router source</div><div class="bar-list">' +
