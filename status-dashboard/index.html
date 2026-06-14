@@ -408,32 +408,15 @@
       text-align: center;
     }
 
-    .technical-layout { display: grid; gap: 14px; align-items: start; }
-    .tech-summary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-    .tech-metric {
-      min-height: 92px;
-      padding: 14px;
-      border: 1px solid var(--line-soft);
-      border-radius: 17px;
-      background: linear-gradient(180deg, #fff, var(--panel-soft));
-      box-shadow: none;
-      display: grid;
-      gap: 8px;
-      align-content: center;
-    }
-    .tech-metric span { color: var(--muted); font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; }
-    .tech-metric strong { font-size: 27px; line-height: 1; font-weight: 900; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
-    .tech-metric small { color: var(--muted); font-size: 12px; line-height: 1.35; }
-    .tech-board { display: grid; grid-template-columns: minmax(0, 1.48fr) minmax(380px, .72fr); gap: 14px; align-items: start; }
+    .technical-layout { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(360px, .55fr); gap: 14px; align-items: start; }
     .tech-panel { padding: 15px; border-radius: 18px; box-shadow: none; background: var(--panel-soft); }
-    .tech-panel.table-panel { background: linear-gradient(180deg, var(--panel-soft), #fff); }
-    .tech-side-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; }
-    .tech-side-grid .tech-panel { min-height: 126px; }
-    .tech-compare, .tech-trend { grid-column: 1 / -1; }
+    .tech-right { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; }
+    .tech-right .tech-panel { min-height: 126px; }
+    .tech-compare { grid-column: 1 / -1; }
     .combo-list { display: grid; gap: 9px; margin-top: 12px; }
     .combo-row {
       display: grid;
-      grid-template-columns: minmax(210px, 1.2fr) minmax(136px, .58fr) minmax(230px, 1fr) 78px;
+      grid-template-columns: minmax(170px, 1.1fr) minmax(150px, .8fr) minmax(170px, .9fr) minmax(70px, .35fr);
       gap: 12px;
       align-items: center;
       padding: 11px 12px;
@@ -444,9 +427,9 @@
     .combo-row.list-head { background: transparent; border: 0; padding: 0 12px 2px; color: var(--muted); font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .05em; }
     .combo-title { font-weight: 900; font-size: 13px; line-height: 1.15; }
     .combo-meta, .small-text { color: var(--muted); font-size: 11px; line-height: 1.35; }
-    .combo-number { display: flex; align-items: center; justify-content: center; min-height: 32px; text-align: center; font-variant-numeric: tabular-nums; white-space: nowrap; }
-    .combo-number strong { display: block; min-width: 3ch; font-size: 17px; line-height: 1; font-weight: 900; text-align: center; }
-    .combo-number small { display: none; }
+    .combo-number { text-align: center; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .combo-number strong { display: block; font-size: 16px; line-height: 1; font-weight: 900; }
+    .combo-number small { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; font-weight: 900; text-transform: uppercase; }
 
     .list { display: grid; gap: 9px; }
     .list-row {
@@ -486,8 +469,7 @@
 
     @media (max-width: 1280px) {
       .metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-      .tech-board { grid-template-columns: 1fr; }
-      .tech-side-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .technical-layout { grid-template-columns: 1fr; }
     }
     @media (max-width: 1080px) {
       .hero, .section-grid, .section-grid.wide-left { grid-template-columns: 1fr; }
@@ -510,10 +492,8 @@
       .dashboard-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
       .dashboard-compare { grid-template-columns: 1fr 1fr; }
       .summary-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .insight-grid { grid-template-columns: 1fr; }
-      .tech-summary-grid,
-      .tech-side-grid { grid-template-columns: 1fr; }
-      .tech-compare, .tech-trend { grid-column: auto; }
+      .insight-grid, .tech-right { grid-template-columns: 1fr; }
+      .tech-compare { grid-column: auto; }
       .combo-row,
       .combo-row.list-head,
       .list-row,
@@ -554,6 +534,8 @@
           <span class="pill" id="cache-pill">Cache: -</span>
           <span class="pill" id="version-pill">Script: -</span>
           <span class="pill" id="schema-pill">Schema: -</span>
+          <span class="pill" id="config-pill">Config: -</span>
+          <span class="pill" id="core-pill">Core: -</span>
         </div>
       </div>
       <div class="hero-side">
@@ -562,6 +544,12 @@
           <div class="mini-value" id="last-event">-</div>
           <div class="mini-detail" id="last-event-detail">Síðasta talda heimsókn, ekki raw/test atburður.</div>
           <div class="freshness-track" id="last-event-track"><span></span></div>
+        </article>
+        <article class="mini-card">
+          <div class="mini-label">Síðasti raw atburður</div>
+          <div class="mini-value" id="last-raw-event">-</div>
+          <div class="mini-detail" id="last-raw-event-detail">Raw/test/diagnostic móttaka, ekki talin heimsókn.</div>
+          <div class="freshness-track" id="last-raw-event-track"><span></span></div>
         </article>
         <article class="mini-card">
           <div class="mini-label">Síðasta samantekt</div>
@@ -575,6 +563,28 @@
     <div id="notice" class="notice"></div>
 
     <section class="metric-grid" id="metric-grid" aria-label="Lykiltölur"></section>
+
+    <section class="section-grid" aria-label="Gateway og breakpoint QA">
+      <article class="panel">
+        <div class="panel-head"><div><h2>Gateway funnel</h2><div class="panel-note">Root index views og smellir eru gateway telemetry, ekki taldar dashboard heimsóknir.</div></div></div>
+        <div class="split-panel" id="gateway-funnel-panel"></div>
+      </article>
+      <article class="panel">
+        <div class="panel-head"><div><h2>Breakpoint QA</h2><div class="panel-note">Screenshot-drifin route policy: 360 px mobile og 1410 px desktop eru lykilviðmið.</div></div></div>
+        <div class="list" id="breakpoint-qa-panel"></div>
+      </article>
+    </section>
+
+    <section class="section-grid" aria-label="Tækjaflokkun og útgáfuheilsa">
+      <article class="panel">
+        <div class="panel-head"><div><h2>Tækjaflokkun</h2><div class="panel-note">Aggregate device taxonomy, confidence og living-room merki án einstaklingsauðkenna.</div></div></div>
+        <div class="split-panel" id="taxonomy-panel"></div>
+      </article>
+      <article class="panel">
+        <div class="panel-head"><div><h2>Útgáfu- og contract heilsa</h2><div class="panel-note">Config, core, schema og Apps Script samræmi úr aggregate payload.</div></div></div>
+        <div class="split-panel" id="version-health-panel"></div>
+      </article>
+    </section>
 
     <section class="section-grid wide-left">
       <article class="panel">
@@ -606,10 +616,21 @@
       <div class="panel-head">
         <div>
           <h2>Tæki og vafraumhverfi</h2>
-          <div class="panel-note">Taldar tæknisamsetningar, dreifingar og samanburður milli mælaborða.</div>
+          <div class="panel-note">Toppsamsetningar og léttar dreifingar, án stórra auðra spjalda.</div>
         </div>
       </div>
       <div class="technical-layout" id="technical-panel"></div>
+    </section>
+
+    <section class="section-grid">
+      <article class="panel">
+        <div class="panel-head"><div><h2>Skjár og aðgengi</h2><div class="panel-note">Reported theme, forced-dark óvissa, viewport flokkar og aðgengismerki.</div></div></div>
+        <div class="split-panel" id="display-panel"></div>
+      </article>
+      <article class="panel">
+        <div class="panel-head"><div><h2>Flutningur og afköst</h2><div class="panel-note">Transport, payload stærð, timing og net-/tækjamerki þegar þau eru tiltæk.</div></div></div>
+        <div class="split-panel" id="performance-panel"></div>
+      </article>
     </section>
 
     <section class="section-grid">
@@ -751,19 +772,13 @@
       var text = [row && row.device_class, row && row.browser_family, row && row.browser_brand, row && row.os_family, row && row.route_reason, row && row.entry_source_category, row && row.event_type].join(" ");
       return /\btest\b|router_test_write|debug/i.test(text);
     }
-    function visitValue(row) {
-      if (!row) return 0;
-      if (row.count_as_visit !== undefined && String(row.count_as_visit).toLowerCase() === "false") return 0;
-      if (row.countAsVisit !== undefined && String(row.countAsVisit).toLowerCase() === "false") return 0;
-      var aggregate = firstValue(row, ["visits", "total_visits", "counted_visits", "production_visits", "counted_count"]);
-      if (aggregate !== "") return number(aggregate);
-      if (row.count_as_visit !== undefined && String(row.count_as_visit).toLowerCase() === "true") return 1;
-      if (row.countAsVisit !== undefined && String(row.countAsVisit).toLowerCase() === "true") return 1;
-      return 0;
-    }
+    function visitValue(row) { return number(firstValue(row, ["visits", "total_visits", "counted_visits", "production_visits", "counted_count"])); }
     function rawSignalValue(row) { return number(firstValue(row, ["raw_signal_events", "raw_events", "events", "raw_count", "count"])); }
     function visibleRows(rows) { return (rows || []).filter(function (row) { return !isTestRow(row) && visitValue(row) > 0; }); }
     function sumRows(rows, field) { return (rows || []).reduce(function (acc, row) { return acc + number(field ? row[field] : visitValue(row)); }, 0); }
+    function rowsFrom(data, key, fallback) { return (data && data[key] && data[key].length ? data[key] : (fallback ? data[fallback] || [] : [])); }
+    function shareValue(value) { return new Intl.NumberFormat("is-IS", { maximumFractionDigits: 1 }).format(number(value) * 100) + "%"; }
+    function bandLabel(value) { value = String(value || "unknown"); return value.replace("unknown or insufficient evidence", "Óþekkt").replace("very high confidence", "Mjög hátt").replace("high confidence", "Hátt").replace("medium confidence", "Miðlungs").replace("weak inference", "Veikt"); }
     function widthPct(value, total) { total = number(total); return total ? Math.max(number(value) > 0 ? 4 : 0, Math.min(100, number(value) / total * 100)) : 0; }
     function topRows(rows, keyFn, limit) {
       var map = {};
@@ -858,10 +873,11 @@
     function isConfirmedWarning(row) {
       if (!row) return false;
       var severity = String(row.severity || "").toLowerCase();
+      if (String(row.is_confirmed).toLowerCase() === "true") return true;
       if (severity === "info") return false;
       var gateKeys = ["counted_warning_count", "counted_count", "production_count", "confirmed_count", "counted_visits", "production_visits"];
       for (var i = 0; i < gateKeys.length; i += 1) if (row[gateKeys[i]] !== undefined && number(row[gateKeys[i]]) > 0) return true;
-      return severity === "error" || severity === "warning" ? false : false;
+      return false;
     }
     function splitWarnings(data) {
       var result = { confirmed: [], unconfirmed: [] };
@@ -881,7 +897,7 @@
       return '<div class="mini-bar"><span>' + safe(label) + '</span><div class="mini-track"><span class="mini-fill' + cls + '" style="width:' + widthPct(value, total) + '%"></span></div><strong>' + safe(asNumber ? fmt(value) : pct(value, total)) + '</strong></div>';
     }
     function signalCell(label, value) { return '<div class="signal-cell"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div>'; }
-    function summaryStat(label, value, cls) { return '<div class="summary-stat ' + safe(cls || "") + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div>'; }
+    function summaryStat(label, value, cls) { var classAttr = cls ? " " + safe(cls) : ""; return '<div class="summary-stat' + classAttr + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div>'; }
 
     function sparkline(rows) {
       rows = (rows || []).slice(-12);
@@ -905,19 +921,27 @@
       byId("cache-pill").textContent = "Cache: " + (data.cache ? (data.cache.hit ? "hit" : "fresh") : "hit");
       byId("version-pill").textContent = "Script: " + scriptVersion(data.script_version);
       byId("schema-pill").textContent = "Schema: " + safe(data.schema_version || "-");
-      var countedEventTime = latestCountedEventTime(data);
-      var rawEventTime = h.last_event_time;
+      if (byId("config-pill")) byId("config-pill").textContent = "Config: " + safe(data.config_version || "-");
+      if (byId("core-pill")) byId("core-pill").textContent = "Core: " + safe(data.core_version || (data.release && data.release.coreVersion) || "-");
+      var countedEventTime = firstValue(h, ["last_counted_event_time", "last_counted_visit_time"]) || latestCountedEventTime(data);
+      var rawEventTime = firstValue(h, ["last_raw_event_time", "last_event_time"]);
+      var diagnosticEventTime = firstValue(h, ["last_diagnostic_event_time"]);
       var eventAge = ageInfo(countedEventTime);
-      var aggTime = h.last_aggregation_time || h.dashboard_data_generated_at;
+      var rawAge = ageInfo(rawEventTime);
+      var aggTime = h.aggregation_generated_at || h.last_aggregation_time || h.dashboard_data_generated_at || data.aggregation_generated_at;
       var aggregationAge = ageInfo(aggTime);
       byId("last-event").textContent = eventAge.label;
       byId("last-aggregation").textContent = aggregationAge.label;
-      byId("last-event-detail").textContent = countedEventTime ? "Síðasta talda heimsókn: " + dateShort(countedEventTime) + (rawEventTime && rawEventTime !== countedEventTime ? ". Raw móttaka: " + dateShort(rawEventTime) + "." : ".") : "Engin talin heimsókn í aggregate payload.";
+      if (byId("last-raw-event")) byId("last-raw-event").textContent = rawAge.label;
+      byId("last-event-detail").textContent = countedEventTime ? "Síðasta talda heimsókn: " + dateShort(countedEventTime) + "." : "Engin talin heimsókn í aggregate payload.";
+      if (byId("last-raw-event-detail")) byId("last-raw-event-detail").textContent = rawEventTime ? "Raw móttaka: " + dateShort(rawEventTime) + (diagnosticEventTime ? ". Diagnostic: " + dateShort(diagnosticEventTime) + "." : ".") : "Enginn raw atburður í health payload.";
       byId("last-aggregation-detail").textContent = aggTime ? "Samantekt: " + dateShort(aggTime) + "." : "Engin samantekt í heilsugögnum.";
       byId("last-event-track").className = "freshness-track " + eventAge.className;
       byId("last-aggregation-track").className = "freshness-track " + aggregationAge.className;
+      if (byId("last-raw-event-track")) byId("last-raw-event-track").className = "freshness-track " + rawAge.className;
       byId("last-event-track").querySelector("span").style.width = eventAge.pct + "%";
       byId("last-aggregation-track").querySelector("span").style.width = aggregationAge.pct + "%";
+      if (byId("last-raw-event-track")) byId("last-raw-event-track").querySelector("span").style.width = rawAge.pct + "%";
       var notice = byId("notice");
       if (failedMessage) { notice.textContent = failedMessage; notice.className = "notice show"; }
       else if (h.warnings && h.warnings.length) { notice.textContent = "Viðvörun: " + h.warnings.join(", "); notice.className = "notice show"; }
@@ -931,6 +955,7 @@
     function renderMetrics(data) {
       var k = data.kpis || {};
       var total = number(k.total_visits);
+      var weakShare = k.weak_unknown_signal_share !== undefined ? shareValue(k.weak_unknown_signal_share) : pct(k.weak_unknown_signal_count, Math.max(k.total_events, 1));
       byId("metric-grid").innerHTML = [
         metric("Heildarheimsóknir", fmt(total), "Allar taldar raunheimsóknir.", 100, "good"),
         metric("Í dag", fmt(k.visits_today), "Heimsóknir skráðar í dag.", widthPct(k.visits_today, Math.max(k.visits_7d, 1)), "good"),
@@ -938,8 +963,12 @@
         metric("30 dagar", fmt(k.visits_30d), "Mánaðarmynd notkunar.", widthPct(k.visits_30d, Math.max(k.total_visits, 1))),
         metric("Mobile", pct(k.mobile_visits, total), fmt(k.mobile_visits) + " heimsóknir.", widthPct(k.mobile_visits, total), "good"),
         metric("Tölva", pct(k.desktop_visits, total), fmt(k.desktop_visits) + " heimsóknir.", widthPct(k.desktop_visits, total)),
+        metric("Tablet/þröngt", fmt(number(k.tablet_visits) + number(k.narrow_visits)), "Talin tablet eða þröng skjáhegðun.", widthPct(number(k.tablet_visits) + number(k.narrow_visits), total)),
+        metric("Signal gæði", weakShare, "Veik eða óþekkt merki af raw/aggregate.", Math.max(0, 100 - number(k.weak_unknown_signal_share) * 100), k.confidence_health === "warning" ? "warn" : "good"),
         metric("island.is", pct(k.island_is_visits, total), fmt(k.island_is_visits) + " merktar island.is.", widthPct(k.island_is_visits, total), "good"),
-        metric("Fallback / villur", fmt(k.fallback_error_count), "Engin staðfest gæðatölvik ef payload er hreinn.", widthPct(k.fallback_error_count, Math.max(total, 1)), "bad")
+        metric("Gateway", fmt(k.root_dashboard_clicks), "Root card clicks. Ekki taldar dashboard heimsóknir.", widthPct(k.root_counted_dashboard_opens, Math.max(k.root_dashboard_clicks, 1))),
+        metric("Living-room", fmt(k.smart_tv_living_room_visits), "TV/console/set-top heimsóknir ef greindar.", widthPct(k.smart_tv_living_room_visits, Math.max(total, 1))),
+        metric("Fallback / villur", fmt(k.fallback_error_count), "Staðfest rekstrarmerki, ekki ótalin prófun.", widthPct(k.fallback_error_count, Math.max(total, 1)), "bad")
       ].join("");
     }
 
@@ -973,7 +1002,8 @@
             '<div class="stat"><span>Mobile</span><strong>' + pct(d.mobile_visits, total) + '</strong></div>' +
           '</div>' +
           '<div class="meter" style="margin-top:12px;"><span class="good" style="width:' + widthPct(d.mobile_visits, total) + '%"></span></div>' +
-          '<div class="chip-row"><span class="status-chip ' + statusClass + '"><span class="dot ' + (statusClass === "good" ? "" : "warn") + '"></span>' + safe(statusText) + '</span><span class="chip neutral">Síðast talið: ' + safe(ageInfo(dashboardLastCountedTime(d)).label) + '</span></div>' +
+          '<div class="chip-row"><span class="status-chip ' + statusClass + '"><span class="dot ' + (statusClass === "good" ? "" : "warn") + '"></span>' + safe(statusText) + '</span><span class="chip neutral">Síðast talið: ' + safe(ageInfo(dashboardLastCountedTime(d)).label) + '</span><span class="chip ' + (number(d.warning_count || d.confirmed_warning_count) ? 'warn' : 'good') + '">Viðv.: ' + fmt(d.warning_count || d.confirmed_warning_count) + '</span><span class="chip accent">Traust: ' + safe(bandLabel(d.confidence_band)) + '</span></div>' +
+          '<div class="chip-row"><span class="chip neutral">Uppruni: ' + safe(d.source_mix_summary || "-") + '</span><span class="chip neutral">Route: ' + safe(d.route_mix_summary || "-") + '</span></div>' +
         '</article>';
       }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn enn.</strong><p>Dashboard samantekt vantar í payload.</p></div>';
     }
@@ -1039,114 +1069,79 @@
         insightCard("Leiðing", pct(k.mobile_visits, total), "Mobile hlutfall. Þvinguð leiðing: 0% ef engin þvingun sést.", '<div class="mini-viz">' + miniBar("Mobile", k.mobile_visits, total, "good") + miniBar("Tölva", k.desktop_visits, total, "") + '</div>'),
         insightCard("Uppruni", "island.is", "island.is: " + pct(k.island_is_visits, total) + ".", '<div class="mini-viz">' + miniBar("island.is", k.island_is_visits, total, "good") + miniBar("Annað", Math.max(0, total - number(k.island_is_visits)), total, "") + '</div>'),
         insightCard("Gæði", fmt(k.fallback_error_count), "Fallback/villur. Staðfest gæðatilvik: " + fmt(warnings.confirmed.length) + ".", '<div class="signal-grid">' + signalCell("Fallb.", fmt(k.fallback_error_count)) + signalCell("Staðf.", fmt(warnings.confirmed.length)) + signalCell("Óstaðf.", fmt(warnings.unconfirmed.length)) + '</div>'),
-        insightCard("Tæknimerki", topBrowser ? topBrowser.key : "Óþekkt", "Algengasta tæki: " + (topRows(data.device || [], function (row) { return labelDevice(row.device_class); }, 1)[0] || { key: "Óþekkt" }).key + ". Samsung óvissa er ekki staðfest dark mode.", '<div class="signal-grid">' + signalCell("Dark", fmt(dark)) + signalCell("Light", fmt(light)) + signalCell("Óvissa", fmt(samsungPossible)) + '</div>'),
+        insightCard("Tæknimerki", topBrowser ? topBrowser.key : "Óþekkt", "Algengasta tæki: " + (topRows(data.device || [], function (row) { return labelDevice(row.device_class); }, 1)[0] || { key: "Óþekkt" }).key + ". Samsung óvissa er ekki staðfest dark mode.", '<div class="signal-grid">' + signalCell("Dark", fmt(dark)) + signalCell("Light", fmt(light)) + signalCell("Sams.", fmt(samsungPossible)) + '</div>'),
         insightCard("Nýleg virkni", eventAge.label, "Síðasta talda heimsókn. Samantekt: " + aggregationAge.label + ".", sparkline(hourly))
       ].join("");
     }
 
-    function countedTechnicalRows(data) {
+    function technicalRows(data) {
       return ((data && data.device) || []).filter(function (row) {
-        return !isTestRow(row) && visitValue(row) > 0;
+        if (isTestRow(row)) return false;
+        if (visitValue(row) > 0) return true;
+        return isSamsungInternetRow(row) && rawSignalValue(row) > 0;
       });
     }
     function groupedDeviceCombos(data, limit) {
       var map = {};
       limit = limit || 8;
-      countedTechnicalRows(data).forEach(function (row) {
+      technicalRows(data).forEach(function (row) {
         var browser = browserLabel(row);
         var os = row.os_family || "Óþekkt";
         var theme = row.color_scheme || "unknown";
-        var key = [row.device_class || "", row.selected_layout || "", browser, os, theme].join("||");
+        var key = [row.dashboard_key || "", row.device_class || "", row.selected_layout || "", browser, os, theme].join("||");
         if (!map[key]) {
-          map[key] = {
-            dashboard_keys: {},
-            dashboard_titles: {},
-            device_class: row.device_class,
-            selected_layout: row.selected_layout,
-            browser_family: row.browser_family,
-            browser_brand: browser,
-            browser_engine: row.browser_engine,
-            os_family: row.os_family,
-            color_scheme: row.color_scheme,
-            visits: 0,
-            combo_count: 0
-          };
+          map[key] = { dashboard_key: row.dashboard_key, dashboard_id: row.dashboard_id, dashboard_name: row.dashboard_name, public_card_title: row.public_card_title, device_class: row.device_class, selected_layout: row.selected_layout, browser_family: row.browser_family, browser_brand: browser, browser_engine: row.browser_engine, os_family: row.os_family, color_scheme: row.color_scheme, visits: 0, raw_signal_events: 0, combo_count: 0 };
         }
-        var title = cleanName(row.public_card_title || row.dashboard_name || row.dashboard_key || "Mælaborð");
-        map[key].dashboard_keys[row.dashboard_key || title] = true;
-        map[key].dashboard_titles[title] = true;
         map[key].visits += visitValue(row);
+        map[key].raw_signal_events += rawSignalValue(row);
         map[key].combo_count += 1;
       });
-      return Object.keys(map).map(function (key) {
-        var row = map[key];
-        row.dashboard_title_list = Object.keys(row.dashboard_titles);
-        row.dashboard_key_list = Object.keys(row.dashboard_keys);
-        return row;
-      }).sort(function (a, b) {
-        return visitValue(b) - visitValue(a) || String(browserLabel(a)).localeCompare(String(browserLabel(b)), "is");
-      }).slice(0, limit);
+      var allRows = Object.keys(map).map(function (key) { return map[key]; }).sort(function (a, b) { return visitValue(b) - visitValue(a) || rawSignalValue(b) - rawSignalValue(a); });
+      var result = allRows.filter(function (row) { return visitValue(row) > 0; }).slice(0, limit);
+      var samsung = allRows.filter(function (row) { return isSamsungInternetRow(row) && rawSignalValue(row) > 0; });
+      samsung.forEach(function (candidate, index) {
+        var exists = result.some(function (row) { return row.dashboard_key === candidate.dashboard_key && isSamsungInternetRow(row); });
+        if (!exists) {
+          if (result.length < limit) result.push(candidate);
+          else result[Math.max(0, result.length - samsung.length + index)] = candidate;
+        }
+      });
+      return result.sort(function (a, b) { return visitValue(b) - visitValue(a) || (isSamsungInternetRow(a) ? 1 : 0) - (isSamsungInternetRow(b) ? 1 : 0); });
     }
-
     function renderTechnical(data) {
+      var cards = publicMap(data);
       var rows = groupedDeviceCombos(data, 8);
       var comboHtml = '<div class="combo-row list-head"><span>Mælaborð</span><span>Tæki / útgáfa</span><span>Vafri / stýrikerfi</span><span class="number">Heimsóknir</span></div>';
       comboHtml += rows.map(function (row) {
         var browser = browserLabel(row);
         var os = row.os_family || "Óþekkt";
         var theme = labelTheme(row.color_scheme || "unknown");
-        var dashboardText = row.dashboard_title_list && row.dashboard_title_list.length ? row.dashboard_title_list.join(" / ") : "Mælaborð";
-        var keyText = row.dashboard_key_list && row.dashboard_key_list.length ? row.dashboard_key_list.join(" / ") : "";
-        var merged = number(row.combo_count) > 1 ? fmt(row.combo_count) + " tæknilínur sameinaðar" : "1 tæknilína";
-        var extra = [os, theme, merged].filter(Boolean).join(" · ");
+        var uncounted = visitValue(row) === 0 && rawSignalValue(row) > 0 ? "Ótalið tæknimerki" : "";
+        var merged = number(row.combo_count) > 1 && visitValue(row) > 0 ? fmt(row.combo_count) + " tæknilínur" : "";
+        var extra = [theme, isSamsungInternetRow(row) ? "Samsung Internet" : "", uncounted, merged].filter(Boolean).join(" · ");
         return '<div class="combo-row">' +
-          '<div><div class="combo-title">' + safe(dashboardText) + '</div><div class="combo-meta">' + safe(keyText) + '</div></div>' +
+          '<div><div class="combo-title">' + safe(titleFor(row, cards)) + '</div><div class="combo-meta">' + safe(cleanId(row.dashboard_id || row.dashboard_key)) + '</div></div>' +
           '<div><span class="chip accent">' + safe(labelDevice(row.device_class)) + '</span><div class="combo-meta">' + safe(labelLayout(row.selected_layout)) + '</div></div>' +
-          '<div><span class="chip neutral">' + safe(browser) + '</span><div class="combo-meta">' + safe(extra) + '</div></div>' +
-          '<div class="combo-number"><strong>' + fmt(visitValue(row)) + '</strong></div>' +
+          '<div><span class="chip neutral">' + safe(browser) + '</span><div class="combo-meta">' + safe(os) + (extra ? ' · ' + safe(extra) : '') + '</div></div>' +
+          '<div class="combo-number"><strong>' + fmt(visitValue(row)) + '</strong>' + (uncounted ? '<small>ótalið</small>' : '') + '</div>' +
         '</div>';
       }).join("");
-      if (!rows.length) comboHtml = '<div class="message-card neutral"><strong>Engin talin tæknigögn enn.</strong><p>Device samantekt vantar taldar heimsóknir.</p></div>';
-
+      if (!rows.length) comboHtml = '<div class="message-card neutral"><strong>Engin tæknigögn enn.</strong><p>Device samantekt vantar í payload.</p></div>';
       function distribution(title, sourceRows, labelFn, limit) {
         var rows = topRows(sourceRows, labelFn, limit || 5);
         var total = Math.max(sumRows(rows, "visits"), 1);
         return '<article class="tech-panel"><h3>' + safe(title) + '</h3><div class="bar-list" style="margin-top:12px;">' + (rows.map(function (row) { return bar(row.key, row.visits, total, { compact: true, asNumber: true }); }).join("") || '<div class="subtle">Engin gögn.</div>') + '</div></article>';
       }
-
-      var summary = renderTechSummary(data);
-      var right = '<div class="tech-side-grid">' +
-        distribution("Vafrar", data.device || [], function (row) { return browserLabel(row); }, 5) +
-        distribution("Stýrikerfi", data.device || [], function (row) { return row.os_family || "Óþekkt"; }, 5) +
-        distribution("Tæki", data.device || [], function (row) { return labelDevice(row.device_class); }, 5) +
-        distribution("Birtingarmerki", data.device || [], function (row) { return labelTheme(row.color_scheme || "unknown"); }, 5) +
-        renderTechnicalTrend(data) +
-        renderTechnicalComparison(data) +
+      var comparison = renderTechnicalComparison(data);
+      var right = '<div class="tech-right">' +
+        distribution("Vafrar", rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 5) +
+        distribution("Stýrikerfi", rowsFrom(data, "os", "device"), function (row) { return row.os_family || "Óþekkt"; }, 5) +
+        distribution("Tæki", rowsFrom(data, "device_confidence", "device"), function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 5) +
+        distribution("Traust", rowsFrom(data, "device_confidence", "device"), function (row) { return bandLabel(row.inferred_confidence_band || row.inferred_confidence_band); }, 5) +
+        comparison +
       '</div>';
-      byId("technical-panel").innerHTML = summary + '<div class="tech-board"><article class="tech-panel table-panel"><h3>Toppsamsetningar</h3><div class="subtle" style="margin-top:8px;">Sýnir aðeins taldar heimsóknir úr device-samantekt. Prófunarmerki og count_as_visit=false eru ekki birt hér. Sama tæknisamsetning er sameinuð yfir mælaborð svo Firefox, Edge og Chrome liggi á einni talnalínu.</div><div class="combo-list">' + comboHtml + '</div></article>' + right + '</div>';
+      byId("technical-panel").innerHTML = '<article class="tech-panel"><h3>Toppsamsetningar</h3><div class="subtle" style="margin-top:8px;">Sýnir taldar heimsóknir. Ef Firefox, Edge eða annar vafri birtist hér þá er hann í talinni device-samantekt. Samsung Internet er haldið sem sérmerki, en ótalin prófunarmerki eru ekki lögð við heimsóknir.</div><div class="combo-list">' + comboHtml + '</div></article>' + right;
     }
-
-    function renderTechSummary(data) {
-      var rows = countedTechnicalRows(data);
-      var total = rows.reduce(function (acc, row) { return acc + visitValue(row); }, 0);
-      var browsers = topRows(rows, function (row) { return browserLabel(row); }, 20);
-      var systems = topRows(rows, function (row) { return row.os_family || "Óþekkt"; }, 20);
-      var devices = topRows(rows, function (row) { return labelDevice(row.device_class); }, 20);
-      var topBrowser = browsers[0] || { key: "Óþekkt", visits: 0 };
-      return '<div class="tech-summary-grid">' +
-        '<article class="tech-metric"><span>Taldar tæknilínur</span><strong>' + fmt(total) + '</strong><small>Aðeins count_as_visit=true / aggregate visits.</small></article>' +
-        '<article class="tech-metric"><span>Vafrar</span><strong>' + fmt(browsers.length) + '</strong><small>Algengast: ' + safe(topBrowser.key) + '.</small></article>' +
-        '<article class="tech-metric"><span>Stýrikerfi</span><strong>' + fmt(systems.length) + '</strong><small>' + safe((systems[0] || { key: "Óþekkt" }).key) + ' leiðir.</small></article>' +
-        '<article class="tech-metric"><span>Tæki</span><strong>' + fmt(devices.length) + '</strong><small>' + safe((devices[0] || { key: "Óþekkt" }).key) + ' er algengast.</small></article>' +
-      '</div>';
-    }
-
-    function renderTechnicalTrend(data) {
-      var hourly = visibleRows(data.hourly || []).slice(-12);
-      var total = hourly.reduce(function (acc, row) { return acc + visitValue(row); }, 0);
-      return '<article class="tech-panel tech-trend"><h3>Nýleg tæknivirkni</h3><div class="subtle" style="margin-top:6px;">Taldar heimsóknir í nýjustu tímagluggum, með íslenskum tooltip-tíma.</div><div style="margin-top:12px;">' + sparkline(hourly) + '</div><div class="chip-row" style="margin-top:12px;"><span class="chip accent">Síðustu gluggar: ' + fmt(total) + '</span></div></article>';
-    }
-
     function renderTechnicalComparison(data) {
       var cards = publicMap(data);
       var rows = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); });
@@ -1154,7 +1149,7 @@
       var total = Math.max(rows.reduce(function (acc, row) { return acc + visitValue(row); }, 0), 1);
       var bars = rows.map(function (row) { return bar(titleFor(row, cards), visitValue(row), total, { compact: true, asNumber: true }); }).join("");
       var mobileBars = rows.map(function (row) { return bar(titleFor(row, cards), number(row.mobile_visits), Math.max(visitValue(row), 1), { compact: true }); }).join("");
-      return '<article class="tech-panel tech-compare"><h3>Samanburður mælaborða</h3><div class="subtle" style="margin-top:6px;">Fljótlegur samanburður sem nýtir hægri dálkinn án dauðs rýmis.</div><div class="summary-group" style="margin-top:12px;"><div class="group-label">Heimsóknir</div><div class="bar-list">' + bars + '</div></div><div class="summary-group" style="margin-top:12px;"><div class="group-label">Mobile hlutfall</div><div class="bar-list">' + mobileBars + '</div></div></article>';
+      return '<article class="tech-panel tech-compare"><h3>Samanburður mælaborða</h3><div class="subtle" style="margin-top:6px;">Nýtir tóma hægri rýmið fyrir fljótlegan samanburð á mælaborðum.</div><div class="summary-group" style="margin-top:12px;"><div class="group-label">Heimsóknir</div><div class="bar-list">' + bars + '</div></div><div class="summary-group" style="margin-top:12px;"><div class="group-label">Mobile hlutfall</div><div class="bar-list">' + mobileBars + '</div></div></article>';
     }
 
     function renderRouteList(data) {
@@ -1195,17 +1190,100 @@
     }
     function warningRow(row, confirmed) {
       var cls = confirmed ? (row.severity === "error" ? "bad" : "warn") : "neutral";
-      return '<div class="list-row warning"><span class="chip ' + cls + '">' + safe(row.severity || "upplýsing") + '</span><div class="warning-main"><div class="warning-code">' + safe(row.warning_code || "warning") + '</div><div class="warning-dashboard">' + safe(row.dashboard_key || "-") + '</div><div class="warning-text">' + safe(row.warning_text || "-") + '</div></div><strong class="warning-count"><small>Samantekt</small>' + fmt(row.count) + '</strong></div>';
+      return '<div class="list-row warning"><span class="chip ' + cls + '">' + safe(row.severity || "upplýsing") + '</span><div class="warning-main"><div class="warning-code">' + safe(row.warning_code || "warning") + '</div><div class="warning-dashboard">' + safe(row.dashboard_key || "-") + ' · ' + safe(row.confidence_band || row.signal_quality || "") + '</div><div class="warning-text">' + safe(row.warning_text || "-") + '</div><div class="subtle">Ráðlegging: ' + safe(row.recommendation || "-") + '</div></div><strong class="warning-count"><small>Tal./diag.</small>' + fmt(row.counted_count || 0) + ' / ' + fmt(row.diagnostic_count || 0) + '</strong></div>';
+    }
+
+
+    function renderDisplayPanel(data) {
+      var rows = rowsFrom(data, "display", "device");
+      var total = Math.max(sumRows(rows), 1);
+      var dark = rows.reduce(function (acc, row) { return acc + (/^dark$/i.test(row.color_scheme || row.prefers_color_scheme || "") ? visitValue(row) : 0); }, 0);
+      var light = rows.reduce(function (acc, row) { return acc + (/^light$/i.test(row.color_scheme || row.prefers_color_scheme || "") ? visitValue(row) : 0); }, 0);
+      var forced = rows.reduce(function (acc, row) { return acc + (/detected/i.test(row.forced_dark_detection || "") ? visitValue(row) : 0); }, 0);
+      var samsungPossible = rows.reduce(function (acc, row) { return acc + (/samsung_forced_dark_possible/i.test(row.samsung_dark_mode_status || "") ? rawSignalValue(row) : 0); }, 0);
+      var viewportRows = topRows(rows, function (row) { return row.viewport_bucket || row.display_class || "Óþekkt"; }, 5);
+      var a11yRows = topRows(rows, function (row) { return [row.forced_colors, row.prefers_contrast, row.prefers_reduced_motion].filter(Boolean).join(" / ") || "Óþekkt"; }, 5);
+      byId("display-panel").innerHTML = '<article class="nested-card"><h3>Theme merki</h3><div class="signal-grid">' + signalCell("Dark", fmt(dark)) + signalCell("Light", fmt(light)) + signalCell("Forced", fmt(forced)) + signalCell("Sams.", fmt(samsungPossible)) + signalCell("Óþekkt", fmt(Math.max(0, total - dark - light))) + signalCell("Rows", fmt(rows.length)) + '</div><div class="bar-list" style="margin-top:12px;">' + bar("Reported dark", dark, total, { className: "good" }) + bar("Reported light", light, total, {}) + bar("Forced dark", forced, total, { className: "warn" }) + '</div></article>' +
+        '<article class="nested-card"><h3>Viewport og aðgengi</h3><div class="bar-list">' + (viewportRows.map(function (row) { return bar(row.key, row.visits, Math.max(sumRows(viewportRows, "visits"), 1), { asNumber: true }); }).join("") || '<div class="subtle">Engin display gögn.</div>') + '</div><div class="chip-row" style="margin-top:12px;">' + (a11yRows.map(function (row) { return '<span class="chip neutral">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin aðgengismerki</span>') + '</div></article>';
+    }
+
+    function renderPerformancePanel(data) {
+      var rows = rowsFrom(data, "performance", "device");
+      var total = Math.max(sumRows(rows), 1);
+      var methodRows = topRows(rows, function (row) { return row.tracker_send_method || row.tracking_method || "Óþekkt"; }, 5);
+      var payloadRows = topRows(rows, function (row) { return row.payload_size_bucket || "Óþekkt"; }, 5);
+      var connectionRows = topRows(rows, function (row) { return row.connection_effective_type || row.connection_type || "Óþekkt"; }, 5);
+      var lowCap = rows.reduce(function (acc, row) { return acc + (String(row.low_capability_device).toLowerCase() === "true" ? visitValue(row) : 0); }, 0);
+      byId("performance-panel").innerHTML = '<article class="nested-card"><h3>Transport</h3><div class="bar-list">' + (methodRows.map(function (row) { return bar(row.key, row.visits, Math.max(sumRows(methodRows, "visits"), 1), { asNumber: true }); }).join("") || '<div class="subtle">Engin transport gögn.</div>') + '</div><div class="summary-strip" style="margin-top:12px;">' + summaryStat("Low cap", fmt(lowCap), lowCap ? "warn" : "") + summaryStat("Rows", fmt(rows.length), "") + summaryStat("Cache", (data.cache && data.cache.hit) ? "Hit" : "Fresh", "good") + '</div></article>' +
+        '<article class="nested-card"><h3>Payload og net</h3><div class="bar-list">' + payloadRows.map(function (row) { return bar(row.key, row.visits, total, { asNumber: true }); }).join("") + '</div><div class="chip-row" style="margin-top:12px;">' + (connectionRows.map(function (row) { return '<span class="chip accent">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin connection gögn</span>') + '</div></article>';
+    }
+
+
+    function renderGatewayFunnel(data) {
+      var k = data.kpis || {};
+      var views = number(k.root_index_views);
+      var clicks = number(k.root_dashboard_clicks);
+      var arrivals = number(k.root_router_arrivals);
+      var opens = number(k.root_counted_dashboard_opens);
+      var failures = number(k.root_config_load_failures);
+      var rows = visibleRows(data.root_index || []).sort(function (a, b) { return number(b.dashboard_card_clicks) - number(a.dashboard_card_clicks); }).slice(0, 6);
+      byId("gateway-funnel-panel").innerHTML =
+        '<article class="nested-card"><h3>Funnel</h3><div class="summary-strip">' +
+          summaryStat("Views", fmt(views), "") + summaryStat("Clicks", fmt(clicks), "") + summaryStat("Opens", fmt(opens), opens ? "good" : "") +
+        '</div><div class="bar-list" style="margin-top:12px;">' +
+          bar("Root views", views, Math.max(views, clicks, arrivals, opens, 1), { asNumber: true }) +
+          bar("Card clicks", clicks, Math.max(views, clicks, arrivals, opens, 1), { asNumber: true }) +
+          bar("Router arrivals", arrivals, Math.max(views, clicks, arrivals, opens, 1), { asNumber: true }) +
+          bar("Counted opens", opens, Math.max(views, clicks, arrivals, opens, 1), { asNumber: true, className: "good" }) +
+        '</div><div class="chip-row" style="margin-top:12px;"><span class="chip neutral">Conversion: ' + safe(pct(opens, Math.max(clicks, 1))) + '</span><span class="chip ' + (failures ? 'warn' : 'good') + '">Config failures: ' + fmt(failures) + '</span></div></article>' +
+        '<article class="nested-card"><h3>Eftir mælaborði</h3><div class="bar-list">' + (rows.map(function (row) { return bar(row.dashboard_name || row.dashboard_key || "Óþekkt", number(row.dashboard_card_clicks), Math.max(clicks, 1), { asNumber: true }); }).join("") || '<div class="subtle">Engin root-index aggregate gögn enn.</div>') + '</div></article>';
+    }
+
+    function renderBreakpointQa(data) {
+      var rows = visibleRows(data.breakpoint_qa || []).sort(function (a, b) { return number(b.confirmed_mismatch_count || b.mismatch_count) - number(a.confirmed_mismatch_count || a.mismatch_count); }).slice(0, 12);
+      byId("breakpoint-qa-panel").innerHTML = rows.map(function (row) {
+        var mismatch = number(row.confirmed_mismatch_count || row.mismatch_count);
+        return '<div class="list-row route"><div><strong>' + safe(row.dashboard_name || row.dashboard_key || "Óþekkt") + '</strong><span>' + safe(row.breakpoint_zone || "unknown") + ' · expected ' + safe(row.expected_layout || "-") + ' · observed ' + safe(row.observed_selected_layout || "-") + '</span></div><div><strong>' + safe(labelRoute(row.route_reason || "unknown")) + '</strong><span>' + safe(row.recommendation || "") + '</span></div><div class="number"><strong>' + fmt(mismatch) + '</strong><span>frávik</span></div></div>';
+      }).join("") || '<div class="message-card neutral"><strong>Engin breakpoint QA gögn enn.</strong><p>Keyrðu aggregateRecent eftir að schema 9 events hafa borist.</p></div>';
+    }
+
+    function renderTaxonomyPanels(data) {
+      var taxonomy = visibleRows(data.device_taxonomy || []);
+      var living = visibleRows(data.living_room_devices || []);
+      var totalTax = taxonomy.reduce(function (acc, row) { return acc + visitValue(row); }, 0);
+      var totalLiving = living.reduce(function (acc, row) { return acc + visitValue(row); }, 0);
+      var classRows = topRows(taxonomy, function (row) { return row.inferred_device_class || "Óþekkt"; }, 6);
+      var bandRows = topRows(taxonomy, function (row) { return row.inferred_confidence_band || "Óþekkt"; }, 5);
+      var livingRows = topRows(living, function (row) { return (row.device_family || "living") + (row.device_subtype ? " · " + row.device_subtype : ""); }, 6);
+      byId("taxonomy-panel").innerHTML =
+        '<article class="nested-card"><h3>Device taxonomy</h3><div class="bar-list">' + (classRows.map(function (row) { return bar(row.key, row.visits, Math.max(totalTax, 1), { asNumber: true }); }).join("") || '<div class="subtle">Engin schema 9 taxonomy gögn.</div>') + '</div></article>' +
+        '<article class="nested-card"><h3>Confidence og living-room</h3><div class="bar-list">' + (bandRows.map(function (row) { return bar(row.key, row.visits, Math.max(totalTax, 1), { asNumber: true }); }).join("") || '<div class="subtle">Engin confidence gögn.</div>') + '</div><div class="chip-row" style="margin-top:12px;">' + (livingRows.map(function (row) { return '<span class="chip accent">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin TV/console/set-top merki</span>') + '</div><div class="summary-strip" style="margin-top:12px;">' + summaryStat("Living", fmt(totalLiving), totalLiving ? "warn" : "") + summaryStat("Console", fmt((data.kpis || {}).console_living_room_visits), "") + summaryStat("Set-top", fmt((data.kpis || {}).set_top_box_visits), "") + '</div></article>';
+    }
+
+    function renderVersionHealth(data) {
+      var rows = visibleRows(data.version_health || []).sort(function (a, b) { return number(b.events) - number(a.events); }).slice(0, 5);
+      var current = rows[0] || {};
+      var missing = [];
+      ["root_index", "breakpoint_qa", "device_taxonomy", "living_room_devices", "version_health"].forEach(function (key) { if (!data[key]) missing.push(key); });
+      byId("version-health-panel").innerHTML =
+        '<article class="nested-card"><h3>Núverandi contract</h3><div class="summary-strip">' + summaryStat("Schema", safe(data.schema_version || current.schema_version || "-"), "good") + summaryStat("Script", scriptVersion(data.script_version || current.script_version), "good") + summaryStat("Rows", fmt(rows.length), "") + '</div><div class="chip-row" style="margin-top:12px;"><span class="chip neutral">Config: ' + safe(data.config_version || current.config_version || "-") + '</span><span class="chip neutral">Core: ' + safe(data.core_version || current.core_version || "-") + '</span><span class="chip ' + (missing.length ? 'warn' : 'good') + '">Payload: ' + (missing.length ? 'vantar ' + missing.length : 'samræmt') + '</span></div></article>' +
+        '<article class="nested-card"><h3>Version rows</h3><div class="bar-list">' + (rows.map(function (row) { return bar('Schema ' + (row.schema_version || '-') + ' · ' + scriptVersion(row.script_version), number(row.events), Math.max(sumRows(rows, "events"), 1), { asNumber: true }); }).join("") || '<div class="subtle">Engin version-health aggregate gögn enn.</div>') + '</div></article>';
     }
 
     function render(data) {
       setStatus(data, "");
       renderMetrics(data);
+      renderGatewayFunnel(data);
+      renderBreakpointQa(data);
+      renderTaxonomyPanels(data);
+      renderVersionHealth(data);
       renderDashboards(data);
       renderDashboardComparison(data);
       renderLayoutAndSource(data);
       renderInsights(data);
       renderTechnical(data);
+      renderDisplayPanel(data);
+      renderPerformancePanel(data);
       renderRouteList(data);
       renderSourceList(data);
       renderPublicGrid(data);
