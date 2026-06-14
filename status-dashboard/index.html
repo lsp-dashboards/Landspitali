@@ -3461,6 +3461,8 @@
     .source-summary-tile.gateway,
     .quality-explain-tile.gateway { background: var(--gateway-soft); border-color: rgba(106, 125, 144, .22); }
 
+    .source-summary-tile.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+
     .period-card span,
     .source-summary-tile span,
     .quality-explain-tile span {
@@ -3480,7 +3482,8 @@
       line-height: 1;
       font-weight: 900;
       letter-spacing: -.045em;
-      white-space: nowrap;
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
 
     .period-card small,
@@ -4168,6 +4171,945 @@
       .tip-pop { left: auto; right: -10px; transform: none; }
       .info-tip:hover .tip-pop,
       .info-tip:focus-visible .tip-pop { transform: translateY(-2px); }
+    }
+
+    /* UX strengthening layer */
+    #dashboard-grid .dashboard-card.primary {
+      grid-template-rows: auto auto auto minmax(0, 1fr);
+    }
+
+    .dashboard-detail-grid {
+      grid-template-rows: repeat(2, minmax(96px, 1fr));
+      align-items: stretch;
+    }
+
+    .dashboard-detail-box {
+      height: 100%;
+      min-height: 96px;
+    }
+
+    .dashboard-detail-grid .dashboard-detail-box:nth-child(-n + 2) {
+      min-height: 112px;
+    }
+
+    .dashboard-compare {
+      grid-auto-rows: 1fr;
+      align-items: stretch;
+    }
+
+    .dashboard-compare .compare-tile {
+      height: 100%;
+      min-height: 108px;
+      grid-template-rows: 16px minmax(46px, 1fr) 18px;
+    }
+
+    .dashboard-compare .compare-tile strong {
+      display: flex;
+      align-items: center;
+      min-height: 42px;
+    }
+
+    .insight-panels { align-items: stretch; }
+
+    .insight-panel {
+      height: 100%;
+      grid-template-rows: auto minmax(0, auto) auto;
+    }
+
+    .insight-panel h3 { text-wrap: balance; }
+
+    .insight-evidence-grid {
+      grid-auto-rows: 1fr;
+      align-items: stretch;
+    }
+
+    .insight-evidence strong {
+      white-space: normal;
+      overflow-wrap: anywhere;
+      font-size: clamp(18px, 1.45vw, 23px);
+    }
+
+    .insight-donut-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .mini-donut {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      min-height: 78px;
+      padding: 10px;
+      border: 1px solid var(--line-soft);
+      border-radius: 15px;
+      background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,250,252,.9));
+    }
+
+    .mini-donut.good { background: var(--good-soft); border-color: var(--good-line); }
+    .mini-donut.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+
+    .mini-donut-ring {
+      --donut-value: 0;
+      --donut-color: var(--good);
+      position: relative;
+      width: 58px;
+      aspect-ratio: 1;
+      border-radius: 999px;
+      background: conic-gradient(var(--donut-color) calc(var(--donut-value) * 1%), #e5edf3 0);
+      box-shadow: inset 0 0 0 1px rgba(14,36,56,.06);
+    }
+
+    .mini-donut.gateway .mini-donut-ring { --donut-color: var(--gateway); }
+
+    .mini-donut-ring::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: inherit;
+      background: #fff;
+      box-shadow: inset 0 0 0 1px var(--line-soft);
+    }
+
+    .mini-donut strong,
+    .mini-donut span,
+    .mini-donut small {
+      display: block;
+    }
+
+    .mini-donut strong {
+      color: var(--ink);
+      font-size: 22px;
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: -.045em;
+    }
+
+    .mini-donut span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .mini-donut small {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 1.25;
+    }
+
+    .tech-command-board {
+      display: grid;
+      gap: 14px;
+    }
+
+    .tech-hero-row,
+    .source-command-row,
+    .public-command-row {
+      display: grid;
+      grid-template-columns: minmax(300px, 1.15fr) repeat(4, minmax(0, .72fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .tech-verdict-card,
+    .tech-top-stat,
+    .tech-combo-board,
+    .tech-evidence-board,
+    .source-command-card,
+    .source-path-card,
+    .public-command-card,
+    .public-state-card {
+      border: 1px solid var(--line-soft);
+      border-radius: 18px;
+      background: rgba(255,255,255,.9);
+      box-shadow: none;
+    }
+
+    .tech-verdict-card,
+    .source-command-card,
+    .public-command-card {
+      display: grid;
+      align-content: center;
+      gap: 9px;
+      padding: 15px;
+    }
+
+    .tech-verdict-card strong,
+    .source-command-card strong,
+    .public-command-card strong {
+      color: var(--ink);
+      font-size: clamp(22px, 1.9vw, 30px);
+      line-height: 1.02;
+      font-weight: 900;
+      letter-spacing: -.04em;
+    }
+
+    .tech-verdict-card p,
+    .source-command-card p,
+    .public-command-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.38;
+    }
+
+    .tech-top-stat,
+    .source-path-card,
+    .public-state-card {
+      min-height: 106px;
+      display: grid;
+      align-content: space-between;
+      gap: 8px;
+      padding: 12px;
+    }
+
+    .tech-top-stat.good,
+    .source-path-card.good,
+    .public-state-card.good { background: var(--good-soft); border-color: var(--good-line); }
+
+    .tech-top-stat.info,
+    .source-path-card.info,
+    .public-state-card.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+
+    .tech-top-stat.gateway,
+    .source-path-card.gateway,
+    .public-state-card.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+
+    .tech-top-stat.warn,
+    .source-path-card.warn,
+    .public-state-card.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+
+    .tech-top-stat span,
+    .tech-kicker,
+    .tech-board-kicker,
+    .source-command-card span,
+    .source-path-card span,
+    .public-command-card span,
+    .public-state-card span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: .065em;
+      text-transform: uppercase;
+    }
+
+    .tech-top-stat strong,
+    .source-path-card strong,
+    .public-state-card strong {
+      color: var(--ink);
+      font-size: clamp(22px, 2vw, 31px);
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: -.05em;
+      white-space: nowrap;
+    }
+
+    .tech-top-stat small,
+    .source-path-card small,
+    .public-state-card small {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+    }
+
+    .tech-workbench,
+    .source-workbench {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .tech-combo-board,
+    .tech-evidence-board,
+    .source-table-card,
+    .public-card-board {
+      padding: 14px;
+    }
+
+    .tech-combo-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .tech-combo-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 70px;
+      padding: 11px;
+      border: 1px solid var(--line-soft);
+      border-radius: 15px;
+      background: #fff;
+    }
+
+    .tech-combo-title {
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.15;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .tech-combo-meta {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    .tech-combo-count {
+      min-width: 58px;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tech-combo-count strong {
+      display: block;
+      color: var(--ink);
+      font-size: 27px;
+      line-height: .9;
+      font-weight: 900;
+      letter-spacing: -.05em;
+    }
+
+    .tech-combo-count span {
+      color: var(--muted);
+      font-size: 9.5px;
+      font-weight: 900;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .tech-distribution-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .tech-distribution-grid .tech-panel {
+      min-height: 132px;
+      padding: 12px;
+    }
+
+    .tech-audit-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .tech-signal-note {
+      display: grid;
+      gap: 7px;
+      padding: 12px;
+      border: 1px solid var(--line-soft);
+      border-radius: 15px;
+      background: var(--panel-soft);
+    }
+
+    .tech-signal-note strong {
+      color: var(--ink);
+      font-size: 24px;
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: -.04em;
+    }
+
+    .tech-signal-note small {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+    }
+
+    .delivery-stat span::before {
+      content: "Mest: ";
+      color: var(--accent-dark);
+    }
+
+    .delivery-lane.featured {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(241,248,252,.92)),
+        radial-gradient(circle at 100% 0%, rgba(0,99,166,.08), transparent 70%);
+    }
+
+    .delivery-lane.performance {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(246,252,249,.92)),
+        radial-gradient(circle at 100% 0%, rgba(31,122,83,.08), transparent 70%);
+    }
+
+    .delivery-subsection {
+      display: grid;
+      gap: 8px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .delivery-subsection:first-of-type {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .delivery-section-label {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: .065em;
+      text-transform: uppercase;
+    }
+
+    .quality-command {
+      grid-template-columns: minmax(0, .94fr) minmax(420px, 1.06fr);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.98), rgba(255,250,236,.9)),
+        radial-gradient(circle at 100% 0%, rgba(223,160,25,.14), transparent 70%);
+    }
+
+    .quality-metric-strip {
+      align-content: stretch;
+    }
+
+    .quality-metric { min-height: 112px; }
+
+    .quality-rule-strip {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: stretch;
+    }
+
+    .quality-rule { min-height: 104px; }
+
+    .quality-alerts {
+      display: grid;
+      gap: 0;
+    }
+
+    .quality-alert-row {
+      grid-template-columns: 8px minmax(220px, .74fr) minmax(0, 1.35fr) minmax(130px, .28fr);
+    }
+
+    .source-overview-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .source-table-card,
+    .public-card-board {
+      border: 1px solid var(--line-soft);
+      border-radius: 18px;
+      background: rgba(255,255,255,.88);
+    }
+
+    .source-detail-list {
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .public-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .public-card {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 126px;
+      padding: 14px;
+      border: 1px solid var(--line-soft);
+      border-radius: 18px;
+      background: #fff;
+    }
+
+    .public-card .dashboard-top {
+      margin-bottom: 0;
+    }
+
+    .public-card-meta {
+      display: grid;
+      justify-items: end;
+      gap: 8px;
+      text-align: right;
+    }
+
+    @media (max-width: 1180px) {
+      .tech-hero-row,
+      .source-command-row,
+      .public-command-row,
+      .tech-workbench,
+      .source-workbench {
+        grid-template-columns: 1fr;
+      }
+      .tech-distribution-grid,
+      .tech-audit-row,
+      .source-overview-grid,
+      .public-card-grid,
+      .quality-rule-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .insight-donut-row,
+      .tech-distribution-grid,
+      .tech-audit-row,
+      .source-overview-grid,
+      .public-card-grid,
+      .quality-rule-strip,
+      .public-card {
+        grid-template-columns: 1fr;
+      }
+      .public-card-meta {
+        justify-items: start;
+        text-align: left;
+      }
+    }
+
+    /* Corrections after visual review */
+    #technical-panel.technical-layout {
+      grid-template-columns: 1fr;
+      align-items: stretch;
+    }
+
+    #technical-panel .tech-hero-row {
+      grid-template-columns: minmax(320px, 1.18fr) repeat(4, minmax(170px, 1fr));
+    }
+
+    #technical-panel .tech-workbench {
+      grid-template-columns: minmax(520px, 1.08fr) minmax(520px, .92fr);
+      align-items: stretch;
+    }
+
+    #technical-panel .tech-combo-board,
+    #technical-panel .tech-evidence-board {
+      min-height: 100%;
+    }
+
+    .insight-panels {
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .insight-panel {
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .insight-evidence-grid {
+      grid-template-rows: repeat(3, minmax(86px, 1fr));
+    }
+
+    .insight-evidence {
+      min-height: 86px;
+    }
+
+    #public-grid.dashboard-grid {
+      display: block;
+    }
+
+    .public-console {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .public-console-head,
+    .public-row {
+      border: 1px solid var(--line-soft);
+      border-radius: 18px;
+      background: rgba(255,255,255,.9);
+    }
+
+    .public-console-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.98), rgba(246,252,249,.9)),
+        radial-gradient(circle at 100% 0%, rgba(31,122,83,.12), transparent 65%);
+    }
+
+    .public-console-head h3 {
+      margin: 3px 0 4px;
+      color: var(--ink);
+      font-size: clamp(20px, 1.8vw, 28px);
+      line-height: 1.03;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .public-console-head p {
+      margin: 0;
+      max-width: 58ch;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.36;
+    }
+
+    .public-mini-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .public-mini-metric {
+      min-width: 92px;
+      padding: 9px 10px;
+      border: 1px solid var(--line-soft);
+      border-radius: 14px;
+      background: rgba(255,255,255,.82);
+    }
+
+    .public-mini-metric.good { background: var(--good-soft); border-color: var(--good-line); }
+    .public-mini-metric.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+    .public-mini-metric.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+
+    .public-mini-metric span,
+    .public-row-state > span:not(.status-chip) {
+      display: block;
+      color: var(--muted);
+      font-size: 9.5px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .public-mini-metric strong {
+      display: block;
+      margin-top: 4px;
+      color: var(--ink);
+      font-size: 23px;
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .public-list {
+      display: grid;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .public-row {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr) minmax(128px, auto);
+      gap: 12px;
+      align-items: center;
+      min-height: 96px;
+      padding: 12px;
+    }
+
+    .public-row .icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 15px;
+    }
+
+    .public-row-main {
+      min-width: 0;
+      display: grid;
+      gap: 5px;
+    }
+
+    .public-row-main .dashboard-title {
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.1;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .public-row-main .dashboard-sub {
+      display: -webkit-box;
+      max-width: 68ch;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.28;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .public-row-state {
+      display: grid;
+      justify-items: end;
+      gap: 7px;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .public-row-state .publication-date {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.2;
+    }
+
+    @media (max-width: 1180px) {
+      #technical-panel .tech-hero-row,
+      #technical-panel .tech-workbench {
+        grid-template-columns: 1fr;
+      }
+
+      .public-console-head,
+      .public-row {
+        grid-template-columns: 1fr;
+      }
+
+      .public-mini-metrics,
+      .public-row-state {
+        justify-content: flex-start;
+        justify-items: start;
+        text-align: left;
+      }
+    }
+
+    .quality-action-board {
+      display: grid;
+      gap: 12px;
+    }
+
+    .quality-decision {
+      display: grid;
+      grid-template-columns: minmax(330px, .82fr) minmax(0, 1.18fr);
+      gap: 12px;
+      align-items: stretch;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.98), rgba(255,250,236,.9)),
+        radial-gradient(circle at 100% 0%, rgba(223,160,25,.14), transparent 70%);
+    }
+
+    .quality-decision.good {
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.98), rgba(246,252,249,.94)),
+        radial-gradient(circle at 100% 0%, rgba(31,122,83,.10), transparent 70%);
+    }
+
+    .quality-verdict {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+    }
+
+    .quality-verdict h3 {
+      font-size: clamp(22px, 1.8vw, 30px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .quality-verdict p {
+      margin: 0;
+      max-width: 72ch;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.38;
+    }
+
+    .quality-decision-score {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      margin-top: 2px;
+    }
+
+    .quality-orb {
+      width: 66px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      border: 1px solid var(--warn-line);
+      background: var(--warn-soft);
+    }
+
+    .quality-decision.good .quality-orb {
+      border-color: var(--good-line);
+      background: var(--good-soft);
+    }
+
+    .quality-orb strong {
+      color: var(--ink);
+      font-size: 32px;
+      line-height: .9;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .quality-orb span {
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .quality-triage-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .quality-signal-card,
+    .quality-playbook,
+    .quality-alert-card,
+    .quality-context-note {
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      background: rgba(255,255,255,.9);
+    }
+
+    .quality-signal-card {
+      min-height: 88px;
+      display: grid;
+      align-content: space-between;
+      gap: 6px;
+      padding: 10px;
+    }
+
+    .quality-signal-card.good { background: var(--good-soft); border-color: var(--good-line); }
+    .quality-signal-card.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+    .quality-signal-card.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .quality-signal-card.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+
+    .quality-signal-card span,
+    .quality-playbook span,
+    .quality-alert-card span,
+    .quality-context-note span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .quality-signal-card strong {
+      color: var(--ink);
+      font-size: clamp(21px, 1.55vw, 27px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .quality-signal-card small,
+    .quality-context-note p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.28;
+    }
+
+    .quality-playbook-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .quality-playbook,
+    .quality-context-note {
+      display: grid;
+      gap: 6px;
+      padding: 11px;
+    }
+
+    .quality-playbook {
+      min-height: 86px;
+    }
+
+    .quality-playbook.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+    .quality-playbook.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .quality-playbook.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .quality-playbook.good { background: var(--good-soft); border-color: var(--good-line); }
+
+    .quality-playbook strong,
+    .quality-alert-card strong {
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.15;
+      font-weight: 900;
+    }
+
+    .quality-playbook p,
+    .quality-alert-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.32;
+    }
+
+    .quality-alert-board {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,.88);
+    }
+
+    .quality-alert-board-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,250,252,.9));
+    }
+
+    .quality-action-list {
+      display: grid;
+    }
+
+    .quality-alert-card {
+      display: grid;
+      grid-template-columns: 6px minmax(220px, .74fr) minmax(0, 1.48fr) minmax(102px, .22fr);
+      gap: 12px;
+      align-items: stretch;
+      padding: 11px 14px;
+      border-top: 1px solid var(--line-soft);
+      background: #fff;
+    }
+
+    .quality-alert-card:first-child { border-top: 0; }
+    .quality-alert-card.warn { background: linear-gradient(180deg, #fff, var(--warn-soft)); }
+    .quality-alert-card.info { background: linear-gradient(180deg, #fff, var(--info-soft)); }
+    .quality-alert-card.gateway { background: linear-gradient(180deg, #fff, var(--gateway-soft)); }
+
+    .quality-alert-card .alert-rail { background: var(--info); }
+    .quality-alert-card.warn .alert-rail { background: #dfa019; }
+    .quality-alert-card.info .alert-rail { background: var(--info); }
+    .quality-alert-card.gateway .alert-rail { background: var(--gateway); }
+
+    .quality-alert-card .alert-count-box {
+      min-height: 60px;
+    }
+
+    @media (max-width: 1180px) {
+      .quality-decision,
+      .quality-triage-grid,
+      .quality-playbook-grid,
+      .quality-alert-card {
+        grid-template-columns: 1fr;
+      }
     }
 
   </style>
@@ -5381,6 +6323,11 @@
       var className = cls ? " " + safe(cls) : "";
       return '<div class="insight-evidence' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></div>';
     }
+    function insightDonut(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      var numericValue = clamp(value, 0, 100);
+      return '<div class="mini-donut' + className + '"><div class="mini-donut-ring" style="--donut-value:' + numericValue + '"></div><div><span>' + safe(label) + '</span><strong>' + fmt(numericValue) + '%</strong><small>' + safe(detail || "") + '</small></div></div>';
+    }
     function insightAction(item) {
       return '<div class="insight-action-item ' + safe(item.tone || '') + '"><span class="insight-bullet ' + safe(item.tone || '') + '"></span><span>' + safe(item.text || '') + '</span></div>';
     }
@@ -5420,12 +6367,14 @@
           '</div>' +
           '<div class="insight-panels">' +
             '<article class="insight-panel"><div><span class="insight-panel-kicker">Næstu verk</span><h3>Forgangsröðuð athugun</h3></div><div class="insight-action-list">' + actions + '</div></article>' +
-            '<article class="insight-panel"><div><span class="insight-panel-kicker">Notkun og ferskleiki</span><h3>Hvar á að horfa fyrst</h3></div><div class="insight-evidence-grid">' +
+            '<article class="insight-panel"><div><span class="insight-panel-kicker">Notkun og ferskleiki</span><h3>Notkun, tímabil og gagnastaða</h3></div><div class="insight-evidence-grid">' +
               insightEvidence("Mest notað", topDashboard ? titleFor(topDashboard, cards) : "-", topDashboard ? pct(visitValue(topDashboard), total) + " af heild" : "Engin gögn", "good") +
               insightEvidence("Í dag", todayDashboard ? titleFor(todayDashboard, cards) : "-", todayDashboard ? fmt(todayDashboard.visits_today) + " heimsóknir" : "Engin gögn", "info") +
+              insightEvidence("7 dagar", fmt(k.visits_7d), "Síðustu sjö dagar", "gateway") +
+              insightEvidence("30 dagar", fmt(k.visits_30d), "Mánaðargluggi", "gateway") +
               insightEvidence("Talin síðast", model.eventAge.label, "Síðasta production heimsókn", model.eventAge.className) +
               insightEvidence("Samantekt", model.aggregationAge.label, "Apps Script aggregate", model.aggregationAge.className) +
-            '</div><div class="mini-viz">' + miniBar("Mobile", model.mobile, total, "good") + miniBar("Tölva", model.desktop, total, "gateway") + miniBar("island.is", model.island, total, "good") + '</div></article>' +
+            '</div></article>' +
             '<article class="insight-panel"><div><span class="insight-panel-kicker">Tracker evidence</span><h3>Tæki, sending og veik merki</h3></div><div class="insight-evidence-grid">' +
               insightEvidence("Tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir" : "Vantar device línur", topDevice ? "" : "gateway") +
               insightEvidence("Vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir" : "Vantar vafralínur", topBrowser ? "" : "gateway") +
@@ -5433,7 +6382,7 @@
               insightEvidence("Payload", payloadRows[0] ? payloadRows[0].key : "Óþekkt", payloadRows[0] ? fmt(payloadRows[0].visits) + " merki" : "Engin payload gögn", payloadRows[0] ? "info" : "gateway") +
               insightEvidence("Veik merki", shareValue(model.weakShare), "Óþekkt eða veik signal", model.weakShare > .12 ? "warn" : "good") +
               insightEvidence("Tæknimerk.", fmt(samsungSignals + lowCap), "Samsung raw + lítil geta", (samsungSignals + lowCap) ? "info" : "good") +
-            '</div><div class="mini-viz">' + miniBar("Dark", dark, Math.max(sumRows(countedDisplayRows), 1), "good") + miniBar("Light", light, Math.max(sumRows(countedDisplayRows), 1), "gateway") + '</div></article>' +
+            '</div></article>' +
           '</div>' +
         '</div>');
     }
@@ -5474,34 +6423,68 @@
       });
       return result.sort(function (a, b) { return b.visits - a.visits || b.raw_signal_events - a.raw_signal_events; });
     }
+    function techTopStat(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="tech-top-stat' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function techComboCard(row, cards) {
+      var browser = browserLabel(row);
+      var os = row.os_family || "Óþekkt";
+      var device = labelDevice(row.device_class || row.inferred_device_class);
+      var layout = labelLayout(row.selected_layout);
+      var theme = labelTheme(row.color_scheme || "unknown");
+      var uncounted = row.visits === 0 && row.raw_signal_events > 0;
+      var diagnostic = row.diagnostic ? "Diagnostic" : "";
+      var merged = number(row.combo_count) > 1 && row.visits > 0 ? fmt(row.combo_count) + " tæknilínur" : "";
+      var chips = '<span class="chip accent">' + safe(device) + '</span><span class="chip neutral">' + safe(layout) + '</span><span class="chip neutral">' + safe(browser) + '</span>';
+      var meta = [os, theme, isSamsungInternetRow(row) ? "Samsung Internet" : "", uncounted ? "Ótalið tæknimerki" : "", diagnostic, merged].filter(Boolean).join(" · ");
+      return '<article class="tech-combo-card">' +
+        '<div><div class="tech-combo-title">' + safe(titleFor(row, cards)) + '</div><div class="chip-row" style="margin-top:7px;">' + chips + '</div><div class="tech-combo-meta">' + safe(meta || cleanId(row.dashboard_id || row.dashboard_key)) + '</div></div>' +
+        '<div class="tech-combo-count"><strong>' + fmt(row.visits || row.raw_signal_events) + '</strong><span>' + safe(uncounted ? "ótalið" : "visits") + '</span></div>' +
+      '</article>';
+    }
     function renderTechnical(data) {
       var cards = publicMap(data);
       var rows = groupedDeviceCombos(data, 8);
-      var comboHtml = '<div class="combo-row list-head"><span>Mælaborð</span><span>Tæki / útgáfa</span><span>Vafri / stýrikerfi</span><span class="number">Heimsóknir</span></div>';
-      comboHtml += rows.map(function (row) {
-        var browser = browserLabel(row);
-        var os = row.os_family || "Óþekkt";
-        var theme = labelTheme(row.color_scheme || "unknown");
-        var uncounted = row.visits === 0 && row.raw_signal_events > 0 ? "Ótalið tæknimerki" : "";
-        var diagnostic = row.diagnostic ? "Diagnostic" : "";
-        var merged = number(row.combo_count) > 1 && row.visits > 0 ? fmt(row.combo_count) + " tæknilínur" : "";
-        var extra = [theme, isSamsungInternetRow(row) ? "Samsung Internet" : "", uncounted, diagnostic, merged].filter(Boolean).join(" · ");
-        return '<div class="combo-row">' +
-          '<div><div class="combo-title">' + safe(titleFor(row, cards)) + '</div><div class="combo-meta">' + safe(cleanId(row.dashboard_id || row.dashboard_key)) + '</div></div>' +
-          '<div><span class="chip accent">' + safe(labelDevice(row.device_class)) + '</span><div class="combo-meta">' + safe(labelLayout(row.selected_layout)) + '</div></div>' +
-          '<div><span class="chip neutral">' + safe(browser) + '</span><div class="combo-meta">' + safe(os) + (extra ? ' · ' + safe(extra) : '') + '</div></div>' +
-          '<div class="combo-number"><strong>' + fmt(row.visits) + '</strong>' + (uncounted ? '<small>ótalið</small>' : '') + '</div>' +
-        '</div>';
-      }).join("");
-      if (!rows.length) comboHtml = '<div class="message-card neutral"><strong>Engin tæknigögn enn</strong><p>Device samantekt vantar í payload eða engar taldar/merkingarbærar línur fundust.</p></div>';
-      var right = '<div class="tech-side">' +
-        distributionPanel("Vafrar", rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 5) +
-        distributionPanel("Stýrikerfi", rowsFrom(data, "os", "device"), function (row) { return row.os_family || "Óþekkt"; }, 5) +
-        distributionPanel("Tæki", rowsFrom(data, "device_confidence", "device"), function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 5) +
-        distributionPanel("Traust", rowsFrom(data, "device_confidence", "device"), function (row) { return bandLabel(row.inferred_confidence_band || row.confidence_band); }, 5) +
-        renderTechnicalComparison(data) + renderTechnicalObservations(data) +
-      '</div>';
-      setHtml("technical-panel", '<article class="tech-panel"><h3>Toppsamsetningar</h3><div class="subtle" style="margin-top:8px;">Sýnir taldar production heimsóknir. Raw/diagnostic tæknimerki geta verið sýnileg sem „ótalið“ en eru ekki lögð við heimsóknir, dark-mode tölur eða traust.</div><div class="combo-list">' + comboHtml + '</div></article>' + right);
+      var allTech = technicalRows(data);
+      var countedTech = visibleRows(allTech);
+      var trackerLines = allTech.length;
+      var topBrowser = topRows(rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 1)[0];
+      var topOS = topRows(rowsFrom(data, "os", "device"), function (row) { return row.os_family || "Óþekkt"; }, 1)[0];
+      var topDevice = topRows(rowsFrom(data, "device_confidence", "device"), function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 1)[0];
+      var topConfidence = topRows(rowsFrom(data, "device_confidence", "device"), function (row) { return bandLabel(row.inferred_confidence_band || row.confidence_band); }, 1)[0];
+      var topCombo = rows[0];
+      var samsungRaw = softSignalRows(data.device || []).reduce(function (acc, row) { return acc + (isSamsungInternetRow(row) ? rawSignalValue(row) : 0); }, 0);
+      var diagnosticRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && isDiagnosticRow(row); }).length;
+      var unknownDevice = visibleRows(data.device || []).reduce(function (acc, row) { return acc + (/unknown/i.test(row.device_class || row.inferred_device_class || "") ? visitValue(row) : 0); }, 0);
+      var weakShare = data.kpis && data.kpis.weak_unknown_signal_share !== undefined ? number(data.kpis.weak_unknown_signal_share) : (number(data.kpis && data.kpis.weak_unknown_signal_count) / Math.max(number(data.kpis && data.kpis.total_events), 1));
+      var attention = (samsungRaw ? 1 : 0) + (diagnosticRows ? 1 : 0) + (unknownDevice ? 1 : 0) + (weakShare > .12 ? 1 : 0);
+      var verdict = attention ? "Tracker merki til greiningar" : "Tæki og vafrar skýr";
+      var verdictCopy = "Þessi sýn sameinar dashboard, tæki, vafra, stýrikerfi, litaþema og raw/diagnostic tæknimerki. Taldar production heimsóknir eru haldnar aðskildar frá greiningarlínum.";
+      var comboHtml = rows.map(function (row) { return techComboCard(row, cards); }).join("") || '<div class="message-card neutral"><strong>Engin tæknigögn enn</strong><p>Device samantekt vantar í payload eða engar taldar/merkingarbærar línur fundust.</p></div>';
+      setHtml("technical-panel",
+        '<div class="tech-command-board">' +
+          '<div class="tech-hero-row">' +
+            '<article class="tech-verdict-card"><span class="tech-kicker">Tæki og vafraumhverfi</span><strong>' + safe(verdict) + '</strong><p>' + safe(verdictCopy) + '</p><div class="chip-row"><span class="chip ' + (attention ? "warn" : "good") + '">' + fmt(attention) + ' athuganir</span><span class="chip neutral">' + fmt(trackerLines) + ' tracker línur</span><span class="chip neutral">' + fmt(countedTech.length) + ' taldar línur</span></div></article>' +
+            techTopStat("Algengasta tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir" : "Vantar dreifingu", topDevice ? "info" : "gateway") +
+            techTopStat("Algengasti vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir" : "Vantar vafragögn", topBrowser ? "" : "gateway") +
+            techTopStat("Algengast OS", topOS ? topOS.key : "Óþekkt", topOS ? fmt(topOS.visits) + " heimsóknir" : "Vantar OS gögn", topOS ? "gateway" : "") +
+            techTopStat("Traust tækja", topConfidence ? topConfidence.key : "Óþekkt", topConfidence ? fmt(topConfidence.visits) + " línur" : "Engin confidence flokkun", topConfidence ? "good" : "gateway") +
+          '</div>' +
+          '<div class="tech-workbench">' +
+            '<article class="tech-combo-board"><div><span class="tech-board-kicker">Toppsamsetningar</span><h3>Hvar vafra- og tækjamynstur sjást</h3><div class="subtle" style="margin-top:7px;">Raðað eftir töldum heimsóknum, með raw/diagnostic sýnt sem sérstakt merki ef það skýrir vandamál.</div></div><div class="tech-combo-list">' + comboHtml + '</div></article>' +
+            '<article class="tech-evidence-board"><div><span class="tech-board-kicker">Dreifing og frávik</span><h3>Hvað þarf að vita áður en vandamál er rakið</h3></div><div class="tech-distribution-grid">' +
+              distributionPanel("Vafrar", rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 5) +
+              distributionPanel("Stýrikerfi", rowsFrom(data, "os", "device"), function (row) { return row.os_family || "Óþekkt"; }, 5) +
+              distributionPanel("Tæki", rowsFrom(data, "device_confidence", "device"), function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 5) +
+              distributionPanel("Traust", rowsFrom(data, "device_confidence", "device"), function (row) { return bandLabel(row.inferred_confidence_band || row.confidence_band); }, 5) +
+            '</div><div class="tech-audit-row">' +
+              '<div class="tech-signal-note"><span class="tech-board-kicker">Veik merki</span><strong>' + safe(shareValue(weakShare)) + '</strong><small>Veik eða óþekkt signal.</small></div>' +
+              '<div class="tech-signal-note"><span class="tech-board-kicker">Samsung raw</span><strong>' + fmt(samsungRaw) + '</strong><small>Greining, ekki heimsókn.</small></div>' +
+              '<div class="tech-signal-note"><span class="tech-board-kicker">Diagnostic</span><strong>' + fmt(diagnosticRows) + '</strong><small>Sýnt sér frá notkun.</small></div>' +
+            '</div><div class="chip-row" style="margin-top:12px;"><span class="chip ' + (unknownDevice ? 'warn' : 'good') + '">Óþekkt tæki: ' + fmt(unknownDevice) + '</span><span class="chip neutral">Efsta samsetning: ' + safe(topCombo ? titleFor(topCombo, cards) : "-") + '</span></div></article>' +
+          '</div>' +
+        '</div>');
     }
     function distributionPanel(title, sourceRows, labelFn, limit) {
       var rows = topRows(sourceRows, labelFn, limit || 5);
@@ -5568,7 +6551,6 @@
 
       var perfRows = rowsFrom(data, "performance", "device");
       var countedPerf = visibleRows(perfRows);
-      var perfTotal = Math.max(sumRows(countedPerf), totalVisits, 1);
       var methodRows = topRows(countedPerf, function (row) { return labelTransport(row.tracker_send_method || row.tracking_method); }, 4);
       var payloadRows = topRows(countedPerf, function (row) { return labelPayload(row.payload_size_bucket); }, 4);
       var connectionRows = topRows(countedPerf, function (row) { return labelConnection(row.connection_effective_type || row.connection_type); }, 4);
@@ -5584,10 +6566,11 @@
       var diagnosticRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && isDiagnosticRow(row); }).length;
       var concernCount = (lowCap ? 1 : 0) + (forcedSignals ? 1 : 0) + (samsungPossible ? 1 : 0) + (weakShare > .12 ? 1 : 0);
       var verdict = concernCount ? "Tæknimerki til skoðunar" : "Afhending lítur stöðug út";
-      var verdictCopy = "Tölurnar hér eru teknar úr tracker og dashboard payload: skjár, litaþema, vafri, tæki, sendingaraðferð, payload stærð, cache og netmerki. Greiningarmerki eru sýnd sér og hækka ekki heimsóknir.";
+      var verdictCopy = "Toppboxin sýna algengasta gildi í hverjum flokki. Litaþema, viewport og afhending eru aðskilin svo raw/diagnostic merki ruglist ekki saman við taldar heimsóknir.";
       var viewportTotal = Math.max(sumRows(viewportRows, "visits"), 1);
       var methodTotal = Math.max(sumRows(methodRows, "visits"), 1);
       var payloadTotal = Math.max(sumRows(payloadRows, "visits"), 1);
+      var connectionTotal = Math.max(sumRows(connectionRows, "visits"), 1);
       var connectionChips = connectionRows.map(function (row) { return '<span class="chip accent">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin netmerki</span>';
       var a11yChips = a11yRows.map(function (row) { return '<span class="chip neutral">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin aðgengismerki</span>';
       var comboHtml = combos.map(function (row) { return deliveryCombo(row, cards); }).join("") || '<div class="message-card neutral"><strong>Engar tækjasamsetningar</strong><p>Device/browser samantekt vantar í payload.</p></div>';
@@ -5598,16 +6581,17 @@
           deliveryStat("Tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir" : "Engin dreifing", "info") +
           deliveryStat("Vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir" : "Engin vafragögn", "") +
           deliveryStat("Skjár", topViewport ? topViewport.key : "Óþekkt", topViewport ? fmt(topViewport.visits) + " heimsóknir" : "Engin skjágögn", "gateway") +
-          deliveryStat("Sending", methodRows[0] ? methodRows[0].key : "Óþekkt", methodRows[0] ? fmt(methodRows[0].visits) + " merki" : "Engin sendingargögn", cacheText === "Hit" ? "good" : "") +
+          deliveryStat("Sending", methodRows[0] ? methodRows[0].key : "Óþekkt", methodRows[0] ? fmt(methodRows[0].visits) + " merki" : "Engin sendingargögn", cacheText === "Hit" ? "good" : "gateway") +
         '</div>' +
         '<div class="delivery-lanes">' +
-          '<article class="delivery-lane"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Skjár og aðgengi</span><h3>Litaþema, viewport og aðgengismerki</h3><p class="delivery-lane-copy">Bein vaframerki eru lesin sér. Auto-dark og Samsung merki eru rekstrarathuganir, ekki viðbætt dark/light talning.</p></div><span class="delivery-pill">' + fmt(sumRows(countedDisplay)) + ' talin</span></div>' +
-            '<div class="delivery-signal-grid">' + deliverySignal("Dark", fmt(dark), "good") + deliverySignal("Light", fmt(light), "") + deliverySignal("Óþekkt", fmt(unknownTheme), unknownTheme ? "gateway" : "") + deliverySignal("Engin stilling", fmt(noPreference), "gateway") + deliverySignal("Auto-dark", fmt(forcedSignals), forcedSignals ? "info" : "") + deliverySignal("Samsung", fmt(samsungPossible), samsungPossible ? "info" : "") + '</div>' +
-            '<div class="delivery-bars">' + bar("Dark stilling", dark, displayTotal, { className: "good" }) + bar("Light stilling", light, displayTotal, {}) + bar("Engin stilling", noPreference, displayTotal, { className: "gateway" }) + (viewportRows.map(function (row) { return bar(row.key, row.visits, viewportTotal, { asNumber: true, compact: true }); }).join("") || '<div class="subtle">Engin viewport gögn.</div>') + '</div><div class="chip-row">' + a11yChips + '</div></article>' +
-          '<article class="delivery-lane"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Tæki og vafri</span><h3>Samsetningar sem tracker sér</h3><p class="delivery-lane-copy">Sýnir mælaborð, tæki, útgáfu, vafra og stýrikerfi í sömu línu svo vandamál megi rekja hraðar.</p></div><span class="delivery-pill">' + fmt(combos.length) + ' hópar</span></div><div class="delivery-combo-list">' + comboHtml + '</div></article>' +
-          '<article class="delivery-lane"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Flutningur og afköst</span><h3>Sending, payload og netmerki</h3><p class="delivery-lane-copy">Tracker sendingar og payload stærð eru lesin sem rekstrarmerki. Cache hit er gott þegar payload er ferskur.</p></div><span class="delivery-pill">' + safe(cacheText) + '</span></div>' +
-            '<div class="delivery-signal-grid">' + deliverySignal("Lítil geta", fmt(lowCap), lowCap ? "warn" : "good") + deliverySignal("Línur", fmt(trackerLines), "") + deliverySignal("Cache", cacheText, cacheText === "Hit" ? "good" : "") + '</div>' +
-            '<div class="delivery-bars">' + (methodRows.map(function (row) { return bar(row.key, row.visits, methodTotal, { asNumber: true }); }).join("") || '<div class="subtle">Engin sendigögn.</div>') + (payloadRows.map(function (row) { return bar(row.key, row.visits, payloadTotal, { asNumber: true, compact: true }); }).join("") || '<div class="subtle">Engin payload gögn.</div>') + '</div><div class="chip-row">' + connectionChips + '</div></article>' +
+          '<article class="delivery-lane featured"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Skjár og aðgengi</span><h3>Litaþema og skjáflokkar, lesið sér</h3><p class="delivery-lane-copy">Dark/light kemur úr vafra. Viewport og aðgengismerki eru sér flokkar og bæta ekki við theme-talningu.</p></div><span class="delivery-pill">' + fmt(sumRows(countedDisplay)) + ' talin</span></div>' +
+            '<div class="delivery-subsection"><div class="delivery-section-label">Litaþema úr vafra</div><div class="delivery-signal-grid">' + deliverySignal("Dark", fmt(dark), "good") + deliverySignal("Light", fmt(light), "") + deliverySignal("Óþekkt", fmt(unknownTheme), unknownTheme ? "gateway" : "") + deliverySignal("Engin stilling", fmt(noPreference), "gateway") + deliverySignal("Auto-dark", fmt(forcedSignals), forcedSignals ? "info" : "") + deliverySignal("Samsung", fmt(samsungPossible), samsungPossible ? "info" : "") + '</div><div class="delivery-bars">' + bar("Dark stilling", dark, displayTotal, { className: "good" }) + bar("Light stilling", light, displayTotal, {}) + bar("Engin stilling", noPreference, displayTotal, { className: "gateway" }) + '</div></div>' +
+            '<div class="delivery-subsection"><div class="delivery-section-label">Viewport og aðgengi</div><div class="delivery-bars">' + (viewportRows.map(function (row) { return bar(row.key, row.visits, viewportTotal, { asNumber: true, compact: true }); }).join("") || '<div class="subtle">Engin viewport gögn.</div>') + '</div><div class="chip-row">' + a11yChips + '</div></div></article>' +
+          '<article class="delivery-lane featured"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Tæki og vafri</span><h3>Samsetningar sem tracker sér</h3><p class="delivery-lane-copy">Mælaborð, tæki, útgáfa, vafri, stýrikerfi og theme eru lesin í sömu línu til að rekja vandamál hraðar.</p></div><span class="delivery-pill">' + fmt(combos.length) + ' hópar</span></div><div class="delivery-signal-grid">' + deliverySignal("Hópar", fmt(combos.length), "info") + deliverySignal("Efsta tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? "info" : "gateway") + deliverySignal("Efsti vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? "" : "gateway") + '</div><div class="delivery-combo-list">' + comboHtml + '</div></article>' +
+          '<article class="delivery-lane performance"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Flutningur og afköst</span><h3>Sending, payload og netmerki</h3><p class="delivery-lane-copy">Sendiaðferð, payload stærð og tenging eru afhendingarmerki. Cache hit er gott þegar gögnin eru fersk.</p></div><span class="delivery-pill">' + safe(cacheText) + '</span></div>' +
+            '<div class="delivery-signal-grid">' + deliverySignal("Lítil geta", fmt(lowCap), lowCap ? "warn" : "good") + deliverySignal("Línur", fmt(trackerLines), "") + deliverySignal("Cache", cacheText, cacheText === "Hit" ? "good" : "gateway") + '</div>' +
+            '<div class="delivery-subsection"><div class="delivery-section-label">Sending og payload</div><div class="delivery-bars">' + (methodRows.map(function (row) { return bar(row.key, row.visits, methodTotal, { asNumber: true }); }).join("") || '<div class="subtle">Engin sendigögn.</div>') + (payloadRows.map(function (row) { return bar(row.key, row.visits, payloadTotal, { asNumber: true, compact: true }); }).join("") || '<div class="subtle">Engin payload gögn.</div>') + '</div></div>' +
+            '<div class="delivery-subsection"><div class="delivery-section-label">Netmerki</div><div class="delivery-bars">' + (connectionRows.map(function (row) { return bar(row.key, row.visits, connectionTotal, { asNumber: true, compact: true }); }).join("") || '<div class="subtle">Engin netmerki.</div>') + '</div><div class="chip-row">' + connectionChips + '</div></div></article>' +
         '</div>' +
         '<div class="delivery-audit">' +
           deliveryAudit("Tracker línur", fmt(trackerLines), "Taldar device/performance línur.", trackerLines ? "good" : "warn") +
@@ -5659,32 +6643,74 @@
       var direct = rows.reduce(function (acc, row) { return acc + (/direct/i.test(row.entry_source_category || "") ? visitValue(row) : 0); }, 0);
       var topSource = topRows(rows, function (row) { return labelSource(row.entry_source_category); }, 1)[0];
       var campaigns = topRows(rows, function (row) { return row.utm_campaign || row.utm_source || labelSource(row.entry_source_category); }, 4);
+      var topDashboard = rows[0];
+      var other = Math.max(0, total - island - direct);
       var html = '<div class="source-overview-grid">' +
-        '<div class="source-summary-tile good"><span>island.is</span><strong>' + safe(pct(island, total)) + '</strong><small>' + fmt(island) + ' taldar heimsóknir.</small></div>' +
-        '<div class="source-summary-tile gateway"><span>Beint</span><strong>' + safe(pct(direct, total)) + '</strong><small>' + fmt(direct) + ' án herferðarmerkis.</small></div>' +
-        '<div class="source-summary-tile info"><span>Stærsta rás</span><strong>' + safe(topSource ? topSource.key : "-") + '</strong><small>' + safe(topSource ? fmt(topSource.visits) + " heimsóknir" : "Engin gögn") + '</small></div>' +
-        '<div class="source-summary-tile"><span>Herferðir</span><strong>' + fmt(campaigns.length) + '</strong><small>' + safe(campaigns.map(function (row) { return row.key; }).join(", ") || "Engin UTM merki") + '</small></div>' +
-      '</div><div class="source-detail-list"><div class="list-row source list-head"><span>Mælaborð</span><span>Rás</span><span>UTM source</span><span>Herferð</span><span class="number">Heimsóknir</span></div>';
-      html += rows.map(function (row) { return '<div class="list-row source"><strong>' + safe(titleFor(row, cards)) + '</strong><span class="chip">' + safe(labelSource(row.entry_source_category)) + '</span><span>' + safe(row.utm_source || "-") + '</span><span>' + safe(row.utm_campaign || "-") + '</span><strong class="number">' + fmt(visitValue(row)) + '</strong></div>'; }).join("");
-      html += '</div>';
+        '<div class="source-summary-tile good"><span>Opinber rás</span><strong>' + safe(pct(island, total)) + '</strong><small>' + fmt(island) + ' taldar heimsóknir frá island.is.</small></div>' +
+        '<div class="source-summary-tile gateway"><span>Beint / annað</span><strong>' + safe(pct(direct + other, total)) + '</strong><small>Beint ' + fmt(direct) + ' · annað ' + fmt(other) + '.</small></div>' +
+        '<div class="source-summary-tile info"><span>Ráðandi rás</span><strong>' + safe(topSource ? topSource.key : "-") + '</strong><small>' + safe(topSource ? fmt(topSource.visits) + " heimsóknir" : "Engin gögn") + '</small></div>' +
+        '<div class="source-summary-tile"><span>Mest ber</span><strong>' + safe(topDashboard ? titleFor(topDashboard, cards) : "-") + '</strong><small>' + safe(topDashboard ? fmt(visitValue(topDashboard)) + " heimsóknir" : "Engin gögn") + '</small></div>' +
+      '</div><article class="source-table-card"><div><span class="tech-board-kicker">Notkunargrunnur</span><h3>Upprunaleiðir eftir mælaborði</h3><div class="subtle" style="margin-top:6px;">Root/gateway merki eru greiningarmerki. Taflan hér sýnir taldar dashboard heimsóknir og UTM/source þegar þau fylgja með.</div></div><div class="source-detail-list"><div class="list-row source list-head"><span>Mælaborð</span><span>Rás</span><span>UTM source</span><span>Herferð</span><span class="number">Heimsóknir</span></div>';
+      html += rows.map(function (row) {
+        var source = labelSource(row.entry_source_category);
+        var sourceClass = source === "island.is" ? "good" : /beint/i.test(source) ? "gateway" : "neutral";
+        return '<div class="list-row source"><strong>' + safe(titleFor(row, cards)) + '</strong><span class="chip ' + sourceClass + '">' + safe(source) + '</span><span>' + safe(row.utm_source || "-") + '</span><span>' + safe(row.utm_campaign || "-") + '</span><strong class="number">' + fmt(visitValue(row)) + '</strong></div>';
+      }).join("");
+      html += '</div><div class="chip-row" style="margin-top:12px;">' + (campaigns.map(function (row) { return '<span class="chip accent">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin UTM merki</span>') + '</div></article>';
       setHtml("source-list", rows.length ? html : '<div class="message-card neutral">Engin talin source gögn enn.</div>');
     }
     function renderPublicGrid(data) {
       var rows = data.public_cards || [];
-      var html = rows.map(function (card) {
+      var published = rows.filter(function (card) { return !!card.published; }).length;
+      var hidden = rows.length - published;
+      var newest = rows.slice().sort(function (a, b) { return new Date(publicPublishedAt(b) || 0) - new Date(publicPublishedAt(a) || 0); })[0];
+      var newestLabel = newest ? cleanName(newest.public_card_title) : "-";
+      var newestAge = newest ? daysSinceLabel(publicPublishedAt(newest)) : "Engin dagsetning";
+      var html = '<section class="public-console">' +
+        '<div class="public-console-head">' +
+          '<div><span class="tech-board-kicker">Opinber birting</span><h3>' + fmt(published) + '/' + fmt(rows.length) + ' kort birt</h3><p>Lesið sem birtingarstaða, ekki notkunargrunnur. Kortin hér sýna hvað er sýnilegt á island.is og hvaða hnappur/notendatexti fylgir.</p></div>' +
+          '<div class="public-mini-metrics">' +
+            '<div class="public-mini-metric good"><span>Birt</span><strong>' + fmt(published) + '</strong></div>' +
+            '<div class="public-mini-metric ' + (hidden ? 'warn' : 'good') + '"><span>Óbirt</span><strong>' + fmt(hidden) + '</strong></div>' +
+            '<div class="public-mini-metric info"><span>Nýjast</span><strong>' + safe(newestAge) + '</strong></div>' +
+          '</div>' +
+        '</div><div class="public-list">';
+      html += rows.map(function (card) {
         var publishedAt = publicPublishedAt(card);
-        return '<article class="dashboard-card">' +
-          '<div class="dashboard-top"><img class="icon" src="' + safe(imageUrl(card.icon_url || FALLBACK_ICONS[card.dashboard_key])) + '" alt=""><div><div class="dashboard-title">' + safe(cleanName(card.public_card_title)) + '</div><div class="dashboard-sub">' + safe(card.public_description || card.dashboard_key) + '</div></div></div>' +
-          '<div class="chip-row"><span class="status-chip ' + (card.published ? 'good' : 'warn') + '"><span class="dot ' + (card.published ? '' : 'warn') + '"></span>' + (card.published ? 'Birt' : 'Ekki birt') + '</span><span class="chip neutral">' + safe(card.button_text || "Skoða mælaborð") + '</span></div>' +
-          '<div class="publication-meta"><span class="chip accent">Frá ' + safe(longDate(publishedAt)) + '</span><span class="chip neutral">' + safe(daysSinceLabel(publishedAt)) + '</span></div><div class="publication-date">Birtingartími: ' + safe(dateShort(publishedAt)) + '</div>' +
+        return '<article class="public-row">' +
+          '<img class="icon" src="' + safe(imageUrl(card.icon_url || FALLBACK_ICONS[card.dashboard_key])) + '" alt="">' +
+          '<div class="public-row-main"><div class="dashboard-title">' + safe(cleanName(card.public_card_title)) + '</div><div class="dashboard-sub">' + safe(card.public_description || card.dashboard_key) + '</div><div class="chip-row"><span class="chip neutral">' + safe(card.button_text || "Skoða mælaborð") + '</span><span class="chip accent">Frá ' + safe(longDate(publishedAt)) + '</span></div></div>' +
+          '<div class="public-row-state"><span class="status-chip ' + (card.published ? 'good' : 'warn') + '"><span class="dot ' + (card.published ? '' : 'warn') + '"></span>' + (card.published ? 'Birt' : 'Ekki birt') + '</span><span>' + safe(daysSinceLabel(publishedAt)) + '</span><div class="publication-date">' + safe(dateShort(publishedAt)) + '</div></div>' +
         '</article>';
       }).join("");
+      html += '</div><div class="chip-row"><span class="chip accent">Nýjast: ' + safe(newestLabel) + '</span><span class="chip neutral">CTA: Skoða mælaborð</span></div></section>';
       setHtml("public-grid", rows.length ? html : '<div class="message-card neutral">Engin public-card gögn enn.</div>');
     }
 
     function qualitySection(title, detail, rows, group) {
       if (!rows.length) return "";
       return '<section class="quality-section"><div class="quality-section-head"><div><h3>' + safe(title) + '</h3><p class="subtle">' + safe(detail) + '</p></div><span class="quality-count">' + fmt(rows.length) + '</span></div><div class="quality-items">' + rows.map(function (row) { return warningRow(row, group); }).join("") + '</div></section>';
+    }
+    function qualitySignalCard(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="quality-signal-card' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function qualityPlaybookCard(label, title, body, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="quality-playbook' + className + '"><span>' + safe(label) + '</span><strong>' + safe(title) + '</strong><p>' + safe(body || "") + '</p></article>';
+    }
+    function qualityActionCard(row, group) {
+      var severity = String(row.severity || (group === "confirmed" ? "warning" : "info")).toLowerCase();
+      var cls = group === "confirmed" ? (severity === "error" ? "warn" : "warn") : group === "diagnostic" ? "gateway" : "info";
+      var counted = countWarnings(row);
+      var diagnostic = number(row.diagnostic_count || row.raw_count || 0);
+      var confidence = bandLabel(row.confidence_band || row.signal_quality);
+      var signal = labelSignalQuality(row.signal_quality || row.scope);
+      var label = group === "confirmed" ? "Production" : group === "diagnostic" ? "Diagnostic" : group === "info" ? "Upplýsingar" : "Óstaðfest";
+      return '<article class="quality-alert-card ' + safe(cls) + '"><div class="alert-rail" aria-hidden="true"></div>' +
+        '<div class="alert-name"><span>' + safe(label) + '</span><strong>' + safe(labelWarningCode(row.warning_code || row.code || "warning")) + '</strong><div class="alert-meta">' + safe(row.dashboard_key || row.dashboard_id || "-") + '</div><div class="alert-chip-row"><span class="chip neutral">Traust: ' + safe(confidence) + '</span><span class="chip neutral">' + safe(signal) + '</span></div></div>' +
+        '<div class="alert-body"><p>' + safe(row.warning_text || row.message || "-") + '</p><div class="alert-action">Næsta skref: ' + safe(row.recommendation || (group === "confirmed" ? "Staðfesta áhrif í vafra/tæki og prófa studdan Power BI vafra." : "Halda sem greiningarmerki þar til production gate staðfestir áhrif.")) + '</div></div>' +
+        '<div class="alert-count-box"><span>Talið</span><strong>' + fmt(counted) + '</strong><span>diag. ' + fmt(diagnostic) + '</span></div></article>';
     }
 
     function renderWarnings(data) {
@@ -5694,9 +6720,16 @@
       var info = split.info.length;
       var diagnostic = split.diagnostic.length;
       var tone = confirmed ? "warn" : "good";
-      var headline = confirmed ? "Staðfest merki þarf að skoða" : "Engar staðfestar rekstrarviðvaranir";
-      var copy = confirmed ? "Production gate staðfestir að þessi merki eigi heima í rekstrarviðvörunum." : "Gæðamerki eru flokkuð og sýnd, en ekkert staðfest production tilvik hækkar stöðu núna.";
+      var headline = confirmed ? "Aðgerð: staðfest production merki" : "Engin staðfest production viðvörun";
+      var copy = confirmed ? "Þessi sýn byrjar á því sem breytir rekstrarstöðu: staðfest production merki. Info og diagnostic eru haldin sýnileg, en þau eru greiningarhjálp og hækka ekki stöðu." : "Engin staðfest warning/error fer í gegnum production gate. Greiningarmerki eru samt sýnd svo hægt sé að rekja veik merki áður en þau verða vandamál.";
       var allWarnings = split.confirmed.concat(split.unconfirmed, split.info, split.diagnostic);
+      var allCount = allWarnings.length;
+      var k = data.kpis || {};
+      var weakShare = k.weak_unknown_signal_share !== undefined ? number(k.weak_unknown_signal_share) : (number(k.weak_unknown_signal_count) / Math.max(number(k.total_events), 1));
+      var deviceRows = visibleRows(data.device || []);
+      var topBrowser = topRows(rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 1)[0];
+      var topDevice = topRows(rowsFrom(data, "device_confidence", "device"), function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 1)[0];
+      var unsupported = allWarnings.reduce(function (acc, row) { return acc + (/powerbi|unsupported/i.test(row.warning_code || row.code || row.warning_text || row.message || "") ? countWarnings(row) : 0); }, 0);
       var confidenceMap = {};
       allWarnings.forEach(function (row) {
         var key = bandLabel(row.confidence_band || row.signal_quality);
@@ -5704,28 +6737,31 @@
       });
       var confidenceText = Object.keys(confidenceMap).sort(function (a, b) { return confidenceMap[b] - confidenceMap[a]; }).map(function (key) { return key + ": " + fmt(confidenceMap[key]); }).join(" · ") || "Engin merki";
       var confidenceTip = "Traust segir hversu sterk stoð er fyrir merkinu. Mjög hátt: explicit production staðfesting eða skýr vafrastefna. Hátt/miðlungs: tæknimerki sem þarf samhengi. Diagnostic/test hækkar ekki rekstrarstöðu.";
-      var html = '<div class="quality-console">' +
-        '<section class="quality-command ' + tone + '">' +
-          '<div class="quality-command-main"><span class="quality-kicker">Gæðastaða</span><div class="quality-title-line"><h3>' + safe(headline) + '</h3>' + infoTip(confidenceTip) + '</div><p class="subtle">' + safe(copy) + '</p><div class="quality-status-readout"><strong>' + fmt(confirmed) + '</strong><span>staðfest production merki hækka stöðuna núna.</span></div></div>' +
-          '<div class="quality-metric-strip">' +
-            qualityMetric("Staðfest", confirmed, "Hækkar stöðu", confirmed ? "warn" : "good") +
-            qualityMetric("Óstaðfest", unconfirmed, "Sýnt án stöðuhækkunar", unconfirmed ? "info" : "") +
-            qualityMetric("Upplýsingar", info, "Greiningarmerki", info ? "info" : "") +
-            qualityMetric("Diagnostic", diagnostic, "Próf/raw", diagnostic ? "gateway" : "") +
+      var actionRows = split.confirmed.concat(split.unconfirmed, split.info, split.diagnostic).slice(0, 10);
+      var html = '<div class="quality-action-board">' +
+        '<section class="quality-decision ' + tone + '">' +
+          '<div class="quality-verdict"><span class="quality-kicker">Gæðaviðvaranir</span><div class="quality-title-line"><h3>' + safe(headline) + '</h3>' + infoTip(confidenceTip) + '</div><p>' + safe(copy) + '</p><div class="quality-decision-score"><div class="quality-orb"><div><strong>' + fmt(confirmed) + '</strong><span>staðfest</span></div></div><div class="chip-row"><span class="chip ' + (confirmed ? 'warn' : 'good') + '">' + (confirmed ? 'Skoða fyrst' : 'Production í lagi') + '</span><span class="chip neutral">' + fmt(allCount) + ' merki alls</span><span class="chip neutral">Traust: ' + safe(confidenceText) + '</span></div></div></div>' +
+          '<div class="quality-triage-grid">' +
+            qualitySignalCard("Production gate", confirmed ? fmt(confirmed) : "Hreint", confirmed ? "Hækkar rekstrarstöðu." : "Ekkert staðfest merki.", confirmed ? "warn" : "good") +
+            qualitySignalCard("Power BI / vafri", fmt(unsupported), unsupported ? "Óstuddur eða gamall vafri." : "Engin staðfest vafravilla.", unsupported ? "warn" : "good") +
+            qualitySignalCard("Greiningarmerki", fmt(info + diagnostic), "Info + diagnostic, ekki heimsóknir.", info + diagnostic ? "info" : "good") +
+            qualitySignalCard("Tracker samhengi", topDevice || topBrowser ? safe((topDevice ? topDevice.key : "-") + " / " + (topBrowser ? topBrowser.key : "-")) : "-", "Veik merki " + shareValue(weakShare) + " · " + fmt(deviceRows.length) + " device línur.", weakShare > .12 ? "warn" : "gateway") +
           '</div>' +
         '</section>' +
-        '<section class="quality-rule-strip" aria-label="Reglur fyrir gæðamerki">' +
-          qualityRule("Hækkar rekstrarstöðu", "Aðeins staðfest production warning/error fer í stöðuna og í gula rauða áhættu.", confirmed ? "warn" : "good", "Production gate") +
-          qualityRule("Sýnt en aðskilið", "Info og diagnostic hjálpa við greiningu en teljast ekki heimsóknir og hækka ekki viðvörunarstöðu.", "info", "Aðgreining") +
-          qualityRule("Traust", confidenceText, "gateway", "Confidence") +
+        '<section class="quality-playbook-grid" aria-label="Hvernig gæðamerki eru lesin">' +
+          qualityPlaybookCard("1", "Production fyrst", "Aðeins staðfest warning/error breytir rekstrarstöðu og fer í aðgerðarforgang.", confirmed ? "warn" : "good") +
+          qualityPlaybookCard("2", "Info er samhengi", "Upplýsingamerki hjálpa við rótargreiningu en teljast ekki heimsóknir.", "info") +
+          qualityPlaybookCard("3", "Diagnostic er prófun", "Raw/test merki eru sýnd til rekjanleika og eru haldin utan notkunar.", "gateway") +
+          qualityPlaybookCard("4", "Traust skýrir vægi", "Mjög hátt/hátt er sterk stoð; lægra traust þarf samanburð við tracker og vafra.", "info") +
         '</section>';
-      if (!confirmed) html += '<div class="message-card good"><strong>Hrein production staða</strong><p class="subtle">Engin staðfest warning eða error merki koma í gegnum production talningarhlið.</p></div>';
-      html += '<section class="quality-alerts" aria-label="Gæðamerki">';
-      html += qualityGroup("Staðfest production merki", "Staðfest af production gate eða explicit confirmed flag.", split.confirmed, "confirmed");
-      html += qualityGroup("Óstaðfest samantektarmerki", "Vantar næga stoð til að hækka stöðu.", split.unconfirmed, "unconfirmed");
-      html += qualityGroup("Upplýsingamerki", "Tæknimerki sem styðja greiningu án staðfestrar bilunar.", split.info, "info");
-      html += qualityGroup("Diagnostic/test merki", "Próf/raw merki, ekki heimsóknir og ekki rekstrarviðvaranir.", split.diagnostic, "diagnostic");
-      html += '</section></div>';
+      if (!actionRows.length) {
+        html += '<div class="quality-context-note good"><span>Staða</span><strong>Engin gæðamerki í payload</strong><p>Endpoint skilaði engum quality_warnings línum.</p></div>';
+      } else {
+        html += '<section class="quality-alert-board"><div class="quality-alert-board-head"><div><span class="quality-kicker">Aðgerðaspjöld</span><h3>Hvað á að skoða og hvers vegna</h3><div class="subtle">Raðað þannig að production merki koma fyrst, síðan óstaðfest, upplýsingamerki og diagnostic.</div></div><span class="quality-group-count">' + fmt(actionRows.length) + '</span></div><div class="quality-action-list">' +
+          actionRows.map(function (row) { return qualityActionCard(row, classifyWarning(row)); }).join("") +
+        '</div></section>';
+      }
+      html += '</div>';
       setHtml("warning-list", html);
     }
     function qualityMetric(label, value, detail, cls) {
