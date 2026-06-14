@@ -4,597 +4,954 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="robots" content="noindex, nofollow">
+  <meta name="robots" content="index, follow">
   <title>Opinber mælaborð Landspítala</title>
   <style>
     :root {
-      --bg: #f4f7fa;
-      --panel: #ffffff;
-      --panel-soft: #f8fbfd;
-      --ink: #102033;
-      --muted: #617287;
-      --muted-2: #7d8d9f;
-      --line: #d9e1e8;
-      --line-soft: #e8eef4;
-      --accent: #4F6F8F;
-      --accent-dark: #435F7A;
-      --accent-soft: #eaf1f7;
-      --good: #1f7a53;
-      --warn: #8b6400;
-      --shadow: 0 18px 48px rgba(16, 32, 51, .10);
-      --shadow-soft: 0 10px 28px rgba(16, 32, 51, .07);
-      --radius: 24px;
+      --lsp-blue: #4F6F8F;
+      --lsp-blue-dark: #30475d;
+      --lsp-ink: #102033;
+      --lsp-muted: #5f6f82;
+      --lsp-line: #d9e1e8;
+      --lsp-soft: #f4f7fa;
+      --lsp-card: #ffffff;
+      --lsp-teal: #226d68;
+      --lsp-shadow: 0 18px 48px rgba(16, 32, 51, 0.11);
+      color-scheme: light;
     }
 
-    * { box-sizing: border-box; min-width: 0; }
-    html, body { margin: 0; min-height: 100%; overflow-x: hidden; }
+    html,
     body {
+      margin: 0;
+      min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
-      color: var(--ink);
+      color: var(--lsp-ink);
       background:
-        radial-gradient(circle at top left, rgba(79, 111, 143, .18), transparent 34rem),
-        linear-gradient(180deg, #f8fbfd 0%, var(--bg) 52%, #eef3f7 100%);
+        radial-gradient(circle at top left, rgba(79, 111, 143, 0.14), transparent 32rem),
+        linear-gradient(180deg, #f8fbfd 0%, var(--lsp-soft) 100%);
     }
 
-    a { color: inherit; }
-    a:focus-visible, button:focus-visible { outline: 3px solid rgba(79, 111, 143, .36); outline-offset: 3px; }
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-width: 0;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+    }
 
     .shell {
       width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 24px 0 36px;
+      padding: 22px 0 26px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 0 20px;
+    }
+
+    .brand-wordmark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: #ffffff;
+      border: 1px solid rgba(217, 225, 232, 0.9);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 22px rgba(16, 32, 51, 0.08);
+      overflow: hidden;
+    }
+
+    .brand-mark img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-copy strong {
+      display: block;
+      color: var(--lsp-blue-dark);
+      font-size: 15px;
+      line-height: 1.15;
+    }
+
+    .brand-copy span {
+      display: block;
+      color: var(--lsp-muted);
+      font-size: 13px;
+      line-height: 1.25;
+      margin-top: 2px;
+    }
+
+    .logo {
+      width: min(154px, 38vw);
+      height: auto;
+      display: block;
     }
 
     .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 22px;
-      align-items: start;
-      padding: 28px;
-      border: 1px solid var(--line);
-      border-radius: 30px;
-      background: rgba(255, 255, 255, .92);
-      box-shadow: var(--shadow);
       position: relative;
       overflow: hidden;
+      border: 1px solid rgba(217, 225, 232, 0.92);
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.88)),
+        radial-gradient(circle at 85% 10%, rgba(34, 109, 104, 0.16), transparent 24rem);
+      box-shadow: var(--lsp-shadow);
+      padding: clamp(26px, 5vw, 54px);
     }
-    .hero:before {
+
+    .hero:after {
       content: "";
       position: absolute;
-      inset: auto -8rem -10rem auto;
-      width: 22rem;
-      height: 22rem;
-      border-radius: 999px;
-      background: rgba(79, 111, 143, .08);
+      right: -95px;
+      bottom: -105px;
+      width: 260px;
+      height: 260px;
+      border: 36px solid rgba(79, 111, 143, 0.08);
+      border-radius: 50%;
       pointer-events: none;
     }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      position: relative;
-      z-index: 1;
-    }
-    .brand img {
-      width: 88px;
-      height: auto;
-      display: block;
-      flex: 0 0 auto;
-    }
+
     .eyebrow {
-      margin: 0 0 8px;
-      color: var(--accent);
-      font-size: 13px;
-      font-weight: 900;
+      margin: 0 0 12px;
+      color: var(--lsp-teal);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.045em;
       text-transform: uppercase;
-      letter-spacing: .09em;
     }
+
     h1 {
       margin: 0;
-      font-size: clamp(34px, 6vw, 68px);
-      line-height: .95;
-      letter-spacing: -.055em;
+      color: var(--lsp-blue-dark);
+      font-size: clamp(32px, 6vw, 58px);
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+      max-width: 850px;
     }
+
     .lead {
       margin: 18px 0 0;
-      max-width: 74ch;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.58;
-      position: relative;
-      z-index: 1;
+      max-width: 760px;
+      color: var(--lsp-muted);
+      font-size: clamp(16px, 2.2vw, 20px);
+      line-height: 1.55;
     }
-    .privacy {
-      margin: 18px 0 0;
-      max-width: 78ch;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.48;
-      position: relative;
-      z-index: 1;
-    }
-    .hero-aside {
-      min-width: 215px;
-      display: grid;
-      gap: 10px;
-      position: relative;
-      z-index: 1;
-    }
-    .status-card {
-      padding: 14px;
-      border: 1px solid var(--line-soft);
-      border-radius: 18px;
-      background: var(--panel-soft);
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.42;
-    }
-    .status-card strong { display: block; color: var(--ink); font-size: 15px; margin-bottom: 4px; }
-    .dot { display: inline-block; width: 9px; height: 9px; margin-right: 7px; border-radius: 99px; background: var(--good); box-shadow: 0 0 0 4px rgba(31, 122, 83, .12); vertical-align: middle; }
-    .dot.warn { background: #d99a00; box-shadow: 0 0 0 4px rgba(217, 154, 0, .14); }
 
-    .toolbar {
+    .hero-meta {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin: 22px 0 14px;
+      gap: 10px;
+      margin-top: 24px;
+      position: relative;
+      z-index: 1;
     }
-    .toolbar h2 { margin: 0; font-size: 22px; letter-spacing: -.025em; }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
     .chip {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
       min-height: 34px;
-      padding: 7px 11px;
-      border: 1px solid var(--line);
+      padding: 7px 12px;
       border-radius: 999px;
-      background: #fff;
-      color: var(--muted);
+      border: 1px solid rgba(79, 111, 143, 0.18);
+      color: var(--lsp-blue-dark);
+      background: rgba(255, 255, 255, 0.78);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .chip:before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--lsp-teal);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 34px 0 14px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      color: var(--lsp-blue-dark);
+      font-size: clamp(22px, 3.8vw, 30px);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--lsp-muted);
+      font-size: 14px;
+      line-height: 1.45;
+      text-align: right;
+      max-width: 390px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 18px;
+      align-items: stretch;
+      padding: 18px;
+      border: 1px solid rgba(217, 225, 232, 0.92);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 10px 28px rgba(16, 32, 51, 0.075);
+    }
+
+    .card-icon {
+      width: 96px;
+      min-height: 96px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #edf3f7;
+      border: 1px solid rgba(217, 225, 232, 0.9);
+      display: grid;
+      place-items: center;
+    }
+
+    .card-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-body {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-title {
+      margin: 2px 0 0;
+      color: var(--lsp-blue-dark);
+      font-size: 22px;
+      line-height: 1.12;
+      letter-spacing: -0.015em;
+    }
+
+    .card-description {
+      margin: 0;
+      color: var(--lsp-muted);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .route-label {
+      display: inline-flex;
+      width: fit-content;
+      max-width: 100%;
+      padding: 6px 9px;
+      border-radius: 9px;
+      color: #37536d;
+      background: #eef4f8;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 700;
       line-height: 1.1;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
+    .card-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: auto;
     }
-    .card {
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      min-height: 330px;
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, .96);
-      box-shadow: var(--shadow-soft);
-      text-decoration: none;
-      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+
+    .mini-chip {
+      padding: 5px 8px;
+      border: 1px solid rgba(217, 225, 232, 0.95);
+      border-radius: 999px;
+      color: #435f7a;
+      background: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
     }
-    .card:hover, .card:focus-visible {
-      transform: translateY(-2px);
-      border-color: rgba(79, 111, 143, .48);
-      box-shadow: 0 18px 40px rgba(16, 32, 51, .11);
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .card { transition: none; }
-      .card:hover, .card:focus-visible { transform: none; }
-    }
-    .card-top {
+
+    .button-row {
       display: flex;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 16px;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 4px;
     }
-    .icon {
-      width: 68px;
-      height: 68px;
-      flex: 0 0 auto;
-      display: block;
-      object-fit: cover;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: var(--panel-soft);
-    }
-    .card h3 { margin: 0; font-size: 24px; line-height: 1.1; letter-spacing: -.035em; }
-    .path { margin-top: 5px; color: var(--muted-2); font-size: 12px; font-weight: 800; }
-    .desc { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
-    .card-bottom { margin-top: 18px; display: grid; gap: 14px; }
-    .card-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
     .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 48px;
-      width: 100%;
-      padding: 13px 16px;
-      border-radius: 15px;
-      background: var(--accent);
-      color: #fff;
+      min-height: 46px;
+      padding: 13px 18px;
+      border: 1px solid var(--lsp-blue);
+      border-radius: 14px;
+      color: #ffffff;
+      background: var(--lsp-blue);
       font-size: 15px;
-      font-weight: 900;
+      font-weight: 800;
+      line-height: 1;
       text-decoration: none;
-      box-shadow: 0 11px 26px rgba(79, 111, 143, .25);
+      box-shadow: 0 10px 22px rgba(79, 111, 143, 0.22);
+      transition: transform 120ms ease, background 120ms ease, box-shadow 120ms ease;
     }
-    .card:hover .button, .card:focus-visible .button { background: var(--accent-dark); }
+
+    .button:hover,
+    .button:focus-visible {
+      background: #435F7A;
+      box-shadow: 0 12px 26px rgba(79, 111, 143, 0.28);
+      transform: translateY(-1px);
+    }
+
+    .button:focus-visible,
+    .debug-toggle:focus-visible,
+    .footer-link:focus-visible {
+      outline: 3px solid rgba(34, 109, 104, 0.32);
+      outline-offset: 3px;
+    }
+
+    .status {
+      color: var(--lsp-teal);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
 
     .notice {
-      display: none;
-      margin: 14px 0;
-      padding: 13px 15px;
-      border: 1px solid rgba(139, 100, 0, .22);
+      margin-top: 16px;
+      padding: 14px 16px;
+      border: 1px solid #ead8b4;
       border-radius: 16px;
-      background: #fff6dc;
-      color: var(--warn);
+      color: #5d450e;
+      background: #fff7e8;
       font-size: 14px;
-      font-weight: 800;
       line-height: 1.45;
     }
-    .notice.show { display: block; }
 
     .debug-panel {
-      display: none;
-      margin-top: 16px;
+      margin-top: 18px;
       padding: 16px;
-      border: 1px solid var(--line);
+      border: 1px solid rgba(217, 225, 232, 0.95);
       border-radius: 18px;
-      background: #fff;
-      color: var(--muted);
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--lsp-muted);
       font-size: 13px;
-      line-height: 1.5;
+      line-height: 1.45;
     }
-    .debug-panel.show { display: block; }
-    .debug-panel dl { display: grid; grid-template-columns: max-content 1fr; gap: 7px 12px; margin: 0; }
-    .debug-panel dt { color: var(--ink); font-weight: 900; }
-    .debug-panel dd { margin: 0; overflow-wrap: anywhere; }
 
-    footer {
-      margin-top: 24px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
+    .debug-panel[hidden] {
+      display: none;
+    }
+
+    .debug-panel dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: minmax(120px, max-content) 1fr;
+      gap: 8px 12px;
+    }
+
+    .debug-panel dt {
+      margin: 0;
+      color: var(--lsp-ink);
+      font-weight: 800;
+    }
+
+    .debug-panel dd {
+      margin: 0;
+      min-width: 0;
+      word-break: break-word;
+    }
+
+    .footer {
+      margin-top: 30px;
+      padding: 22px 0 0;
+      color: var(--lsp-muted);
       font-size: 13px;
       line-height: 1.55;
     }
 
-    @media (max-width: 760px) {
-      .shell { width: min(100% - 20px, 1180px); padding-top: 12px; }
-      .hero { grid-template-columns: 1fr; padding: 20px; border-radius: 24px; }
-      .brand { align-items: flex-start; gap: 13px; }
-      .brand img { width: 68px; }
-      .lead { font-size: 15px; }
-      .hero-aside { min-width: 0; }
-      .grid { grid-template-columns: 1fr; }
-      .card { min-height: 0; }
-      .icon { width: 58px; height: 58px; border-radius: 16px; }
-      .card h3 { font-size: 21px; }
+    .footer-inner {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      border-top: 1px solid rgba(217, 225, 232, 0.9);
+      padding-top: 18px;
+    }
+
+    .footer p {
+      margin: 0;
+      max-width: 770px;
+    }
+
+    .footer-link {
+      color: var(--lsp-blue-dark);
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .footer-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 880px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .section-head p {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .shell {
+        width: min(100% - 22px, 100%);
+        padding-top: 10px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+      }
+
+      .brand-mark img {
+        width: 30px;
+        height: 30px;
+      }
+
+      .brand-copy span {
+        display: none;
+      }
+
+      .hero {
+        border-radius: 22px;
+        padding: 24px 18px;
+      }
+
+      .hero-meta {
+        gap: 8px;
+      }
+
+      .chip {
+        font-size: 12px;
+      }
+
+      .card {
+        grid-template-columns: 72px 1fr;
+        gap: 13px;
+        padding: 14px;
+        border-radius: 20px;
+      }
+
+      .card-icon {
+        width: 72px;
+        min-height: 72px;
+        border-radius: 16px;
+      }
+
+      .card-title {
+        font-size: 18px;
+      }
+
+      .button-row {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .status {
+        white-space: normal;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .button {
+        transition: none;
+      }
+
+      .button:hover,
+      .button:focus-visible {
+        transform: none;
+      }
     }
   </style>
 </head>
 <body>
   <div class="shell">
-    <header class="hero">
-      <div>
-        <div class="brand">
-          <img id="brand-logo" src="https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png" alt="Landspítali">
-          <div>
-            <p class="eyebrow">Landspítali</p>
-            <h1 id="root-title">Opinber mælaborð Landspítala</h1>
-          </div>
+    <header class="topbar" aria-label="Landspítali">
+      <div class="brand-wordmark">
+        <div class="brand-mark" aria-hidden="true">
+          <img src="https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png" alt="" width="34" height="34">
         </div>
-        <p id="root-subtitle" class="lead">Veldu mælaborð. Síðan opnar sjálfkrafa rétta útgáfu eftir tæki og skjábreidd.</p>
-        <p id="root-privacy" class="privacy">Engar persónuupplýsingar eru birtar. Leiðing og notkun eru mæld með aggregate tæknimerkjum til að bæta birtingu og notendaupplifun.</p>
+        <div class="brand-copy">
+          <strong>Landspítali</strong>
+          <span>Opinber mælaborð</span>
+        </div>
       </div>
-      <aside class="hero-aside" aria-label="Staða gáttar">
-        <div class="status-card"><strong><span id="config-dot" class="dot"></span><span id="config-status">Config hleðst</span></strong><span id="config-detail">Mælaborð eru birt úr miðlægri stilliskrá þegar hún er aðgengileg.</span></div>
-        <div class="status-card"><strong>Örugg fallback</strong>Ef stilliskrá hleðst ekki sjást samt samþykktar fallback leiðir á mælaborðin.</div>
-      </aside>
+      <img class="logo" src="https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png" alt="Landspítali" width="154" height="48" loading="eager" decoding="async">
     </header>
 
-    <div id="notice" class="notice" role="status"></div>
+    <main id="main-content">
+      <section class="hero" aria-labelledby="gateway-title">
+        <p class="eyebrow">Opinber birting</p>
+        <h1 id="gateway-title">Opinber mælaborð Landspítala</h1>
+        <p id="gateway-subtitle" class="lead">Veldu mælaborð. Síðan opnar sjálfkrafa rétta útgáfu eftir tæki og skjábreidd.</p>
+        <div class="hero-meta" aria-label="Eiginleikar leiðingar">
+          <span class="chip">Mobile og desktop útgáfur</span>
+          <span class="chip">Sjálfvirk leiðing</span>
+          <span class="chip">Aggregate tæknimerki</span>
+        </div>
+      </section>
 
-    <div class="toolbar">
-      <h2>Mælaborð</h2>
-      <div class="chips" aria-label="Eiginleikar leiðingar">
-        <span class="chip">Sjálfvirk leiðing</span>
-        <span class="chip">Mobile og desktop útgáfur</span>
-        <span class="chip">Aggregate mælingar</span>
+      <div class="section-head">
+        <div>
+          <h2>Mælaborð</h2>
+        </div>
+        <p>Hver hnappur opnar létta leiðingarsíðu sem velur Power BI útgáfu eftir raunverulegu skjáplássi.</p>
       </div>
-    </div>
 
-    <main id="dashboard-grid" class="grid" aria-live="polite"></main>
+      <section id="dashboard-cards" class="cards" aria-live="polite" aria-label="Mælaborð"></section>
+      <div id="config-notice" class="notice" role="status" hidden></div>
+      <section id="debug-panel" class="debug-panel" aria-label="Debug upplýsingar" hidden></section>
+    </main>
 
-    <section id="debug-panel" class="debug-panel" aria-label="Debug upplýsingar"></section>
-
-    <footer id="footer-text">Engar persónuupplýsingar eru birtar. Leiðing og notkun eru mæld með aggregate tæknimerkjum til að bæta birtingu og notendaupplifun.</footer>
+    <footer class="footer">
+      <div class="footer-inner">
+        <p id="privacy-copy">Engar persónuupplýsingar eru birtar. Leiðing og notkun eru mæld með aggregate tæknimerkjum til að bæta birtingu og notendaupplifun.</p>
+        <a class="footer-link" href="status-dashboard/maelabordsmalingar_status_dashboard_v1_4_0.html">Mælaborðsmælingar</a>
+      </div>
+    </footer>
   </div>
 
-  <noscript>
-    <div style="max-width:760px;margin:20px auto;padding:18px;border:1px solid #d9e1e8;border-radius:16px;background:#fff;font-family:Arial,Helvetica,sans-serif;color:#102033;">
-      <h2>Opna mælaborð</h2>
-      <p>JavaScript er óvirkt. Veldu mælaborð:</p>
-      <p><a href="./bradamottaka/">Bráðamóttaka í Fossvogi</a></p>
-      <p><a href="./thjonustukannanir/">Þjónustukannanir ríkisstofnana</a></p>
-    </div>
-  </noscript>
-
-  <script src="/Landspitali/assets/router-config.prod.js?v=20260613-relaunch1"></script>
+  <script src="/Landspitali/assets/router-config.prod.js?v=20260614-v141ios1" onerror="window.__LSP_CONFIG_FAILED=true"></script>
   <script>
     (function () {
       "use strict";
 
-      var ROOT_INDEX_VERSION = "2026-06-13-root-index-1.4.0-relaunch.1";
       var FALLBACK_LOGO = "https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png";
-      var FALLBACK = {
-        configVersion: "embedded-root-fallback-2026-06-13",
-        schemaVersion: "9",
-        basePath: "/Landspitali/",
-        publicEntry: {
-          logoUrl: FALLBACK_LOGO,
-          privacyText: "Engar persónuupplýsingar eru birtar. Leiðing og notkun eru mæld með aggregate tæknimerkjum til að bæta birtingu og notendaupplifun."
+      var FALLBACK_DASHBOARDS = [
+        {
+          dashboardKey: "bradamottaka",
+          dashboardId: "bradamottaka-fossvogi",
+          displayName: "Bráðamóttaka í Fossvogi",
+          path: "bradamottaka",
+          description: "Yfirlit yfir stöðu og þróun á bráðamóttöku.",
+          iconUrl: "https://images.ctfassets.net/8k0h54kbe6bj/68Ef7p57VqG1aYv99GbzB0/3b98fe5c7b3b11c7d01194a7e9caccd6/bradamottaka-linkimage.png?w=774&fm=webp&q=80",
+          chips: ["Mobile og desktop útgáfur", "Sjálfvirk leiðing"],
+          routeLabel: "Sjálfvirk mobile/desktop leiðing",
+          enabled: true,
+          displayOrder: 10,
+          utmContent: "bradamottaka_fossvogi"
         },
-        rootIndex: {
-          title: "Opinber mælaborð Landspítala",
-          subtitle: "Veldu mælaborð. Síðan opnar sjálfkrafa rétta útgáfu eftir tæki og skjábreidd.",
-          footer: "Engar persónuupplýsingar eru birtar. Leiðing og notkun eru mæld með aggregate tæknimerkjum til að bæta birtingu og notendaupplifun.",
-          actionText: "Opna mælaborð"
-        },
-        tracking: { enabled: false, endpoint: "", schemaVersion: "9", rootIndexTrackingEnabled: false, rootIndexUtmDefaults: { utm_source: "root_index", utm_medium: "public_gateway", utm_campaign: "landspitali_maelabord" } },
-        dashboards: {
-          bradamottaka: {
-            enabled: true,
-            rootIndexVisible: true,
-            displayOrder: 10,
-            dashboardKey: "bradamottaka",
-            dashboardId: "bradamottaka-fossvogi",
-            displayName: "Bráðamóttaka í Fossvogi",
-            path: "bradamottaka",
-            publicCard: {
-              title: "Bráðamóttaka í Fossvogi",
-              description: "Staða, komur, legudeildarflæði og aldursdreifing á bráðamóttöku í Fossvogi.",
-              buttonText: "Opna mælaborð",
-              iconUrl: "https://images.ctfassets.net/8k0h54kbe6bj/68Ef7p57VqG1aYv99GbzB0/3b98fe5c7b3b11c7d01194a7e9caccd6/bradamottaka-linkimage.png?w=774&fm=webp&q=80"
-            },
-            utmContent: "bradamottaka_fossvogi"
-          },
-          thjonustukannanir: {
-            enabled: true,
-            rootIndexVisible: true,
-            displayOrder: 20,
-            dashboardKey: "thjonustukannanir",
-            dashboardId: "thjonustukannanir-rikisstofnana",
-            displayName: "Þjónustukannanir ríkisstofnana",
-            path: "thjonustukannanir",
-            publicCard: {
-              title: "Þjónustukannanir",
-              description: "Niðurstöður þjónustukannana ríkisstofnana hjá Landspítala eftir árum, mánuðum, aldri og búsetu.",
-              buttonText: "Opna mælaborð",
-              iconUrl: "https://images.ctfassets.net/8k0h54kbe6bj/5eK6Vivq6aUDWj2mnOEsvS/7e5d5e7c03b92370ccee175ad01f8330/survey-linkimage.png?w=774&fm=webp&q=80"
-            },
-            utmContent: "thjonustukannanir"
-          }
+        {
+          dashboardKey: "thjonustukannanir",
+          dashboardId: "thjonustukannanir-rikisstofnana",
+          displayName: "Þjónustukannanir ríkisstofnana",
+          path: "thjonustukannanir",
+          description: "Niðurstöður þjónustukannana ríkisstofnana á Landspítala.",
+          iconUrl: "https://images.ctfassets.net/8k0h54kbe6bj/5eK6Vivq6aUDWj2mnOEsvS/7e5d5e7c03b92370ccee175ad01f8330/survey-linkimage.png?w=774&fm=webp&q=80",
+          chips: ["Mobile og desktop útgáfur", "Sjálfvirk leiðing"],
+          routeLabel: "Sjálfvirk mobile/desktop leiðing",
+          enabled: true,
+          displayOrder: 20,
+          utmContent: "thjonustukannanir"
         }
-      };
+      ];
 
-      function byId(id) { return document.getElementById(id); }
-      function text(value) { return String(value == null ? "" : value); }
+      function qs(selector) {
+        return document.querySelector(selector);
+      }
+
       function escapeHtml(value) {
-        return text(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+        return String(value == null ? "" : value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
       }
-      function safeUrl(value, fallback) {
-        value = text(value);
-        if (/^https:\/\//i.test(value) || /^\.\.?\//.test(value) || /^\//.test(value)) return value;
-        return fallback || "#";
-      }
-      function getParams() {
-        var result = {};
+
+      function getQueryValue(name) {
         var query = window.location.search || "";
+        var match;
         if (window.URLSearchParams) {
-          new URLSearchParams(query).forEach(function (value, key) { result[key.toLowerCase()] = value; });
-          return result;
+          return new URLSearchParams(query).get(name) || "";
         }
-        query.replace(/^\?/, "").split("&").forEach(function (part) {
-          var pair = part.split("=");
-          if (pair[0]) result[decodeURIComponent(pair[0]).toLowerCase()] = decodeURIComponent((pair[1] || "").replace(/\+/g, " "));
-        });
-        return result;
+        match = new RegExp("[?&]" + name + "=([^&]*)", "i").exec(query);
+        return match ? decodeURIComponent(match[1].replace(/\+/g, " ")) : "";
       }
+
       function hasFlag(name) {
-        var params = getParams();
-        var value = text(params[name]).toLowerCase();
-        return Object.prototype.hasOwnProperty.call(params, name) && (value === "" || value === "1" || value === "true" || value === "yes");
+        var query = window.location.search || "";
+        var value;
+        if (window.URLSearchParams) {
+          value = new URLSearchParams(query).get(name);
+          return new URLSearchParams(query).has(name) && (value === null || value === "" || value === "1" || /^true$/i.test(value));
+        }
+        return new RegExp("[?&]" + name + "(=1|=true|&|$)", "i").test(query);
       }
-      function requestId() {
+
+      function width() {
+        var win = window.innerWidth || 0;
+        var doc = document.documentElement && document.documentElement.clientWidth ? document.documentElement.clientWidth : 0;
+        return win && doc ? Math.min(win, doc) : win || doc || 0;
+      }
+
+      function height() {
+        var win = window.innerHeight || 0;
+        var doc = document.documentElement && document.documentElement.clientHeight ? document.documentElement.clientHeight : 0;
+        return win && doc ? Math.min(win, doc) : win || doc || 0;
+      }
+
+      function nowIso() {
+        try { return new Date().toISOString(); } catch (error) { return ""; }
+      }
+
+      function makeEventId() {
         if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
         return "root-" + Date.now() + "-" + Math.random().toString(16).slice(2);
       }
-      var REQUEST_ID = requestId();
-      var sequence = 0;
-      function eventId() { sequence += 1; return REQUEST_ID + "-" + sequence; }
-      function viewportWidth() { return Math.min(window.innerWidth || 0, document.documentElement.clientWidth || window.innerWidth || 0) || (screen ? screen.width : 0) || ""; }
-      function viewportHeight() { return Math.min(window.innerHeight || 0, document.documentElement.clientHeight || window.innerHeight || 0) || (screen ? screen.height : 0) || ""; }
-      function host(url) {
-        try { var a = document.createElement("a"); a.href = url || ""; return a.hostname || ""; } catch (error) { return ""; }
+
+      function referrerDomain() {
+        var a;
+        if (!document.referrer) return "";
+        try {
+          a = document.createElement("a");
+          a.href = document.referrer;
+          return a.hostname || "";
+        } catch (error) {}
+        return "";
       }
-      function sourceCategory() {
-        var params = getParams();
-        var ref = host(document.referrer || "");
-        if (/island\.is/i.test(params.utm_source || "") || /(^|\.)island\.is$/i.test(ref)) return "island_is_public";
-        if (/qr|qrcode/i.test(params.utm_source || "")) return "qr_code";
-        if (/teams/i.test(params.utm_source || "")) return "internal_teams";
-        if (/outlook|email|mail/i.test((params.utm_source || "") + " " + (params.utm_medium || ""))) return "internal_email";
+
+      function getConfig() {
+        return window.LSP_ROUTER_CONFIG || null;
+      }
+
+      function isDebug() {
+        return hasFlag("debug") || hasFlag("noredirect");
+      }
+
+      function getDashboards(config) {
+        var result = [];
+        var key;
+        var item;
+        var card;
+        if (config && config.dashboards) {
+          for (key in config.dashboards) {
+            if (Object.prototype.hasOwnProperty.call(config.dashboards, key)) {
+              item = config.dashboards[key] || {};
+              if (item.enabled !== false || isDebug()) {
+                card = item.publicCard || {};
+                result.push({
+                  dashboardKey: item.dashboardKey || key,
+                  dashboardId: item.dashboardId || "",
+                  displayName: card.title || item.displayName || key,
+                  path: item.path || key,
+                  description: card.description || "",
+                  iconUrl: card.iconUrl || FALLBACK_LOGO,
+                  chips: card.chips || (config.rootIndex && config.rootIndex.cardsChipLabels) || [],
+                  routeLabel: card.routeLabel || "Sjálfvirk leiðing",
+                  enabled: item.enabled !== false,
+                  displayOrder: Number(item.displayOrder || item.order || 999),
+                  utmContent: item.utmContent || card.stableUtmContent || item.dashboardKey || key
+                });
+              }
+            }
+          }
+        }
+        if (!result.length) result = FALLBACK_DASHBOARDS.slice(0);
+        result.sort(function (a, b) { return (a.displayOrder || 999) - (b.displayOrder || 999); });
+        return result;
+      }
+
+      function buildRouteUrl(config, dashboard) {
+        var base = (config && config.basePath) || "/Landspitali/";
+        var path = String(dashboard.path || dashboard.dashboardKey || "").replace(/^\/+|\/+$/g, "");
+        var qsParts = [
+          "utm_source=root_index",
+          "utm_medium=gateway_card",
+          "utm_campaign=landspitali_maelabord",
+          "utm_content=" + encodeURIComponent(String(dashboard.utmContent || dashboard.dashboardKey || path).replace(/-/g, "_")),
+          "from=root_index"
+        ];
+        return base.replace(/\/$/, "/") + path + "/?" + qsParts.join("&");
+      }
+
+      function renderCards(config) {
+        var el = qs("#dashboard-cards");
+        var dashboards = getDashboards(config);
+        var html = "";
+        dashboards.forEach(function (dashboard) {
+          var routeUrl = buildRouteUrl(config, dashboard);
+          var icon = dashboard.iconUrl || FALLBACK_LOGO;
+          var chipHtml = "";
+          (dashboard.chips || []).slice(0, 3).forEach(function (chip) {
+            chipHtml += "<span class=\"mini-chip\">" + escapeHtml(chip) + "</span>";
+          });
+          html += "<article class=\"card\">";
+          html += "<div class=\"card-icon\"><img src=\"" + escapeHtml(icon) + "\" alt=\"\" width=\"96\" height=\"96\" loading=\"lazy\" decoding=\"async\" onerror=\"this.onerror=null;this.src='" + escapeHtml(FALLBACK_LOGO) + "';\"></div>";
+          html += "<div class=\"card-body\">";
+          html += "<h3 class=\"card-title\">" + escapeHtml(dashboard.displayName) + "</h3>";
+          html += "<p class=\"card-description\">" + escapeHtml(dashboard.description) + "</p>";
+          html += "<span class=\"route-label\">" + escapeHtml(dashboard.routeLabel || dashboard.path) + "</span>";
+          html += "<div class=\"card-chips\">" + chipHtml + "</div>";
+          html += "<div class=\"button-row\">";
+          html += "<a class=\"button\" data-dashboard-key=\"" + escapeHtml(dashboard.dashboardKey) + "\" data-dashboard-id=\"" + escapeHtml(dashboard.dashboardId) + "\" href=\"" + escapeHtml(routeUrl) + "\">Opna mælaborð</a>";
+          html += "<span class=\"status\">" + (dashboard.enabled ? "Virkt" : "Óvirkt í almennri birtingu") + "</span>";
+          html += "</div></div></article>";
+        });
+        if (el) el.innerHTML = html;
+      }
+
+      function getEntrySourceCategory() {
+        var ref = referrerDomain();
+        var source = getQueryValue("utm_source") || getQueryValue("source") || getQueryValue("from");
+        if (/qr/i.test(source)) return "QR";
+        if (/island\.is/i.test(source) || /(^|\.)island\.is$/i.test(ref)) return "island.is";
+        if (/teams/i.test(source) || /teams\.microsoft/i.test(ref)) return "Teams";
+        if (/outlook|email|mail/i.test(source) || /outlook|office|microsoft/i.test(ref)) return "Outlook/email";
         if (ref) return "external_referrer";
         return "direct";
       }
-      function appendQuery(url, params) {
-        var pieces = [];
-        Object.keys(params).forEach(function (key) {
-          if (params[key] !== undefined && params[key] !== null && params[key] !== "") pieces.push(encodeURIComponent(key) + "=" + encodeURIComponent(params[key]));
-        });
-        return url + (url.indexOf("?") === -1 ? "?" : "&") + pieces.join("&");
+
+      function appendQuery(url, payload) {
+        var parts = [];
+        var key;
+        for (key in payload) {
+          if (Object.prototype.hasOwnProperty.call(payload, key) && payload[key] !== "" && payload[key] !== null && payload[key] !== undefined) {
+            parts.push(encodeURIComponent(key) + "=" + encodeURIComponent(String(payload[key])));
+          }
+        }
+        return url + (url.indexOf("?") === -1 ? "?" : "&") + parts.join("&");
       }
-      function dashboardUrl(config, dashboard) {
-        var basePath = config.basePath || "/Landspitali/";
-        var path = text(dashboard.path || dashboard.dashboardKey || "").replace(/^\/+|\/+$/g, "");
-        var url = basePath + path + "/";
-        var params = getParams();
-        var defaults = (config.tracking && config.tracking.rootIndexUtmDefaults) || { utm_source: "root_index", utm_medium: "public_gateway", utm_campaign: "landspitali_maelabord" };
-        var allowed = ["force", "view", "debug", "noredirect", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "utm_id"];
-        var out = {};
-        Object.keys(defaults).forEach(function (key) { out[key] = defaults[key]; });
-        allowed.forEach(function (key) { if (params[key]) out[key] = params[key]; });
-        out.utm_content = out.utm_content || dashboard.utmContent || (dashboard.publicCard && dashboard.publicCard.stableUtmContent) || dashboard.dashboardKey;
-        return appendQuery(url, out);
+
+      function payloadSizeBucket(size) {
+        size = Number(size) || 0;
+        if (size <= 1000) return "0-1kb";
+        if (size <= 3000) return "1-3kb";
+        if (size <= 6000) return "3-6kb";
+        return "6kb+";
       }
-      function buildEvent(config, type, dashboard) {
-        var params = getParams();
-        return {
-          schema_version: (config.tracking && config.tracking.schemaVersion) || config.schemaVersion || "9",
-          event_id: eventId(),
-          request_id: REQUEST_ID,
-          event_type: type,
+
+      function sendRootEvent(config, eventType, dashboardKey, dashboardId, targetPath) {
+        var endpoint = config && config.tracking && config.tracking.enabled ? config.tracking.endpoint : "";
+        var payload;
+        var body;
+        var blob;
+        var queued;
+        var image;
+        var size;
+        if (!endpoint || !/^https:\/\//i.test(endpoint)) return;
+        payload = {
+          event_type: eventType,
+          eventType: eventType,
+          event_schema_version: config.tracking && config.tracking.schemaVersion ? config.tracking.schemaVersion : (config.schemaVersion || "9"),
+          dashboard_key: dashboardKey || "",
+          dashboard_id: dashboardId || "",
+          dashboard_name: dashboardKey || "root_index",
           count_as_visit: false,
-          count_exclusion_reason: type === "root_dashboard_click" ? "root_dashboard_click_not_visit" : "root_index_event_not_visit",
+          countAsVisit: false,
+          count_exclusion_reason: eventType === "root_dashboard_click" ? "root_dashboard_click" : "root_index_view",
           event_tier: "root_index",
-          client_time: new Date().toISOString(),
-          dashboard_key: dashboard ? dashboard.dashboardKey || "" : "",
-          dashboard_id: dashboard ? dashboard.dashboardId || "" : "",
-          dashboard_name: dashboard ? dashboard.displayName || "" : "",
-          public_card_title: dashboard && dashboard.publicCard ? dashboard.publicCard.title || "" : "",
-          public_entry_page: (config.publicEntry && (config.publicEntry.rootIndexPath || config.publicEntry.pagePath)) || window.location.pathname,
           selected_layout: "none",
           auto_selected_layout: "none",
-          forced_layout: params.force || params.view || "auto",
-          forced_layout_applied: false,
-          route_reason: type,
-          route_reason_detail: "root index gateway event, not a dashboard visit",
-          layout_source: "root_index",
-          route_policy_result: "not_applicable_root_index",
-          viewport_width: viewportWidth(),
-          viewport_height: viewportHeight(),
-          layout_viewport_width: viewportWidth(),
-          layout_viewport_height: viewportHeight(),
+          route_reason: eventType,
+          route_reason_detail: "root gateway event, not a dashboard visit",
+          page_path: window.location.pathname || "",
+          page_url: window.location.origin + window.location.pathname,
+          page_host: window.location.host || "",
+          root_dashboard_target_path: targetPath || "",
+          entry_source_category: getEntrySourceCategory(),
+          referrer_domain: referrerDomain(),
+          utm_source: getQueryValue("utm_source"),
+          utm_medium: getQueryValue("utm_medium"),
+          utm_campaign: getQueryValue("utm_campaign"),
+          utm_content: getQueryValue("utm_content"),
+          utm_term: getQueryValue("utm_term"),
+          layout_viewport_width: width(),
+          layout_viewport_height: height(),
+          viewport_width: width(),
+          viewport_height: height(),
           screen_width: window.screen ? screen.width : "",
           screen_height: window.screen ? screen.height : "",
           device_pixel_ratio: window.devicePixelRatio || 1,
-          page_host: window.location.host,
-          page_path: window.location.pathname,
-          referrer_domain: host(document.referrer || ""),
-          entry_source_category: sourceCategory(),
-          utm_source: params.utm_source || "",
-          utm_medium: params.utm_medium || "",
-          utm_campaign: params.utm_campaign || "",
-          utm_content: params.utm_content || (dashboard ? dashboard.utmContent || "" : ""),
           config_version: config.configVersion || "",
-          router_core_version: ROOT_INDEX_VERSION,
-          config_source: window.LSP_ROUTER_CONFIG ? "central-config-js" : "embedded-root-fallback",
-          tracking_method: "imageGet",
-          debug_mode: hasFlag("debug"),
-          no_redirect_mode: false
+          core_version: "root-index-v1.4.1-ios-safari-hotfix.1",
+          event_time_client: nowIso(),
+          event_id: makeEventId()
         };
-      }
-      function sendTracking(config, payload) {
-        var tracking = config.tracking || {};
-        var endpoint = tracking.endpoint || "";
-        var params = {};
-        var image;
-        if (!tracking.enabled || !tracking.rootIndexTrackingEnabled || !endpoint || !/^https:\/\//i.test(endpoint)) return;
-        Object.keys(payload).forEach(function (key) {
-          if (payload[key] !== undefined && payload[key] !== null && payload[key] !== "") params[key] = String(payload[key]);
-        });
-        params.payload_size_bytes = String(JSON.stringify(params).length);
-        params.payload_size_bucket = Number(params.payload_size_bytes) < 1500 ? "lt_1_5kb" : "gte_1_5kb";
-        params.cb = String(Date.now()) + String(Math.random()).slice(2);
         try {
+          if (navigator.sendBeacon) {
+            payload.tracking_method = "sendBeacon";
+            payload.tracker_send_method = "sendBeacon";
+            body = JSON.stringify(payload);
+            payload.payload_size_bytes = body.length;
+            payload.tracker_payload_size_bytes = body.length;
+            blob = new Blob([body], { type: "text/plain;charset=UTF-8" });
+            queued = navigator.sendBeacon(endpoint, blob);
+            if (queued) return;
+          }
+          if (window.fetch) {
+            payload.tracking_method = "fetchKeepalive";
+            payload.tracker_send_method = "fetchKeepalive";
+            body = JSON.stringify(payload);
+            payload.payload_size_bytes = body.length;
+            payload.tracker_payload_size_bytes = body.length;
+            window.fetch(endpoint, {
+              method: "POST",
+              mode: "no-cors",
+              keepalive: true,
+              headers: { "Content-Type": "text/plain;charset=UTF-8" },
+              body: body
+            }).catch(function () {});
+            return;
+          }
+          payload.tracking_method = "imageGet";
+          payload.tracker_send_method = "imageGet";
+          size = JSON.stringify(payload).length;
+          payload.payload_size_bytes = size;
+          payload.tracker_payload_size_bytes = size;
+          payload.payload_size_bucket = payloadSizeBucket(size);
+          payload.imageget_payload_near_limit = size > 3600;
           image = new Image(1, 1);
           image.alt = "";
           image.referrerPolicy = "no-referrer-when-downgrade";
-          image.src = appendQuery(endpoint, params);
-          window.__lspRootTrackingPixels = window.__lspRootTrackingPixels || [];
-          window.__lspRootTrackingPixels.push(image);
-          if (window.__lspRootTrackingPixels.length > 20) window.__lspRootTrackingPixels.shift();
+          image.src = appendQuery(endpoint, payload);
+          window.__lspRootPixels = window.__lspRootPixels || [];
+          window.__lspRootPixels.push(image);
+          if (window.__lspRootPixels.length > 20) window.__lspRootPixels.shift();
         } catch (error) {}
       }
-      function cardsFromConfig(config) {
-        var dashboards = config.dashboards || {};
-        return Object.keys(dashboards).map(function (key) { return dashboards[key]; }).filter(function (dashboard) {
-          if (hasFlag("debug")) return true;
-          return dashboard && dashboard.enabled !== false && dashboard.rootIndexVisible !== false;
-        }).sort(function (a, b) {
-          return (Number(a.displayOrder) || 999) - (Number(b.displayOrder) || 999);
+
+      function attachClickTracking(config) {
+        var container = qs("#dashboard-cards");
+        if (!container) return;
+        container.addEventListener("click", function (event) {
+          var target = event.target;
+          while (target && target !== container && !target.getAttribute("data-dashboard-key")) {
+            target = target.parentNode;
+          }
+          if (target && target.getAttribute("data-dashboard-key")) {
+            sendRootEvent(config, "root_dashboard_click", target.getAttribute("data-dashboard-key"), target.getAttribute("data-dashboard-id"), target.getAttribute("href") || "");
+          }
         });
-      }
-      function renderCards(config) {
-        var grid = byId("dashboard-grid");
-        var cards = cardsFromConfig(config);
-        var html = "";
-        if (!cards.length) {
-          grid.innerHTML = "<p>Engin virk mælaborð fundust í stilliskrá.</p>";
-          return;
-        }
-        cards.forEach(function (dashboard) {
-          var card = dashboard.publicCard || {};
-          var title = card.title || dashboard.displayName || dashboard.dashboardKey;
-          var href = dashboardUrl(config, dashboard);
-          var icon = card.iconUrl || (config.publicEntry && config.publicEntry.logoUrl) || FALLBACK_LOGO;
-          var statusChip = dashboard.enabled === false ? "Óvirkt í venjulegri birtingu" : "Sjálfvirk leiðing";
-          html += "<a class=\"card\" href=\"" + escapeHtml(href) + "\" data-dashboard-key=\"" + escapeHtml(dashboard.dashboardKey || "") + "\">";
-          html += "<div class=\"card-top\"><img class=\"icon\" src=\"" + escapeHtml(safeUrl(icon, FALLBACK_LOGO)) + "\" alt=\"\" loading=\"lazy\" decoding=\"async\"><div><h3>" + escapeHtml(title) + "</h3><div class=\"path\">/" + escapeHtml(dashboard.path || dashboard.dashboardKey || "") + "/</div></div></div>";
-          html += "<p class=\"desc\">" + escapeHtml(card.description || dashboard.displayName || "Mælaborð Landspítala") + "</p>";
-          html += "<div class=\"card-bottom\"><div class=\"card-chips\"><span class=\"chip\">" + escapeHtml(statusChip) + "</span><span class=\"chip\">Mobile og desktop útgáfur</span></div><span class=\"button\">" + escapeHtml(card.buttonText || (config.rootIndex && config.rootIndex.actionText) || "Opna mælaborð") + "</span></div>";
-          html += "</a>";
-        });
-        grid.innerHTML = html;
-        Array.prototype.forEach.call(grid.querySelectorAll(".card"), function (link) {
-          link.addEventListener("click", function () {
-            var key = link.getAttribute("data-dashboard-key");
-            var dashboard = null;
-            cards.forEach(function (candidate) { if ((candidate.dashboardKey || "") === key) dashboard = candidate; });
-            sendTracking(config, buildEvent(config, "root_dashboard_click", dashboard));
-          });
-        });
-      }
-      function renderDebug(config, usedFallback) {
-        var debug = byId("debug-panel");
-        if (!hasFlag("debug") || !debug) return;
-        debug.className = "debug-panel show";
-        debug.innerHTML = "<dl>" +
-          "<dt>Root index</dt><dd>" + escapeHtml(ROOT_INDEX_VERSION) + "</dd>" +
-          "<dt>Config</dt><dd>" + escapeHtml(config.configVersion || "unknown") + "</dd>" +
-          "<dt>Config source</dt><dd>" + escapeHtml(usedFallback ? "embedded-root-fallback" : "central-config-js") + "</dd>" +
-          "<dt>Dashboard count</dt><dd>" + escapeHtml(cardsFromConfig(config).length) + "</dd>" +
-          "<dt>Skjábreidd</dt><dd>" + escapeHtml(viewportWidth()) + " px</dd>" +
-          "<dt>Uppruni</dt><dd>" + escapeHtml(sourceCategory()) + "</dd>" +
-          "</dl>";
-      }
-      function init() {
-        var config = window.LSP_ROUTER_CONFIG || FALLBACK;
-        var usedFallback = !window.LSP_ROUTER_CONFIG;
-        var root = config.rootIndex || FALLBACK.rootIndex;
-        var publicEntry = config.publicEntry || FALLBACK.publicEntry;
-        byId("brand-logo").src = safeUrl(publicEntry.logoUrl || FALLBACK_LOGO, FALLBACK_LOGO);
-        byId("root-title").textContent = root.title || "Opinber mælaborð Landspítala";
-        byId("root-subtitle").textContent = root.subtitle || FALLBACK.rootIndex.subtitle;
-        byId("root-privacy").textContent = root.footer || publicEntry.privacyText || FALLBACK.rootIndex.footer;
-        byId("footer-text").textContent = root.footer || publicEntry.privacyText || FALLBACK.rootIndex.footer;
-        byId("config-status").textContent = usedFallback ? "Fallback stillingar" : "Miðlæg stilliskrá virk";
-        byId("config-detail").textContent = usedFallback ? "Miðlæg stilliskrá hlóðst ekki. Samþykktar fallback leiðir eru birtar." : "Kortin eru birt úr miðlægri stilliskrá.";
-        byId("config-dot").className = usedFallback ? "dot warn" : "dot";
-        if (usedFallback) {
-          byId("notice").className = "notice show";
-          byId("notice").textContent = "Miðlæg stilliskrá hlóðst ekki. Fallback kort eru birt, en tækniteymi ætti að skoða config slóðina.";
-        }
-        renderCards(config);
-        renderDebug(config, usedFallback);
-        sendTracking(config, buildEvent(config, usedFallback ? "config_load_failure" : "root_index_view", null));
       }
 
-      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
-      else init();
+      function applyCopy(config) {
+        var logoUrl = (config && config.publicEntry && config.publicEntry.logoUrl) || FALLBACK_LOGO;
+        var logos = document.querySelectorAll("img.logo, .brand-mark img");
+        var title = config && config.rootIndex && config.rootIndex.title ? config.rootIndex.title : "Opinber mælaborð Landspítala";
+        var subtitle = config && config.rootIndex && config.rootIndex.subtitle ? config.rootIndex.subtitle : "Veldu mælaborð. Síðan opnar sjálfkrafa rétta útgáfu eftir tæki og skjábreidd.";
+        var privacy = config && config.rootIndex && config.rootIndex.privacyText ? config.rootIndex.privacyText : "Engar persónuupplýsingar eru birtar. Leiðing og notkun eru mæld með aggregate tæknimerkjum til að bæta birtingu og notendaupplifun.";
+        Array.prototype.forEach.call(logos, function (img) { img.src = logoUrl; });
+        document.title = title;
+        qs("#gateway-title").textContent = title;
+        qs("#gateway-subtitle").textContent = subtitle;
+        qs("#privacy-copy").textContent = privacy;
+      }
+
+      function renderNotice(config) {
+        var notice = qs("#config-notice");
+        if (!notice) return;
+        if (window.__LSP_CONFIG_FAILED || !config) {
+          notice.hidden = false;
+          notice.textContent = "Ekki tókst að hlaða miðlægri stillingu. Fallback kortin nota sömu opinberu dashboard möppur og öruggar leiðingarslóðir.";
+        } else {
+          notice.hidden = true;
+        }
+      }
+
+      function renderDebug(config) {
+        var panel = qs("#debug-panel");
+        var dashboards = getDashboards(config);
+        var html = "";
+        if (!panel || !isDebug()) return;
+        html += "<dl>";
+        html += "<dt>Config</dt><dd>" + escapeHtml(config && config.configVersion ? config.configVersion : "fallback") + "</dd>";
+        html += "<dt>Schema</dt><dd>" + escapeHtml(config && config.schemaVersion ? config.schemaVersion : "unknown") + "</dd>";
+        html += "<dt>Dashboard fjöldi</dt><dd>" + escapeHtml(dashboards.length) + "</dd>";
+        html += "<dt>Skjábreidd</dt><dd>" + escapeHtml(width()) + " px</dd>";
+        html += "<dt>Uppruni</dt><dd>" + escapeHtml(getEntrySourceCategory()) + "</dd>";
+        html += "<dt>Tracking root</dt><dd>" + escapeHtml(config && config.tracking && config.tracking.trackRootIndexViews ? "virkt" : "óvirkt eða fallback") + "</dd>";
+        html += "</dl>";
+        panel.innerHTML = html;
+        panel.hidden = false;
+      }
+
+      function start() {
+        var config = getConfig();
+        applyCopy(config);
+        renderCards(config);
+        renderNotice(config);
+        attachClickTracking(config);
+        renderDebug(config);
+        if (config && config.tracking && config.tracking.trackRootIndexViews) {
+          sendRootEvent(config, "root_index_view", "", "", "");
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", start);
+      } else {
+        start();
+      }
     }());
   </script>
 </body>
