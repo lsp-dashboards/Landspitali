@@ -34,7 +34,7 @@ Prófa iPhone Safari, Android Chrome, Samsung Internet, desktop Edge/Chrome/Safa
 
 ## Status dashboard tests
 
-Staðfesta JSONP load, refresh button, 10-second timeout behavior, cache/freshness labels, safe-render section errors, warnings split, Talningarhlið numbers og publication cards.
+Staðfesta JSONP load, refresh button, 22-second timeout með einni sjálfvirkri endurtilraun, cache/freshness labels, safe-render section errors, warnings split, Talningarhlið numbers og publication cards.
 
 ## Count validation
 

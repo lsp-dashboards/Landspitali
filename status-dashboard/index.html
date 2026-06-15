@@ -7610,6 +7610,127 @@
       align-content: center;
     }
 
+    .dashboard-passport-donuts {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .dashboard-donut-card {
+      min-width: 0;
+      display: grid;
+      gap: 10px;
+      align-items: center;
+      min-height: 112px;
+      padding: 10px;
+      border: 1px solid rgba(216,226,234,.86);
+      border-radius: 14px;
+      background: rgba(255,255,255,.78);
+    }
+
+    .dashboard-donut {
+      position: relative;
+      width: 74px;
+      aspect-ratio: 1;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: var(--donut-bg, #e7eef4);
+      box-shadow: inset 0 0 0 1px rgba(14,36,56,.08), 0 10px 22px rgba(14,36,56,.08);
+    }
+
+    .dashboard-donut::after {
+      content: "";
+      position: absolute;
+      inset: 13px;
+      border-radius: inherit;
+      background: rgba(255,255,255,.94);
+      box-shadow: inset 0 0 0 1px rgba(216,226,234,.72);
+    }
+
+    .dashboard-donut-center {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      justify-items: center;
+      gap: 1px;
+      color: var(--ink);
+      line-height: 1;
+    }
+
+    .dashboard-donut-center strong {
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .dashboard-donut-center small {
+      color: var(--muted);
+      font-size: 8.5px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .dashboard-donut-copy {
+      min-width: 0;
+      display: grid;
+      gap: 7px;
+    }
+
+    .dashboard-donut-title {
+      display: grid;
+      gap: 1px;
+    }
+
+    .dashboard-donut-title span {
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .065em;
+      text-transform: uppercase;
+    }
+
+    .dashboard-donut-title strong {
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1.08;
+    }
+
+    .dashboard-donut-legend {
+      display: grid;
+      gap: 4px;
+    }
+
+    .dashboard-donut-legend-row {
+      display: grid;
+      grid-template-columns: 9px minmax(0, 1fr) auto;
+      gap: 6px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 1.1;
+      font-weight: 800;
+    }
+
+    .dashboard-donut-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--dot-bg, var(--gateway));
+      box-shadow: 0 0 0 3px rgba(14,36,56,.05);
+    }
+
+    .dashboard-donut-legend-row strong {
+      color: var(--ink);
+      font-size: 10.5px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
     .dashboard-passport-evidence {
       min-width: 0;
       display: grid;
@@ -8630,6 +8751,7 @@
       .public-master-head,
       .dashboard-passport-top,
       .dashboard-passport-measure,
+      .dashboard-passport-donuts,
       .dashboard-passport-evidence,
       .portfolio-card-count,
       .portfolio-ops-line,
@@ -8699,6 +8821,10 @@
 
       .public-master-facts {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .dashboard-donut-card {
+        grid-template-columns: 72px minmax(0, 1fr);
       }
 
       .portfolio-master-list,
@@ -9672,7 +9798,7 @@
       if (!notice) return;
       if (failedMessage) {
         notice.textContent = failedMessage;
-        notice.className = "notice show bad";
+        notice.className = /endpoint|tímamarka|timeout/i.test(failedMessage) ? "notice show warn" : "notice show bad";
       } else if (warningSplit.confirmed.length) {
         notice.textContent = "Staðfest rekstrarviðvörun: " + warningSplit.confirmed.length + " merki þarf að skoða.";
         notice.className = "notice show warn";
@@ -10451,6 +10577,41 @@
       var className = cls ? " " + safe(cls) : "";
       return '<div class="portfolio-fact' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></div>';
     }
+    function dashboardDonutColor(row, index) {
+      if (row.color) return row.color;
+      if (row.className === "good") return "#1f7a53";
+      if (row.className === "info") return "#0063a6";
+      if (row.className === "warn") return "#d99500";
+      if (row.className === "neutral") return "#9badbd";
+      return index === 0 ? "#1f7a53" : index === 1 ? "#607286" : "#a8b6c3";
+    }
+    function dashboardDonutBg(rows, total) {
+      total = Math.max(number(total), 1);
+      var cursor = 0;
+      var stops = [];
+      rows.forEach(function (row, index) {
+        var value = Math.max(number(row.value), 0);
+        var next = Math.min(100, cursor + value / total * 100);
+        if (next > cursor) stops.push(dashboardDonutColor(row, index) + " " + cursor.toFixed(2) + "% " + next.toFixed(2) + "%");
+        cursor = next;
+      });
+      if (!stops.length) stops.push("#e7eef4 0% 100%");
+      else if (cursor < 100) stops.push("rgba(226,236,244,.96) " + cursor.toFixed(2) + "% 100%");
+      return "conic-gradient(" + stops.join(", ") + ")";
+    }
+    function dashboardDonutCard(title, rows, total, detail) {
+      rows = rows || [];
+      total = Math.max(number(total), sumRows(rows, "value"), 1);
+      var dominant = rows.slice().sort(function (a, b) { return number(b.value) - number(a.value); })[0] || { label: "-", value: 0 };
+      var legend = rows.map(function (row, index) {
+        var value = number(row.value);
+        return '<div class="dashboard-donut-legend-row"><span class="dashboard-donut-dot" style="--dot-bg:' + safe(dashboardDonutColor(row, index)) + '"></span><span>' + safe(row.label) + '</span><strong>' + fmt(value) + ' · ' + safe(pct(value, total)) + '</strong></div>';
+      }).join("");
+      return '<article class="dashboard-donut-card">' +
+        '<div class="dashboard-donut" style="--donut-bg:' + safe(dashboardDonutBg(rows, total)) + '"><div class="dashboard-donut-center"><strong>' + safe(pct(number(dominant.value), total)) + '</strong><small>ráðandi</small></div></div>' +
+        '<div class="dashboard-donut-copy"><div class="dashboard-donut-title"><span>' + safe(title) + '</span><strong>' + safe(dominant.label) + '</strong></div><div class="dashboard-donut-legend">' + legend + '</div><small>' + safe(detail || "") + '</small></div>' +
+      '</article>';
+    }
     function portfolioDashboardCard(data, dashboard, totalVisits) {
       var cards = publicMap(data);
       var card = findPublicCardForDashboard(data, dashboard);
@@ -10458,7 +10619,6 @@
       var source = dashboardSourceContext(data, dashboard);
       var tracker = dashboardDeviceContext(data, dashboard);
       var routeMatches = visibleRows(data.routes || []).filter(function (row) { return sameDashboard(row, dashboard); });
-      var routeTotal = Math.max(sumRows(routeMatches), total, 1);
       var routeMobile = routeMatches.reduce(function (acc, row) { return acc + (/^mobile$/i.test(row.selected_layout || "") ? visitValue(row) : 0); }, 0);
       var routeDesktop = routeMatches.reduce(function (acc, row) { return acc + (/^desktop$/i.test(row.selected_layout || "") ? visitValue(row) : 0); }, 0);
       if (!routeMobile && !routeDesktop) {
@@ -10476,17 +10636,23 @@
       var warningCount = number(firstValue(dashboard, ["confirmed_warning_count", "production_warning_count", "warning_count"]));
       var dominantLayout = routeDesktop >= routeMobile ? "Desktop" : "Mobile";
       var trackerLabel = tracker || "engin tracker samsetning";
+      var layoutTotal = Math.max(routeMobile + routeDesktop, total, 1);
+      var sourceTotal = Math.max(source.total, source.island + source.direct + source.other, total, 1);
+      var layoutDonut = dashboardDonutCard("Útgáfuval", [
+        { label: "Mobile", value: routeMobile, className: "good" },
+        { label: "Desktop", value: routeDesktop, className: "gateway" }
+      ], layoutTotal, "Router valdi mobile eða desktop.");
+      var sourceDonut = dashboardDonutCard("Uppruni", [
+        { label: "island.is", value: source.island, className: "good" },
+        { label: "Beint", value: source.direct, className: "gateway" },
+        { label: "Annað", value: source.other, className: "neutral" }
+      ], sourceTotal, "Hvaðan taldar heimsóknir komu.");
       return '<article class="portfolio-master-card compact-portfolio-card dashboard-passport-card ' + (published ? 'good' : '') + '">' +
         '<div class="dashboard-passport-top"><div class="dashboard-passport-identity"><img class="icon" src="' + safe(iconFor(dashboard, cards)) + '" alt=""><div><span class="portfolio-card-kicker">Opinbert kort</span><div class="dashboard-passport-title">' + safe(titleFor(dashboard, cards)) + '</div><div class="dashboard-passport-id">' + safe(cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + '</div></div></div><div class="dashboard-passport-stamp"><span class="status-chip ' + safe(status.cls) + '"><span class="dot ' + (status.cls === "good" ? '' : 'warn') + '"></span>' + safe(status.label) + '</span><strong>' + safe(publishedAge) + '</strong><small>' + safe(publishedDetail) + '</small></div></div>' +
-        '<div class="dashboard-passport-measure"><div class="dashboard-passport-total"><span>Talin notkun</span><strong>' + fmt(total) + '</strong><small>Í dag ' + fmt(dashboard.visits_today) + ' · 30 dagar ' + fmt(firstValue(dashboard, ["visits_30d", "visits_30_days", "visits30d"])) + ' · ' + pct(total, Math.max(totalVisits, 1)) + ' af heild</small></div><div class="dashboard-passport-bars">' +
-          miniBar("Mobile", routeMobile, routeTotal, "good") +
-          miniBar("Desktop", routeDesktop, routeTotal, "gateway") +
-          miniBar("island.is", source.island, source.total, "good") +
-          miniBar("Beint", source.direct, source.total, "gateway") +
-        '</div></div>' +
+        '<div class="dashboard-passport-measure"><div class="dashboard-passport-total"><span>Talin notkun</span><strong>' + fmt(total) + '</strong><small>Í dag ' + fmt(dashboard.visits_today) + ' · 30 dagar ' + fmt(firstValue(dashboard, ["visits_30d", "visits_30_days", "visits30d"])) + ' · ' + pct(total, Math.max(totalVisits, 1)) + ' af heild</small></div><div class="dashboard-passport-donuts">' + layoutDonut + sourceDonut + '</div></div>' +
         '<div class="dashboard-passport-evidence">' +
           '<div><span>Síðast opnað</span><strong>' + safe(age.label) + '</strong><small>' + safe(lastTime ? dateShort(lastTime) : "engin talin opnun") + '</small></div>' +
-          '<div><span>Ráðandi leið</span><strong>' + safe(dominantLayout) + '</strong><small>' + safe(topReason ? topReason.key : "route óþekkt") + '</small></div>' +
+          '<div><span>Ráðandi útgáfa</span><strong>' + safe(dominantLayout) + '</strong><small>' + safe(topReason ? topReason.key : "route óþekkt") + '</small></div>' +
           '<div><span>Tracker samhengi</span><strong>' + safe(trackerLabel) + '</strong><small>' + safe(warningCount ? fmt(warningCount) + " staðfest viðvörun" : "engin staðfest villa") + '</small></div>' +
         '</div>' +
       '</article>';
@@ -11245,41 +11411,86 @@
       safeRender("delivery-panel", "Tæknimerki til skoðunar", function () { renderDeliveryPanel(data); });
       safeRender("warning-list", "Gæðaviðvaranir", function () { renderWarnings(data); });
     }
+    var STATUS_DATA_TIMEOUT_MS = 22000;
+    var STATUS_DATA_RETRY_DELAY_MS = 1500;
+    var STATUS_DATA_MAX_ATTEMPTS = 2;
+    var statusLoadSequence = 0;
+
+    function showNotice(message, tone) {
+      var notice = byId("notice");
+      if (!notice) return;
+      if (!message) {
+        notice.textContent = "";
+        notice.className = "notice";
+        return;
+      }
+      notice.textContent = message;
+      notice.className = "notice show " + (tone || "info");
+    }
     function showError(message) { setStatus(null, message); }
     function loadData() {
       var btn = byId("refresh-button");
+      var sequence = ++statusLoadSequence;
       if (btn) btn.classList.add("loading");
-      var callbackName = "__LSP_STATUS_" + Date.now() + "_" + Math.random().toString(16).slice(2);
-      var script = document.createElement("script");
-      script.async = true;
-      var timeout = window.setTimeout(function () { cleanup(true); showError("Náði ekki sambandi við Apps Script endpoint innan tímamarka. Prófaðu api=health og api=dashboard beint á endpointinu."); }, 10000);
-      function clearCallbackSoon() {
-        window.setTimeout(function () {
-          try { delete window[callbackName]; } catch (error) { window[callbackName] = undefined; }
-        }, 60000);
-      }
-      function cleanup(keepLateCallback) {
-        window.clearTimeout(timeout);
+      function finishLoading() {
         if (btn) btn.classList.remove("loading");
-        if (keepLateCallback) {
-          window[callbackName] = function () {};
-          clearCallbackSoon();
-        } else {
-          try { delete window[callbackName]; } catch (error) { window[callbackName] = undefined; }
-        }
-        if (script.parentNode) script.parentNode.removeChild(script);
       }
-      window[callbackName] = function (data) {
-        cleanup(false);
-        try {
-          if (!data || data.ok === false) { showError("Endpoint skilaði ekki gildum dashboard gögnum."); return; }
-          render(data);
-        } catch (error) { showError("Tókst ekki að birta gögn: " + error.message); }
-      };
-      script.onerror = function () { cleanup(true); showError("Náði ekki að hlaða JSONP frá Apps Script endpointi. Athugaðu /exec URL og að Web App sé aðgengilegt."); };
-      var separator = DATA_ENDPOINT.indexOf("?") >= 0 ? "&" : "?";
-      script.src = DATA_ENDPOINT + separator + "api=dashboard&format=js&callback=" + encodeURIComponent(callbackName) + "&v=" + Date.now();
-      document.body.appendChild(script);
+      function stillCurrent() {
+        return sequence === statusLoadSequence;
+      }
+      function request(attempt) {
+        var callbackName = "__LSP_STATUS_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+        var script = document.createElement("script");
+        var timeout;
+        script.async = true;
+        function clearCallbackSoon() {
+          window.setTimeout(function () {
+            try { delete window[callbackName]; } catch (error) { window[callbackName] = undefined; }
+          }, 60000);
+        }
+        function cleanup(keepLateCallback) {
+          window.clearTimeout(timeout);
+          if (keepLateCallback) {
+            window[callbackName] = function () {};
+            clearCallbackSoon();
+          } else {
+            try { delete window[callbackName]; } catch (error) { window[callbackName] = undefined; }
+          }
+          if (script.parentNode) script.parentNode.removeChild(script);
+        }
+        function retryOrFail(message) {
+          cleanup(true);
+          if (!stillCurrent()) return;
+          if (attempt < STATUS_DATA_MAX_ATTEMPTS) {
+            showNotice("Apps Script svaraði hægt. Reyni aftur " + (attempt + 1) + "/" + STATUS_DATA_MAX_ATTEMPTS + ".", "warn");
+            window.setTimeout(function () {
+              if (stillCurrent()) request(attempt + 1);
+            }, STATUS_DATA_RETRY_DELAY_MS);
+            return;
+          }
+          finishLoading();
+          showError(message);
+        }
+        timeout = window.setTimeout(function () {
+          retryOrFail("Apps Script endpoint svaraði ekki innan " + Math.round(STATUS_DATA_TIMEOUT_MS / 1000) + " sekúndna eftir " + STATUS_DATA_MAX_ATTEMPTS + " tilraunir. Athugaðu api=health og api=dashboard beint á endpointinu; síðasta birting getur verið úr cache.");
+        }, STATUS_DATA_TIMEOUT_MS);
+        window[callbackName] = function (data) {
+          cleanup(false);
+          if (!stillCurrent()) return;
+          finishLoading();
+          try {
+            if (!data || data.ok === false) { showError("Endpoint skilaði ekki gildum dashboard gögnum."); return; }
+            render(data);
+          } catch (error) { showError("Tókst ekki að birta gögn: " + error.message); }
+        };
+        script.onerror = function () {
+          retryOrFail("Náði ekki að hlaða JSONP frá Apps Script endpointi eftir " + STATUS_DATA_MAX_ATTEMPTS + " tilraunir. Athugaðu /exec URL og að Web App sé aðgengilegt.");
+        };
+        var separator = DATA_ENDPOINT.indexOf("?") >= 0 ? "&" : "?";
+        script.src = DATA_ENDPOINT + separator + "api=dashboard&format=js&callback=" + encodeURIComponent(callbackName) + "&v=" + Date.now();
+        document.body.appendChild(script);
+      }
+      request(1);
     }
 
     byId("refresh-button").addEventListener("click", loadData);

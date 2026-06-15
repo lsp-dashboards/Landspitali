@@ -2090,8 +2090,14 @@ function getCachedDashboardData_() {
     }
   }
 
-  setupWorkbook_();
-  var data = getDashboardData_();
+  var data;
+  try {
+    data = getDashboardData_();
+  } catch (error) {
+    logError_("getCachedDashboardData_", error, "dashboard_fast_read");
+    setupWorkbook_();
+    data = getDashboardData_();
+  }
   putDashboardDataCache_(data);
   return withCacheInfo_(data, false);
 }

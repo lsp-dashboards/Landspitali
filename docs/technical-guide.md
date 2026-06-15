@@ -24,7 +24,7 @@ Router core er `assets/router-core.prod.js`. Þar eru `CORE_VERSION`, route reso
 
 Apps Script tracker er `tracker/powerbi_router_tracker_apps_script_v1.0.0.js`. Þar eru `doPost`, `doGet`, `setupProductionWorkbook`, `aggregateRecent`, `publishDashboardData_`, `getHealth_`, `getPublicRegistry_`, `outputData_`, `sanitizeCallback_`, warning logic og sheet schemas.
 
-Status dashboard er `status-dashboard/index.html`. Það hleður JSONP frá Apps Script `api=dashboard&format=js&callback=...`, notar 10 sekúndna timeout og renderar panels með `safeRender`.
+Status dashboard er `status-dashboard/index.html`. Það hleður JSONP frá Apps Script `api=dashboard&format=js&callback=...`, notar 22 sekúndna timeout með einni sjálfvirkri endurtilraun og renderar panels með `safeRender`.
 
 ## Data flow
 
@@ -41,7 +41,7 @@ Status dashboard er `status-dashboard/index.html`. Það hleður JSONP frá Apps
 
 Apps Script `doGet` styður:
 
-- `api=dashboard`: cached dashboard payload úr `Dashboard_Data`/cache.
+- `api=dashboard`: cached dashboard payload úr `Dashboard_Data`/cache; public read path forðast full workbook setup nema fast read mistakist.
 - `api=health` eða `api=status`: health object.
 - `api=registry`: public registry.
 - GET event fallback þegar query inniheldur event fields.
@@ -84,5 +84,5 @@ Tracker header segir: no cookies, no localStorage identifiers, no raw IP address
 - Invalid Power BI URL: safe fallback layout/URL.
 - Apps Script endpoint unavailable: routing heldur áfram, telemetry getur vantað.
 - Cache stale: status payload getur sýnt eldri gögn í allt að 300 sekúndur eða þar til publish/aggregation refresh.
-- Status JSONP failure: UI sýnir endpoint error eftir 10 sekúndur.
+- Status JSONP failure: UI sýnir endpoint error eftir 22 sekúndna bið og eina sjálfvirka endurtilraun.
 - Source mismatch: config/status/tracker version values geta verið ósamstillt; skjalfest í [known-issues-and-limits.md](known-issues-and-limits.md).

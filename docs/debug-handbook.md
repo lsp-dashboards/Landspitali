@@ -119,7 +119,7 @@ Rule: Layout er valið fyrir usable viewport/readability, ekki device prestige.
 
 ## Status dashboard protocol
 
-Skoða JSONP load í console, `api=health`, `api=dashboard`, `api=dashboard&format=js&callback=...`, `DATA_ENDPOINT`, refresh button, 10-second timeout, cache staleness, aggregation timestamp, `Dashboard_Data` chunks, endpoint invalid data message, JSONP loading failure og safe-render section failure.
+Skoða JSONP load í console, `api=health`, `api=dashboard`, `api=dashboard&format=js&callback=...`, `DATA_ENDPOINT`, refresh button, 22-second timeout með einni sjálfvirkri endurtilraun, cache staleness, aggregation timestamp, `Dashboard_Data` chunks, endpoint invalid data message, JSONP loading failure og safe-render section failure.
 
 ## Apps Script functions
 

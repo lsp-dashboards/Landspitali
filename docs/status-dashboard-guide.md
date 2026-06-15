@@ -8,7 +8,7 @@ Source: `status-dashboard/index.html`.
 DATA_ENDPOINT + ?api=dashboard&format=js&callback=<callback>&v=<timestamp>
 ```
 
-Ef endpoint svarar ekki innan 10 sekúndna birtist error message sem bendir á `api=health` og `api=dashboard`.
+Ef endpoint svarar hægt bíður síðan í 22 sekúndur og reynir einu sinni aftur áður en hún birtir error message sem bendir á `api=health` og `api=dashboard`. Server-side dashboard path les published `Dashboard_Data`/cache án full workbook setup á venjulegum public lestri.
 
 ## Sections
 
