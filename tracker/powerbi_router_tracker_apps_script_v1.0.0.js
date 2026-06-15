@@ -1,7 +1,7 @@
 /**
- * Landspítali Power BI Router Tracker, production v1.2.2.
+ * Landspítali Power BI Router Tracker, production v1.0.0.
  *
- * Full replacement Code.gs.
+ * Complete first-production Code.gs.
  *
  * Deployment model:
  * - Deploy as Google Apps Script Web App.
@@ -11,25 +11,26 @@
  * Privacy model:
  * - No cookies, no localStorage identifiers, no raw IP addresses, no names, no emails.
  * - Raw event rows are internal only.
- * - Public/status dashboard endpoint returns aggregate-only data.
+ * - Public/status dashboard endpoint returns aðeins samantektargögn data.
  *
- * v1.2.2 update:
+ * v1.0.0 first production version:
  * - Treat forced_dark_detected as a diagnostic display/theme signal.
  * - Add Power BI/Fabric browser-support classification for publish-to-web viewer risk.
  * - Flag old Smart TV / HbbTV / legacy Chromium/Opera browsers as Power BI viewer compatibility risk.
  * - Separate warning_count, confirmed_warning_count and diagnostic_signal_count.
- * - Keep schema 9 advanced device/source fields aligned with the current raw tracker sheet.
+ * - Keep Gagnasnið 1 advanced device/source fields aligned with the current raw tracker sheet.
  */
 
-var SCRIPT_VERSION = "2026-06-14-tracker-v1.2.2-smarttv-powerbi-compat-full";
-var EVENT_SCHEMA_VERSION = "9";
+var SCRIPT_VERSION = "atburdasafnari-v1.0.0";
+var EVENT_SCHEMA_VERSION = "1";
 var DEFAULT_TIMEZONE = "Atlantic/Reykjavik";
 
 var TRACKER_SPREADSHEET_ID = "1Hb-yl-1nljg1AArY28hBkqDMkJHyAS8qIrfPU5w5N8Y";
 var RETENTION_DAYS = 180;
 var AGGREGATION_DAYS = 400;
+var AGGREGATION_TRIGGER_MINUTES = 5;
 
-var DASHBOARD_CACHE_KEY = "dashboard_payload_v7_smarttv_powerbi_compat";
+var DASHBOARD_CACHE_KEY = "dashboard_payload_v1_first_production";
 var DASHBOARD_CACHE_SECONDS = 300;
 var DASHBOARD_DATA_CELL_CHAR_BUDGET = 45000;
 var CONTROL_CELL_CHAR_BUDGET = 45000;
@@ -59,8 +60,18 @@ var SHEET_PERFORMANCE = "Aggregates_Performance";
 var SHEET_SCHEMA_MIGRATION_LOG = "Schema_Migration_Log";
 
 var REGISTRY_SNAPSHOT = {
-  "configVersion": "2026-06-13-prod-v1.4.0-relaunch.1",
-  "schemaVersion": "9",
+  "configVersion": "2026-06-15-prod-v1.0.0",
+  "schemaVersion": "1",
+  "release": {
+    "packageVersion": "1.0.0",
+    "statusUiPublicName": "Mælaborðsmælingar",
+    "uiPublicName": "UI: Vaktborð",
+    "aggregateOnlyPublicName": "Aðeins samantektargögn",
+    "configPublicName": "Config v1",
+    "configVersionLabel": "config-v1.0.0",
+    "collectorPublicName": "Atburðasafnari v1",
+    "collectorVersionLabel": "atburdasafnari-v1.0.0"
+  },
   "publicEntry": {
     "name": "Opinber mælaborð Landspítala",
     "site": "island.is",
@@ -92,8 +103,9 @@ var REGISTRY_SNAPSHOT = {
   },
   "statusDashboard": {
     "name": "Mælaborðsmælingar",
-    "path": "status-dashboard/maelabordsmalingar_status_dashboard_v1_4_0.html",
-    "version": "2026-06-14-status-v1.4.1-smarttv-powerbi-compat",
+    "publicComponentName": "Mælaborðsmælingar",
+    "path": "status-dashboard/",
+    "version": "v1.0.0",
     "logoUrl": "https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png",
     "endpoint": "https://script.google.com/macros/s/AKfycbxRoNEQwlxQUpxEMGzYizAB0_lP1MdqksGLu4fD7c94rzqUul3MW2_E9VCqeRzLK3wD/exec",
     "payloadApi": "api=dashboard",
@@ -236,6 +248,7 @@ var EVENT_HEADERS = [
   "event_id",
   "request_id",
   "event_type",
+  "schema_version",
   "count_as_visit",
   "duplicate_event",
   "dashboard_key",
@@ -350,6 +363,13 @@ var EVENT_HEADERS = [
   "prefers_color_scheme",
   "prefers_reduced_motion",
   "prefers_reduced_data",
+  "prefers_reduced_transparency",
+  "monochrome",
+  "update_frequency",
+  "overflow_block",
+  "overflow_inline",
+  "scripting",
+  "display_mode",
   "color_gamut",
   "dynamic_range",
   "theme_evidence_json",
@@ -459,7 +479,8 @@ var EVENT_HEADERS = [
   "inferred_primary_evidence",
   "inferred_detection_version",
   "inferred_contradiction_flags_json",
-  "root_dashboard_target_path"
+  "root_dashboard_target_path",
+  "root_launch_choice"
 ];
 var ERROR_HEADERS = [
   "error_time",
@@ -703,6 +724,13 @@ var DISPLAY_HEADERS = [
   "prefers_contrast",
   "prefers_reduced_motion",
   "prefers_reduced_data",
+  "prefers_reduced_transparency",
+  "monochrome",
+  "update_frequency",
+  "overflow_block",
+  "overflow_inline",
+  "scripting",
+  "display_mode",
   "color_gamut",
   "dynamic_range",
   "visits",
@@ -756,6 +784,7 @@ var FIELD_DICTIONARY = {
   "event_id": "Per-event identifier used for dedupe.",
   "request_id": "Per-router-page-load identifier. Not persistent.",
   "event_type": "Event type, for example router_redirect, root_index_view, root_dashboard_click, fallback_click or router_error.",
+  "schema_version": "Canonical event schema version. Router sends schema_version; root gateway may send event_schema_version alias.",
   "count_as_visit": "TRUE only for events that should count as real dashboard opens.",
   "duplicate_event": "TRUE if event_id was recently seen by CacheService.",
   "dashboard_key": "Tracker field captured by the router or derived during aggregation.",
@@ -870,6 +899,13 @@ var FIELD_DICTIONARY = {
   "prefers_color_scheme": "Tracker field captured by the router or derived during aggregation.",
   "prefers_reduced_motion": "Tracker field captured by the router or derived during aggregation.",
   "prefers_reduced_data": "Tracker field captured by the router or derived during aggregation.",
+  "prefers_reduced_transparency": "Aggregate browser media signal for reduced transparency preference when exposed.",
+  "monochrome": "Aggregate browser media signal for monochrome/color display context when exposed.",
+  "update_frequency": "Aggregate browser media signal for display update frequency, for example fast, slow or none.",
+  "overflow_block": "Aggregate browser media signal for block-axis overflow behavior.",
+  "overflow_inline": "Aggregate browser media signal for inline-axis overflow behavior.",
+  "scripting": "Aggregate CSS media signal for scripting support, separate from tracker execution.",
+  "display_mode": "Aggregate browser display-mode signal, for example browser, standalone or fullscreen.",
   "color_gamut": "Tracker field captured by the router or derived during aggregation.",
   "dynamic_range": "Tracker field captured by the router or derived during aggregation.",
   "theme_evidence_json": "Tracker field captured by the router or derived during aggregation.",
@@ -935,6 +971,7 @@ var FIELD_DICTIONARY = {
   "tracker_send_status": "Tracker field captured by the router or derived during aggregation.",
   "endpoint_result_known": "Tracker field captured by the router or derived during aggregation.",
   "endpoint_slow_possible": "Tracker field captured by the router or derived during aggregation.",
+  "root_launch_choice": "Root gateway launch choice: auto, desktop or mobile. Root events are not counted visits.",
   "source_confidence_band": "Confidence bucket for source/public-entry inference.",
   "source_reason": "Short aggregate-safe source inference reason.",
   "utm_term": "Tracker field captured by the router or derived during aggregation.",
@@ -1061,16 +1098,24 @@ function migrateSchemaV8() {
   return verifySpreadsheetSetup();
 }
 
-function migrateSchemaV9() {
+function migrateSchemaV1() {
   setupWorkbook_();
   seedRegistrySheets_();
   writeDataDictionary_();
   setControl_("schema_version", EVENT_SCHEMA_VERSION);
   setControl_("script_version", SCRIPT_VERSION);
-  setControl_("schema_v9_migrated_at", nowIso_());
+  setControl_("schema_v1_migrated_at", nowIso_());
   clearDashboardDataCache_();
-  writeSchemaMigrationLog_("migrateSchemaV9", "ok", "Schema 9 fields, root gateway funnel support and advanced device taxonomy columns prepared.");
+  writeSchemaMigrationLog_("migrateSchemaV1", "ok", "Gagnasnið 1 fields, root gateway funnel support and advanced device taxonomy columns prepared.");
   return verifySpreadsheetSetup();
+}
+
+function migrateGagnasnid1() {
+  return migrateSchemaV1();
+}
+
+function migrateSchemaV9() {
+  return migrateSchemaV1();
 }
 
 function migrateSmartTvPowerBiCompatV122() {
@@ -1098,10 +1143,10 @@ function installProductionTriggers() {
       ScriptApp.deleteTrigger(triggers[i]);
     }
   }
-  ScriptApp.newTrigger("aggregateRecent").timeBased().everyMinutes(15).create();
-  setControl_("aggregation_trigger", "every_15_minutes");
+  ScriptApp.newTrigger("aggregateRecent").timeBased().everyMinutes(AGGREGATION_TRIGGER_MINUTES).create();
+  setControl_("aggregation_trigger", "every_" + AGGREGATION_TRIGGER_MINUTES + "_minutes");
   setControl_("aggregation_trigger_installed_at", nowIso_());
-  return "Installed aggregateRecent trigger every 15 minutes";
+  return "Installed aggregateRecent trigger every " + AGGREGATION_TRIGGER_MINUTES + " minutes";
 }
 
 function testWrite() {
@@ -1256,7 +1301,7 @@ function aggregateRecent() {
     var confidenceKey = [key, dashboardName, row.inferred_device_class || "unknown", row.inferred_device_subclass || "", confidenceBand, row.inferred_confidence_score || "", row.inferred_confidence_reason || row.inferred_primary_evidence || "", asBool_(row.inferred_is_ipad_like), asBool_(row.inferred_is_android_tablet_like), asBool_(row.inferred_is_samsung_galaxy_tab_like), asBool_(row.inferred_is_surface_like), asBool_(row.inferred_is_chromeos_tablet_like), asBool_(row.inferred_is_smart_tv), row.in_app_browser_family || row.inferred_in_app_browser_family || "none"].join("|");
     var browserKey = [key, dashboardName, row.browser_family || "unknown", browserBrand, browserEngine, row.browser_major_version || "", row.browser_full_version || "", row.browser_version_source || "unknown", asBool_(row.is_webview), row.in_app_browser_family || row.inferred_in_app_browser_family || "none"].join("|");
     var osKey = [key, dashboardName, row.os_family || "unknown", row.os_version || row.os_version_hint || "", row.os_version_source || "unknown", row.navigator_platform_raw || ""].join("|");
-    var displayKey = [key, dashboardName, row.display_class || "unknown", row.viewport_bucket || "unknown", row.breakpoint_bucket || "unknown", row.selected_layout || "unknown", row.prefers_color_scheme || colorScheme, colorScheme, forcedDarkDetection, samsungDarkModeStatus, themeSignalQuality, row.theme_confidence_band || "unknown", forcedColors, prefersContrast, row.prefers_reduced_motion || "unknown", row.prefers_reduced_data || "unknown", row.color_gamut || "unknown", row.dynamic_range || "unknown"].join("|");
+    var displayKey = [key, dashboardName, row.display_class || "unknown", row.viewport_bucket || "unknown", row.breakpoint_bucket || "unknown", row.selected_layout || "unknown", row.prefers_color_scheme || colorScheme, colorScheme, forcedDarkDetection, samsungDarkModeStatus, themeSignalQuality, row.theme_confidence_band || "unknown", forcedColors, prefersContrast, row.prefers_reduced_motion || "unknown", row.prefers_reduced_data || "unknown", row.prefers_reduced_transparency || "unknown", row.monochrome || "unknown", row.update_frequency || "unknown", row.overflow_block || "unknown", row.overflow_inline || "unknown", row.scripting || "unknown", row.display_mode || "unknown", row.color_gamut || "unknown", row.dynamic_range || "unknown"].join("|");
     var inputKey = [key, dashboardName, row.touch_class || "unknown", asBool_(row.has_touch), row.pointer_primary || "unknown", asBool_(row.any_pointer_coarse), asBool_(row.any_pointer_fine), row.hover_primary || "unknown", row.any_hover || "unknown", asBool_(row.hybrid_touch_mouse_likely), asBool_(row.keyboard_mouse_likely), asBool_(row.remote_control_likely), asBool_(row.stylus_possible)].join("|");
     var perfKey = [key, dashboardName, row.tracker_send_method || row.tracking_method || "unknown", row.tracker_send_status || "unknown", asBool_(row.endpoint_result_known), row.connection_effective_type || connectionType, asBool_(row.connection_save_data), row.connection_signal_quality || "unknown", row.payload_size_bucket || payloadSizeBucket_(row.payload_size_bytes || row.tracker_payload_size_bytes || row.imageget_url_length), msBucket_(row.dom_content_loaded_ms), msBucket_(row.load_event_ms), lowCapabilityDevice_(row)].join("|");
 
@@ -1268,7 +1313,7 @@ function aggregateRecent() {
     confidenceAgg[confidenceKey] = confidenceAgg[confidenceKey] || { dashboard_key: key, dashboard_name: dashboardName, inferred_device_class: row.inferred_device_class || "unknown", inferred_device_subclass: row.inferred_device_subclass || "", inferred_confidence_band: confidenceBand, inferred_confidence_score: row.inferred_confidence_score || "", inferred_confidence_reason: row.inferred_confidence_reason || row.inferred_primary_evidence || "", inferred_is_ipad_like: asBool_(row.inferred_is_ipad_like), inferred_is_android_tablet_like: asBool_(row.inferred_is_android_tablet_like), inferred_is_samsung_galaxy_tab_like: asBool_(row.inferred_is_samsung_galaxy_tab_like), inferred_is_surface_like: asBool_(row.inferred_is_surface_like), inferred_is_chromeos_tablet_like: asBool_(row.inferred_is_chromeos_tablet_like), inferred_is_smart_tv: asBool_(row.inferred_is_smart_tv), in_app_browser_family: row.in_app_browser_family || row.inferred_in_app_browser_family || "none", visits: 0, events: 0 };
     browserAgg[browserKey] = browserAgg[browserKey] || { dashboard_key: key, dashboard_name: dashboardName, browser_family: row.browser_family || "unknown", browser_brand: browserBrand, browser_engine: browserEngine, browser_major_version: row.browser_major_version || "", browser_full_version: row.browser_full_version || "", browser_version_source: row.browser_version_source || "unknown", is_webview: asBool_(row.is_webview), in_app_browser_family: row.in_app_browser_family || row.inferred_in_app_browser_family || "none", visits: 0, events: 0 };
     osAgg[osKey] = osAgg[osKey] || { dashboard_key: key, dashboard_name: dashboardName, os_family: row.os_family || "unknown", os_version: row.os_version || row.os_version_hint || "", os_version_source: row.os_version_source || "unknown", navigator_platform_raw: row.navigator_platform_raw || "", visits: 0, events: 0 };
-    displayAgg[displayKey] = displayAgg[displayKey] || { dashboard_key: key, dashboard_name: dashboardName, display_class: row.display_class || "unknown", viewport_bucket: row.viewport_bucket || "unknown", breakpoint_bucket: row.breakpoint_bucket || "unknown", selected_layout: row.selected_layout || "unknown", prefers_color_scheme: row.prefers_color_scheme || colorScheme, color_scheme: colorScheme, forced_dark_detection: forcedDarkDetection, samsung_dark_mode_status: samsungDarkModeStatus, theme_signal_quality: themeSignalQuality, theme_confidence_band: row.theme_confidence_band || "unknown", forced_colors: forcedColors, prefers_contrast: prefersContrast, prefers_reduced_motion: row.prefers_reduced_motion || "unknown", prefers_reduced_data: row.prefers_reduced_data || "unknown", color_gamut: row.color_gamut || "unknown", dynamic_range: row.dynamic_range || "unknown", visits: 0, events: 0 };
+    displayAgg[displayKey] = displayAgg[displayKey] || { dashboard_key: key, dashboard_name: dashboardName, display_class: row.display_class || "unknown", viewport_bucket: row.viewport_bucket || "unknown", breakpoint_bucket: row.breakpoint_bucket || "unknown", selected_layout: row.selected_layout || "unknown", prefers_color_scheme: row.prefers_color_scheme || colorScheme, color_scheme: colorScheme, forced_dark_detection: forcedDarkDetection, samsung_dark_mode_status: samsungDarkModeStatus, theme_signal_quality: themeSignalQuality, theme_confidence_band: row.theme_confidence_band || "unknown", forced_colors: forcedColors, prefers_contrast: prefersContrast, prefers_reduced_motion: row.prefers_reduced_motion || "unknown", prefers_reduced_data: row.prefers_reduced_data || "unknown", prefers_reduced_transparency: row.prefers_reduced_transparency || "unknown", monochrome: row.monochrome || "unknown", update_frequency: row.update_frequency || "unknown", overflow_block: row.overflow_block || "unknown", overflow_inline: row.overflow_inline || "unknown", scripting: row.scripting || "unknown", display_mode: row.display_mode || "unknown", color_gamut: row.color_gamut || "unknown", dynamic_range: row.dynamic_range || "unknown", visits: 0, events: 0 };
     inputAgg[inputKey] = inputAgg[inputKey] || { dashboard_key: key, dashboard_name: dashboardName, touch_class: row.touch_class || "unknown", has_touch: asBool_(row.has_touch), pointer_primary: row.pointer_primary || "unknown", any_pointer_coarse: asBool_(row.any_pointer_coarse), any_pointer_fine: asBool_(row.any_pointer_fine), hover_primary: row.hover_primary || "unknown", any_hover: row.any_hover || "unknown", hybrid_touch_mouse_likely: asBool_(row.hybrid_touch_mouse_likely), keyboard_mouse_likely: asBool_(row.keyboard_mouse_likely), remote_control_likely: asBool_(row.remote_control_likely), stylus_possible: asBool_(row.stylus_possible), visits: 0, events: 0 };
     performanceAgg[perfKey] = performanceAgg[perfKey] || { dashboard_key: key, dashboard_name: dashboardName, tracker_send_method: row.tracker_send_method || row.tracking_method || "unknown", tracker_send_status: row.tracker_send_status || "unknown", endpoint_result_known: asBool_(row.endpoint_result_known), connection_effective_type: row.connection_effective_type || connectionType, connection_save_data: asBool_(row.connection_save_data), connection_signal_quality: row.connection_signal_quality || "unknown", payload_size_bucket: row.payload_size_bucket || payloadSizeBucket_(row.payload_size_bytes || row.tracker_payload_size_bytes || row.imageget_url_length), dom_content_loaded_bucket: msBucket_(row.dom_content_loaded_ms), load_event_bucket: msBucket_(row.load_event_ms), low_capability_device: lowCapabilityDevice_(row), visits: 0, events: 0 };
 
@@ -1476,6 +1521,7 @@ function normalizeEvent_(payload, method) {
   if (!normalized.entry_source_category) normalized.entry_source_category = deriveSourceCategory_(normalized);
   if (!normalized.public_entry_page) normalized.public_entry_page = REGISTRY_SNAPSHOT.publicEntry.pagePath || "";
   if (!normalized.config_version) normalized.config_version = REGISTRY_SNAPSHOT.configVersion;
+  if (!normalized.schema_version) normalized.schema_version = EVENT_SCHEMA_VERSION;
   if (!normalized.count_exclusion_reason) normalized.count_exclusion_reason = countExclusionReasonFromRow_(normalized);
   if (!normalized.event_tier) normalized.event_tier = normalized.count_as_visit ? "core_production" : (isDiagnosticEvent_(normalized) ? "diagnostic_or_debug" : "non_visit_event");
   if (!normalized.prefers_color_scheme) normalized.prefers_color_scheme = normalized.color_scheme || "unknown";
@@ -1521,6 +1567,7 @@ function copyEventFields_(normalized, payload) {
     if (field === "device_pixel_ratio") value = first_(value, payload.devicePixelRatio, payload.dpr);
     if (field === "forced_dark_detection") value = first_(value, payload.forcedDarkDetection, payload.fdd);
     if (field === "theme_signal_quality") value = first_(value, payload.themeSignalQuality, payload.tsq);
+    if (field === "schema_version") value = first_(value, payload.event_schema_version, payload.eventSchemaVersion, payload.schemaVersion);
 
     if (boolFields[field]) normalized[field] = asBool_(value);
     else if (numberFields[field]) normalized[field] = numberOrBlank_(value);
@@ -2758,8 +2805,14 @@ function snakeToCamel_(value) {
 function clean_(value, max) {
   if (value === undefined || value === null) return "";
   value = String(value).replace(/[\0-\x1f\x7f]/g, " ").replace(/\s+/g, " ").trim();
+  value = neutralizeSheetFormula_(value);
   if (max && value.length > max) value = value.slice(0, max);
   return value;
+}
+
+function neutralizeSheetFormula_(value) {
+  if (!value) return value;
+  return /^[=+\-@]/.test(value) ? "'" + value : value;
 }
 
 function asBool_(value) {

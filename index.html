@@ -309,10 +309,16 @@
 
     .button-row {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
       margin-top: 4px;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1fr);
+      gap: 8px;
     }
 
     .button {
@@ -320,17 +326,25 @@
       align-items: center;
       justify-content: center;
       min-height: 46px;
-      padding: 13px 18px;
+      padding: 12px 14px;
       border: 1px solid var(--lsp-blue);
       border-radius: 14px;
       color: #ffffff;
       background: var(--lsp-blue);
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 800;
       line-height: 1;
       text-decoration: none;
+      text-align: center;
       box-shadow: 0 10px 22px rgba(79, 111, 143, 0.22);
       transition: transform 120ms ease, background 120ms ease, box-shadow 120ms ease;
+    }
+
+    .button.secondary {
+      color: var(--lsp-blue-dark);
+      background: #ffffff;
+      border-color: rgba(79, 111, 143, 0.28);
+      box-shadow: none;
     }
 
     .button:hover,
@@ -338,6 +352,12 @@
       background: #435F7A;
       box-shadow: 0 12px 26px rgba(79, 111, 143, 0.28);
       transform: translateY(-1px);
+    }
+
+    .button.secondary:hover,
+    .button.secondary:focus-visible {
+      color: #ffffff;
+      background: #435F7A;
     }
 
     .button:focus-visible,
@@ -503,9 +523,8 @@
         font-size: 18px;
       }
 
-      .button-row {
-        align-items: stretch;
-        flex-direction: column;
+      .action-grid {
+        grid-template-columns: 1fr;
       }
 
       .button {
@@ -575,12 +594,12 @@
     <footer class="footer">
       <div class="footer-inner">
         <p id="privacy-copy">Engar persónuupplýsingar eru birtar. Leiðing og notkun eru mæld með aggregate tæknimerkjum til að bæta birtingu og notendaupplifun.</p>
-        <a class="footer-link" href="status-dashboard/maelabordsmalingar_status_dashboard_v1_4_0.html">Mælaborðsmælingar</a>
+        <a class="footer-link" href="status-dashboard/">Mælaborðsmælingar</a>
       </div>
     </footer>
   </div>
 
-  <script src="/Landspitali/assets/router-config.prod.js?v=20260614-v141ios1" onerror="window.__LSP_CONFIG_FAILED=true"></script>
+  <script src="/Landspitali/assets/router-config.prod.js?v=20260615-v100" onerror="window.__LSP_CONFIG_FAILED=true"></script>
   <script>
     (function () {
       "use strict";
@@ -721,17 +740,29 @@
         return result;
       }
 
-      function buildRouteUrl(config, dashboard) {
+      function normalizeLaunchChoice(choice) {
+        choice = String(choice || "auto").toLowerCase();
+        return /^(desktop|mobile)$/.test(choice) ? choice : "auto";
+      }
+
+      function buildRouteUrl(config, dashboard, choice) {
         var base = (config && config.basePath) || "/Landspitali/";
         var path = String(dashboard.path || dashboard.dashboardKey || "").replace(/^\/+|\/+$/g, "");
+        var launchChoice = normalizeLaunchChoice(choice);
         var qsParts = [
           "utm_source=root_index",
           "utm_medium=gateway_card",
           "utm_campaign=landspitali_maelabord",
           "utm_content=" + encodeURIComponent(String(dashboard.utmContent || dashboard.dashboardKey || path).replace(/-/g, "_")),
-          "from=root_index"
+          "utm_term=" + encodeURIComponent(launchChoice),
+          "from=" + encodeURIComponent(launchChoice === "auto" ? "root_index_auto" : "root_index_" + launchChoice)
         ];
+        if (launchChoice !== "auto") qsParts.push("force=" + encodeURIComponent(launchChoice));
         return base.replace(/\/$/, "/") + path + "/?" + qsParts.join("&");
+      }
+
+      function actionLink(dashboard, href, choice, label, secondary) {
+        return "<a class=\"button" + (secondary ? " secondary" : "") + "\" data-dashboard-key=\"" + escapeHtml(dashboard.dashboardKey) + "\" data-dashboard-id=\"" + escapeHtml(dashboard.dashboardId) + "\" data-route-choice=\"" + escapeHtml(choice) + "\" href=\"" + escapeHtml(href) + "\">" + escapeHtml(label) + "</a>";
       }
 
       function renderCards(config) {
@@ -739,7 +770,9 @@
         var dashboards = getDashboards(config);
         var html = "";
         dashboards.forEach(function (dashboard) {
-          var routeUrl = buildRouteUrl(config, dashboard);
+          var autoUrl = buildRouteUrl(config, dashboard, "auto");
+          var desktopUrl = buildRouteUrl(config, dashboard, "desktop");
+          var mobileUrl = buildRouteUrl(config, dashboard, "mobile");
           var icon = dashboard.iconUrl || FALLBACK_LOGO;
           var chipHtml = "";
           (dashboard.chips || []).slice(0, 3).forEach(function (chip) {
@@ -753,7 +786,11 @@
           html += "<span class=\"route-label\">" + escapeHtml(dashboard.routeLabel || dashboard.path) + "</span>";
           html += "<div class=\"card-chips\">" + chipHtml + "</div>";
           html += "<div class=\"button-row\">";
-          html += "<a class=\"button\" data-dashboard-key=\"" + escapeHtml(dashboard.dashboardKey) + "\" data-dashboard-id=\"" + escapeHtml(dashboard.dashboardId) + "\" href=\"" + escapeHtml(routeUrl) + "\">Opna mælaborð</a>";
+          html += "<div class=\"action-grid\" aria-label=\"Opnunarval fyrir " + escapeHtml(dashboard.displayName) + "\">";
+          html += actionLink(dashboard, autoUrl, "auto", "Sjálfvirk leiðing", false);
+          html += actionLink(dashboard, desktopUrl, "desktop", "Desktop útgáfa", true);
+          html += actionLink(dashboard, mobileUrl, "mobile", "Mobile útgáfa", true);
+          html += "</div>";
           html += "<span class=\"status\">" + (dashboard.enabled ? "Virkt" : "Óvirkt í almennri birtingu") + "</span>";
           html += "</div></div></article>";
         });
@@ -790,8 +827,9 @@
         return "6kb+";
       }
 
-      function sendRootEvent(config, eventType, dashboardKey, dashboardId, targetPath) {
+      function sendRootEvent(config, eventType, dashboardKey, dashboardId, targetPath, launchChoice) {
         var endpoint = config && config.tracking && config.tracking.enabled ? config.tracking.endpoint : "";
+        var choice = normalizeLaunchChoice(launchChoice);
         var payload;
         var body;
         var blob;
@@ -802,7 +840,7 @@
         payload = {
           event_type: eventType,
           eventType: eventType,
-          event_schema_version: config.tracking && config.tracking.schemaVersion ? config.tracking.schemaVersion : (config.schemaVersion || "9"),
+          event_schema_version: config.tracking && config.tracking.schemaVersion ? config.tracking.schemaVersion : (config.schemaVersion || "1"),
           dashboard_key: dashboardKey || "",
           dashboard_id: dashboardId || "",
           dashboard_name: dashboardKey || "root_index",
@@ -812,12 +850,15 @@
           event_tier: "root_index",
           selected_layout: "none",
           auto_selected_layout: "none",
+          forced_layout: choice,
+          forced_layout_applied: choice !== "auto",
           route_reason: eventType,
-          route_reason_detail: "root gateway event, not a dashboard visit",
+          route_reason_detail: choice === "auto" ? "root gateway automatic launch choice, not a dashboard visit" : "root gateway explicit " + choice + " launch choice, not a dashboard visit",
           page_path: window.location.pathname || "",
           page_url: window.location.origin + window.location.pathname,
           page_host: window.location.host || "",
           root_dashboard_target_path: targetPath || "",
+          root_launch_choice: choice,
           entry_source_category: getEntrySourceCategory(),
           referrer_domain: referrerDomain(),
           utm_source: getQueryValue("utm_source"),
@@ -833,7 +874,7 @@
           screen_height: window.screen ? screen.height : "",
           device_pixel_ratio: window.devicePixelRatio || 1,
           config_version: config.configVersion || "",
-          core_version: "root-index-v1.4.1-ios-safari-hotfix.1",
+          core_version: "talningarhlid-v1.0.0",
           event_time_client: nowIso(),
           event_id: makeEventId()
         };
@@ -889,7 +930,7 @@
             target = target.parentNode;
           }
           if (target && target.getAttribute("data-dashboard-key")) {
-            sendRootEvent(config, "root_dashboard_click", target.getAttribute("data-dashboard-key"), target.getAttribute("data-dashboard-id"), target.getAttribute("href") || "");
+            sendRootEvent(config, "root_dashboard_click", target.getAttribute("data-dashboard-key"), target.getAttribute("data-dashboard-id"), target.getAttribute("href") || "", target.getAttribute("data-route-choice") || "auto");
           }
         });
       }
@@ -943,7 +984,7 @@
         attachClickTracking(config);
         renderDebug(config);
         if (config && config.tracking && config.tracking.trackRootIndexViews) {
-          sendRootEvent(config, "root_index_view", "", "", "");
+          sendRootEvent(config, "root_index_view", "", "", "", "auto");
         }
       }
 

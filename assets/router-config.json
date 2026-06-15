@@ -1,6 +1,6 @@
 {
-  "schemaVersion": "9",
-  "configVersion": "2026-06-14-prod-v1.4.1-ios-safari-hotfix.1",
+  "schemaVersion": "1",
+  "configVersion": "2026-06-15-prod-v1.0.0",
   "routerName": "Landspítali Power BI Router",
   "routerMode": "central-config-static-github-pages-root-gateway",
   "environment": "prod",
@@ -8,15 +8,27 @@
   "basePath": "/Landspitali/",
   "supportLabel": "Landspítali",
   "release": {
-    "packageVersion": "1.4.1-ios-safari-hotfix.1",
-    "releasedAt": "2026-06-14",
-    "coreVersion": "2026-06-13-core-1.4.0-relaunch.1",
-    "status": "ios-safari-tracking-hotfix-candidate",
+    "packageVersion": "1.0.0",
+    "releasedAt": "2026-06-15",
+    "coreVersion": "v1.0.0",
+    "status": "first-production-version",
     "coreAssetFile": "router-core.prod.js",
     "configAssetFile": "router-config.prod.js",
-    "versionedCoreAssetFile": "router-core.v20260613-1.js",
-    "versionedConfigAssetFile": "router-config.v20260614-1.js",
-    "notes": "Hotfix: restore navigation-safe POST transports before imageGet fallback so iPhone Safari is not dependent on a long cross-origin tracking pixel before redirect."
+    "versionedCoreAssetFile": "router-core.v1.0.0.js",
+    "versionedConfigAssetFile": "router-config.v1.0.0.js",
+    "publicVersionLabel": "Mælaborðsmælingar · UI: Vaktborð · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1",
+    "statusUiPublicName": "Mælaborðsmælingar",
+    "uiPublicName": "UI: Vaktborð",
+    "countingGatePublicName": "Talningarhlið",
+    "routingSplitPublicName": "Leiðingarskipting",
+    "aggregateOnlyPublicName": "Aðeins samantektargögn",
+    "corePublicName": "Vöktunarkjarni: Rekstrarpúls",
+    "configPublicName": "Config v1",
+    "configVersionLabel": "config-v1.0.0",
+    "collectorPublicName": "Atburðasafnari v1",
+    "collectorVersionLabel": "atburdasafnari-v1.0.0",
+    "schemaPublicName": "Gagnasnið 1",
+    "notes": "First production version. Includes the iOS Safari navigation-safe tracking transport order: sendBeacon, fetchKeepalive, imageGet."
   },
   "publicEntry": {
     "name": "Opinber mælaborð Landspítala",
@@ -37,7 +49,7 @@
   "tracking": {
     "enabled": true,
     "endpoint": "https://script.google.com/macros/s/AKfycbxRoNEQwlxQUpxEMGzYizAB0_lP1MdqksGLu4fD7c94rzqUul3MW2_E9VCqeRzLK3wD/exec",
-    "schemaVersion": "9",
+    "schemaVersion": "1",
     "diagnosticsEnabled": false,
     "diagnosticEnrichmentEnabled": true,
     "maxImageGetUrlLength": 4500,
@@ -85,7 +97,7 @@
     "trackRootIndexViews": true,
     "trackRootDashboardClicks": true,
     "countRootIndexAsVisit": false,
-    "iosSafariHotfix": "2026-06-14-v1.4.1"
+    "iosSafariHotfix": "included-in-first-production"
   },
   "routing": {
     "mobileBreakpoint": 767,
@@ -122,7 +134,7 @@
     "tabletLandscapeLayout": "desktop",
     "narrowDesktopStrategy": "mobile",
     "fallbackLayout": "mobile",
-    "redirectDelayMs": 80,
+    "redirectDelayMs": 0,
     "manualLinksInDebug": true,
     "maintenanceMode": false,
     "maintenanceMessage": "Mælaborðið er tímabundið óaðgengilegt.",
@@ -395,8 +407,9 @@
   },
   "statusDashboard": {
     "name": "Mælaborðsmælingar",
-    "path": "status-dashboard/maelabordsmalingar_status_dashboard_v1_4_0.html",
-    "version": "2026-06-13-status-v1.4.0-relaunch.1",
+    "publicComponentName": "Mælaborðsmælingar",
+    "path": "status-dashboard/",
+    "version": "v1.0.0",
     "logoUrl": "https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png",
     "endpoint": "https://script.google.com/macros/s/AKfycbxRoNEQwlxQUpxEMGzYizAB0_lP1MdqksGLu4fD7c94rzqUul3MW2_E9VCqeRzLK3wD/exec",
     "payloadApi": "api=dashboard",
@@ -404,7 +417,7 @@
     "aggregateOnly": true
   },
   "deviceDetection": {
-    "version": "2026-06-13-device-taxonomy-1",
+    "version": "2026-06-15-device-settings-1",
     "routeByDeviceInference": false,
     "routeInputs": [
       "forced_layout",
@@ -420,7 +433,14 @@
       "device_model_guess",
       "smart_tv_console_settop_guess",
       "gamepad_api_available",
-      "device_posture_api_available"
+      "device_posture_api_available",
+      "prefers_reduced_transparency",
+      "monochrome",
+      "update_frequency",
+      "overflow_block",
+      "overflow_inline",
+      "scripting",
+      "display_mode"
     ],
     "privacyGuardrails": [
       "no_cookies",

@@ -1,11 +1,29 @@
 <!doctype html>
 <html lang="is">
+<!--
+  LOCKED MASTER REFERENCE TEMPLATE
+
+  This file is the independent Bráðamóttakan router master reference.
+  It is not the live production route; the live route is bradamottaka/index.html.
+
+  When creating a new dashboard router, copy this file and change only:
+  1. Dashboard display name
+  2. Dashboard ID
+  3. Desktop Power BI publish-to-web URL
+  4. Mobile Power BI publish-to-web URL
+  5. Fallback mobile URL
+  6. Noscript mobile URL
+  7. Dashboard name in the router comment, if a router comment is added
+
+  Everything else is frozen unless a separate production router-core/template
+  change has been reviewed and released.
+-->
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <title>Opna mælaborð | Þjónustukannanir ríkisstofnana</title>
+  <title>Opna mælaborð | Bráðamóttaka í Fossvogi</title>
 
   <style>
     :root {
@@ -271,15 +289,15 @@
         <img class="logo" src="https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png" alt="Landspítali" width="138" height="43" loading="eager" decoding="async">
       </div>
 
-      <img class="dashboard-icon" src="https://images.ctfassets.net/8k0h54kbe6bj/5eK6Vivq6aUDWj2mnOEsvS/7e5d5e7c03b92370ccee175ad01f8330/survey-linkimage.png?w=774&fm=webp&q=80" alt="" width="92" height="92" loading="eager" decoding="async" onerror="this.onerror=null;this.src='https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png';">
+      <img class="dashboard-icon" src="https://images.ctfassets.net/8k0h54kbe6bj/68Ef7p57VqG1aYv99GbzB0/3b98fe5c7b3b11c7d01194a7e9caccd6/bradamottaka-linkimage.png?w=774&fm=webp&q=80" alt="" width="92" height="92" loading="eager" decoding="async" onerror="this.onerror=null;this.src='https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png';">
       <p class="eyebrow">Opna mælaborð</p>
-      <h1 id="page-title">Þjónustukannanir ríkisstofnana</h1>
+      <h1 id="page-title">Bráðamóttaka í Fossvogi</h1>
       <p class="text">
         Augnablik, þú ert send/ur í rétta útgáfu mælaborðsins eftir tæki og skjábreidd.
       </p>
 
       <!-- Mobile URL is the safe fallback. If JavaScript or central assets fail, users still get the mobile version. -->
-      <a id="fallback-link" class="button" href="https://app.powerbi.com/view?r=eyJrIjoiNmMyZGI1ZjktOTIzMS00MjZlLWFmMjEtMzE2ZTRhYjcyYmQ3IiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9">
+      <a id="fallback-link" class="button" href="https://app.powerbi.com/view?r=eyJrIjoiNGZlODE2N2ItYzkwZS00ZWYzLTg2YzctMjg5NWY5MmU1NTkyIiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9">
         Opna mælaborð
       </a>
 
@@ -292,12 +310,12 @@
   </main>
 
   <noscript>
-    <meta http-equiv="refresh" content="0;url=https://app.powerbi.com/view?r=eyJrIjoiNmMyZGI1ZjktOTIzMS00MjZlLWFmMjEtMzE2ZTRhYjcyYmQ3IiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9">
+    <meta http-equiv="refresh" content="0;url=https://app.powerbi.com/view?r=eyJrIjoiNGZlODE2N2ItYzkwZS00ZWYzLTg2YzctMjg5NWY5MmU1NTkyIiwidCI6ImUxMDExZTUyLTcyMTAtNDAxNy05NTBmLTQ1ODA3NWY5Zjg0ZSIsImMiOjh9">
   </noscript>
 
   <script>
     window.LSP_ROUTER_BOOTSTRAP = {
-      dashboardKey: "thjonustukannanir",
+      dashboardKey: "bradamottaka",
       lockDashboard: true
     };
   </script>

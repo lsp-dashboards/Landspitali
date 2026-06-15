@@ -2277,8 +2277,8 @@
     .command-grid {
       position: relative;
       isolation: isolate;
-      width: 100vw;
-      margin: -22px calc(50% - 50vw) 24px;
+      width: 100%;
+      margin: -22px 0 24px;
       padding: clamp(20px, 2.4vw, 34px) max(18px, calc((100vw - 1720px) / 2 + 18px)) clamp(18px, 2.2vw, 30px);
       grid-template-columns: minmax(0, 1.34fr) minmax(390px, .66fr);
       background:
@@ -3252,43 +3252,93 @@
 
     .hero-system-strip {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
-      gap: 10px 14px;
-      width: fit-content;
+      width: min(100%, 1220px);
       max-width: 100%;
       margin-top: 18px;
-      padding: 10px 12px;
-      border: 1px solid rgba(216, 226, 234, .92);
-      border-radius: 18px;
-      background: rgba(255, 255, 255, .62);
-      box-shadow: 0 14px 36px rgba(14, 36, 56, .05);
+      padding: 6px;
+      border: 1px solid rgba(197, 213, 225, .96);
+      border-radius: 999px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, .88), rgba(239, 246, 250, .76)),
+        rgba(255, 255, 255, .72);
+      box-shadow: 0 14px 34px rgba(14, 36, 56, .07);
       backdrop-filter: blur(12px);
+      overflow-x: auto;
+      scrollbar-width: none;
     }
+
+    .hero-system-strip::-webkit-scrollbar { display: none; }
 
     .hero-system-tags {
       flex-wrap: nowrap;
-    }
-
-    #hero-core-title {
-      display: inline-flex;
       align-items: center;
-      min-height: 26px;
-      padding: 4px 2px 4px 6px;
-      color: var(--ink);
-      font-size: 13px;
-      line-height: 1.1;
-      font-weight: 900;
-      letter-spacing: -.01em;
-      white-space: nowrap;
+      gap: 5px;
+      width: 100%;
+      min-width: max-content;
     }
 
-    .hero-core-detail {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
-      line-height: 1.25;
+    .hero-system-tags .chip {
+      flex: 0 0 auto;
+      min-height: 26px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: 0;
       white-space: nowrap;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.74);
+    }
+
+    .hero-system-tags .component-chip {
+      background: rgba(248, 251, 253, .96);
+      border-color: rgba(186, 204, 218, .84);
+      color: var(--ink-2);
+    }
+
+    .hero-system-tags .component-chip.good {
+      background: rgba(225, 244, 235, .95);
+      border-color: rgba(54, 145, 99, .28);
+      color: #166b4a;
+    }
+
+    .hero-system-tags .component-chip.gateway {
+      background: rgba(235, 241, 247, .98);
+      border-color: rgba(86, 112, 138, .30);
+      color: #435c76;
+    }
+
+    .hero-system-tags .component-chip.summary {
+      background: rgba(246, 249, 252, .98);
+      border-color: rgba(156, 176, 194, .32);
+      color: #53677b;
+    }
+
+    .hero-system-tags .component-chip.core {
+      padding-inline: 10px;
+      background: linear-gradient(135deg, #0d253f, #173b5c);
+      border-color: rgba(13, 37, 63, .72);
+      color: #fff;
+      box-shadow: 0 7px 16px rgba(13, 37, 63, .18), inset 0 1px 0 rgba(255,255,255,.16);
+    }
+
+    .hero-system-tags .component-chip.config {
+      background: rgba(228, 242, 249, .96);
+      border-color: rgba(0, 99, 166, .24);
+      color: #115d89;
+    }
+
+    .hero-system-tags .component-chip.tracker {
+      background: rgba(255, 246, 223, .96);
+      border-color: rgba(190, 134, 20, .26);
+      color: #765411;
+    }
+
+    .hero-system-tags .component-chip.schema {
+      background: rgba(241, 245, 249, .98);
+      border-color: rgba(124, 145, 164, .28);
+      color: #4b6174;
     }
 
     .master-ops-shell {
@@ -3735,15 +3785,11 @@
     @media (max-width: 860px) {
       .hero-system-strip {
         width: 100%;
-        align-items: flex-start;
+        border-radius: 16px;
       }
 
       .hero-system-tags {
-        flex-wrap: wrap;
-      }
-
-      .hero-core-detail {
-        white-space: normal;
+        min-width: max-content;
       }
 
       .master-executive,
@@ -3775,13 +3821,6 @@
       .warning-count {
         justify-self: stretch;
         text-align: center;
-      }
-    }
-
-    @media (max-width: 520px) {
-      #hero-core-title {
-        width: 100%;
-        padding-left: 0;
       }
     }
 
@@ -8552,15 +8591,18 @@
           <button class="refresh-button" type="button" id="refresh-button" aria-label="Endurhlaða gögn" title="Endurhlaða gögn">↻</button>
         </div>
         <p class="lead">Stöðuyfirlit fyrir opinber Power BI mælaborð Landspítala. Síðan sýnir taldar heimsóknir, leiðingu milli útgáfa, uppruna umferðar, gateway merki og tæknileg rekstrarmerki án persónuupplýsinga.</p>
-        <div class="hero-system-strip" aria-label="Core og talningarhlið">
+        <div class="hero-system-strip" aria-label="Kerfishlutar">
           <div class="chip-row hero-system-tags">
-            <span class="chip accent" id="status-version-chip">Status UI v1.6.0</span>
-            <span class="chip good">Production gate</span>
-            <span class="chip gateway">Gateway split</span>
-            <span class="chip neutral">Aggregate-only</span>
-            <strong id="hero-core-title">Core v1.6.0</strong>
+            <span class="chip component-chip good">UI: Vaktborð</span>
+            <span class="chip component-chip good">Talningarhlið</span>
+            <span class="chip component-chip gateway">Leiðingarskipting</span>
+            <span class="chip component-chip summary">Aðeins samantektargögn</span>
+            <span class="chip component-chip core">Vöktunarkjarni: Rekstrarpúls</span>
+            <span class="chip component-chip config">Config v1</span>
+            <span class="chip component-chip tracker">Atburðasafnari v1</span>
+            <span class="chip component-chip schema">Gagnasnið 1</span>
+            <span class="sr-only" id="hero-core-detail">UI: Vaktborð | Talningarhlið | Leiðingarskipting | Aðeins samantektargögn | Vöktunarkjarni: Rekstrarpúls | Config v1 | Atburðasafnari v1 | Gagnasnið 1</span>
           </div>
-          <div class="hero-core-detail" id="hero-core-detail">Config v1.4.0 · Script v1.2.2 · schema 9.</div>
         </div>
         <div class="pill-row" aria-label="Staða og uppfærsla">
           <span class="pill"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn</span></span>
@@ -8659,9 +8701,27 @@
       "Þjónustukannanir": PUBLIC_DASHBOARD_PUBLISHED_AT
     };
     var LOCAL_TZ = "Atlantic/Reykjavik";
-    var STATUS_DASHBOARD_VERSION = "v1.6.0";
-    var STATUS_CONFIG_VERSION = "v1.4.0";
-    var STATUS_CORE_VERSION = "v1.6.0";
+    var STATUS_PUBLIC_NAME = "Mælaborðsmælingar";
+    var STATUS_DASHBOARD_VERSION = "v1.0.0";
+    var STATUS_UI_PUBLIC_NAME = "UI: Vaktborð";
+    var STATUS_COUNTING_PUBLIC_NAME = "Talningarhlið";
+    var STATUS_ROUTING_PUBLIC_NAME = "Leiðingarskipting";
+    var STATUS_AGGREGATE_PUBLIC_NAME = "Aðeins samantektargögn";
+    var STATUS_CONFIG_VERSION = "Config v1";
+    var STATUS_CORE_PUBLIC_NAME = "Vöktunarkjarni: Rekstrarpúls";
+    var STATUS_CORE_VERSION = "v1.0.0";
+    var STATUS_COLLECTOR_PUBLIC_NAME = "Atburðasafnari v1";
+    var STATUS_SCHEMA_PUBLIC_NAME = "Gagnasnið 1";
+    var STATUS_COMPONENT_LINE = [
+      STATUS_UI_PUBLIC_NAME,
+      STATUS_COUNTING_PUBLIC_NAME,
+      STATUS_ROUTING_PUBLIC_NAME,
+      STATUS_AGGREGATE_PUBLIC_NAME,
+      STATUS_CORE_PUBLIC_NAME,
+      STATUS_CONFIG_VERSION,
+      STATUS_COLLECTOR_PUBLIC_NAME,
+      STATUS_SCHEMA_PUBLIC_NAME
+    ].join(" | ");
 
     function byId(id) { return document.getElementById(id); }
     function hasOwn(row, key) { return Object.prototype.hasOwnProperty.call(row || {}, key); }
@@ -9004,6 +9064,14 @@
       if (row.forced_colors && !/none|unknown/i.test(row.forced_colors)) parts.push("Þvingaðir litir");
       if (row.prefers_contrast && !/no-preference|unknown/i.test(row.prefers_contrast)) parts.push("Aukinn kontrast");
       if (row.prefers_reduced_motion && !/no-preference|unknown/i.test(row.prefers_reduced_motion)) parts.push("Minni hreyfing");
+      if (row.prefers_reduced_data && !/no-preference|unknown/i.test(row.prefers_reduced_data)) parts.push("Minni gagnanotkun");
+      if (row.prefers_reduced_transparency && !/no-preference|unknown/i.test(row.prefers_reduced_transparency)) parts.push("Minni gegnsæi");
+      if (row.monochrome && !/color|unknown|unsupported/i.test(row.monochrome)) parts.push("Monochrome");
+      if (row.update_frequency && /slow|none/i.test(row.update_frequency)) parts.push("Hæg uppfærsla");
+      if (row.overflow_block && !/scroll|unknown|unsupported/i.test(row.overflow_block)) parts.push("Overflow block: " + humanizeToken(row.overflow_block));
+      if (row.overflow_inline && !/scroll|unknown|unsupported/i.test(row.overflow_inline)) parts.push("Overflow inline: " + humanizeToken(row.overflow_inline));
+      if (row.display_mode && !/browser|unknown|unsupported/i.test(row.display_mode)) parts.push(humanizeToken(row.display_mode));
+      if (row.scripting && !/enabled|unknown|enabled_unreported/i.test(row.scripting)) parts.push("Scripting: " + humanizeToken(row.scripting));
       return parts.length ? parts.join(" / ") : "Venjulegar stillingar";
     }
     function labelWarningCode(value) {
@@ -9193,11 +9261,13 @@
     function releaseInfo(data) {
       data = data || {};
       return {
-        version: STATUS_CORE_VERSION,
+        version: STATUS_DASHBOARD_VERSION,
         dateLabel: data.generated_at ? dateShort(data.generated_at) : "14.6.2026",
-        script: scriptVersion(data.script_version) === "-" ? "v1.2.2" : scriptVersion(data.script_version),
-        schema: data.schema_version || "9",
+        script: STATUS_COLLECTOR_PUBLIC_NAME,
+        schema: STATUS_SCHEMA_PUBLIC_NAME,
         config: STATUS_CONFIG_VERSION,
+        ui: STATUS_UI_PUBLIC_NAME,
+        aggregate: STATUS_AGGREGATE_PUBLIC_NAME,
         core: STATUS_CORE_VERSION
       };
     }
@@ -9315,7 +9385,7 @@
         number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"])) +
         number(firstValue(f, ["router_arrivals", "arrivals"]));
       var excludedSignals = diagnosticRows + uncountedRows;
-      return '<div class="production-gate" aria-label="Production gate: hvað verður heimsókn og hvað er haldið sér">' +
+      return '<div class="production-gate" aria-label="Talningarhlið: hvað verður heimsókn og hvað er haldið sér">' +
         gateStage("Raw/status", fmt(rawSignals), "merki", "Móttaka eða samantekin tæknimerki.", "info") +
         gateStage("Útsíað", fmt(excludedSignals), "línur", "Debug, diagnostic, test eða ekki talið.", excludedSignals ? "warn" : "good") +
         gateStage("Gateway/diag.", fmt(gatewaySignals + diagnosticRows), "merki", "Root, router og diagnostic; ekki heimsóknir.", "gateway") +
@@ -9419,10 +9489,7 @@
       setText("generated-pill", "Uppfært: " + generatedText);
       if (byId("generated-pill")) byId("generated-pill").title = "Uppfært " + (data.generated_at ? dateTooltip(data.generated_at) : "-");
       setText("cache-pill", "Cache: " + (data.cache ? (data.cache.hit ? "hit" : "fresh") : "-"));
-      var release = releaseInfo(data);
-      setText("status-version-chip", "Status UI " + release.version);
-      setText("hero-core-title", "Core " + release.core);
-      setText("hero-core-detail", "Config " + release.config + " · Script " + release.script + " · schema " + release.schema + ".");
+      setText("hero-core-detail", STATUS_COMPONENT_LINE);
 
       var countedEventTime = firstValue(h, ["last_counted_event_time", "last_counted_visit_time"]) || latestCountedEventTime(data);
       var rawEventTime = firstValue(h, ["last_raw_event_time", "last_event_time"]);
@@ -9474,7 +9541,7 @@
         notice.textContent = "Staðfest rekstrarviðvörun: " + warningSplit.confirmed.length + " merki þarf að skoða.";
         notice.className = "notice show warn";
       } else if (h.warnings && h.warnings.length) {
-        notice.textContent = "Upplýsing úr health payload: " + h.warnings.join(", ") + ". Þetta hækkar ekki viðvörunarstöðu nema production gate staðfesti merkið.";
+        notice.textContent = "Upplýsing úr health payload: " + h.warnings.join(", ") + ". Þetta hækkar ekki viðvörunarstöðu nema Talningarhlið staðfesti merkið.";
         notice.className = "notice show info";
       } else {
         notice.textContent = "";
@@ -10340,7 +10407,7 @@
     function renderExecutivePanelV2(data) {
       var model = opsModel(data);
       var title = model.tone === "good" ? "Rekstur stöðugur" : model.tone === "warn" ? "Athugun í gangi" : "Brýnt að skoða";
-      var detail = "Rekstrarvaktin les taldar heimsóknir, ferskleika, production gate og staðfest gæðamerki saman.";
+      var detail = "Rekstrarvaktin les taldar heimsóknir, ferskleika, Talningarhlið og staðfest gæðamerki saman.";
       var actions = actionItems(data, model).map(insightLine).join("");
       var scoreTip = "Stigið er 0-100. Grænt er 86-100, gult 70-85 og rautt undir 70. Frádráttur kemur frá staðfestum viðvörunum, fallback/villum, veikum eða óþekktum merkjum og gömlum gögnum. Heimsóknarfjöldi einn hækkar ekki stigið.";
       var freshnessFill = clamp(100 - Math.min(model.eventAge.minutes, 360) / 360 * 100, 0, 100);
@@ -10458,7 +10525,7 @@
       var noteClass = coherent ? "info" : "warn";
       var noteText = coherent ? "Fjöldar, ekki prósentufunnel" : "Ólíkir talningargrunnar";
       var analysis = '<div class="gateway-ops-grid">' +
-        '<article class="nested-card gateway-read-card"><div><h3>Lesa flæðið</h3><div class="subtle">Gateway merki eru rekstrarspor. Taldar heimsóknir koma aðeins þegar dashboard opnun stenst production gate.</div></div><div class="gateway-read-list">' +
+        '<article class="nested-card gateway-read-card"><div><h3>Lesa flæðið</h3><div class="subtle">Gateway merki eru rekstrarspor. Taldar heimsóknir koma aðeins þegar dashboard opnun stenst Talningarhlið.</div></div><div class="gateway-read-list">' +
           gatewayReadRow("Gateway sýni", fmt(views) + " / " + fmt(clicks), "Rótarsíða og kortasmellir.", "gateway") +
           gatewayReadRow("Router tók við", fmt(arrivals), "Arrival-merki til útgáfuvals.", arrivals ? "info" : "") +
           gatewayReadRow("Talin opnun", fmt(counted), "Production opnun í þessu flæði.", counted ? "good" : "") +
@@ -10941,7 +11008,7 @@
       var label = group === "confirmed" ? "Production" : group === "diagnostic" ? "Diagnostic" : group === "info" ? "Upplýsingar" : "Óstaðfest";
       return '<article class="quality-alert-card ' + safe(cls) + '"><div class="alert-rail" aria-hidden="true"></div>' +
         '<div class="alert-name"><span>' + safe(label) + '</span><strong>' + safe(labelWarningCode(row.warning_code || row.code || "warning")) + '</strong><div class="alert-meta">' + safe(row.dashboard_key || row.dashboard_id || "-") + '</div><div class="alert-chip-row"><span class="chip neutral">Traust: ' + safe(confidence) + '</span><span class="chip neutral">' + safe(signal) + '</span></div></div>' +
-        '<div class="alert-body"><p>' + safe(row.warning_text || row.message || "-") + '</p><div class="alert-action">Næsta skref: ' + safe(row.recommendation || (group === "confirmed" ? "Staðfesta áhrif í vafra/tæki og prófa studdan Power BI vafra." : "Halda sem greiningarmerki þar til production gate staðfestir áhrif.")) + '</div></div>' +
+        '<div class="alert-body"><p>' + safe(row.warning_text || row.message || "-") + '</p><div class="alert-action">Næsta skref: ' + safe(row.recommendation || (group === "confirmed" ? "Staðfesta áhrif í vafra/tæki og prófa studdan Power BI vafra." : "Halda sem greiningarmerki þar til Talningarhlið staðfestir áhrif.")) + '</div></div>' +
         '<div class="alert-count-box"><span>Talið</span><strong>' + fmt(counted) + '</strong><span>diag. ' + fmt(diagnostic) + '</span></div></article>';
     }
 
@@ -10953,7 +11020,7 @@
       var diagnostic = split.diagnostic.length;
       var tone = confirmed ? "warn" : "good";
       var headline = confirmed ? "Aðgerð: staðfest production merki" : "Engin staðfest production viðvörun";
-      var copy = confirmed ? "Þessi sýn byrjar á því sem breytir rekstrarstöðu: staðfest production merki. Info og diagnostic eru haldin sýnileg, en þau eru greiningarhjálp og hækka ekki stöðu." : "Engin staðfest warning/error fer í gegnum production gate. Greiningarmerki eru samt sýnd svo hægt sé að rekja veik merki áður en þau verða vandamál.";
+      var copy = confirmed ? "Þessi sýn byrjar á því sem breytir rekstrarstöðu: staðfest production merki. Info og diagnostic eru haldin sýnileg, en þau eru greiningarhjálp og hækka ekki stöðu." : "Engin staðfest warning/error fer í gegnum Talningarhlið. Greiningarmerki eru samt sýnd svo hægt sé að rekja veik merki áður en þau verða vandamál.";
       var allWarnings = split.confirmed.concat(split.unconfirmed, split.info, split.diagnostic);
       var allCount = allWarnings.length;
       var k = data.kpis || {};
@@ -10974,7 +11041,7 @@
         '<section class="quality-decision ' + tone + '">' +
           '<div class="quality-verdict"><span class="quality-kicker">Gæðaviðvaranir</span><div class="quality-title-line"><h3>' + safe(headline) + '</h3>' + infoTip(confidenceTip) + '</div><p>' + safe(copy) + '</p><div class="quality-status-line"><div class="quality-status-number"><strong>' + fmt(confirmed) + '</strong><span>staðfest</span></div><span class="chip ' + (confirmed ? 'warn' : 'good') + '">' + (confirmed ? 'Skoða fyrst' : 'Production í lagi') + '</span><span class="chip neutral">' + fmt(allCount) + ' merki alls</span><span class="chip neutral">Traust: ' + safe(confidenceText) + '</span></div></div>' +
           '<div class="quality-triage-grid">' +
-            qualitySignalCard("Production gate", confirmed ? fmt(confirmed) : "Hreint", confirmed ? "Hækkar rekstrarstöðu." : "Ekkert staðfest merki.", confirmed ? "warn" : "good") +
+            qualitySignalCard("Talningarhlið", confirmed ? fmt(confirmed) : "Hreint", confirmed ? "Hækkar rekstrarstöðu." : "Ekkert staðfest merki.", confirmed ? "warn" : "good") +
             qualitySignalCard("Power BI / vafri", fmt(unsupported), unsupported ? "Óstuddur eða gamall vafri." : "Engin staðfest vafravilla.", unsupported ? "warn" : "good") +
             qualitySignalCard("Greiningarmerki", fmt(info + diagnostic), "Info + diagnostic, ekki heimsóknir.", info + diagnostic ? "info" : "good") +
             qualitySignalCard("Tracker samhengi", topDevice || topBrowser ? safe((topDevice ? topDevice.key : "-") + " / " + (topBrowser ? topBrowser.key : "-")) : "-", "Veik merki " + shareValue(weakShare) + " · " + fmt(deviceRows.length) + " device línur.", weakShare > .12 ? "warn" : "gateway") +
