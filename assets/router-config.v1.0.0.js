@@ -18,7 +18,7 @@ window.LSP_ROUTER_CONFIG = {
     "configAssetFile": "router-config.prod.js",
     "versionedCoreAssetFile": "router-core.v1.0.0.js",
     "versionedConfigAssetFile": "router-config.v1.0.0.js",
-    "publicVersionLabel": "Mælaborðsmælingar · UI: Vaktborð · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1",
+    "publicVersionLabel": "UI: Vaktborð · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1",
     "statusUiPublicName": "Mælaborðsmælingar",
     "uiPublicName": "UI: Vaktborð",
     "countingGatePublicName": "Talningarhlið",

@@ -38,8 +38,9 @@ Source styður sameiginlegan public launch timestamp fyrstu tveggja korta: `14.0
 |---|---|---|
 | Package version | `1.0.0` | `assets/router-config.json` |
 | Config version | `2026-06-15-prod-v1.0.0` | `assets/router-config.json` |
-| Mælaborðsmælingar | `Mælaborðsmælingar · v1.0.0` | `status-dashboard/index.html` |
-| Vöktunarkjarni | `Vöktunarkjarni: Rekstrarpúls · v1.0.0` | `assets/router-core.prod.js`, status dashboard |
+| Mælaborðsmælingar | `Mælaborðsmælingar` / status UI dev `v1.0.0` | `status-dashboard/index.html` |
+| Header component row | `UI: Vaktborð · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1` | `status-dashboard/index.html`, `assets/router-config.json` |
+| Vöktunarkjarni | `Vöktunarkjarni: Rekstrarpúls` / core dev `v1.0.0` | `assets/router-core.prod.js`, status dashboard |
 | Config | `Config v1` / `config-v1.0.0` | `assets/router-config.json` |
 | Atburðasafnari | `Atburðasafnari v1` / `atburdasafnari-v1.0.0` | tracker source |
 | Gagnasnið | `Gagnasnið 1` / schema `1` | config og tracker source |

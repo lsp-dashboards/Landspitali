@@ -8,7 +8,8 @@
 | Config version | `2026-06-15-prod-v1.0.0` | `assets/router-config.json`, generated config, Apps Script registry snapshot |
 | Config version | `Config v1` / `config-v1.0.0` | `assets/router-config.json`, generated config, Apps Script registry snapshot |
 | Core version | `v1.0.0` | `assets/router-core.prod.js` |
-| Mælaborðsmælingar version | `Mælaborðsmælingar · v1.0.0` | `status-dashboard/index.html` |
+| Mælaborðsmælingar public name | `Mælaborðsmælingar` | `status-dashboard/index.html` |
+| Header component row | `UI: Vaktborð · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1` | `status-dashboard/index.html`, generated config |
 | Apps Script version | `atburdasafnari-v1.0.0` | tracker source |
 | Schema version | `Gagnasnið 1` / `1` | config/tracker |
 
