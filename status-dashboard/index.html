@@ -2095,6 +2095,10 @@
       padding: 8px;
     }
 
+    .route-matrix .matrix-row {
+      grid-template-columns: minmax(170px, 1.1fr) repeat(3, minmax(86px, .42fr));
+    }
+
     .matrix-row.matrix-head {
       border: 0;
       padding: 0 9px;
@@ -5765,7 +5769,7 @@
     }
 
     #technical-panel .tech-workbench {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: minmax(300px, .7fr) minmax(0, 1.3fr);
       align-items: stretch;
     }
 
@@ -5777,15 +5781,16 @@
 
     .tech-combo-list {
       height: 100%;
-      grid-template-rows: repeat(6, minmax(86px, 1fr));
+      grid-template-rows: repeat(6, minmax(78px, 1fr));
     }
 
     .tech-combo-card {
-      min-height: 86px;
-      padding: 13px;
+      min-height: 78px;
+      padding: 11px;
     }
 
     .tech-distribution-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       grid-template-rows: repeat(2, minmax(0, 1fr));
       height: 100%;
     }
@@ -5795,6 +5800,7 @@
       grid-template-rows: 30px 18px minmax(0, 1fr);
       align-content: stretch;
       min-height: 190px;
+      width: 100%;
     }
 
     .tech-distribution-grid .delivery-viz-head {
@@ -9009,7 +9015,7 @@
 
     .ops-balance-board {
       display: grid;
-      grid-template-columns: minmax(220px, .28fr) minmax(360px, .44fr) minmax(300px, .28fr);
+      grid-template-columns: minmax(240px, .34fr) minmax(0, .66fr);
       gap: 12px;
       align-items: stretch;
       min-width: 0;
@@ -9027,13 +9033,123 @@
       border-color: var(--good-line);
     }
 
+    .ops-flow-card.counted.usage-foundation {
+      align-content: stretch;
+      gap: 14px;
+      padding: 16px;
+      background:
+        linear-gradient(145deg, rgba(239,250,245,.96), rgba(255,255,255,.92));
+    }
+
+    .usage-foundation-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(82px, auto);
+      gap: 12px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .usage-foundation-copy {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .usage-foundation-copy span,
+    .usage-foundation-today span,
+    .usage-layout-item span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .usage-foundation-copy strong {
+      color: var(--ink);
+      font-size: clamp(44px, 3.5vw, 58px);
+      line-height: .9;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .usage-foundation-copy small,
+    .usage-layout-item small {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+      font-weight: 800;
+    }
+
+    .usage-foundation-today {
+      display: grid;
+      justify-items: end;
+      gap: 4px;
+      min-width: 82px;
+      padding: 9px 10px;
+      border: 1px solid rgba(196,214,226,.86);
+      border-radius: 14px;
+      background: rgba(255,255,255,.78);
+    }
+
+    .usage-foundation-today strong {
+      color: var(--ink);
+      font-size: 24px;
+      line-height: .95;
+      font-weight: 900;
+    }
+
+    .usage-layout-bar {
+      display: flex;
+      height: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e7eef4;
+      box-shadow: inset 0 0 0 1px rgba(14,36,56,.06);
+    }
+
+    .usage-layout-bar span {
+      min-width: 0;
+      height: 100%;
+    }
+
+    .usage-layout-bar .mobile { background: var(--good); }
+    .usage-layout-bar .desktop { background: var(--gateway); }
+
+    .usage-layout-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .usage-layout-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 4px 8px;
+      align-items: end;
+      min-width: 0;
+      padding: 10px;
+      border: 1px solid rgba(196,214,226,.76);
+      border-radius: 14px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .usage-layout-item strong {
+      color: var(--ink);
+      font-size: 22px;
+      line-height: .95;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .usage-layout-item small {
+      grid-column: 1 / -1;
+    }
+
     .ops-flow-card.gateway {
       background: linear-gradient(180deg, rgba(237,243,248,.9), rgba(255,255,255,.94));
       border-color: rgba(106,125,144,.24);
-    }
-
-    .ops-flow-card.freshness {
-      background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,251,253,.94));
     }
 
     .ops-main-number {
@@ -9128,16 +9244,557 @@
       color: var(--muted);
       font-size: 12px;
       line-height: 1.34;
+      text-wrap: pretty;
     }
 
-    .ops-fresh-grid {
+    .dashboard-public-master.mega-dashboard-shell {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .mega-dashboard-board {
       display: grid;
-      grid-template-columns: 1fr;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .mega-dashboard-hero,
+    .mega-dashboard-strip,
+    .mega-rank-board,
+    .mega-dashboard-card {
+      min-width: 0;
+      border: 1px solid rgba(181, 205, 220, .84);
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.94));
+      box-shadow: none;
+    }
+
+    .mega-dashboard-hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(360px, .42fr) minmax(0, .58fr);
+      gap: 16px;
+      align-items: stretch;
+      padding: 18px;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,.99), rgba(235,247,250,.9));
+    }
+
+    .mega-dashboard-hero::after {
+      content: "";
+      position: absolute;
+      inset-inline: 18px;
+      bottom: 0;
+      height: 4px;
+      border-radius: 999px 999px 0 0;
+      background: linear-gradient(90deg, var(--accent), var(--good), rgba(96,114,134,.28));
+      pointer-events: none;
+    }
+
+    .mega-dashboard-story {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 12px;
+      align-content: space-between;
+      min-width: 0;
+    }
+
+    .mega-kicker,
+    .mega-stat span,
+    .mega-flow-head span,
+    .mega-rank-head span,
+    .mega-context-item span,
+    .mega-card-eyebrow,
+    .mega-orbit-copy span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .mega-dashboard-story h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 48px;
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .mega-dashboard-story p {
+      max-width: 74ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.44;
+      text-wrap: pretty;
+    }
+
+    .mega-hero-proof {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 8px;
     }
 
-    .ops-fresh-grid .start-fresh-pulse {
-      min-height: 76px;
+    .mega-stat {
+      min-width: 0;
+      display: grid;
+      gap: 6px;
+      padding: 11px 12px;
+      border: 1px solid rgba(196, 214, 226, .82);
+      border-radius: 14px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .mega-stat.good { background: var(--good-soft); border-color: var(--good-line); }
+    .mega-stat.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .mega-stat.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+    .mega-stat.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+
+    .mega-stat strong {
+      min-width: 0;
+      color: var(--ink);
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .mega-stat small,
+    .mega-flow-panel small,
+    .mega-rank-row small,
+    .mega-context-item small,
+    .mega-card-sub,
+    .mega-card-count small,
+    .mega-orbit-copy small {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.28;
+      font-weight: 800;
+    }
+
+    .mega-orbit-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mega-orbit-card {
+      display: grid;
+      grid-template-columns: 118px minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid rgba(196,214,226,.86);
+      border-radius: 16px;
+      background: rgba(255,255,255,.78);
+    }
+
+    .mega-orbit {
+      position: relative;
+      width: 112px;
+      aspect-ratio: 1;
+      border-radius: 999px;
+      background: var(--mega-donut, #e7eef4);
+      box-shadow: inset 0 0 0 1px rgba(14,36,56,.07);
+    }
+
+    .mega-orbit::after {
+      content: "";
+      position: absolute;
+      inset: 20px;
+      border-radius: inherit;
+      background: rgba(255,255,255,.96);
+      box-shadow: inset 0 0 0 1px rgba(14,36,56,.08);
+    }
+
+    .mega-orbit-center {
+      position: absolute;
+      inset: 28px;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 3px;
+      text-align: center;
+    }
+
+    .mega-orbit-center strong {
+      color: var(--ink);
+      font-size: 21px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .mega-orbit-center span {
+      max-width: 58px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.05;
+      font-weight: 900;
+      text-transform: none;
+    }
+
+    .mega-orbit-copy {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .mega-orbit-copy strong {
+      color: var(--ink);
+      font-size: 20px;
+      line-height: 1.05;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .mega-legend {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .mega-legend-row {
+      display: grid;
+      grid-template-columns: 10px minmax(0, 1fr) auto;
+      gap: 7px;
+      align-items: center;
+      min-width: 0;
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1.15;
+      font-weight: 800;
+    }
+
+    .mega-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--dot-bg, var(--gateway));
+    }
+
+    .mega-dashboard-strip {
+      display: grid;
+      grid-template-columns: minmax(280px, .32fr) minmax(0, .68fr);
+      gap: 12px;
+      align-items: stretch;
+      padding: 14px;
+    }
+
+    .mega-strip-lead {
+      display: grid;
+      gap: 7px;
+      align-content: center;
+      min-width: 0;
+    }
+
+    .mega-strip-lead strong {
+      color: var(--ink);
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 900;
+      text-wrap: balance;
+    }
+
+    .mega-strip-lead p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.36;
+      text-wrap: pretty;
+    }
+
+    .mega-strip-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .mega-dashboard-lanes {
+      display: grid;
+      grid-template-columns: minmax(330px, .34fr) minmax(0, .66fr);
+      gap: 14px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .mega-rank-board {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+    }
+
+    .mega-rank-head {
+      display: grid;
+      gap: 6px;
+    }
+
+    .mega-rank-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 22px;
+      line-height: 1.05;
+      font-weight: 900;
+    }
+
+    .mega-rank-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .mega-rank-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 9px;
+      align-items: center;
+      min-width: 0;
+      padding: 10px 0;
+      border-top: 1px solid rgba(216,226,234,.82);
+    }
+
+    .mega-rank-title {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .mega-rank-title strong {
+      min-width: 0;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.1;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .mega-rank-value {
+      display: grid;
+      justify-items: end;
+      color: var(--ink);
+      font-size: 22px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .mega-rank-value span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .mega-segment-bar {
+      display: flex;
+      width: 100%;
+      height: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e7eef4;
+      box-shadow: inset 0 0 0 1px rgba(14,36,56,.06);
+    }
+
+    .mega-segment-bar span {
+      min-width: 0;
+      height: 100%;
+    }
+
+    .mega-segment-bar .good { background: var(--good); }
+    .mega-segment-bar .info { background: var(--accent); }
+    .mega-segment-bar .gateway { background: var(--gateway); }
+    .mega-segment-bar .warn { background: #d99a11; }
+    .mega-segment-bar .neutral { background: #9badbd; }
+    .mega-segment-bar .empty { background: #dfe9f1; }
+
+    .mega-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mega-dashboard-card {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      gap: 13px;
+      padding: 14px;
+    }
+
+    .mega-dashboard-card.good {
+      border-left: 5px solid rgba(31,126,83,.72);
+    }
+
+    .mega-dashboard-card.warn {
+      border-left: 5px solid rgba(217,154,17,.78);
+    }
+
+    .mega-card-head {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .mega-card-head img {
+      width: 54px;
+      height: 54px;
+      object-fit: cover;
+      border: 1px solid rgba(196,214,226,.76);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .mega-card-title {
+      min-width: 0;
+      color: var(--ink);
+      font-size: 21px;
+      line-height: 1.04;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .mega-card-count {
+      display: grid;
+      justify-items: end;
+      min-width: 92px;
+      color: var(--ink);
+    }
+
+    .mega-card-count strong {
+      font-size: 34px;
+      line-height: .9;
+      font-weight: 900;
+    }
+
+    .mega-flow-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(216,226,234,.82);
+      border-radius: 16px;
+      background: rgba(255,255,255,.66);
+    }
+
+    .mega-flow-panel {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .mega-flow-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: end;
+      min-width: 0;
+    }
+
+    .mega-flow-head strong {
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.05;
+      font-weight: 900;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .mega-context-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .mega-context-item {
+      min-width: 0;
+      display: grid;
+      gap: 4px;
+      padding: 9px 10px;
+      border: 1px solid rgba(216,226,234,.82);
+      border-radius: 13px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .mega-context-item.good { background: var(--good-soft); border-color: var(--good-line); }
+    .mega-context-item.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+    .mega-context-item.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+
+    .mega-context-item strong {
+      min-width: 0;
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.05;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 1420px) {
+      .mega-dashboard-hero,
+      .mega-dashboard-strip,
+      .mega-dashboard-lanes {
+        grid-template-columns: 1fr;
+      }
+
+      .mega-rank-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 980px) {
+      .mega-orbit-grid,
+      .mega-strip-grid,
+      .mega-card-grid,
+      .mega-flow-grid,
+      .mega-context-grid,
+      .mega-hero-proof {
+        grid-template-columns: 1fr;
+      }
+
+      .mega-dashboard-story h2 {
+        font-size: 38px;
+      }
+
+      .mega-rank-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .mega-dashboard-hero,
+      .mega-dashboard-strip,
+      .mega-rank-board,
+      .mega-dashboard-card {
+        border-radius: 14px;
+        padding: 12px;
+      }
+
+      .mega-dashboard-story h2 {
+        font-size: 32px;
+      }
+
+      .mega-orbit-card,
+      .mega-card-head {
+        grid-template-columns: 1fr;
+      }
+
+      .mega-card-count {
+        justify-items: start;
+      }
     }
 
     .portfolio-atelier {
@@ -9342,14 +9999,6 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      .ops-flow-card.freshness {
-        grid-column: 1 / -1;
-      }
-
-      .ops-fresh-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
       .insight-lens-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
@@ -9369,7 +10018,6 @@
 
       .ops-stepper,
       .ops-tracker-strip,
-      .ops-fresh-grid,
       .dashboard-passport-donuts,
       .dashboard-passport-evidence {
         grid-template-columns: 1fr;
@@ -9413,6 +10061,7 @@
       }
 
       .ops-metric-strip,
+      .usage-layout-grid,
       .portfolio-overview-grid,
       .insight-lens-grid {
         grid-template-columns: 1fr;
@@ -9476,13 +10125,7 @@
       <div id="signal-panorama-panel"></div>
     </section>
 
-    <section class="panel dashboard-public-master" aria-labelledby="dashboard-public-title">
-      <div class="panel-head">
-        <div>
-          <h2 id="dashboard-public-title">Mælaborð</h2>
-          <div class="panel-note">Ein master-sýn fyrir opinber kort, birtingarstöðu, notkun, leiðingu og ferskleika. Tölurnar eru taldar production heimsóknir, ekki gateway eða diagnostic merki.</div>
-        </div>
-      </div>
+    <section class="panel dashboard-public-master mega-dashboard-shell" aria-label="Mælaborð">
       <div id="dashboard-public-master"></div>
     </section>
 
@@ -9825,6 +10468,46 @@
       if (!value || value === "unknown") return "Óþekkt";
       return humanizeToken(value);
     }
+    function normalizeLayoutToken(value) {
+      value = String(value || "").trim().toLowerCase().replace(/_/g, "-");
+      if (/^(mobile|phone)$/.test(value)) return "mobile";
+      if (/^desktop$/.test(value)) return "desktop";
+      if (!value || /^(auto|none|unknown|-)$/.test(value)) return "";
+      if (/mobile|phone/.test(value)) return "mobile";
+      if (/desktop/.test(value)) return "desktop";
+      return "";
+    }
+    function forcedLayoutValue(row) {
+      row = row || {};
+      var explicit = normalizeLayoutToken(firstValue(row, ["forced_layout", "forcedLayout", "force_layout", "forceLayout", "forced_layout_choice", "layout_forced_to"]));
+      if (explicit) return explicit;
+      var reason = String(row.route_reason || row.reason || "").toLowerCase();
+      if (/forced[_-]?mobile/.test(reason)) return "mobile";
+      if (/forced[_-]?desktop/.test(reason)) return "desktop";
+      if (valueLooksTrue(row.forced_layout_applied) || /forced/i.test(String(row.layout_source || row.route_policy_result || ""))) {
+        return normalizeLayoutToken(row.selected_layout || row.auto_selected_layout) || "auto";
+      }
+      return "auto";
+    }
+    function isForcedLayoutRow(row) { return forcedLayoutValue(row) !== "auto"; }
+    function routeMatrixValue(row) {
+      var counted = visitValue(row);
+      if (counted) return counted;
+      return isForcedLayoutRow(row) ? rawSignalValue(row) : 0;
+    }
+    function routeMatrixRows(data) {
+      return (data.routes || []).filter(function (row) { return !isHardTestRow(row) && routeMatrixValue(row) > 0; });
+    }
+    function forcedLayoutSum(rows, layout) {
+      return (rows || []).reduce(function (acc, row) {
+        return acc + (forcedLayoutValue(row) === layout ? routeMatrixValue(row) : 0);
+      }, 0);
+    }
+    function forcedLayoutTotal(rows) {
+      return (rows || []).reduce(function (acc, row) {
+        return acc + (isForcedLayoutRow(row) ? routeMatrixValue(row) : 0);
+      }, 0);
+    }
     function labelTheme(value) {
       value = String(value || "").toLowerCase();
       if (value === "dark") return "Dark";
@@ -10137,7 +10820,7 @@
       var score = clamp(100 - warningSplit.confirmed.length * 16 - fallback * 9 - weakShare * 38 - freshnessPenalty, 0, 100);
       var tone = score >= 86 ? "good" : score >= 70 ? "warn" : "bad";
       var dashboardRows = visibleRows(data.dashboards || []);
-      var routeRows = visibleRows(data.routes || []);
+      var routeRows = routeMatrixRows(data);
       var sourceRows = visibleRows(data.sources || []);
       return {
         score: Math.round(score),
@@ -10264,16 +10947,29 @@
 
     function routeReasonGroups(data) {
       var map = {};
-      visibleRows(data.routes || []).forEach(function (row) {
+      routeMatrixRows(data).forEach(function (row) {
         var key = labelRoute(row.route_reason);
-        if (!map[key]) map[key] = { key: key, total: 0, mobile: 0, desktop: 0, forced: 0 };
-        var value = visitValue(row);
+        if (!map[key]) map[key] = { key: key, total: 0, visits: 0, signals: 0, mobile: 0, desktop: 0, forced: 0, forcedMobile: 0, forcedDesktop: 0 };
+        var value = routeMatrixValue(row);
+        var counted = visitValue(row);
+        var forcedLayout = forcedLayoutValue(row);
         map[key].total += value;
+        map[key].visits += counted;
+        map[key].signals += counted ? 0 : value;
         if (/^mobile$/i.test(row.selected_layout || "")) map[key].mobile += value;
         if (/^desktop$/i.test(row.selected_layout || "")) map[key].desktop += value;
-        if (!/^auto$/i.test(row.forced_layout || "auto")) map[key].forced += value;
+        if (forcedLayout !== "auto") map[key].forced += value;
+        if (forcedLayout === "mobile") map[key].forcedMobile += value;
+        if (forcedLayout === "desktop") map[key].forcedDesktop += value;
       });
-      return Object.keys(map).map(function (key) { return map[key]; }).sort(function (a, b) { return b.total - a.total; }).slice(0, 7);
+      var groups = Object.keys(map).map(function (key) { return map[key]; }).sort(function (a, b) { return b.total - a.total; });
+      var visible = groups.slice(0, 7);
+      groups.forEach(function (row) {
+        if (!row.forced) return;
+        if (visible.some(function (item) { return item.key === row.key; })) return;
+        visible.push(row);
+      });
+      return visible.slice(0, 10);
     }
 
     function renderDashboardMatrix(data) {
@@ -10293,11 +10989,15 @@
     function renderRouteMatrix(data) {
       var rows = routeReasonGroups(data);
       if (!rows.length) return '<article class="nested-card"><h3>Route matrix</h3><div class="message-card neutral">Engin route matrix gögn enn.</div></article>';
-      var forcedTotal = rows.reduce(function (acc, row) { return acc + number(row.forced); }, 0);
-      var html = '<article class="nested-card"><div class="panorama-card-head"><div><h3>Route matrix</h3><div class="subtle">Hvaða route ástæður leiða mest notkun og hvar þvinguð útgáfa kemur fyrir.</div></div><div class="chip-row"><span class="chip gateway">' + fmt(rows.length) + ' ástæður</span><span class="chip ' + (forcedTotal ? 'warn' : 'good') + '">' + fmt(forcedTotal) + ' þvingað</span></div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Ástæða</span><span>MOBILE</span><span>DESKTOP</span><span>Þvingað</span></div>';
+      var routeRows = routeMatrixRows(data);
+      var forcedMobileTotal = forcedLayoutSum(routeRows, "mobile");
+      var forcedDesktopTotal = forcedLayoutSum(routeRows, "desktop");
+      var forcedTotal = forcedMobileTotal + forcedDesktopTotal;
+      var html = '<article class="nested-card route-matrix"><div class="panorama-card-head"><div><h3>Route matrix</h3><div class="subtle">Hvaða route ástæður leiða mest notkun og þvingað útgáfuval.</div></div><div class="chip-row"><span class="chip gateway">' + fmt(rows.length) + ' ástæður</span><span class="chip ' + (forcedTotal ? 'warn' : 'good') + '">Þvingað: ' + fmt(forcedTotal) + '</span><span class="chip neutral">mobile ' + fmt(forcedMobileTotal) + ' · desktop ' + fmt(forcedDesktopTotal) + '</span></div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Ástæða</span><span>MOBILE</span><span>DESKTOP</span><span>Þvingað</span></div>';
       html += rows.map(function (row) {
         var total = Math.max(row.total, 1);
-        return '<div class="matrix-row"><div class="matrix-title">' + safe(row.key) + '<small>' + fmt(row.total) + ' heimsóknir</small></div>' + heatCell("MOBILE", row.mobile, total, "good", pct(row.mobile, total)) + heatCell("DESKTOP", row.desktop, total, "gateway", pct(row.desktop, total)) + heatCell("Þvingað", row.forced, total, row.forced ? "warn" : "", fmt(row.forced)) + '</div>';
+        var unit = row.visits && row.signals ? "heimsóknir / merki" : (row.visits ? "heimsóknir" : "merki");
+        return '<div class="matrix-row"><div class="matrix-title">' + safe(row.key) + '<small>' + fmt(row.total) + ' ' + safe(unit) + '</small></div>' + heatCell("MOBILE", row.mobile, total, "good", pct(row.mobile, total)) + heatCell("DESKTOP", row.desktop, total, "gateway", pct(row.desktop, total)) + heatCell("Þvingað", row.forced, total, row.forced ? "warn" : "", fmt(row.forced)) + '</div>';
       }).join("");
       return html + '</div></article>';
     }
@@ -10606,10 +11306,10 @@
       var k = data.kpis || {};
       var f = data.root_index_funnel || data.root_index || {};
       var total = number(firstValue(k, ["total_counted_visits", "counted_visits", "total_visits"]));
-      var routeRows = visibleRows(data.routes || []);
+      var routeRows = routeMatrixRows(data);
       var sourceRows = visibleRows(data.sources || []);
-      var auto = routeRows.reduce(function (acc, row) { return acc + (/^auto$/i.test(row.forced_layout || "auto") ? visitValue(row) : 0); }, 0);
-      var forced = routeRows.reduce(function (acc, row) { return acc + (!/^auto$/i.test(row.forced_layout || "auto") ? visitValue(row) : 0); }, 0);
+      var auto = routeRows.reduce(function (acc, row) { return acc + (!isForcedLayoutRow(row) ? routeMatrixValue(row) : 0); }, 0);
+      var forced = forcedLayoutTotal(routeRows);
       var mobile = number(k.mobile_visits);
       var desktop = number(k.desktop_visits);
       var island = number(k.island_is_visits);
@@ -10697,7 +11397,7 @@
       var k = data.kpis || {};
       var f = data.root_index_funnel || data.root_index || {};
       var dashboards = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); });
-      var routeRows = visibleRows(data.routes || []);
+      var routeRows = routeMatrixRows(data);
       var sourceRows = visibleRows(data.sources || []);
       var total = number(firstValue(k, ["total_counted_visits", "counted_visits", "total_visits"])) || sumRows(dashboards);
       var mobile = number(firstValue(k, ["mobile_visits", "mobile_counted_visits"]));
@@ -10706,8 +11406,10 @@
         mobile = dashboards.reduce(function (acc, row) { return acc + number(row.mobile_visits); }, 0);
         desktop = dashboards.reduce(function (acc, row) { return acc + number(row.desktop_visits); }, 0);
       }
-      var auto = routeRows.reduce(function (acc, row) { return acc + (/^auto$/i.test(row.forced_layout || "auto") ? visitValue(row) : 0); }, 0);
-      var forced = routeRows.reduce(function (acc, row) { return acc + (!/^auto$/i.test(row.forced_layout || "auto") ? visitValue(row) : 0); }, 0);
+      var auto = routeRows.reduce(function (acc, row) { return acc + (!isForcedLayoutRow(row) ? routeMatrixValue(row) : 0); }, 0);
+      var forced = forcedLayoutTotal(routeRows);
+      var forcedMobile = forcedLayoutSum(routeRows, "mobile");
+      var forcedDesktop = forcedLayoutSum(routeRows, "desktop");
       var island = number(firstValue(k, ["island_is_visits", "island_visits", "source_island_is_visits"]));
       if (!island) island = sourceCount(sourceRows, function (value) { return isIslandSource(value); });
       var direct = sourceCount(sourceRows, function (value) { return isDirectSource(value); });
@@ -10821,7 +11523,7 @@
       var k = data.kpis || {};
       var f = data.root_index_funnel || data.root_index || {};
       var dashboards = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); });
-      var routeRows = visibleRows(data.routes || []);
+      var routeRows = routeMatrixRows(data);
       var sourceRows = visibleRows(data.sources || []);
       var total = number(firstValue(k, ["total_counted_visits", "counted_visits", "total_visits"])) || sumRows(dashboards);
       var mobile = number(firstValue(k, ["mobile_visits", "mobile_counted_visits"]));
@@ -10830,15 +11532,15 @@
         mobile = dashboards.reduce(function (acc, row) { return acc + number(row.mobile_visits); }, 0);
         desktop = dashboards.reduce(function (acc, row) { return acc + number(row.desktop_visits); }, 0);
       }
-      var auto = routeRows.reduce(function (acc, row) { return acc + (/^auto$/i.test(row.forced_layout || "auto") ? visitValue(row) : 0); }, 0);
-      var forced = routeRows.reduce(function (acc, row) { return acc + (!/^auto$/i.test(row.forced_layout || "auto") ? visitValue(row) : 0); }, 0);
+      var auto = routeRows.reduce(function (acc, row) { return acc + (!isForcedLayoutRow(row) ? routeMatrixValue(row) : 0); }, 0);
+      var forced = forcedLayoutTotal(routeRows);
       var island = number(firstValue(k, ["island_is_visits", "island_visits", "source_island_is_visits"]));
       if (!island) island = sourceCount(sourceRows, function (value) { return isIslandSource(value); });
       var direct = sourceCount(sourceRows, function (value) { return isDirectSource(value); });
       var otherSource = Math.max(0, total - island - direct);
       var layoutTotal = Math.max(mobile + desktop, total, 1);
       var sourceTotal = Math.max(island + direct + otherSource, total, 1);
-      var routeReasonRows = topRows(routeRows, function (row) { return labelRoute(row.route_reason); }, 5);
+      var routeReasonRows = topRows(routeRows, function (row) { return labelRoute(row.route_reason); }, 5, routeMatrixValue);
       var routeReasonTotal = sumRows(routeReasonRows, "visits");
       var campaignRows = topRows(sourceRows, function (row) { return row.utm_campaign || row.utm_source || labelSource(sourceLabelValue(row)) || "Óþekkt"; }, 5);
       var campaignTotal = sumRows(campaignRows, "visits");
@@ -10858,12 +11560,12 @@
       setHtml("layout-source-panel",
         '<article class="route-attrib-board">' +
           '<div class="route-attrib-top">' +
-            '<div class="route-attrib-brief"><span>Samstillt sýn</span><strong>Leiðing og uppruni</strong><p>Heildin er aðeins sýnd í Taldar. Hin kortin sýna samhengi við sömu opnanir: útgáfuval, uppruna, route-ástæðu og herferðar/source merki. Vantar þýðir að það samhengi fylgdi ekki línunni.</p><div class="chip-row"><span class="chip good">Notkunargrunnur</span><span class="chip gateway">Router: ' + fmt(routerArrivals) + '</span><span class="chip ' + (forced ? 'warn' : 'good') + '">Þvingað: ' + fmt(forced) + '</span><span class="chip neutral">' + fmt(dashboards.length) + ' mælaborð</span></div></div>' +
+            '<div class="route-attrib-brief"><span>Samstillt sýn</span><strong>Leiðing og uppruni</strong><p>Heildin er aðeins sýnd í Taldar. Hin kortin sýna samhengi við sömu opnanir: útgáfuval, uppruna, route-ástæðu og herferðar/source merki. Þvingun er sýnd saman, með mobile/desktop sundurliðun í sama merki.</p><div class="chip-row"><span class="chip good">Notkunargrunnur</span><span class="chip gateway">Router: ' + fmt(routerArrivals) + '</span><span class="chip ' + (forced ? 'warn' : 'neutral') + '">Þvingað: ' + fmt(forced) + ' · mobile ' + fmt(forcedMobile) + ' · desktop ' + fmt(forcedDesktop) + '</span><span class="chip neutral">' + fmt(dashboards.length) + ' mælaborð</span></div></div>' +
             '<div class="route-attrib-flow">' +
               routeAttribStep("Taldar", fmt(total), "notkunargrunnur", "good") +
               routeAttribStep("Útgáfa", dominantLayout, pct(dominantLayoutValue, layoutTotal) + " af útgáfuvali", dominantLayout === "Mobile" ? "good" : "gateway") +
               routeAttribStep("Uppruni", dominantSourceRow.key, pct(dominantSourceRow.visits, sourceTotal) + " af töldum", dominantSourceRow.key === "island.is" ? "good" : "gateway") +
-              routeAttribStep("Router", fmt(auto), forced ? fmt(forced) + " þvingað" : "sjálfvirkt val", forced ? "warn" : "info") +
+              routeAttribStep("Þvingun", fmt(forced), forced ? "mobile " + fmt(forcedMobile) + " · desktop " + fmt(forcedDesktop) : "sjálfvirkt val", forced ? "warn" : "info") +
             '</div>' +
           '</div>' +
           '<div class="route-attrib-grid">' +
@@ -10872,7 +11574,7 @@
             routeAttribPanel("Ástæður leiðingar", routeReasonRows, Math.max(total, 1), "info", { headerText: routeCoverage, displayTotal: routeReasonTotal, limit: 5 }) +
             routeAttribPanel("Herferðir / source", campaignRows, Math.max(total, 1), "gateway", { headerText: campaignCoverage, displayTotal: campaignTotal, limit: 5 }) +
           '</div>' +
-          '<div class="route-attrib-foot"><span class="chip neutral">Hlutföll miðast við Taldar kortið</span><span class="chip info">Ástæður: ' + (routeMissing ? fmt(routeMissing) + ' vantar' : 'full þekja') + '</span><span class="chip gateway">Herferðir/source: ' + (campaignMissing ? fmt(campaignMissing) + ' vantar' : 'full þekja') + '</span><span class="chip gateway">Annað: ' + fmt(otherSource) + '</span></div>' +
+          '<div class="route-attrib-foot"><span class="chip neutral">Hlutföll miðast við Taldar kortið</span><span class="chip ' + (forced ? 'warn' : 'neutral') + '">Þvingað: ' + fmt(forced) + ' · mobile ' + fmt(forcedMobile) + ' · desktop ' + fmt(forcedDesktop) + '</span><span class="chip info">Ástæður: ' + (routeMissing ? fmt(routeMissing) + ' vantar' : 'full þekja') + '</span><span class="chip gateway">Herferðir/source: ' + (campaignMissing ? fmt(campaignMissing) + ' vantar' : 'full þekja') + '</span></div>' +
         '</article>');
     }
     function usagePeriodSummary(data, total) {
@@ -10934,8 +11636,8 @@
       var methodRows = topRows(perfRows, function (row) { return labelTransport(row.tracker_send_method || row.tracking_method); }, 1);
       var payloadRows = topRows(perfRows, function (row) { return labelPayload(row.payload_size_bucket); }, 1);
       var lowCap = perfRows.reduce(function (acc, row) { return acc + (String(row.low_capability_device).toLowerCase() === "true" ? visitValue(row) : 0); }, 0);
-      var routeRows = visibleRows(data.routes || []);
-      var forced = routeRows.reduce(function (acc, row) { return acc + (!/^auto$/i.test(row.forced_layout || "auto") ? visitValue(row) : 0); }, 0);
+      var routeRows = routeMatrixRows(data);
+      var forced = forcedLayoutTotal(routeRows);
       var dashboards = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); });
       var topDashboard = dashboards[0];
       var todayDashboard = dashboards.slice().sort(function (a, b) { return number(b.visits_today) - number(a.visits_today); })[0];
@@ -11062,9 +11764,6 @@
     function startFlowNoteV3(label, value, detail) {
       return '<div class="start-flow-note"><span>' + safe(label) + '</span><strong>' + safe(value || "") + '</strong><small>' + safe(detail || "") + '</small></div>';
     }
-    function startFreshPulseV3(label, valueId, detailId, trackId) {
-      return '<article class="start-fresh-pulse"><span>' + safe(label) + '</span><small id="' + safe(detailId) + '">-</small><strong id="' + safe(valueId) + '">-</strong><div class="freshness-track" id="' + safe(trackId) + '"><span></span></div></article>';
-    }
     function opsMetricV4(label, value, detail, cls) {
       var className = cls ? " " + safe(cls) : "";
       return '<article class="ops-metric' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
@@ -11078,6 +11777,9 @@
       return '<div class="ops-split-bar" aria-hidden="true">' + items.map(function (item) {
         return '<span class="' + safe(item.cls || "") + '" style="width:' + widthPct(item.value, total) + '%"></span>';
       }).join("") + '</div>';
+    }
+    function usageLayoutItem(label, value, total) {
+      return '<div class="usage-layout-item"><span>' + safe(label) + '</span><strong>' + fmt(value) + '</strong><small>' + safe(pct(value, Math.max(total, 1))) + '</small></div>';
     }
     function renderStartPanelV3(data) {
       var model = opsModel(data);
@@ -11113,16 +11815,15 @@
             '<section class="ops-score-panel"><div class="score-ring ' + safe(model.tone) + '" style="--score:' + safe(model.score) + '"><div><strong>' + fmt(model.score) + '</strong><span>stig</span></div></div><div class="score-caption"><span>Samsett rekstrarstaða</span>' + infoTip(scoreTip) + '</div></section>' +
             '<section class="ops-narrative"><div><span class="start-kicker">Rekstrarpúls</span><h2 class="start-title" id="fresh-start-title">' + safe(statusTitle) + '</h2><p class="start-copy">Ein forgangsröðuð stjórnmynd. Taldar dashboard opnanir eru lesnar sér, gateway/router er leiðingarsamhengi og diagnostic/raw eru aðeins rekstrarmerki.</p></div><div class="ops-metric-strip">' +
               opsMetricV4("Notkunarhlutfall", pct(model.total, totalSignal), fmt(model.total) + " taldar af lesnum merkjum", "good") +
-              opsMetricV4("Ferskleiki", model.eventAge.label, "síðasta talda mæling", model.eventAge.className) +
+              opsMetricV4("Ferskleiki", model.eventAge.label, "Talin mæling · Samantekt " + model.aggregationAge.label, model.eventAge.className) +
               opsMetricV4("Gæði", model.warningSplit.confirmed.length ? fmt(model.warningSplit.confirmed.length) + " merki" : "Hreint", model.warningSplit.confirmed.length ? "staðfest í production" : "engin staðfest merki", model.warningSplit.confirmed.length ? "warn" : "good") +
             '</div></section>' +
             '<section class="ops-priority"><div><span class="start-kicker">Næsta athugun</span><h3>Hvað skiptir máli núna</h3></div><div class="action-list">' + actions + '</div></section>' +
           '</div>' +
           '<div class="ops-balance-board">' +
-            '<section class="ops-flow-card counted"><div class="start-panel-title"><span>Notkunargrunnur</span><strong>talið</strong></div><div class="ops-main-number"><strong>' + fmt(model.total) + '</strong><span>taldar dashboard opnanir</span></div><div class="ops-metric-strip compact">' +
-              opsMetricV4("Í dag", fmt(today), "skráð í dag", today ? "good" : "gateway") +
-              opsMetricV4("Mobile", fmt(model.mobile), pct(model.mobile, Math.max(model.total, 1)), "info") +
-              opsMetricV4("Desktop", fmt(model.desktop), pct(model.desktop, Math.max(model.total, 1)), "gateway") +
+            '<section class="ops-flow-card counted usage-foundation"><div class="usage-foundation-head"><div class="usage-foundation-copy"><span>Notkunargrunnur</span><strong>' + fmt(model.total) + '</strong><small>taldar dashboard opnanir</small></div><div class="usage-foundation-today"><span>Í dag</span><strong>' + fmt(today) + '</strong></div></div><div class="usage-layout-bar" aria-hidden="true"><span class="mobile" style="width:' + widthPct(model.mobile, Math.max(model.total, 1)) + '%"></span><span class="desktop" style="width:' + widthPct(model.desktop, Math.max(model.total, 1)) + '%"></span></div><div class="usage-layout-grid">' +
+              usageLayoutItem("Mobile", model.mobile, model.total) +
+              usageLayoutItem("Desktop", model.desktop, model.total) +
             '</div></section>' +
             '<section class="ops-flow-card gateway"><div class="start-panel-title"><span>Leiðingarsamhengi</span><strong>aðskilið</strong></div>' + splitBar + '<div class="ops-stepper">' +
               opsStepV4("Rótarsíða", fmt(rootViews), "gateway sýn", "gateway") +
@@ -11134,12 +11835,7 @@
               opsStepV4("Vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir" : "browser aggregate vantar", topBrowser ? "info" : "gateway") +
               opsStepV4("Skjár", topViewport ? topViewport.key : "Óþekkt", topViewport ? fmt(topViewport.visits) + " heimsóknir" : "viewport aggregate vantar", topViewport ? "info" : "gateway") +
               opsStepV4("Sending", methodRows[0] ? methodRows[0].key : "Óþekkt", methodRows[0] ? fmt(methodRows[0].visits) + " merki" : "performance aggregate vantar", methodRows[0] ? "good" : "gateway") +
-            '</div><p class="ops-footnote">Gateway, router og raw merki skýra leiðina. Tracker röðin sýnir tæki, vafra, skjá og sendiaðferð án þess að bæta þeim við notkunartöluna.</p></section>' +
-            '<section class="ops-flow-card freshness"><div class="start-panel-title"><span>Ferskleiki og gæði</span><strong>' + safe(model.eventAge.label) + '</strong></div><div class="ops-fresh-grid">' +
-              startFreshPulseV3("Talin mæling", "last-event", "last-event-detail", "last-event-track") +
-              startFreshPulseV3("Samantekt", "last-aggregation", "last-aggregation-detail", "last-aggregation-track") +
-              startFreshPulseV3("Gæðastaða", "last-confirmed-warning", "last-confirmed-warning-detail", "last-confirmed-warning-track") +
-            '</div></section>' +
+            '</div><p class="ops-footnote">Gateway/router skýrir leiðina; tracker sýnir tæki, vafra, skjá og sendingu án aukatalningar.</p></section>' +
           '</div>' +
         '</article>');
     }
@@ -11272,6 +11968,119 @@
         '</div>' +
       '</article>';
     }
+    function dashboardLayoutContext(data, dashboard) {
+      var routeMatches = routeMatrixRows(data).filter(function (row) { return sameDashboard(row, dashboard); });
+      var mobile = routeMatches.reduce(function (acc, row) { return acc + (/^mobile$/i.test(row.selected_layout || "") ? routeMatrixValue(row) : 0); }, 0);
+      var desktop = routeMatches.reduce(function (acc, row) { return acc + (/^desktop$/i.test(row.selected_layout || "") ? routeMatrixValue(row) : 0); }, 0);
+      if (!mobile && !desktop) {
+        mobile = number(dashboard.mobile_visits);
+        desktop = number(dashboard.desktop_visits);
+      }
+      var forcedMobile = forcedLayoutSum(routeMatches, "mobile");
+      var forcedDesktop = forcedLayoutSum(routeMatches, "desktop");
+      var topReason = topRows(routeMatches, function (row) { return labelRoute(row.route_reason); }, 1, routeMatrixValue)[0];
+      var routeTotal = routeMatches.reduce(function (acc, row) { return acc + routeMatrixValue(row); }, 0);
+      var total = Math.max(mobile + desktop, routeTotal, visitValue(dashboard), 1);
+      return {
+        rows: routeMatches,
+        mobile: mobile,
+        desktop: desktop,
+        forcedMobile: forcedMobile,
+        forcedDesktop: forcedDesktop,
+        forced: forcedMobile + forcedDesktop,
+        topReason: topReason,
+        topRoute: topReason ? topReason.key : "Route óskráð",
+        total: total
+      };
+    }
+    function megaStat(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<div class="mega-stat' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></div>';
+    }
+    function megaSegmentBar(rows, total) {
+      rows = rows || [];
+      total = Math.max(number(total), sumRows(rows, "value"), 1);
+      var segments = rows.map(function (row) {
+        var value = Math.max(number(row.value), 0);
+        if (!value) return "";
+        return '<span class="' + safe(row.className || "neutral") + '" style="width:' + widthPct(value, total) + '%"></span>';
+      }).join("");
+      return '<div class="mega-segment-bar" aria-hidden="true">' + (segments || '<span class="empty" style="width:100%"></span>') + '</div>';
+    }
+    function megaLegend(rows, total) {
+      rows = rows || [];
+      total = Math.max(number(total), sumRows(rows, "value"), 1);
+      return '<div class="mega-legend">' + rows.map(function (row, index) {
+        var value = number(row.value);
+        return '<div class="mega-legend-row"><span class="mega-dot" style="--dot-bg:' + safe(dashboardDonutColor(row, index)) + '"></span><span>' + safe(row.label) + '</span><strong>' + fmt(value) + ' · ' + safe(pct(value, total)) + '</strong></div>';
+      }).join("") + '</div>';
+    }
+    function megaOrbitCard(title, rows, total, detail) {
+      rows = rows || [];
+      total = Math.max(number(total), sumRows(rows, "value"), 1);
+      var dominant = rows.slice().sort(function (a, b) { return number(b.value) - number(a.value); })[0] || { label: "-", value: 0 };
+      return '<article class="mega-orbit-card">' +
+        '<div class="mega-orbit" style="--mega-donut:' + safe(dashboardDonutBg(rows, total)) + '"><div class="mega-orbit-center"><strong>' + safe(pct(dominant.value, total)) + '</strong><span>' + safe(dominant.label) + '</span></div></div>' +
+        '<div class="mega-orbit-copy"><span>' + safe(title) + '</span><strong>' + safe(dominant.label) + '</strong>' + megaLegend(rows, total) + '<small>' + safe(detail || "") + '</small></div>' +
+      '</article>';
+    }
+    function megaFlowPanel(title, headline, rows, total, detail) {
+      return '<div class="mega-flow-panel"><div class="mega-flow-head"><span>' + safe(title) + '</span><strong>' + safe(headline || "-") + '</strong></div>' + megaSegmentBar(rows, total) + megaLegend(rows, total) + '<small>' + safe(detail || "") + '</small></div>';
+    }
+    function megaContextItem(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<div class="mega-context-item' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></div>';
+    }
+    function megaDashboardCard(data, dashboard, totalVisits) {
+      var cards = publicMap(data);
+      var card = findPublicCardForDashboard(data, dashboard);
+      var total = visitValue(dashboard);
+      var layout = dashboardLayoutContext(data, dashboard);
+      var source = dashboardSourceContext(data, dashboard);
+      var trackerLabel = dashboardDeviceContext(data, dashboard) || "engin tracker";
+      var status = publicCardStatus(card);
+      var statusClass = status.cls || "warn";
+      var publishedAt = card ? publicPublishedAt(card) : "";
+      var publishedDetail = publishedAt ? "Frá " + longDate(publishedAt) : status.detail;
+      var age = ageInfo(dashboardLastCountedTime(dashboard));
+      var lastTime = dashboardLastCountedTime(dashboard);
+      var warningCount = number(firstValue(dashboard, ["confirmed_warning_count", "production_warning_count", "warning_count"]));
+      var layoutRows = [
+        { label: "Mobile", value: layout.mobile, className: "good" },
+        { label: "Desktop", value: layout.desktop, className: "gateway" }
+      ];
+      var sourceRows = [
+        { label: "island.is", value: source.island, className: "good" },
+        { label: "Beint", value: source.direct, className: "gateway" },
+        { label: "Annað", value: source.other, className: "neutral" }
+      ];
+      var layoutDominant = layout.desktop >= layout.mobile ? "Desktop" : "Mobile";
+      var sourceDominant = sourceRows.slice().sort(function (a, b) { return number(b.value) - number(a.value); })[0] || { label: "-" };
+      var forcedDetail = layout.forced ? "Þvingun: mobile " + fmt(layout.forcedMobile) + " · desktop " + fmt(layout.forcedDesktop) : "Sjálfvirkt val";
+      return '<article class="mega-dashboard-card ' + safe(statusClass) + '">' +
+        '<div class="mega-card-head"><img src="' + safe(iconFor(dashboard, cards)) + '" alt=""><div><span class="mega-card-eyebrow">Opinbert kort</span><div class="mega-card-title">' + safe(titleFor(dashboard, cards)) + '</div><div class="mega-card-sub">' + safe(cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + ' · ' + safe(publishedDetail) + '</div><div class="chip-row"><span class="status-chip ' + safe(statusClass) + '"><span class="dot ' + (statusClass === "good" ? "" : "warn") + '"></span>' + safe(status.label) + '</span></div></div><div class="mega-card-count"><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + ' af heild</small></div></div>' +
+        '<div class="mega-flow-grid">' +
+          megaFlowPanel("Útgáfuval", layoutDominant, layoutRows, layout.total, forcedDetail) +
+          megaFlowPanel("Uppruni", sourceDominant.label, sourceRows, Math.max(source.total, total, 1), "Hvaðan taldar heimsóknir komu.") +
+        '</div>' +
+        '<div class="mega-context-grid">' +
+          megaContextItem("Í dag", fmt(dashboard.visits_today), "ný virkni", dashboard.visits_today ? "good" : "gateway") +
+          megaContextItem("Síðast", age.label, lastTime ? dateShort(lastTime) : "engin talin opnun", age.className || "gateway") +
+          megaContextItem("Leiðing", layout.topRoute, forcedDetail, layout.forced ? "warn" : "gateway") +
+          megaContextItem("Tracker", trackerLabel, warningCount ? fmt(warningCount) + " merki þarf að skoða" : "engin staðfest villa", warningCount ? "warn" : "good") +
+        '</div>' +
+      '</article>';
+    }
+    function megaDashboardRankRow(data, dashboard, totalVisits, index) {
+      var cards = publicMap(data);
+      var total = visitValue(dashboard);
+      var layout = dashboardLayoutContext(data, dashboard);
+      var trackerLabel = dashboardDeviceContext(data, dashboard) || "engin tracker";
+      var card = findPublicCardForDashboard(data, dashboard);
+      var status = publicCardStatus(card);
+      var layoutLabel = layout.desktop >= layout.mobile ? "Desktop" : "Mobile";
+      return '<div class="mega-rank-row"><div class="mega-rank-title"><strong>' + safe(index + 1) + '. ' + safe(titleFor(dashboard, cards)) + '</strong><small>' + safe(layoutLabel) + ' · ' + safe(trackerLabel) + '</small>' + megaSegmentBar([{ label: titleFor(dashboard, cards), value: total, className: status.cls || "gateway" }], Math.max(totalVisits, 1)) + '</div><div class="mega-rank-value">' + fmt(total) + '<span>' + safe(pct(total, Math.max(totalVisits, 1))) + '</span></div></div>';
+    }
     function publicMasterCard(data, card) {
       var ctx = publicCardContext(data, card);
       var publishedAt = publicPublishedAt(card);
@@ -11299,26 +12108,72 @@
       var sortedDashboards = dashboards.slice().sort(function (a, b) { return visitValue(b) - visitValue(a); });
       var top = sortedDashboards[0];
       var newest = dashboards.slice().sort(function (a, b) { return new Date(dashboardLastCountedTime(b) || 0) - new Date(dashboardLastCountedTime(a) || 0); })[0];
-      var newestPublic = cards.slice().sort(function (a, b) { return new Date(publicPublishedAt(b) || 0) - new Date(publicPublishedAt(a) || 0); })[0];
       var totalVisits = sumRows(dashboards);
       var todayTotal = dashboards.reduce(function (acc, row) { return acc + number(row.visits_today); }, 0);
       var model = opsModel(data);
       var newestAge = newest ? ageInfo(dashboardLastCountedTime(newest)) : null;
-      var newestPublicAt = newestPublic ? publicPublishedAt(newestPublic) : "";
-      var dashboardHtml = sortedDashboards.map(function (dashboard) { return portfolioDashboardCard(data, dashboard, totalVisits); }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engar taldar production heimsóknir í dashboard aggregate.</p></div>';
+      var routeGroups = routeReasonGroups(data);
+      var topRoute = routeGroups[0];
+      var layoutContexts = sortedDashboards.map(function (dashboard) { return dashboardLayoutContext(data, dashboard); });
+      var mobileTotal = layoutContexts.reduce(function (acc, ctx) { return acc + number(ctx.mobile); }, 0);
+      var desktopTotal = layoutContexts.reduce(function (acc, ctx) { return acc + number(ctx.desktop); }, 0);
+      if (!mobileTotal && !desktopTotal) {
+        mobileTotal = model.mobile || number(firstValue(data.kpis || {}, ["mobile_visits", "mobile_counted_visits"]));
+        desktopTotal = model.desktop || number(firstValue(data.kpis || {}, ["desktop_visits", "desktop_counted_visits"]));
+      }
+      var sourceContexts = sortedDashboards.map(function (dashboard) { return dashboardSourceContext(data, dashboard); });
+      var islandTotal = sourceContexts.reduce(function (acc, ctx) { return acc + number(ctx.island); }, 0);
+      var directTotal = sourceContexts.reduce(function (acc, ctx) { return acc + number(ctx.direct); }, 0);
+      var otherTotal = sourceContexts.reduce(function (acc, ctx) { return acc + number(ctx.other); }, 0);
+      if (!islandTotal && !directTotal && !otherTotal) {
+        islandTotal = model.island || number(firstValue(data.kpis || {}, ["island_is_visits", "island_visits", "source_island_is_visits"]));
+        directTotal = sourceCount(visibleRows(data.sources || []), function (value) { return isDirectSource(value); });
+        otherTotal = Math.max(0, totalVisits - islandTotal - directTotal);
+      }
+      var warningCount = model.warningSplit && model.warningSplit.confirmed ? model.warningSplit.confirmed.length : 0;
+      var dashboardHtml = sortedDashboards.map(function (dashboard) { return megaDashboardCard(data, dashboard, totalVisits); }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engar taldar production heimsóknir í dashboard aggregate.</p></div>';
+      var rankHtml = sortedDashboards.map(function (dashboard, index) { return megaDashboardRankRow(data, dashboard, totalVisits, index); }).join("") || '<div class="message-card neutral">Engin röðun fyrr en production heimsóknir berast.</div>';
       var topTitle = top ? titleFor(top, publicMapData) : "-";
-      var publicState = fmt(published) + "/" + fmt(cards.length || dashboards.length || 0) + " birt";
+      var publicTotal = cards.length || dashboards.length || 0;
+      var publicState = fmt(published) + "/" + fmt(publicTotal);
+      var topShare = top ? pct(visitValue(top), Math.max(totalVisits, 1)) : "0%";
+      var layoutRows = [
+        { label: "Mobile", value: mobileTotal, className: "good" },
+        { label: "Desktop", value: desktopTotal, className: "gateway" }
+      ];
+      var sourceRows = [
+        { label: "island.is", value: islandTotal, className: "good" },
+        { label: "Beint", value: directTotal, className: "gateway" },
+        { label: "Annað", value: otherTotal, className: "neutral" }
+      ];
+      var layoutTotal = Math.max(mobileTotal + desktopTotal, totalVisits, 1);
+      var sourceTotal = Math.max(islandTotal + directTotal + otherTotal, totalVisits, 1);
       setHtml("dashboard-public-master",
-        '<div class="portfolio-master-board portfolio-atelier">' +
-          '<section class="portfolio-master-hero"><div class="portfolio-master-story"><span>Opinber mælaborð</span><strong>' + safe(publicState) + '</strong><p>' + fmt(dashboards.length) + ' kort í rekstri. Lesið sem public portfolio: birting, notkun, leiðing og tracker samhengi í einni snyrtilegri röð.</p></div><div class="portfolio-overview-grid">' +
-            portfolioOverviewStat("Notkun", fmt(totalVisits), "taldar opnanir samtals", "good") +
-            portfolioOverviewStat("Í dag", fmt(todayTotal), "ný virkni í dag", todayTotal ? "good" : "gateway") +
-            portfolioOverviewStat("Síðast", newestAge ? newestAge.label : "-", newest ? titleFor(newest, publicMapData) : "engin virkni", newestAge ? newestAge.className : "gateway") +
-            portfolioOverviewStat("Mest lesið", topTitle, top ? pct(visitValue(top), Math.max(totalVisits, 1)) + " af heild" : "engin gögn", "info") +
-          '</div></section>' +
-          '<div class="portfolio-master-grid">' +
-            '<div class="portfolio-master-list">' + dashboardHtml + '</div>' +
-          '</div>' +
+        '<div class="mega-dashboard-board">' +
+          '<section class="mega-dashboard-hero" aria-label="Mælaborðsyfirlit">' +
+            '<div class="mega-dashboard-story"><div><span class="mega-kicker">Mælaborð</span><h2>Opinber rekstrarsýn</h2><p>Birting, production notkun, útgáfuval og uppruni eru lesin saman. Þetta er stjórnmynd fyrir hvaða kort eru opin, hvaðan notkun kemur og hvernig routerinn leiðir fólk.</p></div><div class="mega-hero-proof">' +
+              megaStat("Birting", publicState + " birt", hidden ? fmt(hidden) + " ekki birt" : "öll opinber kort virk", hidden ? "warn" : "good") +
+              megaStat("Notkun", fmt(totalVisits), "taldar production opnanir", "good") +
+              megaStat("Ferskleiki", newestAge ? newestAge.label : "-", newest ? titleFor(newest, publicMapData) : "engin virkni", newestAge ? newestAge.className : "gateway") +
+            '</div></div>' +
+            '<div class="mega-orbit-grid">' +
+              megaOrbitCard("Útgáfuval", layoutRows, layoutTotal, "Mobile og desktop í sömu leiðingarmynd.") +
+              megaOrbitCard("Uppruni", sourceRows, sourceTotal, "island.is, beint og Annað í einni upprunamynd.") +
+            '</div>' +
+          '</section>' +
+          '<section class="mega-dashboard-strip" aria-label="Áherslur mælaborðs">' +
+            '<div class="mega-strip-lead"><span class="mega-kicker">Lestrarröð</span><strong>' + safe(topTitle) + '</strong><p>Mest lesna kortið ber ' + safe(topShare) + ' af mælaborðanotkun. Leiðing, uppruni og tracker samhengi eru sett við hlið notkunar svo sama tala birtist ekki aftur og aftur.</p></div>' +
+            '<div class="mega-strip-grid">' +
+              megaStat("Í dag", fmt(todayTotal), "opnanir skráðar", todayTotal ? "good" : "gateway") +
+              megaStat("Route", topRoute ? topRoute.key : "engin route merki", topRoute ? fmt(topRoute.total) + " heimsóknir" : "ekkert skráð", "gateway") +
+              megaStat("Gæði", warningCount ? fmt(warningCount) + " merki" : "hreint", warningCount ? "staðfest þarf að skoða" : "engin staðfest viðvörun", warningCount ? "warn" : "good") +
+              megaStat("Kort", fmt(sortedDashboards.length), draftOrTest ? fmt(draftOrTest) + " í próf/drögum" : "í rekstri", draftOrTest ? "warn" : "info") +
+            '</div>' +
+          '</section>' +
+          '<section class="mega-dashboard-lanes" aria-label="Mælaborð og notkun">' +
+            '<article class="mega-rank-board"><div class="mega-rank-head"><span>Notkunarröð</span><h3>Hvar notkunin lendir</h3><div class="subtle">Röðin sýnir hlutdeild hvers opinbers korts án þess að endurtaka heildartöluna í hverjum reit.</div></div><div class="mega-rank-list">' + rankHtml + '</div></article>' +
+            '<div class="mega-card-grid">' + dashboardHtml + '</div>' +
+          '</section>' +
         '</div>');
     }
     function renderExecutivePanelV2(data) {
@@ -11791,17 +12646,20 @@
     }
     function renderRouteList(data) {
       var cards = publicMap(data);
-      var rows = visibleRows(data.routes || []).sort(function (a, b) { return visitValue(b) - visitValue(a); }).slice(0, 14);
+      var rows = routeMatrixRows(data).sort(function (a, b) { return routeMatrixValue(b) - routeMatrixValue(a); }).slice(0, 14);
       var html = '<div class="list-row route-enhanced list-head"><span>Mælaborð</span><span>Leiðing</span><span>Tæki / skjár</span><span>Vafri / stýrikerfi</span><span class="number">Heimsóknir</span></div>';
       html += rows.map(function (row) {
         var ctx = routeContextFor(row, data);
-        var forced = /^auto$/i.test(row.forced_layout || "auto") ? "Sjálfvirkt val" : "Þvingað: " + labelLayout(row.forced_layout);
+        var forcedLayout = forcedLayoutValue(row);
+        var forced = forcedLayout === "auto" ? "Sjálfvirkt val" : "Þvingað: " + labelLayout(forcedLayout);
+        var rowCount = routeMatrixValue(row);
+        var rowUnit = visitValue(row) ? "heimsóknir" : "merki";
         return '<div class="list-row route-enhanced">' +
           '<div class="route-main"><div class="route-title">' + safe(titleFor(row, cards)) + '</div><div class="route-sub">' + safe(cleanId(row.dashboard_id || row.dashboard_key)) + '</div></div>' +
           '<div class="route-decision"><strong>' + safe(labelRoute(row.route_reason)) + '</strong><div class="route-meta">' + safe(routeExplanation(row)) + '</div><div class="chip-row"><span class="chip accent">' + safe(labelLayout(row.selected_layout)) + '</span><span class="chip neutral">' + safe(forced) + '</span></div></div>' +
           '<div class="route-device"><strong>' + safe(ctx.device) + '</strong><div class="route-meta">' + safe(ctx.viewport) + '</div><div class="route-meta">Traust: ' + safe(ctx.confidence) + '</div></div>' +
           '<div class="route-browser"><strong>' + safe(ctx.browser) + '</strong><div class="route-meta">' + safe(ctx.os) + '</div><div class="route-meta">Samsvarandi tæknilínur: ' + safe(ctx.visits ? fmt(ctx.visits) : "-") + '</div></div>' +
-          '<div class="route-count"><strong>' + fmt(visitValue(row)) + '</strong><span>heimsóknir</span></div>' +
+          '<div class="route-count"><strong>' + fmt(rowCount) + '</strong><span>' + safe(rowUnit) + '</span></div>' +
         '</div>';
       }).join("");
       setHtml("route-list", rows.length ? html : '<div class="message-card neutral">Engin talin route gögn enn.</div>');
