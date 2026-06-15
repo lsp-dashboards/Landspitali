@@ -136,16 +136,17 @@
     }
 
     .hero-title-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 22px;
     }
 
     .brand-row {
-      display: flex;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
       align-items: center;
-      gap: clamp(12px, 2vw, 20px);
+      gap: 18px;
       min-width: 0;
     }
 
@@ -154,6 +155,23 @@
       height: auto;
       display: block;
       flex: 0 0 auto;
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .masthead-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 11px;
+      min-width: 240px;
+    }
+
+    .masthead-actions .pill-row {
+      justify-content: flex-end;
+      margin-top: 0;
     }
 
     .eyebrow {
@@ -165,7 +183,6 @@
       text-transform: uppercase;
     }
 
-    h1,
     h2,
     h3,
     p { overflow-wrap: anywhere; }
@@ -173,9 +190,12 @@
     h1 {
       margin: 0;
       color: var(--ink);
-      font-size: clamp(34px, 4.7vw, 64px);
-      line-height: .96;
-      letter-spacing: -.048em;
+      font-size: 58px;
+      line-height: .92;
+      letter-spacing: 0;
+      overflow-wrap: normal;
+      word-break: keep-all;
+      hyphens: manual;
     }
 
     h2 {
@@ -193,8 +213,8 @@
     }
 
     .lead {
-      max-width: 92ch;
-      margin: 17px 0 0;
+      max-width: 94ch;
+      margin: 14px 0 0;
       color: var(--muted);
       font-size: 15px;
       line-height: 1.55;
@@ -2278,15 +2298,15 @@
       position: relative;
       isolation: isolate;
       width: 100%;
-      margin: -22px 0 24px;
-      padding: clamp(20px, 2.4vw, 34px) max(18px, calc((100vw - 1720px) / 2 + 18px)) clamp(18px, 2.2vw, 30px);
-      grid-template-columns: minmax(0, 1.34fr) minmax(390px, .66fr);
+      margin: 0 0 20px;
+      padding: 30px;
+      grid-template-columns: minmax(0, 1fr);
       background:
-        linear-gradient(120deg, rgba(255,255,255,.95) 0%, rgba(242,248,252,.92) 46%, rgba(232,242,247,.88) 100%),
-        radial-gradient(circle at 8% 8%, rgba(0, 99, 166, .18), transparent 26rem),
-        radial-gradient(circle at 90% 0%, rgba(31, 122, 83, .12), transparent 30rem);
-      border-bottom: 1px solid rgba(216, 226, 234, .9);
-      box-shadow: 0 22px 70px rgba(14, 36, 56, .08);
+        linear-gradient(128deg, rgba(255,255,255,.97) 0%, rgba(244,249,252,.94) 58%, rgba(231,242,247,.86) 100%),
+        radial-gradient(circle at 8% 8%, rgba(0, 99, 166, .12), transparent 24rem);
+      border: 1px solid rgba(202, 216, 226, .92);
+      border-radius: 24px;
+      box-shadow: 0 20px 56px rgba(14, 36, 56, .08);
       overflow: hidden;
     }
 
@@ -2300,17 +2320,17 @@
     }
 
     .command-grid::before {
-      right: -9rem;
-      top: -12rem;
-      width: 34rem;
-      height: 34rem;
+      right: -8rem;
+      top: -11rem;
+      width: 28rem;
+      height: 28rem;
       border-radius: 999px;
-      background: radial-gradient(circle, rgba(0, 99, 166, .12), transparent 68%);
+      background: radial-gradient(circle, rgba(0, 99, 166, .10), transparent 68%);
     }
 
     .command-grid::after {
-      left: max(18px, calc((100vw - 1720px) / 2 + 18px));
-      right: max(18px, calc((100vw - 1720px) / 2 + 18px));
+      left: 30px;
+      right: 30px;
       bottom: 0;
       height: 4px;
       border-radius: 999px 999px 0 0;
@@ -2318,7 +2338,7 @@
     }
 
     .command-main {
-      padding: clamp(16px, 2vw, 24px) 0;
+      padding: 0 0 20px;
       border: 0;
       border-radius: 0;
       background: transparent;
@@ -2337,17 +2357,19 @@
     }
 
     .command-main h1 {
-      letter-spacing: -.06em;
-      text-wrap: balance;
+      max-width: 100%;
+      letter-spacing: 0;
+      text-wrap: normal;
+      white-space: nowrap;
     }
 
     .lead {
-      max-width: 108ch;
+      max-width: 96ch;
       color: #486074;
-      font-size: clamp(14px, 1.05vw, 16px);
+      font-size: 15px;
     }
 
-    .pill-row { max-width: 1120px; }
+    .pill-row { max-width: 100%; }
 
     .pill {
       min-height: 29px;
@@ -3201,7 +3223,7 @@
     @media (max-width: 1180px) {
       .command-grid {
         grid-template-columns: 1fr;
-        margin-top: -14px;
+        margin-top: 0;
       }
       .freshness-stack { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .overview-module .gateway-flow { grid-template-columns: repeat(5, minmax(128px, 1fr)); overflow-x: auto; padding-bottom: 4px; }
@@ -3224,7 +3246,7 @@
 
     @media (max-width: 860px) {
       .command-grid {
-        padding-inline: 12px;
+        padding: 20px;
       }
       .freshness-stack,
       .quality-summary-grid,
@@ -3242,7 +3264,7 @@
     .command-grid.command-grid-solo {
       grid-template-columns: 1fr;
       align-items: center;
-      padding-bottom: clamp(22px, 2.7vw, 36px);
+      padding-bottom: 30px;
     }
 
     .command-grid.command-grid-solo .command-main {
@@ -3338,6 +3360,116 @@
       background: rgba(241, 245, 249, .98);
       border-color: rgba(124, 145, 164, .28);
       color: #4b6174;
+    }
+
+    @media (max-width: 1180px) {
+      .hero-title-row {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .masthead-actions {
+        width: 100%;
+        min-width: 0;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .masthead-actions .pill-row {
+        justify-content: flex-start;
+      }
+
+      .command-main h1 {
+        font-size: 50px;
+      }
+
+      .lead {
+        max-width: 100%;
+      }
+
+      .hero-system-tags {
+        flex-wrap: wrap;
+        min-width: 0;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .command-grid {
+        border-radius: 20px;
+        padding: 18px 18px 24px;
+      }
+
+      .command-grid::after {
+        left: 18px;
+        right: 18px;
+      }
+
+      .brand-row {
+        gap: 14px;
+      }
+
+      .brand-row img {
+        width: 58px;
+      }
+
+      .command-main h1 {
+        font-size: 40px;
+      }
+
+      .masthead-actions {
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .masthead-actions .pill-row {
+        gap: 7px;
+      }
+
+      .hero-system-strip {
+        margin-top: 16px;
+        border-radius: 16px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .brand-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .brand-row img {
+        width: 54px;
+      }
+
+      .command-main h1 {
+        font-size: 34px;
+      }
+
+      .masthead-actions {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+      }
+
+      .masthead-actions .pill-row {
+        grid-column: 1 / -1;
+      }
+
+      .refresh-button {
+        justify-self: end;
+      }
+
+      .hero-system-tags .chip {
+        font-size: 10.5px;
+        min-height: 26px;
+        padding-inline: 7px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .command-main h1 {
+        font-size: 28px;
+      }
     }
 
     .master-ops-shell {
@@ -3788,7 +3920,8 @@
       }
 
       .hero-system-tags {
-        min-width: max-content;
+        flex-wrap: wrap;
+        min-width: 0;
       }
 
       .master-executive,
@@ -8582,12 +8715,19 @@
         <div class="hero-title-row">
           <div class="brand-row">
             <img src="https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png" alt="Landspítali">
-            <div>
+            <div class="brand-copy">
               <p class="eyebrow">Landspítali</p>
               <h1 id="page-title">Mælaborðsmælingar</h1>
             </div>
           </div>
-          <button class="refresh-button" type="button" id="refresh-button" aria-label="Endurhlaða gögn" title="Endurhlaða gögn">↻</button>
+          <div class="masthead-actions">
+            <button class="refresh-button" type="button" id="refresh-button" aria-label="Endurhlaða gögn" title="Endurhlaða gögn">↻</button>
+            <div class="pill-row" aria-label="Staða og uppfærsla">
+              <span class="pill"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn</span></span>
+              <span class="pill" id="generated-pill" title="Uppfært: -">Uppfært: -</span>
+              <span class="pill" id="cache-pill">Cache: -</span>
+            </div>
+          </div>
         </div>
         <p class="lead">Stöðuyfirlit fyrir opinber Power BI mælaborð Landspítala. Síðan sýnir taldar heimsóknir, leiðingu milli útgáfa, uppruna umferðar, gateway merki og tæknileg rekstrarmerki án persónuupplýsinga.</p>
         <div class="hero-system-strip" aria-label="Kerfishlutar">
@@ -8602,11 +8742,6 @@
             <span class="chip component-chip schema">Gagnasnið 1</span>
             <span class="sr-only" id="hero-core-detail">UI: Vaktborð | Talningarhlið | Leiðingarskipting | Aðeins samantektargögn | Vöktunarkjarni: Rekstrarpúls | Config v1 | Atburðasafnari v1 | Gagnasnið 1</span>
           </div>
-        </div>
-        <div class="pill-row" aria-label="Staða og uppfærsla">
-          <span class="pill"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn</span></span>
-          <span class="pill" id="generated-pill" title="Uppfært: -">Uppfært: -</span>
-          <span class="pill" id="cache-pill">Cache: -</span>
         </div>
       </div>
     </header>
