@@ -5,13 +5,20 @@
 | Field | Current source value | Lives in |
 |---|---|---|
 | Package version | `1.0.0` | `assets/router-config.json` release |
-| Config version | `2026-06-15-prod-v1.0.0` | `assets/router-config.json`, generated config, Apps Script registry snapshot |
-| Config version | `Config v1` / `config-v1.0.0` | `assets/router-config.json`, generated config, Apps Script registry snapshot |
-| Core version | `v1.0.0` | `assets/router-core.prod.js` |
+| Config source version | `2026-06-15-prod-v1.0.0` | `assets/router-config.json`, generated config, Apps Script registry snapshot |
 | Mælaborðsmælingar public name | `Mælaborðsmælingar` | `status-dashboard/index.html` |
-| Header component row | `UI: Vaktborð · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1` | `status-dashboard/index.html`, generated config |
-| Apps Script version | `atburdasafnari-v1.0.0` | tracker source |
-| Schema version | `Gagnasnið 1` / `1` | config/tracker |
+| Status UI dev version | `v1.0.0` | `status-dashboard/index.html`, `assets/router-config.json` |
+| UI component public name | `UI: Vaktborð` | `status-dashboard/index.html`, generated config |
+| UI component dev version | `v1.0.0` | `status-dashboard/index.html`, generated config |
+| Component row | `UI: Vaktborð · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1` | `status-dashboard/index.html`, generated config |
+| Core public name | `Vöktunarkjarni: Rekstrarpúls` | `assets/router-config.json`, status dashboard |
+| Core dev version | `v1.0.0` | `assets/router-core.prod.js`, `assets/router-core.v1.0.0.js`, generated config |
+| Config public name | `Config v1` | `assets/router-config.json`, generated config, Apps Script registry snapshot |
+| Config dev label | `config-v1.0.0` | `assets/router-config.json`, generated config, Apps Script registry snapshot |
+| Apps Script public name | `Atburðasafnari v1` | tracker source, generated config |
+| Apps Script dev label | `atburdasafnari-v1.0.0` | tracker source |
+| Schema public name | `Gagnasnið 1` | config/tracker |
+| Schema version | `1` | config/tracker |
 
 Production v1 sync: Apps Script registry snapshot, router config and generated config now report the same config version.
 
@@ -46,10 +53,13 @@ Revert GitHub Pages commit for static files. Roll back Apps Script deployment ve
 Release:
 Date/time:
 Scope:
-Config version:
-Core version:
-Apps Script version:
-Schema:
+Config source version:
+Config public name / dev label:
+Status UI public name / dev version:
+UI component public name / dev version:
+Core public name / dev version:
+Apps Script public name / dev label:
+Schema public name / version:
 Dashboards affected:
 Power BI URLs changed: yes/no
 Endpoint changed: yes/no

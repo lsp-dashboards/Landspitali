@@ -2,7 +2,7 @@
 
 Source: `status-dashboard/index.html`.
 
-`Mælaborðsmælingar` er aðeins samantektargögn rekstrarsýn fyrir opinber Power BI mælaborð. Dev version er `v1.0.0`. Síðan hleður Apps Script payload með JSONP:
+`Mælaborðsmælingar` er public heiti stöðuyfirlitsins og birtir aðeins samantektargögn rekstrarsýn fyrir opinber Power BI mælaborð. Status UI dev version er `v1.0.0`. Síðan hleður Apps Script payload með JSONP:
 
 ```text
 DATA_ENDPOINT + ?api=dashboard&format=js&callback=<callback>&v=<timestamp>
@@ -12,7 +12,9 @@ Ef endpoint svarar ekki innan 10 sekúndna birtist error message sem bendir á `
 
 ## Sections
 
-- Header/version chips: sýnir `Mælaborðsmælingar`, `Talningarhlið`, `Leiðingarskipting`, aðeins samantektargögn stöðu og `Vöktunarkjarni: Rekstrarpúls`.
+- Header: sýnir public heitið `Mælaborðsmælingar`, refresh/control stöðu og component band.
+- Component band: sýnir `UI: Vaktborð`, `Talningarhlið`, `Leiðingarskipting`, `Aðeins samantektargögn`, `Vöktunarkjarni: Rekstrarpúls`, `Config v1`, `Atburðasafnari v1` og `Gagnasnið 1`.
+- Dev version labels eru í source metadata: status UI `v1.0.0`, UI component `v1.0.0`, core `v1.0.0`, config `config-v1.0.0`, tracker `atburdasafnari-v1.0.0` og schema `1`.
 - Refresh/cache/health: `health-dot`, `generated-pill`, `cache-pill`.
 - Stjórnstöð / Fresh start: samantekt, actions og rekstrarstig.
 - Rekstrarstig / Samsett rekstrarstaða: penalty-based score 0-100.

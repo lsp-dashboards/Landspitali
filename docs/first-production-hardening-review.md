@@ -9,7 +9,7 @@ Scope: Landspitali static router, root gateway, Apps Script tracker, Google Shee
 
 The package is architecturally sound for first production publication: static GitHub Pages routes choose a validated Power BI publish-to-web URL, queue telemetry fire-and-forget, and navigate without waiting for Apps Script. Public status output is aðeins samantektargögn, root/debug/bot/manual/diagnostic events are excluded from production visits, and locked public labels remain on `v1.0.0`.
 
-Safe hardening changes were implemented: `routing.redirectDelayMs` is now `0`, generated config files were rebuilt, fallback-click telemetry is one-shot, raw Sheets strings are neutralized against spreadsheet formula injection, schema version aliases are persisted as canonical `schema_version`, first-production wording replaced stale fix/replacement wording, official references were updated, and a status-dashboard header overflow bug was fixed.
+Safe hardening changes were implemented: `routing.redirectDelayMs` is now `0`, generated config files were rebuilt, fallback-click telemetry is one-shot, raw Sheets strings are neutralized against spreadsheet formula injection, schema version aliases are persisted as canonical `schema_version`, first-production wording was normalized, official references were updated, and a status-dashboard header overflow bug was fixed.
 
 Final recommendation: publish-ready after deployment smoke tests on GitHub Pages, Apps Script deployment, Power BI open tests, and the manual device/source matrix below.
 
@@ -116,7 +116,7 @@ The page uses existing CSS variables and grammar. It has loading/error handling,
 
 - `Mælaborðsmælingar` as the public dashboard name
 - `UI: Vaktborð · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1`
-- Dev versions remain locked in source metadata: status UI `v1.0.0`, core `v1.0.0`, config `config-v1.0.0`, tracker `atburdasafnari-v1.0.0`, schema `1`
+- Dev versions remain locked in source metadata: status UI `v1.0.0`, UI component `v1.0.0`, core `v1.0.0`, config `config-v1.0.0`, tracker `atburdasafnari-v1.0.0`, schema `1`
 
 Implemented UI hardening: the header no longer uses a `100vw` full-bleed width that caused horizontal overflow on desktop scrollbar layouts. Browser checks confirmed no horizontal overflow at desktop width and at a phone-width viewport.
 
@@ -154,7 +154,7 @@ Power BI publish-to-web remains a governance risk outside the router: Microsoft 
 
 Docs now align with first-production framing, generated-config process, status path `status-dashboard/`, Apps Script registry/config version sync, versioned config/core assets, the locked Bráðamóttakan master reference, source/counting semantics, and official external references.
 
-Stale wording implying replacement/fix lineage was neutralized. The retained legacy iOS Safari config key name is left intact for compatibility, but its value is first-production framed.
+Stale wording implying post-release lineage was neutralized. The retained legacy iOS Safari config key name is left intact for compatibility, but its value is first-production framed.
 
 ## 15. Generated Asset and Config Consistency Review
 

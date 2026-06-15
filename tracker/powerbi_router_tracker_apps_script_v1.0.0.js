@@ -65,8 +65,12 @@ var REGISTRY_SNAPSHOT = {
   "release": {
     "packageVersion": "1.0.0",
     "statusUiPublicName": "Mælaborðsmælingar",
+    "statusUiVersionLabel": "v1.0.0",
     "uiPublicName": "UI: Vaktborð",
+    "uiVersionLabel": "v1.0.0",
     "aggregateOnlyPublicName": "Aðeins samantektargögn",
+    "corePublicName": "Vöktunarkjarni: Rekstrarpúls",
+    "coreVersionLabel": "v1.0.0",
     "configPublicName": "Config v1",
     "configVersionLabel": "config-v1.0.0",
     "collectorPublicName": "Atburðasafnari v1",

@@ -37,13 +37,20 @@ Source styður sameiginlegan public launch timestamp fyrstu tveggja korta: `14.0
 | Útgáfa | Gildi | Source |
 |---|---|---|
 | Package version | `1.0.0` | `assets/router-config.json` |
-| Config version | `2026-06-15-prod-v1.0.0` | `assets/router-config.json` |
-| Mælaborðsmælingar | `Mælaborðsmælingar` / status UI dev `v1.0.0` | `status-dashboard/index.html` |
-| Header component row | `UI: Vaktborð · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1` | `status-dashboard/index.html`, `assets/router-config.json` |
-| Vöktunarkjarni | `Vöktunarkjarni: Rekstrarpúls` / core dev `v1.0.0` | `assets/router-core.prod.js`, status dashboard |
-| Config | `Config v1` / `config-v1.0.0` | `assets/router-config.json` |
-| Atburðasafnari | `Atburðasafnari v1` / `atburdasafnari-v1.0.0` | tracker source |
-| Gagnasnið | `Gagnasnið 1` / schema `1` | config og tracker source |
+| Config source version | `2026-06-15-prod-v1.0.0` | `assets/router-config.json` |
+| Mælaborðsmælingar public name | `Mælaborðsmælingar` | `status-dashboard/index.html`, `assets/router-config.json` |
+| Status UI dev version | `v1.0.0` | `status-dashboard/index.html`, `assets/router-config.json` |
+| UI component public name | `UI: Vaktborð` | `status-dashboard/index.html`, `assets/router-config.json` |
+| UI component dev version | `v1.0.0` | `status-dashboard/index.html`, `assets/router-config.json` |
+| Component row | `UI: Vaktborð · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1` | `status-dashboard/index.html`, `assets/router-config.json` |
+| Core public name | `Vöktunarkjarni: Rekstrarpúls` | `assets/router-config.json`, status dashboard |
+| Core dev version | `v1.0.0` | `assets/router-core.prod.js`, `assets/router-core.v1.0.0.js`, `assets/router-config.json` |
+| Config public name | `Config v1` | `assets/router-config.json` |
+| Config dev label | `config-v1.0.0` | `assets/router-config.json` |
+| Collector public name | `Atburðasafnari v1` | tracker source, `assets/router-config.json` |
+| Collector dev label | `atburdasafnari-v1.0.0` | tracker source, `assets/router-config.json` |
+| Schema public name | `Gagnasnið 1` | config og tracker source |
+| Schema version | `1` | config og tracker source |
 
 ## Quick start fyrir viðhald
 
