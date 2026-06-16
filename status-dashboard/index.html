@@ -10970,6 +10970,58 @@
     .tracker-step.unknown,
     .tracker-passport.unknown { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
 
+    .counting-health-board .tracker-module,
+    .counting-health-board .tracker-metric,
+    .counting-health-board .tracker-insight-item,
+    .counting-health-board .tracker-partial-state {
+      border: 1px solid rgba(187,204,216,.84);
+      border-radius: 8px;
+      background: rgba(255,255,255,.88);
+      box-shadow: none;
+    }
+
+    .counting-health-board .tracker-metrics {
+      grid-auto-rows: 1fr;
+    }
+
+    .counting-health-board .tracker-metric,
+    .counting-health-board .tracker-insight-item {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .counting-health-board .tracker-metric {
+      min-height: 96px;
+      padding-left: 13px;
+    }
+
+    .counting-health-board .tracker-insight-item {
+      min-height: 76px;
+      padding-left: 14px;
+    }
+
+    .counting-health-board .tracker-metric::before,
+    .counting-health-board .tracker-insight-item::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: var(--data-04);
+    }
+
+    .counting-health-board .tracker-metric.good::before,
+    .counting-health-board .tracker-insight-item.good::before { background: var(--data-02); }
+    .counting-health-board .tracker-metric.watch::before,
+    .counting-health-board .tracker-metric.warning::before,
+    .counting-health-board .tracker-insight-item.watch::before,
+    .counting-health-board .tracker-insight-item.warning::before { background: var(--data-03); }
+    .counting-health-board .tracker-metric.bad::before,
+    .counting-health-board .tracker-insight-item.bad::before { background: var(--data-10); }
+    .counting-health-board .tracker-metric.info::before,
+    .counting-health-board .tracker-insight-item.info::before { background: var(--data-09); }
+    .counting-health-board .tracker-metric.unknown::before,
+    .counting-health-board .tracker-insight-item.unknown::before { background: var(--data-05); }
+
     .tracker-module-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -13261,6 +13313,485 @@
       .dash-v2-row-lines,
       .dash-v2-facts {
         grid-column: auto;
+      }
+    }
+
+    /* Dashboard portfolio card-grid rethink */
+    .dash-v2-card-grid-shell {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .dash-v2-grid-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      padding: 12px 2px 2px;
+      border-top: 1px solid rgba(190,207,220,.74);
+    }
+
+    .dash-v2-grid-head span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .dash-v2-grid-head h3 {
+      margin: 4px 0 0;
+      color: var(--ink);
+      font-size: clamp(24px, 2.3vw, 38px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .dash-v2-grid-head p {
+      max-width: 74ch;
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+      text-wrap: pretty;
+    }
+
+    .dash-v2-card-grid-shell .dash-v2-row-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .dash-v2-card-grid-shell .dash-v2-row {
+      position: relative;
+      grid-template-columns: 82px minmax(0, 1fr) auto;
+      grid-template-rows: auto auto auto;
+      align-items: start;
+      gap: 12px;
+      min-height: 246px;
+      padding: 14px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.99), rgba(248,251,253,.94));
+    }
+
+    .dash-v2-card-grid-shell .dash-v2-row::before {
+      top: 14px;
+      bottom: 14px;
+    }
+
+    .dash-v2-card-grid-shell .dash-v2-rank {
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      z-index: 2;
+      width: 28px;
+      height: 28px;
+      border: 2px solid rgba(255,255,255,.94);
+      box-shadow: 0 2px 8px rgba(9, 38, 63, .12);
+    }
+
+    .dash-v2-card-grid-shell .dash-v2-row > .dashboard-icon {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      width: 74px;
+      height: 74px;
+      min-width: 74px;
+      border-radius: 16px;
+    }
+
+    .dash-v2-card-grid-shell .dash-v2-row > .dashboard-icon svg {
+      width: 46px;
+      height: 46px;
+    }
+
+    .dash-v2-card-grid-shell .dash-v2-row-title {
+      grid-column: 2;
+      grid-row: 1;
+      align-content: start;
+    }
+
+    .dash-v2-card-grid-shell .dash-v2-row-title strong {
+      font-size: clamp(22px, 2.1vw, 34px);
+      line-height: .98;
+    }
+
+    .dash-v2-card-grid-shell .dash-v2-count {
+      grid-column: 3;
+      grid-row: 1;
+      min-width: 120px;
+    }
+
+    .dash-v2-card-grid-shell .dash-v2-count strong {
+      font-size: clamp(32px, 3vw, 48px);
+    }
+
+    .dash-v2-card-grid-shell .dash-v2-row-lines,
+    .dash-v2-card-grid-shell .dash-v2-facts {
+      grid-column: 1 / -1;
+    }
+
+    .dash-v2-card-grid-shell .dash-v2-row-lines {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      padding-top: 6px;
+    }
+
+    .dash-v2-card-grid-shell .dash-v2-facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (max-width: 1180px) {
+      .dash-v2-card-grid-shell .dash-v2-row-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .dash-v2-grid-head {
+        display: grid;
+        align-items: start;
+      }
+
+      .dash-v2-card-grid-shell .dash-v2-row {
+        grid-template-columns: 74px minmax(0, 1fr);
+      }
+
+      .dash-v2-card-grid-shell .dash-v2-count {
+        grid-column: 1 / -1;
+        grid-row: auto;
+        justify-items: start;
+        text-align: left;
+      }
+
+      .dash-v2-card-grid-shell .dash-v2-row-lines,
+      .dash-v2-card-grid-shell .dash-v2-facts {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Environment and delivery selected-section makeovers */
+    .env-refresh-main,
+    .delivery-fresh-body {
+      display: grid;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .tracker-v3-main.env-refresh-main {
+      grid-template-columns: minmax(0, .64fr) minmax(320px, .36fr);
+    }
+
+    .env-refresh-atlas,
+    .env-refresh-patterns,
+    .delivery-fresh-screen,
+    .delivery-fresh-combos,
+    .delivery-fresh-transport {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid rgba(187,204,216,.84);
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,251,253,.94));
+      box-shadow: none;
+    }
+
+    .env-refresh-atlas {
+      border-left: 4px solid var(--data-09);
+    }
+
+    .env-refresh-patterns {
+      border-left: 4px solid var(--data-02);
+    }
+
+    .env-refresh-head,
+    .delivery-fresh-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .env-refresh-head span,
+    .env-refresh-card span,
+    .env-refresh-row-label,
+    .env-refresh-combo-label,
+    .delivery-fresh-head span,
+    .delivery-fresh-card span,
+    .delivery-fresh-row-label,
+    .delivery-fresh-mini span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .env-refresh-head h3,
+    .delivery-fresh-head h3 {
+      margin: 4px 0 0;
+      color: var(--ink);
+      font-size: clamp(22px, 2vw, 32px);
+      line-height: 1.02;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .env-refresh-head p,
+    .env-refresh-card small,
+    .env-refresh-row small,
+    .env-refresh-combo-meta,
+    .delivery-fresh-head p,
+    .delivery-fresh-card small,
+    .delivery-fresh-row small,
+    .delivery-fresh-mini small {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.34;
+      text-wrap: pretty;
+    }
+
+    .env-refresh-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .env-refresh-card,
+    .delivery-fresh-card,
+    .delivery-fresh-mini {
+      display: grid;
+      gap: 8px;
+      padding: 11px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.78);
+    }
+
+    .env-refresh-card.good,
+    .delivery-fresh-card.good,
+    .delivery-fresh-mini.good { background: var(--data-soft-02); border-color: rgba(47,143,139,.24); }
+    .env-refresh-card.info,
+    .delivery-fresh-card.info,
+    .delivery-fresh-mini.info { background: var(--data-soft-09); border-color: rgba(53,153,184,.22); }
+    .env-refresh-card.gateway,
+    .delivery-fresh-card.gateway,
+    .delivery-fresh-mini.gateway { background: var(--data-soft-01); border-color: rgba(79,111,143,.24); }
+    .env-refresh-card.warn,
+    .delivery-fresh-card.warn,
+    .delivery-fresh-mini.warn { background: var(--data-soft-03); border-color: rgba(199,138,42,.28); }
+
+    .env-refresh-card-head,
+    .delivery-fresh-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .env-refresh-card-head strong,
+    .delivery-fresh-card-head strong,
+    .env-refresh-row-value,
+    .delivery-fresh-row-value,
+    .delivery-fresh-mini strong {
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1.05;
+      overflow-wrap: anywhere;
+    }
+
+    .env-refresh-card-head strong,
+    .delivery-fresh-card-head strong {
+      text-align: right;
+    }
+
+    .env-refresh-row-list,
+    .env-refresh-combo-list,
+    .delivery-fresh-row-list {
+      display: grid;
+      gap: 7px;
+    }
+
+    .env-refresh-row,
+    .delivery-fresh-row {
+      display: grid;
+      gap: 5px;
+      padding-top: 7px;
+      border-top: 1px solid rgba(215,225,233,.84);
+    }
+
+    .env-refresh-row:first-child,
+    .delivery-fresh-row:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .env-refresh-row-top,
+    .delivery-fresh-row-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: baseline;
+    }
+
+    .env-refresh-track,
+    .delivery-fresh-track {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5edf3;
+    }
+
+    .env-refresh-fill,
+    .delivery-fresh-fill {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--data-01);
+    }
+
+    .env-refresh-fill.good,
+    .delivery-fresh-fill.good { background: var(--data-02); }
+    .env-refresh-fill.info,
+    .delivery-fresh-fill.info { background: var(--data-09); }
+    .env-refresh-fill.gateway,
+    .delivery-fresh-fill.gateway { background: var(--data-05); }
+    .env-refresh-fill.warn,
+    .delivery-fresh-fill.warn { background: var(--data-03); }
+    .env-refresh-fill.neutral,
+    .delivery-fresh-fill.neutral { background: var(--data-04); }
+
+    .env-refresh-combo {
+      position: relative;
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 68px;
+      padding: 9px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.76);
+      overflow: hidden;
+    }
+
+    .env-refresh-combo::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--data-02) var(--fill, 0%), #e6edf3 0);
+    }
+
+    .env-refresh-index {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--data-06);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .env-refresh-combo-title {
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.12;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .env-refresh-combo-value {
+      display: grid;
+      justify-items: end;
+      gap: 3px;
+      text-align: right;
+    }
+
+    .env-refresh-combo-value strong {
+      color: var(--ink);
+      font-size: 22px;
+      line-height: .9;
+      font-weight: 900;
+    }
+
+    .env-refresh-combo-value span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .delivery-v3-body.delivery-fresh-body {
+      grid-template-columns: minmax(0, .7fr) minmax(320px, .3fr);
+    }
+
+    .delivery-fresh-screen {
+      grid-row: span 2;
+      border-left: 4px solid var(--data-02);
+    }
+
+    .delivery-fresh-combos {
+      border-left: 4px solid var(--data-09);
+    }
+
+    .delivery-fresh-transport {
+      border-left: 4px solid var(--data-05);
+    }
+
+    .delivery-fresh-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .delivery-fresh-transport-grid,
+    .delivery-fresh-mini-grid {
+      display: grid;
+      gap: 8px;
+    }
+
+    .delivery-fresh-mini-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .delivery-fresh-mini strong {
+      font-size: 18px;
+    }
+
+    .delivery-fresh-body .delivery-v3-combo {
+      background: rgba(255,255,255,.82);
+      border-color: rgba(207,221,231,.78);
+    }
+
+    @media (max-width: 1180px) {
+      .tracker-v3-main.env-refresh-main,
+      .delivery-v3-body.delivery-fresh-body {
+        grid-template-columns: 1fr;
+      }
+
+      .delivery-fresh-screen {
+        grid-row: auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .env-refresh-card-grid,
+      .delivery-fresh-card-grid,
+      .delivery-fresh-mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .env-refresh-head,
+      .delivery-fresh-head {
+        display: grid;
       }
     }
 
@@ -17982,16 +18513,9 @@
               ], sourceTotal) +
             '</div>' +
           '</section>' +
-          '<section class="dash-v2-main" aria-label="Mælaborð og samhengi">' +
+          '<section class="dash-v2-main dash-v2-card-grid-shell" aria-label="Mælaborð og samhengi">' +
+            '<div class="dash-v2-grid-head"><div><span>Mælaborð og samhengi</span><h3>Stór kort, sama rekstrarsamhengi</h3><p>Tveggja dálka safn sem setur opinbert kort, notkun, útgáfuval, uppruna, ferskleika og tracker merki inn í hvert mælaborð í stað þess að fela samhengi í hliðarspjaldi.</p></div><div class="chip-row"><span class="chip good">Ráðandi: ' + safe(topTitle) + ' · ' + safe(topShare) + '</span><span class="chip ' + (forced ? 'warn' : 'info') + '">Route: ' + safe(topRoute ? topRoute.key : "sjálfvirkt") + '</span><span class="chip ' + (warningCount ? 'warn' : 'good') + '">Gæði: ' + (warningCount ? fmt(warningCount) + ' merki' : 'hreint') + '</span><span class="chip neutral">Nýjast: ' + safe(newest ? titleFor(newest, publicMap(data)) : "-") + '</span></div></div>' +
             '<div class="dash-v2-row-list">' + dashboardHtml + '</div>' +
-            '<aside class="dash-v2-context"><div class="dash-v2-panel-head"><span>Lestrarröð</span><strong>' + safe(topTitle) + '</strong></div><p class="dash-v2-note">Mest lesna kortið ber ' + safe(topShare) + ' af mælaborðanotkun. Röðin hér notar sömu stærðargráðu í hverri línu: notkun fyrst, síðan leiðing, uppruni, ferskleiki og gæði.</p><div class="dash-v2-context-grid">' +
-              dashV2Context("Ráðandi kort", topTitle, top ? fmt(visitValue(top)) + " opnanir · " + topShare : "engin talin opnun", "good") +
-              dashV2Context("Route", topRoute ? topRoute.key : "engin route merki", topRoute ? fmt(topRoute.total) + " merki" : "ekkert skráð", forced ? "warn" : "gateway") +
-              dashV2Context("Þvingun", fmt(forced), forced ? "forced layout þarf að skoða" : "engin þvingun", forced ? "warn" : "good") +
-              dashV2Context("Gæði", warningCount ? fmt(warningCount) + " merki" : "hreint", warningCount ? "staðfest þarf að skoða" : "engin staðfest viðvörun", warningCount ? "warn" : "good") +
-              dashV2Context("Nýjast", newest ? titleFor(newest, publicMap(data)) : "-", newestAge ? newestAge.label : "engin gögn", newestAge ? newestAge.className : "gateway") +
-              dashV2Context("Birting", fmt(published) + "/" + fmt(publicTotal), draftOrTest ? fmt(draftOrTest) + " í próf/drögum" : "í rekstri", draftOrTest ? "warn" : "info") +
-            '</div></aside>' +
           '</section>' +
         '</div>');
     }
@@ -19577,6 +20101,54 @@
         '<div class="tracker-v3-rank-value"><strong>' + fmt(value) + '</strong><span>' + safe(uncounted ? "ótalið" : pct(value, total)) + '</span></div>' +
       '</article>';
     }
+    function compactRowValue(row) {
+      return number(firstValue(row || {}, ["visits", "value", "count", "events", "raw_signal_events", "raw"]));
+    }
+    function envRefreshRow(row, total, cls, unit) {
+      row = row || {};
+      var value = compactRowValue(row);
+      var className = cls || row.className || "gateway";
+      return '<div class="env-refresh-row"><div class="env-refresh-row-top"><span class="env-refresh-row-label">' + safe(row.key || row.label || "Óþekkt") + '</span><strong class="env-refresh-row-value">' + fmt(value) + ' · ' + safe(pct(value, total)) + '</strong></div><div class="env-refresh-track" aria-hidden="true"><span class="env-refresh-fill ' + safe(className) + '" style="--fill:' + safe(trackerFill(value, total)) + '"></span></div><small>' + fmt(row.raw || row.rows || value) + ' ' + safe(unit || "línur") + '</small></div>';
+    }
+    function envRefreshCard(title, headline, rows, total, cls, unit, limit) {
+      rows = (rows || []).filter(function (row) { return compactRowValue(row) > 0; }).slice(0, limit || 4);
+      total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + compactRowValue(row); }, 0), 1);
+      var className = cls ? " " + safe(cls) : "";
+      var body = rows.length ? rows.map(function (row) { return envRefreshRow(row, total, cls || row.className || "gateway", unit); }).join("") : '<div class="message-card neutral">Engin gögn í þessum flokki.</div>';
+      return '<article class="env-refresh-card' + className + '"><div class="env-refresh-card-head"><span>' + safe(title) + '</span><strong>' + safe(headline || "-") + '</strong></div><div class="env-refresh-row-list">' + body + '</div></article>';
+    }
+    function envRefreshComboCard(row, cards, total, index) {
+      var browser = browserLabel(row);
+      var os = row.os_family || "Óþekkt";
+      var device = labelDevice(row.device_class || row.inferred_device_class);
+      var layout = labelLayout(row.selected_layout);
+      var theme = labelTheme(row.color_scheme || "unknown");
+      var value = number(row.visits || row.raw_signal_events);
+      var label = [device, layout, browser].filter(Boolean).join(" / ");
+      var meta = [os, theme, isSamsungInternetRow(row) ? "Samsung Internet" : "", row.visits === 0 && row.raw_signal_events > 0 ? "ótalið tæknimerki" : ""].filter(Boolean).join(" · ");
+      return '<article class="env-refresh-combo" style="--fill:' + safe(trackerFill(value, total)) + '">' +
+        '<div class="env-refresh-index">' + safe(String(index + 1).padStart(2, "0")) + '</div>' +
+        '<div><span class="env-refresh-combo-label">' + safe(label) + '</span><div class="env-refresh-combo-title">' + safe(titleFor(row, cards)) + '</div><div class="env-refresh-combo-meta">' + safe(meta || cleanId(row.dashboard_id || row.dashboard_key)) + '</div></div>' +
+        '<div class="env-refresh-combo-value"><strong>' + fmt(value) + '</strong><span>' + safe(pct(value, total)) + '</span></div>' +
+      '</article>';
+    }
+    function deliveryFreshRow(row, total, cls, unit) {
+      row = row || {};
+      var value = compactRowValue(row);
+      var className = cls || row.className || "gateway";
+      return '<div class="delivery-fresh-row"><div class="delivery-fresh-row-top"><span class="delivery-fresh-row-label">' + safe(row.key || row.label || "Óþekkt") + '</span><strong class="delivery-fresh-row-value">' + fmt(value) + ' · ' + safe(pct(value, total)) + '</strong></div><div class="delivery-fresh-track" aria-hidden="true"><span class="delivery-fresh-fill ' + safe(className) + '" style="--fill:' + safe(trackerFill(value, total)) + '"></span></div><small>' + fmt(row.raw || row.rows || value) + ' ' + safe(unit || "merki") + '</small></div>';
+    }
+    function deliveryFreshCard(title, headline, rows, total, cls, unit, limit) {
+      rows = (rows || []).filter(function (row) { return compactRowValue(row) > 0; }).slice(0, limit || 4);
+      total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + compactRowValue(row); }, 0), 1);
+      var className = cls ? " " + safe(cls) : "";
+      var body = rows.length ? rows.map(function (row) { return deliveryFreshRow(row, total, cls || row.className || "gateway", unit); }).join("") : '<div class="message-card neutral">Engin gögn í þessum flokki.</div>';
+      return '<article class="delivery-fresh-card' + className + '"><div class="delivery-fresh-card-head"><span>' + safe(title) + '</span><strong>' + safe(headline || "-") + '</strong></div><div class="delivery-fresh-row-list">' + body + '</div></article>';
+    }
+    function deliveryFreshMini(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="delivery-fresh-mini' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
     function renderTechnical(data) {
       var cards = publicMap(data);
       var browserSource = rowsFrom(data, "browsers", "device");
@@ -19587,12 +20159,12 @@
       var osGroups = topRows(osSource, function (row) { return row.os_family || "Óþekkt"; }, 99);
       var deviceGroups = topRows(deviceSource, function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 99);
       var confidenceGroups = topRows(deviceSource, function (row) { return bandLabel(row.inferred_confidence_band || row.confidence_band); }, 99);
-      var distributionLimit = Math.max(5, Math.min(distributionCap, Math.max(browserGroups.length, osGroups.length, deviceGroups.length, confidenceGroups.length)));
+      var distributionLimit = Math.max(3, Math.min(4, Math.max(browserGroups.length, osGroups.length, deviceGroups.length, confidenceGroups.length)));
       var browserDistribution = browserGroups.slice(0, distributionLimit);
       var osDistribution = osGroups.slice(0, distributionLimit);
       var deviceDistribution = deviceGroups.slice(0, distributionLimit);
       var confidenceDistribution = confidenceGroups.slice(0, distributionLimit);
-      var comboLimit = Math.max(6, distributionLimit);
+      var comboLimit = 4;
       var rows = groupedDeviceCombos(data, comboLimit);
       var allTech = technicalRows(data);
       var countedTech = visibleRows(allTech);
@@ -19614,7 +20186,7 @@
       var deviceTotal = Math.max(sumRows(deviceGroups, "visits"), 1);
       var confidenceTotal = Math.max(sumRows(confidenceGroups, "visits"), 1);
       var comboTotal = Math.max(rows.reduce(function (acc, row) { return acc + number(row.visits || row.raw_signal_events); }, 0), 1);
-      var comboHtml = rows.map(function (row, index) { return trackerV3ComboCard(row, cards, comboTotal, index); }).join("") || '<div class="message-card neutral"><strong>Engin tæknigögn enn</strong><p>Device samantekt vantar í payload eða engar taldar/merkingarbærar línur fundust.</p></div>';
+      var comboHtml = rows.map(function (row, index) { return envRefreshComboCard(row, cards, comboTotal, index); }).join("") || '<div class="message-card neutral"><strong>Engin tæknigögn enn</strong><p>Device samantekt vantar í payload eða engar taldar/merkingarbærar línur fundust.</p></div>';
       setHtml("technical-panel",
         '<div class="tracker-master-v3">' +
           '<div class="tracker-v3-command">' +
@@ -19626,14 +20198,25 @@
               trackerV3Stat("Traust", topConfidence ? topConfidence.key : "Óþekkt", topConfidence ? fmt(topConfidence.visits) + " línur · " + pct(topConfidence.visits, confidenceTotal) : "Engin confidence flokkun", topConfidence ? "good" : "gateway", topConfidence ? topConfidence.visits : 0, confidenceTotal) +
             '</div>' +
           '</div>' +
-          '<div class="tracker-v3-main">' +
-            '<section class="tracker-v3-module"><div class="tracker-v3-module-head"><div class="tracker-v3-module-title"><span class="tracker-v3-module-kicker">Dreifing</span><h3>Umhverfið sem mælaborðin keyra í</h3><p class="tracker-v3-module-copy">Sérhver flokkur er lesinn sem hlutdeild af sömu talningu svo tæki, vafri, OS og confidence verði samanburðarhæf.</p></div><span class="tracker-v3-module-count">' + fmt(countedVisits) + ' heimsóknir</span></div><div class="tracker-v3-distribution-grid">' +
-              shareVizCard("Vafrar", browserDistribution, browserTotal, { className: "gateway", unit: "línur", limit: browserDistribution.length || 1, displayTotal: browserTotal, visualRows: browserDistribution.length || 1 }) +
-              shareVizCard("Stýrikerfi", osDistribution, osTotal, { className: "info", unit: "línur", limit: osDistribution.length || 1, displayTotal: osTotal, visualRows: osDistribution.length || 1 }) +
-              shareVizCard("Tæki", deviceDistribution, deviceTotal, { className: "good", unit: "línur", limit: deviceDistribution.length || 1, displayTotal: deviceTotal, visualRows: deviceDistribution.length || 1 }) +
-              shareVizCard("Traust", confidenceDistribution, confidenceTotal, { className: "gateway", unit: "línur", limit: confidenceDistribution.length || 1, displayTotal: confidenceTotal, visualRows: confidenceDistribution.length || 1 }) +
-            '</div></section>' +
-            '<section class="tracker-v3-module"><div class="tracker-v3-module-head"><div class="tracker-v3-module-title"><span class="tracker-v3-module-kicker">Mynstur</span><h3>Samsetningar sem skýra mest</h3><p class="tracker-v3-module-copy">Raðað eftir raunnotkun fyrst, með raw/diagnostic sýnt sem sérmerki þegar það þarf að skýra frávik.</p></div><span class="tracker-v3-module-count">' + fmt(rows.length) + ' hópar</span></div><div class="tracker-v3-rank-list">' + comboHtml + '</div></section>' +
+          '<div class="tracker-v3-main env-refresh-main">' +
+            '<section class="env-refresh-atlas" aria-label="Umhverfisatlas">' +
+              '<div class="env-refresh-head"><div><span>Dreifing</span><h3>Umhverfið í fjórum skýrum víddum</h3><p>Tæki, vafri, stýrikerfi og traust eru lesin sem jafnstórar vísbendingar. Hver vídd sýnir aðeins sterkustu flokkana svo rekstrarlesturinn haldist skannlegur.</p></div><span class="tracker-v3-module-count">' + fmt(countedVisits) + ' heimsóknir</span></div>' +
+              '<div class="env-refresh-card-grid">' +
+                envRefreshCard("Tæki", topDevice ? topDevice.key : "Óþekkt", deviceDistribution, deviceTotal, "good", "línur", 4) +
+                envRefreshCard("Vafrar", topBrowser ? topBrowser.key : "Óþekkt", browserDistribution, browserTotal, "gateway", "línur", 4) +
+                envRefreshCard("Stýrikerfi", topOS ? topOS.key : "Óþekkt", osDistribution, osTotal, "info", "línur", 4) +
+                envRefreshCard("Traust", topConfidence ? topConfidence.key : "Óþekkt", confidenceDistribution, confidenceTotal, "good", "línur", 4) +
+              '</div>' +
+            '</section>' +
+            '<section class="env-refresh-patterns" aria-label="Tæknimynstur">' +
+              '<div class="env-refresh-head"><div><span>Mynstur</span><h3>Samsetningar sem skipta máli</h3><p>Fjórar stærstu samsetningar duga sem smoke-test: mælaborð, layout, tæki, vafri, OS og theme á einni línu.</p></div><span class="tracker-v3-module-count">' + fmt(rows.length) + ' hópar</span></div>' +
+              '<div class="delivery-fresh-mini-grid">' +
+                deliveryFreshMini("Efsta tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir" : "vantar", topDevice ? "good" : "gateway") +
+                deliveryFreshMini("Efsti vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir" : "vantar", topBrowser ? "gateway" : "warn") +
+                deliveryFreshMini("Traust", topConfidence ? topConfidence.key : "Óþekkt", topConfidence ? pct(topConfidence.visits, confidenceTotal) : "vantar", topConfidence ? "good" : "gateway") +
+              '</div>' +
+              '<div class="env-refresh-combo-list">' + comboHtml + '</div>' +
+            '</section>' +
           '</div>' +
           '<div class="tracker-v3-audit-strip">' +
             trackerV3Audit("Veik merki", shareValue(weakShare), "Veik eða óþekkt signal.", weakShare > .12 ? "warn" : "good", weakShare * 100, 100) +
@@ -19812,10 +20395,39 @@
               deliveryV3Stat("Sending", methodRows[0] ? methodRows[0].key : "Óþekkt", methodRows[0] ? fmt(methodRows[0].visits) + " merki · " + pct(methodRows[0].visits, methodTotal) : "Engin sendingargögn", cacheText === "Hit" ? "good" : "gateway", methodRows[0] ? methodRows[0].visits : 0, methodTotal) +
             '</div>' +
           '</div>' +
-          '<div class="delivery-v3-body">' +
-            '<section class="delivery-v3-module"><div class="delivery-v3-module-head"><div class="delivery-v3-module-title"><span class="delivery-v3-module-kicker">Skjár</span><h3>Þema, viewport og aðgengi</h3><p class="delivery-v3-module-copy">Afhendingarmerki lesin sér frá raw/diagnostic svo notkun og tæknileg skilyrði blandist ekki.</p></div><span class="delivery-v3-module-count">' + fmt(sumRows(countedDisplay)) + ' talin</span></div><div class="delivery-v3-visual-grid">' + shareVizCard("Litaþema", themeRows, displayTotal, { className: "good", unit: "talin", headerMeta: themeChips, visualRows: themeRows.length }) + shareVizCard("Viewport", viewportRows, viewportTotal, { className: "gateway", unit: "talin", headerMeta: a11yChips, visualRows: viewportRows.length || 1 }) + '</div></section>' +
-            '<section class="delivery-v3-module"><div class="delivery-v3-module-head"><div class="delivery-v3-module-title"><span class="delivery-v3-module-kicker">Tæki og vafri</span><h3>Samsetningar sem tracker sér</h3><p class="delivery-v3-module-copy">Fjórar sterkustu samsetningar sýna mælaborð, layout, vafra, OS og theme í einni lesanlegri röð.</p></div><span class="delivery-v3-module-count">' + fmt(combos.length) + ' hópar</span></div><div class="delivery-v3-signals">' + deliveryV3Signal("Hópar", fmt(combos.length), "raðað eftir notkun", "info") + deliveryV3Signal("Efsta tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir" : "vantar", topDevice ? "info" : "gateway") + deliveryV3Signal("Efsti vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir" : "vantar", topBrowser ? "gateway" : "warn") + '</div><div class="delivery-v3-combo-list">' + comboHtml + '</div></section>' +
-            '<section class="delivery-v3-module"><div class="delivery-v3-module-head"><div class="delivery-v3-module-title"><span class="delivery-v3-module-kicker">Flutningur</span><h3>Sending, payload og netmerki</h3><p class="delivery-v3-module-copy">Sendiaðferð, payload stærð og tenging sýna hvort afhendingin sjálf skýrir veik merki.</p></div><span class="delivery-v3-module-count">' + safe(cacheText) + '</span></div><div class="delivery-v3-signals">' + deliveryV3Signal("Lítil geta", fmt(lowCap), lowCap ? "skoða tæki" : "engin merki", lowCap ? "warn" : "good") + deliveryV3Signal("Línur", fmt(trackerLines), "performance/device", "gateway") + deliveryV3Signal("Cache", cacheText, data.cache && data.cache.hit ? "lesið úr cache" : "fersk keyrsla", cacheText === "Hit" ? "good" : "gateway") + '</div><div class="delivery-v3-transport-grid">' + deliveryShareViz("Sending", methodRows, methodTotal, "good", { visualRows: methodRows.length || 1 }) + deliveryShareViz("Payload", payloadRows, payloadTotal, "info", { visualRows: payloadRows.length || 1 }) + deliveryShareViz("Netmerki", connectionRows, connectionTotal, "gateway", { visualRows: connectionRows.length || 1 }) + '</div></section>' +
+          '<div class="delivery-v3-body delivery-fresh-body">' +
+            '<section class="delivery-fresh-screen" aria-label="Skjár og aðgengi">' +
+              '<div class="delivery-fresh-head"><div><span>Skjár</span><h3>Þema, viewport og aðgengi</h3><p>Afhendingarmerki eru lesin sem skjásamhengi: litastilling, viewport stærð og aðgengis-/forced-dark merki. Þetta er skýringarlag, ekki aukatalning.</p></div><span class="delivery-v3-module-count">' + fmt(sumRows(countedDisplay)) + ' talin</span></div>' +
+              '<div class="delivery-fresh-mini-grid">' +
+                deliveryFreshMini("Auto-dark", fmt(forcedSignals), forcedSignals ? "diagnostic skjámerki" : "engin merki", forcedSignals ? "info" : "good") +
+                deliveryFreshMini("Samsung", fmt(samsungPossible), samsungPossible ? "forced-dark possible" : "engin merki", samsungPossible ? "info" : "good") +
+                deliveryFreshMini("Aðgengi", a11yRows[0] ? a11yRows[0].key : "Venjulegt", a11yRows[0] ? fmt(a11yRows[0].visits) + " talin" : "engin sérmerki", a11yRows[0] ? "gateway" : "good") +
+              '</div>' +
+              '<div class="delivery-fresh-card-grid">' +
+                deliveryFreshCard("Litaþema", dark >= light ? "Dark" : "Light", themeRows, displayTotal, "good", "talin", 4) +
+                deliveryFreshCard("Viewport", topViewport ? topViewport.key : "Óþekkt", viewportRows, viewportTotal, "gateway", "talin", 4) +
+                deliveryFreshCard("Aðgengi", a11yRows[0] ? a11yRows[0].key : "Venjulegt", a11yRows, Math.max(sumRows(a11yRows, "visits"), 1), "info", "talin", 3) +
+              '</div>' +
+            '</section>' +
+            '<section class="delivery-fresh-combos" aria-label="Tæki og vafri">' +
+              '<div class="delivery-fresh-head"><div><span>Tæki og vafri</span><h3>Samsetningar sem tracker sér</h3><p>Fjórar sterkustu línurnar duga fyrir smoke-test: mælaborð, layout, tæki, vafri, OS og theme.</p></div><span class="delivery-v3-module-count">' + fmt(combos.length) + ' hópar</span></div>' +
+              '<div class="delivery-fresh-mini-grid">' +
+                deliveryFreshMini("Efsta tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir" : "vantar", topDevice ? "info" : "gateway") +
+                deliveryFreshMini("Efsti vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir" : "vantar", topBrowser ? "gateway" : "warn") +
+                deliveryFreshMini("Línur", fmt(trackerLines), "performance/device", trackerLines ? "good" : "warn") +
+              '</div><div class="delivery-v3-combo-list">' + comboHtml + '</div>' +
+            '</section>' +
+            '<section class="delivery-fresh-transport" aria-label="Sending og payload">' +
+              '<div class="delivery-fresh-head"><div><span>Flutningur</span><h3>Sending, payload og netmerki</h3><p>Sendiaðferð, payload stærð og tenging eru lesin sem afhendingarheilsa, sér frá raw og diagnostic.</p></div><span class="delivery-v3-module-count">' + safe(cacheText) + '</span></div>' +
+              '<div class="delivery-fresh-mini-grid">' +
+                deliveryFreshMini("Lítil geta", fmt(lowCap), lowCap ? "skoða tæki" : "engin merki", lowCap ? "warn" : "good") +
+                deliveryFreshMini("Cache", cacheText, data.cache && data.cache.hit ? "lesið úr cache" : "fersk keyrsla", cacheText === "Hit" ? "good" : "gateway") +
+                deliveryFreshMini("Diagnostic", fmt(diagnosticRows), diagnosticRows ? "sýnt sér" : "engin merki", diagnosticRows ? "info" : "good") +
+              '</div><div class="delivery-fresh-transport-grid">' +
+                deliveryFreshCard("Sending", methodRows[0] ? methodRows[0].key : "Óþekkt", methodRows, methodTotal, "good", "merki", 3) +
+                deliveryFreshCard("Payload", payloadRows[0] ? payloadRows[0].key : "Óþekkt", payloadRows, payloadTotal, "info", "merki", 3) +
+                deliveryFreshCard("Netmerki", connectionRows[0] ? connectionRows[0].key : "Óþekkt", connectionRows, connectionTotal, "gateway", "merki", 3) +
+              '</div></section>' +
           '</div>' +
           '<div class="delivery-v3-audit-strip">' +
             deliveryV3Audit("Tracker línur", fmt(trackerLines), "Taldar device/performance línur.", trackerLines ? "good" : "warn", trackerLines, Math.max(trackerLines, 1)) +
