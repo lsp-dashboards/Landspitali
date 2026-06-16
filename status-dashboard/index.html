@@ -14665,7 +14665,7 @@
       <div id="dashboard-passport-panel"></div>
     </section>
 
-    <p class="footer">Persónuvernd: Engin nöfn, netföng, kennitölur, raw IP, raw user-agent texti eða Power BI innri gögn eru birt. Síðan birtir eingöngu aggregate/status gögn úr Google Apps Script endpointi, notar örugga HTML-escaping við birtingu og aðgreinir gateway, raw og diagnostic merki frá töldum heimsóknum.</p>
+    <p class="footer">Persónuvernd: Engin nöfn, netföng, kennitölur, raw IP, raw user-agent texti eða Power BI innri gögn eru birt. Síðan birtir eingöngu aggregate/status gögn úr Google Apps Script endpointi (`api=dashboard`), notar örugga HTML-escaping og section-level safeRender, og aðgreinir gateway, raw og diagnostic merki frá töldum heimsóknum. UI v1.0.0 · Config v1 · Atburðasafnari v1 · Gagnasnið 1.</p>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
@@ -17016,8 +17016,8 @@
         '<article class="start-v5 ' + safe(scoreTone) + '">' +
           '<section class="start-v5-hero" aria-label="Upphafsinns\u00fdn">' +
             '<div class="start-v5-story">' +
-              '<div class="start-v5-title-row"><div><span class="start-v5-kicker">Start / rekstrarlestur</span><h2 id="fresh-start-title">' + safe(statusTitle) + '</h2><p class="start-v5-copy">' + safe(lead) + '</p></div>' +
-                '<div class="start-v5-score"><span class="start-v5-kicker">Rekstrarsta\u00f0a</span><strong>' + fmt(model.score) + '/100</strong><small>Skor er l\u00edna, ekki a\u00f0almynd.</small>' + startV5Meter(model.score, scoreTone) + '</div></div>' +
+              '<div class="start-v5-title-row"><div><span class="start-v5-kicker">Rekstrarlestur</span><h2 id="fresh-start-title">' + safe(statusTitle) + '</h2><p class="start-v5-copy">' + safe(lead) + '</p></div>' +
+                '<div class="start-v5-score"><span class="start-v5-kicker">Rekstrarsta\u00f0a</span><strong>' + fmt(model.score) + '/100</strong><small>Heilsa kerfis, ekki vins\u00e6ldir.</small>' + startV5Meter(model.score, scoreTone) + '</div></div>' +
               '<div class="start-v5-signal-grid">' +
                 startV5Metric("Taldar opnanir", fmt(model.total), fmt(model.dashboardCount) + " m\u00e6labor\u00f0 \u00ed grunni", "good", model.total / totalSignal * 100) +
                 startV5Metric("Sta\u00f0fest merki", confirmed ? fmt(confirmed) : "0", confirmed ? "sko\u00f0a \u00ed g\u00e6\u00f0avi\u00f0v\u00f6runum" : "engin sta\u00f0fest merki", confirmed ? "warn" : "good", qualityFill) +
@@ -17027,8 +17027,8 @@
             '</div>' +
             '<aside class="start-v5-actions"><div class="start-v5-action-head"><span class="start-v5-kicker">\u00c1kv\u00f6r\u00f0un</span><strong>N\u00e6st</strong></div><div class="start-v5-action-list">' + actions + '</div></aside>' +
           '</section>' +
-          '<section class="start-v5-flow" aria-label="Signal path">' +
-            '<div class="start-v5-panel-head"><span>Signal path</span><strong>raw -> gateway -> router -> tali\u00f0 -> g\u00e6\u00f0i</strong></div>' +
+          '<section class="start-v5-flow" aria-label="Fl\u00e6\u00f0ilestur">' +
+            '<div class="start-v5-panel-head"><span>Fl\u00e6\u00f0ilestur</span><strong>raw -> gateway -> router -> tali\u00f0 -> g\u00e6\u00f0i</strong></div>' +
             '<div class="start-v5-flowline">' +
               startV5Node("Raw scope", fmt(rawSignals), "telemetry og t\u00e6knimerki", rawSignals > model.total ? "info" : "gateway", rawSignals / totalSignal * 100) +
               startV5Node("Gateway", fmt(gatewaySignals), "root views, smellir, router", "gateway", gatewaySignals / totalSignal * 100) +
@@ -17039,7 +17039,7 @@
           '</section>' +
           '<section class="start-v5-lower" aria-label="F\u00f3kus og sannanir">' +
             '<div class="start-v5-focus"><div class="start-v5-panel-head"><span>M\u00e6labor\u00f0 \u00ed f\u00f3kus</span><strong>' + safe(topDashboard ? pct(visitValue(topDashboard), Math.max(model.total, 1)) : "0%") + '</strong></div><p class="start-v5-note">' + focusCopy + '</p><div class="start-v5-dash-list">' + dashboardRowsHtml + '</div></div>' +
-            '<div class="start-v5-proof"><div class="start-v5-panel-head"><span>Samhengisv\u00edsar</span><strong>light palette</strong></div><div class="start-v5-proof-grid">' +
+            '<div class="start-v5-proof"><div class="start-v5-panel-head"><span>Samhengisv\u00edsar</span><strong>rekstrarsamhengi</strong></div><div class="start-v5-proof-grid">' +
               startV5Proof("Route", routeValue, routeDetail, forced ? "warn" : "gateway") +
               startV5Proof("T\u00e6ki", topDevice ? topDevice.key : "\u00d3\u00feekkt", topDevice ? fmt(topDevice.visits || topDevice.raw) + " merki" : "aggregate vantar", topDevice ? "info" : "gateway") +
               startV5Proof("Vafri", topBrowser ? topBrowser.key : "\u00d3\u00feekkt", topBrowser ? fmt(topBrowser.visits || topBrowser.raw) + " merki" : "browser aggregate vantar", topBrowser ? "info" : "gateway") +
@@ -17502,7 +17502,7 @@
       setHtml("dashboard-public-master",
         '<div class="dashboard-v2">' +
           '<section class="dash-v2-hero" aria-label="Mælaborðasafn">' +
-            '<div class="dash-v2-story"><div><span class="dash-v2-kicker">Mælaborðasafn</span><h2>Mælaborð</h2><p>Portfolio kortið sýnir hvaða opinberu mælaborð bera notkunina, hvaða route og uppruni skýra hana, og hvaða tracker merki þarf að lesa áður en brugðist er við.</p></div><div class="dash-v2-metrics">' +
+            '<div class="dash-v2-story"><div><span class="dash-v2-kicker">Portfolio scan</span><h2>Mælaborðasafn</h2><p>Portfolio kortið sýnir hvaða opinberu mælaborð bera notkunina, hvaða route og uppruni skýra hana, og hvaða tracker merki þarf að lesa áður en brugðist er við.</p></div><div class="dash-v2-metrics">' +
               dashV2Metric("Samtals notkun", fmt(totalVisits), "taldar production opnanir", "good") +
               dashV2Metric("Í dag", fmt(todayTotal), "opnanir skráðar", todayTotal ? "good" : "gateway") +
               dashV2Metric("7 dagar", fmt(sevenDayTotal), "síðustu sjö dagar", sevenDayTotal ? "info" : "gateway") +
@@ -19515,14 +19515,31 @@
 
     function renderWarnings(data) {
       var split = splitWarnings(data);
-      var confirmed = split.confirmed.length;
-      var unconfirmed = split.unconfirmed.length;
+      var dashboards = visibleRows(data.dashboards || []);
+      var dashboardTraffic = {};
+      dashboards.forEach(function (row) { dashboardTraffic[row.dashboard_key || row.dashboard_id || row.key || ""] = visitValue(row); });
+      function warningTraffic(row) { return dashboardTraffic[row.dashboard_key || row.dashboard_id || ""] || 0; }
+      function severityWeight(row) {
+        var severity = String(row.severity || "").toLowerCase();
+        if (/bad|error|critical|fatal/.test(severity)) return 0;
+        if (/warn|warning/.test(severity)) return 1;
+        return 2;
+      }
+      function warningSort(a, b) {
+        return severityWeight(a) - severityWeight(b) ||
+          countWarnings(b) - countWarnings(a) ||
+          warningTraffic(b) - warningTraffic(a) ||
+          (new Date(warningLastSeen(b) || 0) - new Date(warningLastSeen(a) || 0));
+      }
+      var confirmedRows = split.confirmed.slice().sort(warningSort);
+      var contextRows = split.unconfirmed.concat(split.info, split.diagnostic).sort(warningSort);
+      var confirmed = confirmedRows.length;
       var info = split.info.length;
       var diagnostic = split.diagnostic.length;
       var tone = confirmed ? "warn" : "good";
-      var headline = confirmed ? "Aðgerð: staðfest production merki" : "Engin staðfest production viðvörun";
-      var copy = confirmed ? "Þessi sýn byrjar á því sem breytir rekstrarstöðu: staðfest production merki. Info og diagnostic eru haldin sýnileg, en þau eru greiningarhjálp og hækka ekki stöðu." : "Engin staðfest warning/error fer í gegnum Talningarhlið. Greiningarmerki eru samt sýnd svo hægt sé að rekja veik merki áður en þau verða vandamál.";
-      var allWarnings = split.confirmed.concat(split.unconfirmed, split.info, split.diagnostic);
+      var headline = confirmed ? "Staðfest production merki" : "Engin staðfest production warning";
+      var copy = confirmed ? "Production röðin sýnir aðeins merki sem breyta rekstrarstöðu. Diagnostic samhengi er neðar." : "Engin staðfest warning/error fer í gegnum Talningarhlið. Diagnostic merki eru samhengi, ekki incident.";
+      var allWarnings = confirmedRows.concat(contextRows);
       var allCount = allWarnings.length;
       var k = data.kpis || {};
       var weakShare = k.weak_unknown_signal_share !== undefined ? number(k.weak_unknown_signal_share) : (number(k.weak_unknown_signal_count) / Math.max(number(k.total_events), 1));
@@ -19537,7 +19554,8 @@
       });
       var confidenceText = Object.keys(confidenceMap).sort(function (a, b) { return confidenceMap[b] - confidenceMap[a]; }).map(function (key) { return key + ": " + fmt(confidenceMap[key]); }).join(" · ") || "Engin merki";
       var confidenceTip = "Traust segir hversu sterk stoð er fyrir merkinu. Mjög hátt: explicit production staðfesting eða skýr vafrastefna. Hátt/miðlungs: tæknimerki sem þarf samhengi. Diagnostic/test hækkar ekki rekstrarstöðu.";
-      var actionRows = split.confirmed.concat(split.unconfirmed, split.info, split.diagnostic).slice(0, 10);
+      var productionRows = confirmedRows.slice(0, 8);
+      var diagnosticRows = contextRows.slice(0, 8);
       var html = '<div class="quality-action-board">' +
         '<section class="quality-decision ' + tone + '">' +
           '<div class="quality-verdict"><span class="quality-kicker">Gæðaviðvaranir</span><div class="quality-title-line"><h3>' + safe(headline) + '</h3>' + infoTip(confidenceTip) + '</div><p>' + safe(copy) + '</p><div class="quality-status-line"><div class="quality-status-number"><strong>' + fmt(confirmed) + '</strong><span>staðfest</span></div><span class="chip ' + (confirmed ? 'warn' : 'good') + '">' + (confirmed ? 'Skoða fyrst' : 'Production í lagi') + '</span><span class="chip neutral">' + fmt(allCount) + ' merki alls</span><span class="chip neutral">Traust: ' + safe(confidenceText) + '</span></div></div>' +
@@ -19547,19 +19565,20 @@
             qualitySignalCard("Greiningarmerki", fmt(info + diagnostic), "Info + diagnostic, ekki heimsóknir.", info + diagnostic ? "info" : "good") +
             qualitySignalCard("Tracker samhengi", topDevice || topBrowser ? safe((topDevice ? topDevice.key : "-") + " / " + (topBrowser ? topBrowser.key : "-")) : "-", "Veik merki " + shareValue(weakShare) + " · " + fmt(deviceRows.length) + " device línur.", weakShare > .12 ? "warn" : "gateway") +
           '</div>' +
-        '</section>' +
-        '<section class="quality-playbook-grid" aria-label="Hvernig gæðamerki eru lesin">' +
-          qualityPlaybookCard("1", "Production fyrst", "Aðeins staðfest warning/error breytir rekstrarstöðu og fer í aðgerðarforgang.", confirmed ? "warn" : "good") +
-          qualityPlaybookCard("2", "Info er samhengi", "Upplýsingamerki hjálpa við rótargreiningu en teljast ekki heimsóknir.", "info") +
-          qualityPlaybookCard("3", "Diagnostic er prófun", "Raw/test merki eru sýnd til rekjanleika og eru haldin utan notkunar.", "gateway") +
-          qualityPlaybookCard("4", "Traust skýrir vægi", "Mjög hátt/hátt er sterk stoð; lægra traust þarf samanburð við tracker og vafra.", "info") +
         '</section>';
-      if (!actionRows.length) {
+      if (!allWarnings.length) {
         html += '<div class="quality-context-note good"><span>Staða</span><strong>Engin gæðamerki í payload</strong><p>Endpoint skilaði engum quality_warnings línum.</p></div>';
       } else {
-        html += '<section class="quality-alert-board"><div class="quality-alert-board-head"><div><span class="quality-kicker">Aðgerðaspjöld</span><h3>Hvað á að skoða og hvers vegna</h3><div class="subtle">Raðað þannig að production merki koma fyrst, síðan óstaðfest, upplýsingamerki og diagnostic.</div></div><span class="quality-group-count">' + fmt(actionRows.length) + '</span></div><div class="quality-action-list">' +
-          actionRows.map(function (row) { return qualityActionCard(row, classifyWarning(row)); }).join("") +
-        '</div></section>';
+        if (productionRows.length) {
+          html += '<section class="quality-alert-board"><div class="quality-alert-board-head"><div><span class="quality-kicker">Production queue</span><h3>Hvað þarf athygli fyrst</h3><div class="subtle">Raðað eftir severity, töldum merkjum, affected traffic og nýjustu evidence.</div></div><span class="quality-group-count">' + fmt(productionRows.length) + '</span></div><div class="quality-action-list">' +
+            productionRows.map(function (row) { return qualityActionCard(row, "confirmed"); }).join("") +
+          '</div></section>';
+        }
+        if (diagnosticRows.length) {
+          html += '<details class="quality-alert-board" ' + (confirmed ? '' : 'open') + '><summary><span class="quality-kicker">Diagnostic context</span><strong>' + fmt(diagnosticRows.length) + ' samhengi</strong><small>Info, óstaðfest og diagnostic merki. Ekki production incident.</small></summary><div class="quality-action-list">' +
+            diagnosticRows.map(function (row) { return qualityActionCard(row, classifyWarning(row)); }).join("") +
+          '</div></details>';
+        }
       }
       html += '</div>';
       setHtml("warning-list", html);
