@@ -14631,6 +14631,7 @@
     .flow-origin-route,
     .flow-origin-panel,
     .flow-origin-next,
+    .flow-origin-dashboard-list,
     .flow-origin-action,
     .flow-origin-dashboard-row {
       border: 1px solid rgba(187, 204, 216, .84);
@@ -14860,8 +14861,7 @@
     }
 
     .flow-origin-row-list,
-    .flow-origin-action-list,
-    .flow-origin-dashboard-list {
+    .flow-origin-action-list {
       display: grid;
       gap: 8px;
     }
@@ -14894,6 +14894,15 @@
 
     .flow-origin-next {
       background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,252,248,.92));
+    }
+
+    .flow-origin-dashboard-list {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding: 10px;
+      background: linear-gradient(90deg, rgba(255,255,255,.98), rgba(245,250,252,.94));
     }
 
     .flow-origin-next-head {
@@ -14929,16 +14938,21 @@
 
     .flow-origin-dashboard-row {
       display: grid;
-      grid-template-columns: 44px minmax(0, 1fr) auto;
+      grid-template-columns: 44px minmax(0, 1fr);
       gap: 10px;
-      align-items: center;
-      padding: 9px;
+      align-items: start;
+      min-height: 106px;
+      padding: 10px;
       background: rgba(255,255,255,.82);
     }
 
     .flow-origin-dashboard-title {
       display: grid;
       gap: 3px;
+    }
+
+    .flow-origin-dashboard-title small {
+      min-height: 28px;
     }
 
     .flow-origin-dashboard-title strong {
@@ -14950,14 +14964,17 @@
     }
 
     .flow-origin-dashboard-count {
+      grid-column: 1 / -1;
       display: grid;
       gap: 3px;
-      justify-items: end;
-      text-align: right;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: baseline;
+      padding-top: 8px;
+      border-top: 1px solid rgba(215,225,233,.82);
     }
 
     .flow-origin-dashboard-count strong {
-      font-size: 19px;
+      font-size: clamp(20px, 2vw, 28px);
     }
 
     @media (max-width: 1180px) {
@@ -14979,13 +14996,13 @@
     @media (max-width: 760px) {
       .flow-origin-route,
       .flow-origin-evidence-grid,
+      .flow-origin-dashboard-list,
       .flow-origin-dashboard-row {
         grid-template-columns: 1fr;
       }
 
       .flow-origin-dashboard-count {
-        justify-items: start;
-        text-align: left;
+        grid-template-columns: 1fr;
       }
     }
 
@@ -15496,6 +15513,135 @@
         text-align: left;
       }
     }
+
+    /* Delivery cohesion pass */
+    .delivery-master-v3 .delivery-v3-command {
+      grid-template-columns: minmax(280px, .42fr) minmax(0, 1.58fr);
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid rgba(187,204,216,.84);
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(255,255,255,.98), rgba(247,250,251,.92));
+    }
+
+    .delivery-master-v3 .delivery-v3-brief,
+    .delivery-master-v3 .delivery-v3-stat {
+      min-height: 124px;
+      background: rgba(255,255,255,.86);
+    }
+
+    .delivery-master-v3 .delivery-v3-stat-grid {
+      gap: 8px;
+    }
+
+    .delivery-master-v3 .delivery-v3-stat strong {
+      font-size: clamp(22px, 1.55vw, 28px);
+      overflow-wrap: normal;
+      word-break: normal;
+    }
+
+    .delivery-master-v3 .delivery-v3-body.delivery-fresh-body {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: start;
+    }
+
+    .delivery-master-v3 .delivery-fresh-screen,
+    .delivery-master-v3 .delivery-fresh-combos,
+    .delivery-master-v3 .delivery-fresh-transport {
+      align-content: start;
+      min-height: 0;
+      border-left: 1px solid rgba(187,204,216,.84);
+      border-top: 4px solid var(--data-04);
+      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(249,251,252,.94));
+    }
+
+    .delivery-master-v3 .delivery-fresh-screen {
+      grid-row: auto;
+      border-top-color: var(--data-02);
+    }
+
+    .delivery-master-v3 .delivery-fresh-combos {
+      border-top-color: var(--data-09);
+    }
+
+    .delivery-master-v3 .delivery-fresh-transport {
+      border-top-color: var(--data-05);
+    }
+
+    .delivery-master-v3 .delivery-fresh-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+    }
+
+    .delivery-master-v3 .delivery-fresh-head h3 {
+      font-size: clamp(18px, 1.55vw, 24px);
+    }
+
+    .delivery-master-v3 .delivery-fresh-mini {
+      min-height: 72px;
+      align-content: space-between;
+    }
+
+    .delivery-master-v3 .delivery-fresh-screen .delivery-fresh-card-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .delivery-master-v3.delivery-prodigy .delivery-v3-command,
+    .delivery-master-v3.delivery-prodigy .delivery-v3-audit-strip {
+      display: none;
+    }
+
+    .delivery-master-v3.delivery-prodigy .delivery-v3-body.delivery-fresh-body {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid rgba(187,204,216,.84);
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(255,255,255,.98), rgba(247,250,251,.92));
+    }
+
+    .delivery-master-v3.delivery-prodigy .delivery-fresh-screen,
+    .delivery-master-v3.delivery-prodigy .delivery-fresh-combos,
+    .delivery-master-v3.delivery-prodigy .delivery-fresh-transport {
+      min-height: 0;
+      align-content: start;
+      padding: 12px;
+      border-left-width: 1px;
+      border-top-width: 4px;
+      background: rgba(255,255,255,.88);
+    }
+
+    .delivery-master-v3.delivery-prodigy .delivery-fresh-mini-grid {
+      display: none;
+    }
+
+    .delivery-master-v3.delivery-prodigy .delivery-fresh-card,
+    .delivery-master-v3.delivery-prodigy .delivery-v3-combo {
+      background: rgba(255,255,255,.9);
+    }
+
+    @media (max-width: 1260px) {
+      .delivery-master-v3 .delivery-v3-command,
+      .delivery-master-v3 .delivery-v3-body.delivery-fresh-body {
+        grid-template-columns: 1fr;
+      }
+
+      .delivery-master-v3.delivery-prodigy .delivery-v3-body.delivery-fresh-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .delivery-master-v3 .delivery-v3-stat-grid,
+      .delivery-master-v3 .delivery-fresh-mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .delivery-master-v3 .delivery-fresh-head {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -15586,13 +15732,7 @@
       <div class="delivery-board" id="delivery-panel"></div>
     </section>
 
-    <section class="panel counting-health-shell" aria-labelledby="counting-health-title">
-      <div class="panel-head">
-        <div>
-          <h2 id="counting-health-title">Talningarheilsa</h2>
-          <div class="panel-note">Counted production heimsóknir aðskildar frá raw og diagnostic.</div>
-        </div>
-      </div>
+    <section class="panel counting-health-shell" aria-label="Talningarheilsa">
       <div id="counting-health-panel"></div>
     </section>
 
@@ -17532,8 +17672,8 @@
                 flowOriginAction("Source", campaignCoverage, "beint/annað " + fmt(sourceRisk), campaignMissing ? "Bera UTM/source saman við gateway." : "Source mix er læsilegt.", campaignMissing ? "gateway" : "good") +
                 flowOriginAction("Gæði", warnings ? fmt(warnings) + " staðfest" : "hreint", warnings ? "production merki til skoðunar" : "engin staðfest viðvörun", warnings ? "Tengja við gæðaviðvaranir ofar." : "Engin viðbótaraðgerð.", warnings ? "warn" : "good") +
               '</div>' +
-              '<div class="flow-origin-dashboard-list">' + proofRows + '</div>' +
             '</aside>' +
+            '<div class="flow-origin-dashboard-list">' + proofRows + '</div>' +
           '</section>' +
         '</article>');
     }
@@ -20389,7 +20529,7 @@
       var comboHtml = combos.map(function (row) { return deliveryV3Combo(row, cards, comboTotal); }).join("") || '<div class="message-card neutral"><strong>Engar tækjasamsetningar</strong><p>Device/browser samantekt vantar í payload.</p></div>';
 
       setHtml("delivery-panel",
-        '<div class="delivery-master-v3">' +
+        '<div class="delivery-master-v3 delivery-prodigy">' +
           '<div class="delivery-v3-command">' +
             '<article class="delivery-v3-brief"><div><span class="delivery-v3-kicker">Afhending</span><h3>' + safe(verdict) + '</h3></div><p>' + safe(verdictCopy) + '</p><div class="delivery-v3-chip-row"><span class="chip ' + (concernCount ? 'warn' : 'good') + '">' + fmt(concernCount) + ' athuganir</span><span class="chip neutral">' + fmt(trackerLines) + ' tracker línur</span><span class="chip neutral">Cache: ' + safe(cacheText) + '</span></div></article>' +
             '<div class="delivery-v3-stat-grid">' +
