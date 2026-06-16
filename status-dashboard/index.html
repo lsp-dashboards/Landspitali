@@ -19570,6 +19570,7 @@
     function loadData() {
       var btn = byId("refresh-button");
       var sequence = ++statusLoadSequence;
+      var mode = statusDataMode;
       if (btn) btn.classList.add("loading");
       function finishLoading() {
         if (btn) btn.classList.remove("loading");
@@ -19583,10 +19584,14 @@
         try {
           if (!data || data.ok === false) throw new Error("Invalid status payload");
           data.status_data_source = source;
+          data.status_data_mode = mode;
           window.LSP_STATUS_DATA_SOURCE = source;
+          window.LSP_STATUS_DATA_MODE = mode;
           window.LSP_STATUS_GENERATED_AT = data.generatedAt || data.generated_at || "";
           document.documentElement.setAttribute("data-status-source", source);
+          document.documentElement.setAttribute("data-status-mode", mode);
           document.documentElement.setAttribute("data-status-generated-at", data.generatedAt || data.generated_at || "");
+          updateDataSourceToggle();
           if (fallbackMessage) showNotice(fallbackMessage, "warn");
           else showNotice("", "info");
           render(data);
@@ -19641,22 +19646,19 @@
         script.src = DATA_ENDPOINT + separator + "api=dashboard&format=js&callback=" + encodeURIComponent(callbackName) + "&v=" + Date.now();
         document.body.appendChild(script);
       }
-      function loadStaticSnapshot() {
-        if (!window.fetch) {
-          return Promise.reject(new Error("fetch unavailable"));
-        }
-        return window.fetch(STATIC_STATUS_URL + "?v=" + Date.now(), {
-          cache: "no-store",
-          credentials: "omit"
-        }).then(function (response) {
-          if (!response.ok) throw new Error("Static status HTTP " + response.status);
-          return response.json();
-        }).then(function (data) {
-          if (!data || data.ok === false) throw new Error("Static status payload invalid");
-          return data;
+      if (mode === "sample") {
+        showNotice("Sæki sample gögn úr opinberu Google Sheet.", "info");
+        loadSampleData().then(function (result) {
+          acceptData(result.data, result.source, result.message);
+        }).catch(function (error) {
+          if (!stillCurrent()) return;
+          finishLoading();
+          showError("Náði ekki að hlaða sample gögnum: " + (error && error.message ? error.message : "unknown error"));
         });
+        return;
       }
-      loadStaticSnapshot().then(function (data) {
+
+      loadStaticJson(STATIC_STATUS_URL).then(function (data) {
         acceptData(data, "static_json", "");
       }).catch(function (error) {
         if (!stillCurrent()) return;
@@ -19664,6 +19666,7 @@
       });
     }
 
+    setupDataSourceToggle();
     byId("refresh-button").addEventListener("click", loadData);
     loadData();
     window.setInterval(loadData, 5 * 60 * 1000);
