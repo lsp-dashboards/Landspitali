@@ -12256,6 +12256,424 @@
         white-space: normal;
       }
     }
+
+    /* Dashboard portfolio map */
+    .dashboard-v2 {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .dashboard-v2 *,
+    .dashboard-v2 *::before,
+    .dashboard-v2 *::after {
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .dash-v2-hero,
+    .dash-v2-lane-board,
+    .dash-v2-row,
+    .dash-v2-context {
+      border: 1px solid rgba(181, 205, 220, .82);
+      border-radius: 8px;
+      background: rgba(255,255,255,.94);
+      box-shadow: none;
+    }
+
+    .dash-v2-hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, .42fr) minmax(0, .58fr);
+      gap: 12px;
+      padding: clamp(15px, 1.6vw, 22px);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.92)),
+        linear-gradient(90deg, rgba(79,111,143,.05) 0 1px, transparent 1px 100%);
+      background-size: auto, 34px 100%;
+    }
+
+    .dash-v2-hero::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--data-01), var(--data-02), var(--data-03));
+      pointer-events: none;
+    }
+
+    .dash-v2-story {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      align-content: space-between;
+      gap: 16px;
+    }
+
+    .dash-v2-kicker,
+    .dash-v2-metric span,
+    .dash-v2-panel-head span,
+    .dash-v2-row-kicker,
+    .dash-v2-line-label,
+    .dash-v2-fact span,
+    .dash-v2-context-card span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .dash-v2-story h2 {
+      margin: 4px 0 0;
+      color: var(--ink);
+      font-size: clamp(42px, 4.1vw, 68px);
+      line-height: .94;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .dash-v2-story p,
+    .dash-v2-metric small,
+    .dash-v2-line small,
+    .dash-v2-fact small,
+    .dash-v2-context-card small,
+    .dash-v2-note {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.34;
+    }
+
+    .dash-v2-story p {
+      max-width: 74ch;
+      margin: 8px 0 0;
+      font-size: 13px;
+      line-height: 1.5;
+      text-wrap: pretty;
+    }
+
+    .dash-v2-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .dash-v2-metric {
+      display: grid;
+      gap: 6px;
+      align-content: space-between;
+      min-height: 90px;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.68);
+    }
+
+    .dash-v2-metric.good,
+    .dash-v2-context-card.good,
+    .dash-v2-fact.good { background: var(--data-soft-02); border-color: rgba(47,143,139,.25); }
+    .dash-v2-metric.warn,
+    .dash-v2-context-card.warn,
+    .dash-v2-fact.warn { background: var(--data-soft-03); border-color: rgba(199,138,42,.28); }
+    .dash-v2-metric.info,
+    .dash-v2-context-card.info,
+    .dash-v2-fact.info { background: var(--data-soft-09); border-color: rgba(53,153,184,.24); }
+    .dash-v2-metric.gateway,
+    .dash-v2-context-card.gateway,
+    .dash-v2-fact.gateway { background: var(--data-soft-01); border-color: rgba(79,111,143,.24); }
+
+    .dash-v2-metric strong,
+    .dash-v2-context-card strong {
+      color: var(--ink);
+      font-size: clamp(20px, 1.7vw, 30px);
+      line-height: .98;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .dash-v2-distribution {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      align-content: stretch;
+    }
+
+    .dash-v2-lane-board {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      background: rgba(255,255,255,.74);
+    }
+
+    .dash-v2-panel-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .dash-v2-panel-head strong {
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.1;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .dash-v2-lane-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .dash-v2-line {
+      display: grid;
+      gap: 5px;
+    }
+
+    .dash-v2-line-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: baseline;
+    }
+
+    .dash-v2-line-value {
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .dash-v2-track {
+      height: 9px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5edf3;
+    }
+
+    .dash-v2-fill {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--data-01);
+    }
+
+    .dash-v2-fill.good { background: var(--data-02); }
+    .dash-v2-fill.warn { background: var(--data-03); }
+    .dash-v2-fill.info { background: var(--data-09); }
+    .dash-v2-fill.gateway { background: var(--data-05); }
+    .dash-v2-fill.neutral { background: var(--data-04); }
+
+    .dash-v2-main {
+      display: grid;
+      grid-template-columns: minmax(0, .66fr) minmax(300px, .34fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .dash-v2-row-list,
+    .dash-v2-context {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .dash-v2-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: 34px 46px minmax(0, 1fr) minmax(150px, .18fr);
+      gap: 11px;
+      align-items: center;
+      padding: 11px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,251,253,.92));
+    }
+
+    .dash-v2-row::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 10px;
+      width: 4px;
+      border-radius: 0 999px 999px 0;
+      background: var(--data-01);
+    }
+
+    .dash-v2-row.good::before { background: var(--data-02); }
+    .dash-v2-row.warn::before { background: var(--data-03); }
+    .dash-v2-row.info::before { background: var(--data-09); }
+
+    .dash-v2-rank {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: var(--data-06);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .dash-v2-row img {
+      width: 46px;
+      height: 46px;
+      object-fit: cover;
+      border: 1px solid rgba(196,214,226,.76);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .dash-v2-row-title {
+      display: grid;
+      gap: 4px;
+    }
+
+    .dash-v2-row-title strong {
+      color: var(--ink);
+      font-size: clamp(18px, 1.5vw, 26px);
+      line-height: 1.02;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .dash-v2-row-title small {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+    }
+
+    .dash-v2-count {
+      display: grid;
+      justify-items: end;
+      gap: 4px;
+      text-align: right;
+      color: var(--ink);
+    }
+
+    .dash-v2-count strong {
+      font-size: clamp(26px, 2.4vw, 38px);
+      line-height: .9;
+      font-weight: 900;
+    }
+
+    .dash-v2-count small {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+    }
+
+    .dash-v2-row-lines {
+      grid-column: 3 / 5;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding-top: 2px;
+    }
+
+    .dash-v2-facts {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .dash-v2-fact {
+      display: grid;
+      gap: 4px;
+      min-height: 68px;
+      padding: 9px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.68);
+    }
+
+    .dash-v2-fact strong {
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.05;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .dash-v2-context {
+      padding: 12px;
+      align-content: start;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.94));
+    }
+
+    .dash-v2-context-grid {
+      display: grid;
+      gap: 8px;
+    }
+
+    .dash-v2-context-card {
+      display: grid;
+      gap: 6px;
+      min-height: 86px;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.68);
+    }
+
+    .dash-v2-note {
+      margin: 0;
+      font-weight: 800;
+      text-wrap: pretty;
+    }
+
+    @media (max-width: 1260px) {
+      .dash-v2-hero,
+      .dash-v2-main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .dash-v2-metrics,
+      .dash-v2-distribution,
+      .dash-v2-row-lines,
+      .dash-v2-facts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .dash-v2-metrics,
+      .dash-v2-distribution,
+      .dash-v2-row,
+      .dash-v2-row-lines,
+      .dash-v2-facts {
+        grid-template-columns: 1fr;
+      }
+
+      .dash-v2-story h2 {
+        font-size: 34px;
+      }
+
+      .dash-v2-count {
+        justify-items: start;
+        text-align: left;
+      }
+
+      .dash-v2-row-lines,
+      .dash-v2-facts {
+        grid-column: auto;
+      }
+    }
   </style>
 </head>
 <body>
@@ -14696,6 +15114,157 @@
           '</section>' +
         '</div>');
     }
+    function dashV2Track(value, total, cls) {
+      var className = cls ? safe(cls) : "";
+      return '<div class="dash-v2-track" aria-hidden="true"><span class="dash-v2-fill ' + className + '" style="--fill:' + widthPct(value, total) + '"></span></div>';
+    }
+    function dashV2Metric(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="dash-v2-metric' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function dashV2Line(label, value, total, cls, detail) {
+      return '<div class="dash-v2-line"><div class="dash-v2-line-top"><span class="dash-v2-line-label">' + safe(label) + '</span><strong class="dash-v2-line-value">' + fmt(value) + ' · ' + safe(pct(value, total)) + '</strong></div>' + dashV2Track(value, total, cls) + '<small>' + safe(detail || "") + '</small></div>';
+    }
+    function dashV2LanePanel(title, headline, rows, total) {
+      rows = rows || [];
+      total = Math.max(number(total), 1);
+      return '<section class="dash-v2-lane-board"><div class="dash-v2-panel-head"><span>' + safe(title) + '</span><strong>' + safe(headline || "-") + '</strong></div><div class="dash-v2-lane-list">' + rows.map(function (row) {
+        return dashV2Line(row.label, row.value, total, row.className || "gateway", row.detail || "");
+      }).join("") + '</div></section>';
+    }
+    function dashV2Fact(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<div class="dash-v2-fact' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></div>';
+    }
+    function dashV2Context(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="dash-v2-context-card' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function dashV2DashboardRow(data, dashboard, totalVisits, index) {
+      var cards = publicMap(data);
+      var card = findPublicCardForDashboard(data, dashboard);
+      var total = visitValue(dashboard);
+      var status = publicCardStatus(card);
+      var statusClass = status.cls || "gateway";
+      var layout = dashboardLayoutContext(data, dashboard);
+      var source = dashboardSourceContext(data, dashboard);
+      var tracker = dashboardDeviceContext(data, dashboard) || "engin tracker";
+      var age = ageInfo(dashboardLastCountedTime(dashboard));
+      var lastTime = dashboardLastCountedTime(dashboard);
+      var warningCount = number(firstValue(dashboard, ["confirmed_warning_count", "production_warning_count", "warning_count"]));
+      var layoutTotal = Math.max(layout.mobile + layout.desktop, layout.total, total, 1);
+      var sourceTotal = Math.max(source.island + source.direct + source.other, source.total, total, 1);
+      var layoutDominant = layout.desktop >= layout.mobile ? "Desktop" : "Mobile";
+      var sourceRows = [
+        { key: "island.is", value: source.island, cls: "good" },
+        { key: "Beint", value: source.direct, cls: "gateway" },
+        { key: "Annað", value: source.other, cls: "neutral" }
+      ].sort(function (a, b) { return number(b.value) - number(a.value); });
+      var sourceDominant = sourceRows[0] || { key: "-", value: 0, cls: "gateway" };
+      var forcedDetail = layout.forced ? "Þvingun: mobile " + fmt(layout.forcedMobile) + " · desktop " + fmt(layout.forcedDesktop) : "Sjálfvirkt val";
+      var today = number(dashboard.visits_today);
+      return '<article class="dash-v2-row ' + safe(statusClass) + '">' +
+        '<div class="dash-v2-rank">' + safe(String(index + 1).padStart(2, "0")) + '</div>' +
+        '<img src="' + safe(iconFor(dashboard, cards)) + '" alt="">' +
+        '<div class="dash-v2-row-title"><span class="dash-v2-row-kicker">' + safe(status.label || "Kort") + '</span><strong>' + safe(titleFor(dashboard, cards)) + '</strong><small>' + safe(status.detail || cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + '</small></div>' +
+        '<div class="dash-v2-count"><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + ' af heild</small></div>' +
+        '<div class="dash-v2-row-lines">' +
+          dashV2Line("Útgáfuval · " + layoutDominant, Math.max(layout.mobile, layout.desktop), layoutTotal, layoutDominant === "Mobile" ? "info" : "gateway", "mobile " + fmt(layout.mobile) + " · desktop " + fmt(layout.desktop)) +
+          dashV2Line("Uppruni · " + sourceDominant.key, sourceDominant.value, sourceTotal, sourceDominant.cls, "island.is " + fmt(source.island) + " · beint " + fmt(source.direct)) +
+        '</div>' +
+        '<div class="dash-v2-facts">' +
+          dashV2Fact("Í dag", fmt(today), today ? "ný virkni" : "engin ný virkni", today ? "good" : "gateway") +
+          dashV2Fact("Síðast", age.label, lastTime ? dateShort(lastTime) : "engin talin opnun", age.className || "gateway") +
+          dashV2Fact("Leiðing", layout.topRoute, forcedDetail, layout.forced ? "warn" : "gateway") +
+          dashV2Fact("Tracker", tracker, warningCount ? fmt(warningCount) + " merki þarf að skoða" : "engin staðfest villa", warningCount ? "warn" : "good") +
+        '</div>' +
+      '</article>';
+    }
+    function renderDashboardPublicMasterV2(data) {
+      data = data || {};
+      var cards = data.public_cards || [];
+      var dashboards = visibleRows(data.dashboards || []);
+      var sortedDashboards = dashboards.slice().sort(function (a, b) { return visitValue(b) - visitValue(a); });
+      var totalVisits = sumRows(dashboards);
+      var todayTotal = dashboards.reduce(function (acc, row) { return acc + number(row.visits_today); }, 0);
+      var sevenDayTotal = number(firstValue(data.kpis || {}, ["visits_7d", "visits_7_days", "visits7d"]));
+      if (!sevenDayTotal) {
+        sevenDayTotal = dashboards.reduce(function (acc, row) {
+          return acc + number(firstValue(row, ["visits_7d", "visits_7_days", "visits7d"]));
+        }, 0);
+      }
+      var model = opsModel(data);
+      var publicTotal = cards.length || dashboards.length || 0;
+      var published = cards.filter(function (card) { return publicCardStatus(card).label === "Birt"; }).length;
+      var draftOrTest = cards.filter(function (card) {
+        var status = publicCardStatus(card);
+        return status.label === "Drög" || status.label === "Próf";
+      }).length;
+      var top = sortedDashboards[0];
+      var newest = dashboards.slice().sort(function (a, b) { return new Date(dashboardLastCountedTime(b) || 0) - new Date(dashboardLastCountedTime(a) || 0); })[0];
+      var newestAge = newest ? ageInfo(dashboardLastCountedTime(newest)) : null;
+      var routeRows = routeMatrixRows(data);
+      var routeGroups = routeReasonGroups(data, false).filter(function (row) { return number(row.total) > 0; });
+      var topRoute = routeGroups[0];
+      var forced = forcedLayoutTotal(routeRows);
+      var layoutContexts = sortedDashboards.map(function (dashboard) { return dashboardLayoutContext(data, dashboard); });
+      var mobileTotal = layoutContexts.reduce(function (acc, ctx) { return acc + number(ctx.mobile); }, 0);
+      var desktopTotal = layoutContexts.reduce(function (acc, ctx) { return acc + number(ctx.desktop); }, 0);
+      if (!mobileTotal && !desktopTotal) {
+        mobileTotal = model.mobile || number(firstValue(data.kpis || {}, ["mobile_visits", "mobile_counted_visits"]));
+        desktopTotal = model.desktop || number(firstValue(data.kpis || {}, ["desktop_visits", "desktop_counted_visits"]));
+      }
+      var sourceContexts = sortedDashboards.map(function (dashboard) { return dashboardSourceContext(data, dashboard); });
+      var islandTotal = sourceContexts.reduce(function (acc, ctx) { return acc + number(ctx.island); }, 0);
+      var directTotal = sourceContexts.reduce(function (acc, ctx) { return acc + number(ctx.direct); }, 0);
+      var otherTotal = sourceContexts.reduce(function (acc, ctx) { return acc + number(ctx.other); }, 0);
+      if (!islandTotal && !directTotal && !otherTotal) {
+        islandTotal = model.island || number(firstValue(data.kpis || {}, ["island_is_visits", "island_visits", "source_island_is_visits"]));
+        directTotal = sourceCount(visibleRows(data.sources || []), function (value) { return isDirectSource(value); });
+        otherTotal = Math.max(0, totalVisits - islandTotal - directTotal);
+      }
+      var warningCount = model.warningSplit && model.warningSplit.confirmed ? model.warningSplit.confirmed.length : 0;
+      var topTitle = top ? titleFor(top, publicMap(data)) : "-";
+      var topShare = top ? pct(visitValue(top), Math.max(totalVisits, 1)) : "0%";
+      var layoutTotal = Math.max(mobileTotal + desktopTotal, totalVisits, 1);
+      var sourceTotal = Math.max(islandTotal + directTotal + otherTotal, totalVisits, 1);
+      var layoutDominant = desktopTotal >= mobileTotal ? "Desktop" : "Mobile";
+      var sourceDominant = islandTotal >= directTotal && islandTotal >= otherTotal ? "island.is" : directTotal >= otherTotal ? "Beint" : "Annað";
+      var dashboardHtml = sortedDashboards.map(function (dashboard, index) { return dashV2DashboardRow(data, dashboard, totalVisits, index); }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engar taldar production heimsóknir í dashboard aggregate.</p></div>';
+      setHtml("dashboard-public-master",
+        '<div class="dashboard-v2">' +
+          '<section class="dash-v2-hero" aria-label="Mælaborðasafn">' +
+            '<div class="dash-v2-story"><div><span class="dash-v2-kicker">Mælaborðasafn</span><h2>Mælaborð</h2><p>Portfolio kortið sýnir hvaða opinberu mælaborð bera notkunina, hvaða route og uppruni skýra hana, og hvaða tracker merki þarf að lesa áður en brugðist er við.</p></div><div class="dash-v2-metrics">' +
+              dashV2Metric("Samtals notkun", fmt(totalVisits), "taldar production opnanir", "good") +
+              dashV2Metric("Í dag", fmt(todayTotal), "opnanir skráðar", todayTotal ? "good" : "gateway") +
+              dashV2Metric("7 dagar", fmt(sevenDayTotal), "síðustu sjö dagar", sevenDayTotal ? "info" : "gateway") +
+              dashV2Metric("Kort í rekstri", fmt(published) + "/" + fmt(publicTotal), draftOrTest ? fmt(draftOrTest) + " í próf/drögum" : "opinbert safn", draftOrTest ? "warn" : "info") +
+            '</div></div>' +
+            '<div class="dash-v2-distribution">' +
+              dashV2LanePanel("Útgáfuval", layoutDominant, [
+                { label: "Mobile", value: mobileTotal, className: "info", detail: "sama notkunargrunnur" },
+                { label: "Desktop", value: desktopTotal, className: "gateway", detail: "sama notkunargrunnur" }
+              ], layoutTotal) +
+              dashV2LanePanel("Uppruni", sourceDominant, [
+                { label: "island.is", value: islandTotal, className: "good", detail: "opinber uppruni" },
+                { label: "Beint", value: directTotal, className: "gateway", detail: "bein opnun" },
+                { label: "Annað", value: otherTotal, className: "neutral", detail: "annar uppruni" }
+              ], sourceTotal) +
+            '</div>' +
+          '</section>' +
+          '<section class="dash-v2-main" aria-label="Mælaborð og samhengi">' +
+            '<div class="dash-v2-row-list">' + dashboardHtml + '</div>' +
+            '<aside class="dash-v2-context"><div class="dash-v2-panel-head"><span>Lestrarröð</span><strong>' + safe(topTitle) + '</strong></div><p class="dash-v2-note">Mest lesna kortið ber ' + safe(topShare) + ' af mælaborðanotkun. Röðin hér notar sömu stærðargráðu í hverri línu: notkun fyrst, síðan leiðing, uppruni, ferskleiki og gæði.</p><div class="dash-v2-context-grid">' +
+              dashV2Context("Ráðandi kort", topTitle, top ? fmt(visitValue(top)) + " opnanir · " + topShare : "engin talin opnun", "good") +
+              dashV2Context("Route", topRoute ? topRoute.key : "engin route merki", topRoute ? fmt(topRoute.total) + " merki" : "ekkert skráð", forced ? "warn" : "gateway") +
+              dashV2Context("Þvingun", fmt(forced), forced ? "forced layout þarf að skoða" : "engin þvingun", forced ? "warn" : "good") +
+              dashV2Context("Gæði", warningCount ? fmt(warningCount) + " merki" : "hreint", warningCount ? "staðfest þarf að skoða" : "engin staðfest viðvörun", warningCount ? "warn" : "good") +
+              dashV2Context("Nýjast", newest ? titleFor(newest, publicMap(data)) : "-", newestAge ? newestAge.label : "engin gögn", newestAge ? newestAge.className : "gateway") +
+              dashV2Context("Birting", fmt(published) + "/" + fmt(publicTotal), draftOrTest ? fmt(draftOrTest) + " í próf/drögum" : "í rekstri", draftOrTest ? "warn" : "info") +
+            '</div></aside>' +
+          '</section>' +
+        '</div>');
+    }
     function renderExecutivePanelV2(data) {
       var model = opsModel(data);
       var title = model.tone === "good" ? "Rekstur stöðugur" : model.tone === "warn" ? "Athugun í gangi" : "Brýnt að skoða";
@@ -16525,7 +17094,7 @@
       safeRender("start-panel", "Fresh start", function () { renderStartPanelV5(data); });
       setStatus(data, "");
       safeRender("signal-panorama-panel", "Signal panorama", function () { renderSignalPanoramaV2(data); });
-      safeRender("dashboard-public-master", "Mælaborð", function () { renderDashboardPublicMaster(data); });
+      safeRender("dashboard-public-master", "Mælaborð", function () { renderDashboardPublicMasterV2(data); });
       safeRender("layout-source-panel", "Leiðing og uppruni", function () { renderLayoutAndSourceV3(data); });
       safeRender("route-list", "Leiðingarskrá", function () { renderRouteList(data); });
       safeRender("insight-grid", "Rekstrarinnsýn", function () { renderInsightsV2(data); });
