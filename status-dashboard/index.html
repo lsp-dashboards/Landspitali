@@ -13754,7 +13754,309 @@
       };
     }
 
+    function deriveUnusualDeviceContextInsights(data) {
+      data = data || {};
+      var rows = rowsFrom(data, "device_confidence", "device");
+      var unusualKeys = ["inferred_is_smart_tv", "inferred_is_apple_tv_like", "inferred_is_android_tv", "inferred_is_google_tv_like", "inferred_is_fire_tv_like", "inferred_is_tizen_tv", "inferred_is_webos_tv", "inferred_is_roku", "inferred_is_android_tv_box_like", "inferred_is_set_top_box_like", "inferred_is_game_console", "inferred_is_playstation", "inferred_is_xbox", "inferred_is_nintendo", "inferred_is_vr_headset_like", "inferred_is_car_browser_like", "inferred_is_e_reader_like", "inferred_is_kiosk_or_public_display_possible", "remote_control_likely", "gamepad_api_available"];
+      var smartTv = rows.reduce(function (acc, row) { return acc + ((/smart[_ -]?tv|tv/i.test(row.inferred_device_class || row.device_class || "") || trackerAnySignal(row, unusualKeys.slice(0, 10))) ? trackerRowValue(row) : 0); }, 0);
+      var consoleLike = trackerSumBoolean(rows, ["inferred_is_game_console", "inferred_is_playstation", "inferred_is_xbox", "inferred_is_nintendo", "gamepad_api_available"], /console|playstation|xbox|nintendo/i);
+      var kiosk = trackerSumBoolean(rows, ["inferred_is_kiosk_or_public_display_possible", "display_class"], /kiosk|public_display|large_desktop_or_public_display/i);
+      var remote = trackerSumBoolean(rows, ["remote_control_likely"], /true|remote/i);
+      var total = smartTv + consoleLike + kiosk + remote;
+      var status = total ? "info" : "good";
+      return {
+        title: "Óvenjulegt birtingarumhverfi",
+        kicker: "Smart TV / signage",
+        intro: total ? "Óvenjuleg birtingarumhverfi eru vísbendingar til prófunar, ekki sjálfkrafa production villa." : "Engin sérstök Smart TV, signage, kiosk, console eða remote-control merki sjást í payload.",
+        status: status,
+        fields: unusualKeys.concat(["inferred_device_class", "display_class"]),
+        missing: trackerTopLevelMissing(data, ["device_confidence|device"]),
+        metrics: [
+          trackerMetric("Smart TV / TV-like", fmt(smartTv), "Viewer samhengi til prófunar.", smartTv ? "info" : "good"),
+          trackerMetric("Kiosk/public display", fmt(kiosk), "Möguleg signage birting.", kiosk ? "info" : "good"),
+          trackerMetric("Console/gamepad", fmt(consoleLike), "Óvenjulegt input/viewer.", consoleLike ? "info" : "good"),
+          trackerMetric("Remote-control likely", fmt(remote), "Fjarstýringarsamhengi.", remote ? "info" : "good")
+        ],
+        insights: [
+          trackerMakeInsight("In-app/WebView og Smart TV signals", fmt(total), status, rows.length ? "miðlungs" : "óþekkt", total ? "Óvenjulegt birtingarumhverfi fannst í aggregate." : "Engin óvenjuleg umhverfismerki fundust.", "Slík merki eru prófunarvísbending, ekki sjálfkrafa failure.", "Prófa Power BI viewer á affected browser/device ef warning styður það.", ["device_confidence", "inferred_is_smart_tv"], total ? 8 : 11)
+        ]
+      };
+    }
+    function deriveDisplayEnvironmentInsights(data) {
+      data = data || {};
+      var rows = rowsFrom(data, "display", "device");
+      var counted = visibleRows(rows);
+      var total = Math.max(sumRows(counted), 1);
+      var dark = counted.reduce(function (acc, row) { return acc + (/^dark$/i.test(row.color_scheme || row.prefers_color_scheme || "") ? visitValue(row) : 0); }, 0);
+      var light = counted.reduce(function (acc, row) { return acc + (/^light$/i.test(row.color_scheme || row.prefers_color_scheme || "") ? visitValue(row) : 0); }, 0);
+      var forced = rows.reduce(function (acc, row) { return acc + (/detected|forced/i.test(row.forced_dark_detection || "") ? trackerRowValue(row) : 0); }, 0) || number(firstValue(data.kpis || {}, ["forced_dark_detected_visits"]));
+      var samsung = rows.reduce(function (acc, row) { return acc + (/samsung|possible/i.test(row.samsung_dark_mode_status || "") ? trackerRowValue(row) : 0); }, 0) || number(firstValue(data.kpis || {}, ["samsung_forced_dark_possible_events"]));
+      var a11y = rows.reduce(function (acc, row) { return acc + (labelA11y(row) !== "Venjulegar stillingar" ? trackerRowValue(row) : 0); }, 0);
+      var viewportGroups = trackerGroupRows(counted, function (row) { return labelViewport(row.viewport_bucket || row.display_class); });
+      var status = forced || samsung || a11y ? "info" : "good";
+      return {
+        title: "Display, theme og accessibility",
+        kicker: "Birtingarumhverfi",
+        intro: "Dark/forced-dark merki eru birt sem birtingarumhverfi til skoðunar, ekki sjálfkrafa villa.",
+        status: status,
+        fields: ["display", "display_class", "viewport_bucket", "prefers_color_scheme", "forced_dark_detection", "samsung_dark_mode_status", "forced_colors", "prefers_contrast", "prefers_reduced_motion", "display_mode"],
+        missing: trackerTopLevelMissing(data, ["display"]),
+        metrics: [
+          trackerMetric("Dark reported", pct(dark, total), fmt(dark) + " taldar opnanir.", dark ? "info" : "good"),
+          trackerMetric("Light reported", pct(light, total), fmt(light) + " taldar opnanir.", light ? "good" : "unknown"),
+          trackerMetric("Forced dark signals", fmt(forced), "Diagnostic display/theme signal.", forced ? "info" : "good"),
+          trackerMetric("A11y/visual signals", fmt(a11y + samsung), "Forced colors, contrast, Samsung o.fl.", a11y + samsung ? "info" : "good")
+        ],
+        bars: viewportGroups,
+        barTotal: Math.max(total, viewportGroups.reduce(function (acc, row) { return Math.max(acc, row.raw); }, 1)),
+        insights: [
+          trackerMakeInsight("Visual/theme environment signals", fmt(forced + samsung + a11y), status, rows.length ? "miðlungs" : "óþekkt", "Forced dark, Samsung forced-dark possible og accessibility merki eru diagnostic display signals.", "Þau hjálpa við report readability án þess að vera confirmed Power BI failure.", "Skoða affected dashboards og prófa liti í Power BI ef warning styður það.", ["display", "forced_dark_detection", "prefers_contrast"], 10)
+        ]
+      };
+    }
+    function deriveInputContextInsights(data) {
+      data = data || {};
+      var rows = rowsFrom(data, "input", "device");
+      var counted = visibleRows(rows);
+      var total = Math.max(sumRows(counted), 1);
+      var touch = counted.reduce(function (acc, row) { return acc + (trackerAnySignal(row, ["has_touch", "touch", "any_pointer_coarse"], /touch|coarse/i) ? visitValue(row) : 0); }, 0);
+      var mouse = counted.reduce(function (acc, row) { return acc + (trackerAnySignal(row, ["keyboard_mouse_likely", "any_pointer_fine", "hover_primary", "any_hover"], /mouse|fine|hover/i) ? visitValue(row) : 0); }, 0);
+      var hybrid = trackerSumBoolean(counted, ["hybrid_touch_mouse_likely"], /true|hybrid/i);
+      var remote = trackerSumBoolean(counted, ["remote_control_likely"], /true|remote/i);
+      var stylus = trackerSumBoolean(counted, ["stylus_possible"], /true|stylus/i);
+      var desktopTouch = counted.reduce(function (acc, row) { return acc + (normalizeLayoutToken(row.selected_layout) === "desktop" && trackerAnySignal(row, ["has_touch", "any_pointer_coarse"], /touch|coarse/i) ? visitValue(row) : 0); }, 0);
+      var groups = trackerGroupRows(counted, function (row) { return humanizeToken(row.touch_class || row.pointer_primary || row.inferred_input_context || "unknown"); });
+      return {
+        title: "Input og interaction context",
+        kicker: "Inntak",
+        intro: "Sýnir hvort notendur séu líklega touch, mouse, hybrid, remote-control eða stylus samhengi og tengir það við routing.",
+        status: remote || desktopTouch ? "info" : "good",
+        fields: ["input", "touch_class", "has_touch", "pointer_primary", "any_pointer_coarse", "any_pointer_fine", "hover_primary", "hybrid_touch_mouse_likely", "remote_control_likely", "stylus_possible"],
+        missing: trackerTopLevelMissing(data, ["input"]),
+        metrics: [
+          trackerMetric("Touch-heavy", pct(touch, total), fmt(touch) + " taldar opnanir.", touch ? "info" : "unknown"),
+          trackerMetric("Mouse/keyboard", pct(mouse, total), fmt(mouse) + " taldar opnanir.", mouse ? "good" : "unknown"),
+          trackerMetric("Hybrid", fmt(hybrid), "Windows touch eða sambærilegt.", hybrid ? "info" : "good"),
+          trackerMetric("Remote/stylus", fmt(remote + stylus), "Remote-control eða stylus possible.", remote + stylus ? "info" : "good"),
+          trackerMetric("Touch + desktop layout", fmt(desktopTouch), "Ekki failure, routing samhengi.", desktopTouch ? "info" : "good")
+        ],
+        bars: groups,
+        barTotal: Math.max(total, groups.reduce(function (acc, row) { return Math.max(acc, row.raw); }, 1)),
+        insights: [
+          trackerMakeInsight("Touch-heavy but desktop layout", fmt(desktopTouch), desktopTouch ? "info" : "good", rows.length ? "miðlungs" : "óþekkt", desktopTouch ? "Snertimerki birtust með desktop layout." : "Engin sérstök touch/desktop tenging til skoðunar.", "Input samhengi hjálpar að skýra hvort selected layout sé nothæft.", "Skoða route policy fyrir hybrid/touch tæki við breakpoint mörk.", ["input", "selected_layout", "has_touch"], desktopTouch ? 8 : 11)
+        ]
+      };
+    }
+    function deriveTransportHealthInsights(data) {
+      data = data || {};
+      var rows = rowsFrom(data, "performance", "device");
+      var counted = visibleRows(rows);
+      var total = Math.max(sumRows(counted), counted.reduce(function (acc, row) { return acc + rawSignalValue(row); }, 0), 1);
+      var methods = trackerGroupRows(rows, function (row) { return labelTransport(row.tracker_send_method || row.tracking_method); });
+      var statuses = trackerGroupRows(rows, function (row) { return humanizeToken(row.tracker_send_status || row.endpoint_result_known || "unknown"); });
+      var payloads = trackerGroupRows(rows, function (row) { return labelPayload(row.payload_size_bucket); });
+      var imageLimit = trackerSumBoolean(rows, ["imageget_payload_near_limit", "diagnostic_payload_too_large"], /true|near|large/i);
+      var slow = trackerSumBoolean(rows, ["endpoint_slow_possible", "connection_effective_type"], /slow|2g|3g/i);
+      var lowCap = trackerSumBoolean(rows, ["low_capability_device"], /true/i);
+      var status = imageLimit || slow ? "watch" : "good";
+      return {
+        title: "Performance og tracking transport health",
+        kicker: "Telemetry transport",
+        intro: "Sýnir hvort telemetry sjálft sé að berast áreiðanlega: sendBeacon/fetch/imageGet, endpoint status, payload stærðir og tengimerki.",
+        status: status,
+        fields: ["performance", "tracker_send_method", "tracking_method", "tracker_send_status", "endpoint_result_known", "tracker_send_ms", "payload_size_bucket", "imageget_payload_near_limit", "diagnostic_payload_too_large", "connection_effective_type", "low_capability_device"],
+        missing: trackerTopLevelMissing(data, ["performance"]),
+        metrics: [
+          trackerMetric("Ráðandi sending", methods[0] ? methods[0].key : "Óþekkt", methods[0] ? fmt(methods[0].value) + " merki." : "Performance aggregate vantar.", methods[0] ? "good" : "unknown"),
+          trackerMetric("Endpoint result", statuses[0] ? statuses[0].key : "Óþekkt", "Known endpoint result share.", statuses[0] ? "info" : "unknown"),
+          trackerMetric("Payload warning", fmt(imageLimit), "imageGet near-limit eða diagnostic payload too large.", imageLimit ? "watch" : "good"),
+          trackerMetric("Slow/low capability", fmt(slow + lowCap), "Slow connection eða low capability.", slow + lowCap ? "info" : "good")
+        ],
+        bars: payloads.length ? payloads : methods,
+        barTotal: Math.max(total, payloads.concat(methods).reduce(function (acc, row) { return Math.max(acc, row.raw); }, 1)),
+        rows: methods.slice(0, 4).map(function (row) { return { label: row.key, detail: "Sendiaðferð", value: fmt(row.value), extra: fmt(row.raw) }; }),
+        insights: [
+          trackerMakeInsight("Payload/transport warnings", fmt(imageLimit + slow), status, rows.length ? "miðlungs" : "óþekkt", imageLimit ? "Telemetry payload size gæti þurft review; það þýðir ekki að heimsóknir séu brotnar." : "Engin payload/transport warning í aggregate.", "Transport health skýrir hvort tracker merki séu áreiðanleg.", "Skoða payload_size_bucket og imageGet near-limit trend.", ["performance", "payload_size_bucket", "tracker_send_status"], status === "watch" ? 9 : 11)
+        ]
+      };
+    }
+    function deriveFallbackRescueInsights(data) {
+      data = data || {};
+      var k = data.kpis || {};
+      var dashboards = data.dashboards || [];
+      var total = Math.max(number(firstValue(k, ["total_visits"])), sumRows(visibleRows(dashboards)), 1);
+      var fallback = number(firstValue(k, ["fallback_clicks", "fallback_error_count"]));
+      if (!fallback) fallback = dashboards.reduce(function (acc, row) { return acc + number(row.fallback_clicks); }, 0);
+      var safeFallback = dashboards.reduce(function (acc, row) { return acc + number(row.safe_fallback_events); }, 0);
+      var errors = number(firstValue(k, ["error_events", "fallback_error_count"]));
+      if (!errors) errors = dashboards.reduce(function (acc, row) { return acc + number(row.error_events); }, 0);
+      var rate = fallback / total;
+      var status = rate > .05 || errors ? "warning" : (fallback || safeFallback ? "watch" : "good");
+      var rows = dashboards.slice().sort(function (a, b) { return number(b.fallback_clicks) + number(b.error_events) - number(a.fallback_clicks) - number(a.error_events); }).filter(function (row) { return number(row.fallback_clicks) || number(row.safe_fallback_events) || number(row.error_events); }).map(function (row) {
+        return { label: titleFor(row, publicMap(data)), detail: "Fallback / safe / error", value: fmt(number(row.fallback_clicks)), extra: fmt(number(row.safe_fallback_events) + number(row.error_events)) };
+      });
+      return {
+        title: "Error, fallback og rescue behavior",
+        kicker: "Fallback björgun",
+        intro: "Low fallback = normal. Rising fallback = watch. High fallback = investigate Power BI URL, browser, network eða redirect friction.",
+        status: status,
+        fields: ["fallback_clicks", "safe_fallback_events", "safe_fallback_used", "safe_fallback_reason", "error_events", "router_errors_seen", "target_url_type", "endpoint_slow_possible"],
+        missing: trackerTopLevelMissing(data, ["dashboards", "kpis"]),
+        metrics: [
+          trackerMetric("Fallback click rate", pct(fallback, total), fmt(fallback) + " fallback clicks.", rate > .05 ? "warning" : (fallback ? "watch" : "good")),
+          trackerMetric("Safe fallback", fmt(safeFallback), "Rescue path used.", safeFallback ? "watch" : "good"),
+          trackerMetric("Router errors", fmt(errors), "Error events.", errors ? "warning" : "good"),
+          trackerMetric("Last fallback/error", dateShort(newestIso(dashboards.map(function (row) { return row.last_error_event_time; }))), "Síðasta error ef til.", errors ? "watch" : "good")
+        ],
+        rows: rows,
+        insights: [
+          trackerMakeInsight("High fallback/error/safe fallback", fmt(fallback + safeFallback + errors), status, "hátt", fallback || safeFallback || errors ? "Router þurfti rescue path eða skráði error/fallback merki." : "Fallback og error merki eru lág.", "Rescue behavior getur falið redirect eða Power BI friction.", "Skoða fallback by dashboard/device/browser og warning recommendation.", ["fallback_clicks", "safe_fallback_events", "error_events"], status === "warning" ? 3 : 11)
+        ]
+      };
+    }
+    function deriveFreshnessInsights(data) {
+      data = data || {};
+      var h = data.health || {};
+      var generated = data.generated_at || data.generatedAt || "";
+      var aggregation = data.aggregation_generated_at || h.aggregation_generated_at || h.last_aggregation_time || "";
+      var raw = firstValue(h, ["last_raw_event_time", "last_event_time"]);
+      var counted = firstValue(h, ["last_counted_event_time"]) || latestCountedEventTime(data);
+      var diagnostic = firstValue(h, ["last_diagnostic_event_time"]);
+      var errorTime = firstValue(h, ["last_error_event_time"]);
+      var rawRows = number(firstValue(h, ["raw_event_rows"]));
+      var aggAge = ageInfo(aggregation || generated);
+      var countedAge = ageInfo(counted);
+      var status = aggAge.minutes > 240 ? "watch" : (counted ? "good" : (raw ? "watch" : "unknown"));
+      return {
+        title: "Freshness og aggregation health",
+        kicker: "Ferskleiki gagna",
+        intro: "Sýnir hvort status data sjálft sé current og hvaðan það kom: static JSON, live Apps Script fallback, partial eða empty.",
+        status: status,
+        fields: ["generated_at", "dashboard_data_generated_at", "aggregation_generated_at", "last_aggregation_time", "last_raw_event_time", "last_counted_event_time", "raw_event_rows", "health", "cache"],
+        missing: trackerTopLevelMissing(data, ["health", "generated_at|generatedAt"]),
+        metrics: [
+          trackerMetric("Data generated", dateShort(generated), aggAge.label, generated ? "info" : "unknown"),
+          trackerMetric("Aggregation", dateShort(aggregation), aggAge.label, aggAge.className === "warn" ? "watch" : "good"),
+          trackerMetric("Last counted visit", dateShort(counted), countedAge.label, counted ? "good" : "watch"),
+          trackerMetric("Last raw event", dateShort(raw), ageInfo(raw).label, raw ? "info" : "unknown"),
+          trackerMetric("Diagnostic/error", (diagnostic ? dateShort(diagnostic) : "-") + " / " + (errorTime ? dateShort(errorTime) : "-"), "Síðustu operational merki.", errorTime ? "watch" : "info"),
+          trackerMetric("Raw rows", fmt(rawRows), "Aggregate source rows.", rawRows ? "info" : "unknown"),
+          trackerMetric("Data source", data.status_data_source || data.data_source || "static/live", "Storage/cache format.", "info")
+        ],
+        insights: [
+          trackerMakeInsight("Stale or missing counted data", counted ? countedAge.label : "vantar", status, aggregation || generated ? "hátt" : "óþekkt", counted ? "Síðasta talda heimsókn og aggregation timestamp eru sýnileg." : "No counted visits yet eða Talningarhlið vantar counted timestamp.", "Ferskleiki segir hvort vöktunin sjálf sé nothæf áður en rýnt er í trend.", "Athuga static snapshot, Apps Script fallback og aggregation_generated_at.", ["health", "generated_at", "aggregation_generated_at"], status === "watch" || status === "unknown" ? 2 : 11)
+        ]
+      };
+    }
+    function deriveDashboardPassports(data) {
+      data = data || {};
+      var cards = publicMap(data);
+      var dashboards = (data.dashboards || []).slice().sort(function (a, b) { return number(b.total_visits) - number(a.total_visits); });
+      var passports = dashboards.map(function (row) {
+        var warnings = number(row.confirmed_warning_count || row.warning_count);
+        var fallback = number(row.fallback_clicks) + number(row.safe_fallback_events);
+        var errors = number(row.error_events);
+        var visits = visitValue(row) || number(row.total_visits);
+        var status = errors || warnings ? "warning" : (visits ? "good" : "watch");
+        return {
+          key: cleanId(row.dashboard_key || row.dashboard_id || row.key),
+          title: titleFor(row, cards),
+          detail: cleanId(row.dashboard_id || row.dashboard_key || "") + " · " + (row.status || "active"),
+          status: status,
+          facts: [
+            { label: "Taldar alls", value: fmt(visits) },
+            { label: "Í dag", value: fmt(row.visits_today) },
+            { label: "7d", value: fmt(row.visits_7d) },
+            { label: "30d", value: fmt(row.visits_30d) },
+            { label: "Raw", value: fmt(row.raw_events || row.total_events) },
+            { label: "Diagnostic", value: fmt(row.diagnostic_events) },
+            { label: "Mobile", value: fmt(row.mobile_visits) },
+            { label: "Desktop", value: fmt(row.desktop_visits) },
+            { label: "island.is", value: fmt(row.island_is_visits) },
+            { label: "Fallback", value: fmt(row.fallback_clicks) },
+            { label: "Warnings", value: fmt(warnings) },
+            { label: "Confidence", value: bandLabel(row.confidence_band) }
+          ],
+          summary: "Uppruni: " + naturalSummaryText(row.source_mix_summary, "source") + ". Route: " + naturalSummaryText(row.route_mix_summary, "route") + ". Síðast talið: " + dateShort(dashboardLastCountedTime(row)) + ". Config/core: " + (row.config_version || "-") + " / " + (row.core_version || "-") + "."
+        };
+      });
+      return {
+        title: "Dashboard-by-dashboard diagnostic passport",
+        kicker: "Mælaborðspassi",
+        intro: "Hvert dashboard-kort svarar hvort það sé virkt, fái production opnanir, hafi plausible routing, gott signal quality og skýran uppruna.",
+        status: passports.some(function (p) { return p.status === "warning"; }) ? "warning" : "good",
+        wide: true,
+        fields: ["dashboards", "public_cards", "dashboard_key", "dashboard_id", "total_visits", "raw_events", "diagnostic_events", "mobile_visits", "desktop_visits", "island_is_visits", "source_mix_summary", "route_mix_summary", "config_version", "core_version"],
+        missing: trackerTopLevelMissing(data, ["dashboards", "public_cards"]),
+        passports: passports,
+        insights: [
+          trackerMakeInsight("Dashboard passports", fmt(passports.length), "info", "hátt", "Passport spjöldin nota dashboard aggregate rows og public-card registry.", "Þau sýna virkni, routing, warning og signal quality per mælaborð án raw rows.", "Skoða warning count og last counted per dashboard.", ["dashboards", "public_cards"], 11)
+        ]
+      };
+    }
+    function deriveOperatorQuestions(data) {
+      var base = ((data && data.questions) || []).map(function (text) { return { text: text, panel: "Spurningar til rekstrar", status: "info" }; });
+      var additions = [
+        { text: "Eru Teams/Outlook/link previews talin sem raunnotkun eða aðeins diagnostic/source merki?", panel: "Source quality", status: "info" },
+        { text: "Er island.is traffic að falla eftir public-card breytingar eða færist umferð í direct path?", panel: "Gateway funnel", status: "info" },
+        { text: "Er fallback að bjarga brotinni leiðingu án þess að það sjáist í counted opens?", panel: "Fallback björgun", status: "watch" },
+        { text: "Eru veik tæki, Smart TV vafrar, forced dark eða in-app browsers að hafa áhrif á Power BI upplifun?", panel: "Viewer readiness", status: "info" }
+      ];
+      var seen = {};
+      var questions = base.concat(additions).filter(function (row) {
+        var key = String(row.text || row).toLowerCase();
+        if (seen[key]) return false;
+        seen[key] = true;
+        return true;
+      });
+      return {
+        title: "Spurningar til rekstrar",
+        kicker: "Hvað á að skoða næst?",
+        intro: "Operator questions eru sett nálægt insight modules svo þau tengist beint við source, gateway, fallback, device og viewer panels.",
+        status: "info",
+        wide: true,
+        fields: ["questions", "insight_cards"],
+        missing: trackerTopLevelMissing(data || {}, ["questions"]),
+        questions: questions
+      };
+    }
+    function renderTrackerInsightExpansion(data) {
+      data = data || {};
+      var modules = [
+        deriveCountingIntegrity(data),
+        deriveGatewayFunnelInsights(data),
+        deriveSourceQualityInsights(data),
+        deriveRouteDecisionInsights(data),
+        deriveDeviceConfidenceInsights(data),
+        deriveBrowserViewerRiskInsights(data),
+        deriveUnusualDeviceContextInsights(data),
+        deriveDisplayEnvironmentInsights(data),
+        deriveInputContextInsights(data),
+        deriveTransportHealthInsights(data),
+        deriveFallbackRescueInsights(data),
+        deriveFreshnessInsights(data),
+        deriveDashboardPassports(data),
+        deriveOperatorQuestions(data)
+      ];
+      var allInsights = [];
+      modules.forEach(function (module) {
+        (module.insights || []).forEach(function (insight) { allInsights.push(insight); });
+      });
+      var ranked = rankRisksByOperationalImpact(allInsights).slice(0, 7);
+      var suppliedCards = ((data.insight_cards || []).slice(0, 5).map(function (card) {
+        return trackerMakeInsight(card.title || card.code, card.value || "-", "info", "payload", card.detail || "", "Tracker payload supplied insight_card.", "Nota sem context við modules hér fyrir neðan.", ["insight_cards"], 11);
+      }));
+      var heroInsights = ranked.concat(suppliedCards).slice(0, 8);
+      return '<div class="tracker-insight-board">' +
+        '<section class="tracker-hero"><div class="tracker-hero-copy"><span class="tracker-kicker">Tracker operational insight source</span><strong>Trackerinn er rekstrarheimild, ekki bara visit counter</strong><p>Þessi sýn notar aðeins aggregate/status payload: kpis, dashboards, sources, routes, root funnel, device, browser, OS, display, input, performance, quality warnings, health og operator questions. Raw event rows eru ekki birt.</p><div class="chip-row"><span class="chip good">Aggregate only</span><span class="chip info">' + fmt(modules.length) + ' modules</span><span class="chip ' + safe(trackerChipClass(ranked[0] && ranked[0].status)) + '">Forgangur: ' + safe(ranked[0] ? ranked[0].title : "engin") + '</span></div></div>' +
+        '<div class="tracker-priority-list">' + heroInsights.map(trackerInsightHtml).join("") + '</div></section>' +
+        '<div class="tracker-module-grid">' + modules.map(trackerModuleHtml).join("") + '</div>' +
+      '</div>';
+    }
+
     function renderInsightsV2(data) {
+      setHtml("insight-grid", renderTrackerInsightExpansion(data));
+      return;
       var k = data.kpis || {};
       var model = opsModel(data);
       var warnings = model.warningSplit;
