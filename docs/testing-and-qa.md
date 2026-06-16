@@ -6,7 +6,7 @@
 - Check generated config JS starts with generated header and matches source config version.
 - Confirm referenced source files exist.
 - Search for Power BI URL changes, endpoint changes, dashboard ID changes and route policy changes.
-- If tooling exists, run HTML/JS syntax checks; no such tooling was found in repo.
+- If tooling exists, run HTML/JS syntax checks. For the local status dashboard, run a JavaScript syntax check on `status-dashboard/status.js`.
 
 ## Router tests
 
@@ -34,15 +34,32 @@ Prófa iPhone Safari, Android Chrome, Samsung Internet, desktop Edge/Chrome/Safa
 
 ## Status dashboard tests
 
-Staðfesta JSONP load, refresh button, 22-second timeout með einni sjálfvirkri endurtilraun, cache/freshness labels, safe-render section errors, warnings split, Talningarhlið numbers og publication cards.
+- Real/static JSON mode loads `status-latest.json`.
+- Apps Script JSONP fallback works if static JSON is unavailable.
+- Sample mode tries the public sample sheet and falls back to `status-sample.json`.
+- Refresh button reloads the current mode.
+- 22-second timeout and one retry remain in JSONP paths.
+- Health, generated timestamp and source chips update after data load.
+- Section-level `safeRender` shows a section error without blanking the page.
+- Counting integrity appears near the top and separates counted, raw, diagnostic, excluded and fallback/error signals.
+- Source/flow appears as one coherent section, not separate repeated source/layout donuts.
+- Portfolio rows remain scannable with 2 dashboards and synthetic 8+ dashboard data.
+- Gæðavakt displays confirmed production warnings above diagnostic context.
+- Sönnunargögn exposes only aggregate timestamps, route audit and dashboard passport evidence.
+
+## Responsive/accessibility smoke
+
+- Mobile 360px, tablet 768px, desktop 1366px and wide 1720px.
+- Browser zoom 125%.
+- `prefers-reduced-motion`.
+- Keyboard focus on toggle, refresh and links.
+- Sufficient contrast and no hover-only essential information.
+- No horizontal page scrollbar; audit tables may scroll internally.
+- Text does not overlap or overflow buttons/cards at narrow widths.
 
 ## Count validation
 
 Staðfesta að debug/root/bot/diagnostic/manual/test/list/health rows séu ekki counted visits. Skoða `count_as_visit`, `count_exclusion_reason`, `event_type`, `duplicate_event` og aggregate totals.
-
-## Accessibility smoke
-
-Staðfesta keyboard focus á links/buttons, headings, contrast, responsive text, no overlap, noscript fallback og meaningful status text.
 
 ## Release checklist
 
