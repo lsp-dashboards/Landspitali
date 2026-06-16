@@ -8965,8 +8965,37 @@
     }
 
     .ops-narrative {
+      grid-template-rows: auto minmax(0, auto);
+      gap: 18px;
+      padding: 18px;
       background:
         linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.9));
+    }
+
+    .ops-narrative > div:first-child {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+      max-width: 82ch;
+    }
+
+    .ops-narrative .start-kicker {
+      display: block;
+      line-height: 1.2;
+    }
+
+    .ops-narrative .start-title {
+      margin: 0;
+      font-size: clamp(32px, 3vw, 48px);
+      line-height: 1.03;
+      letter-spacing: 0;
+    }
+
+    .ops-narrative .start-copy {
+      max-width: 78ch;
+      font-size: 14px;
+      line-height: 1.55;
+      text-wrap: pretty;
     }
 
     .ops-priority {
