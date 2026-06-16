@@ -12281,6 +12281,7 @@
     function labelTransport(value) {
       value = String(value || "").toLowerCase();
       if (value === "beacon") return "Beacon";
+      if (value === "sendbeacon" || value === "navigator.sendbeacon") return "SendBeacon";
       if (value === "fetch_keepalive") return "Fetch keepalive";
       if (value === "image_get") return "Myndkall";
       if (value === "form_post") return "Form POST";
@@ -13560,7 +13561,6 @@
       var rootViews = number(firstValue(f, ["views", "root_views", "root_index_views"]));
       var rootClicks = number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"]));
       var routerArrivals = number(firstValue(f, ["router_arrivals", "arrivals"]));
-      var gatewayCounted = number(firstValue(f, ["counted_opens", "counted_visits", "opens"]));
       var gatewaySignals = rootViews + rootClicks + routerArrivals;
       var statusTitle = model.tone === "good" ? "Rekstur stöðugur" : model.tone === "warn" ? "Athugun í forgangi" : "Brýnt að skoða";
       var scoreTip = "Stigið er 0-100. Grænt er 86-100, gult 70-85 og rautt undir 70. Frádráttur kemur frá staðfestum viðvörunum, fallback/villum, veikum eða óþekktum merkjum og gömlum gögnum.";
@@ -13717,7 +13717,7 @@
             '<div class="intel-spine-card"><div class="intel-section-head"><span class="intel-kicker">Signal spine</span><strong>' + fmt(model.total) + ' taldar opnanir</strong></div><div class="intel-spine">' +
               intelNodeV4("Gateway", fmt(gatewaySignals), "root views, smellir, router", "gateway", gatewaySignals / totalSignal * 100) +
               intelNodeV4("Router", topRoute ? fmt(topRoute.total) : fmt(routeTotal), routeValue, forced ? "warn" : "info", routeAutoFill) +
-              intelNodeV4("Telst", fmt(gatewayCounted || model.total), "production dashboard opnun", "good", model.total / totalSignal * 100) +
+              intelNodeV4("Taldar", fmt(model.total), "production dashboard opnanir", "good", model.total / totalSignal * 100) +
               intelNodeV4("Raw / diag", fmt(diagnosticTotal), "haldi\u00f0 utan heims\u00f3kna", diagnosticTotal ? "info" : "good", diagnosticTotal / totalSignal * 100) +
               intelNodeV4("G\u00e6\u00f0i", model.warningSplit.confirmed.length ? fmt(model.warningSplit.confirmed.length) : "0", "sta\u00f0fest merki", model.warningSplit.confirmed.length ? "warn" : "good", qualityFill) +
             '</div></div>' +
