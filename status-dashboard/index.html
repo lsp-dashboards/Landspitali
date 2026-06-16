@@ -9317,7 +9317,6 @@
 
     .mega-dashboard-hero,
     .mega-dashboard-strip,
-    .mega-rank-board,
     .mega-dashboard-card {
       min-width: 0;
       border: 1px solid rgba(181, 205, 220, .84);
@@ -9362,9 +9361,7 @@
     .mega-kicker,
     .mega-stat span,
     .mega-flow-head span,
-    .mega-rank-head span,
     .mega-context-item span,
-    .mega-card-eyebrow,
     .mega-orbit-copy span {
       color: var(--muted);
       font-size: 10px;
@@ -9425,7 +9422,6 @@
 
     .mega-stat small,
     .mega-flow-panel small,
-    .mega-rank-row small,
     .mega-context-item small,
     .mega-card-sub,
     .mega-card-count small,
@@ -9581,75 +9577,10 @@
 
     .mega-dashboard-lanes {
       display: grid;
-      grid-template-columns: minmax(330px, .34fr) minmax(0, .66fr);
-      gap: 14px;
-      align-items: start;
-      min-width: 0;
-    }
-
-    .mega-rank-board {
-      display: grid;
+      grid-template-columns: 1fr;
       gap: 12px;
-      padding: 14px;
-    }
-
-    .mega-rank-head {
-      display: grid;
-      gap: 6px;
-    }
-
-    .mega-rank-head h3 {
-      margin: 0;
-      color: var(--ink);
-      font-size: 22px;
-      line-height: 1.05;
-      font-weight: 900;
-    }
-
-    .mega-rank-list {
-      display: grid;
-      gap: 8px;
-    }
-
-    .mega-rank-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 9px;
-      align-items: center;
+      align-items: stretch;
       min-width: 0;
-      padding: 10px 0;
-      border-top: 1px solid rgba(216,226,234,.82);
-    }
-
-    .mega-rank-title {
-      display: grid;
-      gap: 6px;
-      min-width: 0;
-    }
-
-    .mega-rank-title strong {
-      min-width: 0;
-      color: var(--ink);
-      font-size: 15px;
-      line-height: 1.1;
-      font-weight: 900;
-      overflow-wrap: anywhere;
-    }
-
-    .mega-rank-value {
-      display: grid;
-      justify-items: end;
-      color: var(--ink);
-      font-size: 22px;
-      line-height: 1;
-      font-weight: 900;
-    }
-
-    .mega-rank-value span {
-      color: var(--muted);
-      font-size: 10px;
-      font-weight: 900;
-      text-transform: uppercase;
     }
 
     .mega-segment-bar {
@@ -9676,7 +9607,7 @@
 
     .mega-card-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: 1fr;
       gap: 12px;
       min-width: 0;
     }
@@ -9726,8 +9657,14 @@
     .mega-card-count {
       display: grid;
       justify-items: end;
+      gap: 4px;
       min-width: 92px;
       color: var(--ink);
+    }
+
+    .mega-card-count .status-chip {
+      justify-self: end;
+      margin-bottom: 2px;
     }
 
     .mega-card-count strong {
@@ -9804,10 +9741,6 @@
       .mega-dashboard-lanes {
         grid-template-columns: 1fr;
       }
-
-      .mega-rank-list {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
     }
 
     @media (max-width: 980px) {
@@ -9823,16 +9756,11 @@
       .mega-dashboard-story h2 {
         font-size: 38px;
       }
-
-      .mega-rank-list {
-        grid-template-columns: 1fr;
-      }
     }
 
     @media (max-width: 560px) {
       .mega-dashboard-hero,
       .mega-dashboard-strip,
-      .mega-rank-board,
       .mega-dashboard-card {
         border-radius: 14px;
         padding: 12px;
@@ -12120,7 +12048,7 @@
       var sourceDominant = sourceRows.slice().sort(function (a, b) { return number(b.value) - number(a.value); })[0] || { label: "-" };
       var forcedDetail = layout.forced ? "Þvingun: mobile " + fmt(layout.forcedMobile) + " · desktop " + fmt(layout.forcedDesktop) : "Sjálfvirkt val";
       return '<article class="mega-dashboard-card ' + safe(statusClass) + '">' +
-        '<div class="mega-card-head"><img src="' + safe(iconFor(dashboard, cards)) + '" alt=""><div><span class="mega-card-eyebrow">Opinbert kort</span><div class="mega-card-title">' + safe(titleFor(dashboard, cards)) + '</div><div class="mega-card-sub">' + safe(cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + ' · ' + safe(publishedDetail) + '</div><div class="chip-row"><span class="status-chip ' + safe(statusClass) + '"><span class="dot ' + (statusClass === "good" ? "" : "warn") + '"></span>' + safe(status.label) + '</span></div></div><div class="mega-card-count"><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + ' af heild</small></div></div>' +
+        '<div class="mega-card-head"><img src="' + safe(iconFor(dashboard, cards)) + '" alt=""><div><div class="mega-card-title">' + safe(titleFor(dashboard, cards)) + '</div><div class="mega-card-sub">' + safe(publishedDetail) + '</div></div><div class="mega-card-count"><span class="status-chip ' + safe(statusClass) + '"><span class="dot ' + (statusClass === "good" ? "" : "warn") + '"></span>' + safe(status.label) + '</span><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + ' af heild</small></div></div>' +
         '<div class="mega-flow-grid">' +
           megaFlowPanel("Útgáfuval", layoutDominant, layoutRows, layout.total, forcedDetail) +
           megaFlowPanel("Uppruni", sourceDominant.label, sourceRows, Math.max(source.total, total, 1), "Hvaðan taldar heimsóknir komu.") +
@@ -12132,16 +12060,6 @@
           megaContextItem("Tracker", trackerLabel, warningCount ? fmt(warningCount) + " merki þarf að skoða" : "engin staðfest villa", warningCount ? "warn" : "good") +
         '</div>' +
       '</article>';
-    }
-    function megaDashboardRankRow(data, dashboard, totalVisits, index) {
-      var cards = publicMap(data);
-      var total = visitValue(dashboard);
-      var layout = dashboardLayoutContext(data, dashboard);
-      var trackerLabel = dashboardDeviceContext(data, dashboard) || "engin tracker";
-      var card = findPublicCardForDashboard(data, dashboard);
-      var status = publicCardStatus(card);
-      var layoutLabel = layout.desktop >= layout.mobile ? "Desktop" : "Mobile";
-      return '<div class="mega-rank-row"><div class="mega-rank-title"><strong>' + safe(index + 1) + '. ' + safe(titleFor(dashboard, cards)) + '</strong><small>' + safe(layoutLabel) + ' · ' + safe(trackerLabel) + '</small>' + megaSegmentBar([{ label: titleFor(dashboard, cards), value: total, className: status.cls || "gateway" }], Math.max(totalVisits, 1)) + '</div><div class="mega-rank-value">' + fmt(total) + '<span>' + safe(pct(total, Math.max(totalVisits, 1))) + '</span></div></div>';
     }
     function publicMasterCard(data, card) {
       var ctx = publicCardContext(data, card);
@@ -12194,7 +12112,6 @@
       }
       var warningCount = model.warningSplit && model.warningSplit.confirmed ? model.warningSplit.confirmed.length : 0;
       var dashboardHtml = sortedDashboards.map(function (dashboard) { return megaDashboardCard(data, dashboard, totalVisits); }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engar taldar production heimsóknir í dashboard aggregate.</p></div>';
-      var rankHtml = sortedDashboards.map(function (dashboard, index) { return megaDashboardRankRow(data, dashboard, totalVisits, index); }).join("") || '<div class="message-card neutral">Engin röðun fyrr en production heimsóknir berast.</div>';
       var topTitle = top ? titleFor(top, publicMapData) : "-";
       var publicTotal = cards.length || dashboards.length || 0;
       var publicState = fmt(published) + "/" + fmt(publicTotal);
@@ -12233,7 +12150,6 @@
             '</div>' +
           '</section>' +
           '<section class="mega-dashboard-lanes" aria-label="Mælaborð og notkun">' +
-            '<article class="mega-rank-board"><div class="mega-rank-head"><span>Notkunarröð</span><h3>Hvar notkunin lendir</h3><div class="subtle">Röðin sýnir hlutdeild hvers opinbers korts án þess að endurtaka heildartöluna í hverjum reit.</div></div><div class="mega-rank-list">' + rankHtml + '</div></article>' +
             '<div class="mega-card-grid">' + dashboardHtml + '</div>' +
           '</section>' +
         '</div>');
