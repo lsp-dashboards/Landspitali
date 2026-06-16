@@ -2135,6 +2135,401 @@
       min-height: 284px;
     }
 
+    .insight-atlas {
+      display: grid;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .atlas-hero,
+    .atlas-panel {
+      min-width: 0;
+      border: 1px solid rgba(190, 207, 220, .76);
+      border-radius: 10px;
+      background: rgba(255,255,255,.72);
+      box-shadow: none;
+    }
+
+    .atlas-hero {
+      display: grid;
+      grid-template-columns: minmax(300px, .82fr) minmax(0, 1.18fr);
+      gap: 18px;
+      align-items: stretch;
+      padding: 18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.86), rgba(248,251,253,.7));
+    }
+
+    .atlas-story {
+      display: grid;
+      align-content: space-between;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .atlas-kicker,
+    .atlas-stat span,
+    .atlas-step span,
+    .atlas-panel-kicker,
+    .atlas-route-label,
+    .atlas-source-mark span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: .075em;
+      text-transform: uppercase;
+    }
+
+    .atlas-story h3 {
+      margin: 6px 0 0;
+      max-width: 12ch;
+      color: var(--ink);
+      font-size: clamp(42px, 5vw, 82px);
+      line-height: .9;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: normal;
+    }
+
+    .atlas-story p {
+      max-width: 56ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.46;
+    }
+
+    .atlas-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .atlas-stat {
+      display: grid;
+      gap: 6px;
+      min-height: 92px;
+      padding: 10px;
+      border: 1px solid rgba(216,226,234,.9);
+      border-radius: 8px;
+      background: rgba(255,255,255,.66);
+    }
+
+    .atlas-stat strong {
+      color: var(--ink);
+      font-size: clamp(24px, 2.4vw, 42px);
+      line-height: .96;
+      font-weight: 900;
+    }
+
+    .atlas-stat small {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.26;
+      font-weight: 800;
+    }
+
+    .atlas-stat.good { border-color: var(--good-line); background: rgba(230,245,238,.72); }
+    .atlas-stat.warn { border-color: var(--warn-line); background: rgba(255,243,207,.72); }
+    .atlas-stat.info { border-color: rgba(62,98,131,.22); background: rgba(237,244,250,.72); }
+    .atlas-stat.gateway { border-color: rgba(106,125,144,.24); background: rgba(238,243,247,.72); }
+
+    .atlas-flow {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      align-content: stretch;
+      min-width: 0;
+      padding: 3px 0;
+    }
+
+    .atlas-flow::before {
+      content: "";
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      top: 38px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(31,122,83,.62), rgba(79,111,143,.46), rgba(149,99,0,.42));
+      pointer-events: none;
+    }
+
+    .atlas-step {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 7px;
+      align-content: start;
+      min-height: 114px;
+      padding: 12px 10px;
+      border: 1px solid rgba(216,226,234,.84);
+      border-radius: 8px;
+      background: rgba(255,255,255,.78);
+    }
+
+    .atlas-step::before {
+      content: "";
+      width: 11px;
+      height: 11px;
+      border-radius: 999px;
+      background: var(--gateway);
+      box-shadow: 0 0 0 5px rgba(106,125,144,.12);
+    }
+
+    .atlas-step.good::before { background: var(--good); box-shadow: 0 0 0 5px rgba(31,122,83,.12); }
+    .atlas-step.warn::before { background: var(--warn); box-shadow: 0 0 0 5px rgba(149,99,0,.13); }
+    .atlas-step.info::before { background: var(--info); box-shadow: 0 0 0 5px rgba(62,98,131,.12); }
+
+    .atlas-step strong {
+      color: var(--ink);
+      font-size: clamp(22px, 2.2vw, 38px);
+      line-height: .95;
+      font-weight: 900;
+    }
+
+    .atlas-step small {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.28;
+      font-weight: 800;
+    }
+
+    .atlas-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .96fr) minmax(0, 1.04fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .atlas-panel {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+    }
+
+    .atlas-panel.wide {
+      grid-column: 1 / -1;
+    }
+
+    .atlas-panel-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .atlas-panel-head h3 {
+      margin: 4px 0 0;
+      color: var(--ink);
+      font-size: 19px;
+      line-height: 1.08;
+    }
+
+    .atlas-panel-head p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.38;
+    }
+
+    .atlas-dashboard-list,
+    .atlas-route-list,
+    .atlas-source-board {
+      display: grid;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .atlas-dashboard-row {
+      display: grid;
+      grid-template-columns: minmax(170px, .84fr) minmax(0, 1.16fr) minmax(62px, auto);
+      gap: 12px;
+      align-items: center;
+      min-width: 0;
+      padding: 10px;
+      border: 1px solid rgba(216,226,234,.8);
+      border-radius: 8px;
+      background: rgba(255,255,255,.68);
+    }
+
+    .atlas-dashboard-title {
+      min-width: 0;
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.14;
+      font-weight: 900;
+    }
+
+    .atlas-dashboard-title small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 1.12;
+      font-weight: 800;
+    }
+
+    .atlas-split {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .atlas-split-track,
+    .atlas-route-track,
+    .atlas-source-track {
+      position: relative;
+      overflow: hidden;
+      height: 9px;
+      border-radius: 999px;
+      background: #e7eef4;
+    }
+
+    .atlas-split-fill,
+    .atlas-route-fill,
+    .atlas-source-fill {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--good);
+    }
+
+    .atlas-split-fill.desktop,
+    .atlas-route-fill.desktop,
+    .atlas-source-fill.gateway {
+      background: var(--gateway);
+    }
+
+    .atlas-route-fill.warn,
+    .atlas-source-fill.warn {
+      background: var(--warn);
+    }
+
+    .atlas-split-labels {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    .atlas-dashboard-count {
+      color: var(--ink);
+      font-size: 22px;
+      line-height: 1;
+      font-weight: 900;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .atlas-route-row {
+      display: grid;
+      grid-template-columns: minmax(170px, .72fr) minmax(0, 1fr) minmax(58px, auto);
+      gap: 10px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .atlas-route-label {
+      overflow: hidden;
+      color: var(--ink-2);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 12px;
+    }
+
+    .atlas-route-count {
+      color: var(--ink);
+      font-weight: 900;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .atlas-source-board {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .atlas-source-mark {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+      padding: 11px;
+      border: 1px solid rgba(216,226,234,.82);
+      border-radius: 8px;
+      background: rgba(255,255,255,.68);
+    }
+
+    .atlas-source-mark strong {
+      color: var(--ink);
+      font-size: 21px;
+      line-height: 1;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .atlas-source-mark small {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.24;
+      font-weight: 800;
+    }
+
+    .charts-panel {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(248,251,253,.78));
+    }
+
+    .status-chart-card {
+      border-radius: 10px;
+      background: rgba(255,255,255,.72);
+      box-shadow: none;
+    }
+
+    .status-chart-card h3 {
+      font-size: 14px;
+      letter-spacing: 0;
+    }
+
+    @media (max-width: 1160px) {
+      .atlas-hero,
+      .atlas-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .atlas-flow {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .atlas-stat-grid,
+      .atlas-flow,
+      .atlas-source-board {
+        grid-template-columns: 1fr;
+      }
+
+      .atlas-flow::before {
+        display: none;
+      }
+
+      .atlas-dashboard-row,
+      .atlas-route-row,
+      .atlas-panel-head {
+        grid-template-columns: 1fr;
+      }
+
+      .atlas-dashboard-count,
+      .atlas-route-count {
+        text-align: left;
+      }
+    }
+
     @media (max-width: 1160px) {
       .status-chart-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -10774,12 +11169,12 @@
 
     <section class="panel charts-panel" id="echarts-panel" aria-label="ECharts" hidden>
       <div class="status-chart-grid">
-        <article class="status-chart-card"><h3>Gateway funnel</h3><div id="chart-gateway-funnel" class="chart-host"></div></article>
-        <article class="status-chart-card"><h3>Mobile / desktop / tablet</h3><div id="chart-layout-split" class="chart-host"></div></article>
-        <article class="status-chart-card"><h3>Browser / device heatmap</h3><div id="chart-browser-device" class="chart-host"></div></article>
-        <article class="status-chart-card"><h3>Power BI viewer risk</h3><div id="chart-viewer-risk" class="chart-host"></div></article>
-        <article class="status-chart-card"><h3>Confidence distribution</h3><div id="chart-confidence" class="chart-host"></div></article>
-        <article class="status-chart-card"><h3>7 / 30 day trend</h3><div id="chart-trend" class="chart-host"></div></article>
+        <article class="status-chart-card"><h3>Gateway flæði</h3><div id="chart-gateway-funnel" class="chart-host"></div></article>
+        <article class="status-chart-card"><h3>Útgáfuval</h3><div id="chart-layout-split" class="chart-host"></div></article>
+        <article class="status-chart-card"><h3>Vafri / tæki</h3><div id="chart-browser-device" class="chart-host"></div></article>
+        <article class="status-chart-card"><h3>Power BI viewer áhætta</h3><div id="chart-viewer-risk" class="chart-host"></div></article>
+        <article class="status-chart-card"><h3>Traustdreifing</h3><div id="chart-confidence" class="chart-host"></div></article>
+        <article class="status-chart-card"><h3>Notkunarþróun</h3><div id="chart-trend" class="chart-host"></div></article>
       </div>
     </section>
 
@@ -12962,8 +13357,87 @@
     function renderMetricsV2() {
       setHtml("metric-grid", "");
     }
+    function atlasStat(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="atlas-stat' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function atlasStep(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="atlas-step' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function atlasDashboardRow(row, cards) {
+      var total = Math.max(visitValue(row), 1);
+      var mobile = number(row.mobile_visits);
+      var desktop = number(row.desktop_visits);
+      var mobileWidth = widthPct(mobile, total);
+      var desktopWidth = widthPct(desktop, total);
+      return '<div class="atlas-dashboard-row">' +
+        '<div class="atlas-dashboard-title">' + safe(titleFor(row, cards)) + '<small>' + safe(cleanId(row.dashboard_id || row.dashboard_key)) + '</small></div>' +
+        '<div class="atlas-split"><div class="atlas-split-track"><span class="atlas-split-fill" style="width:' + mobileWidth + '%"></span></div><div class="atlas-split-track"><span class="atlas-split-fill desktop" style="width:' + desktopWidth + '%"></span></div><div class="atlas-split-labels"><span>mobile ' + safe(pct(mobile, total)) + '</span><span>desktop ' + safe(pct(desktop, total)) + '</span></div></div>' +
+        '<div class="atlas-dashboard-count">' + fmt(visitValue(row)) + '</div>' +
+      '</div>';
+    }
+    function atlasRouteRow(row, total) {
+      var value = number(row.total || row.value || row.visits);
+      var cls = row.forced ? " warn" : row.mobile >= row.desktop ? "" : " desktop";
+      var detail = row.forced ? " · þvingað " + fmt(row.forced) : "";
+      return '<div class="atlas-route-row"><div class="atlas-route-label" title="' + safe(row.key) + '">' + safe(row.key) + '</div><div class="atlas-route-track"><span class="atlas-route-fill' + cls + '" style="width:' + widthPct(value, total) + '%"></span></div><div class="atlas-route-count">' + fmt(value) + safe(detail) + '</div></div>';
+    }
+    function atlasSourceMark(label, value, detail, pctValue, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="atlas-source-mark' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><div class="atlas-source-track"><span class="atlas-source-fill ' + safe(cls || "") + '" style="width:' + clamp(pctValue, 0, 100) + '%"></span></div><small>' + safe(detail || "") + '</small></article>';
+    }
+    function renderSignalAtlas(data) {
+      var model = opsModel(data);
+      var cards = publicMap(data);
+      var k = data.kpis || {};
+      var f = data.root_index_funnel || data.root_index || {};
+      var dashboards = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); }).slice(0, 4);
+      var routeRows = routeReasonGroups(data, false).filter(function (row) { return number(row.total) > 0; }).slice(0, 8);
+      var routeTotal = Math.max(routeRows.reduce(function (acc, row) { return acc + number(row.total); }, 0), 1);
+      var sourceRows = visibleRows(data.sources || []);
+      var sourceGroups = topRows(sourceRows, function (row) { return labelSource(sourceLabelValue(row)); }, 4);
+      var browserRisk = number(k.powerbi_viewer_unsupported_browser_events) || warningTotal(data, "powerbi_viewer_unsupported_browser");
+      var fallback = number(firstValue(k, ["fallback_clicks", "fallback_error_count"]));
+      var weakShare = k.weak_unknown_signal_share !== undefined ? number(k.weak_unknown_signal_share) : (number(k.weak_unknown_signal_count) / Math.max(number(k.total_events), 1));
+      var island = model.island || sourceCount(sourceRows, function (value) { return isIslandSource(value); });
+      var total = Math.max(model.total, 1);
+      var rootViews = number(firstValue(f, ["views", "root_views", "root_index_views"]));
+      var clicks = number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"]));
+      var arrivals = number(firstValue(f, ["router_arrivals", "arrivals"]));
+      var countedGateway = number(firstValue(f, ["counted_opens", "counted_visits", "opens"])) || model.total;
+      var routeMode = model.desktop >= model.mobile ? "desktop" : "mobile";
+      var routeModeValue = Math.max(model.desktop, model.mobile);
+      var sourceTotal = Math.max(sumRows(sourceRows), model.total, 1);
+      var sourceMarks = sourceGroups.map(function (row) {
+        return atlasSourceMark(row.key, fmt(row.visits), pct(row.visits, sourceTotal) + " af töldum uppruna", row.visits / sourceTotal * 100, row.key === "island.is" ? "good" : "gateway");
+      }).join("");
+      sourceMarks += atlasSourceMark("Viewer risk", fmt(browserRisk), "Óstuddur Power BI viewer vafri.", browserRisk ? 100 : 0, browserRisk ? "warn" : "good");
+      sourceMarks += atlasSourceMark("Signal gæði", shareValue(weakShare), "Veikt eða óþekkt tækjamerki.", weakShare * 100, weakShare > .12 ? "warn" : "info");
+      return '<div class="insight-atlas">' +
+        '<section class="atlas-hero" aria-label="Signal atlas">' +
+          '<div class="atlas-story"><div><span class="atlas-kicker">Signal atlas</span><h3>Notkun. Leiðing. Gæði.</h3></div><p>Taldar production opnanir eru miðjan. Gateway, route, source og tæknimerki liggja sem línur í kringum hana svo augun sjái sambandið áður en þau lesa töfluna.</p><div class="atlas-stat-grid">' +
+            atlasStat("Talið", fmt(model.total), "production opnanir", "good") +
+            atlasStat("Ráðandi leið", routeMode + " " + pct(routeModeValue, total), "mobile " + fmt(model.mobile) + " · desktop " + fmt(model.desktop), routeMode === "desktop" ? "gateway" : "info") +
+            atlasStat("Viðvörun", browserRisk ? fmt(browserRisk) : "hreint", browserRisk ? "Power BI viewer risk" : "engin staðfest viewer villa", browserRisk ? "warn" : "good") +
+          '</div></div>' +
+          '<div class="atlas-flow">' +
+            atlasStep("Public kort", fmt(island), "island.is opnanir", island ? "good" : "gateway") +
+            atlasStep("Root", fmt(rootViews), "gateway views", rootViews ? "info" : "gateway") +
+            atlasStep("Smellir", fmt(clicks), "dashboard choice", clicks ? "info" : "gateway") +
+            atlasStep("Router", fmt(arrivals), "ákvörðun", arrivals ? "info" : "gateway") +
+            atlasStep("Talið", fmt(countedGateway), "production open", countedGateway ? "good" : "warn") +
+          '</div>' +
+        '</section>' +
+        '<div class="atlas-grid">' +
+          '<section class="atlas-panel"><div class="atlas-panel-head"><div><span class="atlas-panel-kicker">Mælaborð</span><h3>Notkun sem púls</h3><p>Hver lína sýnir mobile/desktop skiptingu án láréttrar töfluskrollunar.</p></div><span class="chip good">' + fmt(dashboards.length) + ' virk</span></div><div class="atlas-dashboard-list">' + (dashboards.map(function (row) { return atlasDashboardRow(row, cards); }).join("") || '<div class="tracker-partial-state">Engin talin dashboard gögn.</div>') + '</div></section>' +
+          '<section class="atlas-panel"><div class="atlas-panel-head"><div><span class="atlas-panel-kicker">Route</span><h3>Ákvörðunarlínur</h3><p>Lengd sýnir þunga route ástæðu. Þvinguð merki eru merkt sem athugun, ekki sjálfkrafa villa.</p></div><span class="chip gateway">' + fmt(routeRows.length) + ' línur</span></div><div class="atlas-route-list">' + (routeRows.map(function (row) { return atlasRouteRow(row, routeTotal); }).join("") || '<div class="tracker-partial-state">Engin route gögn.</div>') + '</div></section>' +
+          '<section class="atlas-panel wide"><div class="atlas-panel-head"><div><span class="atlas-panel-kicker">Uppruni og áhætta</span><h3>Merkin í kringum notkunina</h3><p>Source, viewer risk og signal gæði birtast sem sama grafíska mál: magn, hlutfall, næsta athugun.</p></div><span class="chip ' + (fallback ? 'warn' : 'good') + '">Fallback ' + fmt(fallback) + '</span></div><div class="atlas-source-board">' + sourceMarks + '</div></section>' +
+        '</div>' +
+      '</div>';
+    }
     function renderSignalPanoramaV2(data) {
-      setHtml("signal-panorama-panel", '<div class="signal-panorama signal-panorama-focused">' + renderDashboardMatrix(data) + renderRouteMatrix(data) + '</div>');
+      setHtml("signal-panorama-panel", renderSignalAtlas(data));
     }
     var statusCharts = [];
     function cssVar(name, fallback) {
@@ -13102,7 +13576,7 @@
     function renderGatewayFunnelChart(data) {
       var chart = initStatusChart("chart-gateway-funnel");
       var f = data.root_index_funnel || data.root_index || {};
-      var labels = ["Views", "Clicks", "Router", "Counted"];
+      var labels = ["Root", "Smellir", "Router", "Talið"];
       var values = [
         number(firstValue(f, ["views", "root_views", "root_index_views"])),
         number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"])),
@@ -13139,7 +13613,7 @@
           data: [
             { name: "Mobile", value: mobile },
             { name: "Desktop", value: desktop },
-            { name: "Tablet / narrow", value: tablet }
+            { name: "Tablet / þröngt", value: tablet }
           ],
           label: { color: chartTextColor(), fontWeight: 900, formatter: "{b}\n{c}" }
         }]
@@ -13203,7 +13677,7 @@
         animation: false,
         grid: { left: 80, right: 12, top: 20, bottom: 46 },
         tooltip: { trigger: "axis" },
-        xAxis: { type: "category", data: ["Unsupported", "Unofficial", "In-app", "Fallback/error"], axisLabel: { color: chartMutedColor(), rotate: 20, fontWeight: 800 } },
+        xAxis: { type: "category", data: ["Óstutt", "Óformlegt", "In-app", "Fallback"], axisLabel: { color: chartMutedColor(), rotate: 12, fontWeight: 800 } },
         yAxis: { type: "value", axisLabel: { color: chartMutedColor() }, splitLine: { lineStyle: { color: cssVar("--line-soft", "#e6edf3") } } },
         series: [{ type: "bar", data: values, label: { show: true, position: "top", formatter: function (p) { return fmt(p.value); } } }]
       });
@@ -13242,6 +13716,10 @@
       });
       return Object.keys(map).sort().slice(-30).map(function (date) { return { date: date, visits: map[date] }; });
     }
+    function chartDateLabel(value) {
+      var p = dateParts(value);
+      return p ? p.day + "." + p.month : String(value || "").slice(0, 10);
+    }
     function rolling(values, windowSize) {
       return values.map(function (_, index) {
         return values.slice(Math.max(0, index - windowSize + 1), index + 1).reduce(function (acc, value) { return acc + number(value); }, 0);
@@ -13251,7 +13729,7 @@
       var chart = initStatusChart("chart-trend");
       var rows = trendRows(data);
       if (!rows.length) rows = [{ date: (data.generatedAt || data.generated_at || "").slice(0, 10) || "latest", visits: 0 }];
-      var labels = rows.map(function (row) { return row.date; });
+      var labels = rows.map(function (row) { return chartDateLabel(row.date); });
       var visits = rows.map(function (row) { return number(row.visits); });
       if (!chart) return;
       chart.setOption({
@@ -13260,12 +13738,12 @@
         grid: { left: 54, right: 12, top: 22, bottom: 50 },
         tooltip: { trigger: "axis" },
         legend: { bottom: 0, textStyle: { color: chartMutedColor(), fontWeight: 800 } },
-        xAxis: { type: "category", data: labels, axisLabel: { color: chartMutedColor(), rotate: 25, fontWeight: 800 } },
+        xAxis: { type: "category", data: labels, axisLabel: { color: chartMutedColor(), rotate: 0, fontWeight: 800 } },
         yAxis: { type: "value", axisLabel: { color: chartMutedColor() }, splitLine: { lineStyle: { color: cssVar("--line-soft", "#e6edf3") } } },
         series: [
-          { name: "Daily", type: "line", data: visits, smooth: true },
-          { name: "7 day", type: "line", data: rolling(visits, 7), smooth: true },
-          { name: "30 day", type: "line", data: rolling(visits, 30), smooth: true }
+          { name: "Daglegt", type: "line", data: visits, smooth: true },
+          { name: "7 dagar", type: "line", data: rolling(visits, 7), smooth: true },
+          { name: "30 dagar", type: "line", data: rolling(visits, 30), smooth: true }
         ]
       });
     }
