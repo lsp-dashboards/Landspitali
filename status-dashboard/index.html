@@ -448,7 +448,7 @@
       transition: opacity .12s ease;
     }
 
-    .dashboard-icon img:not([hidden]) + .dashboard-icon-fallback {
+    .dashboard-icon.has-image .dashboard-icon-fallback {
       opacity: 0;
     }
 
@@ -14661,7 +14661,7 @@
     <section class="panel environment-delivery-shell" aria-labelledby="environment-title">
       <div class="panel-head">
         <div>
-          <h2 id="environment-title">Umhverfi</h2>
+          <h2 id="environment-title">Umhverfi og afhending</h2>
           <div class="panel-note">Tæki, vafri, skjár, input, viewer og afhending.</div>
         </div>
       </div>
@@ -14703,7 +14703,7 @@
       <div id="dashboard-passport-panel"></div>
     </section>
 
-    <p class="footer">Persónuvernd: Engin nöfn, netföng, kennitölur, raw IP, raw user-agent texti eða Power BI innri gögn eru birt. Síðan birtir eingöngu aggregate/status gögn úr Google Apps Script endpointi (`api=dashboard`), notar örugga HTML-escaping og section-level safeRender, og aðgreinir gateway, raw og diagnostic merki frá töldum heimsóknum. UI v1.0.0 · Config v1 · Atburðasafnari v1 · Gagnasnið 1.</p>
+    <footer class="footer">Persónuvernd: Engin nöfn, netföng, kennitölur, raw IP, raw user-agent texti eða Power BI innri gögn eru birt. Síðan birtir eingöngu aggregate/status gögn úr Google Apps Script endpointi (`api=dashboard`), notar örugga HTML-escaping og section-level safeRender, og aðgreinir gateway, raw og diagnostic merki frá töldum heimsóknum. UI v1.0.0 · Config v1 · Atburðasafnari v1 · Gagnasnið 1.</footer>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
@@ -14953,6 +14953,7 @@
     function iconFor(row, publicCards) { var key = row.dashboard_key || row.key; var card = (publicCards || {})[key] || {}; return imageUrl(card.icon_url || FALLBACK_ICONS[key] || LOGO_URL); }
     function validDashboardIconUrl(url) {
       url = String(url || "");
+      if (/\/sample\/|dummy|placeholder/i.test(url)) return "";
       return /^https:\/\/images\.ctfassets\.net\//i.test(url) ? url : "";
     }
     function iconSeedFromDashboard(row) {
@@ -15014,7 +15015,7 @@
       var iconUrlValue = validDashboardIconUrl(options.iconUrl || card.icon_url || row.icon_url || row.iconUrl || FALLBACK_ICONS[key]);
       var className = "dashboard-icon" + (options.className ? " " + safe(options.className) : "") + (iconUrlValue ? "" : " is-fallback");
       var fallback = fallbackDashboardIconMarkup(name, key, options.variant);
-      var img = iconUrlValue ? '<img src="' + safe(iconUrlValue) + '" alt="" loading="lazy" decoding="async" onerror="this.hidden=true;this.parentNode.classList.add(&quot;is-fallback&quot;)">' : "";
+      var img = iconUrlValue ? '<img src="' + safe(iconUrlValue) + '" alt="" loading="lazy" decoding="async" onload="this.parentNode.classList.add(&quot;has-image&quot;)" onerror="this.hidden=true;this.removeAttribute(&quot;src&quot;);this.parentNode.classList.remove(&quot;has-image&quot;);this.parentNode.classList.add(&quot;is-fallback&quot;)">' : "";
       return '<span class="' + className + '" style="--icon-color:' + safe(dataColorVarForSeed(key || name)) + '">' + img + fallback + '</span>';
     }
     function publicPublishedAt(card) {
@@ -17054,7 +17055,7 @@
         '<article class="start-v5 ' + safe(scoreTone) + '">' +
           '<section class="start-v5-hero" aria-label="Upphafsinns\u00fdn">' +
             '<div class="start-v5-story">' +
-              '<div class="start-v5-title-row"><div><span class="start-v5-kicker">Rekstrarlestur</span><h2 id="fresh-start-title">' + safe(statusTitle) + '</h2><p class="start-v5-copy">' + safe(lead) + '</p></div>' +
+              '<div class="start-v5-title-row"><div><span class="start-v5-kicker">Rekstrarlestur</span><h2 id="fresh-start-title">Rekstrarlestur</h2><p class="start-v5-copy"><strong>' + safe(statusTitle) + '.</strong> ' + safe(lead) + '</p></div>' +
                 '<div class="start-v5-score"><span class="start-v5-kicker">Rekstrarsta\u00f0a</span><strong>' + fmt(model.score) + '/100</strong><small>Heilsa kerfis, ekki vins\u00e6ldir.</small>' + startV5Meter(model.score, scoreTone) + '</div></div>' +
               '<div class="start-v5-signal-grid">' +
                 startV5Metric("Taldar opnanir", fmt(model.total), fmt(model.dashboardCount) + " m\u00e6labor\u00f0 \u00ed grunni", "good", model.total / totalSignal * 100) +

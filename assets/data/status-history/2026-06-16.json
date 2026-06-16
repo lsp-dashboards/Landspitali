@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "generated_at": "2026-06-16T06:52:24.658Z",
-  "dashboard_data_generated_at": "2026-06-16T06:52:24.658Z",
-  "aggregation_generated_at": "2026-06-16T06:52:21.004Z",
+  "generated_at": "2026-06-16T07:02:36.691Z",
+  "dashboard_data_generated_at": "2026-06-16T07:02:36.691Z",
+  "aggregation_generated_at": "2026-06-16T07:02:32.069Z",
   "script_version": "2026-06-14-tracker-v1.2.2-smarttv-powerbi-compat",
   "schema_version": "1",
   "config_version": "2026-06-15-prod-v1.0.0",
@@ -30,9 +30,9 @@
     "last_counted_event_time": "2026-06-16T01:27:07.900Z",
     "last_diagnostic_event_time": "2026-06-16T02:23:20.998Z",
     "last_error_event_time": "",
-    "last_aggregation_time": "2026-06-16T06:52:21.004Z",
-    "aggregation_generated_at": "2026-06-16T06:52:21.004Z",
-    "dashboard_data_generated_at": "2026-06-16T06:47:43.616Z",
+    "last_aggregation_time": "2026-06-16T07:02:32.069Z",
+    "aggregation_generated_at": "2026-06-16T07:02:32.069Z",
+    "dashboard_data_generated_at": "2026-06-16T06:57:32.935Z",
     "raw_event_rows": 68,
     "warnings": []
   },
@@ -4288,7 +4288,7 @@
       "counted_count": 1,
       "diagnostic_count": 0,
       "confirmed_count": 0,
-      "last_seen": "2026-06-16T06:52:10.500Z",
+      "last_seen": "2026-06-16T07:02:19.650Z",
       "signal_quality": "reported",
       "is_confirmed": false,
       "confidence_band": "unknown or insufficient evidence"
@@ -4303,7 +4303,7 @@
       "counted_count": 0,
       "diagnostic_count": 1,
       "confirmed_count": 0,
-      "last_seen": "2026-06-16T06:52:10.500Z",
+      "last_seen": "2026-06-16T07:02:19.650Z",
       "signal_quality": "detected",
       "is_confirmed": false,
       "confidence_band": "high"
@@ -4318,7 +4318,7 @@
       "counted_count": 0,
       "diagnostic_count": 1,
       "confirmed_count": 0,
-      "last_seen": "2026-06-16T06:52:10.500Z",
+      "last_seen": "2026-06-16T07:02:19.650Z",
       "signal_quality": "detected",
       "is_confirmed": false,
       "confidence_band": "high"
@@ -4333,7 +4333,7 @@
       "counted_count": 2,
       "diagnostic_count": 0,
       "confirmed_count": 2,
-      "last_seen": "2026-06-16T06:52:10.500Z",
+      "last_seen": "2026-06-16T07:02:19.650Z",
       "signal_quality": "inferred_from_browser_policy",
       "is_confirmed": true,
       "confidence_band": "very high confidence"
@@ -4348,7 +4348,7 @@
       "counted_count": 2,
       "diagnostic_count": 0,
       "confirmed_count": 2,
-      "last_seen": "2026-06-16T06:52:10.500Z",
+      "last_seen": "2026-06-16T07:02:19.650Z",
       "signal_quality": "inferred_from_browser_policy",
       "is_confirmed": true,
       "confidence_band": "very high confidence"
@@ -4420,10 +4420,10 @@
     "hit": false,
     "cache_key": "dashboard_payload_v1_first_production",
     "cache_seconds": 300,
-    "served_at": "2026-06-16T06:55:25.452Z"
+    "served_at": "2026-06-16T07:06:32.832Z"
   },
   "schemaVersion": "1",
-  "generatedAt": "2026-06-16T06:52:24.658Z",
+  "generatedAt": "2026-06-16T07:02:36.691Z",
   "publicAggregateOnly": true,
   "aggregate_only": true,
   "data_source": "apps_script_snapshot",
