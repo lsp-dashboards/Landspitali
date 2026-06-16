@@ -12800,6 +12800,7 @@
     .start-v5-action-list span,
     .start-v5-panel-head span,
     .start-v5-dash-row span,
+    .start-v5-proof-lead span,
     .start-v5-proof-card span {
       color: var(--muted);
       font-size: 10px;
@@ -12858,6 +12859,7 @@
     .start-v5-node small,
     .start-v5-action-list p,
     .start-v5-dash-row small,
+    .start-v5-proof-lead p,
     .start-v5-proof-card small,
     .start-v5-note {
       color: var(--muted);
@@ -12915,21 +12917,26 @@
 
     .start-v5-metric.good,
     .start-v5-node.good,
+    .start-v5-proof-lead.good,
     .start-v5-proof-card.good,
     .start-v5-chip.good { background: var(--data-soft-02); border-color: rgba(47,143,139,.25); }
     .start-v5-metric.warn,
     .start-v5-metric.bad,
     .start-v5-node.warn,
     .start-v5-node.bad,
+    .start-v5-proof-lead.warn,
+    .start-v5-proof-lead.bad,
     .start-v5-proof-card.warn,
     .start-v5-proof-card.bad,
     .start-v5-chip.warn { background: var(--data-soft-03); border-color: rgba(199,138,42,.28); }
     .start-v5-metric.info,
     .start-v5-node.info,
+    .start-v5-proof-lead.info,
     .start-v5-proof-card.info,
     .start-v5-chip.info { background: var(--data-soft-09); border-color: rgba(53,153,184,.24); }
     .start-v5-metric.gateway,
     .start-v5-node.gateway,
+    .start-v5-proof-lead.gateway,
     .start-v5-proof-card.gateway,
     .start-v5-chip.gateway { background: var(--data-soft-01); border-color: rgba(79,111,143,.24); }
 
@@ -13147,6 +13154,7 @@
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
+    .start-v5-proof-lead,
     .start-v5-proof-card {
       position: relative;
       overflow: hidden;
@@ -13170,11 +13178,51 @@
     }
 
     .start-v5-proof-grid {
-      counter-reset: proof-signal;
-      grid-auto-rows: minmax(108px, 1fr);
+      grid-template-columns: 1fr;
       height: 100%;
+      align-items: start;
     }
 
+    .start-v5-proof-stack {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      align-content: stretch;
+    }
+
+    .start-v5-proof-lead {
+      grid-template-columns: minmax(0, 1fr) minmax(140px, .22fr);
+      gap: 5px 14px;
+      min-height: 78px;
+      padding: 11px 12px;
+      align-content: center;
+      align-items: center;
+      border-left: 4px solid var(--data-04);
+    }
+
+    .start-v5-proof-lead strong {
+      color: var(--ink);
+      font-size: clamp(24px, 2.1vw, 34px);
+      line-height: .96;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .start-v5-proof-lead p {
+      margin: 0;
+      max-width: none;
+      font-weight: 800;
+    }
+
+    .start-v5-proof-lead .start-v5-meter {
+      grid-column: 2;
+      grid-row: 1 / span 3;
+      width: 100%;
+      align-self: center;
+    }
+
+    .start-v5-proof-lead::before,
     .start-v5-proof-card::before {
       content: "";
       position: absolute;
@@ -13183,31 +13231,21 @@
       background: var(--data-04);
     }
 
-    .start-v5-proof-card::after {
-      counter-increment: proof-signal;
-      content: counter(proof-signal, decimal-leading-zero);
-      position: absolute;
-      top: 9px;
-      right: 9px;
-      display: grid;
-      place-items: center;
-      width: 26px;
-      height: 22px;
-      border: 1px solid rgba(190,207,220,.82);
-      border-radius: 7px;
-      color: var(--muted);
-      background: rgba(255,255,255,.78);
-      font-size: 10px;
-      font-weight: 900;
-      line-height: 1;
-    }
-
+    .start-v5-proof-lead.good::before,
     .start-v5-proof-card.good::before { background: var(--data-02); }
+    .start-v5-proof-lead.warn::before,
+    .start-v5-proof-lead.bad::before,
     .start-v5-proof-card.warn::before,
     .start-v5-proof-card.bad::before { background: var(--data-03); }
+    .start-v5-proof-lead.info::before,
     .start-v5-proof-card.info::before { background: var(--data-09); }
+    .start-v5-proof-lead.gateway::before,
     .start-v5-proof-card.gateway::before { background: var(--data-05); }
 
+    .start-v5-proof-lead span,
+    .start-v5-proof-lead strong,
+    .start-v5-proof-lead p,
+    .start-v5-proof-lead .start-v5-meter,
     .start-v5-proof-card span,
     .start-v5-proof-card strong,
     .start-v5-proof-card small {
@@ -13215,13 +13253,30 @@
       z-index: 1;
     }
 
-    .start-v5-proof-card span {
-      padding-right: 32px;
+    .start-v5-proof-card {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 4px 10px;
+      align-items: center;
+      min-height: 56px;
+      padding: 9px 10px 9px 12px;
+      align-content: center;
     }
 
     .start-v5-proof-card strong {
-      font-size: clamp(20px, 1.7vw, 30px);
-      text-wrap: balance;
+      color: var(--ink);
+      font-size: clamp(16px, 1.25vw, 22px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .start-v5-proof-card small {
+      grid-column: 1 / 3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .start-v5-note {
@@ -13246,8 +13301,12 @@
     @media (max-width: 900px) {
       .start-v5-signal-grid,
       .start-v5-flowline,
-      .start-v5-proof-grid {
+      .start-v5-proof-stack {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .start-v5-proof-grid {
+        grid-template-columns: 1fr;
       }
 
       .start-v5-flowline::before {
@@ -13259,6 +13318,7 @@
       .start-v5-signal-grid,
       .start-v5-flowline,
       .start-v5-proof-grid,
+      .start-v5-proof-stack,
       .start-v5-dash-row,
       .start-v5-action-item {
         grid-template-columns: 1fr;
@@ -18514,6 +18574,10 @@
       var className = cls ? " " + safe(cls) : "";
       return '<article class="start-v5-proof-card' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
     }
+    function startV5ProofLead(label, value, detail, cls, fill) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="start-v5-proof-lead' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><p>' + safe(detail || "") + '</p>' + startV5Meter(fill === undefined ? 0 : fill, cls) + '</article>';
+    }
     function renderStartPanelV5(data) {
       data = data || {};
       var model = opsModel(data);
@@ -18541,6 +18605,7 @@
       var routeValue = topRoute ? topRoute.key : "Sj\u00e1lfvirkt";
       var routeDetail = forced ? "Forced layout " + fmt(forced) + " af " + fmt(routeTotal) : "Sj\u00e1lfvirkt route val";
       var routeFill = routeTotal ? clamp(100 - forced / routeTotal * 100, 0, 100) : 100;
+      var routeSignalFill = routeTotal ? clamp((forced ? forced : routeTotal) / routeTotal * 100, 0, 100) : 0;
       var sourceRows = visibleRows(data.sources || []);
       var sourceTotal = Math.max(sumRows(sourceRows), model.total, 1);
       var island = model.island || sourceCount(sourceRows, function (value) { return isIslandSource(value); });
@@ -18601,14 +18666,16 @@
           '<section class="start-v5-lower" aria-label="F\u00f3kus og sannanir">' +
             '<div class="start-v5-focus"><div class="start-v5-panel-head"><span>M\u00e6labor\u00f0 \u00ed f\u00f3kus</span><strong>' + safe(topDashboard ? pct(visitValue(topDashboard), Math.max(model.total, 1)) : "0%") + '</strong></div><p class="start-v5-note">' + focusCopy + '</p><div class="start-v5-dash-list">' + dashboardRowsHtml + '</div></div>' +
             '<div class="start-v5-proof"><div class="start-v5-panel-head"><span>Samhengisv\u00edsar</span><strong>rekstrarsamhengi</strong></div><div class="start-v5-proof-grid">' +
-              startV5Proof("Route", routeValue, routeDetail, forced ? "warn" : "gateway") +
-              startV5Proof("T\u00e6ki", topDevice ? topDevice.key : "\u00d3\u00feekkt", topDevice ? fmt(topDevice.visits || topDevice.raw) + " merki" : "aggregate vantar", topDevice ? "info" : "gateway") +
-              startV5Proof("Vafri", topBrowser ? topBrowser.key : "\u00d3\u00feekkt", topBrowser ? fmt(topBrowser.visits || topBrowser.raw) + " merki" : "browser aggregate vantar", topBrowser ? "info" : "gateway") +
-              startV5Proof("Skj\u00e1r", topViewport ? topViewport.key : "\u00d3\u00feekkt", topViewport ? fmt(topViewport.visits || topViewport.raw) + " merki" : "viewport aggregate vantar", topViewport ? "info" : "gateway") +
-              startV5Proof("Sending", topTransport ? topTransport.key : "\u00d3\u00feekkt", topTransport ? fmt(topTransport.visits || topTransport.raw) + " merki" : "performance aggregate vantar", topTransport ? "good" : "gateway") +
-              startV5Proof("Traust", topConfidence ? topConfidence.key : "\u00d3\u00feekkt", topConfidence ? fmt(topConfidence.visits || topConfidence.raw) + " l\u00ednur" : "confidence aggregate vantar", topConfidence ? "good" : "gateway") +
-              startV5Proof("Notkun", usageMode, usageDetail, "good") +
-              startV5Proof("Diagnostic", fmt(diagnosticTotal), "haldi\u00f0 utan heims\u00f3kna", diagnosticTotal ? "info" : "good") +
+              startV5ProofLead("Route signal", routeValue, routeDetail, forced ? "warn" : "gateway", routeSignalFill) +
+              '<div class="start-v5-proof-stack">' +
+                startV5Proof("T\u00e6ki", topDevice ? topDevice.key : "\u00d3\u00feekkt", topDevice ? fmt(topDevice.visits || topDevice.raw) + " merki" : "aggregate vantar", topDevice ? "info" : "gateway") +
+                startV5Proof("Vafri", topBrowser ? topBrowser.key : "\u00d3\u00feekkt", topBrowser ? fmt(topBrowser.visits || topBrowser.raw) + " merki" : "browser aggregate vantar", topBrowser ? "info" : "gateway") +
+                startV5Proof("Skj\u00e1r", topViewport ? topViewport.key : "\u00d3\u00feekkt", topViewport ? fmt(topViewport.visits || topViewport.raw) + " merki" : "viewport aggregate vantar", topViewport ? "info" : "gateway") +
+                startV5Proof("Sending", topTransport ? topTransport.key : "\u00d3\u00feekkt", topTransport ? fmt(topTransport.visits || topTransport.raw) + " merki" : "performance aggregate vantar", topTransport ? "good" : "gateway") +
+                startV5Proof("Traust", topConfidence ? topConfidence.key : "\u00d3\u00feekkt", topConfidence ? fmt(topConfidence.visits || topConfidence.raw) + " l\u00ednur" : "confidence aggregate vantar", topConfidence ? "good" : "gateway") +
+                startV5Proof("Notkun", usageMode, usageDetail, "good") +
+                startV5Proof("Diagnostic", fmt(diagnosticTotal), "haldi\u00f0 utan heims\u00f3kna", diagnosticTotal ? "info" : "good") +
+              '</div>' +
             '</div></div>' +
           '</section>' +
         '</article>');
