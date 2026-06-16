@@ -2500,6 +2500,138 @@
       font-weight: 800;
     }
 
+    .insight-atlas.atlas-v3 {
+      gap: 12px;
+    }
+
+    .atlas-hero-v3 {
+      position: relative;
+      overflow: hidden;
+      grid-template-columns: minmax(0, .92fr) minmax(420px, 1.08fr);
+      gap: 12px;
+      padding: 14px;
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.9)),
+        linear-gradient(90deg, rgba(79,111,143,.055) 0 1px, transparent 1px 100%);
+      background-size: auto, 34px 100%;
+    }
+
+    .atlas-hero-v3::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--data-01), var(--data-02), var(--data-03));
+      pointer-events: none;
+    }
+
+    .atlas-hero-v3 .atlas-story {
+      position: relative;
+      z-index: 1;
+      grid-template-columns: minmax(190px, .34fr) minmax(0, .66fr);
+      gap: 10px 12px;
+      align-content: start;
+      align-items: stretch;
+    }
+
+    .atlas-hero-v3 .atlas-story > div:first-child {
+      display: grid;
+      align-content: start;
+      gap: 4px;
+      padding-top: 5px;
+    }
+
+    .atlas-hero-v3 .atlas-story h3 {
+      max-width: none;
+      margin: 0;
+      font-size: clamp(22px, 1.85vw, 32px);
+      line-height: 1;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .atlas-hero-v3 .atlas-story p {
+      grid-column: 1;
+      max-width: 38ch;
+      font-size: 12px;
+      line-height: 1.42;
+    }
+
+    .atlas-hero-v3 .atlas-stat-grid {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-content: stretch;
+    }
+
+    .atlas-hero-v3 .atlas-stat {
+      min-height: 78px;
+      padding: 9px;
+      background: rgba(255,255,255,.74);
+    }
+
+    .atlas-hero-v3 .atlas-stat.good { background: var(--data-soft-02); border-color: rgba(47,143,139,.25); }
+    .atlas-hero-v3 .atlas-stat.warn { background: var(--data-soft-03); border-color: rgba(199,138,42,.3); }
+    .atlas-hero-v3 .atlas-stat.info { background: var(--data-soft-09); border-color: rgba(53,153,184,.24); }
+    .atlas-hero-v3 .atlas-stat.gateway { background: var(--data-soft-01); border-color: rgba(79,111,143,.24); }
+
+    .atlas-hero-v3 .atlas-stat strong {
+      font-size: clamp(20px, 1.65vw, 30px);
+      overflow-wrap: anywhere;
+    }
+
+    .atlas-flow-v3 {
+      align-content: stretch;
+      padding: 0;
+    }
+
+    .atlas-flow-v3::before {
+      top: 24px;
+      left: 6%;
+      right: 6%;
+      background: linear-gradient(90deg, rgba(79,111,143,.46), rgba(47,143,139,.62), rgba(199,138,42,.4));
+    }
+
+    .atlas-flow-v3 .atlas-step {
+      min-height: 104px;
+      padding: 10px;
+      background: rgba(255,255,255,.78);
+    }
+
+    .atlas-flow-v3 .atlas-step strong {
+      font-size: clamp(20px, 1.75vw, 31px);
+    }
+
+    .atlas-flow-v3 .atlas-step small {
+      font-size: 10.5px;
+    }
+
+    @media (max-width: 1160px) {
+      .atlas-hero-v3,
+      .atlas-hero-v3 .atlas-story {
+        grid-template-columns: 1fr;
+      }
+
+      .atlas-hero-v3 .atlas-story p,
+      .atlas-hero-v3 .atlas-stat-grid {
+        grid-column: auto;
+        grid-row: auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .atlas-hero-v3 .atlas-stat-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .atlas-flow-v3::before {
+        display: none;
+      }
+    }
+
     .charts-panel {
       background:
         linear-gradient(180deg, rgba(255,255,255,.92), rgba(248,251,253,.78));
@@ -16192,14 +16324,15 @@
       }).join("");
       sourceMarks += atlasSourceMark("Viewer risk", fmt(browserRisk), "Óstuddur Power BI viewer vafri.", browserRisk ? 100 : 0, browserRisk ? "warn" : "good");
       sourceMarks += atlasSourceMark("Signal gæði", shareValue(weakShare), "Veikt eða óþekkt tækjamerki.", weakShare * 100, weakShare > .12 ? "warn" : "info");
-      return '<div class="insight-atlas">' +
-        '<section class="atlas-hero" aria-label="Signal atlas">' +
-          '<div class="atlas-story"><div><span class="atlas-kicker">Signal atlas</span><h3>Notkun. Leiðing. Gæði.</h3></div><p>Taldar production opnanir eru miðjan. Gateway, route, source og tæknimerki liggja sem línur í kringum hana svo augun sjái sambandið áður en þau lesa töfluna.</p><div class="atlas-stat-grid">' +
+      return '<div class="insight-atlas atlas-v3">' +
+        '<section class="atlas-hero atlas-hero-v3" aria-label="Signal atlas">' +
+          '<div class="atlas-story"><div><span class="atlas-kicker">Signal atlas</span><h3>Samhengi notkunar</h3></div><p>Taldar production opnanir eru aðaltalan. Gateway, route, source og tæknimerki eru sýnd sem samhengi svo vægið liggi í merkjunum, ekki fyrirsögninni.</p><div class="atlas-stat-grid">' +
             atlasStat("Talið", fmt(model.total), "production opnanir", "good") +
             atlasStat("Ráðandi leið", routeMode + " " + pct(routeModeValue, total), "mobile " + fmt(model.mobile) + " · desktop " + fmt(model.desktop), routeMode === "desktop" ? "gateway" : "info") +
+            atlasStat("Uppruni", pct(island, total), "island.is " + fmt(island), island ? "good" : "gateway") +
             atlasStat("Viðvörun", browserRisk ? fmt(browserRisk) : "hreint", browserRisk ? "Power BI viewer risk" : "engin staðfest viewer villa", browserRisk ? "warn" : "good") +
           '</div></div>' +
-          '<div class="atlas-flow">' +
+          '<div class="atlas-flow atlas-flow-v3">' +
             atlasStep("Public kort", fmt(island), "island.is opnanir", island ? "good" : "gateway") +
             atlasStep("Root", fmt(rootViews), "gateway views", rootViews ? "info" : "gateway") +
             atlasStep("Smellir", fmt(clicks), "dashboard choice", clicks ? "info" : "gateway") +
