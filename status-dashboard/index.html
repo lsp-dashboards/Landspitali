@@ -20745,6 +20745,167 @@
         return '<div class="visual-legend-row"><span class="visual-dot" style="--dot:' + safe(row.color || atlasColor(index)) + '"></span><span>' + safe(row.label) + '</span><strong>' + fmt(row.value) + ' · ' + safe(pct(row.value, total)) + '</strong></div>';
       }).join("") + '</div>';
     }
+    function atlasPreparedRows(rows, limit, total) {
+      rows = (rows || []).map(function (row, index) {
+        return {
+          label: row.label || row.key || "-",
+          value: number(row.value !== undefined ? row.value : row.visits !== undefined ? row.visits : row.total),
+          color: row.color || atlasColor(index)
+        };
+      }).filter(function (row) { return row.value > 0; }).sort(function (a, b) { return b.value - a.value; });
+      limit = limit || 5;
+      if (rows.length > limit) {
+        var kept = rows.slice(0, limit - 1);
+        var rest = rows.slice(limit - 1).reduce(function (acc, row) { return acc + row.value; }, 0);
+        kept.push({ label: "Annað", value: rest, color: "#A9B4C2" });
+        rows = kept;
+      }
+      total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + row.value; }, 0), 1);
+      return rows.map(function (row, index) {
+        row.color = row.color || atlasColor(index);
+        row.share = row.value / total;
+        return row;
+      });
+    }
+    function atlasPolar(cx, cy, radius, angle) {
+      var rad = (angle - 90) * Math.PI / 180;
+      return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
+    }
+    function atlasDonutPath(cx, cy, outer, inner, startAngle, endAngle) {
+      if (endAngle - startAngle >= 359.99) endAngle = startAngle + 359.99;
+      var large = endAngle - startAngle > 180 ? 1 : 0;
+      var o1 = atlasPolar(cx, cy, outer, endAngle);
+      var o0 = atlasPolar(cx, cy, outer, startAngle);
+      var i1 = atlasPolar(cx, cy, inner, endAngle);
+      var i0 = atlasPolar(cx, cy, inner, startAngle);
+      return ["M", o0.x.toFixed(2), o0.y.toFixed(2), "A", outer, outer, 0, large, 1, o1.x.toFixed(2), o1.y.toFixed(2), "L", i1.x.toFixed(2), i1.y.toFixed(2), "A", inner, inner, 0, large, 0, i0.x.toFixed(2), i0.y.toFixed(2), "Z"].join(" ");
+    }
+    function visualPieSvg(rows, total, centerLabel, centerValue) {
+      rows = atlasPreparedRows(rows, 5, total);
+      total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + row.value; }, 0), 1);
+      var cx = 130;
+      var cy = 112;
+      var outer = 92;
+      var inner = 51;
+      var angle = 0;
+      var paths = "";
+      var labels = "";
+      rows.forEach(function (row) {
+        var end = angle + row.value / total * 360;
+        var mid = angle + (end - angle) / 2;
+        paths += '<path d="' + safe(atlasDonutPath(cx, cy, outer, inner, angle, end)) + '" fill="' + safe(row.color) + '"></path>';
+        if (row.value / total >= .055) {
+          var p = atlasPolar(cx, cy, (outer + inner) / 2, mid);
+          labels += '<text class="visual-pie-label" x="' + p.x.toFixed(1) + '" y="' + (p.y - 2).toFixed(1) + '" text-anchor="middle" fill="#12314c" font-size="12" font-weight="900">' + safe(atlasShortValue(row.value)) + '</text>' +
+            '<text class="visual-pie-label" x="' + p.x.toFixed(1) + '" y="' + (p.y + 12).toFixed(1) + '" text-anchor="middle" fill="#526b80" font-size="10" font-weight="900">' + safe(pct(row.value, total)) + '</text>';
+        }
+        angle = end;
+      });
+      return '<svg class="visual-pie-svg" viewBox="0 0 260 224" role="img" aria-label="' + safe(centerLabel || "Donut chart") + '">' +
+        '<circle cx="' + cx + '" cy="' + cy + '" r="' + outer + '" fill="#e8f0f4"></circle>' +
+        paths +
+        '<circle cx="' + cx + '" cy="' + cy + '" r="' + (inner - 4) + '" fill="rgba(255,255,255,.96)" stroke="rgba(181,205,220,.72)"></circle>' +
+        '<text x="' + cx + '" y="' + (cy - 4) + '" text-anchor="middle" fill="#526b80" font-size="10" font-weight="900">' + safe(centerLabel || "Samtals") + '</text>' +
+        '<text x="' + cx + '" y="' + (cy + 17) + '" text-anchor="middle" fill="#12314c" font-size="23" font-weight="900">' + safe(centerValue || fmt(total)) + '</text>' +
+        labels +
+      '</svg>';
+    }
+    function visualChartLegend(rows, total) {
+      rows = atlasPreparedRows(rows, 5, total);
+      total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + row.value; }, 0), 1);
+      return '<div class="visual-chart-legend">' + rows.map(function (row) {
+        return '<div class="visual-chart-legend-row"><span class="visual-dot" style="--dot:' + safe(row.color) + '"></span><span>' + safe(row.label) + '</span><strong>' + fmt(row.value) + ' · ' + safe(pct(row.value, total)) + '</strong></div>';
+      }).join("") + '</div>';
+    }
+    function visualPieCard(kicker, title, rows, total, centerLabel, centerValue) {
+      rows = atlasPreparedRows(rows, 5, total);
+      total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + row.value; }, 0), 1);
+      if (!rows.length) {
+        return '<article class="visual-chart-card"><div class="visual-chart-head"><div><span class="visual-card-kicker">' + safe(kicker) + '</span><h3>' + safe(title) + '</h3></div></div>' + atlasEmpty("Engar línur fyrir þessa mynd.") + '</article>';
+      }
+      return '<article class="visual-chart-card"><div class="visual-chart-head"><div><span class="visual-card-kicker">' + safe(kicker) + '</span><h3>' + safe(title) + '</h3></div><div class="visual-chart-total">' + fmt(total) + '</div></div><div class="visual-chart-body">' + visualPieSvg(rows, total, centerLabel, centerValue) + visualChartLegend(rows, total) + '</div></article>';
+    }
+    function visualLayoutPieCard(data, model) {
+      var mobile = model.mobile || visibleRows(data.dashboards || []).reduce(function (acc, row) { return acc + number(row.mobile_visits); }, 0);
+      var desktop = model.desktop || visibleRows(data.dashboards || []).reduce(function (acc, row) { return acc + number(row.desktop_visits); }, 0);
+      var total = Math.max(model.total, mobile + desktop, 1);
+      var unknown = Math.max(0, total - mobile - desktop);
+      var rows = [
+        { label: "Mobile", value: mobile, color: "#2F8F8B" },
+        { label: "Desktop", value: desktop, color: "#4F6F8F" },
+        { label: "Óþekkt", value: unknown, color: "#A9B4C2" }
+      ];
+      return visualPieCard("Donut", "Útgáfuval", rows, total, desktop >= mobile ? "Desktop" : "Mobile", pct(Math.max(mobile, desktop, unknown), total));
+    }
+    function visualRoutePieCard(data, model) {
+      var rows = routeReasonGroups(data, false).filter(function (row) { return number(row.total) > 0; }).map(function (row, index) {
+        return { label: row.key, value: row.total, color: atlasColor(index + 2) };
+      });
+      var total = rows.reduce(function (acc, row) { return acc + row.value; }, 0) || model.total || 1;
+      return visualPieCard("Pie", "Route ástæður", rows, total, "Route", fmt(total));
+    }
+    function visualOriginPieCard(data, model) {
+      var sourceRows = visibleRows(data.sources || []);
+      var island = model.island || sourceCount(sourceRows, function (value) { return isIslandSource(value); });
+      var direct = sourceCount(sourceRows, function (value) { return isDirectSource(value); });
+      var total = Math.max(model.total, island + direct, 1);
+      var rows = [
+        { label: "island.is", value: island, color: "#2F8F8B" },
+        { label: "Beint", value: direct, color: "#4F6F8F" },
+        { label: "Annað", value: Math.max(0, total - island - direct), color: "#C78A2A" }
+      ];
+      return visualPieCard("Pie", "Uppruni", rows, total, "Uppruni", pct(Math.max(island, direct, total - island - direct), total));
+    }
+    function visualCampaignPieCard(data, model) {
+      var sourceRows = visibleRows(data.sources || []);
+      var rows = topRows(sourceRows, function (row) {
+        return row.utm_campaign || row.utm_source || row.source_medium || labelSource(sourceLabelValue(row));
+      }, 5).map(function (row, index) {
+        return { label: row.key, value: row.visits, color: atlasColor(index + 3) };
+      });
+      var total = rows.reduce(function (acc, row) { return acc + row.value; }, 0) || model.total || 1;
+      return visualPieCard("Pie", "Herferðir / source", rows, total, "Source", fmt(total));
+    }
+    function visualSignalRow(label, value) {
+      return '<div class="visual-signal-row"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div>';
+    }
+    function visualSignalCard(kicker, title, value, fill, color, rows) {
+      return '<article class="visual-signal-card"><div class="visual-signal-head"><div><span class="visual-card-kicker">' + safe(kicker) + '</span><h3>' + safe(title) + '</h3></div><div class="visual-signal-total">' + safe(value) + '</div></div><div class="visual-signal-body"><div class="visual-signal-meter" style="--fill:' + clamp(fill, 0, 100).toFixed(1) + '%; --tone:' + safe(color || "#2F8F8B") + '"><strong>' + safe(value) + '</strong></div><div class="visual-signal-list">' + (rows || []).map(function (row) { return visualSignalRow(row.label, row.value); }).join("") + '</div></div></article>';
+    }
+    function visualSignalsDeck(data, model) {
+      var sourceRows = visibleRows(data.sources || []);
+      var routeRows = routeMatrixRows(data);
+      var routeTotal = routeRows.reduce(function (acc, row) { return acc + routeMatrixValue(row); }, 0);
+      var forced = forcedLayoutTotal(routeRows);
+      var island = model.island || sourceCount(sourceRows, function (value) { return isIslandSource(value); });
+      var direct = sourceCount(sourceRows, function (value) { return isDirectSource(value); });
+      var sourceKnown = clamp(island + direct, 0, Math.max(model.total, 1));
+      var sourceFill = sourceKnown / Math.max(model.total, 1) * 100;
+      var freshnessFill = isFinite(model.eventAge.minutes) ? clamp(100 - Math.min(model.eventAge.minutes, 1440) / 1440 * 100, 0, 100) : 0;
+      var warningCount = model.warningSplit.confirmed.length;
+      return '<div class="visual-signal-deck">' +
+        visualSignalCard("Signal", "Rekstrarpúls", fmt(model.score), model.score, model.tone === "good" ? "#2F8F8B" : model.tone === "warn" ? "#C78A2A" : "#C85A48", [
+          { label: "Taldar opnanir", value: fmt(model.total) },
+          { label: "Mælaborð", value: fmt(model.dashboardCount) },
+          { label: "Staðfest merki", value: fmt(warningCount) }
+        ]) +
+        visualSignalCard("Signal", "Route þekja", routeTotal ? pct(Math.max(0, routeTotal - forced), routeTotal) : "0%", routeTotal ? Math.max(0, routeTotal - forced) / routeTotal * 100 : 0, forced ? "#C78A2A" : "#2F8F8B", [
+          { label: "Route línur", value: fmt(routeRows.length) },
+          { label: "Þvingað", value: fmt(forced) },
+          { label: "Sjálfvirkt", value: fmt(Math.max(0, routeTotal - forced)) }
+        ]) +
+        visualSignalCard("Signal", "Source þekja", pct(sourceKnown, Math.max(model.total, 1)), sourceFill, sourceFill > 80 ? "#2F8F8B" : "#C78A2A", [
+          { label: "island.is", value: fmt(island) },
+          { label: "Beint", value: fmt(direct) },
+          { label: "Óflokkað", value: fmt(Math.max(0, model.total - sourceKnown)) }
+        ]) +
+        visualSignalCard("Signal", "Ferskleiki", model.eventAge.label, freshnessFill, model.eventAge.className === "good" ? "#2F8F8B" : "#C78A2A", [
+          { label: "Talin síðast", value: model.eventAge.label },
+          { label: "Samantekt", value: model.aggregationAge.label },
+          { label: "Gögn", value: model.dataAge ? model.dataAge.label : "núna" }
+        ]) +
+      '</div>';
+    }
     function visualFlowStage(label, value, max, detail, color) {
       return '<div class="visual-flow-stage" style="--fill:' + widthPct(value, max) + '%; --accent:' + safe(color || "#2F8F8B") + '"><span class="visual-mini-label">' + safe(label) + '</span><strong>' + fmt(value) + '</strong><small>' + safe(detail || "") + '</small></div>';
     }
