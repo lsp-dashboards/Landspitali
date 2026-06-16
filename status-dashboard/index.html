@@ -15508,13 +15508,14 @@
       var h = data.health || {};
       var warningSplit = splitWarnings(data);
       var status = failedMessage ? "error" : (warningSplit.confirmed.length ? "warning" : (String(h.status || "ok").toLowerCase() === "error" ? "error" : "ok"));
+      var sampleMode = data.sample_data || data.status_data_mode === "sample";
       var dot = byId("health-dot");
       if (dot) dot.className = "dot" + (status === "ok" ? "" : status === "error" ? " bad" : " warn");
-      setText("health-text", status === "ok" ? "Staða í lagi" : status === "error" ? "Villa" : "Staðfest viðvörun");
+      setText("health-text", sampleMode ? "Sample gögn" : (status === "ok" ? "Staða í lagi" : status === "error" ? "Villa" : "Staðfest viðvörun"));
       var generatedText = data.generated_at ? dateShort(data.generated_at) : "-";
       setText("generated-pill", "Uppfært: " + generatedText);
       if (byId("generated-pill")) byId("generated-pill").title = "Uppfært " + (data.generated_at ? dateTooltip(data.generated_at) : "-");
-      setText("cache-pill", "Cache: " + (data.cache ? (data.cache.hit ? "hit" : "fresh") : "-"));
+      setText("cache-pill", sampleMode ? "Gögn: sample" : ("Cache: " + (data.cache ? (data.cache.hit ? "hit" : "fresh") : "-")));
       setText("hero-core-detail", STATUS_COMPONENT_LINE);
 
       var countedEventTime = firstValue(h, ["last_counted_event_time", "last_counted_visit_time"]) || latestCountedEventTime(data);
@@ -19415,6 +19416,53 @@
     var STATUS_DATA_RETRY_DELAY_MS = 1500;
     var STATUS_DATA_MAX_ATTEMPTS = 2;
     var statusLoadSequence = 0;
+    var statusDataMode = readDataModeFromUrl();
+
+    function readDataModeFromUrl() {
+      try {
+        var params = new URL(window.location.href).searchParams;
+        return params.get("data") === "sample" ? "sample" : "real";
+      } catch (error) {
+        return "real";
+      }
+    }
+
+    function updateDataSourceToggle() {
+      var controls = document.querySelectorAll("[data-source-mode]");
+      Array.prototype.forEach.call(controls, function (control) {
+        var mode = control.getAttribute("data-source-mode") === "sample" ? "sample" : "real";
+        var active = mode === statusDataMode;
+        control.classList.toggle("active", active);
+        control.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+    }
+
+    function setDataMode(mode, updateUrl) {
+      statusDataMode = mode === "sample" ? "sample" : "real";
+      document.documentElement.setAttribute("data-status-mode", statusDataMode);
+      updateDataSourceToggle();
+      if (updateUrl !== false && window.history && window.history.replaceState) {
+        try {
+          var url = new URL(window.location.href);
+          if (statusDataMode === "sample") url.searchParams.set("data", "sample");
+          else url.searchParams.delete("data");
+          window.history.replaceState(null, "", url.href);
+        } catch (error) {}
+      }
+    }
+
+    function setupDataSourceToggle() {
+      var controls = document.querySelectorAll("[data-source-mode]");
+      Array.prototype.forEach.call(controls, function (control) {
+        control.addEventListener("click", function () {
+          var nextMode = control.getAttribute("data-source-mode") === "sample" ? "sample" : "real";
+          if (nextMode === statusDataMode) return;
+          setDataMode(nextMode, true);
+          loadData();
+        });
+      });
+      setDataMode(statusDataMode, false);
+    }
 
     function showNotice(message, tone) {
       var notice = byId("notice");
@@ -19428,6 +19476,97 @@
       notice.className = "notice show " + (tone || "info");
     }
     function showError(message) { setStatus(null, message); }
+
+    function loadStaticJson(url) {
+      if (!window.fetch) return Promise.reject(new Error("fetch unavailable"));
+      return window.fetch(url + "?v=" + Date.now(), {
+        cache: "no-store",
+        credentials: "omit"
+      }).then(function (response) {
+        if (!response.ok) throw new Error("Static status HTTP " + response.status);
+        return response.json();
+      }).then(function (data) {
+        if (!data || data.ok === false) throw new Error("Static status payload invalid");
+        return data;
+      });
+    }
+
+    function sheetCellValue(cells, index) {
+      var cell = cells && cells[index];
+      if (!cell) return "";
+      return cell.v != null ? cell.v : (cell.f != null ? cell.f : "");
+    }
+
+    function extractSampleSheetPayload(response) {
+      if (!response || response.status !== "ok" || !response.table || !Array.isArray(response.table.rows)) {
+        throw new Error("Sample sheet response invalid");
+      }
+      var chunks = response.table.rows.map(function (row) {
+        var cells = row.c || [];
+        return {
+          index: Number(sheetCellValue(cells, 1)),
+          count: Number(sheetCellValue(cells, 2)),
+          text: String(sheetCellValue(cells, 3) || "")
+        };
+      }).filter(function (chunk) {
+        return chunk.index > 0 && chunk.text;
+      }).sort(function (a, b) {
+        return a.index - b.index;
+      });
+      if (!chunks.length) throw new Error("Sample sheet has no JSON chunks");
+      var expected = chunks[0].count || chunks.length;
+      if (chunks.length < expected) throw new Error("Sample sheet JSON chunks incomplete");
+      var jsonText = chunks.slice(0, expected).map(function (chunk) { return chunk.text; }).join("");
+      var data = JSON.parse(jsonText);
+      if (!data || data.ok === false) throw new Error("Sample sheet payload invalid");
+      data.sample_data = true;
+      return data;
+    }
+
+    function loadPublicSampleSheet() {
+      return new Promise(function (resolve, reject) {
+        var callbackName = "__LSP_SAMPLE_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+        var script = document.createElement("script");
+        var timeout;
+        script.async = true;
+        function cleanup() {
+          window.clearTimeout(timeout);
+          try { delete window[callbackName]; } catch (error) { window[callbackName] = undefined; }
+          if (script.parentNode) script.parentNode.removeChild(script);
+        }
+        timeout = window.setTimeout(function () {
+          cleanup();
+          reject(new Error("Sample sheet timed out"));
+        }, STATUS_DATA_TIMEOUT_MS);
+        window[callbackName] = function (response) {
+          try {
+            var data = extractSampleSheetPayload(response);
+            cleanup();
+            resolve(data);
+          } catch (error) {
+            cleanup();
+            reject(error);
+          }
+        };
+        script.onerror = function () {
+          cleanup();
+          reject(new Error("Sample sheet JSONP failed"));
+        };
+        script.src = SAMPLE_SHEET_JSONP_URL + encodeURIComponent(callbackName) + "&v=" + Date.now();
+        document.body.appendChild(script);
+      });
+    }
+
+    function loadSampleData() {
+      return loadPublicSampleSheet().then(function (data) {
+        return { data: data, source: "sample_sheet", message: "" };
+      }).catch(function () {
+        return loadStaticJson(SAMPLE_STATUS_URL).then(function (data) {
+          return { data: data, source: "sample_json", message: "Sample sheet svaraði ekki; sýni staðbundið sample snapshot." };
+        });
+      });
+    }
+
     function loadData() {
       var btn = byId("refresh-button");
       var sequence = ++statusLoadSequence;
