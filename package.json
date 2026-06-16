@@ -1,0 +1,19 @@
+{
+  "name": "landspitali-dashboard-router",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Validation and build tooling for the Landspitali Power BI dashboard router.",
+  "scripts": {
+    "validate": "node scripts/validate-config.js && node scripts/validate-status.js",
+    "validate:config": "node scripts/validate-config.js",
+    "validate:urls": "node scripts/validate-config.js --urls-only",
+    "validate:registry": "node scripts/validate-config.js --registry-only",
+    "validate:status": "node scripts/validate-status.js",
+    "build": "node scripts/build.js",
+    "build:status": "node scripts/build-status.js",
+    "test": "npm run validate"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

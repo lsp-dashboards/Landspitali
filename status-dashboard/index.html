@@ -202,14 +202,14 @@
       margin: 0;
       font-size: clamp(19px, 2vw, 23px);
       line-height: 1.08;
-      letter-spacing: -.03em;
+      letter-spacing: 0;
     }
 
     h3 {
       margin: 0;
       font-size: 16px;
       line-height: 1.14;
-      letter-spacing: -.018em;
+      letter-spacing: 0;
     }
 
     .lead {
@@ -357,7 +357,7 @@
       color: var(--ink);
       font-size: clamp(24px, 2.6vw, 35px);
       font-weight: 900;
-      letter-spacing: -.04em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -468,7 +468,7 @@
       margin-top: 5px;
       color: var(--ink);
       font-size: clamp(23px, 2.5vw, 32px);
-      letter-spacing: -.04em;
+      letter-spacing: 0;
       line-height: 1;
       white-space: nowrap;
       font-variant-numeric: tabular-nums;
@@ -594,7 +594,7 @@
       color: var(--ink);
       font-size: clamp(25px, 2.7vw, 36px);
       font-weight: 900;
-      letter-spacing: -.04em;
+      letter-spacing: 0;
       line-height: 1;
       white-space: nowrap;
     }
@@ -712,7 +712,7 @@
       font-size: clamp(18px, 2.2vw, 24px);
       font-weight: 900;
       line-height: 1;
-      letter-spacing: -.035em;
+      letter-spacing: 0;
       white-space: nowrap;
       text-align: center;
     }
@@ -795,7 +795,7 @@
       font-size: 18px;
       font-weight: 900;
       line-height: 1.12;
-      letter-spacing: -.02em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -856,7 +856,7 @@
       font-size: 18px;
       line-height: 1.05;
       font-weight: 900;
-      letter-spacing: -.025em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -911,7 +911,7 @@
       font-size: 17px;
       line-height: 1.1;
       font-weight: 900;
-      letter-spacing: -.02em;
+      letter-spacing: 0;
       align-self: center;
     }
 
@@ -946,7 +946,7 @@
       font-size: 29px;
       line-height: 1;
       font-weight: 900;
-      letter-spacing: -.04em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -1012,7 +1012,7 @@
       font-size: clamp(21px, 1.8vw, 30px);
       line-height: 1.02;
       font-weight: 900;
-      letter-spacing: -.04em;
+      letter-spacing: 0;
     }
 
     .insight-stance p {
@@ -1040,7 +1040,7 @@
       font-size: clamp(22px, 2vw, 31px);
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.05em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -1068,7 +1068,7 @@
       margin-top: 5px;
       font-size: 17px;
       line-height: 1.08;
-      letter-spacing: -.025em;
+      letter-spacing: 0;
     }
 
     .insight-action-list {
@@ -1120,7 +1120,7 @@
       font-size: 23px;
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -1280,7 +1280,7 @@
       font-size: clamp(20px, 1.7vw, 28px);
       line-height: 1.02;
       font-weight: 900;
-      letter-spacing: -.035em;
+      letter-spacing: 0;
     }
 
     .delivery-verdict p {
@@ -1348,7 +1348,7 @@
       margin-top: 5px;
       font-size: 17px;
       line-height: 1.08;
-      letter-spacing: -.025em;
+      letter-spacing: 0;
     }
 
     .delivery-lane-copy {
@@ -1657,7 +1657,7 @@
       font-size: 22px;
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -1700,7 +1700,7 @@
       font-size: 22px;
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -1856,7 +1856,7 @@
       font-size: 36px;
       line-height: .9;
       font-weight: 900;
-      letter-spacing: -.06em;
+      letter-spacing: 0;
     }
 
     .score-ring span {
@@ -1930,7 +1930,7 @@
       font-size: 27px;
       line-height: 1;
       font-weight: 900;
-      letter-spacing: -.04em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -1988,7 +1988,7 @@
       font-size: clamp(22px, 2.1vw, 30px);
       line-height: 1;
       font-weight: 900;
-      letter-spacing: -.035em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -2117,6 +2117,36 @@
       display: block;
     }
 
+    .status-chart-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .status-chart-card {
+      min-height: 360px;
+      padding: 15px;
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius-md);
+      background: #fff;
+    }
+
+    .status-chart-card .chart-host {
+      min-height: 284px;
+    }
+
+    @media (max-width: 1160px) {
+      .status-chart-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .status-chart-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .matrix-row {
       display: grid;
       grid-template-columns: minmax(170px, 1.1fr) repeat(3, minmax(86px, .42fr));
@@ -2130,7 +2160,7 @@
     }
 
     .dashboard-heatmap .matrix-row {
-      grid-template-columns: minmax(170px, 1.08fr) repeat(5, minmax(74px, .38fr));
+      grid-template-columns: minmax(160px, 1.02fr) repeat(6, minmax(66px, .36fr));
     }
 
     .matrix-row.matrix-head {
@@ -2556,7 +2586,7 @@
       font-size: clamp(22px, 2.1vw, 30px);
       line-height: 1;
       font-weight: 900;
-      letter-spacing: -.035em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -2692,7 +2722,7 @@
       font-size: 30px;
       line-height: 1;
       font-weight: 900;
-      letter-spacing: -.05em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -2722,7 +2752,7 @@
 
     .route-source-band h3 {
       font-size: 17px;
-      letter-spacing: -.02em;
+      letter-spacing: 0;
     }
 
     .route-source-stack {
@@ -2869,7 +2899,7 @@
       font-size: clamp(20px, 1.8vw, 26px);
       line-height: 1.02;
       font-weight: 900;
-      letter-spacing: -.035em;
+      letter-spacing: 0;
     }
 
     .route-map-verdict p {
@@ -2904,7 +2934,7 @@
       font-size: 28px;
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.05em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -2945,7 +2975,7 @@
       margin-top: 5px;
       font-size: 18px;
       line-height: 1.05;
-      letter-spacing: -.025em;
+      letter-spacing: 0;
     }
 
     .route-map-lane-copy {
@@ -2972,7 +3002,7 @@
       font-size: 23px;
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.04em;
+      letter-spacing: 0;
     }
 
     .route-map-total small {
@@ -3077,7 +3107,7 @@
       font-size: 21px;
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.04em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -3206,7 +3236,7 @@
       font-size: 42px;
       line-height: .9;
       font-weight: 900;
-      letter-spacing: -.06em;
+      letter-spacing: 0;
     }
 
     .quality-score span {
@@ -3742,7 +3772,7 @@
       font-size: clamp(22px, 2vw, 30px);
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.04em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -3840,7 +3870,7 @@
       font-size: clamp(19px, 1.7vw, 26px);
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.04em;
+      letter-spacing: 0;
       text-align: right;
       white-space: nowrap;
     }
@@ -3895,7 +3925,7 @@
     .quality-summary-grid .signal-cell strong {
       align-self: center;
       font-size: clamp(36px, 3.8vw, 52px);
-      letter-spacing: -.06em;
+      letter-spacing: 0;
     }
 
     .quality-items .list-row.warning,
@@ -3937,7 +3967,7 @@
       font-size: clamp(25px, 2.2vw, 34px);
       line-height: .9;
       font-weight: 900;
-      letter-spacing: -.055em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -4029,7 +4059,7 @@
       font-size: clamp(38px, 4.2vw, 58px) !important;
       line-height: .82;
       font-weight: 900;
-      letter-spacing: -.07em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -4166,7 +4196,7 @@
       font-size: clamp(21px, 2.4vw, 31px);
       line-height: 1;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
       white-space: normal;
       overflow-wrap: anywhere;
     }
@@ -4239,7 +4269,7 @@
       font-size: 25px;
       line-height: 1;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
       white-space: nowrap;
       font-variant-numeric: tabular-nums;
     }
@@ -4325,7 +4355,7 @@
       font-size: 27px;
       line-height: 1;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -4452,7 +4482,7 @@
       font-size: 25px;
       line-height: 1;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -4521,7 +4551,7 @@
       font-size: 25px;
       line-height: 1;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
     }
 
     .route-count span {
@@ -4602,7 +4632,7 @@
 
     .quality-title-line h3 {
       font-size: clamp(22px, 2.2vw, 30px);
-      letter-spacing: -.035em;
+      letter-spacing: 0;
     }
 
     .quality-status-readout {
@@ -4617,7 +4647,7 @@
       font-size: clamp(42px, 4.6vw, 64px);
       line-height: .88;
       font-weight: 900;
-      letter-spacing: -.07em;
+      letter-spacing: 0;
     }
 
     .quality-status-readout span {
@@ -4667,7 +4697,7 @@
       font-size: 31px;
       line-height: 1;
       font-weight: 900;
-      letter-spacing: -.05em;
+      letter-spacing: 0;
     }
 
     .quality-metric small,
@@ -4814,7 +4844,7 @@
       font-size: 31px;
       line-height: .9;
       font-weight: 900;
-      letter-spacing: -.055em;
+      letter-spacing: 0;
     }
 
     .alert-count-box span {
@@ -4985,7 +5015,7 @@
       font-size: 22px;
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
     }
 
     .mini-donut span {
@@ -5047,7 +5077,7 @@
       font-size: clamp(22px, 1.9vw, 30px);
       line-height: 1.02;
       font-weight: 900;
-      letter-spacing: -.04em;
+      letter-spacing: 0;
     }
 
     .tech-verdict-card p,
@@ -5107,7 +5137,7 @@
       font-size: clamp(22px, 2vw, 31px);
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.05em;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
@@ -5179,7 +5209,7 @@
       font-size: 27px;
       line-height: .9;
       font-weight: 900;
-      letter-spacing: -.05em;
+      letter-spacing: 0;
     }
 
     .tech-combo-count span {
@@ -5228,7 +5258,7 @@
       font-size: 24px;
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.04em;
+      letter-spacing: 0;
     }
 
     .tech-signal-note small {
@@ -6345,11 +6375,11 @@
 
     .signal-panorama.signal-panorama-focused {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      align-items: stretch;
+      align-items: start;
     }
 
     .signal-panorama.signal-panorama-focused > .nested-card {
-      height: 100%;
+      height: auto;
     }
 
     .insight-board.compact-insights .insight-command {
@@ -6511,7 +6541,7 @@
       font-size: clamp(19px, 1.8vw, 27px);
       line-height: .96;
       font-weight: 900;
-      letter-spacing: -.035em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -6583,7 +6613,7 @@
       color: var(--ink);
       font-size: 19px;
       line-height: 1.05;
-      letter-spacing: -.02em;
+      letter-spacing: 0;
     }
 
     .freshness-console-head p {
@@ -6652,7 +6682,7 @@
       align-self: start;
       font-size: clamp(18px, 1.45vw, 23px);
       line-height: 1;
-      letter-spacing: -.025em;
+      letter-spacing: 0;
       white-space: normal;
       overflow-wrap: anywhere;
     }
@@ -6918,7 +6948,7 @@
       font-size: clamp(26px, 2.6vw, 42px);
       line-height: .98;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
     }
 
     .start-copy {
@@ -6954,7 +6984,7 @@
       font-size: clamp(24px, 2vw, 34px);
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -6986,7 +7016,7 @@
       font-size: clamp(18px, 1.7vw, 25px);
       line-height: .98;
       font-weight: 900;
-      letter-spacing: -.04em;
+      letter-spacing: 0;
     }
 
     .start-fresh-card small {
@@ -7118,7 +7148,7 @@
       font-size: clamp(20px, 1.65vw, 28px);
       line-height: .96;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -7390,7 +7420,7 @@
       font-size: clamp(20px, 1.55vw, 28px);
       line-height: .98;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -7468,7 +7498,7 @@
       font-size: clamp(16px, 1.25vw, 22px);
       line-height: 1.04;
       font-weight: 900;
-      letter-spacing: -.03em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -7503,7 +7533,7 @@
       font-size: 32px;
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
     }
 
     .portfolio-card-count small {
@@ -7598,7 +7628,7 @@
       font-size: clamp(15px, 1vw, 18px);
       line-height: 1.05;
       font-weight: 900;
-      letter-spacing: -.02em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -7667,7 +7697,7 @@
       font-size: clamp(26px, 2.2vw, 38px);
       line-height: .9;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
     }
 
     .dashboard-passport-total small,
@@ -7682,7 +7712,7 @@
       font-size: clamp(14px, 1vw, 18px);
       line-height: 1.04;
       font-weight: 900;
-      letter-spacing: -.025em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -7908,7 +7938,7 @@
       font-size: clamp(24px, 1.65vw, 30px);
       line-height: .92;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
     }
 
     .portfolio-count-block small {
@@ -7948,7 +7978,7 @@
       font-size: clamp(16px, 1.2vw, 22px);
       line-height: 1.02;
       font-weight: 900;
-      letter-spacing: -.035em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -8019,7 +8049,7 @@
       font-size: clamp(24px, 2vw, 34px);
       line-height: .98;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
     }
 
     .route-source-command p {
@@ -8110,7 +8140,7 @@
       font-size: 28px;
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
     }
 
     .route-source-row-bars {
@@ -8171,7 +8201,7 @@
       font-size: clamp(25px, 2.1vw, 36px);
       line-height: .98;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
     }
 
     .route-cockpit-brief p {
@@ -8207,7 +8237,7 @@
       font-size: clamp(24px, 2vw, 34px);
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -8254,7 +8284,7 @@
       font-size: clamp(20px, 1.65vw, 28px);
       line-height: .98;
       font-weight: 900;
-      letter-spacing: -.04em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -8395,7 +8425,7 @@
       font-size: 30px;
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
     }
 
     .route-dashboard-bars {
@@ -8461,7 +8491,7 @@
       font-size: clamp(26px, 2.15vw, 36px);
       line-height: .98;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
     }
 
     .route-attrib-brief p {
@@ -8515,7 +8545,7 @@
       font-size: clamp(20px, 1.65vw, 28px);
       line-height: .98;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
@@ -8665,7 +8695,7 @@
       font-size: 28px;
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -.045em;
+      letter-spacing: 0;
     }
 
     .route-attrib-dashboard-bars {
@@ -10082,6 +10112,131 @@
       font-weight: 800;
     }
 
+    /* Current production surface polish */
+    .shell {
+      gap: 18px;
+    }
+
+    .panel,
+    .command-main,
+    .fresh-start-console,
+    .nested-card,
+    .tech-command-board,
+    .delivery-hero,
+    .delivery-lane,
+    .quality-command-main,
+    .dashboard-public-master {
+      border-color: rgba(190, 207, 220, .78);
+    }
+
+    .panel,
+    .nested-card,
+    .tech-command-board,
+    .delivery-lane {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,251,253,.92));
+    }
+
+    .panel-head,
+    .panorama-card-head,
+    .delivery-lane-head,
+    .quality-alert-board-head {
+      gap: 16px;
+    }
+
+    .panel-head h2,
+    .panorama-card-head h3,
+    .delivery-lane h3,
+    .tech-command-board h3 {
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .subtle,
+    .lead,
+    .start-copy,
+    .ops-footnote,
+    .delivery-lane-copy,
+    .tech-combo-meta,
+    .usage-donut-note {
+      text-wrap: pretty;
+    }
+
+    .dashboard-heatmap .matrix,
+    .route-matrix .matrix {
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+    }
+
+    .dashboard-heatmap .matrix-row {
+      min-width: 860px;
+    }
+
+    .route-matrix .matrix-row {
+      min-width: 620px;
+    }
+
+    .dashboard-heatmap .heat-cell,
+    .route-matrix .heat-cell {
+      min-height: 50px;
+      padding: 8px 6px;
+    }
+
+    .dashboard-heatmap .heat-cell strong,
+    .route-matrix .heat-cell strong {
+      font-size: 16px;
+    }
+
+    .dashboard-heatmap .heat-cell small,
+    .route-matrix .heat-cell small {
+      letter-spacing: 0;
+    }
+
+    .chart-host {
+      min-height: 300px;
+    }
+
+    .tech-command-board {
+      align-content: start;
+    }
+
+    #technical-panel .tech-workbench {
+      gap: 14px;
+    }
+
+    #technical-panel .delivery-viz-panel,
+    #technical-panel .tech-combo-card,
+    .delivery-lane.performance .delivery-viz-panel {
+      border-color: rgba(190, 207, 220, .72);
+    }
+
+    .delivery-viz-items {
+      min-height: 0;
+    }
+
+    .delivery-viz-item {
+      min-height: 58px;
+    }
+
+    .tech-combo-list,
+    .delivery-combo-list,
+    .delivery-viz-items {
+      align-content: start;
+    }
+
+    .usage-foundation {
+      min-height: 260px;
+    }
+
+    .usage-donut {
+      max-width: 156px;
+    }
+
+    .ops-flow-card.gateway {
+      min-height: 260px;
+    }
+
     @media (max-width: 1420px) {
       .ops-focus-hero,
       .portfolio-master-hero,
@@ -10219,6 +10374,17 @@
       <div id="signal-panorama-panel"></div>
     </section>
 
+    <section class="panel charts-panel" id="echarts-panel" aria-label="ECharts" hidden>
+      <div class="status-chart-grid">
+        <article class="status-chart-card"><h3>Gateway funnel</h3><div id="chart-gateway-funnel" class="chart-host"></div></article>
+        <article class="status-chart-card"><h3>Mobile / desktop / tablet</h3><div id="chart-layout-split" class="chart-host"></div></article>
+        <article class="status-chart-card"><h3>Browser / device heatmap</h3><div id="chart-browser-device" class="chart-host"></div></article>
+        <article class="status-chart-card"><h3>Power BI viewer risk</h3><div id="chart-viewer-risk" class="chart-host"></div></article>
+        <article class="status-chart-card"><h3>Confidence distribution</h3><div id="chart-confidence" class="chart-host"></div></article>
+        <article class="status-chart-card"><h3>7 / 30 day trend</h3><div id="chart-trend" class="chart-host"></div></article>
+      </div>
+    </section>
+
     <section class="panel dashboard-public-master mega-dashboard-shell" aria-label="Mælaborð">
       <div id="dashboard-public-master"></div>
     </section>
@@ -10264,6 +10430,7 @@
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   <script>
     var DATA_ENDPOINT = "https://script.google.com/macros/s/AKfycbxRoNEQwlxQUpxEMGzYizAB0_lP1MdqksGLu4fD7c94rzqUul3MW2_E9VCqeRzLK3wD/exec";
+    var STATIC_STATUS_URL = "../assets/data/status-latest.json";
     var LOGO_URL = "https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png";
     var FALLBACK_ICONS = {
       bradamottaka: "https://images.ctfassets.net/8k0h54kbe6bj/68Ef7p57VqG1aYv99GbzB0/3b98fe5c7b3b11c7d01194a7e9caccd6/bradamottaka-linkimage.png?w=774&fm=webp&q=80",
@@ -11067,6 +11234,25 @@
       return '<div class="heat-cell ' + safe(cls || '') + (empty ? ' empty' : '') + '"><span style="width:' + widthPct(value, total) + '%"></span><strong>' + safe(text) + '</strong><small>' + safe(label) + '</small></div>';
     }
 
+    function dashboardPeriodValue(row, primaryKeys, fallbackKeys) {
+      var raw = firstValue(row, primaryKeys || []);
+      if (raw !== "") return number(raw);
+      raw = firstValue(row, fallbackKeys || []);
+      return raw === "" ? 0 : number(raw);
+    }
+
+    function dashboardMonthValue(row) {
+      return dashboardPeriodValue(row,
+        ["visits_month_to_date", "visits_mtd", "month_to_date_visits", "visits_this_month"],
+        ["visits_30d", "visits_30_days", "visits30d"]);
+    }
+
+    function dashboardYearValue(row) {
+      return dashboardPeriodValue(row,
+        ["visits_year_to_date", "visits_ytd", "year_to_date_visits", "visits_this_year"],
+        []);
+    }
+
     function routeReasonGroups(data, includeEmpty) {
       var map = {};
       if (includeEmpty) {
@@ -11111,10 +11297,23 @@
       if (!rows.length) return '<article class="nested-card"><h3>Dashboard heatmap</h3><div class="message-card neutral">Engin dashboard matrix gögn enn.</div></article>';
       var totalVisits = sumRows(rows, "visits");
       var today = rows.reduce(function (acc, row) { return acc + number(row.visits_today); }, 0);
-      var html = '<article class="nested-card"><div class="panorama-card-head"><div><h3>Dashboard heatmap</h3><div class="subtle">Samanburður á MOBILE, DESKTOP og virkni dagsins eftir mælaborði.</div></div><div class="chip-row"><span class="chip good">' + fmt(totalVisits) + ' heimsóknir</span><span class="chip info">' + fmt(today) + ' í dag</span></div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Mælaborð</span><span>MOBILE</span><span>DESKTOP</span><span>Í dag</span></div>';
+      var month = rows.reduce(function (acc, row) { return acc + dashboardMonthValue(row); }, 0);
+      var year = rows.reduce(function (acc, row) { return acc + dashboardYearValue(row); }, 0);
+      var html = '<article class="nested-card dashboard-heatmap"><div class="panorama-card-head"><div><h3>Dashboard heatmap</h3><div class="subtle">Samanburður á útgáfuvali, degi, mánuði, ári og heildaropnunum eftir mælaborði.</div></div><div class="chip-row"><span class="chip info">' + fmt(today) + ' í dag</span><span class="chip gateway">' + fmt(month) + ' í mánuðinum</span>' + (year ? '<span class="chip neutral">' + fmt(year) + ' á árinu</span>' : '') + '<span class="chip good">' + fmt(totalVisits) + ' frá upphafi</span></div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Mælaborð</span><span>MOBILE</span><span>DESKTOP</span><span>Í dag</span><span>Í mánuðinum</span><span>Á árinu</span><span>Frá upphafi</span></div>';
       html += rows.map(function (row) {
         var total = Math.max(visitValue(row), 1);
-        return '<div class="matrix-row"><div class="matrix-title">' + safe(titleFor(row, cards)) + '<small>' + safe(cleanId(row.dashboard_id || row.dashboard_key)) + '</small></div>' + heatCell("MOBILE", row.mobile_visits, total, "good", pct(row.mobile_visits, total)) + heatCell("DESKTOP", row.desktop_visits, total, "gateway", pct(row.desktop_visits, total)) + heatCell("Í dag", row.visits_today, Math.max(total, 1), row.visits_today ? "info" : "", fmt(row.visits_today)) + '</div>';
+        var todayValue = number(row.visits_today);
+        var monthValue = dashboardMonthValue(row);
+        var yearValue = dashboardYearValue(row);
+        var lifetimeValue = visitValue(row);
+        return '<div class="matrix-row"><div class="matrix-title">' + safe(titleFor(row, cards)) + '<small>' + safe(cleanId(row.dashboard_id || row.dashboard_key)) + '</small></div>' +
+          heatCell("MOBILE", row.mobile_visits, total, "good", pct(row.mobile_visits, total)) +
+          heatCell("DESKTOP", row.desktop_visits, total, "gateway", pct(row.desktop_visits, total)) +
+          heatCell("Í dag", todayValue, total, todayValue ? "info" : "", todayValue ? fmt(todayValue) : "") +
+          heatCell("Í mánuðinum", monthValue, total, monthValue ? "gateway" : "", monthValue ? fmt(monthValue) : "") +
+          heatCell("Á árinu", yearValue, total, yearValue ? "info" : "", yearValue ? fmt(yearValue) : "") +
+          heatCell("Frá upphafi", lifetimeValue, total, "good", lifetimeValue ? fmt(lifetimeValue) : "") +
+        '</div>';
       }).join("");
       return html + '</div></article>';
     }
@@ -12478,10 +12677,213 @@
       card.classList.add("has-chart");
       statusCharts.push(chart);
     }
+    function initStatusChart(id) {
+      var host = byId(id);
+      var chart;
+      if (!host || !window.echarts) return null;
+      chart = echarts.init(host, null, { renderer: "svg" });
+      statusCharts.push(chart);
+      return chart;
+    }
+    function chartPalette() {
+      return [
+        cssVar("--good", "#1f7a53"),
+        cssVar("--accent", "#4f6f8f"),
+        cssVar("--gateway", "#6a7d90"),
+        cssVar("--warn", "#956300"),
+        cssVar("--bad", "#a43a3a"),
+        cssVar("--info", "#3e6283")
+      ];
+    }
+    function chartTextColor() {
+      return cssVar("--ink", "#10283d");
+    }
+    function chartMutedColor() {
+      return cssVar("--muted", "#607286");
+    }
+    function renderGatewayFunnelChart(data) {
+      var chart = initStatusChart("chart-gateway-funnel");
+      var f = data.root_index_funnel || data.root_index || {};
+      var labels = ["Views", "Clicks", "Router", "Counted"];
+      var values = [
+        number(firstValue(f, ["views", "root_views", "root_index_views"])),
+        number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"])),
+        number(firstValue(f, ["router_arrivals", "arrivals"])),
+        number(firstValue(f, ["counted_opens", "counted_visits", "opens"]))
+      ];
+      if (!chart) return;
+      chart.setOption({
+        color: chartPalette(),
+        animation: false,
+        grid: { left: 70, right: 12, top: 20, bottom: 28 },
+        tooltip: { trigger: "axis" },
+        xAxis: { type: "value", axisLabel: { color: chartMutedColor() }, splitLine: { lineStyle: { color: cssVar("--line-soft", "#e6edf3") } } },
+        yAxis: { type: "category", data: labels, inverse: true, axisLabel: { color: chartTextColor(), fontWeight: 800 } },
+        series: [{ type: "bar", data: values, label: { show: true, position: "right", formatter: function (p) { return fmt(p.value); } } }]
+      });
+    }
+    function renderLayoutSplitChart(data) {
+      var chart = initStatusChart("chart-layout-split");
+      var k = data.kpis || {};
+      var mobile = number(k.mobile_visits);
+      var desktop = number(k.desktop_visits);
+      var tablet = number(k.tablet_visits) + number(k.narrow_visits);
+      if (!chart) return;
+      chart.setOption({
+        color: chartPalette(),
+        animation: false,
+        tooltip: { trigger: "item", formatter: "{b}: {c}" },
+        legend: { bottom: 0, textStyle: { color: chartMutedColor(), fontWeight: 800 } },
+        series: [{
+          type: "pie",
+          radius: ["42%", "70%"],
+          center: ["50%", "44%"],
+          data: [
+            { name: "Mobile", value: mobile },
+            { name: "Desktop", value: desktop },
+            { name: "Tablet / narrow", value: tablet }
+          ],
+          label: { color: chartTextColor(), fontWeight: 900, formatter: "{b}\n{c}" }
+        }]
+      });
+    }
+    function renderBrowserDeviceHeatmapChart(data) {
+      var chart = initStatusChart("chart-browser-device");
+      var rows = rowsFrom(data, "device", "device_confidence");
+      var browserMap = {};
+      var deviceMap = {};
+      var cellMap = {};
+      rows.forEach(function (row) {
+        var browser = row.browser_family || row.browser_brand || "unknown";
+        var device = row.inferred_device_class || row.device_class || row.inferred_form_factor || "unknown";
+        var value = visitValue(row) || number(row.events);
+        browserMap[browser] = (browserMap[browser] || 0) + value;
+        deviceMap[device] = (deviceMap[device] || 0) + value;
+        cellMap[browser + "|" + device] = (cellMap[browser + "|" + device] || 0) + value;
+      });
+      var browsers = Object.keys(browserMap).sort(function (a, b) { return browserMap[b] - browserMap[a]; }).slice(0, 6);
+      var devices = Object.keys(deviceMap).sort(function (a, b) { return deviceMap[b] - deviceMap[a]; }).slice(0, 6);
+      var cells = [];
+      var maxValue = 1;
+      if (!browsers.length) browsers = ["no data"];
+      if (!devices.length) devices = ["no data"];
+      browsers.forEach(function (browser, x) {
+        devices.forEach(function (device, y) {
+          var value = cellMap[browser + "|" + device] || 0;
+          maxValue = Math.max(maxValue, value);
+          cells.push([x, y, value]);
+        });
+      });
+      if (!chart) return;
+      chart.setOption({
+        animation: false,
+        tooltip: { formatter: function (p) { return safe(browsers[p.value[0]]) + " / " + safe(devices[p.value[1]]) + ": " + fmt(p.value[2]); } },
+        grid: { left: 88, right: 12, top: 34, bottom: 54 },
+        xAxis: { type: "category", data: browsers, axisLabel: { color: chartMutedColor(), rotate: 25, fontWeight: 800 } },
+        yAxis: { type: "category", data: devices, inverse: true, axisLabel: { color: chartTextColor(), fontWeight: 800 } },
+        visualMap: { min: 0, max: maxValue, show: false, inRange: { color: ["#f7fafc", cssVar("--accent", "#4f6f8f")] } },
+        series: [{ type: "heatmap", data: cells, label: { show: true, formatter: function (p) { return p.value[2] ? fmt(p.value[2]) : ""; }, color: chartTextColor(), fontWeight: 900 } }]
+      });
+    }
+    function warningTotal(data, code) {
+      return (data.quality_warnings || []).reduce(function (acc, row) {
+        return acc + (String(row.warning_code || row.code || "").toLowerCase() === code ? countWarnings(row) : 0);
+      }, 0);
+    }
+    function renderViewerRiskChart(data) {
+      var chart = initStatusChart("chart-viewer-risk");
+      var k = data.kpis || {};
+      var values = [
+        number(k.powerbi_viewer_unsupported_browser_events) || warningTotal(data, "powerbi_viewer_unsupported_browser"),
+        number(k.powerbi_viewer_not_officially_supported_events) || warningTotal(data, "powerbi_viewer_not_officially_supported"),
+        number(k.in_app_browser_visits),
+        number(k.fallback_error_count)
+      ];
+      if (!chart) return;
+      chart.setOption({
+        color: [cssVar("--warn", "#956300")],
+        animation: false,
+        grid: { left: 80, right: 12, top: 20, bottom: 46 },
+        tooltip: { trigger: "axis" },
+        xAxis: { type: "category", data: ["Unsupported", "Unofficial", "In-app", "Fallback/error"], axisLabel: { color: chartMutedColor(), rotate: 20, fontWeight: 800 } },
+        yAxis: { type: "value", axisLabel: { color: chartMutedColor() }, splitLine: { lineStyle: { color: cssVar("--line-soft", "#e6edf3") } } },
+        series: [{ type: "bar", data: values, label: { show: true, position: "top", formatter: function (p) { return fmt(p.value); } } }]
+      });
+    }
+    function renderConfidenceChart(data) {
+      var chart = initStatusChart("chart-confidence");
+      var map = {};
+      (rowsFrom(data, "device_confidence", "device") || []).forEach(function (row) {
+        var key = bandLabel(row.inferred_confidence_band || row.confidence_band || row.signal_quality || "unknown");
+        map[key] = (map[key] || 0) + (visitValue(row) || number(row.events) || 1);
+      });
+      (data.dashboards || []).forEach(function (row) {
+        var key = bandLabel(row.confidence_band || "unknown");
+        map[key] = map[key] || 0;
+      });
+      var labels = Object.keys(map);
+      if (!labels.length) labels = ["unknown"];
+      if (!chart) return;
+      chart.setOption({
+        color: [cssVar("--info", "#3e6283")],
+        animation: false,
+        grid: { left: 50, right: 12, top: 20, bottom: 48 },
+        tooltip: { trigger: "axis" },
+        xAxis: { type: "category", data: labels, axisLabel: { color: chartMutedColor(), rotate: 20, fontWeight: 800 } },
+        yAxis: { type: "value", minInterval: 1, axisLabel: { color: chartMutedColor() }, splitLine: { lineStyle: { color: cssVar("--line-soft", "#e6edf3") } } },
+        series: [{ type: "bar", data: labels.map(function (label) { return map[label] || 0; }), label: { show: true, position: "top", formatter: function (p) { return fmt(p.value); } } }]
+      });
+    }
+    function trendRows(data) {
+      var map = {};
+      (data.history || []).forEach(function (row) {
+        if (row.date) map[row.date] = (map[row.date] || 0) + number(row.total_visits || row.visits || row.counted_visits);
+      });
+      (data.daily || []).forEach(function (row) {
+        if (row.date) map[row.date] = (map[row.date] || 0) + number(row.visits);
+      });
+      return Object.keys(map).sort().slice(-30).map(function (date) { return { date: date, visits: map[date] }; });
+    }
+    function rolling(values, windowSize) {
+      return values.map(function (_, index) {
+        return values.slice(Math.max(0, index - windowSize + 1), index + 1).reduce(function (acc, value) { return acc + number(value); }, 0);
+      });
+    }
+    function renderTrendChart(data) {
+      var chart = initStatusChart("chart-trend");
+      var rows = trendRows(data);
+      if (!rows.length) rows = [{ date: (data.generatedAt || data.generated_at || "").slice(0, 10) || "latest", visits: 0 }];
+      var labels = rows.map(function (row) { return row.date; });
+      var visits = rows.map(function (row) { return number(row.visits); });
+      if (!chart) return;
+      chart.setOption({
+        color: [cssVar("--good", "#1f7a53"), cssVar("--accent", "#4f6f8f"), cssVar("--gateway", "#6a7d90")],
+        animation: false,
+        grid: { left: 54, right: 12, top: 22, bottom: 50 },
+        tooltip: { trigger: "axis" },
+        legend: { bottom: 0, textStyle: { color: chartMutedColor(), fontWeight: 800 } },
+        xAxis: { type: "category", data: labels, axisLabel: { color: chartMutedColor(), rotate: 25, fontWeight: 800 } },
+        yAxis: { type: "value", axisLabel: { color: chartMutedColor() }, splitLine: { lineStyle: { color: cssVar("--line-soft", "#e6edf3") } } },
+        series: [
+          { name: "Daily", type: "line", data: visits, smooth: true },
+          { name: "7 day", type: "line", data: rolling(visits, 7), smooth: true },
+          { name: "30 day", type: "line", data: rolling(visits, 30), smooth: true }
+        ]
+      });
+    }
     function renderStatusCharts(data) {
+      var panel = byId("echarts-panel");
       disposeStatusCharts();
+      if (panel) panel.hidden = true;
       if (!window.echarts) return;
+      if (panel) panel.hidden = false;
       renderRouteMatrixChart(data);
+      renderGatewayFunnelChart(data);
+      renderLayoutSplitChart(data);
+      renderBrowserDeviceHeatmapChart(data);
+      renderViewerRiskChart(data);
+      renderConfidenceChart(data);
+      renderTrendChart(data);
     }
     window.addEventListener("resize", function () {
       statusCharts.forEach(function (chart) {
@@ -13184,7 +13586,24 @@
       function stillCurrent() {
         return sequence === statusLoadSequence;
       }
-      function request(attempt) {
+      function acceptData(data, source, fallbackMessage) {
+        if (!stillCurrent()) return;
+        finishLoading();
+        try {
+          if (!data || data.ok === false) throw new Error("Invalid status payload");
+          data.status_data_source = source;
+          window.LSP_STATUS_DATA_SOURCE = source;
+          window.LSP_STATUS_GENERATED_AT = data.generatedAt || data.generated_at || "";
+          document.documentElement.setAttribute("data-status-source", source);
+          document.documentElement.setAttribute("data-status-generated-at", data.generatedAt || data.generated_at || "");
+          if (fallbackMessage) showNotice(fallbackMessage, "warn");
+          else showNotice("", "info");
+          render(data);
+        } catch (error) {
+          showError("Could not render status data: " + error.message);
+        }
+      }
+      function request(attempt, staticError) {
         var callbackName = "__LSP_STATUS_" + Date.now() + "_" + Math.random().toString(16).slice(2);
         var script = document.createElement("script");
         var timeout;
@@ -13210,7 +13629,7 @@
           if (attempt < STATUS_DATA_MAX_ATTEMPTS) {
             showNotice("Apps Script svaraði hægt. Reyni aftur " + (attempt + 1) + "/" + STATUS_DATA_MAX_ATTEMPTS + ".", "warn");
             window.setTimeout(function () {
-              if (stillCurrent()) request(attempt + 1);
+              if (stillCurrent()) request(attempt + 1, staticError);
             }, STATUS_DATA_RETRY_DELAY_MS);
             return;
           }
@@ -13222,12 +13641,7 @@
         }, STATUS_DATA_TIMEOUT_MS);
         window[callbackName] = function (data) {
           cleanup(false);
-          if (!stillCurrent()) return;
-          finishLoading();
-          try {
-            if (!data || data.ok === false) { showError("Endpoint skilaði ekki gildum dashboard gögnum."); return; }
-            render(data);
-          } catch (error) { showError("Tókst ekki að birta gögn: " + error.message); }
+          acceptData(data, "apps_script_fallback", staticError ? "Static status JSON failed; using Apps Script fallback." : "");
         };
         script.onerror = function () {
           retryOrFail("Náði ekki að hlaða JSONP frá Apps Script endpointi eftir " + STATUS_DATA_MAX_ATTEMPTS + " tilraunir. Athugaðu /exec URL og að Web App sé aðgengilegt.");
@@ -13236,7 +13650,27 @@
         script.src = DATA_ENDPOINT + separator + "api=dashboard&format=js&callback=" + encodeURIComponent(callbackName) + "&v=" + Date.now();
         document.body.appendChild(script);
       }
-      request(1);
+      function loadStaticSnapshot() {
+        if (!window.fetch) {
+          return Promise.reject(new Error("fetch unavailable"));
+        }
+        return window.fetch(STATIC_STATUS_URL + "?v=" + Date.now(), {
+          cache: "no-store",
+          credentials: "omit"
+        }).then(function (response) {
+          if (!response.ok) throw new Error("Static status HTTP " + response.status);
+          return response.json();
+        }).then(function (data) {
+          if (!data || data.ok === false) throw new Error("Static status payload invalid");
+          return data;
+        });
+      }
+      loadStaticSnapshot().then(function (data) {
+        acceptData(data, "static_json", "");
+      }).catch(function (error) {
+        if (!stillCurrent()) return;
+        request(1, error && error.message ? error.message : "static_status_failed");
+      });
     }
 
     byId("refresh-button").addEventListener("click", loadData);

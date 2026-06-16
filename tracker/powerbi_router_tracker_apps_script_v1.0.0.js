@@ -1198,6 +1198,10 @@ function testAggregation() {
 }
 
 function aggregateRecent() {
+  return withScriptLock_("aggregateRecent", 8000, aggregateRecentUnlocked_);
+}
+
+function aggregateRecentUnlocked_() {
   setupWorkbook_();
   seedRegistrySheets_();
 
@@ -1733,6 +1737,23 @@ function repairPowerBiViewerCompatibilityHistory(runAggregation) {
   writeSchemaMigrationLog_("repairPowerBiViewerCompatibilityHistory", "ok", "Reclassified Smart TV / legacy browser Power BI viewer compatibility rows: " + changedRows);
   if (runAggregation !== false) aggregateRecent();
   return "Reclassified Power BI viewer compatibility rows: " + changedRows;
+}
+
+function withScriptLock_(operationName, timeoutMs, callback) {
+  var lock = LockService.getScriptLock();
+  var locked = false;
+  try {
+    locked = lock.tryLock(timeoutMs || 5000);
+    if (!locked) {
+      throw new Error("Could not acquire script lock for " + operationName);
+    }
+    return callback();
+  } catch (error) {
+    logError_("withScriptLock_", error, operationName);
+    throw error;
+  } finally {
+    if (locked) lock.releaseLock();
+  }
 }
 
 function appendEvent_(normalized) {

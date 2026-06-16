@@ -1,0 +1,305 @@
+{
+  "ok": true,
+  "schemaVersion": "1",
+  "generatedAt": "2026-06-15T00:00:00.000Z",
+  "generated_at": "2026-06-15T00:00:00.000Z",
+  "dashboard_data_generated_at": "2026-06-15T00:00:00.000Z",
+  "aggregation_generated_at": "",
+  "data_source": "static_seed",
+  "publicAggregateOnly": true,
+  "aggregate_only": true,
+  "script_version": "static-status-snapshot",
+  "schema_version": "1",
+  "config_version": "2026-06-15-prod-v1.0.0",
+  "core_version": "v1.0.0",
+  "public_entry": {
+    "name": "Opinber mælaborð Landspítala",
+    "site": "island.is",
+    "pageUrl": "https://island.is/s/landspitali/maelabord",
+    "pagePath": "/s/landspitali/maelabord",
+    "defaultButtonText": "Opna mælaborð",
+    "logoUrl": "https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png",
+    "lastVerifiedDate": "2026-06-07",
+    "allowedImageHosts": [
+      "images.ctfassets.net"
+    ],
+    "rootGatewayPath": "/Landspitali/",
+    "rootGatewayTitle": "Opinber mælaborð Landspítala",
+    "rootGatewaySubtitle": "Veldu mælaborð. Síðan opnar sjálfkrafa rétta útgáfu eftir tæki og skjábreidd.",
+    "privacyText": "Engar persónuupplýsingar eru birtar. Leiðing og notkun eru mæld með aggregate tæknimerkjum til að bæta birtingu og notendaupplifun."
+  },
+  "health": {
+    "status": "seed",
+    "last_event_time": "",
+    "last_raw_event_time": "",
+    "last_counted_event_time": "",
+    "last_diagnostic_event_time": "",
+    "last_error_event_time": "",
+    "last_aggregation_time": "",
+    "dashboard_data_generated_at": "2026-06-15T00:00:00.000Z",
+    "raw_event_rows": 0,
+    "warnings": [
+      "static_seed_no_live_aggregates"
+    ]
+  },
+  "kpis": {
+    "active_dashboards": 2,
+    "visits_today": 0,
+    "visits_7d": 0,
+    "visits_30d": 0,
+    "total_visits": 0,
+    "total_events": 0,
+    "raw_events": 0,
+    "diagnostic_events": 0,
+    "mobile_visits": 0,
+    "desktop_visits": 0,
+    "tablet_visits": 0,
+    "narrow_visits": 0,
+    "island_is_visits": 0,
+    "fallback_error_count": 0,
+    "bot_debug_test_count": 0,
+    "warning_count": 0,
+    "confirmed_warnings": 0,
+    "diagnostic_signals": 0,
+    "weak_unknown_signal_count": 0,
+    "mobile_share": 0,
+    "desktop_share": 0,
+    "weak_unknown_signal_share": 0,
+    "confidence_health": "seed",
+    "powerbi_viewer_unsupported_browser_events": 0,
+    "powerbi_viewer_not_officially_supported_events": 0,
+    "in_app_browser_visits": 0
+  },
+  "dashboards": [
+    {
+      "dashboardId": "bradamottaka-fossvogi",
+      "dashboard_id": "bradamottaka-fossvogi",
+      "dashboardKey": "bradamottaka",
+      "dashboard_key": "bradamottaka",
+      "displayName": "Bráðamóttaka í Fossvogi",
+      "dashboard_name": "Bráðamóttaka í Fossvogi",
+      "public_card_title": "Bráðamóttaka í Fossvogi",
+      "status": "active",
+      "confidenceScore": 1,
+      "confidence_score": 1,
+      "confidence_band": "seed",
+      "reportTypeAvailability": {
+        "desktop": true,
+        "mobile": true,
+        "fallback": "mobile"
+      },
+      "recentAggregateCounts": {
+        "visitsToday": 0,
+        "visits7d": 0,
+        "visits30d": 0,
+        "events": 0,
+        "errors": 0,
+        "fallbackClicks": 0
+      },
+      "trend7d": {
+        "visits": 0,
+        "direction": "flat"
+      },
+      "trend30d": {
+        "visits": 0,
+        "direction": "flat"
+      },
+      "viewerRiskSummary": {
+        "status": "unknown",
+        "unsupportedBrowserEvents": 0
+      },
+      "aggregateSummaries": {
+        "device": [],
+        "browser": [],
+        "os": []
+      },
+      "visits_today": 0,
+      "visits_7d": 0,
+      "visits_30d": 0,
+      "total_visits": 0,
+      "total_events": 0,
+      "raw_events": 0,
+      "diagnostic_events": 0,
+      "mobile_visits": 0,
+      "desktop_visits": 0,
+      "tablet_visits": 0,
+      "narrow_visits": 0,
+      "island_is_visits": 0,
+      "fallback_clicks": 0,
+      "error_events": 0,
+      "debug_events": 0,
+      "bot_events": 0,
+      "safe_fallback_events": 0,
+      "last_event_time": "",
+      "last_raw_event_time": "",
+      "last_counted_event_time": "",
+      "last_diagnostic_event_time": "",
+      "last_error_event_time": "",
+      "warning_count": 0,
+      "confirmed_warning_count": 0,
+      "diagnostic_signal_count": 0,
+      "weak_unknown_signal_count": 0,
+      "source_mix_summary": "",
+      "route_mix_summary": "",
+      "config_version": "2026-06-15-prod-v1.0.0",
+      "core_version": "v1.0.0"
+    },
+    {
+      "dashboardId": "thjonustukannanir-rikisstofnana",
+      "dashboard_id": "thjonustukannanir-rikisstofnana",
+      "dashboardKey": "thjonustukannanir",
+      "dashboard_key": "thjonustukannanir",
+      "displayName": "Þjónustukannanir ríkisstofnana",
+      "dashboard_name": "Þjónustukannanir ríkisstofnana",
+      "public_card_title": "Þjónustukannanir",
+      "status": "active",
+      "confidenceScore": 1,
+      "confidence_score": 1,
+      "confidence_band": "seed",
+      "reportTypeAvailability": {
+        "desktop": true,
+        "mobile": true,
+        "fallback": "mobile"
+      },
+      "recentAggregateCounts": {
+        "visitsToday": 0,
+        "visits7d": 0,
+        "visits30d": 0,
+        "events": 0,
+        "errors": 0,
+        "fallbackClicks": 0
+      },
+      "trend7d": {
+        "visits": 0,
+        "direction": "flat"
+      },
+      "trend30d": {
+        "visits": 0,
+        "direction": "flat"
+      },
+      "viewerRiskSummary": {
+        "status": "unknown",
+        "unsupportedBrowserEvents": 0
+      },
+      "aggregateSummaries": {
+        "device": [],
+        "browser": [],
+        "os": []
+      },
+      "visits_today": 0,
+      "visits_7d": 0,
+      "visits_30d": 0,
+      "total_visits": 0,
+      "total_events": 0,
+      "raw_events": 0,
+      "diagnostic_events": 0,
+      "mobile_visits": 0,
+      "desktop_visits": 0,
+      "tablet_visits": 0,
+      "narrow_visits": 0,
+      "island_is_visits": 0,
+      "fallback_clicks": 0,
+      "error_events": 0,
+      "debug_events": 0,
+      "bot_events": 0,
+      "safe_fallback_events": 0,
+      "last_event_time": "",
+      "last_raw_event_time": "",
+      "last_counted_event_time": "",
+      "last_diagnostic_event_time": "",
+      "last_error_event_time": "",
+      "warning_count": 0,
+      "confirmed_warning_count": 0,
+      "diagnostic_signal_count": 0,
+      "weak_unknown_signal_count": 0,
+      "source_mix_summary": "",
+      "route_mix_summary": "",
+      "config_version": "2026-06-15-prod-v1.0.0",
+      "core_version": "v1.0.0"
+    }
+  ],
+  "public_cards": [
+    {
+      "dashboard_key": "bradamottaka",
+      "public_page_url": "https://island.is/s/landspitali/maelabord",
+      "public_page_path": "/s/landspitali/maelabord",
+      "public_card_title": "Bráðamóttaka í Fossvogi",
+      "public_description": "Yfirlit yfir stöðu og þróun á bráðamóttöku",
+      "button_text": "Skoða mælaborð",
+      "icon_url": "https://images.ctfassets.net/8k0h54kbe6bj/68Ef7p57VqG1aYv99GbzB0/3b98fe5c7b3b11c7d01194a7e9caccd6/bradamottaka-linkimage.png?w=774&fm=webp&q=80",
+      "published": true,
+      "stable_utm_content": "bradamottaka_fossvogi",
+      "last_verified_date": "2026-06-07",
+      "route_path": "bradamottaka"
+    },
+    {
+      "dashboard_key": "thjonustukannanir",
+      "public_page_url": "https://island.is/s/landspitali/maelabord",
+      "public_page_path": "/s/landspitali/maelabord",
+      "public_card_title": "Þjónustukannanir",
+      "public_description": "Niðurstöður þjónustukannana ríkisstofnana hjá Landspítala",
+      "button_text": "Skoða mælaborð",
+      "icon_url": "https://images.ctfassets.net/8k0h54kbe6bj/5eK6Vivq6aUDWj2mnOEsvS/7e5d5e7c03b92370ccee175ad01f8330/survey-linkimage.png?w=774&fm=webp&q=80",
+      "published": true,
+      "stable_utm_content": "thjonustukannanir",
+      "last_verified_date": "2026-06-07",
+      "route_path": "thjonustukannanir"
+    }
+  ],
+  "daily": [],
+  "hourly": [],
+  "device": [],
+  "device_confidence": [],
+  "browsers": [],
+  "os": [],
+  "display": [],
+  "input": [],
+  "performance": [],
+  "root_index_funnel": {
+    "views": 0,
+    "clicks": 0,
+    "router_arrivals": 0,
+    "counted_opens": 0
+  },
+  "root_index": {
+    "views": 0,
+    "clicks": 0,
+    "router_arrivals": 0,
+    "counted_opens": 0
+  },
+  "sources": [],
+  "routes": [],
+  "quality_warnings": [],
+  "insight_cards": [
+    {
+      "code": "traffic_total",
+      "title": "Total traffic",
+      "value": "0",
+      "detail": "Static seed snapshot; live aggregates are not embedded."
+    },
+    {
+      "code": "mobile_share",
+      "title": "Mobile share",
+      "value": "0%",
+      "detail": "Static seed snapshot."
+    },
+    {
+      "code": "fallback_error_rate",
+      "title": "Fallback/error rate",
+      "value": "0%",
+      "detail": "Static seed snapshot."
+    }
+  ],
+  "history": [
+    {
+      "date": "2026-06-15",
+      "total_visits": 0,
+      "mobile_visits": 0,
+      "desktop_visits": 0,
+      "warnings": 0
+    }
+  ],
+  "questions": [
+    "Static seed snapshot. Apps Script live API remains the fallback data source."
+  ]
+}
