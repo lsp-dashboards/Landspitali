@@ -66,6 +66,23 @@
       --data-13: #FB8281;
       --data-14: #F4D25A;
       --data-15: #7F898A;
+      --data-16: #A4DDEE;
+      --data-17: #FDAB89;
+      --data-18: #B687AC;
+      --data-19: #28738A;
+      --data-20: #A78F8F;
+      --data-21: #168980;
+      --data-22: #293537;
+      --data-23: #BB4A4A;
+      --data-24: #B59525;
+      --data-25: #475052;
+      --data-26: #6A9FB0;
+      --data-27: #BD7150;
+      --data-28: #7B4F71;
+      --data-29: #1B4D5C;
+      --data-30: #706060;
+      --data-31: #0F5C55;
+      --data-32: #1C2325;
       --data-soft-01: rgba(79, 111, 143, .1);
       --data-soft-02: rgba(47, 143, 139, .11);
       --data-soft-03: rgba(199, 138, 42, .14);
@@ -192,6 +209,43 @@
     .masthead-actions .pill-row {
       justify-content: flex-end;
       margin-top: 0;
+    }
+
+    .data-source-toggle {
+      display: inline-grid;
+      grid-template-columns: repeat(2, minmax(0, auto));
+      align-self: flex-end;
+      gap: 3px;
+      padding: 3px;
+      border: 1px solid rgba(190, 207, 220, .86);
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .data-source-link {
+      min-height: 27px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 10px;
+      border-radius: 999px;
+      color: var(--accent-dark);
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .data-source-link:hover,
+    .data-source-link:focus-visible {
+      color: var(--ink);
+      background: var(--data-soft-01);
+    }
+
+    .data-source-link.active {
+      color: #fff;
+      background: var(--data-01);
     }
 
     .eyebrow {
@@ -11604,6 +11658,25 @@
       gap: 6px;
     }
 
+    .command-grid.command-grid-solo .data-source-toggle {
+      border-color: rgba(184,203,218,.76);
+      background: rgba(255,255,255,.62);
+      box-shadow: none;
+    }
+
+    .command-grid.command-grid-solo .data-source-link {
+      min-height: 24px;
+      padding: 5px 8px;
+      border-radius: 7px;
+      font-size: 10.5px;
+      color: #3e566b;
+    }
+
+    .command-grid.command-grid-solo .data-source-link.active {
+      color: #fff;
+      background: #12314c;
+    }
+
     .command-grid.command-grid-solo .pill {
       min-height: 24px;
       padding: 5px 8px;
@@ -13858,6 +13931,508 @@
         grid-column: auto;
       }
     }
+
+    /* Tracker and delivery master panels */
+    .tracker-master-v3,
+    .delivery-master-v3 {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .tracker-v3-command,
+    .delivery-v3-command {
+      display: grid;
+      grid-template-columns: minmax(320px, .72fr) minmax(0, 1.28fr);
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .tracker-v3-brief,
+    .delivery-v3-brief,
+    .tracker-v3-stat,
+    .delivery-v3-stat,
+    .tracker-v3-module,
+    .delivery-v3-module,
+    .tracker-v3-rank,
+    .delivery-v3-combo,
+    .tracker-v3-audit,
+    .delivery-v3-audit,
+    .delivery-v3-signal {
+      border: 1px solid rgba(190, 207, 220, .82);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,251,253,.92));
+      box-shadow: none;
+    }
+
+    .tracker-v3-brief,
+    .delivery-v3-brief {
+      display: grid;
+      align-content: space-between;
+      gap: 11px;
+      min-height: 158px;
+      padding: 14px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.99), rgba(241,247,251,.92)),
+        linear-gradient(90deg, rgba(79,111,143,.07) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(47,143,139,.055) 1px, transparent 1px);
+      background-size: auto, 44px 44px, 44px 44px;
+    }
+
+    .tracker-v3-kicker,
+    .delivery-v3-kicker,
+    .tracker-v3-stat span,
+    .delivery-v3-stat span,
+    .tracker-v3-module-kicker,
+    .delivery-v3-module-kicker,
+    .tracker-v3-rank-label,
+    .delivery-v3-combo-label,
+    .tracker-v3-audit span,
+    .delivery-v3-audit span,
+    .delivery-v3-signal span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .tracker-v3-brief h3,
+    .delivery-v3-brief h3,
+    .tracker-v3-module h3,
+    .delivery-v3-module h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 24px;
+      line-height: 1.02;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .tracker-v3-module h3,
+    .delivery-v3-module h3 {
+      font-size: 18px;
+      line-height: 1.1;
+    }
+
+    .tracker-v3-brief p,
+    .delivery-v3-brief p,
+    .tracker-v3-module-copy,
+    .delivery-v3-module-copy,
+    .tracker-v3-rank-meta,
+    .delivery-v3-combo-meta,
+    .tracker-v3-audit small,
+    .delivery-v3-audit small,
+    .delivery-v3-signal small {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.34;
+      text-wrap: pretty;
+    }
+
+    .tracker-v3-chip-row,
+    .delivery-v3-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tracker-v3-stat-grid,
+    .delivery-v3-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .tracker-v3-stat,
+    .delivery-v3-stat {
+      min-height: 158px;
+      display: grid;
+      grid-template-rows: auto 1fr auto auto;
+      gap: 8px;
+      padding: 12px;
+    }
+
+    .tracker-v3-stat.good,
+    .delivery-v3-stat.good,
+    .tracker-v3-audit.good,
+    .delivery-v3-audit.good,
+    .delivery-v3-signal.good {
+      background: var(--data-soft-02);
+      border-color: rgba(47,143,139,.26);
+    }
+
+    .tracker-v3-stat.warn,
+    .delivery-v3-stat.warn,
+    .tracker-v3-audit.warn,
+    .delivery-v3-audit.warn,
+    .delivery-v3-signal.warn {
+      background: var(--data-soft-03);
+      border-color: rgba(199,138,42,.32);
+    }
+
+    .tracker-v3-stat.info,
+    .delivery-v3-stat.info,
+    .tracker-v3-audit.info,
+    .delivery-v3-audit.info,
+    .delivery-v3-signal.info {
+      background: var(--data-soft-09);
+      border-color: rgba(53,153,184,.24);
+    }
+
+    .tracker-v3-stat.gateway,
+    .delivery-v3-stat.gateway,
+    .tracker-v3-audit.gateway,
+    .delivery-v3-audit.gateway,
+    .delivery-v3-signal.gateway {
+      background: var(--data-soft-01);
+      border-color: rgba(79,111,143,.24);
+    }
+
+    .tracker-v3-stat strong,
+    .delivery-v3-stat strong {
+      align-self: end;
+      color: var(--ink);
+      font-size: 28px;
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .tracker-v3-stat small,
+    .delivery-v3-stat small {
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 1.24;
+    }
+
+    .tracker-v3-main,
+    .delivery-v3-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(340px, .88fr);
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .delivery-v3-body {
+      grid-template-columns: minmax(0, .95fr) minmax(0, .95fr) minmax(0, 1fr);
+    }
+
+    .tracker-v3-module,
+    .delivery-v3-module {
+      display: grid;
+      align-content: start;
+      gap: 11px;
+      padding: 12px;
+    }
+
+    .tracker-v3-module-head,
+    .delivery-v3-module-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .tracker-v3-module-title,
+    .delivery-v3-module-title {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .tracker-v3-module-count,
+    .delivery-v3-module-count {
+      flex: 0 0 auto;
+      display: inline-grid;
+      place-items: center;
+      min-height: 30px;
+      padding: 6px 9px;
+      border: 1px solid rgba(190,207,220,.78);
+      border-radius: 999px;
+      background: rgba(255,255,255,.78);
+      color: var(--accent-dark);
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .tracker-v3-distribution-grid,
+    .delivery-v3-visual-grid,
+    .delivery-v3-transport-grid {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .tracker-v3-distribution-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .delivery-v3-visual-grid,
+    .delivery-v3-transport-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .tracker-master-v3 .delivery-viz-panel,
+    .delivery-master-v3 .delivery-viz-panel {
+      border-radius: 8px;
+      border-color: rgba(190,207,220,.76);
+      background: rgba(255,255,255,.78);
+    }
+
+    .tracker-master-v3 .delivery-viz-panel.good,
+    .delivery-master-v3 .delivery-viz-panel.good {
+      background: var(--data-soft-02);
+      border-color: rgba(47,143,139,.22);
+    }
+
+    .tracker-master-v3 .delivery-viz-panel.info,
+    .delivery-master-v3 .delivery-viz-panel.info {
+      background: var(--data-soft-09);
+      border-color: rgba(53,153,184,.22);
+    }
+
+    .tracker-master-v3 .delivery-viz-panel.gateway,
+    .delivery-master-v3 .delivery-viz-panel.gateway {
+      background: var(--data-soft-01);
+      border-color: rgba(79,111,143,.22);
+    }
+
+    .tracker-master-v3 .delivery-tree-segment.tone-0,
+    .tracker-master-v3 .delivery-donut.tone-0,
+    .delivery-master-v3 .delivery-tree-segment.tone-0,
+    .delivery-master-v3 .delivery-donut.tone-0 { --viz-color: var(--data-02); }
+
+    .tracker-master-v3 .delivery-tree-segment.tone-1,
+    .tracker-master-v3 .delivery-donut.tone-1,
+    .delivery-master-v3 .delivery-tree-segment.tone-1,
+    .delivery-master-v3 .delivery-donut.tone-1 { --viz-color: var(--data-01); }
+
+    .tracker-master-v3 .delivery-tree-segment.tone-2,
+    .tracker-master-v3 .delivery-donut.tone-2,
+    .delivery-master-v3 .delivery-tree-segment.tone-2,
+    .delivery-master-v3 .delivery-donut.tone-2 { --viz-color: var(--data-09); }
+
+    .tracker-master-v3 .delivery-tree-segment.tone-3,
+    .tracker-master-v3 .delivery-donut.tone-3,
+    .delivery-master-v3 .delivery-tree-segment.tone-3,
+    .delivery-master-v3 .delivery-donut.tone-3 { --viz-color: var(--data-03); }
+
+    .tracker-master-v3 .delivery-viz-head strong,
+    .delivery-master-v3 .delivery-viz-head strong {
+      font-size: 15px;
+    }
+
+    .tracker-master-v3 .delivery-viz-text strong,
+    .delivery-master-v3 .delivery-viz-text strong,
+    .tracker-v3-rank-title,
+    .delivery-v3-combo-title {
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.15;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .tracker-v3-rank-list,
+    .delivery-v3-combo-list,
+    .delivery-v3-signals {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .tracker-v3-rank,
+    .delivery-v3-combo {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) minmax(76px, auto);
+      gap: 10px;
+      align-items: center;
+      min-height: 72px;
+      padding: 10px;
+    }
+
+    .delivery-v3-combo {
+      grid-template-columns: minmax(0, 1fr) minmax(76px, auto);
+    }
+
+    .tracker-v3-rank::before,
+    .delivery-v3-combo::before {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--data-02) var(--fill, 0%), #e6edf3 0);
+    }
+
+    .tracker-v3-index {
+      width: 28px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--data-01);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .tracker-v3-rank-main,
+    .delivery-v3-combo-main {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .tracker-v3-rank-value,
+    .delivery-v3-combo-count {
+      display: grid;
+      justify-items: end;
+      gap: 3px;
+      color: var(--ink);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .tracker-v3-rank-value strong,
+    .delivery-v3-combo-count strong,
+    .tracker-v3-audit strong,
+    .delivery-v3-audit strong,
+    .delivery-v3-signal strong {
+      color: var(--ink);
+      font-size: 23px;
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .tracker-v3-rank-value span,
+    .delivery-v3-combo-count span {
+      color: var(--muted);
+      font-size: 9.5px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: .055em;
+      text-transform: uppercase;
+    }
+
+    .tracker-v3-audit-strip,
+    .delivery-v3-audit-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .delivery-v3-audit-strip {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .tracker-v3-audit,
+    .delivery-v3-audit {
+      min-height: 76px;
+      display: grid;
+      align-content: space-between;
+      gap: 6px;
+      padding: 10px;
+    }
+
+    .delivery-v3-signals {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .delivery-v3-signal {
+      min-height: 70px;
+      display: grid;
+      align-content: space-between;
+      gap: 5px;
+      padding: 10px;
+    }
+
+    .tracker-v3-track,
+    .delivery-v3-track {
+      height: 7px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(169,180,194,.36);
+    }
+
+    .tracker-v3-fill,
+    .delivery-v3-fill {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--data-01);
+    }
+
+    .tracker-v3-fill.good,
+    .delivery-v3-fill.good { background: var(--data-02); }
+    .tracker-v3-fill.warn,
+    .delivery-v3-fill.warn { background: var(--data-03); }
+    .tracker-v3-fill.info,
+    .delivery-v3-fill.info { background: var(--data-09); }
+    .tracker-v3-fill.gateway,
+    .delivery-v3-fill.gateway { background: var(--data-01); }
+
+    @media (max-width: 1260px) {
+      .tracker-v3-command,
+      .delivery-v3-command,
+      .tracker-v3-main,
+      .delivery-v3-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .tracker-v3-stat-grid,
+      .delivery-v3-stat-grid,
+      .tracker-v3-distribution-grid,
+      .tracker-v3-audit-strip,
+      .delivery-v3-audit-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .tracker-v3-stat-grid,
+      .delivery-v3-stat-grid,
+      .tracker-v3-distribution-grid,
+      .delivery-v3-signals,
+      .tracker-v3-audit-strip,
+      .delivery-v3-audit-strip,
+      .tracker-v3-rank,
+      .delivery-v3-combo,
+      .tracker-v3-module-head,
+      .delivery-v3-module-head {
+        grid-template-columns: 1fr;
+      }
+
+      .tracker-v3-module-head,
+      .delivery-v3-module-head {
+        display: grid;
+      }
+
+      .tracker-v3-brief,
+      .delivery-v3-brief,
+      .tracker-v3-stat,
+      .delivery-v3-stat {
+        min-height: auto;
+      }
+
+      .tracker-v3-rank-value,
+      .delivery-v3-combo-count {
+        justify-items: start;
+        text-align: left;
+      }
+    }
   </style>
 </head>
 <body>
@@ -13876,6 +14451,10 @@
             </div>
           </div>
           <div class="masthead-actions">
+            <nav class="data-source-toggle" aria-label="Velja gagnasett">
+              <a class="data-source-link active" href="./index.html" aria-current="page">Raun gögn</a>
+              <a class="data-source-link" href="https://docs.google.com/spreadsheets/d/1ORKOx4_oT7b6x52aGr4JzvotLCcuquLY_VyppfXOvu4/edit?gid=694699750#gid=694699750" target="_blank" rel="noopener noreferrer">Sample gögn</a>
+            </nav>
             <div class="pill-row" aria-label="Staða og uppfærsla">
               <span class="pill"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn</span></span>
               <span class="pill" id="generated-pill" title="Uppfært: -">Uppfært: -</span>
@@ -18273,15 +18852,26 @@
       });
       return result.sort(function (a, b) { return b.visits - a.visits || b.raw_signal_events - a.raw_signal_events; });
     }
-    function techTopStat(label, value, detail, cls) {
-      var className = cls ? " " + safe(cls) : "";
-      return '<article class="tech-top-stat' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+    function trackerFill(value, total) {
+      return clamp((number(value) / Math.max(number(total), 1)) * 100, 0, 100).toFixed(1) + "%";
     }
-    function techAuditNote(label, value, detail, cls) {
+    function trackerV3Stat(label, value, detail, cls, fillValue, fillTotal) {
       var className = cls ? " " + safe(cls) : "";
-      return '<div class="tech-signal-note' + className + '"><span class="tech-board-kicker">' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></div>';
+      var fill = trackerFill(fillValue, fillTotal);
+      return '<article class="tracker-v3-stat' + className + '">' +
+        '<span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' +
+        '<div class="tracker-v3-track" aria-hidden="true"><i class="tracker-v3-fill' + className + '" style="--fill:' + safe(fill) + '"></i></div>' +
+      '</article>';
     }
-    function techComboCard(row, cards) {
+    function trackerV3Audit(label, value, detail, cls, fillValue, fillTotal) {
+      var className = cls ? " " + safe(cls) : "";
+      var fill = trackerFill(fillValue, fillTotal);
+      return '<article class="tracker-v3-audit' + className + '">' +
+        '<span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' +
+        '<div class="tracker-v3-track" aria-hidden="true"><i class="tracker-v3-fill' + className + '" style="--fill:' + safe(fill) + '"></i></div>' +
+      '</article>';
+    }
+    function trackerV3ComboCard(row, cards, total, index) {
       var browser = browserLabel(row);
       var os = row.os_family || "Óþekkt";
       var device = labelDevice(row.device_class || row.inferred_device_class);
@@ -18290,11 +18880,14 @@
       var uncounted = row.visits === 0 && row.raw_signal_events > 0;
       var diagnostic = row.diagnostic ? "Diagnostic" : "";
       var merged = number(row.combo_count) > 1 && row.visits > 0 ? fmt(row.combo_count) + " tæknilínur" : "";
-      var chips = '<span class="chip accent">' + safe(device) + '</span><span class="chip neutral">' + safe(layout) + '</span><span class="chip neutral">' + safe(browser) + '</span>';
+      var label = [device, layout, browser].filter(Boolean).join(" / ");
       var meta = [os, theme, isSamsungInternetRow(row) ? "Samsung Internet" : "", uncounted ? "Ótalið tæknimerki" : "", diagnostic, merged].filter(Boolean).join(" · ");
-      return '<article class="tech-combo-card">' +
-        '<div><div class="tech-combo-title">' + safe(titleFor(row, cards)) + '</div><div class="chip-row" style="margin-top:7px;">' + chips + '</div><div class="tech-combo-meta">' + safe(meta || cleanId(row.dashboard_id || row.dashboard_key)) + '</div></div>' +
-        '<div class="tech-combo-count"><strong>' + fmt(row.visits || row.raw_signal_events) + '</strong><span>' + safe(uncounted ? "ótalið" : "visits") + '</span></div>' +
+      var value = number(row.visits || row.raw_signal_events);
+      var fill = trackerFill(value, total);
+      return '<article class="tracker-v3-rank" style="--fill:' + safe(fill) + '">' +
+        '<div class="tracker-v3-index">' + fmt(index + 1) + '</div>' +
+        '<div class="tracker-v3-rank-main"><div class="tracker-v3-rank-label">' + safe(label) + '</div><div class="tracker-v3-rank-title">' + safe(titleFor(row, cards)) + '</div><div class="tracker-v3-rank-meta">' + safe(meta || cleanId(row.dashboard_id || row.dashboard_key)) + '</div></div>' +
+        '<div class="tracker-v3-rank-value"><strong>' + fmt(value) + '</strong><span>' + safe(uncounted ? "ótalið" : pct(value, total)) + '</span></div>' +
       '</article>';
     }
     function renderTechnical(data) {
@@ -18312,54 +18905,56 @@
       var osDistribution = osGroups.slice(0, distributionLimit);
       var deviceDistribution = deviceGroups.slice(0, distributionLimit);
       var confidenceDistribution = confidenceGroups.slice(0, distributionLimit);
-      var renderedDistributionRows = Math.max(1, browserDistribution.length, osDistribution.length, deviceDistribution.length, confidenceDistribution.length);
-      var distributionPanelMin = 190 + Math.max(0, renderedDistributionRows - 5) * 42;
       var comboLimit = Math.max(6, distributionLimit);
       var rows = groupedDeviceCombos(data, comboLimit);
-      var comboRows = Math.max(1, rows.length);
-      var comboRowMin = 78 + Math.max(0, renderedDistributionRows - 5) * 6;
-      var workbenchStyle = ' style="--tech-dist-panel-min:' + safe(distributionPanelMin) + 'px;--tech-combo-row-min:' + safe(comboRowMin) + 'px;--tech-combo-rows:' + safe(comboRows) + '"';
       var allTech = technicalRows(data);
       var countedTech = visibleRows(allTech);
       var trackerLines = allTech.length;
+      var countedVisits = Math.max(sumRows(countedTech), 1);
       var topBrowser = browserGroups[0];
       var topOS = osGroups[0];
       var topDevice = deviceGroups[0];
       var topConfidence = confidenceGroups[0];
-      var topCombo = rows[0];
       var samsungRaw = softSignalRows(data.device || []).reduce(function (acc, row) { return acc + (isSamsungInternetRow(row) ? rawSignalValue(row) : 0); }, 0);
       var diagnosticRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && isDiagnosticRow(row); }).length;
       var unknownDevice = visibleRows(data.device || []).reduce(function (acc, row) { return acc + (/unknown/i.test(row.device_class || row.inferred_device_class || "") ? visitValue(row) : 0); }, 0);
       var weakShare = data.kpis && data.kpis.weak_unknown_signal_share !== undefined ? number(data.kpis.weak_unknown_signal_share) : (number(data.kpis && data.kpis.weak_unknown_signal_count) / Math.max(number(data.kpis && data.kpis.total_events), 1));
       var attention = (samsungRaw ? 1 : 0) + (diagnosticRows ? 1 : 0) + (unknownDevice ? 1 : 0) + (weakShare > .12 ? 1 : 0);
-      var verdict = attention ? "Tracker merki til greiningar" : "Tæki og vafrar skýr";
-      var verdictCopy = "Þessi sýn sameinar dashboard, tæki, vafra, stýrikerfi, litaþema og raw/diagnostic tæknimerki. Taldar production heimsóknir eru haldnar aðskildar frá greiningarlínum.";
-      var comboHtml = rows.map(function (row) { return techComboCard(row, cards); }).join("") || '<div class="message-card neutral"><strong>Engin tæknigögn enn</strong><p>Device samantekt vantar í payload eða engar taldar/merkingarbærar línur fundust.</p></div>';
+      var verdict = attention ? "Merki sem skýra frávik" : "Tækjasýn stöðug";
+      var verdictCopy = "Taldar production heimsóknir eru lesnar sem notkun. Raw, diagnostic og veik merki eru haldin í sér rás svo rekstur sjái hvort vandinn sé tæki, vafri, stýrikerfi eða gagnasending.";
+      var browserTotal = Math.max(sumRows(browserGroups, "visits"), 1);
+      var osTotal = Math.max(sumRows(osGroups, "visits"), 1);
+      var deviceTotal = Math.max(sumRows(deviceGroups, "visits"), 1);
+      var confidenceTotal = Math.max(sumRows(confidenceGroups, "visits"), 1);
+      var comboTotal = Math.max(rows.reduce(function (acc, row) { return acc + number(row.visits || row.raw_signal_events); }, 0), 1);
+      var comboHtml = rows.map(function (row, index) { return trackerV3ComboCard(row, cards, comboTotal, index); }).join("") || '<div class="message-card neutral"><strong>Engin tæknigögn enn</strong><p>Device samantekt vantar í payload eða engar taldar/merkingarbærar línur fundust.</p></div>';
       setHtml("technical-panel",
-        '<div class="tech-command-board">' +
-          '<div class="tech-hero-row">' +
-            '<article class="tech-verdict-card"><span class="tech-kicker">Tæki og vafraumhverfi</span><strong>' + safe(verdict) + '</strong><p>' + safe(verdictCopy) + '</p><div class="chip-row"><span class="chip ' + (attention ? "warn" : "good") + '">' + fmt(attention) + ' athuganir</span><span class="chip neutral">' + fmt(trackerLines) + ' tracker línur</span><span class="chip neutral">' + fmt(countedTech.length) + ' taldar línur</span></div></article>' +
-            techTopStat("Algengasta tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir" : "Vantar dreifingu", topDevice ? "info" : "gateway") +
-            techTopStat("Algengasti vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir" : "Vantar vafragögn", topBrowser ? "" : "gateway") +
-            techTopStat("Algengast OS", topOS ? topOS.key : "Óþekkt", topOS ? fmt(topOS.visits) + " heimsóknir" : "Vantar OS gögn", topOS ? "gateway" : "") +
-            techTopStat("Traust tækja", topConfidence ? topConfidence.key : "Óþekkt", topConfidence ? fmt(topConfidence.visits) + " línur" : "Engin confidence flokkun", topConfidence ? "good" : "gateway") +
+        '<div class="tracker-master-v3">' +
+          '<div class="tracker-v3-command">' +
+            '<article class="tracker-v3-brief"><div><span class="tracker-v3-kicker">Tracker master</span><h3>' + safe(verdict) + '</h3></div><p>' + safe(verdictCopy) + '</p><div class="tracker-v3-chip-row"><span class="chip ' + (attention ? "warn" : "good") + '">' + fmt(attention) + ' athuganir</span><span class="chip neutral">' + fmt(trackerLines) + ' tracker línur</span><span class="chip neutral">' + fmt(countedTech.length) + ' taldar línur</span></div></article>' +
+            '<div class="tracker-v3-stat-grid">' +
+              trackerV3Stat("Tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir · " + pct(topDevice.visits, deviceTotal) : "Vantar dreifingu", topDevice ? "info" : "gateway", topDevice ? topDevice.visits : 0, deviceTotal) +
+              trackerV3Stat("Vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir · " + pct(topBrowser.visits, browserTotal) : "Vantar vafragögn", topBrowser ? "gateway" : "warn", topBrowser ? topBrowser.visits : 0, browserTotal) +
+              trackerV3Stat("Stýrikerfi", topOS ? topOS.key : "Óþekkt", topOS ? fmt(topOS.visits) + " heimsóknir · " + pct(topOS.visits, osTotal) : "Vantar OS gögn", topOS ? "gateway" : "warn", topOS ? topOS.visits : 0, osTotal) +
+              trackerV3Stat("Traust", topConfidence ? topConfidence.key : "Óþekkt", topConfidence ? fmt(topConfidence.visits) + " línur · " + pct(topConfidence.visits, confidenceTotal) : "Engin confidence flokkun", topConfidence ? "good" : "gateway", topConfidence ? topConfidence.visits : 0, confidenceTotal) +
+            '</div>' +
           '</div>' +
-          '<div class="tech-workbench"' + workbenchStyle + '>' +
-            '<article class="tech-combo-board"><div><span class="tech-board-kicker">Toppsamsetningar</span><h3>Hvar vafra- og tækjamynstur sjást</h3><div class="subtle" style="margin-top:7px;">Raðað eftir töldum heimsóknum, með raw/diagnostic sýnt sem sérstakt merki ef það skýrir vandamál.</div></div><div class="tech-combo-list">' + comboHtml + '</div></article>' +
-            '<article class="tech-evidence-board"><div><span class="tech-board-kicker">Dreifing og frávik</span><h3>Hvað þarf að vita áður en vandamál er rakið</h3></div><div class="tech-distribution-grid">' +
-              distributionPanelFromRows("Vafrar", browserDistribution) +
-              distributionPanelFromRows("Stýrikerfi", osDistribution) +
-              distributionPanelFromRows("Tæki", deviceDistribution) +
-              distributionPanelFromRows("Traust", confidenceDistribution) +
-            '</div></article>' +
+          '<div class="tracker-v3-main">' +
+            '<section class="tracker-v3-module"><div class="tracker-v3-module-head"><div class="tracker-v3-module-title"><span class="tracker-v3-module-kicker">Dreifing</span><h3>Umhverfið sem mælaborðin keyra í</h3><p class="tracker-v3-module-copy">Sérhver flokkur er lesinn sem hlutdeild af sömu talningu svo tæki, vafri, OS og confidence verði samanburðarhæf.</p></div><span class="tracker-v3-module-count">' + fmt(countedVisits) + ' heimsóknir</span></div><div class="tracker-v3-distribution-grid">' +
+              shareVizCard("Vafrar", browserDistribution, browserTotal, { className: "gateway", unit: "línur", limit: browserDistribution.length || 1, displayTotal: browserTotal, visualRows: browserDistribution.length || 1 }) +
+              shareVizCard("Stýrikerfi", osDistribution, osTotal, { className: "info", unit: "línur", limit: osDistribution.length || 1, displayTotal: osTotal, visualRows: osDistribution.length || 1 }) +
+              shareVizCard("Tæki", deviceDistribution, deviceTotal, { className: "good", unit: "línur", limit: deviceDistribution.length || 1, displayTotal: deviceTotal, visualRows: deviceDistribution.length || 1 }) +
+              shareVizCard("Traust", confidenceDistribution, confidenceTotal, { className: "gateway", unit: "línur", limit: confidenceDistribution.length || 1, displayTotal: confidenceTotal, visualRows: confidenceDistribution.length || 1 }) +
+            '</div></section>' +
+            '<section class="tracker-v3-module"><div class="tracker-v3-module-head"><div class="tracker-v3-module-title"><span class="tracker-v3-module-kicker">Mynstur</span><h3>Samsetningar sem skýra mest</h3><p class="tracker-v3-module-copy">Raðað eftir raunnotkun fyrst, með raw/diagnostic sýnt sem sérmerki þegar það þarf að skýra frávik.</p></div><span class="tracker-v3-module-count">' + fmt(rows.length) + ' hópar</span></div><div class="tracker-v3-rank-list">' + comboHtml + '</div></section>' +
           '</div>' +
-          '<div class="tech-audit-row technical-audit-row">' +
-            techAuditNote("Veik merki", shareValue(weakShare), "Veik eða óþekkt signal.", weakShare > .12 ? "warn" : "good") +
-            techAuditNote("Samsung raw", fmt(samsungRaw), "Greining, ekki heimsókn.", samsungRaw ? "info" : "good") +
-            techAuditNote("Diagnostic", fmt(diagnosticRows), "Sýnt sér frá notkun.", diagnosticRows ? "info" : "good") +
-            techAuditNote("Óþekkt tæki", fmt(unknownDevice), "Ætti helst að vera 0.", unknownDevice ? "warn" : "good") +
-            techAuditNote("Tracker línur", fmt(trackerLines), "Allar device línur.", trackerLines ? "gateway" : "warn") +
-            techAuditNote("Taldar línur", fmt(countedTech.length), "Production heimsóknir.", countedTech.length ? "good" : "warn") +
+          '<div class="tracker-v3-audit-strip">' +
+            trackerV3Audit("Veik merki", shareValue(weakShare), "Veik eða óþekkt signal.", weakShare > .12 ? "warn" : "good", weakShare * 100, 100) +
+            trackerV3Audit("Samsung raw", fmt(samsungRaw), "Greining, ekki heimsókn.", samsungRaw ? "info" : "good", samsungRaw, Math.max(samsungRaw + countedVisits, 1)) +
+            trackerV3Audit("Diagnostic", fmt(diagnosticRows), "Haldið utan notkunar.", diagnosticRows ? "info" : "good", diagnosticRows, Math.max(trackerLines, 1)) +
+            trackerV3Audit("Óþekkt tæki", fmt(unknownDevice), "Ætti helst að vera 0.", unknownDevice ? "warn" : "good", unknownDevice, countedVisits) +
+            trackerV3Audit("Tracker línur", fmt(trackerLines), "Allar device línur.", trackerLines ? "gateway" : "warn", trackerLines, Math.max(trackerLines, 1)) +
+            trackerV3Audit("Taldar línur", fmt(countedTech.length), "Production heimsóknir.", countedTech.length ? "good" : "warn", countedTech.length, Math.max(trackerLines, 1)) +
           '</div>' +
         '</div>');
     }
@@ -18392,13 +18987,17 @@
       '</div><p class="subtle" style="margin:10px 0 0;">Þessi merki eru notuð til rekstrargreiningar. Þau hækka ekki taldar heimsóknir nema payload merki þau sérstaklega sem production heimsóknir.</p></article>';
     }
 
-    function deliveryStat(label, value, detail, cls) {
+    function deliveryV3Stat(label, value, detail, cls, fillValue, fillTotal) {
       var className = cls ? " " + safe(cls) : "";
-      return '<article class="delivery-stat' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+      var fill = trackerFill(fillValue, fillTotal);
+      return '<article class="delivery-v3-stat' + className + '">' +
+        '<span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' +
+        '<div class="delivery-v3-track" aria-hidden="true"><i class="delivery-v3-fill' + className + '" style="--fill:' + safe(fill) + '"></i></div>' +
+      '</article>';
     }
-    function deliverySignal(label, value, cls) {
+    function deliveryV3Signal(label, value, detail, cls) {
       var className = cls ? " " + safe(cls) : "";
-      return '<div class="delivery-signal' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div>';
+      return '<div class="delivery-v3-signal' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></div>';
     }
     function shareVizCard(label, rows, total, options) {
       options = options || {};
@@ -18442,21 +19041,29 @@
       options.unit = options.unit || "merki";
       return shareVizCard(label, rows, total, options);
     }
-    function deliveryAudit(label, value, detail, cls) {
+    function deliveryV3Audit(label, value, detail, cls, fillValue, fillTotal) {
       var className = cls ? " " + safe(cls) : "";
-      return '<article class="delivery-audit-card' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+      var fill = trackerFill(fillValue, fillTotal);
+      return '<article class="delivery-v3-audit' + className + '">' +
+        '<span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' +
+        '<div class="delivery-v3-track" aria-hidden="true"><i class="delivery-v3-fill' + className + '" style="--fill:' + safe(fill) + '"></i></div>' +
+      '</article>';
     }
-    function deliveryCombo(row, cards, total) {
+    function deliveryV3Combo(row, cards, total) {
       var browser = browserLabel(row);
       var os = row.os_family || "Óþekkt";
       var device = labelDevice(row.device_class || row.inferred_device_class);
       var layout = labelLayout(row.selected_layout);
       var theme = labelTheme(row.color_scheme || "unknown");
-      var flags = [device, layout, browser, os, theme].filter(Boolean).join(" · ");
+      var label = [device, layout, browser].filter(Boolean).join(" / ");
+      var flags = [os, theme].filter(Boolean).join(" · ");
       var uncounted = row.visits === 0 && row.raw_signal_events > 0 ? " · ótalið tæknimerki" : "";
       var value = number(row.visits || row.raw_signal_events);
       var share = total ? pct(value, total) : "";
-      return '<div class="delivery-combo"><div><div class="delivery-combo-title">' + safe(titleFor(row, cards)) + '</div><div class="delivery-combo-meta">' + safe(flags + uncounted) + '</div></div><div class="delivery-combo-count"><strong>' + fmt(value) + '</strong><span>' + safe(share || "visits") + '</span></div></div>';
+      return '<div class="delivery-v3-combo" style="--fill:' + safe(trackerFill(value, total)) + '">' +
+        '<div class="delivery-v3-combo-main"><div class="delivery-v3-combo-label">' + safe(label) + '</div><div class="delivery-v3-combo-title">' + safe(titleFor(row, cards)) + '</div><div class="delivery-v3-combo-meta">' + safe((flags || cleanId(row.dashboard_id || row.dashboard_key)) + uncounted) + '</div></div>' +
+        '<div class="delivery-v3-combo-count"><strong>' + fmt(value) + '</strong><span>' + safe(share || "visits") + '</span></div>' +
+      '</div>';
     }
     function renderDeliveryPanel(data) {
       var k = data.kpis || {};
@@ -18505,31 +19112,31 @@
       var a11yChips = a11yRows.map(function (row) { return '<span class="chip neutral">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin aðgengismerki</span>';
       var themeChips = '<span class="chip ' + (forcedSignals ? 'info' : 'neutral') + '">Auto-dark: ' + fmt(forcedSignals) + '</span><span class="chip ' + (samsungPossible ? 'info' : 'neutral') + '">Samsung: ' + fmt(samsungPossible) + '</span>';
       var comboTotal = Math.max(sumRows(combos, "visits"), 1);
-      var comboHtml = combos.map(function (row) { return deliveryCombo(row, cards, comboTotal); }).join("") || '<div class="message-card neutral"><strong>Engar tækjasamsetningar</strong><p>Device/browser samantekt vantar í payload.</p></div>';
+      var comboHtml = combos.map(function (row) { return deliveryV3Combo(row, cards, comboTotal); }).join("") || '<div class="message-card neutral"><strong>Engar tækjasamsetningar</strong><p>Device/browser samantekt vantar í payload.</p></div>';
 
       setHtml("delivery-panel",
-        '<div class="delivery-hero">' +
-          '<article class="delivery-verdict"><span class="delivery-kicker">Tæknileg afhending</span><strong>' + safe(verdict) + '</strong><p>' + safe(verdictCopy) + '</p><div class="chip-row"><span class="chip ' + (concernCount ? 'warn' : 'good') + '">' + fmt(concernCount) + ' athuganir</span><span class="chip neutral">' + fmt(trackerLines) + ' tracker línur</span><span class="chip neutral">Cache: ' + safe(cacheText) + '</span></div></article>' +
-          deliveryStat("Tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir" : "Engin dreifing", "info") +
-          deliveryStat("Vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir" : "Engin vafragögn", "") +
-          deliveryStat("Skjár", topViewport ? topViewport.key : "Óþekkt", topViewport ? fmt(topViewport.visits) + " heimsóknir" : "Engin skjágögn", "gateway") +
-          deliveryStat("Sending", methodRows[0] ? methodRows[0].key : "Óþekkt", methodRows[0] ? fmt(methodRows[0].visits) + " merki" : "Engin sendingargögn", cacheText === "Hit" ? "good" : "gateway") +
-        '</div>' +
-        '<div class="delivery-lanes">' +
-          '<article class="delivery-lane featured"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Skjár og aðgengi</span><h3>Litaþema, viewport og aðgengi</h3><p class="delivery-lane-copy">Lesið eins og afhendingarmerki: bæði hlutfall og fjöldi sjást, en raw/diagnostic bætist ekki við taldar heimsóknir.</p></div><span class="delivery-pill">' + fmt(sumRows(countedDisplay)) + ' talin</span></div>' +
-            '<div class="delivery-display-stack">' + shareVizCard("Litaþema", themeRows, displayTotal, { className: "good", unit: "talin", headerMeta: themeChips }) + shareVizCard("Viewport", viewportRows, viewportTotal, { className: "gateway", unit: "talin", headerMeta: a11yChips }) + '</div></article>' +
-          '<article class="delivery-lane featured combo-lane"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Tæki og vafri</span><h3>Samsetningar sem tracker sér</h3><p class="delivery-lane-copy">Fjórar stærstu samsetningar fylla reitinn svo munstur eftir mælaborði, tæki, vafra, OS og theme sé fljótt að lesa.</p></div><span class="delivery-pill">' + fmt(combos.length) + ' hópar</span></div><div class="delivery-signal-grid">' + deliverySignal("Hópar", fmt(combos.length), "info") + deliverySignal("Efsta tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? "info" : "gateway") + deliverySignal("Efsti vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? "" : "gateway") + '</div><div class="delivery-combo-list">' + comboHtml + '</div></article>' +
-          '<article class="delivery-lane performance"><div class="delivery-lane-head"><div><span class="delivery-lane-kicker">Flutningur og afköst</span><h3>Sending, payload og netmerki</h3><p class="delivery-lane-copy">Sendiaðferð, payload stærð og tenging eru afhendingarmerki. Cache hit er gott þegar gögnin eru fersk.</p></div><span class="delivery-pill">' + safe(cacheText) + '</span></div>' +
-            '<div class="delivery-signal-grid">' + deliverySignal("Lítil geta", fmt(lowCap), lowCap ? "warn" : "good") + deliverySignal("Línur", fmt(trackerLines), "") + deliverySignal("Cache", cacheText, cacheText === "Hit" ? "good" : "gateway") + '</div>' +
-            '<div class="delivery-subsection"><div class="delivery-section-label">Sending og payload</div><div class="delivery-viz-stack">' + deliveryShareViz("Sending", methodRows, methodTotal, "good") + deliveryShareViz("Payload", payloadRows, payloadTotal, "info") + '</div></div>' +
-            '<div class="delivery-subsection netmark-subsection">' + deliveryShareViz("Netmerki", connectionRows, connectionTotal, "gateway", { stretch: true }) + '</div></article>' +
-        '</div>' +
-        '<div class="delivery-audit">' +
-          deliveryAudit("Tracker línur", fmt(trackerLines), "Taldar device/performance línur.", trackerLines ? "good" : "warn") +
-          deliveryAudit("Payload", payloadRows[0] ? payloadRows[0].key : "Óþekkt", payloadRows[0] ? fmt(payloadRows[0].visits) + " merki" : "Vantar stærð", payloadRows[0] ? "info" : "gateway") +
-          deliveryAudit("Netmerki", connectionRows[0] ? connectionRows[0].key : "Óþekkt", connectionRows[0] ? fmt(connectionRows[0].visits) + " merki" : "Vafri gaf ekki upp", connectionRows[0] ? "" : "gateway") +
-          deliveryAudit("Veik merki", shareValue(weakShare), "Veik eða óþekkt signal.", weakShare > .12 ? "warn" : "good") +
-          deliveryAudit("Diagnostic", fmt(diagnosticRows), "Sýnt sér, ekki heimsóknir.", diagnosticRows ? "info" : "good") +
+        '<div class="delivery-master-v3">' +
+          '<div class="delivery-v3-command">' +
+            '<article class="delivery-v3-brief"><div><span class="delivery-v3-kicker">Afhending master</span><h3>' + safe(verdict) + '</h3></div><p>' + safe(verdictCopy) + '</p><div class="delivery-v3-chip-row"><span class="chip ' + (concernCount ? 'warn' : 'good') + '">' + fmt(concernCount) + ' athuganir</span><span class="chip neutral">' + fmt(trackerLines) + ' tracker línur</span><span class="chip neutral">Cache: ' + safe(cacheText) + '</span></div></article>' +
+            '<div class="delivery-v3-stat-grid">' +
+              deliveryV3Stat("Tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir · " + pct(topDevice.visits, Math.max(sumRows(rowsFrom(data, "device_confidence", "device")), 1)) : "Engin dreifing", "info", topDevice ? topDevice.visits : 0, Math.max(sumRows(rowsFrom(data, "device_confidence", "device")), 1)) +
+              deliveryV3Stat("Vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir · " + pct(topBrowser.visits, Math.max(sumRows(rowsFrom(data, "browsers", "device")), 1)) : "Engin vafragögn", topBrowser ? "gateway" : "warn", topBrowser ? topBrowser.visits : 0, Math.max(sumRows(rowsFrom(data, "browsers", "device")), 1)) +
+              deliveryV3Stat("Skjár", topViewport ? topViewport.key : "Óþekkt", topViewport ? fmt(topViewport.visits) + " heimsóknir · " + pct(topViewport.visits, viewportTotal) : "Engin skjágögn", "gateway", topViewport ? topViewport.visits : 0, viewportTotal) +
+              deliveryV3Stat("Sending", methodRows[0] ? methodRows[0].key : "Óþekkt", methodRows[0] ? fmt(methodRows[0].visits) + " merki · " + pct(methodRows[0].visits, methodTotal) : "Engin sendingargögn", cacheText === "Hit" ? "good" : "gateway", methodRows[0] ? methodRows[0].visits : 0, methodTotal) +
+            '</div>' +
+          '</div>' +
+          '<div class="delivery-v3-body">' +
+            '<section class="delivery-v3-module"><div class="delivery-v3-module-head"><div class="delivery-v3-module-title"><span class="delivery-v3-module-kicker">Skjár</span><h3>Þema, viewport og aðgengi</h3><p class="delivery-v3-module-copy">Afhendingarmerki lesin sér frá raw/diagnostic svo notkun og tæknileg skilyrði blandist ekki.</p></div><span class="delivery-v3-module-count">' + fmt(sumRows(countedDisplay)) + ' talin</span></div><div class="delivery-v3-visual-grid">' + shareVizCard("Litaþema", themeRows, displayTotal, { className: "good", unit: "talin", headerMeta: themeChips, visualRows: themeRows.length }) + shareVizCard("Viewport", viewportRows, viewportTotal, { className: "gateway", unit: "talin", headerMeta: a11yChips, visualRows: viewportRows.length || 1 }) + '</div></section>' +
+            '<section class="delivery-v3-module"><div class="delivery-v3-module-head"><div class="delivery-v3-module-title"><span class="delivery-v3-module-kicker">Tæki og vafri</span><h3>Samsetningar sem tracker sér</h3><p class="delivery-v3-module-copy">Fjórar sterkustu samsetningar sýna mælaborð, layout, vafra, OS og theme í einni lesanlegri röð.</p></div><span class="delivery-v3-module-count">' + fmt(combos.length) + ' hópar</span></div><div class="delivery-v3-signals">' + deliveryV3Signal("Hópar", fmt(combos.length), "raðað eftir notkun", "info") + deliveryV3Signal("Efsta tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir" : "vantar", topDevice ? "info" : "gateway") + deliveryV3Signal("Efsti vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir" : "vantar", topBrowser ? "gateway" : "warn") + '</div><div class="delivery-v3-combo-list">' + comboHtml + '</div></section>' +
+            '<section class="delivery-v3-module"><div class="delivery-v3-module-head"><div class="delivery-v3-module-title"><span class="delivery-v3-module-kicker">Flutningur</span><h3>Sending, payload og netmerki</h3><p class="delivery-v3-module-copy">Sendiaðferð, payload stærð og tenging sýna hvort afhendingin sjálf skýrir veik merki.</p></div><span class="delivery-v3-module-count">' + safe(cacheText) + '</span></div><div class="delivery-v3-signals">' + deliveryV3Signal("Lítil geta", fmt(lowCap), lowCap ? "skoða tæki" : "engin merki", lowCap ? "warn" : "good") + deliveryV3Signal("Línur", fmt(trackerLines), "performance/device", "gateway") + deliveryV3Signal("Cache", cacheText, data.cache && data.cache.hit ? "lesið úr cache" : "fersk keyrsla", cacheText === "Hit" ? "good" : "gateway") + '</div><div class="delivery-v3-transport-grid">' + deliveryShareViz("Sending", methodRows, methodTotal, "good", { visualRows: methodRows.length || 1 }) + deliveryShareViz("Payload", payloadRows, payloadTotal, "info", { visualRows: payloadRows.length || 1 }) + deliveryShareViz("Netmerki", connectionRows, connectionTotal, "gateway", { visualRows: connectionRows.length || 1 }) + '</div></section>' +
+          '</div>' +
+          '<div class="delivery-v3-audit-strip">' +
+            deliveryV3Audit("Tracker línur", fmt(trackerLines), "Taldar device/performance línur.", trackerLines ? "good" : "warn", trackerLines, Math.max(trackerLines, 1)) +
+            deliveryV3Audit("Payload", payloadRows[0] ? payloadRows[0].key : "Óþekkt", payloadRows[0] ? fmt(payloadRows[0].visits) + " merki" : "Vantar stærð", payloadRows[0] ? "info" : "gateway", payloadRows[0] ? payloadRows[0].visits : 0, payloadTotal) +
+            deliveryV3Audit("Netmerki", connectionRows[0] ? connectionRows[0].key : "Óþekkt", connectionRows[0] ? fmt(connectionRows[0].visits) + " merki" : "Vafri gaf ekki upp", connectionRows[0] ? "gateway" : "warn", connectionRows[0] ? connectionRows[0].visits : 0, connectionTotal) +
+            deliveryV3Audit("Veik merki", shareValue(weakShare), "Veik eða óþekkt signal.", weakShare > .12 ? "warn" : "good", weakShare * 100, 100) +
+            deliveryV3Audit("Diagnostic", fmt(diagnosticRows), "Sýnt sér, ekki heimsóknir.", diagnosticRows ? "info" : "good", diagnosticRows, Math.max(trackerLines, 1)) +
+          '</div>' +
         '</div>');
     }
 
