@@ -12503,6 +12503,417 @@
 
     }
 
+    /* Masthead steering redesign */
+    .command-grid.command-grid-solo {
+      padding: clamp(18px, 1.8vw, 26px);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.95)),
+        linear-gradient(90deg, rgba(47,143,139,.055) 0 1px, transparent 1px 100%);
+      background-size: auto, 40px 100%;
+    }
+
+    .command-grid.command-grid-solo .command-main {
+      display: grid;
+      gap: 16px;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      overflow: visible;
+    }
+
+    .command-grid.command-grid-solo .command-main::before {
+      display: none;
+    }
+
+    .steer-masthead {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(330px, auto);
+      gap: clamp(18px, 3vw, 52px);
+      align-items: start;
+    }
+
+    .steer-brand {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .steer-brand img {
+      width: 54px;
+      display: block;
+      padding: 5px;
+      border: 1px solid rgba(184,203,218,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.9);
+      box-shadow: none;
+    }
+
+    .steer-eyebrow,
+    .steer-panel-label,
+    .steer-tile span,
+    .steer-core span,
+    .steer-foundation span {
+      color: #536b80;
+      font-size: 10px;
+      line-height: 1.1;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .steer-title-lockup {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .steer-title-lockup h1 {
+      margin: 3px 0 0;
+      color: #09243b;
+      font-size: clamp(48px, 5.2vw, 82px);
+      line-height: .9;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .steer-title-lockup .refresh-button {
+      flex: 0 0 auto;
+      margin: 0;
+      width: 30px;
+      height: 30px;
+      transform: translateY(4px);
+      color: #2a5c80;
+    }
+
+    .steer-lead {
+      max-width: 75ch;
+      margin: 12px 0 0;
+      color: #526b80;
+      font-size: 13px;
+      line-height: 1.48;
+      font-weight: 700;
+      text-wrap: pretty;
+    }
+
+    .steer-control {
+      display: grid;
+      justify-items: end;
+      gap: 12px;
+      min-width: 0;
+      padding-top: 11px;
+    }
+
+    .steer-control .data-source-toggle {
+      align-self: end;
+      border-color: rgba(184,203,218,.82);
+      background: rgba(255,255,255,.78);
+      box-shadow: none;
+    }
+
+    .steer-control .data-source-link {
+      min-height: 27px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+    }
+
+    .steer-control .data-source-link.active,
+    .steer-control .data-source-link[aria-pressed="true"] {
+      color: #fff;
+      background: #12314c;
+    }
+
+    .steer-status-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 7px;
+    }
+
+    .steer-status-row .pill {
+      min-height: 26px;
+      padding: 6px 9px;
+      border-radius: 7px;
+      border-color: rgba(184,203,218,.8);
+      background: rgba(255,255,255,.74);
+      color: #3e566b;
+      font-size: 10.5px;
+      box-shadow: none;
+    }
+
+    .steer-status-row .pill .dot {
+      width: 7px;
+      height: 7px;
+      box-shadow: none;
+    }
+
+    .steer-board {
+      position: relative;
+      display: grid;
+      gap: 10px;
+      padding: 15px 12px 0;
+      border-top: 1px solid rgba(184,203,218,.78);
+    }
+
+    .steer-board::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: min(100%, 940px);
+      height: 3px;
+      background: linear-gradient(90deg, #2f8f8b, #4f6f8f, #c78a2a);
+      border-radius: 999px;
+    }
+
+    .steer-board-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 14px;
+      color: #09243b;
+      font-weight: 900;
+    }
+
+    .steer-board-head strong {
+      font-size: 13px;
+      line-height: 1.1;
+    }
+
+    .steer-map {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, .66fr);
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .steer-topology {
+      display: grid;
+      gap: 9px;
+    }
+
+    .steer-tile-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .steer-tile,
+    .steer-foundation,
+    .steer-core,
+    .steer-pulse-card {
+      border: 1px solid rgba(184,203,218,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.72);
+      box-shadow: none;
+    }
+
+    .steer-tile {
+      display: grid;
+      gap: 7px;
+      min-height: 62px;
+      padding: 10px;
+      align-content: space-between;
+    }
+
+    .steer-tile strong,
+    .steer-foundation strong {
+      color: #09243b;
+      font-size: 13px;
+      line-height: 1.1;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .steer-tile i {
+      display: block;
+      width: 100%;
+      height: 6px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5edf3;
+    }
+
+    .steer-tile i::before {
+      content: "";
+      display: block;
+      width: var(--fill, 72%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--tone, #2f8f8b);
+    }
+
+    .steer-core {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      min-height: 66px;
+      padding: 13px 16px;
+      background: linear-gradient(90deg, #12314c, #17405f);
+      border-color: #12314c;
+      color: #fff;
+    }
+
+    .steer-core span,
+    .steer-core small {
+      color: rgba(255,255,255,.74);
+    }
+
+    .steer-core strong {
+      display: block;
+      margin-top: 3px;
+      color: #fff;
+      font-size: clamp(19px, 1.55vw, 27px);
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .steer-core small {
+      font-size: 11px;
+      line-height: 1.25;
+      font-weight: 800;
+    }
+
+    .steer-pulse {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 7px;
+      gap: 4px;
+      align-items: end;
+      height: 34px;
+    }
+
+    .steer-pulse i {
+      display: block;
+      height: var(--h, 50%);
+      border-radius: 999px 999px 2px 2px;
+      background: rgba(255,255,255,.82);
+    }
+
+    .steer-foundation-row {
+      width: min(100%, 620px);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      justify-self: center;
+    }
+
+    .steer-foundation {
+      display: grid;
+      gap: 5px;
+      min-height: 54px;
+      padding: 9px 11px;
+      align-content: center;
+      text-align: center;
+      background: rgba(247,251,253,.78);
+    }
+
+    .steer-foundation.tracker {
+      background: rgba(255,243,207,.7);
+      border-color: rgba(199,138,42,.32);
+    }
+
+    .steer-pulse-card {
+      display: grid;
+      gap: 10px;
+      align-content: stretch;
+      min-height: 200px;
+      padding: 12px;
+      background:
+        linear-gradient(180deg, rgba(245,251,250,.96), rgba(255,255,255,.82));
+    }
+
+    .steer-pulse-card h2 {
+      margin: 3px 0 0;
+      color: #09243b;
+      font-size: clamp(22px, 2vw, 34px);
+      line-height: .96;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .steer-mini-chart {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: 5px;
+      align-items: end;
+      min-height: 82px;
+      padding: 8px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.76);
+      border: 1px solid rgba(184,203,218,.62);
+    }
+
+    .steer-mini-chart i {
+      display: block;
+      height: var(--h);
+      min-height: 11px;
+      border-radius: 999px 999px 2px 2px;
+      background: linear-gradient(180deg, #2f8f8b, #4f6f8f);
+    }
+
+    .steer-pulse-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .steer-pulse-meta span {
+      display: grid;
+      gap: 3px;
+      min-height: 48px;
+      padding: 8px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.74);
+      border: 1px solid rgba(184,203,218,.62);
+      color: #536b80;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .steer-pulse-meta strong {
+      color: #09243b;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    @media (max-width: 1180px) {
+      .steer-masthead,
+      .steer-map {
+        grid-template-columns: 1fr;
+      }
+
+      .steer-control {
+        justify-items: start;
+      }
+
+      .steer-status-row {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .steer-brand,
+      .steer-tile-row,
+      .steer-foundation-row,
+      .steer-pulse-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .steer-title-lockup h1 {
+        font-size: 36px;
+      }
+
+      .steer-core {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* Visual insight atlas */
     .visual-atlas-shell {
       padding: 16px;
@@ -14360,6 +14771,528 @@
       }
 
       .start-v5-proof-lead .start-v5-meter {
+        grid-column: auto;
+        grid-row: auto;
+      }
+    }
+
+    /* Start command surface V7 */
+    .start-v7 {
+      --start-ink: #09243b;
+      --start-muted: #536b80;
+      --start-line: rgba(158, 188, 204, .7);
+      --start-soft: rgba(247, 251, 253, .96);
+      --start-teal: #2f8f8b;
+      --start-blue: #4f6f8f;
+      --start-gold: #c78a2a;
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .start-v7 *,
+    .start-v7 *::before,
+    .start-v7 *::after {
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .start-v7-panel,
+    .start-v7-hero,
+    .start-v7-flow-panel,
+    .start-v7-focus,
+    .start-v7-context {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--start-line);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,251,252,.94));
+      box-shadow: none;
+    }
+
+    .start-v7-hero::before,
+    .start-v7-flow-panel::before,
+    .start-v7-context::before {
+      content: "";
+      position: absolute;
+      inset: 0 12px auto;
+      height: 3px;
+      background: linear-gradient(90deg, var(--start-teal), var(--start-blue), var(--start-gold));
+      pointer-events: none;
+    }
+
+    .start-v7-hero {
+      display: grid;
+      grid-template-columns: minmax(280px, .95fr) minmax(190px, .34fr) minmax(420px, 1.05fr);
+      gap: 12px;
+      align-items: stretch;
+      padding: clamp(15px, 1.45vw, 22px);
+    }
+
+    .start-v7-title,
+    .start-v7-score-card,
+    .start-v7-command {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      align-content: space-between;
+      gap: 12px;
+    }
+
+    .start-v7-kicker,
+    .start-v7-metric span,
+    .start-v7-action span,
+    .start-v7-panel-head span,
+    .start-v7-stage span,
+    .start-v7-focus-row span,
+    .start-v7-signal span,
+    .start-v7-route-lens span {
+      color: var(--start-muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .start-v7-title h2 {
+      margin: 4px 0 0;
+      color: var(--start-ink);
+      font-size: clamp(44px, 4.45vw, 76px);
+      line-height: .88;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .start-v7-brief {
+      max-width: 70ch;
+      margin: 0;
+      color: var(--start-muted);
+      font-size: 13px;
+      line-height: 1.48;
+      font-weight: 700;
+      text-wrap: pretty;
+    }
+
+    .start-v7-brief strong {
+      color: var(--start-ink);
+      font-weight: 900;
+    }
+
+    .start-v7-score-card {
+      place-items: center;
+      align-content: center;
+      padding: 12px;
+      border: 1px solid rgba(196, 214, 226, .84);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.9), rgba(240,248,247,.86));
+    }
+
+    .start-v7-dial {
+      --score: 0;
+      width: min(158px, 100%);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at center, #fff 0 58%, transparent 59%),
+        conic-gradient(var(--start-teal) calc(var(--score) * 1%), #e5edf3 0);
+      box-shadow: inset 0 0 0 1px rgba(158, 188, 204, .5);
+    }
+
+    .start-v7-dial div {
+      display: grid;
+      place-items: center;
+      line-height: 1;
+    }
+
+    .start-v7-dial strong {
+      color: var(--start-ink);
+      font-size: clamp(34px, 3.4vw, 54px);
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .start-v7-dial span {
+      color: var(--start-muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .start-v7-score-note {
+      margin: 0;
+      color: var(--start-muted);
+      font-size: 11px;
+      line-height: 1.35;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .start-v7-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .start-v7-metric,
+    .start-v7-action,
+    .start-v7-stage,
+    .start-v7-focus-row,
+    .start-v7-signal,
+    .start-v7-route-lens {
+      border: 1px solid rgba(196, 214, 226, .82);
+      border-radius: 8px;
+      background: rgba(255,255,255,.78);
+    }
+
+    .start-v7-metric {
+      display: grid;
+      gap: 7px;
+      min-height: 94px;
+      padding: 10px;
+      align-content: space-between;
+      background: linear-gradient(180deg, rgba(245,251,250,.95), rgba(255,255,255,.82));
+    }
+
+    .start-v7-metric strong {
+      color: var(--start-ink);
+      font-size: clamp(20px, 1.7vw, 30px);
+      line-height: .98;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .start-v7-metric small,
+    .start-v7-stage small,
+    .start-v7-focus-row small,
+    .start-v7-signal small,
+    .start-v7-route-lens small,
+    .start-v7-action p {
+      color: var(--start-muted);
+      font-size: 11px;
+      line-height: 1.28;
+      font-weight: 800;
+    }
+
+    .start-v7-meter {
+      height: 7px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5edf3;
+    }
+
+    .start-v7-meter span {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--tone, var(--start-teal));
+    }
+
+    .start-v7-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .start-v7-action {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      min-height: 82px;
+      padding: 9px;
+      background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,249,232,.68));
+    }
+
+    .start-v7-action b {
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: var(--tone, var(--start-blue));
+      color: #fff;
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .start-v7-action p {
+      margin: 3px 0 0;
+      text-wrap: pretty;
+    }
+
+    .start-v7-flow-panel {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+    }
+
+    .start-v7-panel-head {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 14px;
+    }
+
+    .start-v7-panel-head strong {
+      color: var(--start-ink);
+      font-size: 14px;
+      line-height: 1.1;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .start-v7-flow-visual {
+      position: relative;
+      display: grid;
+      gap: 10px;
+      padding: 8px 0 0;
+    }
+
+    .start-v7-flow-svg {
+      width: 100%;
+      height: 86px;
+      display: block;
+      border: 1px solid rgba(207, 221, 231, .7);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(247,251,253,.88), rgba(255,255,255,.72));
+    }
+
+    .start-v7-stage-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .start-v7-stage {
+      display: grid;
+      gap: 6px;
+      min-height: 104px;
+      padding: 10px;
+      align-content: space-between;
+    }
+
+    .start-v7-stage strong {
+      color: var(--start-ink);
+      font-size: clamp(22px, 1.9vw, 34px);
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .start-v7-lower {
+      display: grid;
+      grid-template-columns: minmax(340px, .36fr) minmax(0, .64fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .start-v7-focus,
+    .start-v7-context {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      padding: 14px;
+    }
+
+    .start-v7-focus-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .start-v7-focus-row {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr) auto;
+      grid-template-rows: auto auto 7px;
+      gap: 5px 10px;
+      align-items: center;
+      padding: 10px;
+      background:
+        linear-gradient(90deg, color-mix(in srgb, var(--tone, var(--start-teal)) 12%, white), rgba(255,255,255,.82));
+    }
+
+    .start-v7-rank {
+      grid-row: 1 / 4;
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: var(--tone, var(--start-teal));
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .start-v7-focus-row span,
+    .start-v7-focus-row small {
+      grid-column: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .start-v7-focus-row strong {
+      grid-column: 3;
+      grid-row: 1 / span 2;
+      color: var(--start-ink);
+      font-size: clamp(22px, 2vw, 34px);
+      line-height: .95;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .start-v7-focus-row .start-v7-meter {
+      grid-column: 2 / 4;
+      grid-row: 3;
+    }
+
+    .start-v7-context-grid {
+      display: grid;
+      grid-template-columns: minmax(230px, 1.08fr) repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .start-v7-route-lens {
+      grid-row: span 2;
+      display: grid;
+      gap: 12px;
+      min-height: 220px;
+      padding: 12px;
+      align-content: space-between;
+      background:
+        linear-gradient(180deg, rgba(255,249,232,.82), rgba(255,255,255,.88));
+    }
+
+    .start-v7-route-ring {
+      --fill: 0%;
+      width: min(152px, 100%);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      justify-self: center;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at center, #fff 0 60%, transparent 61%),
+        conic-gradient(var(--tone, var(--start-gold)) var(--fill), #e5edf3 0);
+      box-shadow: inset 0 0 0 1px rgba(158,188,204,.48);
+    }
+
+    .start-v7-route-ring strong {
+      color: var(--start-ink);
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .start-v7-route-lens > div > strong {
+      display: block;
+      margin: 7px 0 5px;
+      color: var(--start-ink);
+      font-size: clamp(24px, 2vw, 34px);
+      line-height: .94;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .start-v7-signal {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 7px;
+      min-height: 106px;
+      padding: 10px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), color-mix(in srgb, var(--tone, var(--start-teal)) 9%, white));
+    }
+
+    .start-v7-signal strong {
+      color: var(--start-ink);
+      font-size: clamp(18px, 1.5vw, 27px);
+      line-height: .98;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .start-v7-spark {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 3px;
+      height: 30px;
+      align-items: end;
+      padding-top: 4px;
+    }
+
+    .start-v7-spark i {
+      display: block;
+      height: var(--h, 20%);
+      border-radius: 999px 999px 2px 2px;
+      background: color-mix(in srgb, var(--tone, var(--start-teal)) 78%, white);
+      opacity: .9;
+    }
+
+    @media (max-width: 1240px) {
+      .start-v7-hero,
+      .start-v7-lower {
+        grid-template-columns: 1fr;
+      }
+
+      .start-v7-score-card {
+        grid-template-columns: auto minmax(0, 1fr);
+        justify-items: start;
+      }
+
+      .start-v7-dial {
+        width: 128px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .start-v7-kpi-grid,
+      .start-v7-actions,
+      .start-v7-stage-grid,
+      .start-v7-context-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .start-v7-route-lens {
+        grid-row: auto;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .start-v7-hero,
+      .start-v7-score-card,
+      .start-v7-kpi-grid,
+      .start-v7-actions,
+      .start-v7-stage-grid,
+      .start-v7-context-grid,
+      .start-v7-focus-row {
+        grid-template-columns: 1fr;
+      }
+
+      .start-v7-title h2 {
+        font-size: 38px;
+      }
+
+      .start-v7-focus-row span,
+      .start-v7-focus-row small,
+      .start-v7-focus-row strong,
+      .start-v7-focus-row .start-v7-meter,
+      .start-v7-rank {
         grid-column: auto;
         grid-row: auto;
       }
@@ -17700,46 +18633,66 @@
   <main class="shell">
     <header class="command-grid command-grid-solo" aria-labelledby="page-title">
       <div class="command-main">
-        <div class="hero-title-row">
-          <div class="brand-row">
+        <div class="steer-masthead">
+          <div class="steer-brand">
             <img src="https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png" alt="Landspítali">
-            <div class="brand-copy">
-              <p class="eyebrow">Landspítali</p>
-              <div class="title-lockup">
+            <div>
+              <p class="steer-eyebrow">Landspítali</p>
+              <div class="steer-title-lockup">
                 <h1 id="page-title">Mælaborðsmælingar</h1>
                 <button class="refresh-button" type="button" id="refresh-button" aria-label="Endurhlaða gögn" title="Endurhlaða gögn"><span aria-hidden="true">↻</span></button>
               </div>
+              <p class="steer-lead">Stöðuyfirlit fyrir opinber Power BI mælaborð Landspítala. Taldar heimsóknir, leiðing, uppruni, gateway merki og tæknileg rekstrarmerki eru lesin saman án persónuupplýsinga.</p>
             </div>
           </div>
-          <div class="masthead-actions">
+          <div class="steer-control masthead-actions">
             <div class="data-source-toggle" role="group" aria-label="Velja gagnasett">
               <button class="data-source-link active" type="button" data-source-mode="real" aria-pressed="true">Raun gögn</button>
               <button class="data-source-link" type="button" data-source-mode="sample" aria-pressed="false">Sample gögn</button>
             </div>
-            <div class="pill-row" aria-label="Staða og uppfærsla">
+            <div class="steer-status-row" aria-label="Staða og uppfærsla">
               <span class="pill"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn</span></span>
               <span class="pill" id="generated-pill" title="Uppfært: -">Uppfært: -</span>
               <span class="pill" id="cache-pill">Cache: -</span>
             </div>
           </div>
         </div>
-        <p class="lead">Stöðuyfirlit fyrir opinber Power BI mælaborð Landspítala. Síðan sýnir taldar heimsóknir, leiðingu milli útgáfa, uppruna umferðar, gateway merki og tæknileg rekstrarmerki án persónuupplýsinga.</p>
-        <div class="hero-system-strip" aria-label="Kerfishlutar">
-          <div class="chip-row hero-system-tags">
-            <div class="hero-system-tier top">
-              <span class="chip component-chip good">UI: Vaktborð</span>
-              <span class="chip component-chip good">Talningarhlið</span>
-              <span class="chip component-chip gateway">Leiðingarskipting</span>
-              <span class="chip component-chip summary">Aðeins samantektargögn</span>
-            </div>
-            <span class="chip component-chip core">Vöktunarkjarni: Rekstrarpúls</span>
-            <div class="hero-system-tier bottom">
-              <span class="chip component-chip config">Config v1</span>
-              <span class="chip component-chip tracker">Atburðasafnari v1</span>
-              <span class="chip component-chip schema">Gagnasnið 1</span>
-            </div>
-            <span class="sr-only" id="hero-core-detail">UI: Vaktborð | Talningarhlið | Leiðingarskipting | Aðeins samantektargögn | Vöktunarkjarni: Rekstrarpúls | Config v1 | Atburðasafnari v1 | Gagnasnið 1</span>
+        <div class="steer-board" aria-label="Kerfishlutar">
+          <div class="steer-board-head">
+            <span class="steer-panel-label">Steer</span>
+            <strong>Vöktunarkjarni stýrir lestri, gögn og kerfishlutar fylgja honum</strong>
           </div>
+          <div class="steer-map">
+            <div class="steer-topology">
+              <div class="steer-tile-row">
+                <div class="steer-tile" style="--tone:#2f8f8b;--fill:86%"><span>UI</span><strong>Vaktborð</strong><i></i></div>
+                <div class="steer-tile" style="--tone:#2f8f8b;--fill:78%"><span>Talning</span><strong>Talningarhlið</strong><i></i></div>
+                <div class="steer-tile" style="--tone:#4f6f8f;--fill:64%"><span>Leiðing</span><strong>Útgáfuskipting</strong><i></i></div>
+                <div class="steer-tile" style="--tone:#6a7d90;--fill:58%"><span>Gögn</span><strong>Samantekt</strong><i></i></div>
+              </div>
+              <div class="steer-core">
+                <div><span>Vöktunarkjarni</span><strong>Rekstrarpúls</strong><small>Ein ákvörðunarlína fyrir opnanir, uppruna, route og tæknimerki.</small></div>
+                <div class="steer-pulse" aria-hidden="true"><i style="--h:30%"></i><i style="--h:72%"></i><i style="--h:46%"></i><i style="--h:92%"></i><i style="--h:58%"></i><i style="--h:78%"></i><i style="--h:42%"></i><i style="--h:64%"></i></div>
+              </div>
+              <div class="steer-foundation-row">
+                <div class="steer-foundation"><span>Config</span><strong>v1</strong></div>
+                <div class="steer-foundation tracker"><span>Atburðasafnari</span><strong>v1</strong></div>
+                <div class="steer-foundation"><span>Gagnasnið</span><strong>1</strong></div>
+              </div>
+            </div>
+            <div class="steer-pulse-card">
+              <div><span class="steer-panel-label">Pulse map</span><h2>Stýring í einni mynd</h2></div>
+              <div class="steer-mini-chart" aria-hidden="true">
+                <i style="--h:42%"></i><i style="--h:64%"></i><i style="--h:52%"></i><i style="--h:88%"></i><i style="--h:74%"></i><i style="--h:58%"></i><i style="--h:96%"></i><i style="--h:68%"></i>
+              </div>
+              <div class="steer-pulse-meta">
+                <span>Flow<strong>5</strong></span>
+                <span>Signals<strong>8</strong></span>
+                <span>Mode<strong>Live</strong></span>
+              </div>
+            </div>
+          </div>
+          <span class="sr-only" id="hero-core-detail">UI: Vaktborð | Talningarhlið | Leiðingarskipting | Aðeins samantektargögn | Vöktunarkjarni: Rekstrarpúls | Config v1 | Atburðasafnari v1 | Gagnasnið 1</span>
         </div>
       </div>
     </header>
@@ -20161,6 +21114,81 @@
       var className = cls ? " " + safe(cls) : "";
       return '<article class="start-v6-signal' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
     }
+    function startV7ToneColor(cls) {
+      if (cls === "good") return "#2f8f8b";
+      if (cls === "warn" || cls === "bad") return "#c78a2a";
+      if (cls === "info") return "#3599b8";
+      if (cls === "gateway") return "#4f6f8f";
+      return "#6a7d90";
+    }
+    function startV7Meter(value, cls) {
+      var fill = clamp(number(value), 0, 100);
+      return '<div class="start-v7-meter" aria-hidden="true" style="--tone:' + safe(startV7ToneColor(cls)) + '"><span style="--fill:' + fill.toFixed(1) + '%"></span></div>';
+    }
+    function startV7Metric(label, value, detail, cls, fill) {
+      return '<article class="start-v7-metric" style="--tone:' + safe(startV7ToneColor(cls)) + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' + startV7Meter(fill === undefined ? 0 : fill, cls) + '</article>';
+    }
+    function startV7Action(item, index) {
+      item = item || {};
+      var tone = item.tone || "info";
+      var label = tone === "good" ? "St\u00f6\u00f0ugt" : tone === "bad" ? "Br\u00e1tt" : tone === "warn" ? "Sko\u00f0a" : "Samhengi";
+      return '<article class="start-v7-action" style="--tone:' + safe(startV7ToneColor(tone)) + '"><b>' + safe(String(index + 1).padStart(2, "0")) + '</b><div><span>' + safe(label) + '</span><p>' + safe(item.text || "") + '</p></div></article>';
+    }
+    function startV7FlowSvg(stages, max) {
+      var width = 1000;
+      var height = 86;
+      var pad = 54;
+      var step = stages.length > 1 ? (width - pad * 2) / (stages.length - 1) : 0;
+      var nodes = stages.map(function (stage, index) {
+        var weight = number(stage.weight !== undefined ? stage.weight : stage.value);
+        return {
+          x: pad + step * index,
+          y: height / 2,
+          r: clamp(Math.sqrt(weight / Math.max(max, 1)) * 24, 9, 24),
+          weight: weight,
+          color: stage.color || startV7ToneColor(stage.cls),
+          label: stage.label
+        };
+      });
+      var links = nodes.slice(1).map(function (node, index) {
+        var prev = nodes[index];
+        var linkWeight = Math.min(prev.weight, node.weight);
+        var linkWidth = clamp(linkWeight / Math.max(max, 1) * 22, 4, 22);
+        return '<line x1="' + (prev.x + prev.r + 10).toFixed(1) + '" y1="' + prev.y + '" x2="' + (node.x - node.r - 10).toFixed(1) + '" y2="' + node.y + '" stroke="' + safe(node.color) + '" stroke-width="' + linkWidth.toFixed(1) + '" stroke-linecap="round" opacity=".68"></line>';
+      }).join("");
+      var circles = nodes.map(function (node, index) {
+        return '<g><circle cx="' + node.x.toFixed(1) + '" cy="' + node.y + '" r="' + (node.r + 8).toFixed(1) + '" fill="#fff" stroke="rgba(157,188,204,.9)" stroke-width="1"></circle><circle cx="' + node.x.toFixed(1) + '" cy="' + node.y + '" r="' + node.r.toFixed(1) + '" fill="' + safe(node.color) + '"></circle><text x="' + node.x.toFixed(1) + '" y="' + (node.y + 5) + '" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">' + safe(String(index + 1)) + '</text><text x="' + node.x.toFixed(1) + '" y="' + (height - 8) + '" text-anchor="middle" font-size="11" font-weight="900" fill="#536b80">' + safe(node.label) + '</text></g>';
+      }).join("");
+      return '<svg class="start-v7-flow-svg" viewBox="0 0 ' + width + ' ' + height + '" role="img" aria-label="Rekstrarfl\u00e6\u00f0i">' + links + circles + '</svg>';
+    }
+    function startV7Stage(stage, index, max) {
+      var weight = number(stage.weight !== undefined ? stage.weight : stage.value);
+      var fill = weight / Math.max(max, 1) * 100;
+      return '<article class="start-v7-stage" style="--tone:' + safe(stage.color || startV7ToneColor(stage.cls)) + '"><span>' + safe(String(index + 1).padStart(2, "0") + " / " + stage.label) + '</span><strong>' + safe(stage.display || fmt(stage.value)) + '</strong><small>' + safe(stage.detail || "") + '</small>' + startV7Meter(fill, stage.cls) + '</article>';
+    }
+    function startV7FocusRow(row, index, total, cards) {
+      var value = visitValue(row);
+      var cls = index === 0 ? "good" : (index === 1 ? "info" : "gateway");
+      return '<article class="start-v7-focus-row" style="--tone:' + safe(startV7ToneColor(cls)) + '"><b class="start-v7-rank">' + safe(String(index + 1).padStart(2, "0")) + '</b><span>' + safe(titleFor(row, cards)) + '</span><small>' + safe(pct(value, Math.max(total, 1)) + " af t\u00f6ldum opnunum") + '</small><strong>' + fmt(value) + '</strong>' + startV7Meter(value / Math.max(total, 1) * 100, cls) + '</article>';
+    }
+    function startV7Spark(fill, cls) {
+      var base = clamp(number(fill), 0, 100);
+      var heights = [
+        clamp(base * .42 + 10, 8, 100),
+        clamp(base * .68 + 8, 8, 100),
+        clamp(base + 4, 8, 100),
+        clamp(base * .54 + 12, 8, 100),
+        clamp(base * .78 + 6, 8, 100)
+      ];
+      return '<div class="start-v7-spark" aria-hidden="true" style="--tone:' + safe(startV7ToneColor(cls)) + '">' + heights.map(function (height) { return '<i style="--h:' + height.toFixed(1) + '%"></i>'; }).join("") + '</div>';
+    }
+    function startV7Signal(label, value, detail, cls, fill) {
+      return '<article class="start-v7-signal" style="--tone:' + safe(startV7ToneColor(cls)) + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong>' + startV7Spark(fill === undefined ? 0 : fill, cls) + '<small>' + safe(detail || "") + '</small></article>';
+    }
+    function startV7RouteLens(label, title, center, detail, cls, fill) {
+      var fillValue = clamp(number(fill), 0, 100);
+      return '<article class="start-v7-route-lens" style="--tone:' + safe(startV7ToneColor(cls)) + '"><div><span>' + safe(label) + '</span><strong>' + safe(title) + '</strong><small>' + safe(detail || "") + '</small></div><div class="start-v7-route-ring" style="--fill:' + fillValue.toFixed(1) + '%;--tone:' + safe(startV7ToneColor(cls)) + '"><strong>' + safe(center) + '</strong></div>' + startV7Meter(fillValue, cls) + '</article>';
+    }
     function renderStartPanelV5(data) {
       data = data || {};
       var model = opsModel(data);
@@ -20221,6 +21249,59 @@
       var usageMode = model.desktop >= model.mobile ? "Desktop" : "Mobile";
       var usageDetail = "Mobile " + safe(pct(model.mobile, Math.max(model.total, 1))) + " / desktop " + safe(pct(model.desktop, Math.max(model.total, 1)));
       var focusCopy = topDashboard ? safe(topDashboardTitle) + " ber " + safe(pct(visitValue(topDashboard), Math.max(model.total, 1))) + " af t\u00f6ldum opnunum." : "Engin talin production opnun fannst enn.";
+      var flowStages = [
+        { label: "Raw", value: rawSignals, weight: rawSignals, detail: "telemetry + t\u00e6knimerki", cls: rawSignals > model.total ? "info" : "gateway" },
+        { label: "Gateway", value: gatewaySignals, weight: gatewaySignals, detail: "root views, smellir, router", cls: "gateway" },
+        { label: "Route", value: topRoute ? topRoute.total : routeTotal, weight: routeTotal || (topRoute ? topRoute.total : 0), detail: routeValue, cls: forced ? "warn" : "info" },
+        { label: "Tali\u00f0", value: model.total, weight: model.total, detail: "production opnanir", cls: "good" },
+        { label: "G\u00e6\u00f0i", value: confirmed, display: confirmed ? fmt(confirmed) : "hreint", weight: confirmed ? Math.max(confirmed, model.total * .05) : model.total * .08, detail: confirmed ? "sta\u00f0fest merki" : "engin sta\u00f0fest merki", cls: confirmed ? "warn" : "good" }
+      ];
+      var flowMax = Math.max.apply(null, flowStages.map(function (stage) { return number(stage.weight !== undefined ? stage.weight : stage.value); }).concat([1]));
+      var v7Actions = actionItems(data, model).slice(0, 3).map(startV7Action).join("") || startV7Action({ tone: "good", text: "Halda v\u00f6ktun opinni og bera saman n\u00e6stu samantekt." }, 0);
+      var v7FocusRows = dashboards.slice(0, 4).map(function (row, index) {
+        return startV7FocusRow(row, index, Math.max(model.total, 1), cards);
+      }).join("") || '<div class="message-card neutral"><strong>Engin m\u00e6labor\u00f0sg\u00f6gn</strong><p>Production talningar eru ekki komnar \u00ed dashboard aggregate.</p></div>';
+      var routeLensValue = topRoute ? number(topRoute.total) : (forced || routeTotal);
+      var routeLensFill = routeTotal ? routeLensValue / routeTotal * 100 : routeSignalFill;
+      var routeLensCenter = routeTotal ? pct(routeLensValue, routeTotal) : "0%";
+      var deviceFill = (topDevice ? number(topDevice.visits || topDevice.raw) : 0) / Math.max(model.total, 1) * 100;
+      var browserFill = (topBrowser ? number(topBrowser.visits || topBrowser.raw) : 0) / Math.max(model.total, 1) * 100;
+      var viewportFill = (topViewport ? number(topViewport.visits || topViewport.raw) : 0) / Math.max(model.total, 1) * 100;
+      var transportFill = (topTransport ? number(topTransport.visits || topTransport.raw) : 0) / Math.max(totalSignal, 1) * 100;
+      var trustFill = (topConfidence ? number(topConfidence.visits || topConfidence.raw) : 0) / Math.max(totalSignal, 1) * 100;
+      var usageFill = Math.max(model.mobile, model.desktop) / Math.max(model.total, 1) * 100;
+      setHtml("start-panel",
+        '<article class="start-v7 ' + safe(scoreTone) + '">' +
+          '<section class="start-v7-hero" aria-label="Rekstrarlestur">' +
+            '<div class="start-v7-title"><div><span class="start-v7-kicker">Rekstrarlestur</span><h2 id="fresh-start-title">Rekstrarlestur</h2></div><p class="start-v7-brief"><strong>' + safe(statusTitle) + '.</strong> ' + safe(lead) + '</p></div>' +
+            '<div class="start-v7-score-card"><div class="start-v7-dial" style="--score:' + clamp(model.score, 0, 100).toFixed(0) + '"><div><strong>' + fmt(model.score) + '</strong><span>/100</span></div></div><p class="start-v7-score-note">Heilsa kerfis, ekki vins\u00e6ldir. St\u00e6rri punktar eru magn; mj\u00f3ar l\u00ednur eru sko\u00f0un.</p></div>' +
+            '<div class="start-v7-command"><div class="start-v7-kpi-grid">' +
+              startV7Metric("Taldar opnanir", fmt(model.total), fmt(model.dashboardCount) + " m\u00e6labor\u00f0 \u00ed grunni", "good", model.total / totalSignal * 100) +
+              startV7Metric("Sta\u00f0fest merki", confirmed ? fmt(confirmed) : "0", confirmed ? "sko\u00f0a \u00ed g\u00e6\u00f0avi\u00f0v\u00f6runum" : "engin sta\u00f0fest merki", confirmed ? "warn" : "good", qualityFill) +
+              startV7Metric("Ferskleiki", model.eventAge.label, "samantekt " + model.aggregationAge.label, model.eventAge.className, freshnessFill) +
+              startV7Metric("Uppruni", pct(sourceSignal, sourceTotal), sourceDetail, sourceTone, sourceSignal / sourceTotal * 100) +
+            '</div><div class="start-v7-actions">' + v7Actions + '</div></div>' +
+          '</section>' +
+          '<section class="start-v7-flow-panel" aria-label="Fl\u00e6\u00f0ilestur">' +
+            '<div class="start-v7-panel-head"><span>Fl\u00e6\u00f0ilestur</span><strong>raw &rarr; gateway &rarr; router &rarr; tali\u00f0 &rarr; g\u00e6\u00f0i</strong></div>' +
+            '<div class="start-v7-flow-visual">' + startV7FlowSvg(flowStages, flowMax) + '<div class="start-v7-stage-grid">' + flowStages.map(function (stage, index) { return startV7Stage(stage, index, flowMax); }).join("") + '</div></div>' +
+          '</section>' +
+          '<section class="start-v7-lower" aria-label="F\u00f3kus og samhengi">' +
+            '<div class="start-v7-focus"><div class="start-v7-panel-head"><span>M\u00e6labor\u00f0 \u00ed f\u00f3kus</span><strong>' + safe(topDashboard ? pct(visitValue(topDashboard), Math.max(model.total, 1)) : "0%") + '</strong></div><p class="start-v7-brief">' + focusCopy + '</p><div class="start-v7-focus-list">' + v7FocusRows + '</div></div>' +
+            '<div class="start-v7-context"><div class="start-v7-panel-head"><span>Samhengisv\u00edsar</span><strong>route, t\u00e6ki, vafri og uppruni</strong></div><div class="start-v7-context-grid">' +
+              startV7RouteLens("Route lens", routeValue, routeLensCenter, routeDetail, forced ? "warn" : "info", routeLensFill) +
+              startV7Signal("T\u00e6ki", topDevice ? topDevice.key : "\u00d3\u00feekkt", topDevice ? fmt(topDevice.visits || topDevice.raw) + " merki" : "aggregate vantar", topDevice ? "info" : "gateway", deviceFill) +
+              startV7Signal("Vafri", topBrowser ? topBrowser.key : "\u00d3\u00feekkt", topBrowser ? fmt(topBrowser.visits || topBrowser.raw) + " merki" : "browser aggregate vantar", topBrowser ? "info" : "gateway", browserFill) +
+              startV7Signal("Skj\u00e1r", topViewport ? topViewport.key : "\u00d3\u00feekkt", topViewport ? fmt(topViewport.visits || topViewport.raw) + " merki" : "viewport aggregate vantar", topViewport ? "info" : "gateway", viewportFill) +
+              startV7Signal("Sending", topTransport ? topTransport.key : "\u00d3\u00feekkt", topTransport ? fmt(topTransport.visits || topTransport.raw) + " merki" : "performance aggregate vantar", topTransport ? "good" : "gateway", transportFill) +
+              startV7Signal("Traust", topConfidence ? topConfidence.key : "\u00d3\u00feekkt", topConfidence ? fmt(topConfidence.visits || topConfidence.raw) + " l\u00ednur" : "confidence aggregate vantar", topConfidence ? "good" : "gateway", trustFill) +
+              startV7Signal("Notkun", usageMode, usageDetail, "good", usageFill) +
+              startV7Signal("Diagnostic", fmt(diagnosticTotal), "haldi\u00f0 utan heims\u00f3kna", diagnosticTotal ? "info" : "good", diagnosticTotal / Math.max(totalSignal, 1) * 100) +
+              startV7Signal("Uppruni", pct(sourceSignal, sourceTotal), sourceDetail, sourceTone, sourceSignal / sourceTotal * 100) +
+            '</div></div>' +
+          '</section>' +
+        '</article>');
+      return;
       setHtml("start-panel",
         '<article class="start-v5 ' + safe(scoreTone) + '">' +
           '<section class="start-v5-hero" aria-label="Upphafsinns\u00fdn">' +
