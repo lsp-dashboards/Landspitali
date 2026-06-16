@@ -6942,7 +6942,7 @@
 
     .quality-v2 {
       display: grid;
-      gap: 12px;
+      gap: 14px;
       min-width: 0;
     }
 
@@ -7066,8 +7066,8 @@
 
     .quality-v2-lanes {
       display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(360px, .65fr);
-      gap: 12px;
+      grid-template-columns: 1fr;
+      gap: 14px;
       align-items: start;
     }
 
@@ -7111,12 +7111,13 @@
 
     .quality-v2-issue-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
     }
 
     .quality-v2-context-grid {
       display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 8px;
     }
 
@@ -7225,14 +7226,20 @@
 
     @media (max-width: 1180px) {
       .quality-v2-hero,
-      .quality-v2-lanes,
-      .quality-v2-issue-grid {
+      .quality-v2-lanes {
         grid-template-columns: 1fr;
+      }
+
+      .quality-v2-issue-grid,
+      .quality-v2-context-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
     @media (max-width: 720px) {
       .quality-v2-signal-grid,
+      .quality-v2-issue-grid,
+      .quality-v2-context-grid,
       .quality-v2-issue {
         grid-template-columns: 1fr;
       }
@@ -21147,6 +21154,32 @@
         '<div class="alert-count-box"><span>Talið</span><strong>' + fmt(counted) + '</strong><span>diag. ' + fmt(diagnostic) + '</span></div></article>';
     }
 
+    function qualityV2Signal(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="quality-v2-signal' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+
+    function qualityV2IssueCard(row, group, index) {
+      var severity = String(row.severity || (group === "confirmed" ? "warning" : "info")).toLowerCase();
+      var cls = group === "confirmed" ? "warn" : group === "diagnostic" ? "gateway" : "info";
+      if (/bad|error|critical|fatal/.test(severity)) cls = "bad";
+      if (group === "confirmed" && !/bad|error|critical|fatal/.test(severity)) cls = "warn";
+      var counted = countWarnings(row);
+      var diagnostic = number(row.diagnostic_count || row.raw_count || 0);
+      var confidence = bandLabel(row.confidence_band || row.signal_quality);
+      var signal = labelSignalQuality(row.signal_quality || row.scope);
+      var label = group === "confirmed" ? "Production" : group === "diagnostic" ? "Diagnostic" : group === "info" ? "Info" : "Óstaðfest";
+      var title = labelWarningCode(row.warning_code || row.code || "warning");
+      var target = row.dashboard_key || row.dashboard_id || "-";
+      var message = row.warning_text || row.message || "-";
+      var next = row.recommendation || (group === "confirmed" ? "Staðfesta áhrif í vafra/tæki og prófa studdan Power BI vafra." : "Halda sem samhengi þar til Talningarhlið staðfestir áhrif.");
+      return '<article class="quality-v2-issue ' + safe(cls) + '">' +
+        '<div class="quality-v2-index">' + safe(String(index + 1).padStart(2, "0")) + '</div>' +
+        '<div class="quality-v2-issue-main"><span>' + safe(label) + '</span><strong>' + safe(title) + '</strong><p>' + safe(message) + '</p><div class="quality-v2-meta"><span class="chip neutral">' + safe(target) + '</span><span class="chip neutral">Traust: ' + safe(confidence) + '</span><span class="chip neutral">' + safe(signal) + '</span></div><div class="quality-v2-issue-step">' + safe(next) + '</div></div>' +
+        '<div class="quality-v2-issue-side"><strong>' + fmt(counted) + '</strong><span>Talið</span><small>diag. ' + fmt(diagnostic) + '</small></div>' +
+      '</article>';
+    }
+
     function renderWarnings(data) {
       var split = splitWarnings(data);
       var dashboards = visibleRows(data.dashboards || []);
@@ -21170,9 +21203,6 @@
       var confirmed = confirmedRows.length;
       var info = split.info.length;
       var diagnostic = split.diagnostic.length;
-      var tone = confirmed ? "warn" : "good";
-      var headline = confirmed ? "Staðfest production merki" : "Engin staðfest production warning";
-      var copy = confirmed ? "Production röðin sýnir aðeins merki sem breyta rekstrarstöðu. Diagnostic samhengi er neðar." : "Engin staðfest warning/error fer í gegnum Talningarhlið. Diagnostic merki eru samhengi, ekki incident.";
       var allWarnings = confirmedRows.concat(contextRows);
       var allCount = allWarnings.length;
       var k = data.kpis || {};
@@ -21187,32 +21217,32 @@
         confidenceMap[key] = (confidenceMap[key] || 0) + 1;
       });
       var confidenceText = Object.keys(confidenceMap).sort(function (a, b) { return confidenceMap[b] - confidenceMap[a]; }).map(function (key) { return key + ": " + fmt(confidenceMap[key]); }).join(" · ") || "Engin merki";
-      var confidenceTip = "Traust segir hversu sterk stoð er fyrir merkinu. Mjög hátt: explicit production staðfesting eða skýr vafrastefna. Hátt/miðlungs: tæknimerki sem þarf samhengi. Diagnostic/test hækkar ekki rekstrarstöðu.";
       var productionRows = confirmedRows.slice(0, 8);
       var diagnosticRows = contextRows.slice(0, 8);
-      var html = '<div class="quality-action-board">' +
-        '<section class="quality-decision ' + tone + '">' +
-          '<div class="quality-verdict"><span class="quality-kicker">Gæðaviðvaranir</span><div class="quality-title-line"><h3>' + safe(headline) + '</h3>' + infoTip(confidenceTip) + '</div><p>' + safe(copy) + '</p><div class="quality-status-line"><div class="quality-status-number"><strong>' + fmt(confirmed) + '</strong><span>staðfest</span></div><span class="chip ' + (confirmed ? 'warn' : 'good') + '">' + (confirmed ? 'Skoða fyrst' : 'Production í lagi') + '</span><span class="chip neutral">' + fmt(allCount) + ' merki alls</span><span class="chip neutral">Traust: ' + safe(confidenceText) + '</span></div></div>' +
-          '<div class="quality-triage-grid">' +
-            qualitySignalCard("Talningarhlið", confirmed ? fmt(confirmed) : "Hreint", confirmed ? "Hækkar rekstrarstöðu." : "Ekkert staðfest merki.", confirmed ? "warn" : "good") +
-            qualitySignalCard("Power BI / vafri", fmt(unsupported), unsupported ? "Óstuddur eða gamall vafri." : "Engin staðfest vafravilla.", unsupported ? "warn" : "good") +
-            qualitySignalCard("Greiningarmerki", fmt(info + diagnostic), "Info + diagnostic, ekki heimsóknir.", info + diagnostic ? "info" : "good") +
-            qualitySignalCard("Tracker samhengi", topDevice || topBrowser ? safe((topDevice ? topDevice.key : "-") + " / " + (topBrowser ? topBrowser.key : "-")) : "-", "Veik merki " + shareValue(weakShare) + " · " + fmt(deviceRows.length) + " device línur.", weakShare > .12 ? "warn" : "gateway") +
+      var statusCopy = confirmed
+        ? "Production merki eru efst. Diagnostic og óstaðfest merki eru í sér lane svo rekstrarstaða ruglist ekki við tæknisamhengi."
+        : "Engin staðfest production merki. Diagnostic og info merki eru áfram sýnd sem samhengi.";
+      var html = '<div class="quality-v2">' +
+        '<section class="quality-v2-hero ' + (confirmed ? "warn" : "good") + '">' +
+          '<div class="quality-v2-title"><span class="quality-v2-kicker">Gæðavakt</span><h3>' + safe(confirmed ? fmt(confirmed) + " staðfest production merki" : "Engin staðfest production merki") + '</h3><p>' + safe(statusCopy) + '</p><div class="quality-v2-status"><span class="chip ' + (confirmed ? 'warn' : 'good') + '">' + (confirmed ? 'Skoða fyrst' : 'Production í lagi') + '</span><span class="chip neutral">' + fmt(allCount) + ' merki alls</span><span class="chip neutral">Traust: ' + safe(confidenceText) + '</span></div></div>' +
+          '<div class="quality-v2-signal-grid">' +
+            qualityV2Signal("Production", confirmed ? fmt(confirmed) : "0", confirmed ? "hækkar rekstrarstöðu" : "hreint", confirmed ? "warn" : "good") +
+            qualityV2Signal("Power BI / vafri", fmt(unsupported), unsupported ? "óstuddur eða gamall vafri" : "engin staðfest vafravilla", unsupported ? "warn" : "good") +
+            qualityV2Signal("Greining", fmt(info + diagnostic), "info + diagnostic, ekki heimsóknir", info + diagnostic ? "info" : "good") +
+            qualityV2Signal("Tracker", topDevice || topBrowser ? (topDevice ? topDevice.key : "-") + " / " + (topBrowser ? topBrowser.key : "-") : "-", "veik merki " + shareValue(weakShare) + " · " + fmt(deviceRows.length) + " device línur", weakShare > .12 ? "warn" : "gateway") +
           '</div>' +
         '</section>';
       if (!allWarnings.length) {
-        html += '<div class="quality-context-note good"><span>Staða</span><strong>Engin gæðamerki í payload</strong><p>Endpoint skilaði engum quality_warnings línum.</p></div>';
+        html += '<section class="quality-v2-section"><div class="quality-v2-section-head"><div><span>Staða</span><h3>Engin gæðamerki í payload</h3><p>Endpoint skilaði engum quality_warnings línum.</p></div><span class="quality-v2-count">0</span></div></section>';
       } else {
-        if (productionRows.length) {
-          html += '<section class="quality-alert-board"><div class="quality-alert-board-head"><div><span class="quality-kicker">Production queue</span><h3>Hvað þarf athygli fyrst</h3><div class="subtle">Raðað eftir severity, töldum merkjum, affected traffic og nýjustu evidence.</div></div><span class="quality-group-count">' + fmt(productionRows.length) + '</span></div><div class="quality-action-list">' +
-            productionRows.map(function (row) { return qualityActionCard(row, "confirmed"); }).join("") +
+        html += '<div class="quality-v2-lanes">';
+        html += '<section class="quality-v2-section quality-v2-production"><div class="quality-v2-section-head"><div><span>Production queue</span><h3>Hvað þarf athygli fyrst</h3><p>Raðað eftir severity, töldum merkjum, affected traffic og nýjustu evidence.</p></div><span class="quality-v2-count">' + fmt(productionRows.length) + '</span></div><div class="quality-v2-issue-grid">' +
+          (productionRows.length ? productionRows.map(function (row, i) { return qualityV2IssueCard(row, "confirmed", i); }).join("") : '<div class="message-card good"><strong>Engin production merki</strong><p>Staðfestar viðvaranir eru hreinar.</p></div>') +
           '</div></section>';
-        }
-        if (diagnosticRows.length) {
-          html += '<details class="quality-alert-board" ' + (confirmed ? '' : 'open') + '><summary><span class="quality-kicker">Diagnostic context</span><strong>' + fmt(diagnosticRows.length) + ' samhengi</strong><small>Info, óstaðfest og diagnostic merki. Ekki production incident.</small></summary><div class="quality-action-list">' +
-            diagnosticRows.map(function (row) { return qualityActionCard(row, classifyWarning(row)); }).join("") +
-          '</div></details>';
-        }
+        html += '<section class="quality-v2-section quality-v2-context"><div class="quality-v2-section-head"><div><span>Diagnostic context</span><h3>' + fmt(diagnosticRows.length) + ' samhengi</h3><p>Info, óstaðfest og diagnostic. Ekki production incident.</p></div><span class="quality-v2-count">' + fmt(diagnosticRows.length) + '</span></div><div class="quality-v2-context-grid">' +
+          (diagnosticRows.length ? diagnosticRows.map(function (row, i) { return qualityV2IssueCard(row, classifyWarning(row), i); }).join("") : '<div class="message-card neutral"><strong>Ekkert diagnostic samhengi</strong><p>Engar auka línur í payload.</p></div>') +
+          '</div></section>';
+        html += '</div>';
       }
       html += '</div>';
       setHtml("warning-list", html);
