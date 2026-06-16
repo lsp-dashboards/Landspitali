@@ -20660,6 +20660,116 @@
         '</div>' +
       '</article>';
     }
+    function dashV3Tone(cls) {
+      if (cls === "good") return "#2F8F8B";
+      if (cls === "warn") return "#C78A2A";
+      if (cls === "info") return "#3599B8";
+      if (cls === "gateway") return "#4F6F8F";
+      return "#6F7F92";
+    }
+    function dashV3Metric(label, value, detail, cls, fill) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="dash-v2-metric dash-v3-metric' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small><div class="dash-v3-metric-line"><span style="--fill:' + clamp(fill === undefined ? 100 : fill, 0, 100).toFixed(1) + '%; --tone:' + safe(dashV3Tone(cls)) + '"></span></div></article>';
+    }
+    function dashV3Legend(rows, total) {
+      rows = rows || [];
+      total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + number(row.value); }, 0), 1);
+      return '<div class="dash-v3-orbit-legend">' + rows.filter(function (row) { return number(row.value) > 0; }).map(function (row, index) {
+        return '<div class="dash-v3-legend-row"><i style="--dot:' + safe(dashboardDonutColor(row, index)) + '"></i><span>' + safe(row.label) + '</span><strong>' + fmt(row.value) + ' · ' + safe(pct(row.value, total)) + '</strong></div>';
+      }).join("") + '</div>';
+    }
+    function dashV3OrbitCard(title, rows, total, detail) {
+      rows = (rows || []).filter(function (row) { return number(row.value) > 0; });
+      total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + number(row.value); }, 0), 1);
+      var dominant = rows.slice().sort(function (a, b) { return number(b.value) - number(a.value); })[0] || { label: "-", value: 0 };
+      return '<article class="dash-v3-orbit-card"><div><span class="dash-v3-viz-kicker">' + safe(title) + '</span><h3 style="margin:3px 0 0;color:var(--ink);font-size:22px;line-height:.98;font-weight:900;">' + safe(dominant.label) + '</h3></div><div class="dash-v3-orbit" style="--donut-bg:' + safe(dashboardDonutBg(rows, total)) + '"><div class="dash-v3-orbit-center"><strong>' + safe(pct(dominant.value, total)) + '</strong><span>' + safe(dominant.label) + '</span></div></div>' + dashV3Legend(rows, total) + (detail ? '<small class="dash-v3-card-kicker">' + safe(detail) + '</small>' : '') + '</article>';
+    }
+    function dashV3Bar(label, value, total, cls) {
+      return '<div class="dash-v3-bar"><span>' + safe(label) + '</span><strong>' + fmt(value) + '</strong><div class="dash-v3-bar-track"><span style="--fill:' + widthPct(value, total) + '%; --tone:' + safe(dashV3Tone(cls)) + '"></span></div></div>';
+    }
+    function dashV3VizCard(kicker, title, value, body) {
+      return '<article class="dash-v3-viz-card"><div><span class="dash-v3-viz-kicker">' + safe(kicker) + '</span><h3>' + safe(title) + '</h3></div>' + (value ? '<div style="color:var(--ink);font-size:34px;line-height:.9;font-weight:900;">' + safe(value) + '</div>' : '') + body + '</article>';
+    }
+    function dashV3BarsCard(kicker, title, rows, total) {
+      rows = (rows || []).filter(function (row) { return number(row.value) > 0; }).slice(0, 5);
+      total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + number(row.value); }, 0), 1);
+      var body = '<div class="dash-v3-bars">' + rows.map(function (row) { return dashV3Bar(row.label, row.value, total, row.className || "gateway"); }).join("") + '</div>';
+      return dashV3VizCard(kicker, title, rows.length ? fmt(total) : "0", body);
+    }
+    function dashV3SparkCard(data, dashboards, totalVisits) {
+      var rows = trendRows(data).slice(-18);
+      if (!rows.length) {
+        rows = (dashboards || []).slice(0, 8).map(function (row, index) {
+          return { date: String(index + 1), visits: visitValue(row) };
+        });
+      }
+      var values = rows.map(function (row) { return number(row.visits); });
+      var max = Math.max.apply(null, values.concat([1]));
+      var width = 360;
+      var height = 124;
+      var pad = 12;
+      var points = rows.map(function (row, index) {
+        var x = pad + (rows.length === 1 ? 0 : index / (rows.length - 1) * (width - pad * 2));
+        var y = height - pad - (number(row.visits) / max * (height - pad * 2));
+        return [x, y];
+      });
+      var path = points.map(function (p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(" ");
+      var area = pad + "," + (height - pad) + " " + path + " " + (width - pad) + "," + (height - pad);
+      var svg = '<svg class="dash-v3-spark" viewBox="0 0 ' + width + ' ' + height + '" role="img" aria-label="Notkunarlína"><polygon points="' + safe(area) + '" fill="rgba(47,143,139,.14)"></polygon><polyline points="' + safe(path) + '" fill="none" stroke="#2F8F8B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></polyline>' + points.map(function (p, index) { return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="' + (index === points.length - 1 ? 5 : 3) + '" fill="#12314c"></circle>'; }).join("") + '</svg>';
+      return dashV3VizCard("Line", "Notkunarlína", fmt(totalVisits), svg);
+    }
+    function dashV3MiniBar(label, value, total, cls) {
+      return '<div class="dash-v3-mini-bar"><div class="dash-v3-mini-top"><span>' + safe(label) + '</span><strong>' + fmt(value) + ' · ' + safe(pct(value, total)) + '</strong></div><div class="dash-v3-mini-track"><span style="--fill:' + widthPct(value, total) + '%; --tone:' + safe(dashV3Tone(cls)) + '"></span></div></div>';
+    }
+    function dashV3Fact(label, value, detail, cls) {
+      return '<div class="dash-v3-fact ' + safe(cls || "") + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></div>';
+    }
+    function dashV3DashboardCard(data, dashboard, totalVisits, index) {
+      var cards = publicMap(data);
+      var card = findPublicCardForDashboard(data, dashboard);
+      var total = visitValue(dashboard);
+      var status = publicCardStatus(card);
+      var statusClass = status.cls || "gateway";
+      var layout = dashboardLayoutContext(data, dashboard);
+      var source = dashboardSourceContext(data, dashboard);
+      var tracker = dashboardDeviceContext(data, dashboard) || "engin tracker";
+      var age = ageInfo(dashboardLastCountedTime(dashboard));
+      var lastTime = dashboardLastCountedTime(dashboard);
+      var warningCount = number(firstValue(dashboard, ["confirmed_warning_count", "production_warning_count", "warning_count"]));
+      var layoutTotal = Math.max(layout.mobile + layout.desktop, layout.total, total, 1);
+      var sourceRows = [
+        { label: "island.is", value: source.island, className: "good" },
+        { label: "Beint", value: source.direct, className: "gateway" },
+        { label: "Annað", value: source.other, className: "neutral" }
+      ].sort(function (a, b) { return number(b.value) - number(a.value); });
+      var sourceTotal = Math.max(source.island + source.direct + source.other, source.total, total, 1);
+      var layoutDominant = layout.desktop >= layout.mobile ? "Desktop" : "Mobile";
+      var sourceDominant = sourceRows[0] || { label: "-", value: 0, className: "gateway" };
+      var tone = statusClass === "good" ? "#2F8F8B" : statusClass === "warn" ? "#C78A2A" : dashV3Tone("gateway");
+      var forcedDetail = layout.forced ? "Þvingun: mobile " + fmt(layout.forcedMobile) + " · desktop " + fmt(layout.forcedDesktop) : "Sjálfvirkt val";
+      var today = number(dashboard.visits_today);
+      return '<article class="dash-v3-card ' + safe(statusClass) + '" style="--card-tone:' + safe(tone) + '; --share:' + widthPct(total, Math.max(totalVisits, 1)) + '%">' +
+        '<div class="dash-v3-card-head">' +
+          dashboardIconMarkup(dashboard, { publicCards: cards }) +
+          '<div class="dash-v3-card-title"><span class="dash-v3-card-kicker">' + safe(status.label || "Kort") + ' · ' + safe(String(index + 1).padStart(2, "0")) + '</span><strong>' + safe(titleFor(dashboard, cards)) + '</strong><small>' + safe(status.detail || cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + '</small></div>' +
+          '<div class="dash-v3-total"><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + ' af heild</small></div>' +
+        '</div>' +
+        '<div class="dash-v3-card-body">' +
+          '<div class="dash-v3-share-ring"><div><strong>' + safe(pct(total, Math.max(totalVisits, 1))) + '</strong><span class="dash-v3-mini-label">hlutdeild</span></div></div>' +
+          '<div class="dash-v3-card-bars">' +
+            dashV3MiniBar("Útgáfuval · " + layoutDominant, Math.max(layout.mobile, layout.desktop), layoutTotal, layoutDominant === "Mobile" ? "info" : "gateway") +
+            dashV3MiniBar("Uppruni · " + sourceDominant.label, sourceDominant.value, sourceTotal, sourceDominant.className) +
+            dashV3MiniBar("Í dag", today, Math.max(total, 1), today ? "good" : "gateway") +
+          '</div>' +
+        '</div>' +
+        '<div class="dash-v3-facts">' +
+          dashV3Fact("Síðast", age.label, lastTime ? dateShort(lastTime) : "engin talin opnun", age.className || "gateway") +
+          dashV3Fact("Leiðing", layout.topRoute, forcedDetail, layout.forced ? "warn" : "gateway") +
+          dashV3Fact("Tracker", tracker, warningCount ? fmt(warningCount) + " merki þarf að skoða" : "engin staðfest villa", warningCount ? "warn" : "good") +
+          dashV3Fact("Staða", status.label, status.detail || "opinbert kort", statusClass) +
+        '</div>' +
+      '</article>';
+    }
     function renderDashboardPublicMasterV2(data) {
       data = data || {};
       var cards = data.public_cards || [];
@@ -20710,7 +20820,49 @@
       var sourceTotal = Math.max(islandTotal + directTotal + otherTotal, totalVisits, 1);
       var layoutDominant = desktopTotal >= mobileTotal ? "Desktop" : "Mobile";
       var sourceDominant = islandTotal >= directTotal && islandTotal >= otherTotal ? "island.is" : directTotal >= otherTotal ? "Beint" : "Annað";
-      var dashboardHtml = sortedDashboards.map(function (dashboard, index) { return dashV2DashboardRow(data, dashboard, totalVisits, index); }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engar taldar production heimsóknir í dashboard aggregate.</p></div>';
+      var dashboardHtml = sortedDashboards.map(function (dashboard, index) { return dashV3DashboardCard(data, dashboard, totalVisits, index); }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engar taldar production heimsóknir í dashboard aggregate.</p></div>';
+      var countClass = sortedDashboards.length > 0 && sortedDashboards.length <= 3 ? " dash-v3-count-" + sortedDashboards.length : "";
+      var layoutRows = [
+        { label: "Mobile", value: mobileTotal, className: "info" },
+        { label: "Desktop", value: desktopTotal, className: "gateway" }
+      ];
+      var sourceRows = [
+        { label: "island.is", value: islandTotal, className: "good" },
+        { label: "Beint", value: directTotal, className: "gateway" },
+        { label: "Annað", value: otherTotal, className: "neutral" }
+      ];
+      var routeVizRows = routeGroups.slice(0, 5).map(function (row, index) {
+        return { label: row.key, value: row.total, className: index === 0 ? "warn" : "info" };
+      });
+      var dashboardRankRows = sortedDashboards.slice(0, 5).map(function (row, index) {
+        return { label: titleFor(row, publicMap(data)), value: visitValue(row), className: index === 0 ? "good" : "gateway" };
+      });
+      setHtml("dashboard-public-master",
+        '<div class="dashboard-v2 dashboard-v3' + countClass + '">' +
+          '<section class="dash-v3-hero" aria-label="Mælaborðasafn">' +
+            '<div class="dash-v3-title"><div><span class="dash-v2-kicker">Portfolio scan</span><h2><span class="dash-v3-title-line">Mæla-</span><span class="dash-v3-title-line">borð</span></h2></div><div class="chip-row dash-v2-title-chips"><span class="chip good">Ráðandi: ' + safe(topTitle) + ' · ' + safe(topShare) + '</span><span class="chip ' + (forced ? 'warn' : 'info') + '">Route: ' + safe(topRoute ? topRoute.key : "sjálfvirkt") + '</span><span class="chip ' + (warningCount ? 'warn' : 'good') + '">Gæði: ' + (warningCount ? fmt(warningCount) + ' merki' : 'hreint') + '</span><span class="chip neutral">Nýjast: ' + safe(newest ? titleFor(newest, publicMap(data)) : "-") + '</span></div></div>' +
+            '<div class="dash-v2-metrics dash-v3-metrics">' +
+              dashV3Metric("Samtals notkun", fmt(totalVisits), "taldar production opnanir", "good", 100) +
+              dashV3Metric("Í dag", fmt(todayTotal), "opnanir skráðar", todayTotal ? "good" : "gateway", widthPct(todayTotal, Math.max(sevenDayTotal, totalVisits, 1))) +
+              dashV3Metric("7 dagar", fmt(sevenDayTotal), "síðustu sjö dagar", sevenDayTotal ? "info" : "gateway", widthPct(sevenDayTotal, Math.max(totalVisits, 1))) +
+              dashV3Metric("Kort í rekstri", fmt(published) + "/" + fmt(publicTotal), draftOrTest ? fmt(draftOrTest) + " í próf/drögum" : "opinbert safn", draftOrTest ? "warn" : "info", publicTotal ? published / publicTotal * 100 : 0) +
+            '</div>' +
+            '<div class="dash-v3-orbit-panel">' +
+              dashV3OrbitCard("Útgáfuval", layoutRows, layoutTotal, "Mobile og desktop í sama notkunargrunni.") +
+              dashV3OrbitCard("Uppruni", sourceRows, sourceTotal, "island.is, beint og annað í einni upprunamynd.") +
+            '</div>' +
+          '</section>' +
+          '<section class="dash-v3-visuals" aria-label="Myndræn staða mælaborða">' +
+            dashV3BarsCard("Columns", "Top kort", dashboardRankRows, Math.max(totalVisits, 1)) +
+            dashV3BarsCard("Route", "Ástæður", routeVizRows, Math.max(routeGroups.reduce(function (acc, row) { return acc + number(row.total); }, 0), totalVisits, 1)) +
+            dashV3BarsCard("Source", "Uppruni", sourceRows, sourceTotal) +
+            dashV3SparkCard(data, sortedDashboards, totalVisits) +
+          '</section>' +
+          '<section class="dash-v3-grid" aria-label="Mælaborð og samhengi">' +
+            dashboardHtml +
+          '</section>' +
+        '</div>');
+      return;
       setHtml("dashboard-public-master",
         '<div class="dashboard-v2">' +
           '<section class="dash-v2-hero" aria-label="Mælaborðasafn">' +
