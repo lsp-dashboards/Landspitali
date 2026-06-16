@@ -51,6 +51,26 @@
       --radius-sm: 13px;
       --gap: 18px;
       --tap: 44px;
+      --data-01: #4F6F8F;
+      --data-02: #2F8F8B;
+      --data-03: #C78A2A;
+      --data-04: #A9B4C2;
+      --data-05: #6F7F92;
+      --data-06: #3B5A75;
+      --data-07: #1F6F6C;
+      --data-08: #9A6B20;
+      --data-09: #3599B8;
+      --data-10: #DFBFBF;
+      --data-11: #4AC5BB;
+      --data-12: #5F6B6D;
+      --data-13: #FB8281;
+      --data-14: #F4D25A;
+      --data-15: #7F898A;
+      --data-soft-01: rgba(79, 111, 143, .1);
+      --data-soft-02: rgba(47, 143, 139, .11);
+      --data-soft-03: rgba(199, 138, 42, .14);
+      --data-soft-09: rgba(53, 153, 184, .11);
+      --data-soft-13: rgba(251, 130, 129, .12);
     }
 
     * { box-sizing: border-box; min-width: 0; }
@@ -11749,6 +11769,493 @@
         white-space: normal;
       }
     }
+
+    /* Start command surface V5 */
+    .start-v5 {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .start-v5 *,
+    .start-v5 *::before,
+    .start-v5 *::after {
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .start-v5-hero,
+    .start-v5-flow,
+    .start-v5-focus,
+    .start-v5-proof {
+      border: 1px solid rgba(181, 205, 220, .82);
+      border-radius: 8px;
+      background: rgba(255,255,255,.94);
+      box-shadow: none;
+    }
+
+    .start-v5-hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(310px, .31fr);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.92)),
+        linear-gradient(90deg, rgba(31,126,83,.045) 0 1px, transparent 1px 100%);
+      background-size: auto, 34px 100%;
+    }
+
+    .start-v5-hero::before,
+    .start-v5-flow::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--data-02), var(--data-01), var(--data-03));
+      pointer-events: none;
+    }
+
+    .start-v5-story,
+    .start-v5-actions {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 14px;
+      padding: clamp(15px, 1.6vw, 22px);
+      align-content: space-between;
+    }
+
+    .start-v5-story {
+      border-right: 1px solid rgba(196,214,226,.72);
+    }
+
+    .start-v5-kicker,
+    .start-v5-chip span,
+    .start-v5-metric span,
+    .start-v5-node span,
+    .start-v5-action-index,
+    .start-v5-action-list span,
+    .start-v5-panel-head span,
+    .start-v5-dash-row span,
+    .start-v5-proof-card span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .start-v5-title-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, .28fr);
+      gap: clamp(16px, 2vw, 28px);
+      align-items: end;
+    }
+
+    .start-v5-title-row h2 {
+      margin: 4px 0 0;
+      color: var(--ink);
+      font-size: clamp(40px, 4vw, 66px);
+      line-height: .94;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .start-v5-copy {
+      max-width: 82ch;
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      text-wrap: pretty;
+    }
+
+    .start-v5-score {
+      display: grid;
+      gap: 8px;
+      padding: 11px;
+      border: 1px solid rgba(196,214,226,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .start-v5-score strong {
+      color: var(--ink);
+      font-size: clamp(28px, 2.8vw, 42px);
+      line-height: .9;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .start-v5-score small,
+    .start-v5-chip small,
+    .start-v5-metric small,
+    .start-v5-node small,
+    .start-v5-action-list p,
+    .start-v5-dash-row small,
+    .start-v5-proof-card small,
+    .start-v5-note {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.32;
+    }
+
+    .start-v5-meter {
+      height: 7px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5edf3;
+    }
+
+    .start-v5-meter span {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--accent);
+    }
+
+    .start-v5-meter .good,
+    .start-v5-node.good::before,
+    .start-v5-dash-row.good::before { background: var(--data-02); }
+    .start-v5-meter .warn,
+    .start-v5-meter .bad,
+    .start-v5-node.warn::before,
+    .start-v5-node.bad::before,
+    .start-v5-dash-row.warn::before { background: var(--data-03); }
+    .start-v5-meter .gateway,
+    .start-v5-node.gateway::before,
+    .start-v5-dash-row.gateway::before { background: var(--data-05); }
+    .start-v5-meter .info,
+    .start-v5-node.info::before,
+    .start-v5-dash-row.info::before { background: var(--data-09); }
+
+    .start-v5-signal-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .start-v5-metric,
+    .start-v5-chip {
+      display: grid;
+      gap: 6px;
+      align-content: space-between;
+      min-height: 84px;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.68);
+    }
+
+    .start-v5-metric.good,
+    .start-v5-node.good,
+    .start-v5-proof-card.good,
+    .start-v5-chip.good { background: var(--data-soft-02); border-color: rgba(47,143,139,.25); }
+    .start-v5-metric.warn,
+    .start-v5-metric.bad,
+    .start-v5-node.warn,
+    .start-v5-node.bad,
+    .start-v5-proof-card.warn,
+    .start-v5-proof-card.bad,
+    .start-v5-chip.warn { background: var(--data-soft-03); border-color: rgba(199,138,42,.28); }
+    .start-v5-metric.info,
+    .start-v5-node.info,
+    .start-v5-proof-card.info,
+    .start-v5-chip.info { background: var(--data-soft-09); border-color: rgba(53,153,184,.24); }
+    .start-v5-metric.gateway,
+    .start-v5-node.gateway,
+    .start-v5-proof-card.gateway,
+    .start-v5-chip.gateway { background: var(--data-soft-01); border-color: rgba(79,111,143,.24); }
+
+    .start-v5-metric strong,
+    .start-v5-chip strong,
+    .start-v5-proof-card strong {
+      color: var(--ink);
+      font-size: clamp(18px, 1.35vw, 25px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .start-v5-actions {
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,249,232,.72));
+    }
+
+    .start-v5-action-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+    }
+
+    .start-v5-action-head strong {
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    .start-v5-action-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .start-v5-action-item {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.68);
+    }
+
+    .start-v5-action-index {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: var(--data-06);
+      color: #fff;
+      font-size: 11px;
+    }
+
+    .start-v5-action-item.warn .start-v5-action-index,
+    .start-v5-action-item.bad .start-v5-action-index {
+      background: var(--data-08);
+    }
+
+    .start-v5-action-list p {
+      margin: 3px 0 0;
+      font-weight: 800;
+      text-wrap: pretty;
+    }
+
+    .start-v5-flow {
+      position: relative;
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,251,253,.92));
+    }
+
+    .start-v5-panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .start-v5-panel-head strong {
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-align: right;
+    }
+
+    .start-v5-flowline {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .start-v5-flowline::before {
+      content: "";
+      position: absolute;
+      left: 7%;
+      right: 7%;
+      top: 15px;
+      height: 1px;
+      background: repeating-linear-gradient(90deg, rgba(79,111,143,.45) 0 16px, transparent 16px 26px);
+      pointer-events: none;
+    }
+
+    .start-v5-node {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-rows: 24px auto minmax(30px, 1fr) 7px;
+      gap: 7px;
+      min-height: 128px;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.82);
+      border-radius: 8px;
+      background: rgba(255,255,255,.88);
+    }
+
+    .start-v5-node::before {
+      content: "";
+      width: 13px;
+      height: 13px;
+      border: 3px solid rgba(255,255,255,.92);
+      border-radius: 999px;
+      box-shadow: 0 0 0 1px rgba(79,111,143,.28);
+    }
+
+    .start-v5-node strong {
+      color: var(--ink);
+      font-size: clamp(22px, 2vw, 34px);
+      line-height: .94;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .start-v5-node small {
+      font-weight: 800;
+      text-wrap: pretty;
+    }
+
+    .start-v5-lower {
+      display: grid;
+      grid-template-columns: minmax(300px, .36fr) minmax(0, .64fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .start-v5-focus,
+    .start-v5-proof {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      align-content: start;
+    }
+
+    .start-v5-dash-list,
+    .start-v5-proof-grid {
+      display: grid;
+      gap: 8px;
+    }
+
+    .start-v5-dash-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: 8px minmax(0, 1fr) auto;
+      grid-template-rows: auto auto 7px;
+      gap: 5px 10px;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .start-v5-dash-row::before {
+      content: "";
+      grid-row: 1 / 4;
+      width: 3px;
+      height: 100%;
+      border-radius: 999px;
+      background: var(--gateway);
+    }
+
+    .start-v5-dash-row span,
+    .start-v5-dash-row small {
+      grid-column: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .start-v5-dash-row strong {
+      grid-column: 3;
+      grid-row: 1 / span 2;
+      color: var(--ink);
+      font-size: 23px;
+      line-height: .95;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .start-v5-dash-row .start-v5-meter {
+      grid-column: 2 / 4;
+      grid-row: 3;
+    }
+
+    .start-v5-proof-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .start-v5-proof-card {
+      display: grid;
+      gap: 6px;
+      align-content: space-between;
+      min-height: 83px;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .start-v5-note {
+      margin: 0;
+      font-weight: 800;
+      text-wrap: pretty;
+    }
+
+    @media (max-width: 1240px) {
+      .start-v5-hero,
+      .start-v5-title-row,
+      .start-v5-lower {
+        grid-template-columns: 1fr;
+      }
+
+      .start-v5-story {
+        border-right: 0;
+        border-bottom: 1px solid rgba(196,214,226,.72);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .start-v5-signal-grid,
+      .start-v5-flowline,
+      .start-v5-proof-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .start-v5-flowline::before {
+        display: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .start-v5-signal-grid,
+      .start-v5-flowline,
+      .start-v5-proof-grid,
+      .start-v5-dash-row,
+      .start-v5-action-item {
+        grid-template-columns: 1fr;
+      }
+
+      .start-v5-title-row h2 {
+        font-size: 34px;
+      }
+
+      .start-v5-dash-row::before {
+        grid-row: auto;
+        width: 100%;
+        height: 3px;
+      }
+
+      .start-v5-dash-row span,
+      .start-v5-dash-row small,
+      .start-v5-dash-row strong,
+      .start-v5-dash-row .start-v5-meter {
+        grid-column: auto;
+        grid-row: auto;
+        white-space: normal;
+      }
+    }
   </style>
 </head>
 <body>
@@ -13735,6 +14242,130 @@
           '</section>' +
         '</article>');
     }
+    function startV5Meter(value, cls) {
+      var fill = clamp(number(value), 0, 100);
+      return '<div class="start-v5-meter" aria-hidden="true"><span class="' + safe(cls || "") + '" style="--fill:' + fill.toFixed(1) + '%"></span></div>';
+    }
+    function startV5Metric(label, value, detail, cls, fill) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="start-v5-metric' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' + startV5Meter(fill === undefined ? 0 : fill, cls) + '</article>';
+    }
+    function startV5Action(item, index) {
+      item = item || {};
+      var tone = item.tone || "info";
+      return '<article class="start-v5-action-item ' + safe(tone) + '"><div class="start-v5-action-index">' + safe(String(index + 1).padStart(2, "0")) + '</div><div><span>' + safe(tone === "good" ? "St\u00f6\u00f0ugt" : tone === "bad" ? "Br\u00e1tt" : tone === "warn" ? "Sko\u00f0a" : "Samhengi") + '</span><p>' + safe(item.text || "") + '</p></div></article>';
+    }
+    function startV5Node(label, value, detail, cls, fill) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="start-v5-node' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' + startV5Meter(fill === undefined ? 0 : fill, cls) + '</article>';
+    }
+    function startV5DashRow(label, value, total, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="start-v5-dash-row' + className + '"><span>' + safe(label) + '</span><strong>' + fmt(value) + '</strong><small>' + safe(detail || pct(value, total)) + '</small>' + startV5Meter(number(value) / Math.max(number(total), 1) * 100, cls || "good") + '</article>';
+    }
+    function startV5Proof(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="start-v5-proof-card' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function renderStartPanelV5(data) {
+      data = data || {};
+      var model = opsModel(data);
+      var k = data.kpis || {};
+      var f = data.root_index_funnel || data.root_index || {};
+      var dashboards = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); });
+      var cards = publicMap(data);
+      var confirmed = model.warningSplit.confirmed.length;
+      var diagnosticRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && isDiagnosticRow(row); }).length;
+      var uncountedRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && hasExplicitUncountedFlag(row); }).length;
+      var diagnosticTotal = diagnosticRows + uncountedRows;
+      var rootViews = number(firstValue(f, ["views", "root_views", "root_index_views"]));
+      var rootClicks = number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"]));
+      var routerArrivals = number(firstValue(f, ["router_arrivals", "arrivals"]));
+      var gatewaySignals = rootViews + rootClicks + routerArrivals;
+      var rawSignals = number(firstValue(k, ["total_raw_events", "raw_events", "total_events", "raw_signal_events"]));
+      if (!rawSignals) rawSignals = sumRows(data.performance || [], "raw_signal_events");
+      if (!rawSignals) rawSignals = model.total + gatewaySignals + diagnosticTotal;
+      var totalSignal = Math.max(model.total + gatewaySignals + diagnosticTotal, rawSignals, 1);
+      var routeRows = routeMatrixRows(data);
+      var routeTotal = routeRows.reduce(function (acc, row) { return acc + routeMatrixValue(row); }, 0);
+      var forced = forcedLayoutTotal(routeRows);
+      var routeGroups = routeReasonGroups(data, false).filter(function (row) { return number(row.total) > 0; });
+      var topRoute = routeGroups[0];
+      var routeValue = topRoute ? topRoute.key : "Sj\u00e1lfvirkt";
+      var routeDetail = forced ? "Forced layout " + fmt(forced) + " af " + fmt(routeTotal) : "Sj\u00e1lfvirkt route val";
+      var routeFill = routeTotal ? clamp(100 - forced / routeTotal * 100, 0, 100) : 100;
+      var sourceRows = visibleRows(data.sources || []);
+      var sourceTotal = Math.max(sumRows(sourceRows), model.total, 1);
+      var island = model.island || sourceCount(sourceRows, function (value) { return isIslandSource(value); });
+      var direct = sourceCount(sourceRows, function (value) { return isDirectSource(value); });
+      var unknownSource = sourceCount(sourceRows, function (value) { return /unknown|\u00f3\u00feekkt/i.test(String(value || "")); });
+      var sourceSignal = clamp(sourceTotal - unknownSource, 0, sourceTotal);
+      var sourceTone = unknownSource / sourceTotal > .12 ? "warn" : "good";
+      var sourceDetail = "island.is " + fmt(island) + " / beint " + fmt(direct);
+      var deviceRows = rowsFrom(data, "device_confidence", "device");
+      var topDevice = topRows(deviceRows, function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 1, intelRowSignalV4)[0];
+      var topConfidence = topRows(deviceRows, function (row) { return bandLabel(row.inferred_confidence_band || row.confidence_band); }, 1, intelRowSignalV4)[0];
+      var topBrowser = topRows(rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 1, intelRowSignalV4)[0];
+      var topViewport = topRows(rowsFrom(data, "display", "device"), function (row) { return labelViewport(row.viewport_bucket || row.display_class); }, 1, intelRowSignalV4)[0];
+      var topTransport = topRows(softSignalRows(rowsFrom(data, "performance", "device")), function (row) { return labelTransport(row.tracker_send_method || row.tracking_method); }, 1, intelRowSignalV4)[0];
+      var topDashboard = dashboards[0];
+      var topDashboardTitle = topDashboard ? titleFor(topDashboard, cards) : "\u00d3skr\u00e1\u00f0 m\u00e6labor\u00f0";
+      var dashboardRowsHtml = dashboards.slice(0, 4).map(function (row, index) {
+        var value = visitValue(row);
+        var detail = pct(value, Math.max(model.total, 1)) + " af t\u00f6ldum opnunum";
+        return startV5DashRow(titleFor(row, cards), value, Math.max(model.total, 1), detail, index === 0 ? "good" : "gateway");
+      }).join("") || '<div class="message-card neutral"><strong>Engin m\u00e6labor\u00f0sg\u00f6gn</strong><p>Production talningar eru ekki komnar \u00ed dashboard aggregate.</p></div>';
+      var scoreTone = model.tone === "bad" ? "warn" : model.tone;
+      var statusTitle = model.tone === "good" ? "Rekstur st\u00f6\u00f0ugur" : model.tone === "warn" ? "Athugun \u00ed forgangi" : "Br\u00fdnt a\u00f0 sko\u00f0a";
+      var lead = confirmed ?
+        fmt(confirmed) + " sta\u00f0fest rekstrarmerki eru sett fremst. Taldar opnanir eru a\u00f0altalan; gateway, router og raw merki sk\u00fdra samhengi\u00f0." :
+        "Engin sta\u00f0fest production villa er efst. Taldar opnanir, route, uppruni og tracker g\u00e6\u00f0i lesa saman.";
+      var actions = actionItems(data, model).slice(0, 3).map(startV5Action).join("");
+      var freshnessFill = clamp(100 - Math.min(model.eventAge.minutes, 720) / 720 * 100, 0, 100);
+      var qualityFill = clamp(100 - confirmed * 28 - model.fallback * 16 - model.weakShare * 100, 0, 100);
+      var usageMode = model.desktop >= model.mobile ? "Desktop" : "Mobile";
+      var usageDetail = "Mobile " + safe(pct(model.mobile, Math.max(model.total, 1))) + " / desktop " + safe(pct(model.desktop, Math.max(model.total, 1)));
+      var focusCopy = topDashboard ? safe(topDashboardTitle) + " ber " + safe(pct(visitValue(topDashboard), Math.max(model.total, 1))) + " af t\u00f6ldum opnunum." : "Engin talin production opnun fannst enn.";
+      setHtml("start-panel",
+        '<article class="start-v5 ' + safe(scoreTone) + '">' +
+          '<section class="start-v5-hero" aria-label="Upphafsinns\u00fdn">' +
+            '<div class="start-v5-story">' +
+              '<div class="start-v5-title-row"><div><span class="start-v5-kicker">Start / rekstrarlestur</span><h2 id="fresh-start-title">' + safe(statusTitle) + '</h2><p class="start-v5-copy">' + safe(lead) + '</p></div>' +
+                '<div class="start-v5-score"><span class="start-v5-kicker">Rekstrarsta\u00f0a</span><strong>' + fmt(model.score) + '/100</strong><small>Skor er l\u00edna, ekki a\u00f0almynd.</small>' + startV5Meter(model.score, scoreTone) + '</div></div>' +
+              '<div class="start-v5-signal-grid">' +
+                startV5Metric("Taldar opnanir", fmt(model.total), fmt(model.dashboardCount) + " m\u00e6labor\u00f0 \u00ed grunni", "good", model.total / totalSignal * 100) +
+                startV5Metric("Sta\u00f0fest merki", confirmed ? fmt(confirmed) : "0", confirmed ? "sko\u00f0a \u00ed g\u00e6\u00f0avi\u00f0v\u00f6runum" : "engin sta\u00f0fest merki", confirmed ? "warn" : "good", qualityFill) +
+                startV5Metric("Ferskleiki", model.eventAge.label, "samantekt " + model.aggregationAge.label, model.eventAge.className, freshnessFill) +
+                startV5Metric("Uppruni", pct(sourceSignal, sourceTotal), sourceDetail, sourceTone, sourceSignal / sourceTotal * 100) +
+              '</div>' +
+            '</div>' +
+            '<aside class="start-v5-actions"><div class="start-v5-action-head"><span class="start-v5-kicker">\u00c1kv\u00f6r\u00f0un</span><strong>N\u00e6st</strong></div><div class="start-v5-action-list">' + actions + '</div></aside>' +
+          '</section>' +
+          '<section class="start-v5-flow" aria-label="Signal path">' +
+            '<div class="start-v5-panel-head"><span>Signal path</span><strong>raw -> gateway -> router -> tali\u00f0 -> g\u00e6\u00f0i</strong></div>' +
+            '<div class="start-v5-flowline">' +
+              startV5Node("Raw scope", fmt(rawSignals), "telemetry og t\u00e6knimerki", rawSignals > model.total ? "info" : "gateway", rawSignals / totalSignal * 100) +
+              startV5Node("Gateway", fmt(gatewaySignals), "root views, smellir, router", "gateway", gatewaySignals / totalSignal * 100) +
+              startV5Node("Route", topRoute ? fmt(topRoute.total) : fmt(routeTotal), routeValue, forced ? "warn" : "info", routeFill) +
+              startV5Node("Taldar", fmt(model.total), "production dashboard opnanir", "good", model.total / totalSignal * 100) +
+              startV5Node("G\u00e6\u00f0i", confirmed ? fmt(confirmed) : "0", "sta\u00f0fest rekstrarmerki", confirmed ? "warn" : "good", qualityFill) +
+            '</div>' +
+          '</section>' +
+          '<section class="start-v5-lower" aria-label="F\u00f3kus og sannanir">' +
+            '<div class="start-v5-focus"><div class="start-v5-panel-head"><span>M\u00e6labor\u00f0 \u00ed f\u00f3kus</span><strong>' + safe(topDashboard ? pct(visitValue(topDashboard), Math.max(model.total, 1)) : "0%") + '</strong></div><p class="start-v5-note">' + focusCopy + '</p><div class="start-v5-dash-list">' + dashboardRowsHtml + '</div></div>' +
+            '<div class="start-v5-proof"><div class="start-v5-panel-head"><span>Samhengisv\u00edsar</span><strong>light palette</strong></div><div class="start-v5-proof-grid">' +
+              startV5Proof("Route", routeValue, routeDetail, forced ? "warn" : "gateway") +
+              startV5Proof("T\u00e6ki", topDevice ? topDevice.key : "\u00d3\u00feekkt", topDevice ? fmt(topDevice.visits || topDevice.raw) + " merki" : "aggregate vantar", topDevice ? "info" : "gateway") +
+              startV5Proof("Vafri", topBrowser ? topBrowser.key : "\u00d3\u00feekkt", topBrowser ? fmt(topBrowser.visits || topBrowser.raw) + " merki" : "browser aggregate vantar", topBrowser ? "info" : "gateway") +
+              startV5Proof("Skj\u00e1r", topViewport ? topViewport.key : "\u00d3\u00feekkt", topViewport ? fmt(topViewport.visits || topViewport.raw) + " merki" : "viewport aggregate vantar", topViewport ? "info" : "gateway") +
+              startV5Proof("Sending", topTransport ? topTransport.key : "\u00d3\u00feekkt", topTransport ? fmt(topTransport.visits || topTransport.raw) + " merki" : "performance aggregate vantar", topTransport ? "good" : "gateway") +
+              startV5Proof("Traust", topConfidence ? topConfidence.key : "\u00d3\u00feekkt", topConfidence ? fmt(topConfidence.visits || topConfidence.raw) + " l\u00ednur" : "confidence aggregate vantar", topConfidence ? "good" : "gateway") +
+              startV5Proof("Notkun", usageMode, usageDetail, "good") +
+              startV5Proof("Diagnostic", fmt(diagnosticTotal), "haldi\u00f0 utan heims\u00f3kna", diagnosticTotal ? "info" : "good") +
+            '</div></div>' +
+          '</section>' +
+        '</article>');
+    }
     function dashboardPublicSummary(label, value, detail, cls) {
       var className = cls ? " " + safe(cls) : "";
       return '<article class="dashboard-public-summary' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
@@ -14317,12 +14948,38 @@
     }
     function chartPalette() {
       return [
-        cssVar("--good", "#1f7a53"),
-        cssVar("--accent", "#4f6f8f"),
-        cssVar("--gateway", "#6a7d90"),
-        cssVar("--warn", "#956300"),
-        cssVar("--bad", "#a43a3a"),
-        cssVar("--info", "#3e6283")
+        cssVar("--data-01", "#4F6F8F"),
+        cssVar("--data-02", "#2F8F8B"),
+        cssVar("--data-03", "#C78A2A"),
+        cssVar("--data-04", "#A9B4C2"),
+        cssVar("--data-05", "#6F7F92"),
+        cssVar("--data-06", "#3B5A75"),
+        cssVar("--data-07", "#1F6F6C"),
+        cssVar("--data-08", "#9A6B20"),
+        cssVar("--data-09", "#3599B8"),
+        cssVar("--data-10", "#DFBFBF"),
+        cssVar("--data-11", "#4AC5BB"),
+        cssVar("--data-12", "#5F6B6D"),
+        cssVar("--data-13", "#FB8281"),
+        cssVar("--data-14", "#F4D25A"),
+        cssVar("--data-15", "#7F898A"),
+        "#A4DDEE",
+        "#FDAB89",
+        "#B687AC",
+        "#28738A",
+        "#A78F8F",
+        "#168980",
+        "#293537",
+        "#BB4A4A",
+        "#B59525",
+        "#475052",
+        "#6A9FB0",
+        "#BD7150",
+        "#7B4F71",
+        "#1B4D5C",
+        "#706060",
+        "#0F5C55",
+        "#1C2325"
       ];
     }
     function chartTextColor() {
@@ -15865,7 +16522,7 @@
       }
     }
     function render(data) {
-      safeRender("start-panel", "Fresh start", function () { renderStartPanelV4(data); });
+      safeRender("start-panel", "Fresh start", function () { renderStartPanelV5(data); });
       setStatus(data, "");
       safeRender("signal-panorama-panel", "Signal panorama", function () { renderSignalPanoramaV2(data); });
       safeRender("dashboard-public-master", "Mælaborð", function () { renderDashboardPublicMaster(data); });
