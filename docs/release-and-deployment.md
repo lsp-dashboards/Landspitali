@@ -10,7 +10,7 @@
 | Status UI dev version | `v1.0.0` | `status-dashboard/index.html`, `assets/router-config.json` |
 | UI component public name | `UI: Vaktborð` | `status-dashboard/index.html`, generated config |
 | UI component dev version | `v1.0.0` | `status-dashboard/index.html`, generated config |
-| Component row | `UI: Vaktborð · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1` | `status-dashboard/index.html`, generated config |
+| Component row | `UI: Vaktborð · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1 · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn` | `status-dashboard/index.html`, generated config |
 | Core public name | `Vöktunarkjarni: Rekstrarpúls` | `assets/router-config.json`, status dashboard |
 | Core dev version | `v1.0.0` | `assets/router-core.prod.js`, `assets/router-core.v1.0.0.js`, generated config |
 | Config public name | `Config v1` | `assets/router-config.json`, generated config, Apps Script registry snapshot |

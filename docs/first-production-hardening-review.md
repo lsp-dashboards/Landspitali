@@ -115,7 +115,7 @@ The status UI has a coherent control-room structure: hero/header, chips, freshne
 The page uses existing CSS variables and grammar. It has loading/error handling, JSONP timeout messaging, section-level `safeRender`, aðeins samantektargögn labels, and Icelandic operational wording. The live smoke test confirmed the public labels:
 
 - `Mælaborðsmælingar` as the public dashboard name
-- `UI: Vaktborð · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1`
+- `UI: Vaktborð · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1 · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn`
 - Dev versions remain locked in source metadata: status UI `v1.0.0`, UI component `v1.0.0`, core `v1.0.0`, config `config-v1.0.0`, tracker `atburdasafnari-v1.0.0`, schema `1`
 
 Implemented UI hardening: the header no longer uses a `100vw` full-bleed width that caused horizontal overflow on desktop scrollbar layouts. Browser checks confirmed no horizontal overflow at desktop width and at a phone-width viewport.

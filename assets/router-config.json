@@ -16,7 +16,7 @@
     "configAssetFile": "router-config.prod.js",
     "versionedCoreAssetFile": "router-core.v1.0.0.js",
     "versionedConfigAssetFile": "router-config.v1.0.0.js",
-    "publicVersionLabel": "UI: Vaktborð · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1",
+    "publicVersionLabel": "UI: Vaktborð · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1 · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn",
     "statusUiPublicName": "Mælaborðsmælingar",
     "statusUiVersionLabel": "v1.0.0",
     "uiPublicName": "UI: Vaktborð",
