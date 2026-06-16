@@ -10112,6 +10112,404 @@
       font-weight: 800;
     }
 
+    .tracker-insight-board {
+      grid-column: 1 / -1;
+      display: grid;
+      gap: 14px;
+    }
+
+    .tracker-hero,
+    .tracker-module,
+    .tracker-passport,
+    .tracker-question-card {
+      min-width: 0;
+      border: 1px solid rgba(190, 207, 220, .8);
+      border-radius: 18px;
+      background: rgba(255,255,255,.92);
+      box-shadow: none;
+    }
+
+    .tracker-hero {
+      display: grid;
+      grid-template-columns: minmax(300px, .9fr) minmax(0, 1.1fr);
+      gap: 14px;
+      padding: 16px;
+      background: linear-gradient(120deg, rgba(255,255,255,.98), rgba(247,251,253,.94));
+    }
+
+    .tracker-hero-copy {
+      display: grid;
+      align-content: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .tracker-kicker,
+    .tracker-metric span,
+    .tracker-insight-item span,
+    .tracker-bar-label,
+    .tracker-step span,
+    .tracker-passport span,
+    .tracker-question-card span,
+    .tracker-source-fields span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: .055em;
+      text-transform: uppercase;
+    }
+
+    .tracker-hero-copy strong {
+      color: var(--ink);
+      font-size: clamp(30px, 3vw, 46px);
+      line-height: .96;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .tracker-hero-copy p,
+    .tracker-module-head p,
+    .tracker-insight-item p,
+    .tracker-passport small,
+    .tracker-question-card p,
+    .tracker-partial-state,
+    .tracker-source-fields {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.38;
+    }
+
+    .tracker-priority-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .tracker-insight-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 7px 12px;
+      min-width: 0;
+      padding: 11px 12px;
+      border: 1px solid var(--line-soft);
+      border-radius: 14px;
+      background: rgba(255,255,255,.76);
+    }
+
+    .tracker-insight-item strong {
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.1;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .tracker-insight-item .tracker-value {
+      grid-row: 1 / span 2;
+      grid-column: 2;
+      align-self: center;
+      color: var(--ink);
+      font-size: 21px;
+      font-weight: 900;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .tracker-insight-item.good,
+    .tracker-metric.good,
+    .tracker-step.good,
+    .tracker-passport.good { background: var(--good-soft); border-color: var(--good-line); }
+    .tracker-insight-item.watch,
+    .tracker-insight-item.warning,
+    .tracker-metric.watch,
+    .tracker-metric.warning,
+    .tracker-step.watch,
+    .tracker-step.warning,
+    .tracker-passport.watch,
+    .tracker-passport.warning { background: var(--warn-soft); border-color: var(--warn-line); }
+    .tracker-insight-item.bad,
+    .tracker-metric.bad,
+    .tracker-step.bad,
+    .tracker-passport.bad { background: var(--bad-soft); border-color: var(--bad-line); }
+    .tracker-insight-item.info,
+    .tracker-metric.info,
+    .tracker-step.info,
+    .tracker-passport.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .tracker-insight-item.unknown,
+    .tracker-metric.unknown,
+    .tracker-step.unknown,
+    .tracker-passport.unknown { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+
+    .tracker-module-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      align-items: start;
+    }
+
+    .tracker-module {
+      display: grid;
+      gap: 13px;
+      padding: 15px;
+    }
+
+    .tracker-module.wide {
+      grid-column: 1 / -1;
+    }
+
+    .tracker-module-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px 12px;
+      align-items: start;
+    }
+
+    .tracker-module-head h3 {
+      margin: 4px 0 0;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.08;
+    }
+
+    .tracker-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .tracker-metric,
+    .tracker-step {
+      display: grid;
+      align-content: space-between;
+      gap: 6px;
+      min-width: 0;
+      min-height: 86px;
+      padding: 10px;
+      border: 1px solid var(--line-soft);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .tracker-metric strong,
+    .tracker-step strong,
+    .tracker-passport strong {
+      color: var(--ink);
+      font-size: clamp(18px, 1.6vw, 25px);
+      line-height: 1;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .tracker-metric small,
+    .tracker-step small {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+      font-weight: 800;
+    }
+
+    .tracker-stepper {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .tracker-bars,
+    .tracker-table,
+    .tracker-passport-grid,
+    .tracker-question-grid {
+      display: grid;
+      gap: 8px;
+    }
+
+    .tracker-bar-row {
+      display: grid;
+      grid-template-columns: minmax(112px, .42fr) minmax(0, 1fr) minmax(70px, auto);
+      gap: 10px;
+      align-items: center;
+      min-width: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .tracker-dual-track {
+      display: grid;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .tracker-dual-track .bar-track {
+      height: 9px;
+    }
+
+    .tracker-dual-track .raw .bar-fill {
+      background: var(--gateway);
+    }
+
+    .tracker-bar-value {
+      color: var(--ink);
+      font-weight: 900;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .tracker-table-row {
+      display: grid;
+      grid-template-columns: minmax(120px, 1fr) repeat(3, minmax(64px, auto));
+      gap: 8px;
+      align-items: center;
+      min-width: 0;
+      padding: 9px 10px;
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      background: rgba(255,255,255,.74);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .tracker-table-row strong {
+      color: var(--ink);
+      overflow-wrap: anywhere;
+    }
+
+    .tracker-table-row .number {
+      color: var(--ink);
+      font-weight: 900;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .tracker-passport-grid {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .tracker-passport {
+      display: grid;
+      gap: 10px;
+      padding: 13px;
+    }
+
+    .tracker-passport-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .tracker-passport-head h4 {
+      margin: 3px 0 0;
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.08;
+    }
+
+    .tracker-passport-facts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .tracker-fact {
+      min-width: 0;
+      padding: 8px;
+      border: 1px solid rgba(216,226,234,.82);
+      border-radius: 12px;
+      background: rgba(255,255,255,.74);
+    }
+
+    .tracker-fact span,
+    .tracker-fact strong {
+      display: block;
+    }
+
+    .tracker-fact strong {
+      margin-top: 4px;
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .tracker-partial-state {
+      padding: 10px 11px;
+      border: 1px dashed rgba(106,125,144,.34);
+      border-radius: 13px;
+      background: var(--gateway-soft);
+      font-weight: 800;
+    }
+
+    .tracker-source-fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+      padding-top: 2px;
+    }
+
+    .tracker-source-fields code {
+      padding: 4px 6px;
+      border-radius: 8px;
+      background: #eef3f7;
+      color: var(--ink-2);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .tracker-question-grid {
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    }
+
+    .tracker-question-card {
+      display: grid;
+      gap: 7px;
+      padding: 12px;
+    }
+
+    .tracker-question-card p {
+      color: var(--ink-2);
+      font-weight: 800;
+    }
+
+    @media (max-width: 1120px) {
+      .tracker-hero,
+      .tracker-module-grid,
+      .tracker-stepper {
+        grid-template-columns: 1fr;
+      }
+
+      .tracker-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .tracker-metrics,
+      .tracker-passport-facts {
+        grid-template-columns: 1fr;
+      }
+
+      .tracker-module-head,
+      .tracker-insight-item,
+      .tracker-passport-head,
+      .tracker-table-row,
+      .tracker-bar-row {
+        grid-template-columns: 1fr;
+      }
+
+      .tracker-insight-item .tracker-value,
+      .tracker-bar-value,
+      .tracker-table-row .number {
+        grid-column: auto;
+        grid-row: auto;
+        justify-self: start;
+        text-align: left;
+      }
+    }
+
     /* Current production surface polish */
     .shell {
       gap: 18px;
