@@ -20751,7 +20751,7 @@
             { label: "Ferskleiki", value: ageInfo(lastCounted).label },
             { label: "Confidence", value: bandLabel(row.confidence_band) }
           ],
-          summary: "Uppruni: " + naturalSummaryText(row.source_mix_summary, "source") + ". Route: " + naturalSummaryText(row.route_mix_summary, "route") + ". Síðast talið: " + dateShort(lastCounted) + ". Config/core: " + (row.config_version || "-") + " / " + (row.core_version || "-") + "."
+          summary: "Uppruni: " + naturalSummaryText(row.source_mix_summary, "source") + ". Route: " + naturalSummaryText(row.route_mix_summary, "route") + "."
         };
       });
       return {
