@@ -12107,6 +12107,12 @@
       var newest = dashboards.slice().sort(function (a, b) { return new Date(dashboardLastCountedTime(b) || 0) - new Date(dashboardLastCountedTime(a) || 0); })[0];
       var totalVisits = sumRows(dashboards);
       var todayTotal = dashboards.reduce(function (acc, row) { return acc + number(row.visits_today); }, 0);
+      var sevenDayTotal = number(firstValue(data.kpis || {}, ["visits_7d", "visits_7_days", "visits7d"]));
+      if (!sevenDayTotal) {
+        sevenDayTotal = dashboards.reduce(function (acc, row) {
+          return acc + number(firstValue(row, ["visits_7d", "visits_7_days", "visits7d"]));
+        }, 0);
+      }
       var model = opsModel(data);
       var newestAge = newest ? ageInfo(dashboardLastCountedTime(newest)) : null;
       var routeGroups = routeReasonGroups(data);
@@ -12147,10 +12153,10 @@
       setHtml("dashboard-public-master",
         '<div class="mega-dashboard-board">' +
           '<section class="mega-dashboard-hero" aria-label="Mælaborðsyfirlit">' +
-            '<div class="mega-dashboard-story"><div><span class="mega-kicker">Mælaborð</span><h2>Opinber rekstrarsýn</h2><p>Birting, production notkun, útgáfuval og uppruni eru lesin saman. Þetta er stjórnmynd fyrir hvaða kort eru opin, hvaðan notkun kemur og hvernig routerinn leiðir fólk.</p></div><div class="mega-hero-proof">' +
-              megaStat("Birting", publicState + " birt", hidden ? fmt(hidden) + " ekki birt" : "öll opinber kort virk", hidden ? "warn" : "good") +
-              megaStat("Notkun", fmt(totalVisits), "taldar production opnanir", "good") +
-              megaStat("Ferskleiki", newestAge ? newestAge.label : "-", newest ? titleFor(newest, publicMapData) : "engin virkni", newestAge ? newestAge.className : "gateway") +
+            '<div class="mega-dashboard-story"><div><span class="mega-kicker">Mælaborðsyfirlit</span><h2>Mælaborð</h2><p>Samtals notkun er aðaltalan. Dagleg virkni og sjö daga gluggi sitja undir henni svo birting, útgáfuval og uppruni lesist í réttri stærðargráðu.</p></div><div class="mega-hero-proof usage-proof">' +
+              megaStat("Samtals notkun", fmt(totalVisits), "taldar production opnanir", "primary") +
+              megaStat("Í dag", fmt(todayTotal), "opnanir skráðar", todayTotal ? "good" : "gateway") +
+              megaStat("7 dagar", fmt(sevenDayTotal), "síðustu sjö dagar", sevenDayTotal ? "info" : "gateway") +
             '</div></div>' +
             '<div class="mega-orbit-grid">' +
               megaOrbitCard("Útgáfuval", layoutRows, layoutTotal, "Mobile og desktop í sömu leiðingarmynd.") +
