@@ -6940,6 +6940,309 @@
       min-height: 60px;
     }
 
+    .quality-v2 {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .quality-v2 *,
+    .quality-v2 *::before,
+    .quality-v2 *::after {
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .quality-v2-hero,
+    .quality-v2-section,
+    .quality-v2-signal,
+    .quality-v2-issue {
+      border: 1px solid rgba(187,204,216,.84);
+      border-radius: 8px;
+      background: rgba(255,255,255,.94);
+      box-shadow: none;
+    }
+
+    .quality-v2-hero {
+      display: grid;
+      grid-template-columns: minmax(0, .62fr) minmax(360px, .38fr);
+      gap: 12px;
+      align-items: stretch;
+      padding: 14px;
+      border-left: 4px solid var(--data-03);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.99), rgba(255,250,236,.9)),
+        linear-gradient(90deg, rgba(199,138,42,.055), transparent 46%);
+    }
+
+    .quality-v2-hero.good {
+      border-left-color: var(--data-02);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.99), rgba(246,252,249,.92)),
+        linear-gradient(90deg, rgba(47,143,139,.055), transparent 46%);
+    }
+
+    .quality-v2-kicker,
+    .quality-v2-signal span,
+    .quality-v2-section-head span,
+    .quality-v2-issue-main span,
+    .quality-v2-issue-side span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .quality-v2-title {
+      display: grid;
+      align-content: center;
+      gap: 8px;
+    }
+
+    .quality-v2-title h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(32px, 3vw, 52px);
+      line-height: .96;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .quality-v2-title p,
+    .quality-v2-signal small,
+    .quality-v2-issue-main p,
+    .quality-v2-issue-step,
+    .quality-v2-issue-side small,
+    .quality-v2-section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.34;
+      text-wrap: pretty;
+    }
+
+    .quality-v2-title p {
+      max-width: 74ch;
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+
+    .quality-v2-status {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .quality-v2-signal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .quality-v2-signal {
+      display: grid;
+      align-content: space-between;
+      gap: 8px;
+      min-height: 92px;
+      padding: 10px;
+      background: rgba(255,255,255,.78);
+    }
+
+    .quality-v2-signal strong {
+      color: var(--ink);
+      font-size: clamp(22px, 1.8vw, 32px);
+      line-height: .95;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .quality-v2-signal.good { background: var(--good-soft); border-color: var(--good-line); }
+    .quality-v2-signal.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+    .quality-v2-signal.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .quality-v2-signal.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+
+    .quality-v2-lanes {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(360px, .65fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .quality-v2-section {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,251,253,.94));
+    }
+
+    .quality-v2-section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(215,225,233,.84);
+    }
+
+    .quality-v2-section-head h3 {
+      margin: 3px 0 0;
+      color: var(--ink);
+      font-size: clamp(20px, 1.7vw, 28px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .quality-v2-count {
+      display: grid;
+      place-items: center;
+      min-width: 34px;
+      height: 30px;
+      padding: 0 9px;
+      border: 1px solid rgba(187,204,216,.84);
+      border-radius: 8px;
+      background: rgba(255,255,255,.8);
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .quality-v2-issue-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .quality-v2-context-grid {
+      display: grid;
+      gap: 8px;
+    }
+
+    .quality-v2-issue {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) minmax(72px, auto);
+      gap: 10px;
+      align-items: stretch;
+      min-height: 138px;
+      padding: 10px;
+      background: rgba(255,255,255,.88);
+    }
+
+    .quality-v2-context .quality-v2-issue {
+      min-height: 112px;
+      grid-template-columns: 30px minmax(0, 1fr) minmax(58px, auto);
+    }
+
+    .quality-v2-issue::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: var(--data-04);
+    }
+
+    .quality-v2-issue.good::before { background: var(--data-02); }
+    .quality-v2-issue.warn::before,
+    .quality-v2-issue.bad::before { background: var(--data-03); }
+    .quality-v2-issue.info::before { background: var(--data-09); }
+    .quality-v2-issue.gateway::before { background: var(--data-05); }
+
+    .quality-v2-issue.warn,
+    .quality-v2-issue.bad { background: linear-gradient(180deg, rgba(255,255,255,.96), var(--warn-soft)); border-color: var(--warn-line); }
+    .quality-v2-issue.info { background: linear-gradient(180deg, rgba(255,255,255,.96), var(--info-soft)); border-color: rgba(62,98,131,.22); }
+    .quality-v2-issue.gateway { background: linear-gradient(180deg, rgba(255,255,255,.96), var(--gateway-soft)); border-color: rgba(106,125,144,.22); }
+    .quality-v2-issue.good { background: linear-gradient(180deg, rgba(255,255,255,.96), var(--good-soft)); border-color: var(--good-line); }
+
+    .quality-v2-index {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--data-06);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .quality-v2-issue.warn .quality-v2-index,
+    .quality-v2-issue.bad .quality-v2-index {
+      background: var(--data-08);
+    }
+
+    .quality-v2-issue-main {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      align-content: start;
+      gap: 5px;
+    }
+
+    .quality-v2-issue-main strong {
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.08;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .quality-v2-issue-main p {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .quality-v2-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 2px;
+    }
+
+    .quality-v2-issue-side {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      align-content: center;
+      justify-items: end;
+      gap: 3px;
+      text-align: right;
+    }
+
+    .quality-v2-issue-side strong {
+      color: var(--ink);
+      font-size: 25px;
+      line-height: .95;
+      font-weight: 900;
+    }
+
+    @media (max-width: 1180px) {
+      .quality-v2-hero,
+      .quality-v2-lanes,
+      .quality-v2-issue-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .quality-v2-signal-grid,
+      .quality-v2-issue {
+        grid-template-columns: 1fr;
+      }
+
+      .quality-v2-issue-side {
+        justify-items: start;
+        text-align: left;
+      }
+    }
+
     @media (max-width: 1180px) {
       .quality-decision,
       .quality-triage-grid,
@@ -15809,8 +16112,7 @@
       <div id="start-panel"></div>
     </section>
 
-    <section class="panel warning-panel" aria-labelledby="warnings-title">
-      <div class="panel-head"><div><h2 id="warnings-title">Gæðaviðvaranir</h2><div class="panel-note">Staðfest production merki fyrst; diagnostic samhengi helst aðskilið.</div></div></div>
+    <section class="panel warning-panel" aria-label="Gæðaviðvaranir">
       <div class="list" id="warning-list"></div>
     </section>
 
