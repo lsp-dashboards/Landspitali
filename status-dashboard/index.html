@@ -11513,6 +11513,175 @@
       gap: 7px;
     }
 
+    .dashboard-passport-board .tracker-module {
+      border-radius: 10px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(246,250,252,.94));
+      border-color: rgba(181,205,220,.82);
+    }
+
+    .dashboard-passport-board .tracker-module-head {
+      align-items: center;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(207,221,231,.82);
+    }
+
+    .dashboard-passport-board .tracker-module-head p {
+      max-width: 86ch;
+    }
+
+    .dashboard-passport-board .tracker-passport-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .dashboard-passport-v2 {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 9px;
+      min-height: 336px;
+      padding: 12px;
+      border-radius: 10px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(239,248,247,.88));
+      border-color: rgba(166,195,202,.72);
+      box-shadow: inset 0 3px 0 rgba(47,143,139,.72);
+    }
+
+    .dashboard-passport-v2.warning,
+    .dashboard-passport-v2.watch {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,249,232,.88));
+      border-color: rgba(214,176,96,.72);
+      box-shadow: inset 0 3px 0 rgba(199,138,42,.78);
+    }
+
+    .dashboard-passport-v2-top {
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .dashboard-passport-v2-top .dashboard-icon {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 9px;
+    }
+
+    .dashboard-passport-v2-top .chip {
+      justify-self: end;
+      align-self: start;
+      min-height: 23px;
+      padding: 5px 8px;
+      white-space: nowrap;
+    }
+
+    .dashboard-passport-v2-top span,
+    .dashboard-passport-v2-total span,
+    .dashboard-passport-v2-stat span {
+      color: var(--muted);
+      font-size: 9.5px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .dashboard-passport-v2-top h4 {
+      margin: 2px 0 0;
+      color: var(--ink);
+      font-size: clamp(16px, 1.05vw, 20px);
+      line-height: 1.02;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .dashboard-passport-v2-top small,
+    .dashboard-passport-v2-total small,
+    .dashboard-passport-v2-stat small,
+    .dashboard-passport-v2-summary {
+      margin: 0;
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 1.22;
+      font-weight: 800;
+    }
+
+    .dashboard-passport-v2-total {
+      display: grid;
+      gap: 3px;
+      padding: 9px;
+      border: 1px solid rgba(207,221,231,.82);
+      border-radius: 9px;
+      background: rgba(255,255,255,.74);
+    }
+
+    .dashboard-passport-v2-total strong {
+      color: var(--ink);
+      font-size: clamp(26px, 2.1vw, 38px);
+      line-height: .9;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .dashboard-passport-v2-facts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .dashboard-passport-v2-stat {
+      display: grid;
+      gap: 3px;
+      min-height: 58px;
+      padding: 8px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 9px;
+      background: rgba(255,255,255,.68);
+    }
+
+    .dashboard-passport-v2-stat.warning {
+      background: rgba(255,247,221,.78);
+      border-color: rgba(214,176,96,.58);
+    }
+
+    .dashboard-passport-v2-stat.good {
+      background: rgba(232,248,244,.82);
+      border-color: rgba(98,169,155,.48);
+    }
+
+    .dashboard-passport-v2-stat strong {
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .dashboard-passport-v2-summary {
+      padding-top: 8px;
+      border-top: 1px solid rgba(207,221,231,.82);
+    }
+
+    @media (max-width: 1480px) {
+      .dashboard-passport-board .tracker-passport-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .dashboard-passport-board .tracker-passport-grid,
+      .dashboard-passport-v2-facts {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .tracker-fact {
       min-width: 0;
       padding: 8px;
@@ -18819,16 +18988,17 @@
           '</section>' +
           '<section class="start-v5-lower" aria-label="F\u00f3kus og sannanir">' +
             '<div class="start-v5-focus"><div class="start-v5-panel-head"><span>M\u00e6labor\u00f0 \u00ed f\u00f3kus</span><strong>' + safe(topDashboard ? pct(visitValue(topDashboard), Math.max(model.total, 1)) : "0%") + '</strong></div><p class="start-v5-note">' + focusCopy + '</p><div class="start-v5-dash-list">' + dashboardRowsHtml + '</div></div>' +
-            '<div class="start-v5-proof"><div class="start-v5-panel-head"><span>Samhengisv\u00edsar</span><strong>rekstrarsamhengi</strong></div><div class="start-v5-proof-grid">' +
-              startV5ProofLead("Route signal", routeValue, routeDetail, forced ? "warn" : "gateway", routeSignalFill) +
-              '<div class="start-v5-proof-stack">' +
-                startV5Proof("T\u00e6ki", topDevice ? topDevice.key : "\u00d3\u00feekkt", topDevice ? fmt(topDevice.visits || topDevice.raw) + " merki" : "aggregate vantar", topDevice ? "info" : "gateway") +
-                startV5Proof("Vafri", topBrowser ? topBrowser.key : "\u00d3\u00feekkt", topBrowser ? fmt(topBrowser.visits || topBrowser.raw) + " merki" : "browser aggregate vantar", topBrowser ? "info" : "gateway") +
-                startV5Proof("Skj\u00e1r", topViewport ? topViewport.key : "\u00d3\u00feekkt", topViewport ? fmt(topViewport.visits || topViewport.raw) + " merki" : "viewport aggregate vantar", topViewport ? "info" : "gateway") +
-                startV5Proof("Sending", topTransport ? topTransport.key : "\u00d3\u00feekkt", topTransport ? fmt(topTransport.visits || topTransport.raw) + " merki" : "performance aggregate vantar", topTransport ? "good" : "gateway") +
-                startV5Proof("Traust", topConfidence ? topConfidence.key : "\u00d3\u00feekkt", topConfidence ? fmt(topConfidence.visits || topConfidence.raw) + " l\u00ednur" : "confidence aggregate vantar", topConfidence ? "good" : "gateway") +
-                startV5Proof("Notkun", usageMode, usageDetail, "good") +
-                startV5Proof("Diagnostic", fmt(diagnosticTotal), "haldi\u00f0 utan heims\u00f3kna", diagnosticTotal ? "info" : "good") +
+            '<div class="start-v5-proof start-v6-proof"><div class="start-v5-panel-head"><span>Samhengisv\u00edsar</span><strong>rekstrarsamhengi</strong></div><div class="start-v6-proof-body">' +
+              startV6Route("Route", routeValue, routeDetail, forced ? "warn" : "gateway", routeSignalFill) +
+              '<div class="start-v6-signal-grid">' +
+                startV6Signal("T\u00e6ki", topDevice ? topDevice.key : "\u00d3\u00feekkt", topDevice ? fmt(topDevice.visits || topDevice.raw) + " merki" : "aggregate vantar", topDevice ? "info" : "gateway") +
+                startV6Signal("Vafri", topBrowser ? topBrowser.key : "\u00d3\u00feekkt", topBrowser ? fmt(topBrowser.visits || topBrowser.raw) + " merki" : "browser aggregate vantar", topBrowser ? "info" : "gateway") +
+                startV6Signal("Skj\u00e1r", topViewport ? topViewport.key : "\u00d3\u00feekkt", topViewport ? fmt(topViewport.visits || topViewport.raw) + " merki" : "viewport aggregate vantar", topViewport ? "info" : "gateway") +
+                startV6Signal("Sending", topTransport ? topTransport.key : "\u00d3\u00feekkt", topTransport ? fmt(topTransport.visits || topTransport.raw) + " merki" : "performance aggregate vantar", topTransport ? "good" : "gateway") +
+                startV6Signal("Traust", topConfidence ? topConfidence.key : "\u00d3\u00feekkt", topConfidence ? fmt(topConfidence.visits || topConfidence.raw) + " l\u00ednur" : "confidence aggregate vantar", topConfidence ? "good" : "gateway") +
+                startV6Signal("Notkun", usageMode, usageDetail, "sama notkunargrunnur", "good") +
+                startV6Signal("Diagnostic", fmt(diagnosticTotal), "haldi\u00f0 utan heims\u00f3kna", diagnosticTotal ? "info" : "good") +
+                startV6Signal("Uppruni", pct(sourceSignal, sourceTotal), sourceDetail, sourceTone) +
               '</div>' +
             '</div></div>' +
           '</section>' +
@@ -20067,7 +20237,36 @@
       return '<section class="' + cls + '"><div class="tracker-module-head"><div><span class="tracker-kicker">' + safe(module.kicker || "Tracker innsýn") + '</span><h3>' + safe(module.title) + '</h3><p>' + safe(module.intro || "") + '</p></div><span class="chip ' + safe(trackerChipClass(module.status)) + '">' + safe(trackerStatusText(module.status)) + '</span></div>' +
         operator + metrics + steps + bars + rows + passports + questions + insights + missing + trackerFields(module.fields || []) + '</section>';
     }
+    function dashboardPassportV2Stat(label, value, detail, status) {
+      var cls = status ? ' ' + safe(status) : "";
+      return '<div class="dashboard-passport-v2-stat' + cls + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong>' + (detail ? '<small>' + safe(detail) + '</small>' : '') + '</div>';
+    }
+    function dashboardPassportV2Html(passport) {
+      var status = trackerStatusClass(passport.status);
+      var statusChip = '<span class="chip ' + safe(trackerChipClass(passport.status)) + '">' + safe(trackerStatusText(passport.status)) + '</span>';
+      var totalDetail = 'Í dag ' + fmt(passport.today) + ' · 7d ' + fmt(passport.seven) + ' · 30d ' + fmt(passport.thirty);
+      var warningTone = number(passport.warnings) || number(passport.fallback) || number(passport.viewerRisk) ? "warning" : "good";
+      var facts = [
+        dashboardPassportV2Stat("Desktop", fmt(passport.desktop), fmt(passport.mobile) + " mobile", ""),
+        dashboardPassportV2Stat("island.is", fmt(passport.island), fmt(passport.direct) + " beint", "good"),
+        dashboardPassportV2Stat("Raw", fmt(passport.raw), fmt(passport.diagnostic) + " diagnostic", ""),
+        dashboardPassportV2Stat("Viðvaranir", fmt(passport.warnings), fmt(passport.fallback) + " fallback", warningTone),
+        dashboardPassportV2Stat("Viewer risk", fmt(passport.viewerRisk), fmt(passport.errors) + " errors", warningTone),
+        dashboardPassportV2Stat("Ferskleiki", passport.freshness || "-", passport.lastCountedShort || "", passport.freshnessTone || "")
+      ].join("");
+      return '<article class="tracker-passport dashboard-passport-v2 ' + safe(status) + '">' +
+        '<div class="dashboard-passport-v2-top">' +
+          dashboardIconMarkup({ dashboard_key: passport.key, dashboard_name: passport.title, icon_url: passport.iconUrl }, { name: passport.title, iconUrl: passport.iconUrl }) +
+          '<div><span>' + safe(passport.key || "-") + '</span><h4>' + safe(passport.title || "-") + '</h4><small>' + safe(passport.detail || "") + '</small></div>' +
+          statusChip +
+        '</div>' +
+        '<div class="dashboard-passport-v2-total"><span>Taldar opnanir</span><strong>' + fmt(passport.visits) + '</strong><small>' + safe(totalDetail) + '</small></div>' +
+        '<div class="dashboard-passport-v2-facts">' + facts + '</div>' +
+        '<p class="dashboard-passport-v2-summary">' + safe(passport.summary || "") + '</p>' +
+      '</article>';
+    }
     function trackerPassportHtml(passport) {
+      if (passport && passport.dashboardPassport) return dashboardPassportV2Html(passport);
       var facts = (passport.facts || []).slice(0, 14).map(function (fact) {
         return '<div class="tracker-fact"><span>' + safe(fact.label) + '</span><strong>' + safe(fact.value) + '</strong></div>';
       }).join("");
