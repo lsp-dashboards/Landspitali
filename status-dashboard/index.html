@@ -12923,6 +12923,8 @@
     }
 
     .visual-atlas {
+      --visual-chart-height: 590px;
+      --visual-pie-height: 270px;
       display: grid;
       gap: 14px;
       min-width: 0;
@@ -13100,11 +13102,11 @@
     .visual-card.span-4 { grid-column: span 4; }
 
     .visual-chart-deck {
-      --visual-panel-height: 430px;
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
       align-items: stretch;
+      grid-auto-rows: var(--visual-chart-height);
     }
 
     .visual-chart-card,
@@ -13112,7 +13114,8 @@
       display: grid;
       grid-template-rows: auto minmax(0, 1fr);
       gap: 10px;
-      min-height: var(--visual-panel-height);
+      height: var(--visual-chart-height);
+      min-height: 0;
       padding: 13px;
       border: 1px solid rgba(181,205,220,.82);
       border-radius: 8px;
@@ -13134,7 +13137,7 @@
       margin: 2px 0 0;
       color: var(--ink);
       font-size: clamp(20px, 1.7vw, 28px);
-      line-height: .96;
+      line-height: 1.14;
       font-weight: 900;
       letter-spacing: 0;
     }
@@ -13142,22 +13145,22 @@
     .visual-chart-total,
     .visual-signal-total {
       color: var(--ink);
-      font-size: clamp(24px, 2vw, 36px);
-      line-height: .9;
+      font-size: clamp(22px, 1.6vw, 30px);
+      line-height: 1.15;
       font-weight: 900;
       white-space: nowrap;
     }
 
     .visual-chart-body {
       display: grid;
-      grid-template-rows: minmax(190px, 1fr) auto;
-      gap: 10px;
+      grid-template-rows: var(--visual-pie-height) minmax(0, 1fr);
+      gap: 12px;
       min-height: 0;
     }
 
     .visual-pie-svg {
       width: 100%;
-      height: 218px;
+      height: var(--visual-pie-height);
       display: block;
       overflow: visible;
     }
@@ -13176,7 +13179,10 @@
 
     .visual-chart-legend {
       display: grid;
-      gap: 6px;
+      gap: 7px;
+      align-content: start;
+      min-height: 0;
+      overflow: hidden;
     }
 
     .visual-chart-legend-row {
@@ -13184,6 +13190,11 @@
       grid-template-columns: 10px minmax(0, 1fr) auto;
       gap: 7px;
       align-items: center;
+      min-height: 31px;
+      padding: 5px 7px;
+      border: 1px solid rgba(181,205,220,.58);
+      border-radius: 8px;
+      background: rgba(255,255,255,.66);
       color: var(--muted);
       font-size: 11px;
       line-height: 1.18;
@@ -13203,22 +13214,24 @@
     }
 
     .visual-signal-deck {
-      --visual-panel-height: 430px;
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
       align-items: stretch;
+      grid-auto-rows: var(--visual-chart-height);
     }
 
     .visual-signal-body {
       display: grid;
-      gap: 10px;
+      grid-template-rows: var(--visual-pie-height) minmax(0, 1fr);
+      gap: 12px;
       align-content: stretch;
+      min-height: 0;
     }
 
     .visual-signal-meter {
       position: relative;
-      min-height: 128px;
+      min-height: 0;
       border: 1px solid rgba(181,205,220,.72);
       border-radius: 8px;
       background:
@@ -13248,6 +13261,9 @@
     .visual-signal-list {
       display: grid;
       gap: 7px;
+      align-content: start;
+      min-height: 0;
+      overflow: hidden;
     }
 
     .visual-signal-row {
@@ -22516,10 +22532,10 @@
     function visualPieSvg(rows, total, centerLabel, centerValue) {
       rows = atlasPreparedRows(rows, 5, total);
       total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + row.value; }, 0), 1);
-      var cx = 130;
-      var cy = 112;
-      var outer = 92;
-      var inner = 51;
+      var cx = 150;
+      var cy = 132;
+      var outer = 104;
+      var inner = 58;
       var angle = 0;
       var paths = "";
       var labels = "";
@@ -22527,14 +22543,14 @@
         var end = angle + row.value / total * 360;
         var mid = angle + (end - angle) / 2;
         paths += '<path d="' + safe(atlasDonutPath(cx, cy, outer, inner, angle, end)) + '" fill="' + safe(row.color) + '"></path>';
-        if (row.value / total >= .055) {
+        if (row.value / total >= .045) {
           var p = atlasPolar(cx, cy, (outer + inner) / 2, mid);
           labels += '<text class="visual-pie-label" x="' + p.x.toFixed(1) + '" y="' + (p.y - 2).toFixed(1) + '" text-anchor="middle" fill="#12314c" font-size="12" font-weight="900">' + safe(atlasShortValue(row.value)) + '</text>' +
             '<text class="visual-pie-label" x="' + p.x.toFixed(1) + '" y="' + (p.y + 12).toFixed(1) + '" text-anchor="middle" fill="#526b80" font-size="10" font-weight="900">' + safe(pct(row.value, total)) + '</text>';
         }
         angle = end;
       });
-      return '<svg class="visual-pie-svg" viewBox="0 0 260 224" role="img" aria-label="' + safe(centerLabel || "Donut chart") + '">' +
+      return '<svg class="visual-pie-svg" viewBox="0 0 300 264" role="img" aria-label="' + safe(centerLabel || "Donut chart") + '">' +
         '<circle cx="' + cx + '" cy="' + cy + '" r="' + outer + '" fill="#e8f0f4"></circle>' +
         paths +
         '<circle cx="' + cx + '" cy="' + cy + '" r="' + (inner - 4) + '" fill="rgba(255,255,255,.96)" stroke="rgba(181,205,220,.72)"></circle>' +
@@ -22547,7 +22563,7 @@
       rows = atlasPreparedRows(rows, 5, total);
       total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + row.value; }, 0), 1);
       return '<div class="visual-chart-legend">' + rows.map(function (row) {
-        return '<div class="visual-chart-legend-row"><span class="visual-dot" style="--dot:' + safe(row.color) + '"></span><span>' + safe(row.label) + '</span><strong>' + fmt(row.value) + ' · ' + safe(pct(row.value, total)) + '</strong></div>';
+        return '<div class="visual-chart-legend-row"><span class="visual-dot" style="--dot:' + safe(row.color) + '"></span><span>' + safe(row.label) + '</span><strong>' + fmt(row.value) + ' / ' + safe(pct(row.value, total)) + '</strong></div>';
       }).join("") + '</div>';
     }
     function visualPieCard(kicker, title, rows, total, centerLabel, centerValue) {
