@@ -21111,15 +21111,18 @@
       '</div>';
       var html = '<div class="visual-atlas">' +
         '<section class="visual-atlas-hero"><div class="visual-atlas-title"><div><span class="visual-kicker">Visual atlas</span><h2>Sjónkort rekstrar</h2><p>Ein myndræn lesning yfir notkun, flæði, uppruna, leiðingu, tæki, vafra og gæði. Kortin hér fyrir neðan nota sömu aggregate gögn og restin af síðunni.</p></div>' + chips + '</div>' + visualFlowPanel(data, model) + '</section>' +
+        '<div class="visual-chart-deck" aria-label="Donut og pie myndir">' +
+          visualLayoutPieCard(data, model) +
+          visualRoutePieCard(data, model) +
+          visualOriginPieCard(data, model) +
+          visualCampaignPieCard(data, model) +
+        '</div>' +
+        visualSignalsDeck(data, model) +
         '<div class="visual-atlas-grid">' +
           visualDashboardBars(data, model.total) +
-          visualLayoutDonut(data, model) +
-          visualSourceTreemap(data, model) +
           visualDeviceHeatmap(data) +
           visualBubbleMap(data, model.total) +
           visualTrendSvg(data) +
-          visualRouteDistribution(data) +
-          visualMiniSignals(data, model) +
           visualHierarchy(data, model) +
         '</div>' +
       '</div>';
