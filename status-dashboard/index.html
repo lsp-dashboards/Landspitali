@@ -14072,6 +14072,382 @@
       }
     }
 
+    /* Flow and origin redesign */
+    .flow-origin-console {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .flow-origin-console *,
+    .flow-origin-console *::before,
+    .flow-origin-console *::after {
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .flow-origin-hero,
+    .flow-origin-route,
+    .flow-origin-panel,
+    .flow-origin-next,
+    .flow-origin-action,
+    .flow-origin-dashboard-row {
+      border: 1px solid rgba(187, 204, 216, .84);
+      border-radius: 8px;
+      background: rgba(255,255,255,.94);
+      box-shadow: none;
+    }
+
+    .flow-origin-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, .26fr);
+      gap: 16px;
+      align-items: stretch;
+      padding: clamp(14px, 1.6vw, 22px);
+      border-left: 4px solid var(--data-02);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.99), rgba(247,251,253,.92)),
+        linear-gradient(90deg, rgba(47,143,139,.055), transparent 45%);
+    }
+
+    .flow-origin-kicker,
+    .flow-origin-pill,
+    .flow-origin-primary span,
+    .flow-origin-stage span,
+    .flow-origin-panel-head span,
+    .flow-origin-row-label,
+    .flow-origin-action span,
+    .flow-origin-dashboard-kicker {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .flow-origin-brief {
+      display: grid;
+      gap: 10px;
+      align-content: center;
+    }
+
+    .flow-origin-brief h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(28px, 3vw, 48px);
+      line-height: .98;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .flow-origin-brief p,
+    .flow-origin-primary small,
+    .flow-origin-stage small,
+    .flow-origin-row small,
+    .flow-origin-action p,
+    .flow-origin-action small,
+    .flow-origin-dashboard-title small,
+    .flow-origin-dashboard-count small,
+    .flow-origin-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.36;
+      text-wrap: pretty;
+    }
+
+    .flow-origin-brief p {
+      max-width: 78ch;
+      font-size: 12.5px;
+      line-height: 1.48;
+    }
+
+    .flow-origin-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .flow-origin-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 9px;
+      border: 1px solid rgba(196,214,226,.8);
+      border-radius: 999px;
+      background: rgba(255,255,255,.78);
+      color: var(--ink);
+      text-transform: none;
+    }
+
+    .flow-origin-pill::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--data-01);
+    }
+
+    .flow-origin-pill.good::before { background: var(--data-02); }
+    .flow-origin-pill.warn::before { background: var(--data-03); }
+    .flow-origin-pill.info::before { background: var(--data-09); }
+    .flow-origin-pill.gateway::before { background: var(--data-05); }
+
+    .flow-origin-primary {
+      display: grid;
+      align-content: center;
+      justify-items: end;
+      gap: 7px;
+      padding: 14px;
+      border: 1px solid rgba(47,143,139,.25);
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(244,250,248,.96), rgba(255,255,255,.9));
+      text-align: right;
+    }
+
+    .flow-origin-primary strong {
+      color: var(--ink);
+      font-size: clamp(42px, 5vw, 78px);
+      line-height: .86;
+      font-weight: 900;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .flow-origin-route {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      padding: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,251,253,.94));
+    }
+
+    .flow-origin-stage {
+      position: relative;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 7px;
+      min-height: 116px;
+      padding: 12px;
+      border: 1px solid rgba(207,221,231,.82);
+      border-radius: 8px;
+      background: rgba(255,255,255,.8);
+    }
+
+    .flow-origin-stage::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      background: var(--data-01);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .flow-origin-stage.good::before { background: var(--data-02); }
+    .flow-origin-stage.warn::before { background: var(--data-03); }
+    .flow-origin-stage.info::before { background: var(--data-09); }
+    .flow-origin-stage.gateway::before { background: var(--data-05); }
+
+    .flow-origin-stage strong,
+    .flow-origin-action strong,
+    .flow-origin-panel-head strong,
+    .flow-origin-dashboard-count strong {
+      color: var(--ink);
+      font-size: clamp(20px, 1.7vw, 30px);
+      line-height: .95;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .flow-origin-track {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5edf3;
+    }
+
+    .flow-origin-fill {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--data-01);
+    }
+
+    .flow-origin-fill.good { background: var(--data-02); }
+    .flow-origin-fill.warn { background: var(--data-03); }
+    .flow-origin-fill.info { background: var(--data-09); }
+    .flow-origin-fill.gateway { background: var(--data-05); }
+    .flow-origin-fill.neutral { background: var(--data-04); }
+
+    .flow-origin-workbench {
+      display: grid;
+      grid-template-columns: minmax(0, .64fr) minmax(320px, .36fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .flow-origin-evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .flow-origin-panel,
+    .flow-origin-next {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+    }
+
+    .flow-origin-panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .flow-origin-panel-head strong {
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .flow-origin-row-list,
+    .flow-origin-action-list,
+    .flow-origin-dashboard-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .flow-origin-row {
+      display: grid;
+      gap: 5px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(215,225,233,.82);
+    }
+
+    .flow-origin-row:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .flow-origin-row-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: baseline;
+    }
+
+    .flow-origin-row-value {
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .flow-origin-next {
+      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,252,248,.92));
+    }
+
+    .flow-origin-next-head {
+      display: grid;
+      gap: 6px;
+    }
+
+    .flow-origin-next-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(20px, 1.8vw, 30px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .flow-origin-action {
+      display: grid;
+      gap: 6px;
+      padding: 10px;
+      border-left: 4px solid var(--data-01);
+    }
+
+    .flow-origin-action.good { border-left-color: var(--data-02); background: var(--data-soft-02); }
+    .flow-origin-action.warn { border-left-color: var(--data-03); background: var(--data-soft-03); }
+    .flow-origin-action.info { border-left-color: var(--data-09); background: var(--data-soft-09); }
+    .flow-origin-action.gateway { border-left-color: var(--data-05); background: var(--data-soft-01); }
+
+    .flow-origin-action strong {
+      font-size: 17px;
+      line-height: 1.1;
+    }
+
+    .flow-origin-dashboard-row {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 9px;
+      background: rgba(255,255,255,.82);
+    }
+
+    .flow-origin-dashboard-title {
+      display: grid;
+      gap: 3px;
+    }
+
+    .flow-origin-dashboard-title strong {
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.08;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .flow-origin-dashboard-count {
+      display: grid;
+      gap: 3px;
+      justify-items: end;
+      text-align: right;
+    }
+
+    .flow-origin-dashboard-count strong {
+      font-size: 19px;
+    }
+
+    @media (max-width: 1180px) {
+      .flow-origin-hero,
+      .flow-origin-workbench {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-origin-primary {
+        justify-items: start;
+        text-align: left;
+      }
+
+      .flow-origin-route {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .flow-origin-route,
+      .flow-origin-evidence-grid,
+      .flow-origin-dashboard-row {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-origin-dashboard-count {
+        justify-items: start;
+        text-align: left;
+      }
+    }
+
     /* Tracker and delivery master panels */
     .tracker-master-v3,
     .delivery-master-v3 {
@@ -14640,7 +15016,7 @@
       <div class="panel-head">
         <div>
           <h2 id="flow-origin-title">Flæði og uppruni</h2>
-          <div class="panel-note">Ein route/source saga frá gateway að talinni opnun.</div>
+          <div class="panel-note">Ein skannanleg saga frá gateway að talinni opnun, með uppruna og útgáfuvali í sama lestri.</div>
         </div>
       </div>
       <div class="split-panel" id="layout-source-panel"></div>
@@ -16481,6 +16857,51 @@
         '</div>' +
       '</article>';
     }
+    function flowOriginTrack(value, total, cls) {
+      return '<div class="flow-origin-track" aria-hidden="true"><span class="flow-origin-fill ' + safe(cls || "gateway") + '" style="--fill:' + widthPct(value, total) + '%"></span></div>';
+    }
+    function flowOriginPill(label, value, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<span class="flow-origin-pill' + className + '">' + safe(label) + ': ' + safe(value) + '</span>';
+    }
+    function flowOriginStage(step, label, value, detail, cls, fillValue, fillTotal) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="flow-origin-stage' + className + '" data-step="' + safe(String(step).padStart(2, "0")) + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' + flowOriginTrack(fillValue || 0, fillTotal || 1, cls || "gateway") + '</article>';
+    }
+    function flowOriginRow(label, value, total, cls, detail) {
+      return '<div class="flow-origin-row"><div class="flow-origin-row-top"><span class="flow-origin-row-label">' + safe(label) + '</span><strong class="flow-origin-row-value">' + fmt(value) + ' · ' + safe(pct(value, total)) + '</strong></div>' + flowOriginTrack(value, total, cls || "gateway") + '<small>' + safe(detail || "") + '</small></div>';
+    }
+    function flowOriginPanel(title, headline, rows, total, cls) {
+      rows = (rows || []).filter(function (row) { return number(row.value) > 0; });
+      total = Math.max(number(total), sumRows(rows, "value"), 1);
+      var className = cls ? " " + safe(cls) : "";
+      var body = rows.length ? rows.slice(0, 4).map(function (row) {
+        return flowOriginRow(row.label, row.value, total, row.className || cls || "gateway", row.detail || "");
+      }).join("") : '<div class="message-card neutral">Engin merki í þessum flokki.</div>';
+      return '<section class="flow-origin-panel' + className + '"><div class="flow-origin-panel-head"><span>' + safe(title) + '</span><strong>' + safe(headline || "-") + '</strong></div><div class="flow-origin-row-list">' + body + '</div></section>';
+    }
+    function flowOriginAction(label, value, detail, next, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="flow-origin-action' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><p>' + safe(detail || "") + '</p><small>' + safe(next || "") + '</small></article>';
+    }
+    function flowOriginDashboardRow(data, dashboard, totalVisits, index) {
+      var cards = publicMap(data);
+      var total = visitValue(dashboard);
+      var layout = dashboardLayoutContext(data, dashboard);
+      var source = dashboardSourceContext(data, dashboard);
+      var layoutDominant = layout.desktop >= layout.mobile ? "Desktop" : "Mobile";
+      var sourceRows = [
+        { label: "island.is", value: source.island, className: "good" },
+        { label: "Beint", value: source.direct, className: "gateway" },
+        { label: "Annað", value: source.other, className: "neutral" }
+      ].sort(function (a, b) { return number(b.value) - number(a.value); });
+      var sourceDominant = sourceRows[0] || { label: "-", value: 0 };
+      return '<article class="flow-origin-dashboard-row">' +
+        dashboardIconMarkup(dashboard, { publicCards: cards }) +
+        '<div class="flow-origin-dashboard-title"><span class="flow-origin-dashboard-kicker">' + safe(String(index + 1).padStart(2, "0")) + ' · ' + safe(layoutDominant) + ' · ' + safe(sourceDominant.label) + '</span><strong>' + safe(titleFor(dashboard, cards)) + '</strong><small>mobile ' + fmt(layout.mobile) + ' · desktop ' + fmt(layout.desktop) + ' · beint ' + fmt(source.direct) + '</small></div>' +
+        '<div class="flow-origin-dashboard-count"><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + '</small></div>' +
+      '</article>';
+    }
     function renderLayoutAndSourceV5(data) {
       data = data || {};
       var k = data.kpis || {};
@@ -16531,50 +16952,52 @@
       var topDashboardShare = topDashboard ? pct(visitValue(topDashboard), Math.max(total, 1)) : "0%";
       var sourceRisk = direct + otherSource;
       var activeChecks = (forced ? 1 : 0) + (campaignMissing ? 1 : 0) + (routeMissing ? 1 : 0) + (warnings ? 1 : 0);
-      var proofRows = dashboards.slice(0, 5).map(function (dashboard, index) {
-        return routeV5ProofRow(data, dashboard, total, index);
+      var routeCoverage = routeMissing ? fmt(routeMissing) + " route merki vantar" : "route þekja full";
+      var campaignCoverage = campaignMissing ? fmt(campaignMissing) + " source merki vantar" : "source þekja full";
+      var proofRows = dashboards.slice(0, 3).map(function (dashboard, index) {
+        return flowOriginDashboardRow(data, dashboard, total, index);
       }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engar taldar production heimsóknir í dashboard aggregate.</p></div>';
       setHtml("layout-source-panel",
-        '<article class="route-master-v5">' +
-          '<section class="route-v5-command" aria-label="Route og source master panel">' +
-            '<div class="route-v5-story"><span class="route-v5-kicker">Flæðislesning</span><h2>Leiðing og uppruni</h2><p>Sama talning lesin í þremur hnitum: útgáfuval, uppruna og sönnun per mælaborð. Gateway og router sýna samhengi; Taldar er eini notkunargrunnurinn.</p><div class="route-v5-stat-grid">' +
-              routeV5Stat("Taldar", fmt(total), fmt(dashboards.length) + " mælaborð", "good") +
-              routeV5Stat("Útgáfa", layoutDominant, pct(layoutDominantValue, layoutTotal) + " af útgáfuvali", layoutDominant === "Mobile" ? "info" : "gateway") +
-              routeV5Stat("Uppruni", sourceDominant.label, pct(sourceDominant.value, sourceTotal) + " af umferð", sourceDominant.className) +
-              routeV5Stat("Athugun", activeChecks ? fmt(activeChecks) : "0", activeChecks ? "route/source merki til skoðunar" : "engin virk frávik", activeChecks ? "warn" : "good") +
+        '<article class="flow-origin-console">' +
+          '<section class="flow-origin-hero" aria-label="Flæðislesning">' +
+            '<div class="flow-origin-brief"><span class="flow-origin-kicker">Flæðislesning</span><h3>Ein talning, skýr leið</h3><p>Hér er sama notkun lesin einu sinni: gateway og router útskýra leiðina, útgáfuval og uppruni útskýra samhengi, og taldar production opnanir eru eini notkunargrunnurinn.</p><div class="flow-origin-pill-row">' +
+              flowOriginPill("Útgáfa", layoutDominant + " " + pct(layoutDominantValue, layoutTotal), layoutDominant === "Mobile" ? "info" : "gateway") +
+              flowOriginPill("Uppruni", sourceDominant.label + " " + pct(sourceDominant.value, sourceTotal), sourceDominant.className) +
+              flowOriginPill("Route", routeCoverage, routeMissing ? "warn" : "info") +
+              flowOriginPill("Source", campaignCoverage, campaignMissing ? "gateway" : "good") +
             '</div></div>' +
-            '<div class="route-v5-instrument">' +
-              '<div class="route-v5-spine">' +
-                routeV5Node("Gateway", fmt(Math.max(rootViews, rootClicks)), "views " + fmt(rootViews) + " · smellir " + fmt(rootClicks), "gateway", Math.max(rootViews, rootClicks), gatewaySignal) +
-                routeV5Node("Router", fmt(routerArrivals || routeSignalTotal), "route merki " + fmt(routeSignalTotal), "info", routerArrivals || routeSignalTotal, gatewaySignal) +
-                routeV5Node("Útgáfa", layoutDominant, "mobile " + fmt(mobile) + " · desktop " + fmt(desktop), layoutDominant === "Mobile" ? "info" : "gateway", layoutDominantValue, layoutTotal) +
-                routeV5Node("Uppruni", sourceDominant.label, "island.is " + fmt(island) + " · beint " + fmt(direct), sourceDominant.className, sourceDominant.value, sourceTotal) +
-                routeV5Node("Taldar", fmt(total), "production opnanir", "good", total, Math.max(total, 1)) +
-              '</div>' +
-              '<div class="route-v5-action-stack">' +
-                routeV5Action("Fyrst", topDashboardTitle, topDashboard ? fmt(visitValue(topDashboard)) + " opnanir · " + topDashboardShare : "engin opnun", "Nota sem smoke-test fyrir route/source.", "good", topDashboard ? visitValue(topDashboard) : 0, Math.max(total, 1)) +
-                routeV5Action("Route", forced ? "Þvingun " + fmt(forced) : "Sjálfvirkt " + fmt(auto), forced ? "mobile " + fmt(forcedMobile) + " · desktop " + fmt(forcedDesktop) : "router velur útgáfu", forced ? "Skoða forced_layout áður en policy breytist." : "Halda sem baseline.", forced ? "warn" : "info", forced || auto, Math.max(routeSignalTotal, 1)) +
-                routeV5Action("Source", campaignMissing ? fmt(campaignMissing) + " vantar" : "full þekja", "beint/annað " + fmt(sourceRisk), campaignMissing ? "Bera UTM/source saman við gateway." : "Nota source mix sem samanburð.", campaignMissing ? "gateway" : "good", campaignTotal, Math.max(total, 1)) +
-              '</div>' +
-            '</div>' +
+            '<div class="flow-origin-primary"><span>Taldar production opnanir</span><strong>' + fmt(total) + '</strong><small>' + fmt(dashboards.length) + ' mælaborð · ' + (activeChecks ? fmt(activeChecks) + ' athuganir' : 'engin virk frávik') + '</small></div>' +
           '</section>' +
-          '<section class="route-v5-body" aria-label="Route source evidence">' +
-            '<div class="route-v5-lanes">' +
-              routeV5Lane("Útgáfuval", layoutDominant, [
+          '<section class="flow-origin-route" aria-label="Gateway að talinni opnun">' +
+            flowOriginStage(1, "Gateway", fmt(Math.max(rootViews, rootClicks)), "views " + fmt(rootViews) + " · smellir " + fmt(rootClicks), "gateway", Math.max(rootViews, rootClicks), gatewaySignal) +
+            flowOriginStage(2, "Router", fmt(routerArrivals || routeSignalTotal), "route merki " + fmt(routeSignalTotal), "info", routerArrivals || routeSignalTotal, gatewaySignal) +
+            flowOriginStage(3, "Útgáfuval", layoutDominant, "mobile " + fmt(mobile) + " · desktop " + fmt(desktop), layoutDominant === "Mobile" ? "info" : "gateway", layoutDominantValue, layoutTotal) +
+            flowOriginStage(4, "Uppruni", sourceDominant.label, "island.is " + fmt(island) + " · beint " + fmt(direct), sourceDominant.className, sourceDominant.value, sourceTotal) +
+            flowOriginStage(5, "Taldar", fmt(total), "notkunargrunnur", "good", total, Math.max(total, 1)) +
+          '</section>' +
+          '<section class="flow-origin-workbench" aria-label="Route og uppruna sönnun">' +
+            '<div class="flow-origin-evidence-grid">' +
+              flowOriginPanel("Útgáfuval", layoutDominant, [
                 { label: "Mobile", value: mobile, className: "info", detail: "sama notkunargrunnur" },
                 { label: "Desktop", value: desktop, className: "gateway", detail: "sama notkunargrunnur" }
               ], layoutTotal, "gateway") +
-              routeV5Lane("Uppruni", sourceDominant.label, sourceRowsSummary, sourceTotal, "good") +
-              routeV5Lane("Route ástæður", routeReasonRows[0] ? routeReasonRows[0].key : "engin route merki", routeReasonRows.map(function (row) {
+              flowOriginPanel("Uppruni", sourceDominant.label, sourceRowsSummary, sourceTotal, "good") +
+              flowOriginPanel("Route ástæður", routeReasonRows[0] ? routeReasonRows[0].key : "engin route merki", routeReasonRows.map(function (row) {
                 return { label: row.key, value: row.visits, className: routeAttribTone(row.key), detail: fmt(row.rows) + " línur" };
               }), Math.max(total, 1), routeMissing ? "warn" : "info") +
-              routeV5Lane("Herferðir / source", campaignRows[0] ? campaignRows[0].key : "engin source merki", campaignRows.map(function (row) {
+              flowOriginPanel("Herferðir / source", campaignRows[0] ? campaignRows[0].key : "engin source merki", campaignRows.map(function (row) {
                 return { label: row.key, value: row.visits, className: routeAttribTone(row.key), detail: fmt(row.rows) + " línur" };
               }), Math.max(total, 1), campaignMissing ? "gateway" : "info") +
             '</div>' +
-            '<aside class="route-v5-context">' +
-              '<div class="route-v5-proof-meta ' + (activeChecks ? 'warn' : 'good') + '"><span>Lestrarröð</span><strong>' + (activeChecks ? 'Skoða ' + fmt(activeChecks) : 'Stöðugt') + '</strong><small>' + (activeChecks ? 'Byrja á action-röðinni efst.' : 'Topkort er baseline fyrir næstu prófun.') + '</small>' + routeV5Track(activeChecks, 4, activeChecks ? "warn" : "good") + '</div>' +
-              '<div class="route-v5-proof-list">' + proofRows + '</div>' +
+            '<aside class="flow-origin-next">' +
+              '<div class="flow-origin-next-head"><span class="flow-origin-kicker">Lesa næst</span><h3>' + safe(activeChecks ? 'Skoða ' + fmt(activeChecks) + ' merki' : 'Stöðug leið') + '</h3><p class="flow-origin-note">Byrja á stærsta mælaborði og berðu síðan útgáfuval, uppruna og route ástæður saman við sömu töldu opnunina.</p></div>' +
+              '<div class="flow-origin-action-list">' +
+                flowOriginAction("Fyrst", topDashboardTitle, topDashboard ? fmt(visitValue(topDashboard)) + " opnanir · " + topDashboardShare : "engin opnun", "Smoke-test fyrir route/source.", "good") +
+                flowOriginAction("Route", forced ? "Þvingun " + fmt(forced) : "Sjálfvirkt " + fmt(auto), forced ? "mobile " + fmt(forcedMobile) + " · desktop " + fmt(forcedDesktop) : "router velur útgáfu", forced ? "Skoða forced_layout áður en policy breytist." : "Halda sem baseline.", forced ? "warn" : "info") +
+                flowOriginAction("Source", campaignCoverage, "beint/annað " + fmt(sourceRisk), campaignMissing ? "Bera UTM/source saman við gateway." : "Source mix er læsilegt.", campaignMissing ? "gateway" : "good") +
+                flowOriginAction("Gæði", warnings ? fmt(warnings) + " staðfest" : "hreint", warnings ? "production merki til skoðunar" : "engin staðfest viðvörun", warnings ? "Tengja við gæðaviðvaranir ofar." : "Engin viðbótaraðgerð.", warnings ? "warn" : "good") +
+              '</div>' +
+              '<div class="flow-origin-dashboard-list">' + proofRows + '</div>' +
             '</aside>' +
           '</section>' +
         '</article>');
@@ -18044,11 +18467,13 @@
       disposeStatusCharts();
       if (panel) panel.hidden = true;
       if (!window.echarts) return;
-      if (panel) panel.hidden = false;
-      renderRouteMatrixChart(data);
-      renderGatewayFunnelChart(data);
-      renderBrowserDeviceHeatmapChart(data);
-      renderTrendChart(data);
+      if (panel && panel.dataset.expanded === "true") {
+        panel.hidden = false;
+        renderRouteMatrixChart(data);
+        renderGatewayFunnelChart(data);
+        renderBrowserDeviceHeatmapChart(data);
+        renderTrendChart(data);
+      }
     }
     window.addEventListener("resize", function () {
       statusCharts.forEach(function (chart) {
@@ -19658,7 +20083,7 @@
       setStatus(data, "");
       safeRender("warning-list", "Gæðaviðvaranir", function () { renderWarnings(data); });
       safeRender("layout-source-panel", "Flæði og uppruni", function () { renderLayoutAndSourceV5(data); });
-      safeRender("signal-panorama-panel", "Signal panorama", function () { renderSignalPanoramaV2(data); });
+      setHtml("signal-panorama-panel", "");
       safeRender("dashboard-public-master", "Mælaborðasafn", function () { renderDashboardPublicMasterV2(data); });
       safeRender("technical-panel", "Tæki og vafraumhverfi", function () { renderTechnical(data); });
       safeRender("delivery-panel", "Tæknimerki til skoðunar", function () { renderDeliveryPanel(data); });
