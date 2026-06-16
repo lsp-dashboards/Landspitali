@@ -88,6 +88,16 @@
       --data-soft-03: rgba(199, 138, 42, .14);
       --data-soft-09: rgba(53, 153, 184, .11);
       --data-soft-13: rgba(251, 130, 129, .12);
+      --status-good: var(--data-02);
+      --status-warn: var(--data-03);
+      --status-bad: var(--data-23);
+      --status-info: var(--data-01);
+      --status-neutral: var(--data-05);
+      --flow-counted: var(--data-02);
+      --flow-gateway: var(--data-05);
+      --flow-route: var(--data-01);
+      --flow-diagnostic: var(--data-04);
+      --flow-warning: var(--data-03);
     }
 
     * { box-sizing: border-box; min-width: 0; }
@@ -393,6 +403,77 @@
     .chip.gateway { background: var(--gateway-soft); color: var(--gateway); border-color: rgba(106, 125, 144, .24); }
     .chip.accent { background: var(--accent-soft); color: var(--accent-dark); }
     .chip.neutral { background: #edf2f6; color: var(--muted); }
+
+    .dashboard-icon {
+      --icon-color: var(--data-01);
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #fff, var(--panel-soft));
+      color: var(--icon-color);
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.76);
+    }
+
+    .dashboard-icon img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+      background: #fff;
+    }
+
+    .dashboard-icon svg {
+      width: 30px;
+      height: 30px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .dashboard-icon .dashboard-icon-fallback {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      transition: opacity .12s ease;
+    }
+
+    .dashboard-icon img:not([hidden]) + .dashboard-icon-fallback {
+      opacity: 0;
+    }
+
+    .dashboard-icon.is-fallback .dashboard-icon-fallback {
+      opacity: 1;
+    }
+
+    .dashboard-icon-initials {
+      position: absolute;
+      right: 4px;
+      bottom: 3px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 4px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.92);
+      border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+      color: var(--ink);
+      font-size: 9px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
 
     .dot {
       width: 9px;
@@ -14509,45 +14590,55 @@
       <div id="start-panel"></div>
     </section>
 
-    <section class="panel" aria-labelledby="panorama-title">
+    <section class="panel warning-panel" aria-labelledby="warnings-title">
+      <div class="panel-head"><div><h2 id="warnings-title">Gæðaviðvaranir</h2><div class="panel-note">Staðfest production merki fyrst; diagnostic samhengi helst aðskilið.</div></div></div>
+      <div class="list" id="warning-list"></div>
+    </section>
+
+    <section class="panel route-source-master" aria-labelledby="flow-origin-title">
       <div class="panel-head">
         <div>
-          <h2 id="panorama-title">Signal panorama</h2>
-          <div class="panel-note">Heatmap-yfirlit sem sýnir hvaða mælaborð, leiðingarástæður og upprunarásir bera notkunina. Breiðari reitir merkja meiri þunga í flæðinu.</div>
+          <h2 id="flow-origin-title">Flæði og uppruni</h2>
+          <div class="panel-note">Ein route/source saga frá gateway að talinni opnun.</div>
         </div>
       </div>
+      <div class="split-panel" id="layout-source-panel"></div>
       <div id="signal-panorama-panel"></div>
-    </section>
-
-    <section class="panel charts-panel" id="echarts-panel" aria-label="ECharts" hidden>
-      <div class="status-chart-grid">
-        <article class="status-chart-card"><h3>Gateway flæði</h3><div id="chart-gateway-funnel" class="chart-host"></div></article>
-        <article class="status-chart-card"><h3>Útgáfuval</h3><div id="chart-layout-split" class="chart-host"></div></article>
-        <article class="status-chart-card"><h3>Vafri / tæki</h3><div id="chart-browser-device" class="chart-host"></div></article>
-        <article class="status-chart-card"><h3>Power BI viewer áhætta</h3><div id="chart-viewer-risk" class="chart-host"></div></article>
-        <article class="status-chart-card"><h3>Traustdreifing</h3><div id="chart-confidence" class="chart-host"></div></article>
-        <article class="status-chart-card"><h3>Notkunarþróun</h3><div id="chart-trend" class="chart-host"></div></article>
+      <div class="charts-panel" id="echarts-panel" aria-label="ECharts" hidden>
+        <div class="status-chart-grid">
+          <article class="status-chart-card"><h3>Gateway flæði</h3><div id="chart-gateway-funnel" class="chart-host"></div></article>
+          <article class="status-chart-card"><h3>Útgáfuval</h3><div id="chart-layout-split" class="chart-host"></div></article>
+          <article class="status-chart-card"><h3>Vafri / tæki</h3><div id="chart-browser-device" class="chart-host"></div></article>
+          <article class="status-chart-card"><h3>Power BI viewer áhætta</h3><div id="chart-viewer-risk" class="chart-host"></div></article>
+          <article class="status-chart-card"><h3>Traustdreifing</h3><div id="chart-confidence" class="chart-host"></div></article>
+          <article class="status-chart-card"><h3>Notkunarþróun</h3><div id="chart-trend" class="chart-host"></div></article>
+        </div>
       </div>
     </section>
 
-    <section class="panel dashboard-public-master mega-dashboard-shell" aria-label="Mælaborð">
+    <section class="panel dashboard-public-master mega-dashboard-shell" aria-label="Mælaborðasafn">
       <div id="dashboard-public-master"></div>
     </section>
 
-    <section class="panel route-source-master" aria-label="Leiðing og uppruni">
-      <div class="split-panel" id="layout-source-panel"></div>
-    </section>
-
-    <section class="panel" aria-label="Rekstrarinnsýn">
-      <div class="insight-grid" id="insight-grid"></div>
-    </section>
-
-    <section class="panel" aria-label="Tæki og vafraumhverfi">
+    <section class="panel environment-delivery-shell" aria-labelledby="environment-title">
+      <div class="panel-head">
+        <div>
+          <h2 id="environment-title">Umhverfi</h2>
+          <div class="panel-note">Tæki, vafri, skjár, input, viewer og afhending.</div>
+        </div>
+      </div>
       <div class="technical-layout" id="technical-panel"></div>
+      <div class="delivery-board" id="delivery-panel"></div>
     </section>
 
-    <section class="panel delivery-shell" aria-label="Tæknimerki til skoðunar">
-      <div class="delivery-board" id="delivery-panel"></div>
+    <section class="panel counting-health-shell" aria-labelledby="counting-health-title">
+      <div class="panel-head">
+        <div>
+          <h2 id="counting-health-title">Talningarheilsa</h2>
+          <div class="panel-note">Counted production heimsóknir aðskildar frá raw og diagnostic.</div>
+        </div>
+      </div>
+      <div id="counting-health-panel"></div>
     </section>
 
     <section class="panel route-auto-section" aria-labelledby="route-auto-title">
@@ -14564,9 +14655,14 @@
       </div>
     </section>
 
-    <section class="panel warning-panel" aria-labelledby="warnings-title">
-      <div class="panel-head"><div><h2 id="warnings-title">Gæðaviðvaranir</h2><div class="panel-note">Staðfest production vandamál eru sýnd sem viðvaranir. Óstaðfest, informational og diagnostic/test merki eru aðskilin og hækka ekki viðvörunarstöðu.</div></div></div>
-      <div class="list" id="warning-list"></div>
+    <section class="panel dashboard-passport-shell" aria-labelledby="dashboard-passport-title">
+      <div class="panel-head">
+        <div>
+          <h2 id="dashboard-passport-title">Mælaborðspassi</h2>
+          <div class="panel-note">Inspection sheet per dashboard, ekki endurtekið portfolio.</div>
+        </div>
+      </div>
+      <div id="dashboard-passport-panel"></div>
     </section>
 
     <p class="footer">Persónuvernd: Engin nöfn, netföng, kennitölur, raw IP, raw user-agent texti eða Power BI innri gögn eru birt. Síðan birtir eingöngu aggregate/status gögn úr Google Apps Script endpointi, notar örugga HTML-escaping við birtingu og aðgreinir gateway, raw og diagnostic merki frá töldum heimsóknum.</p>
@@ -14583,6 +14679,12 @@
       bradamottaka: "https://images.ctfassets.net/8k0h54kbe6bj/68Ef7p57VqG1aYv99GbzB0/3b98fe5c7b3b11c7d01194a7e9caccd6/bradamottaka-linkimage.png?w=774&fm=webp&q=80",
       thjonustukannanir: "https://images.ctfassets.net/8k0h54kbe6bj/5eK6Vivq6aUDWj2mnOEsvS/7e5d5e7c03b92370ccee175ad01f8330/survey-linkimage.png?w=774&fm=webp&q=80"
     };
+    var DATA_COLORS = [
+      "#4F6F8F", "#2F8F8B", "#C78A2A", "#A9B4C2", "#6F7F92", "#3B5A75", "#1F6F6C", "#9A6B20",
+      "#3599B8", "#DFBFBF", "#4AC5BB", "#5F6B6D", "#FB8281", "#F4D25A", "#7F898A", "#A4DDEE",
+      "#FDAB89", "#B687AC", "#28738A", "#A78F8F", "#168980", "#293537", "#BB4A4A", "#B59525",
+      "#475052", "#6A9FB0", "#BD7150", "#7B4F71", "#1B4D5C", "#706060", "#0F5C55", "#1C2325"
+    ];
     var PUBLIC_DASHBOARD_PUBLISHED_AT = "2026-06-14T00:57:00.000Z";
     var PUBLIC_CARD_PUBLISHED_AT_BY_KEY = {
       bradamottaka: PUBLIC_DASHBOARD_PUBLISHED_AT,
@@ -14811,6 +14913,72 @@
     function publicMap(data) { var map = {}; (data.public_cards || []).forEach(function (card) { map[card.dashboard_key] = card; }); return map; }
     function titleFor(row, publicCards) { var key = row.dashboard_key || row.key; var card = (publicCards || {})[key] || {}; return cleanName(card.public_card_title || row.public_card_title || row.dashboard_name || key || "Mælaborð"); }
     function iconFor(row, publicCards) { var key = row.dashboard_key || row.key; var card = (publicCards || {})[key] || {}; return imageUrl(card.icon_url || FALLBACK_ICONS[key] || LOGO_URL); }
+    function validDashboardIconUrl(url) {
+      url = String(url || "");
+      return /^https:\/\/images\.ctfassets\.net\//i.test(url) ? url : "";
+    }
+    function iconSeedFromDashboard(row) {
+      row = row || {};
+      return cleanId(row.dashboard_key || row.dashboard_id || row.key || row.public_card_title || row.dashboard_name || row.displayName || "");
+    }
+    function hashString(value) {
+      value = String(value || "");
+      var hash = 0;
+      for (var i = 0; i < value.length; i += 1) hash = ((hash << 5) - hash + value.charCodeAt(i)) | 0;
+      return Math.abs(hash);
+    }
+    function dataColorVarForSeed(seed) {
+      var index = hashString(seed) % DATA_COLORS.length;
+      return "var(--data-" + String(index + 1).padStart(2, "0") + ")";
+    }
+    function dashboardInitials(name) {
+      var words = String(name || "M").replace(/[^\p{L}\p{N}\s-]/gu, " ").trim().split(/\s+/).filter(Boolean);
+      if (!words.length) return "M";
+      return words.slice(0, 2).map(function (word) { return word.charAt(0).toUpperCase(); }).join("");
+    }
+    function dashboardIconVariant(name, key) {
+      var text = (String(name || "") + " " + String(key || "")).toLowerCase();
+      if (/br[aá]ða|emerg|acute/.test(text)) return "emergency";
+      if (/k[öo]nnun|survey|question|þj[oó]nustu/.test(text)) return "survey";
+      if (/route|gateway|lei[ðd]ing|router/.test(text)) return "route";
+      if (/mann|people|staff|service|þj[oó]nusta/.test(text)) return "people";
+      if (/ranns[oó]kn|lab|research|diagnostic/.test(text)) return "lab";
+      if (/bi[ðd]|wait|time|t[ií]mi|adgerdir|a[ðd]ger[ðd]/.test(text)) return "time";
+      if (/heima|home|spitali|hospital|ward|lega/.test(text)) return "hospital";
+      return "grid";
+    }
+    function dashboardIconSvg(variant) {
+      var icons = {
+        emergency: '<path d="M22 9v26M9 22h26"/><path d="M8 30c5-1 6-7 10-7 5 0 4 7 9 7 4 0 5-4 9-5"/>',
+        survey: '<path d="M14 10h17v24H14z"/><path d="M18 16h9M18 22h9M18 28h6"/><path d="M10 15l2 2 4-5M10 23l2 2 4-5"/>',
+        route: '<path d="M10 13h8c4 0 5 6 9 6h7"/><path d="M18 13l-4-4M18 13l-4 4M34 19l-4-4M34 19l-4 4"/><path d="M10 31h9c4 0 5-6 9-6h6"/>',
+        people: '<path d="M16 18a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM8 34c1-7 15-7 16 0"/><path d="M30 19a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM25 32c2-4 10-4 12 0"/>',
+        lab: '<path d="M17 9h10M21 9v8l-9 16h24l-9-16V9"/><path d="M16 28h16"/><circle cx="29" cy="21" r="2"/><circle cx="21" cy="30" r="1.5"/>',
+        time: '<circle cx="22" cy="22" r="13"/><path d="M22 14v9l6 4"/><path d="M10 34h24"/>',
+        hospital: '<path d="M9 34V17l13-9 13 9v17"/><path d="M17 34V22h10v12"/><path d="M22 15v8M18 19h8"/>',
+        grid: '<path d="M11 12h9v9h-9zM24 12h9v9h-9zM11 25h9v9h-9zM24 25h9v9h-9z"/>'
+      };
+      return icons[variant] || icons.grid;
+    }
+    function fallbackDashboardIconMarkup(name, key, variant) {
+      name = cleanName(name || key || "Mælaborð");
+      key = cleanId(key || name);
+      variant = variant || dashboardIconVariant(name, key);
+      return '<span class="dashboard-icon-fallback" aria-hidden="true"><svg viewBox="0 0 44 44" focusable="false">' + dashboardIconSvg(variant) + '</svg><span class="dashboard-icon-initials">' + safe(dashboardInitials(name)) + '</span></span>';
+    }
+    function dashboardIconMarkup(row, options) {
+      row = row || {};
+      options = options || {};
+      var publicCards = options.publicCards || {};
+      var key = iconSeedFromDashboard(row);
+      var card = publicCards[key] || publicCards[row.dashboard_key] || publicCards[row.key] || {};
+      var name = cleanName(options.name || card.public_card_title || row.public_card_title || row.dashboard_name || row.displayName || row.dashboard_id || key || "Mælaborð");
+      var iconUrlValue = validDashboardIconUrl(options.iconUrl || card.icon_url || row.icon_url || row.iconUrl || FALLBACK_ICONS[key]);
+      var className = "dashboard-icon" + (options.className ? " " + safe(options.className) : "") + (iconUrlValue ? "" : " is-fallback");
+      var fallback = fallbackDashboardIconMarkup(name, key, options.variant);
+      var img = iconUrlValue ? '<img src="' + safe(iconUrlValue) + '" alt="" loading="lazy" decoding="async" onerror="this.hidden=true;this.parentNode.classList.add(&quot;is-fallback&quot;)">' : "";
+      return '<span class="' + className + '" style="--icon-color:' + safe(dataColorVarForSeed(key || name)) + '">' + img + fallback + '</span>';
+    }
     function publicPublishedAt(card) {
       card = card || {};
       var keys = [card.dashboard_key, card.dashboard_id, card.key, cleanId(card.dashboard_key || ""), cleanId(card.dashboard_id || ""), cleanName(card.public_card_title || "")];
@@ -15727,7 +15895,7 @@
         var trackerDetail = [topDevice ? topDevice.key : "", topBrowser ? topBrowser.key : ""].filter(Boolean).join(" / ") || "Engin tracker samsetning";
         var countedAge = ageInfo(dashboardLastCountedTime(d));
         return '<article class="dashboard-card primary">' +
-          '<div class="dashboard-top"><img class="icon" src="' + safe(iconFor(d, cards)) + '" alt=""><div><div class="dashboard-title">' + safe(titleFor(d, cards)) + '</div><div class="dashboard-sub">' + safe(cleanId(d.dashboard_id || d.dashboard_key)) + '</div></div></div>' +
+          '<div class="dashboard-top">' + dashboardIconMarkup(d, { publicCards: cards, className: "icon" }) + '<div><div class="dashboard-title">' + safe(titleFor(d, cards)) + '</div><div class="dashboard-sub">' + safe(cleanId(d.dashboard_id || d.dashboard_key)) + '</div></div></div>' +
           '<div class="dashboard-stats">' +
             '<div class="stat"><span>Samtals</span><strong>' + fmt(total) + '</strong></div>' +
             '<div class="stat"><span>Í dag</span><strong>' + fmt(d.visits_today) + '</strong></div>' +
@@ -16110,7 +16278,7 @@
       var sourceDominant = sourceRows[0] || { label: "-", value: 0, className: "gateway" };
       var forcedDetail = layout.forced ? "Þvingun: mobile " + fmt(layout.forcedMobile) + " · desktop " + fmt(layout.forcedDesktop) : "Sjálfvirkt val";
       return '<article class="route-master-dashboard-row ' + safe(statusClass) + '">' +
-        '<img src="' + safe(iconFor(dashboard, cards)) + '" alt="">' +
+        dashboardIconMarkup(dashboard, { publicCards: cards }) +
         '<div class="route-master-dashboard-title"><span class="route-master-dashboard-kicker">' + safe(String(index + 1).padStart(2, "0") + " · " + (status.label || "Kort")) + '</span><strong>' + safe(titleFor(dashboard, cards)) + '</strong><small>' + safe(status.detail || cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + '</small></div>' +
         '<div class="route-master-dashboard-count"><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + ' af heild</small></div>' +
         '<div class="route-master-dashboard-lines">' +
@@ -16265,7 +16433,7 @@
       ].sort(function (a, b) { return number(b.value) - number(a.value); });
       var sourceDominant = sourceRows[0] || { label: "-", value: 0, className: "gateway" };
       return '<article class="route-v5-proof-row ' + safe(statusClass) + '">' +
-        '<img src="' + safe(iconFor(dashboard, cards)) + '" alt="">' +
+        dashboardIconMarkup(dashboard, { publicCards: cards }) +
         '<div class="route-v5-proof-title"><span class="route-v5-proof-kicker">' + safe(String(index + 1).padStart(2, "0") + " · " + (status.label || "Kort")) + '</span><strong>' + safe(titleFor(dashboard, cards)) + '</strong><small>' + safe(cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + '</small></div>' +
         '<div class="route-v5-proof-count"><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + ' af heild</small></div>' +
         '<div class="route-v5-proof-lines">' +
@@ -17004,7 +17172,7 @@
         { label: "Annað", value: source.other, className: "neutral" }
       ], sourceTotal, "Hvaðan taldar heimsóknir komu.");
       return '<article class="portfolio-master-card compact-portfolio-card dashboard-passport-card ' + (published ? 'good' : '') + '">' +
-        '<div class="dashboard-passport-top"><div class="dashboard-passport-identity"><img class="icon" src="' + safe(iconFor(dashboard, cards)) + '" alt=""><div><span class="portfolio-card-kicker">Opinbert kort</span><div class="dashboard-passport-title">' + safe(titleFor(dashboard, cards)) + '</div><div class="dashboard-passport-id">' + safe(cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + '</div></div></div><div class="dashboard-passport-stamp"><span class="status-chip ' + safe(status.cls) + '"><span class="dot ' + (status.cls === "good" ? '' : 'warn') + '"></span>' + safe(status.label) + '</span><strong>' + safe(publishedAge) + '</strong><small>' + safe(publishedDetail) + '</small></div></div>' +
+        '<div class="dashboard-passport-top"><div class="dashboard-passport-identity">' + dashboardIconMarkup(dashboard, { publicCards: cards, className: "icon" }) + '<div><span class="portfolio-card-kicker">Opinbert kort</span><div class="dashboard-passport-title">' + safe(titleFor(dashboard, cards)) + '</div><div class="dashboard-passport-id">' + safe(cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + '</div></div></div><div class="dashboard-passport-stamp"><span class="status-chip ' + safe(status.cls) + '"><span class="dot ' + (status.cls === "good" ? '' : 'warn') + '"></span>' + safe(status.label) + '</span><strong>' + safe(publishedAge) + '</strong><small>' + safe(publishedDetail) + '</small></div></div>' +
         '<div class="dashboard-passport-measure"><div class="dashboard-passport-total"><span>Talin notkun</span><strong>' + fmt(total) + '</strong><small>Í dag ' + fmt(dashboard.visits_today) + ' · 30 dagar ' + fmt(firstValue(dashboard, ["visits_30d", "visits_30_days", "visits30d"])) + ' · ' + pct(total, Math.max(totalVisits, 1)) + ' af heild</small></div><div class="dashboard-passport-donuts">' + layoutDonut + sourceDonut + '</div></div>' +
         '<div class="dashboard-passport-evidence">' +
           '<div><span>Síðast opnað</span><strong>' + safe(age.label) + '</strong><small>' + safe(lastTime ? dateShort(lastTime) : "engin talin opnun") + '</small></div>' +
@@ -17103,7 +17271,7 @@
       var sourceDominant = sourceRows.slice().sort(function (a, b) { return number(b.value) - number(a.value); })[0] || { label: "-" };
       var forcedDetail = layout.forced ? "Þvingun: mobile " + fmt(layout.forcedMobile) + " · desktop " + fmt(layout.forcedDesktop) : "Sjálfvirkt val";
       return '<article class="mega-dashboard-card ' + safe(statusClass) + '">' +
-        '<div class="mega-card-head"><img src="' + safe(iconFor(dashboard, cards)) + '" alt=""><div><div class="mega-card-title">' + safe(titleFor(dashboard, cards)) + '</div><div class="mega-card-sub">' + safe(publishedDetail) + '</div></div><div class="mega-card-count"><span class="status-chip ' + safe(statusClass) + '"><span class="dot ' + (statusClass === "good" ? "" : "warn") + '"></span>' + safe(status.label) + '</span><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + ' af heild</small></div></div>' +
+        '<div class="mega-card-head">' + dashboardIconMarkup(dashboard, { publicCards: cards }) + '<div><div class="mega-card-title">' + safe(titleFor(dashboard, cards)) + '</div><div class="mega-card-sub">' + safe(publishedDetail) + '</div></div><div class="mega-card-count"><span class="status-chip ' + safe(statusClass) + '"><span class="dot ' + (statusClass === "good" ? "" : "warn") + '"></span>' + safe(status.label) + '</span><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + ' af heild</small></div></div>' +
         '<div class="mega-flow-grid">' +
           megaFlowPanel("Útgáfuval", layoutDominant, layoutRows, layout.total, forcedDetail) +
           megaFlowPanel("Uppruni", sourceDominant.label, sourceRows, Math.max(source.total, total, 1), "Hvaðan taldar heimsóknir komu.") +
@@ -17120,7 +17288,7 @@
       var ctx = publicCardContext(data, card);
       var publishedAt = publicPublishedAt(card);
       return '<article class="public-master-card ' + (card.published ? 'good' : 'warn') + '">' +
-        '<div class="public-master-head"><img class="icon" src="' + safe(imageUrl(card.icon_url || FALLBACK_ICONS[card.dashboard_key])) + '" alt=""><div><div class="portfolio-card-title">' + safe(cleanName(card.public_card_title)) + '</div><div class="portfolio-card-sub">' + safe(card.public_description || card.dashboard_key || "") + '</div></div><span class="status-chip ' + (card.published ? 'good' : 'warn') + '"><span class="dot ' + (card.published ? '' : 'warn') + '"></span>' + (card.published ? 'Birt' : 'Óbirt') + '</span></div>' +
+        '<div class="public-master-head">' + dashboardIconMarkup(card, { className: "icon", iconUrl: card.icon_url, name: card.public_card_title }) + '<div><div class="portfolio-card-title">' + safe(cleanName(card.public_card_title)) + '</div><div class="portfolio-card-sub">' + safe(card.public_description || card.dashboard_key || "") + '</div></div><span class="status-chip ' + (card.published ? 'good' : 'warn') + '"><span class="dot ' + (card.published ? '' : 'warn') + '"></span>' + (card.published ? 'Birt' : 'Óbirt') + '</span></div>' +
         '<div class="public-master-facts">' +
           portfolioMasterStat("Í dag", fmt(ctx.today), "taldar heimsóknir", ctx.today ? "good" : "gateway") +
           portfolioMasterStat("30 dagar", fmt(ctx.days30), "mánaðargluggi", ctx.days30 ? "info" : "gateway") +
@@ -17265,7 +17433,7 @@
       var today = number(dashboard.visits_today);
       return '<article class="dash-v2-row ' + safe(statusClass) + '">' +
         '<div class="dash-v2-rank">' + safe(String(index + 1).padStart(2, "0")) + '</div>' +
-        '<img src="' + safe(iconFor(dashboard, cards)) + '" alt="">' +
+        dashboardIconMarkup(dashboard, { publicCards: cards }) +
         '<div class="dash-v2-row-title"><span class="dash-v2-row-kicker">' + safe(status.label || "Kort") + '</span><strong>' + safe(titleFor(dashboard, cards)) + '</strong><small>' + safe(status.detail || cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + '</small></div>' +
         '<div class="dash-v2-count"><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + ' af heild</small></div>' +
         '<div class="dash-v2-row-lines">' +
@@ -18127,10 +18295,12 @@
         operator + metrics + steps + bars + rows + passports + questions + insights + missing + trackerFields(module.fields || []) + '</section>';
     }
     function trackerPassportHtml(passport) {
-      var facts = (passport.facts || []).slice(0, 12).map(function (fact) {
+      var facts = (passport.facts || []).slice(0, 14).map(function (fact) {
         return '<div class="tracker-fact"><span>' + safe(fact.label) + '</span><strong>' + safe(fact.value) + '</strong></div>';
       }).join("");
-      return '<article class="tracker-passport ' + safe(trackerStatusClass(passport.status)) + '"><div class="tracker-passport-head"><div><span>' + safe(passport.key || "-") + '</span><h4>' + safe(passport.title || "-") + '</h4><small>' + safe(passport.detail || "") + '</small></div><span class="chip ' + safe(trackerChipClass(passport.status)) + '">' + safe(trackerStatusText(passport.status)) + '</span></div><div class="tracker-passport-facts">' + facts + '</div><small>' + safe(passport.summary || "") + '</small></article>';
+      return '<article class="tracker-passport ' + safe(trackerStatusClass(passport.status)) + '"><div class="tracker-passport-head">' +
+        dashboardIconMarkup({ dashboard_key: passport.key, dashboard_name: passport.title, icon_url: passport.iconUrl }, { name: passport.title, iconUrl: passport.iconUrl }) +
+        '<div><span>' + safe(passport.key || "-") + '</span><h4>' + safe(passport.title || "-") + '</h4><small>' + safe(passport.detail || "") + '</small></div><span class="chip ' + safe(trackerChipClass(passport.status)) + '">' + safe(trackerStatusText(passport.status)) + '</span></div><div class="tracker-passport-facts">' + facts + '</div><small>' + safe(passport.summary || "") + '</small></article>';
     }
 
     function deriveCountingIntegrity(data) {
@@ -18558,14 +18728,19 @@
       var cards = publicMap(data);
       var dashboards = (data.dashboards || []).slice().sort(function (a, b) { return number(b.total_visits) - number(a.total_visits); });
       var passports = dashboards.map(function (row) {
+        var card = cards[row.dashboard_key] || {};
         var warnings = number(row.confirmed_warning_count || row.warning_count);
         var fallback = number(row.fallback_clicks) + number(row.safe_fallback_events);
         var errors = number(row.error_events);
         var visits = visitValue(row) || number(row.total_visits);
+        var viewer = row.viewerRiskSummary || row.viewer_risk_summary || {};
+        var viewerRisk = number(viewer.unsupportedBrowserEvents || viewer.unsupported_browser_events || row.powerbi_viewer_unsupported_browser_events || 0);
+        var lastCounted = dashboardLastCountedTime(row);
         var status = errors || warnings ? "warning" : (visits ? "good" : "watch");
         return {
           key: cleanId(row.dashboard_key || row.dashboard_id || row.key),
           title: titleFor(row, cards),
+          iconUrl: card.icon_url || row.icon_url || "",
           detail: cleanId(row.dashboard_id || row.dashboard_key || "") + " · " + (row.status || "active"),
           status: status,
           facts: [
@@ -18580,9 +18755,11 @@
             { label: "island.is", value: fmt(row.island_is_visits) },
             { label: "Fallback", value: fmt(row.fallback_clicks) },
             { label: "Warnings", value: fmt(warnings) },
+            { label: "Viewer risk", value: fmt(viewerRisk) },
+            { label: "Ferskleiki", value: ageInfo(lastCounted).label },
             { label: "Confidence", value: bandLabel(row.confidence_band) }
           ],
-          summary: "Uppruni: " + naturalSummaryText(row.source_mix_summary, "source") + ". Route: " + naturalSummaryText(row.route_mix_summary, "route") + ". Síðast talið: " + dateShort(dashboardLastCountedTime(row)) + ". Config/core: " + (row.config_version || "-") + " / " + (row.core_version || "-") + "."
+          summary: "Uppruni: " + naturalSummaryText(row.source_mix_summary, "source") + ". Route: " + naturalSummaryText(row.route_mix_summary, "route") + ". Síðast talið: " + dateShort(lastCounted) + ". Config/core: " + (row.config_version || "-") + " / " + (row.core_version || "-") + "."
         };
       });
       return {
@@ -18795,6 +18972,28 @@
         '<div class="tracker-priority-list">' + heroInsights.map(trackerInsightHtml).join("") + '</div></section>' +
         '<div class="tracker-module-grid">' + modules.map(trackerModuleHtml).join("") + '</div>' +
       '</div>';
+    }
+
+    function renderCountingHealth(data) {
+      var modules = [
+        deriveCountingIntegrity(data),
+        deriveFreshnessInsights(data),
+        deriveTransportHealthInsights(data),
+        deriveFallbackRescueInsights(data)
+      ];
+      setHtml("counting-health-panel",
+        '<div class="tracker-insight-board counting-health-board">' +
+          '<div class="tracker-module-grid">' + modules.map(trackerModuleHtml).join("") + '</div>' +
+        '</div>');
+    }
+
+    function renderDashboardPassportsPanel(data) {
+      var module = deriveDashboardPassports(data);
+      module.title = "Mælaborðspassi";
+      module.kicker = "Inspection layer";
+      module.intro = "Viðhaldsspjöld per mælaborð: totals, tímabil, raw/diagnostic, route, source, warning confidence, viewer risk og ferskleiki.";
+      setHtml("dashboard-passport-panel",
+        '<div class="tracker-insight-board dashboard-passport-board">' + trackerModuleHtml(module) + '</div>');
     }
 
     function renderInsightsV2(data) {
@@ -19273,7 +19472,7 @@
         var publishedAt = publicPublishedAt(card);
         var ctx = publicCardContext(data, card);
         return '<article class="public-publish-card ' + (card.published ? 'good' : 'warn') + '">' +
-          '<div class="public-publish-head"><img class="icon" src="' + safe(imageUrl(card.icon_url || FALLBACK_ICONS[card.dashboard_key])) + '" alt="">' +
+          '<div class="public-publish-head">' + dashboardIconMarkup(card, { className: "icon", iconUrl: card.icon_url, name: card.public_card_title }) +
           '<div class="public-publish-main"><div class="public-publish-title">' + safe(cleanName(card.public_card_title)) + '</div><div class="public-publish-desc">' + safe(card.public_description || card.dashboard_key) + '</div><div class="chip-row"><span class="chip accent">Frá ' + safe(longDate(publishedAt)) + '</span>' + (ctx.tracker ? '<span class="chip gateway">' + safe(ctx.tracker) + '</span>' : '') + '</div></div>' +
           '<div class="public-publish-state"><span class="status-chip ' + (card.published ? 'good' : 'warn') + '"><span class="dot ' + (card.published ? '' : 'warn') + '"></span>' + (card.published ? 'Birt' : 'Ekki birt') + '</span><span class="chip neutral">' + safe(daysSinceLabel(publishedAt)) + '</span><div class="public-publish-date">' + safe(dateShort(publishedAt)) + '</div></div></div>' +
           '<div class="public-context-grid">' +
@@ -19402,14 +19601,15 @@
     function render(data) {
       safeRender("start-panel", "Fresh start", function () { renderStartPanelV5(data); });
       setStatus(data, "");
+      safeRender("warning-list", "Gæðaviðvaranir", function () { renderWarnings(data); });
+      safeRender("layout-source-panel", "Flæði og uppruni", function () { renderLayoutAndSourceV5(data); });
       safeRender("signal-panorama-panel", "Signal panorama", function () { renderSignalPanoramaV2(data); });
-      safeRender("dashboard-public-master", "Mælaborð", function () { renderDashboardPublicMasterV2(data); });
-      safeRender("layout-source-panel", "Leiðing og uppruni", function () { renderLayoutAndSourceV5(data); });
-      safeRender("route-list", "Leiðingarskrá", function () { renderRouteList(data); });
-      safeRender("insight-grid", "Rekstrarinnsýn", function () { renderInsightsV2(data); });
+      safeRender("dashboard-public-master", "Mælaborðasafn", function () { renderDashboardPublicMasterV2(data); });
       safeRender("technical-panel", "Tæki og vafraumhverfi", function () { renderTechnical(data); });
       safeRender("delivery-panel", "Tæknimerki til skoðunar", function () { renderDeliveryPanel(data); });
-      safeRender("warning-list", "Gæðaviðvaranir", function () { renderWarnings(data); });
+      safeRender("counting-health-panel", "Talningarheilsa", function () { renderCountingHealth(data); });
+      safeRender("route-list", "Leiðingarskrá", function () { renderRouteList(data); });
+      safeRender("dashboard-passport-panel", "Mælaborðspassi", function () { renderDashboardPassportsPanel(data); });
       try { renderStatusCharts(data); } catch (error) { if (window.console && console.error) console.error("Charts", error); }
     }
     var STATUS_DATA_TIMEOUT_MS = 22000;
