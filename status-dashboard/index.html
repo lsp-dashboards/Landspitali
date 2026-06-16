@@ -2090,6 +2090,33 @@
       margin-top: 12px;
     }
 
+    .chart-host {
+      width: 100%;
+      min-height: 320px;
+      margin-top: 12px;
+    }
+
+    .route-matrix.has-chart .matrix {
+      display: none;
+    }
+
+    .route-matrix:not(.has-chart) .chart-host {
+      display: none;
+    }
+
+    .chart-fallback-note {
+      display: none;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.3;
+      font-weight: 800;
+    }
+
+    .route-matrix:not(.has-chart) .chart-fallback-note {
+      display: block;
+    }
+
     .matrix-row {
       display: grid;
       grid-template-columns: minmax(170px, 1.1fr) repeat(3, minmax(86px, .42fr));
@@ -2100,6 +2127,10 @@
 
     .route-matrix .matrix-row {
       grid-template-columns: minmax(170px, 1.1fr) repeat(3, minmax(86px, .42fr));
+    }
+
+    .dashboard-heatmap .matrix-row {
+      grid-template-columns: minmax(170px, 1.08fr) repeat(5, minmax(74px, .38fr));
     }
 
     .matrix-row.matrix-head {
@@ -2158,6 +2189,15 @@
     .heat-cell.bad > span { background: rgba(164, 58, 58, .14); }
     .heat-cell.info > span { background: rgba(62, 98, 131, .14); }
     .heat-cell.gateway > span { background: rgba(106, 125, 144, .16); }
+
+    .heat-cell.empty {
+      color: transparent;
+      background: rgba(247,250,252,.68);
+    }
+
+    .heat-cell.empty > span {
+      width: 0 !important;
+    }
 
     .heat-cell strong {
       color: var(--ink);
@@ -9101,10 +9141,9 @@
     }
 
     .usage-foundation-top > span,
-    .usage-total-mark small,
-    .usage-mode-copy span,
     .usage-today-chip span,
-    .usage-split-stat span {
+    .usage-donut-core span,
+    .usage-donut-core small {
       color: var(--muted);
       font-size: 10px;
       font-weight: 900;
@@ -9131,104 +9170,130 @@
       font-weight: 900;
     }
 
-    .usage-command-row {
+    .usage-donut-stage {
       display: grid;
-      grid-template-columns: minmax(88px, .48fr) minmax(0, .52fr);
-      gap: 12px;
-      align-items: end;
+      grid-template-columns: minmax(118px, .46fr) minmax(0, .54fr);
+      gap: 14px;
+      align-items: center;
       min-width: 0;
     }
 
-    .usage-total-mark {
+    .usage-donut {
+      position: relative;
       display: grid;
-      gap: 5px;
+      place-items: center;
+      justify-self: center;
+      width: min(100%, 148px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        conic-gradient(
+          var(--good) 0 var(--mobile-end),
+          var(--gateway) var(--mobile-end) var(--desktop-end),
+          rgba(106,125,144,.34) var(--desktop-end) 100%
+        );
+      box-shadow:
+        inset 0 0 0 1px rgba(14,36,56,.08),
+        0 10px 24px rgba(22,55,79,.08);
+    }
+
+    .usage-donut::before {
+      content: "";
+      position: absolute;
+      inset: 17%;
+      border-radius: 50%;
+      background: rgba(255,255,255,.96);
+      box-shadow: inset 0 0 0 1px rgba(196,214,226,.72);
+    }
+
+    .usage-donut-core {
+      position: relative;
+      display: grid;
+      place-items: center;
+      gap: 2px;
+      text-align: center;
       min-width: 0;
     }
 
-    .usage-total-mark strong {
+    .usage-donut-core strong {
       color: var(--ink);
-      font-size: clamp(48px, 4vw, 68px);
-      line-height: .78;
+      font-size: clamp(34px, 3.4vw, 52px);
+      line-height: .88;
       font-weight: 900;
       letter-spacing: 0;
     }
 
-    .usage-mode-copy {
-      min-width: 0;
+    .usage-donut-panel {
       display: grid;
-      gap: 4px;
-      padding: 10px;
-      border: 1px solid rgba(196,214,226,.72);
-      border-radius: 14px;
-      background: rgba(255,255,255,.62);
-    }
-
-    .usage-mode-copy p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.28;
-      font-weight: 800;
-    }
-
-    .usage-split-track {
-      display: flex;
-      height: 16px;
-      overflow: hidden;
-      border-radius: 999px;
-      background: #e7eef4;
-      border: 1px solid rgba(14,36,56,.07);
-    }
-
-    .usage-split-track span {
-      min-width: 0;
-      height: 100%;
-    }
-
-    .usage-split-track .mobile { background: var(--good); }
-    .usage-split-track .desktop { background: var(--gateway); }
-
-    .usage-split-row {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
-    }
-
-    .usage-split-stat {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 4px 8px;
-      align-items: end;
       min-width: 0;
-      padding: 9px 10px;
-      border: 1px solid rgba(196,214,226,.76);
-      border-radius: 14px;
-      background: rgba(255,255,255,.72);
     }
 
-    .usage-split-stat.mobile {
+    .usage-donut-legend {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .usage-donut-legend-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 9px;
+      align-items: center;
+      min-width: 0;
+      padding: 8px 9px;
+      border: 1px solid rgba(196,214,226,.76);
+      border-radius: 13px;
+      background: rgba(255,255,255,.74);
+    }
+
+    .usage-donut-legend-item.mobile {
       border-color: var(--good-line);
       background: rgba(232,247,240,.8);
     }
 
-    .usage-split-stat.desktop {
-      background: rgba(237,243,248,.82);
+    .usage-donut-legend-item.desktop {
+      background: rgba(237,243,248,.86);
     }
 
-    .usage-split-stat strong {
+    .usage-donut-legend-item.unknown {
+      background: rgba(247,250,252,.86);
+    }
+
+    .usage-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 999px;
+      background: rgba(106,125,144,.55);
+    }
+
+    .usage-donut-legend-item.mobile .usage-dot { background: var(--good); }
+    .usage-donut-legend-item.desktop .usage-dot { background: var(--gateway); }
+
+    .usage-donut-legend-item strong,
+    .usage-donut-legend-item small {
+      display: block;
+      min-width: 0;
+    }
+
+    .usage-donut-legend-item strong {
       color: var(--ink);
-      font-size: 22px;
-      line-height: .95;
+      font-size: 13px;
+      line-height: 1.1;
       font-weight: 900;
-      text-align: right;
     }
 
-    .usage-split-stat small {
-      grid-column: 1 / -1;
+    .usage-donut-legend-item small,
+    .usage-donut-note {
       color: var(--muted);
       font-size: 11px;
-      line-height: 1.25;
+      line-height: 1.32;
       font-weight: 800;
+    }
+
+    .usage-donut-note {
+      margin: 0;
+      text-wrap: pretty;
     }
 
     .ops-flow-card.gateway {
@@ -10090,8 +10155,7 @@
       }
 
       .ops-metric-strip,
-      .usage-command-row,
-      .usage-split-row,
+      .usage-donut-stage,
       .portfolio-overview-grid,
       .insight-lens-grid {
         grid-template-columns: 1fr;
@@ -10197,6 +10261,7 @@
     <p class="footer">Persónuvernd: Engin nöfn, netföng, kennitölur, raw IP, raw user-agent texti eða Power BI innri gögn eru birt. Síðan birtir eingöngu aggregate/status gögn úr Google Apps Script endpointi, notar örugga HTML-escaping við birtingu og aðgreinir gateway, raw og diagnostic merki frá töldum heimsóknum.</p>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   <script>
     var DATA_ENDPOINT = "https://script.google.com/macros/s/AKfycbxRoNEQwlxQUpxEMGzYizAB0_lP1MdqksGLu4fD7c94rzqUul3MW2_E9VCqeRzLK3wD/exec";
     var LOGO_URL = "https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png";
@@ -10498,6 +10563,31 @@
       if (!value || value === "unknown") return "Óþekkt";
       return humanizeToken(value);
     }
+    var ROUTE_MATRIX_REASON_ORDER = [
+      "desktop_viewport",
+      "tablet_portrait_policy",
+      "tablet_landscape_or_small_desktop_policy",
+      "compact_phone_viewport",
+      "narrow_viewport",
+      "phone_user_agent",
+      "phone_user_agent_and_viewport",
+      "forced_mobile",
+      "forced_desktop",
+      "root_dashboard_click",
+      "root_index_view",
+      "policy_auto",
+      "not_tablet_route",
+      "not_narrow_route"
+    ].map(labelRoute);
+
+    function routeMatrixReasonLabel(row) {
+      row = row || {};
+      var forced = forcedLayoutValue(row);
+      if (forced === "mobile") return labelRoute("forced_mobile");
+      if (forced === "desktop") return labelRoute("forced_desktop");
+      return labelRoute(firstValue(row, ["route_reason", "reason", "routeReason"]));
+    }
+
     function normalizeLayoutToken(value) {
       value = String(value || "").trim().toLowerCase().replace(/_/g, "-");
       if (/^(mobile|phone)$/.test(value)) return "mobile";
@@ -10972,13 +11062,22 @@
     }
 
     function heatCell(label, value, total, cls, displayValue) {
-      return '<div class="heat-cell ' + safe(cls || '') + '"><span style="width:' + widthPct(value, total) + '%"></span><strong>' + safe(displayValue || fmt(value)) + '</strong><small>' + safe(label) + '</small></div>';
+      var text = displayValue === undefined ? fmt(value) : displayValue;
+      var empty = !(number(value) > 0) && text === "";
+      return '<div class="heat-cell ' + safe(cls || '') + (empty ? ' empty' : '') + '"><span style="width:' + widthPct(value, total) + '%"></span><strong>' + safe(text) + '</strong><small>' + safe(label) + '</small></div>';
     }
 
-    function routeReasonGroups(data) {
+    function routeReasonGroups(data, includeEmpty) {
       var map = {};
-      routeMatrixRows(data).forEach(function (row) {
-        var key = labelRoute(row.route_reason);
+      if (includeEmpty) {
+        ROUTE_MATRIX_REASON_ORDER.forEach(function (key, index) {
+          map[key] = { key: key, order: index, total: 0, visits: 0, signals: 0, mobile: 0, desktop: 0, forced: 0, forcedMobile: 0, forcedDesktop: 0 };
+        });
+      }
+      (data.routes || []).filter(function (row) {
+        return !isHardTestRow(row) && (includeEmpty || routeMatrixValue(row) > 0);
+      }).forEach(function (row) {
+        var key = routeMatrixReasonLabel(row);
         if (!map[key]) map[key] = { key: key, total: 0, visits: 0, signals: 0, mobile: 0, desktop: 0, forced: 0, forcedMobile: 0, forcedDesktop: 0 };
         var value = routeMatrixValue(row);
         var counted = visitValue(row);
@@ -10992,7 +11091,11 @@
         if (forcedLayout === "mobile") map[key].forcedMobile += value;
         if (forcedLayout === "desktop") map[key].forcedDesktop += value;
       });
-      var groups = Object.keys(map).map(function (key) { return map[key]; }).sort(function (a, b) { return b.total - a.total; });
+      var groups = Object.keys(map).map(function (key) { return map[key]; }).sort(function (a, b) {
+        if (includeEmpty) return b.total - a.total || number(a.order) - number(b.order) || a.key.localeCompare(b.key, "is");
+        return b.total - a.total;
+      });
+      if (includeEmpty) return groups;
       var visible = groups.slice(0, 7);
       groups.forEach(function (row) {
         if (!row.forced) return;
@@ -11017,17 +11120,19 @@
     }
 
     function renderRouteMatrix(data) {
-      var rows = routeReasonGroups(data);
+      var rows = routeReasonGroups(data, true);
       if (!rows.length) return '<article class="nested-card"><h3>Route matrix</h3><div class="message-card neutral">Engin route matrix gögn enn.</div></article>';
       var routeRows = routeMatrixRows(data);
       var forcedMobileTotal = forcedLayoutSum(routeRows, "mobile");
       var forcedDesktopTotal = forcedLayoutSum(routeRows, "desktop");
       var forcedTotal = forcedMobileTotal + forcedDesktopTotal;
-      var html = '<article class="nested-card route-matrix"><div class="panorama-card-head"><div><h3>Route matrix</h3><div class="subtle">Hvaða route ástæður leiða mest notkun og þvingað útgáfuval.</div></div><div class="chip-row"><span class="chip gateway">' + fmt(rows.length) + ' ástæður</span><span class="chip ' + (forcedTotal ? 'warn' : 'good') + '">Þvingað: ' + fmt(forcedTotal) + '</span><span class="chip neutral">mobile ' + fmt(forcedMobileTotal) + ' · desktop ' + fmt(forcedDesktopTotal) + '</span></div></div><div class="matrix"><div class="matrix-row matrix-head"><span>Ástæða</span><span>MOBILE</span><span>DESKTOP</span><span>Þvingað</span></div>';
+      var activeRows = rows.filter(function (row) { return row.total > 0; }).length;
+      var html = '<article class="nested-card route-matrix" id="route-matrix-card"><div class="panorama-card-head"><div><h3>Route matrix</h3><div class="subtle">Allar þekktar route ástæður eru sýndar. Auðir reitir merkja að hvorki heimsókn né merki fannst í þeirri vídd.</div></div><div class="chip-row"><span class="chip gateway">' + fmt(rows.length) + ' ástæður</span><span class="chip info">' + fmt(activeRows) + ' með gögnum</span><span class="chip ' + (forcedTotal ? 'warn' : 'good') + '">Þvingað: ' + fmt(forcedTotal) + '</span><span class="chip neutral">mobile ' + fmt(forcedMobileTotal) + ' · desktop ' + fmt(forcedDesktopTotal) + '</span></div></div><div id="route-matrix-chart" class="chart-host" aria-label="Route matrix chart"></div><div class="chart-fallback-note">ECharts hlaðast ekki; sýni static HTML fallback.</div><div class="matrix"><div class="matrix-row matrix-head"><span>Ástæða</span><span>MOBILE</span><span>DESKTOP</span><span>Þvingað</span></div>';
       html += rows.map(function (row) {
         var total = Math.max(row.total, 1);
         var unit = row.visits && row.signals ? "heimsóknir / merki" : (row.visits ? "heimsóknir" : "merki");
-        return '<div class="matrix-row"><div class="matrix-title">' + safe(row.key) + '<small>' + fmt(row.total) + ' ' + safe(unit) + '</small></div>' + heatCell("MOBILE", row.mobile, total, "good", pct(row.mobile, total)) + heatCell("DESKTOP", row.desktop, total, "gateway", pct(row.desktop, total)) + heatCell("Þvingað", row.forced, total, row.forced ? "warn" : "", fmt(row.forced)) + '</div>';
+        var meta = row.total ? fmt(row.total) + ' ' + unit : "";
+        return '<div class="matrix-row"><div class="matrix-title">' + safe(row.key) + '<small>' + safe(meta) + '</small></div>' + heatCell("MOBILE", row.mobile, total, row.mobile ? "good" : "", row.mobile ? pct(row.mobile, total) : "") + heatCell("DESKTOP", row.desktop, total, row.desktop ? "gateway" : "", row.desktop ? pct(row.desktop, total) : "") + heatCell("Þvingað", row.forced, total, row.forced ? "warn" : "", row.forced ? fmt(row.forced) : "") + '</div>';
       }).join("");
       return html + '</div></article>';
     }
@@ -11810,9 +11915,9 @@
         return '<span class="' + safe(item.cls || "") + '" style="width:' + widthPct(item.value, total) + '%"></span>';
       }).join("") + '</div>';
     }
-    function usageSplitStat(label, value, total, cls) {
+    function usageDonutLegend(label, value, total, cls) {
       var className = cls ? " " + safe(cls) : "";
-      return '<div class="usage-split-stat' + className + '"><span>' + safe(label) + '</span><strong>' + fmt(value) + '</strong><small>' + safe(pct(value, Math.max(total, 1))) + '</small></div>';
+      return '<div class="usage-donut-legend-item' + className + '"><span class="usage-dot" aria-hidden="true"></span><div><strong>' + safe(label) + '</strong><small>' + fmt(value) + ' · ' + safe(pct(value, Math.max(total, 1))) + '</small></div></div>';
     }
     function renderStartPanelV3(data) {
       var model = opsModel(data);
@@ -11832,8 +11937,16 @@
       var totalSignal = Math.max(model.total + gatewaySignals + diagnosticTotal, 1);
       var today = number(k.visits_today);
       var usageTotal = Math.max(model.total, 1);
+      var usageDonutTotal = Math.max(model.total, model.mobile + model.desktop, 1);
+      var unknownUsage = Math.max(0, usageDonutTotal - model.mobile - model.desktop);
+      var mobileEnd = clamp(model.mobile / usageDonutTotal * 100, 0, 100).toFixed(2);
+      var desktopEnd = clamp((model.mobile + model.desktop) / usageDonutTotal * 100, 0, 100).toFixed(2);
       var dominantUsage = model.desktop >= model.mobile ? "Desktop" : "Mobile";
       var usageCopy = dominantUsage + " er ráðandi í talningunni; mobile og desktop eru á sama notkunargrunni.";
+      var usageLegend =
+        usageDonutLegend("Mobile", model.mobile, usageDonutTotal, "mobile") +
+        usageDonutLegend("Desktop", model.desktop, usageDonutTotal, "desktop") +
+        (unknownUsage ? usageDonutLegend("Óflokkað", unknownUsage, usageDonutTotal, "unknown") : "");
       var topDevice = topRows(rowsFrom(data, "device_confidence", "device"), function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 1)[0];
       var topBrowser = topRows(rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 1)[0];
       var displayRows = visibleRows(rowsFrom(data, "display", "device"));
@@ -11857,10 +11970,7 @@
             '<section class="ops-priority"><div><span class="start-kicker">Næsta athugun</span><h3>Hvað skiptir máli núna</h3></div><div class="action-list">' + actions + '</div></section>' +
           '</div>' +
           '<div class="ops-balance-board">' +
-            '<section class="ops-flow-card counted usage-foundation"><div class="usage-foundation-top"><span>Notkunargrunnur</span><div class="usage-today-chip"><span>Í dag</span><strong>' + fmt(today) + '</strong></div></div><div class="usage-command-row"><div class="usage-total-mark"><strong>' + fmt(model.total) + '</strong><small>taldar dashboard opnanir</small></div><div class="usage-mode-copy"><span>Útgáfuskipting</span><p>' + safe(usageCopy) + '</p></div></div><div class="usage-split-track" aria-hidden="true"><span class="mobile" style="width:' + widthPct(model.mobile, usageTotal) + '%"></span><span class="desktop" style="width:' + widthPct(model.desktop, usageTotal) + '%"></span></div><div class="usage-split-row">' +
-              usageSplitStat("Mobile", model.mobile, model.total, "mobile") +
-              usageSplitStat("Desktop", model.desktop, model.total, "desktop") +
-            '</div></section>' +
+            '<section class="ops-flow-card counted usage-foundation"><div class="usage-foundation-top"><span>Notkunargrunnur</span><div class="usage-today-chip"><span>Í dag</span><strong>' + fmt(today) + '</strong></div></div><div class="usage-donut-stage"><div class="usage-donut" role="img" aria-label="Útgáfuskipting: mobile ' + fmt(model.mobile) + ', desktop ' + fmt(model.desktop) + '" style="--mobile-end:' + safe(mobileEnd) + '%; --desktop-end:' + safe(desktopEnd) + '%;"><div class="usage-donut-core"><span>Samtals</span><strong>' + fmt(model.total) + '</strong><small>dashboard opnanir</small></div></div><div class="usage-donut-panel"><div class="usage-donut-legend">' + usageLegend + '</div><p class="usage-donut-note">' + safe(usageCopy) + '</p></div></div></section>' +
             '<section class="ops-flow-card gateway"><div class="start-panel-title"><span>Leiðingarsamhengi</span><strong>aðskilið</strong></div>' + splitBar + '<div class="ops-stepper">' +
               opsStepV4("Rótarsíða", fmt(rootViews), "gateway sýn", "gateway") +
               opsStepV4("Kortasmellur", fmt(rootClicks), "val", "gateway") +
@@ -12258,6 +12368,127 @@
     function renderSignalPanoramaV2(data) {
       setHtml("signal-panorama-panel", '<div class="signal-panorama signal-panorama-focused">' + renderDashboardMatrix(data) + renderRouteMatrix(data) + '</div>');
     }
+    var statusCharts = [];
+    function cssVar(name, fallback) {
+      var value = "";
+      try { value = getComputedStyle(document.documentElement).getPropertyValue(name).trim(); } catch (error) {}
+      return value || fallback;
+    }
+    function disposeStatusCharts() {
+      statusCharts.forEach(function (chart) {
+        try { chart.dispose(); } catch (error) {}
+      });
+      statusCharts = [];
+    }
+    function chartCellColor(column, value) {
+      if (!(number(value) > 0)) return "rgba(247,250,252,.72)";
+      if (column === 0) return "rgba(31,122,83,.78)";
+      if (column === 1) return "rgba(106,125,144,.78)";
+      return "rgba(223,160,25,.82)";
+    }
+    function renderRouteMatrixChart(data) {
+      var host = byId("route-matrix-chart");
+      var card = byId("route-matrix-card");
+      if (!host || !card || !window.echarts) return;
+      var rows = routeReasonGroups(data, true);
+      var columns = ["Mobile", "Desktop", "Þvingað"];
+      var maxValue = 1;
+      var cells = [];
+      rows.forEach(function (row, rowIndex) {
+        var total = Math.max(row.total, 1);
+        [
+          { column: 0, value: row.mobile, label: row.mobile ? pct(row.mobile, total) : "" },
+          { column: 1, value: row.desktop, label: row.desktop ? pct(row.desktop, total) : "" },
+          { column: 2, value: row.forced, label: row.forced ? fmt(row.forced) : "" }
+        ].forEach(function (cell) {
+          maxValue = Math.max(maxValue, number(cell.value));
+          cells.push([cell.column, rowIndex, number(cell.value), cell.label]);
+        });
+      });
+      host.style.height = Math.max(330, rows.length * 42 + 112) + "px";
+      var chart = echarts.init(host, null, { renderer: "svg" });
+      var line = cssVar("--line-soft", "#d8e2ea");
+      var ink = cssVar("--ink", "#10283d");
+      var muted = cssVar("--muted", "#5f7186");
+      chart.setOption({
+        backgroundColor: "transparent",
+        animation: false,
+        grid: { left: 176, right: 10, top: 34, bottom: 18, containLabel: false },
+        tooltip: {
+          trigger: "item",
+          borderColor: line,
+          backgroundColor: "rgba(255,255,255,.98)",
+          textStyle: { color: ink, fontWeight: 700 },
+          formatter: function (params) {
+            var row = rows[params.value[1]];
+            var column = columns[params.value[0]];
+            var value = number(params.value[2]);
+            if (!value) return safe(row.key) + "<br>" + safe(column) + ": ekkert skráð";
+            var unit = row.visits && row.signals ? "heimsóknir / merki" : (row.visits ? "heimsóknir" : "merki");
+            return safe(row.key) + "<br>" + safe(column) + ": " + safe(params.value[3] || fmt(value)) + "<br>Heild: " + fmt(row.total) + " " + safe(unit);
+          }
+        },
+        xAxis: {
+          type: "category",
+          data: columns,
+          position: "top",
+          axisTick: { show: false },
+          axisLine: { show: false },
+          splitLine: { show: false },
+          axisLabel: { color: muted, fontWeight: 900, fontSize: 11, margin: 12 }
+        },
+        yAxis: {
+          type: "category",
+          data: rows.map(function (row) { return row.key; }),
+          inverse: true,
+          axisTick: { show: false },
+          axisLine: { show: false },
+          splitLine: { show: false },
+          axisLabel: {
+            color: ink,
+            fontWeight: 900,
+            fontSize: 12,
+            width: 166,
+            overflow: "truncate",
+            margin: 12
+          }
+        },
+        series: [{
+          type: "heatmap",
+          data: cells,
+          label: {
+            show: true,
+            color: ink,
+            fontWeight: 900,
+            formatter: function (params) { return params.value[3] || ""; }
+          },
+          itemStyle: {
+            borderColor: "#fff",
+            borderWidth: 3,
+            color: function (params) { return chartCellColor(params.value[0], params.value[2]); }
+          },
+          emphasis: {
+            itemStyle: {
+              borderColor: ink,
+              borderWidth: 2
+            }
+          }
+        }]
+      });
+      card.classList.add("has-chart");
+      statusCharts.push(chart);
+    }
+    function renderStatusCharts(data) {
+      disposeStatusCharts();
+      if (!window.echarts) return;
+      renderRouteMatrixChart(data);
+    }
+    window.addEventListener("resize", function () {
+      statusCharts.forEach(function (chart) {
+        try { chart.resize(); } catch (error) {}
+      });
+    });
+
     function renderRootFunnelV2(data) {
       var f = data.root_index_funnel || data.root_index || {};
       var k = data.kpis || {};
@@ -12924,6 +13155,7 @@
       safeRender("technical-panel", "Tæki og vafraumhverfi", function () { renderTechnical(data); });
       safeRender("delivery-panel", "Tæknimerki til skoðunar", function () { renderDeliveryPanel(data); });
       safeRender("warning-list", "Gæðaviðvaranir", function () { renderWarnings(data); });
+      try { renderStatusCharts(data); } catch (error) { if (window.console && console.error) console.error("Charts", error); }
     }
     var STATUS_DATA_TIMEOUT_MS = 22000;
     var STATUS_DATA_RETRY_DELAY_MS = 1500;
