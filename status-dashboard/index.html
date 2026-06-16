@@ -12830,18 +12830,38 @@
       flex: var(--basis, 1) 1 0;
       display: grid;
       align-content: end;
-      min-width: 92px;
+      min-width: 0;
       padding: 10px;
       border: 1px solid rgba(157,188,204,.72);
       border-radius: 8px;
       background: var(--cell-bg, var(--data-soft-01));
+      overflow: hidden;
+    }
+
+    .visual-tree-cell .visual-mini-label,
+    .visual-tree-cell small {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .visual-tree-cell strong {
+      overflow: hidden;
+      max-width: 100%;
       color: var(--ink);
-      font-size: clamp(20px, 1.9vw, 34px);
+      font-size: clamp(17px, 1.55vw, 28px);
       line-height: .92;
       font-weight: 900;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .visual-tree-cell.compact {
+      padding: 8px;
+    }
+
+    .visual-tree-cell.compact strong {
+      font-size: clamp(14px, 1vw, 18px);
     }
 
     .visual-heatmap {
@@ -12912,11 +12932,18 @@
       font-weight: 900;
     }
 
-    .visual-line-svg,
-    .visual-flow-svg {
+    .visual-line-svg {
       width: 100%;
       min-height: 210px;
       display: block;
+    }
+
+    .visual-flow-svg {
+      grid-column: 1 / -1;
+      width: 100%;
+      height: 58px;
+      display: block;
+      overflow: visible;
     }
 
     .visual-hierarchy {
@@ -20509,6 +20536,13 @@
     function atlasValue(row) {
       return visitValue(row) || rawSignalValue(row) || number(firstValue(row || {}, ["value", "visits", "events", "count", "total"]));
     }
+    function atlasShortValue(value) {
+      value = number(value);
+      if (value >= 1000000) return (value / 1000000).toFixed(value >= 10000000 ? 0 : 1).replace(".0", "") + "m";
+      if (value >= 10000) return Math.round(value / 1000) + "k";
+      if (value >= 1000) return (value / 1000).toFixed(1).replace(".0", "") + "k";
+      return fmt(value);
+    }
     function atlasEmpty(text) {
       return '<div class="message-card neutral"><strong>Engin mynd</strong><p>' + safe(text || "Payload vantar þessa vídd.") + '</p></div>';
     }
@@ -20524,6 +20558,31 @@
     }
     function visualFlowStage(label, value, max, detail, color) {
       return '<div class="visual-flow-stage" style="--fill:' + widthPct(value, max) + '%; --accent:' + safe(color || "#2F8F8B") + '"><span class="visual-mini-label">' + safe(label) + '</span><strong>' + fmt(value) + '</strong><small>' + safe(detail || "") + '</small></div>';
+    }
+    function visualFlowSvg(stages, max) {
+      var width = 800;
+      var height = 58;
+      var pad = 38;
+      var step = stages.length > 1 ? (width - pad * 2) / (stages.length - 1) : 0;
+      var nodes = stages.map(function (stage, index) {
+        return {
+          x: pad + step * index,
+          y: height / 2,
+          r: clamp(Math.sqrt(number(stage.value) / Math.max(max, 1)) * 18, 7, 18),
+          value: number(stage.value),
+          color: stage.color || atlasColor(index)
+        };
+      });
+      var links = nodes.slice(1).map(function (node, index) {
+        var prev = nodes[index];
+        var linkValue = Math.min(prev.value, node.value);
+        var linkWidth = clamp(linkValue / Math.max(max, 1) * 16, 3, 16);
+        return '<line x1="' + (prev.x + prev.r + 8).toFixed(1) + '" y1="' + prev.y + '" x2="' + (node.x - node.r - 8).toFixed(1) + '" y2="' + node.y + '" stroke="' + safe(node.color) + '" stroke-width="' + linkWidth.toFixed(1) + '" stroke-linecap="round" opacity=".62"></line>';
+      }).join("");
+      var circles = nodes.map(function (node, index) {
+        return '<g><circle cx="' + node.x.toFixed(1) + '" cy="' + node.y + '" r="' + (node.r + 7).toFixed(1) + '" fill="#fff" stroke="rgba(157,188,204,.9)" stroke-width="1"></circle><circle cx="' + node.x.toFixed(1) + '" cy="' + node.y + '" r="' + node.r.toFixed(1) + '" fill="' + safe(node.color) + '"></circle><text x="' + node.x.toFixed(1) + '" y="' + (node.y + 4) + '" text-anchor="middle" font-size="10" font-weight="900" fill="#fff">' + (index + 1) + '</text></g>';
+      }).join("");
+      return '<svg class="visual-flow-svg" viewBox="0 0 ' + width + ' ' + height + '" role="img" aria-label="Flow ribbon">' + links + circles + '</svg>';
     }
     function visualFlowPanel(data, model) {
       var k = data.kpis || {};
@@ -20541,6 +20600,7 @@
       ];
       var max = Math.max.apply(null, stages.map(function (stage) { return stage.value; }).concat([1]));
       return '<section class="visual-flow"><div class="visual-card-head"><div><span class="visual-card-kicker">Flow chart</span><h3>Frá merki að talinni opnun</h3></div><div class="visual-card-value">' + fmt(counted) + '</div></div><div class="visual-flow-rail">' +
+        visualFlowSvg(stages, max) +
         stages.map(function (stage) { return visualFlowStage(stage.label, stage.value, max, stage.detail, stage.color); }).join("") +
       '</div></section>';
     }
@@ -20581,7 +20641,8 @@
       var total = rows.reduce(function (acc, row) { return acc + number(row.visits); }, 0) || model.total || 1;
       var cells = '<div class="visual-treemap">' + rows.map(function (row, index) {
         var basis = Math.max(12, number(row.visits) / Math.max(total, 1) * 100);
-        return '<div class="visual-tree-cell" style="--basis:' + basis.toFixed(2) + '; --cell-bg:color-mix(in srgb, ' + safe(atlasColor(index)) + ' 18%, white)"><span class="visual-mini-label">' + safe(row.key) + '</span><strong>' + fmt(row.visits) + '</strong><small>' + safe(pct(row.visits, total)) + '</small></div>';
+        var compact = basis < 20;
+        return '<div class="visual-tree-cell' + (compact ? ' compact' : '') + '" title="' + safe(row.key) + ': ' + fmt(row.visits) + '" style="--basis:' + basis.toFixed(2) + '; --cell-bg:color-mix(in srgb, ' + safe(atlasColor(index)) + ' 18%, white)"><span class="visual-mini-label">' + safe(row.key) + '</span><strong>' + safe(compact ? atlasShortValue(row.visits) : fmt(row.visits)) + '</strong><small>' + safe(pct(row.visits, total)) + '</small></div>';
       }).join("") + '</div>';
       return atlasCard("Treemap", "Upprunafletir", fmt(total), cells, "span-4");
     }
