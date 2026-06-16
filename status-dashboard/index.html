@@ -12838,6 +12838,8 @@
     }
 
     .start-v5-proof-card {
+      position: relative;
+      overflow: hidden;
       display: grid;
       gap: 6px;
       align-content: space-between;
@@ -12846,6 +12848,70 @@
       border: 1px solid rgba(207,221,231,.78);
       border-radius: 8px;
       background: rgba(255,255,255,.72);
+    }
+
+    .start-v5-proof {
+      grid-template-rows: auto minmax(0, 1fr);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.98), rgba(246,250,252,.92)),
+        linear-gradient(90deg, rgba(47,143,139,.06) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(79,111,143,.05) 1px, transparent 1px);
+      background-size: auto, 42px 42px, 42px 42px;
+    }
+
+    .start-v5-proof-grid {
+      counter-reset: proof-signal;
+      grid-auto-rows: minmax(108px, 1fr);
+      height: 100%;
+    }
+
+    .start-v5-proof-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: var(--data-04);
+    }
+
+    .start-v5-proof-card::after {
+      counter-increment: proof-signal;
+      content: counter(proof-signal, decimal-leading-zero);
+      position: absolute;
+      top: 9px;
+      right: 9px;
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 22px;
+      border: 1px solid rgba(190,207,220,.82);
+      border-radius: 7px;
+      color: var(--muted);
+      background: rgba(255,255,255,.78);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .start-v5-proof-card.good::before { background: var(--data-02); }
+    .start-v5-proof-card.warn::before,
+    .start-v5-proof-card.bad::before { background: var(--data-03); }
+    .start-v5-proof-card.info::before { background: var(--data-09); }
+    .start-v5-proof-card.gateway::before { background: var(--data-05); }
+
+    .start-v5-proof-card span,
+    .start-v5-proof-card strong,
+    .start-v5-proof-card small {
+      position: relative;
+      z-index: 1;
+    }
+
+    .start-v5-proof-card span {
+      padding-right: 32px;
+    }
+
+    .start-v5-proof-card strong {
+      font-size: clamp(20px, 1.7vw, 30px);
+      text-wrap: balance;
     }
 
     .start-v5-note {
@@ -12960,8 +13026,10 @@
       position: relative;
       z-index: 1;
       display: grid;
+      grid-template-columns: minmax(220px, .45fr) minmax(0, .55fr);
+      align-items: end;
       align-content: space-between;
-      gap: 16px;
+      gap: 12px;
     }
 
     .dash-v2-kicker,
@@ -12982,7 +13050,7 @@
     .dash-v2-story h2 {
       margin: 4px 0 0;
       color: var(--ink);
-      font-size: clamp(42px, 4.1vw, 68px);
+      font-size: 52px;
       line-height: .94;
       font-weight: 900;
       letter-spacing: 0;
@@ -13010,8 +13078,8 @@
 
     .dash-v2-metrics {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
     }
 
     .dash-v2-metric {
@@ -13288,6 +13356,7 @@
 
     @media (max-width: 1260px) {
       .dash-v2-hero,
+      .dash-v2-story,
       .dash-v2-main {
         grid-template-columns: 1fr;
       }
@@ -13373,7 +13442,7 @@
     .dash-v2-card-grid-shell .dash-v2-row-list {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+      gap: 16px 12px;
     }
 
     .dash-v2-card-grid-shell .dash-v2-row {
@@ -14896,6 +14965,27 @@
       background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,252,248,.92));
     }
 
+    .flow-origin-next.signals-only {
+      align-content: start;
+    }
+
+    .flow-origin-next.signals-only .flow-origin-next-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-bottom: 2px;
+    }
+
+    .flow-origin-next.signals-only .flow-origin-next-head h3 {
+      font-size: 13px;
+      line-height: 1;
+    }
+
+    .flow-origin-next.signals-only .flow-origin-note {
+      display: none;
+    }
+
     .flow-origin-dashboard-list {
       grid-column: 1 / -1;
       display: grid;
@@ -14924,6 +15014,16 @@
       gap: 6px;
       padding: 10px;
       border-left: 4px solid var(--data-01);
+    }
+
+    .flow-origin-next.signals-only .flow-origin-action {
+      min-height: 76px;
+      align-content: space-between;
+    }
+
+    .flow-origin-next.signals-only .flow-origin-action p,
+    .flow-origin-next.signals-only .flow-origin-action small {
+      display: none;
     }
 
     .flow-origin-action.good { border-left-color: var(--data-02); background: var(--data-soft-02); }
@@ -17679,8 +17779,8 @@
                 return { label: row.key, value: row.visits, className: routeAttribTone(row.key), detail: fmt(row.rows) + " línur" };
               }), Math.max(total, 1), campaignMissing ? "gateway" : "info") +
             '</div>' +
-            '<aside class="flow-origin-next">' +
-              '<div class="flow-origin-next-head"><span class="flow-origin-kicker">Lesa næst</span><h3>' + safe(activeChecks ? 'Skoða ' + fmt(activeChecks) + ' merki' : 'Stöðug leið') + '</h3><p class="flow-origin-note">Byrja á stærsta mælaborði og berðu síðan útgáfuval, uppruna og route ástæður saman við sömu töldu opnunina.</p></div>' +
+            '<aside class="flow-origin-next signals-only">' +
+              '<div class="flow-origin-next-head"><span class="flow-origin-kicker">Signals</span><h3>' + safe(activeChecks ? fmt(activeChecks) + ' merki' : 'Stöðugt') + '</h3></div>' +
               '<div class="flow-origin-action-list">' +
                 flowOriginAction("Fyrst", topDashboardTitle, topDashboard ? fmt(visitValue(topDashboard)) + " opnanir · " + topDashboardShare : "engin opnun", "Smoke-test fyrir route/source.", "good") +
                 flowOriginAction("Route", forced ? "Þvingun " + fmt(forced) : "Sjálfvirkt " + fmt(auto), forced ? "mobile " + fmt(forcedMobile) + " · desktop " + fmt(forcedDesktop) : "router velur útgáfu", forced ? "Skoða forced_layout áður en policy breytist." : "Halda sem baseline.", forced ? "warn" : "info") +
@@ -18654,7 +18754,7 @@
       setHtml("dashboard-public-master",
         '<div class="dashboard-v2">' +
           '<section class="dash-v2-hero" aria-label="Mælaborðasafn">' +
-            '<div class="dash-v2-story"><div><span class="dash-v2-kicker">Portfolio scan</span><h2>Mælaborðasafn</h2><p>Portfolio kortið sýnir hvaða opinberu mælaborð bera notkunina, hvaða route og uppruni skýra hana, og hvaða tracker merki þarf að lesa áður en brugðist er við.</p></div><div class="dash-v2-metrics">' +
+            '<div class="dash-v2-story"><div><span class="dash-v2-kicker">Portfolio scan</span><h2>Mælaborðasafn</h2></div><div class="dash-v2-metrics">' +
               dashV2Metric("Samtals notkun", fmt(totalVisits), "taldar production opnanir", "good") +
               dashV2Metric("Í dag", fmt(todayTotal), "opnanir skráðar", todayTotal ? "good" : "gateway") +
               dashV2Metric("7 dagar", fmt(sevenDayTotal), "síðustu sjö dagar", sevenDayTotal ? "info" : "gateway") +
@@ -18673,7 +18773,7 @@
             '</div>' +
           '</section>' +
           '<section class="dash-v2-main dash-v2-card-grid-shell" aria-label="Mælaborð og samhengi">' +
-            '<div class="dash-v2-grid-head"><div><span>Mælaborð og samhengi</span><h3>Stór kort, sama rekstrarsamhengi</h3><p>Tveggja dálka safn sem setur opinbert kort, notkun, útgáfuval, uppruna, ferskleika og tracker merki inn í hvert mælaborð í stað þess að fela samhengi í hliðarspjaldi.</p></div><div class="chip-row"><span class="chip good">Ráðandi: ' + safe(topTitle) + ' · ' + safe(topShare) + '</span><span class="chip ' + (forced ? 'warn' : 'info') + '">Route: ' + safe(topRoute ? topRoute.key : "sjálfvirkt") + '</span><span class="chip ' + (warningCount ? 'warn' : 'good') + '">Gæði: ' + (warningCount ? fmt(warningCount) + ' merki' : 'hreint') + '</span><span class="chip neutral">Nýjast: ' + safe(newest ? titleFor(newest, publicMap(data)) : "-") + '</span></div></div>' +
+            '<div class="dash-v2-grid-head"><div><span>Mælaborð og samhengi</span><h3>Stór kort, sama rekstrarsamhengi</h3></div><div class="chip-row"><span class="chip good">Ráðandi: ' + safe(topTitle) + ' · ' + safe(topShare) + '</span><span class="chip ' + (forced ? 'warn' : 'info') + '">Route: ' + safe(topRoute ? topRoute.key : "sjálfvirkt") + '</span><span class="chip ' + (warningCount ? 'warn' : 'good') + '">Gæði: ' + (warningCount ? fmt(warningCount) + ' merki' : 'hreint') + '</span><span class="chip neutral">Nýjast: ' + safe(newest ? titleFor(newest, publicMap(data)) : "-") + '</span></div></div>' +
             '<div class="dash-v2-row-list">' + dashboardHtml + '</div>' +
           '</section>' +
         '</div>');
