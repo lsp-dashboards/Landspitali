@@ -1614,6 +1614,9 @@
     .delivery-viz-panel.stretch .delivery-viz-items.rows-3 { grid-template-rows: repeat(3, minmax(62px, 1fr)); }
     .delivery-viz-panel.stretch .delivery-viz-items.rows-4 { grid-template-rows: repeat(4, minmax(54px, 1fr)); }
     .delivery-viz-panel.stretch .delivery-viz-items.rows-5 { grid-template-rows: repeat(5, minmax(48px, 1fr)); }
+    .delivery-viz-panel.stretch .delivery-viz-items.rows-6 { grid-template-rows: repeat(6, minmax(42px, 1fr)); }
+    .delivery-viz-panel.stretch .delivery-viz-items.rows-7 { grid-template-rows: repeat(7, minmax(38px, 1fr)); }
+    .delivery-viz-panel.stretch .delivery-viz-items.rows-8 { grid-template-rows: repeat(8, minmax(34px, 1fr)); }
 
     .delivery-combo-list {
       display: grid;
@@ -5252,6 +5255,9 @@
     .netmark-subsection .delivery-viz-panel.stretch .delivery-viz-items.rows-3 { grid-template-rows: repeat(3, minmax(0, 1fr)); }
     .netmark-subsection .delivery-viz-panel.stretch .delivery-viz-items.rows-4 { grid-template-rows: repeat(4, minmax(0, 1fr)); }
     .netmark-subsection .delivery-viz-panel.stretch .delivery-viz-items.rows-5 { grid-template-rows: repeat(5, minmax(0, 1fr)); }
+    .netmark-subsection .delivery-viz-panel.stretch .delivery-viz-items.rows-6 { grid-template-rows: repeat(6, minmax(0, 1fr)); }
+    .netmark-subsection .delivery-viz-panel.stretch .delivery-viz-items.rows-7 { grid-template-rows: repeat(7, minmax(0, 1fr)); }
+    .netmark-subsection .delivery-viz-panel.stretch .delivery-viz-items.rows-8 { grid-template-rows: repeat(8, minmax(0, 1fr)); }
 
     .delivery-section-label {
       color: var(--muted);
@@ -5769,6 +5775,9 @@
     }
 
     #technical-panel .tech-workbench {
+      --tech-dist-panel-min: 190px;
+      --tech-combo-row-min: 78px;
+      --tech-combo-rows: 6;
       grid-template-columns: minmax(300px, .7fr) minmax(0, 1.3fr);
       align-items: stretch;
     }
@@ -5779,9 +5788,16 @@
       grid-template-rows: auto minmax(0, 1fr);
     }
 
+    #technical-panel .tech-combo-board > div:first-child,
+    #technical-panel .tech-evidence-board > div:first-child {
+      display: grid;
+      align-content: start;
+      min-height: 76px;
+    }
+
     .tech-combo-list {
       height: 100%;
-      grid-template-rows: repeat(6, minmax(78px, 1fr));
+      grid-template-rows: repeat(var(--tech-combo-rows, 6), minmax(var(--tech-combo-row-min, 78px), 1fr));
     }
 
     .tech-combo-card {
@@ -5791,7 +5807,7 @@
 
     .tech-distribution-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-template-rows: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(2, minmax(var(--tech-dist-panel-min, 190px), 1fr));
       height: 100%;
     }
 
@@ -5799,7 +5815,8 @@
       display: grid;
       grid-template-rows: 30px 18px minmax(0, 1fr);
       align-content: stretch;
-      min-height: 190px;
+      min-height: var(--tech-dist-panel-min, 190px);
+      height: 100%;
       width: 100%;
     }
 
@@ -5830,6 +5847,9 @@
     .tech-distribution-grid .delivery-viz-items.rows-3 { grid-template-rows: repeat(3, minmax(0, 1fr)); }
     .tech-distribution-grid .delivery-viz-items.rows-4 { grid-template-rows: repeat(4, minmax(0, 1fr)); }
     .tech-distribution-grid .delivery-viz-items.rows-5 { grid-template-rows: repeat(5, minmax(0, 1fr)); }
+    .tech-distribution-grid .delivery-viz-items.rows-6 { grid-template-rows: repeat(6, minmax(0, 1fr)); }
+    .tech-distribution-grid .delivery-viz-items.rows-7 { grid-template-rows: repeat(7, minmax(0, 1fr)); }
+    .tech-distribution-grid .delivery-viz-items.rows-8 { grid-template-rows: repeat(8, minmax(0, 1fr)); }
 
     .technical-audit-row {
       grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -9034,30 +9054,28 @@
     }
 
     .ops-flow-card.counted.usage-foundation {
+      position: relative;
+      overflow: hidden;
       align-content: stretch;
-      gap: 14px;
-      padding: 16px;
-      background:
-        linear-gradient(145deg, rgba(239,250,245,.96), rgba(255,255,255,.92));
-    }
-
-    .usage-foundation-head {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(82px, auto);
       gap: 12px;
-      align-items: start;
+      padding: 15px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.98), rgba(231,247,239,.9));
+    }
+
+    .usage-foundation-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
       min-width: 0;
     }
 
-    .usage-foundation-copy {
-      display: grid;
-      gap: 4px;
-      min-width: 0;
-    }
-
-    .usage-foundation-copy span,
-    .usage-foundation-today span,
-    .usage-layout-item span {
+    .usage-foundation-top > span,
+    .usage-total-mark small,
+    .usage-mode-copy span,
+    .usage-today-chip span,
+    .usage-split-stat span {
       color: var(--muted);
       font-size: 10px;
       font-weight: 900;
@@ -9066,76 +9084,109 @@
       text-transform: uppercase;
     }
 
-    .usage-foundation-copy strong {
+    .usage-today-chip {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 7px;
+      min-width: 0;
+      padding: 6px 9px;
+      border: 1px solid rgba(196,214,226,.82);
+      border-radius: 999px;
+      background: rgba(255,255,255,.82);
+    }
+
+    .usage-today-chip strong {
       color: var(--ink);
-      font-size: clamp(44px, 3.5vw, 58px);
-      line-height: .9;
-      font-weight: 900;
-      letter-spacing: 0;
-    }
-
-    .usage-foundation-copy small,
-    .usage-layout-item small {
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.25;
-      font-weight: 800;
-    }
-
-    .usage-foundation-today {
-      display: grid;
-      justify-items: end;
-      gap: 4px;
-      min-width: 82px;
-      padding: 9px 10px;
-      border: 1px solid rgba(196,214,226,.86);
-      border-radius: 14px;
-      background: rgba(255,255,255,.78);
-    }
-
-    .usage-foundation-today strong {
-      color: var(--ink);
-      font-size: 24px;
+      font-size: 17px;
       line-height: .95;
       font-weight: 900;
     }
 
-    .usage-layout-bar {
+    .usage-command-row {
+      display: grid;
+      grid-template-columns: minmax(88px, .48fr) minmax(0, .52fr);
+      gap: 12px;
+      align-items: end;
+      min-width: 0;
+    }
+
+    .usage-total-mark {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .usage-total-mark strong {
+      color: var(--ink);
+      font-size: clamp(48px, 4vw, 68px);
+      line-height: .78;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .usage-mode-copy {
+      min-width: 0;
+      display: grid;
+      gap: 4px;
+      padding: 10px;
+      border: 1px solid rgba(196,214,226,.72);
+      border-radius: 14px;
+      background: rgba(255,255,255,.62);
+    }
+
+    .usage-mode-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.28;
+      font-weight: 800;
+    }
+
+    .usage-split-track {
       display: flex;
-      height: 12px;
+      height: 16px;
       overflow: hidden;
       border-radius: 999px;
       background: #e7eef4;
-      box-shadow: inset 0 0 0 1px rgba(14,36,56,.06);
+      border: 1px solid rgba(14,36,56,.07);
     }
 
-    .usage-layout-bar span {
+    .usage-split-track span {
       min-width: 0;
       height: 100%;
     }
 
-    .usage-layout-bar .mobile { background: var(--good); }
-    .usage-layout-bar .desktop { background: var(--gateway); }
+    .usage-split-track .mobile { background: var(--good); }
+    .usage-split-track .desktop { background: var(--gateway); }
 
-    .usage-layout-grid {
+    .usage-split-row {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
     }
 
-    .usage-layout-item {
+    .usage-split-stat {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 4px 8px;
       align-items: end;
       min-width: 0;
-      padding: 10px;
+      padding: 9px 10px;
       border: 1px solid rgba(196,214,226,.76);
       border-radius: 14px;
       background: rgba(255,255,255,.72);
     }
 
-    .usage-layout-item strong {
+    .usage-split-stat.mobile {
+      border-color: var(--good-line);
+      background: rgba(232,247,240,.8);
+    }
+
+    .usage-split-stat.desktop {
+      background: rgba(237,243,248,.82);
+    }
+
+    .usage-split-stat strong {
       color: var(--ink);
       font-size: 22px;
       line-height: .95;
@@ -9143,8 +9194,12 @@
       text-align: right;
     }
 
-    .usage-layout-item small {
+    .usage-split-stat small {
       grid-column: 1 / -1;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+      font-weight: 800;
     }
 
     .ops-flow-card.gateway {
@@ -10061,7 +10116,8 @@
       }
 
       .ops-metric-strip,
-      .usage-layout-grid,
+      .usage-command-row,
+      .usage-split-row,
       .portfolio-overview-grid,
       .insight-lens-grid {
         grid-template-columns: 1fr;
@@ -11534,6 +11590,8 @@
       }
       var auto = routeRows.reduce(function (acc, row) { return acc + (!isForcedLayoutRow(row) ? routeMatrixValue(row) : 0); }, 0);
       var forced = forcedLayoutTotal(routeRows);
+      var forcedMobile = forcedLayoutSum(routeRows, "mobile");
+      var forcedDesktop = forcedLayoutSum(routeRows, "desktop");
       var island = number(firstValue(k, ["island_is_visits", "island_visits", "source_island_is_visits"]));
       if (!island) island = sourceCount(sourceRows, function (value) { return isIslandSource(value); });
       var direct = sourceCount(sourceRows, function (value) { return isDirectSource(value); });
@@ -11778,8 +11836,9 @@
         return '<span class="' + safe(item.cls || "") + '" style="width:' + widthPct(item.value, total) + '%"></span>';
       }).join("") + '</div>';
     }
-    function usageLayoutItem(label, value, total) {
-      return '<div class="usage-layout-item"><span>' + safe(label) + '</span><strong>' + fmt(value) + '</strong><small>' + safe(pct(value, Math.max(total, 1))) + '</small></div>';
+    function usageSplitStat(label, value, total, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<div class="usage-split-stat' + className + '"><span>' + safe(label) + '</span><strong>' + fmt(value) + '</strong><small>' + safe(pct(value, Math.max(total, 1))) + '</small></div>';
     }
     function renderStartPanelV3(data) {
       var model = opsModel(data);
@@ -11798,6 +11857,9 @@
       var diagnosticTotal = diagnosticRows + uncountedRows;
       var totalSignal = Math.max(model.total + gatewaySignals + diagnosticTotal, 1);
       var today = number(k.visits_today);
+      var usageTotal = Math.max(model.total, 1);
+      var dominantUsage = model.desktop >= model.mobile ? "Desktop" : "Mobile";
+      var usageCopy = dominantUsage + " er ráðandi í talningunni; mobile og desktop eru á sama notkunargrunni.";
       var topDevice = topRows(rowsFrom(data, "device_confidence", "device"), function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 1)[0];
       var topBrowser = topRows(rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 1)[0];
       var displayRows = visibleRows(rowsFrom(data, "display", "device"));
@@ -11821,9 +11883,9 @@
             '<section class="ops-priority"><div><span class="start-kicker">Næsta athugun</span><h3>Hvað skiptir máli núna</h3></div><div class="action-list">' + actions + '</div></section>' +
           '</div>' +
           '<div class="ops-balance-board">' +
-            '<section class="ops-flow-card counted usage-foundation"><div class="usage-foundation-head"><div class="usage-foundation-copy"><span>Notkunargrunnur</span><strong>' + fmt(model.total) + '</strong><small>taldar dashboard opnanir</small></div><div class="usage-foundation-today"><span>Í dag</span><strong>' + fmt(today) + '</strong></div></div><div class="usage-layout-bar" aria-hidden="true"><span class="mobile" style="width:' + widthPct(model.mobile, Math.max(model.total, 1)) + '%"></span><span class="desktop" style="width:' + widthPct(model.desktop, Math.max(model.total, 1)) + '%"></span></div><div class="usage-layout-grid">' +
-              usageLayoutItem("Mobile", model.mobile, model.total) +
-              usageLayoutItem("Desktop", model.desktop, model.total) +
+            '<section class="ops-flow-card counted usage-foundation"><div class="usage-foundation-top"><span>Notkunargrunnur</span><div class="usage-today-chip"><span>Í dag</span><strong>' + fmt(today) + '</strong></div></div><div class="usage-command-row"><div class="usage-total-mark"><strong>' + fmt(model.total) + '</strong><small>taldar dashboard opnanir</small></div><div class="usage-mode-copy"><span>Útgáfuskipting</span><p>' + safe(usageCopy) + '</p></div></div><div class="usage-split-track" aria-hidden="true"><span class="mobile" style="width:' + widthPct(model.mobile, usageTotal) + '%"></span><span class="desktop" style="width:' + widthPct(model.desktop, usageTotal) + '%"></span></div><div class="usage-split-row">' +
+              usageSplitStat("Mobile", model.mobile, model.total, "mobile") +
+              usageSplitStat("Desktop", model.desktop, model.total, "desktop") +
             '</div></section>' +
             '<section class="ops-flow-card gateway"><div class="start-panel-title"><span>Leiðingarsamhengi</span><strong>aðskilið</strong></div>' + splitBar + '<div class="ops-stepper">' +
               opsStepV4("Rótarsíða", fmt(rootViews), "gateway sýn", "gateway") +
@@ -12418,14 +12480,33 @@
     }
     function renderTechnical(data) {
       var cards = publicMap(data);
-      var rows = groupedDeviceCombos(data, 6);
+      var browserSource = rowsFrom(data, "browsers", "device");
+      var osSource = rowsFrom(data, "os", "device");
+      var deviceSource = rowsFrom(data, "device_confidence", "device");
+      var distributionCap = 8;
+      var browserGroups = topRows(browserSource, function (row) { return browserLabel(row); }, 99);
+      var osGroups = topRows(osSource, function (row) { return row.os_family || "Óþekkt"; }, 99);
+      var deviceGroups = topRows(deviceSource, function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 99);
+      var confidenceGroups = topRows(deviceSource, function (row) { return bandLabel(row.inferred_confidence_band || row.confidence_band); }, 99);
+      var distributionLimit = Math.max(5, Math.min(distributionCap, Math.max(browserGroups.length, osGroups.length, deviceGroups.length, confidenceGroups.length)));
+      var browserDistribution = browserGroups.slice(0, distributionLimit);
+      var osDistribution = osGroups.slice(0, distributionLimit);
+      var deviceDistribution = deviceGroups.slice(0, distributionLimit);
+      var confidenceDistribution = confidenceGroups.slice(0, distributionLimit);
+      var renderedDistributionRows = Math.max(1, browserDistribution.length, osDistribution.length, deviceDistribution.length, confidenceDistribution.length);
+      var distributionPanelMin = 190 + Math.max(0, renderedDistributionRows - 5) * 42;
+      var comboLimit = Math.max(6, distributionLimit);
+      var rows = groupedDeviceCombos(data, comboLimit);
+      var comboRows = Math.max(1, rows.length);
+      var comboRowMin = 78 + Math.max(0, renderedDistributionRows - 5) * 6;
+      var workbenchStyle = ' style="--tech-dist-panel-min:' + safe(distributionPanelMin) + 'px;--tech-combo-row-min:' + safe(comboRowMin) + 'px;--tech-combo-rows:' + safe(comboRows) + '"';
       var allTech = technicalRows(data);
       var countedTech = visibleRows(allTech);
       var trackerLines = allTech.length;
-      var topBrowser = topRows(rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 1)[0];
-      var topOS = topRows(rowsFrom(data, "os", "device"), function (row) { return row.os_family || "Óþekkt"; }, 1)[0];
-      var topDevice = topRows(rowsFrom(data, "device_confidence", "device"), function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 1)[0];
-      var topConfidence = topRows(rowsFrom(data, "device_confidence", "device"), function (row) { return bandLabel(row.inferred_confidence_band || row.confidence_band); }, 1)[0];
+      var topBrowser = browserGroups[0];
+      var topOS = osGroups[0];
+      var topDevice = deviceGroups[0];
+      var topConfidence = confidenceGroups[0];
       var topCombo = rows[0];
       var samsungRaw = softSignalRows(data.device || []).reduce(function (acc, row) { return acc + (isSamsungInternetRow(row) ? rawSignalValue(row) : 0); }, 0);
       var diagnosticRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && isDiagnosticRow(row); }).length;
@@ -12444,13 +12525,13 @@
             techTopStat("Algengast OS", topOS ? topOS.key : "Óþekkt", topOS ? fmt(topOS.visits) + " heimsóknir" : "Vantar OS gögn", topOS ? "gateway" : "") +
             techTopStat("Traust tækja", topConfidence ? topConfidence.key : "Óþekkt", topConfidence ? fmt(topConfidence.visits) + " línur" : "Engin confidence flokkun", topConfidence ? "good" : "gateway") +
           '</div>' +
-          '<div class="tech-workbench">' +
+          '<div class="tech-workbench"' + workbenchStyle + '>' +
             '<article class="tech-combo-board"><div><span class="tech-board-kicker">Toppsamsetningar</span><h3>Hvar vafra- og tækjamynstur sjást</h3><div class="subtle" style="margin-top:7px;">Raðað eftir töldum heimsóknum, með raw/diagnostic sýnt sem sérstakt merki ef það skýrir vandamál.</div></div><div class="tech-combo-list">' + comboHtml + '</div></article>' +
             '<article class="tech-evidence-board"><div><span class="tech-board-kicker">Dreifing og frávik</span><h3>Hvað þarf að vita áður en vandamál er rakið</h3></div><div class="tech-distribution-grid">' +
-              distributionPanel("Vafrar", rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 5) +
-              distributionPanel("Stýrikerfi", rowsFrom(data, "os", "device"), function (row) { return row.os_family || "Óþekkt"; }, 5) +
-              distributionPanel("Tæki", rowsFrom(data, "device_confidence", "device"), function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 5) +
-              distributionPanel("Traust", rowsFrom(data, "device_confidence", "device"), function (row) { return bandLabel(row.inferred_confidence_band || row.confidence_band); }, 5) +
+              distributionPanelFromRows("Vafrar", browserDistribution) +
+              distributionPanelFromRows("Stýrikerfi", osDistribution) +
+              distributionPanelFromRows("Tæki", deviceDistribution) +
+              distributionPanelFromRows("Traust", confidenceDistribution) +
             '</div></article>' +
           '</div>' +
           '<div class="tech-audit-row technical-audit-row">' +
@@ -12465,8 +12546,12 @@
     }
     function distributionPanel(title, sourceRows, labelFn, limit) {
       var rows = topRows(sourceRows, labelFn, limit || 5);
+      return distributionPanelFromRows(title, rows);
+    }
+    function distributionPanelFromRows(title, rows) {
+      rows = rows || [];
       var total = Math.max(sumRows(rows, "visits"), 1);
-      return shareVizCard(title, rows, total, { className: "gateway", unit: "línur", limit: limit || 5 });
+      return shareVizCard(title, rows, total, { className: "gateway", unit: "línur", limit: rows.length || 1 });
     }
     function renderTechnicalComparison(data) {
       var cards = publicMap(data);
@@ -12510,7 +12595,8 @@
       if (!rows.length) {
         return '<div class="delivery-viz-panel' + className + '"><div class="delivery-viz-head' + headClass + '"><div><span>' + safe(label) + '</span>' + headerExtra + '</div><strong>0</strong></div><div class="subtle">Engin gögn.</div></div>';
       }
-      var rowCountClass = " rows-" + Math.min(rows.length, 5);
+      var rowCount = Math.max(1, Math.min(number(options.visualRows || rows.length), 8));
+      var rowCountClass = " rows-" + rowCount;
       var totalRows = options.displayTotal !== undefined ? number(options.displayTotal) : sumRows(rows, "visits");
       var segments = rows.map(function (row, index) {
         var value = number(firstValue(row, ["visits", "value", "count", "events", "raw_signal_events"]));
@@ -12529,7 +12615,7 @@
           '<div class="delivery-viz-value"><strong>' + fmt(value) + '</strong><small>' + safe(pct(value, total)) + '</small></div>' +
         '</div>';
       }).join("");
-      return '<div class="delivery-viz-panel' + className + '"><div class="delivery-viz-head' + headClass + '"><div><span>' + safe(label) + '</span>' + headerExtra + '</div><strong>' + fmt(totalRows) + ' alls</strong></div><div class="delivery-treemap" aria-hidden="true">' + segments + '</div><div class="delivery-viz-items' + rowCountClass + '">' + items + '</div></div>';
+      return '<div class="delivery-viz-panel' + className + '"><div class="delivery-viz-head' + headClass + '"><div><span>' + safe(label) + '</span>' + headerExtra + '</div><strong>' + fmt(totalRows) + ' alls</strong></div><div class="delivery-treemap" aria-hidden="true">' + segments + '</div><div class="delivery-viz-items' + rowCountClass + '" style="--viz-row-count:' + safe(rowCount) + '">' + items + '</div></div>';
     }
     function deliveryShareViz(label, rows, total, cls, options) {
       options = options || {};
