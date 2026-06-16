@@ -11109,6 +11109,225 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* Masthead insight-atlas refinement */
+    .command-grid.command-grid-solo {
+      padding: clamp(18px, 2vw, 26px);
+      border-radius: 10px;
+      border-color: rgba(184, 203, 218, .82);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(249,252,254,.9)),
+        linear-gradient(90deg, rgba(31,122,83,.05) 0 1px, transparent 1px 100%);
+      background-size: auto, 44px 100%;
+      box-shadow: none;
+    }
+
+    .command-grid.command-grid-solo::before {
+      left: clamp(18px, 2vw, 26px);
+      right: clamp(18px, 2vw, 26px);
+      top: clamp(18px, 2vw, 26px);
+      width: auto;
+      height: 1px;
+      border-radius: 0;
+      background: linear-gradient(90deg, rgba(31,122,83,.72), rgba(79,111,143,.44), rgba(149,99,0,.35));
+    }
+
+    .command-grid.command-grid-solo::after {
+      left: clamp(18px, 2vw, 26px);
+      right: clamp(18px, 2vw, 26px);
+      bottom: clamp(16px, 1.8vw, 22px);
+      height: 1px;
+      border-radius: 0;
+      background: repeating-linear-gradient(90deg, rgba(79,111,143,.36) 0 18px, transparent 18px 28px);
+    }
+
+    .command-grid.command-grid-solo .command-main {
+      padding: 20px 0 24px;
+    }
+
+    .command-grid.command-grid-solo .hero-title-row {
+      align-items: start;
+      gap: clamp(18px, 3vw, 44px);
+    }
+
+    .command-grid.command-grid-solo .brand-row {
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .command-grid.command-grid-solo .brand-row img {
+      width: 54px;
+      padding: 5px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.86);
+      border-color: rgba(184,203,218,.72);
+      box-shadow: none;
+    }
+
+    .command-grid.command-grid-solo .eyebrow {
+      margin-bottom: 3px;
+      color: var(--accent-dark);
+      font-size: 10px;
+      letter-spacing: .16em;
+    }
+
+    .command-grid.command-grid-solo .title-lockup {
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .command-grid.command-grid-solo .title-lockup h1 {
+      font-size: clamp(46px, 5vw, 72px);
+      line-height: .9;
+      color: #12314c;
+    }
+
+    .command-grid.command-grid-solo .refresh-button {
+      width: 28px;
+      height: 28px;
+      font-size: 24px;
+      transform: translateY(-6px);
+      color: #294e6f;
+    }
+
+    .command-grid.command-grid-solo .lead {
+      max-width: 72ch;
+      margin-top: 10px;
+      color: #526b80;
+      font-size: 13px;
+      line-height: 1.46;
+    }
+
+    .command-grid.command-grid-solo .masthead-actions {
+      min-width: 0;
+      padding-top: 12px;
+    }
+
+    .command-grid.command-grid-solo .masthead-actions .pill-row {
+      gap: 6px;
+    }
+
+    .command-grid.command-grid-solo .pill {
+      min-height: 24px;
+      padding: 5px 8px;
+      border-radius: 7px;
+      background: rgba(255,255,255,.72);
+      border-color: rgba(184,203,218,.76);
+      color: #3e566b;
+      font-size: 10.5px;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .command-grid.command-grid-solo .pill .dot {
+      width: 7px;
+      height: 7px;
+      box-shadow: none;
+    }
+
+    .command-grid.command-grid-solo .hero-system-strip {
+      position: relative;
+      width: 100%;
+      margin-top: 18px;
+      padding: 11px 0 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+      overflow: visible;
+    }
+
+    .command-grid.command-grid-solo .hero-system-strip::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(184,203,218,.78);
+    }
+
+    .command-grid.command-grid-solo .hero-system-tags {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .command-grid.command-grid-solo .hero-system-tags .chip {
+      justify-content: flex-start;
+      min-height: 28px;
+      padding: 7px 8px;
+      border-radius: 7px;
+      background: rgba(255,255,255,.54);
+      border-color: rgba(184,203,218,.72);
+      color: #385267;
+      font-size: 10px;
+      line-height: 1.05;
+      text-align: left;
+      box-shadow: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .command-grid.command-grid-solo .hero-system-tags .component-chip.good {
+      background: rgba(230,245,238,.62);
+      color: #1f6b4b;
+    }
+
+    .command-grid.command-grid-solo .hero-system-tags .component-chip.gateway,
+    .command-grid.command-grid-solo .hero-system-tags .component-chip.summary,
+    .command-grid.command-grid-solo .hero-system-tags .component-chip.config,
+    .command-grid.command-grid-solo .hero-system-tags .component-chip.schema {
+      background: rgba(238,243,247,.62);
+      color: #405b72;
+    }
+
+    .command-grid.command-grid-solo .hero-system-tags .component-chip.core {
+      background: #12314c;
+      border-color: #12314c;
+      color: #fff;
+      box-shadow: none;
+    }
+
+    .command-grid.command-grid-solo .hero-system-tags .component-chip.tracker {
+      background: rgba(255,243,207,.68);
+      color: #72520f;
+    }
+
+    @media (max-width: 1180px) {
+      .command-grid.command-grid-solo .hero-system-tags {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .command-grid.command-grid-solo .brand-row,
+      .command-grid.command-grid-solo .hero-title-row {
+        grid-template-columns: 1fr;
+      }
+
+      .command-grid.command-grid-solo .masthead-actions {
+        padding-top: 0;
+        align-items: flex-start;
+      }
+
+      .command-grid.command-grid-solo .hero-system-tags {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .command-grid.command-grid-solo .title-lockup h1 {
+        font-size: 34px;
+      }
+
+      .command-grid.command-grid-solo .hero-system-tags {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
