@@ -10889,10 +10889,252 @@
       font-weight: 800;
     }
 
+    .tracker-module.operator-master {
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.92)),
+        linear-gradient(90deg, rgba(79,111,143,.055) 0 1px, transparent 1px 100%);
+      background-size: auto, 34px 100%;
+    }
+
+    .tracker-operator-panel {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .tracker-operator-panel *,
+    .tracker-operator-panel *::before,
+    .tracker-operator-panel *::after {
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .tracker-operator-command {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, .56fr) minmax(260px, .44fr);
+      gap: 12px;
+      padding: 13px;
+      border: 1px solid rgba(181,205,220,.82);
+      border-radius: 8px;
+      background: rgba(255,255,255,.82);
+    }
+
+    .tracker-operator-command::before {
+      content: "";
+      position: absolute;
+      inset: 0 12px auto;
+      height: 3px;
+      background: linear-gradient(90deg, var(--data-01), var(--data-02), var(--data-03));
+      pointer-events: none;
+    }
+
+    .tracker-operator-copy {
+      display: grid;
+      gap: 8px;
+      align-content: center;
+      padding-top: 5px;
+    }
+
+    .tracker-operator-kicker,
+    .tracker-operator-score span,
+    .tracker-operator-action span,
+    .tracker-operator-evidence span,
+    .tracker-operator-question span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .tracker-operator-copy strong {
+      color: var(--ink);
+      font-size: clamp(28px, 2.7vw, 46px);
+      line-height: .94;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .tracker-operator-copy p,
+    .tracker-operator-score small,
+    .tracker-operator-action p,
+    .tracker-operator-action small,
+    .tracker-operator-evidence small,
+    .tracker-operator-question p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .tracker-operator-score {
+      display: grid;
+      gap: 8px;
+      align-content: space-between;
+      padding: 12px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: var(--data-soft-01);
+    }
+
+    .tracker-operator-score.good { background: var(--data-soft-02); border-color: rgba(47,143,139,.26); }
+    .tracker-operator-score.watch,
+    .tracker-operator-score.warning { background: var(--data-soft-03); border-color: rgba(199,138,42,.3); }
+    .tracker-operator-score.bad { background: var(--bad-soft); border-color: var(--bad-line); }
+    .tracker-operator-score.info { background: var(--data-soft-09); border-color: rgba(53,153,184,.24); }
+
+    .tracker-operator-score strong {
+      color: var(--ink);
+      font-size: clamp(34px, 3.4vw, 58px);
+      line-height: .9;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .tracker-operator-track {
+      height: 9px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5edf3;
+    }
+
+    .tracker-operator-fill {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--data-01);
+    }
+
+    .tracker-operator-fill.good { background: var(--data-02); }
+    .tracker-operator-fill.watch,
+    .tracker-operator-fill.warning { background: var(--data-03); }
+    .tracker-operator-fill.bad { background: var(--bad); }
+    .tracker-operator-fill.info { background: var(--data-09); }
+    .tracker-operator-fill.gateway { background: var(--data-05); }
+    .tracker-operator-fill.unknown { background: var(--data-04); }
+
+    .tracker-operator-action-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .tracker-operator-action {
+      position: relative;
+      display: grid;
+      gap: 9px;
+      align-content: space-between;
+      min-height: 164px;
+      padding: 11px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.76);
+    }
+
+    .tracker-operator-action.good { background: var(--data-soft-02); border-color: rgba(47,143,139,.24); }
+    .tracker-operator-action.watch,
+    .tracker-operator-action.warning { background: var(--data-soft-03); border-color: rgba(199,138,42,.28); }
+    .tracker-operator-action.bad { background: var(--bad-soft); border-color: var(--bad-line); }
+    .tracker-operator-action.info { background: var(--data-soft-09); border-color: rgba(53,153,184,.24); }
+
+    .tracker-operator-action-head {
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .tracker-operator-rank {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: var(--data-06);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .tracker-operator-action strong {
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.06;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .tracker-operator-next {
+      display: grid;
+      gap: 4px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(207,221,231,.78);
+    }
+
+    .tracker-operator-evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .tracker-operator-evidence {
+      display: grid;
+      gap: 7px;
+      align-content: space-between;
+      min-height: 86px;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .tracker-operator-evidence.good { background: var(--data-soft-02); border-color: rgba(47,143,139,.24); }
+    .tracker-operator-evidence.watch,
+    .tracker-operator-evidence.warning { background: var(--data-soft-03); border-color: rgba(199,138,42,.28); }
+    .tracker-operator-evidence.info { background: var(--data-soft-09); border-color: rgba(53,153,184,.24); }
+    .tracker-operator-evidence.gateway { background: var(--data-soft-01); border-color: rgba(79,111,143,.24); }
+
+    .tracker-operator-evidence strong {
+      color: var(--ink);
+      font-size: clamp(18px, 1.5vw, 26px);
+      line-height: .98;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .tracker-operator-question-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .tracker-operator-question {
+      display: grid;
+      gap: 7px;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .tracker-operator-question p {
+      color: var(--ink-2);
+      font-weight: 800;
+    }
+
     @media (max-width: 1120px) {
       .tracker-hero,
       .tracker-module-grid,
-      .tracker-stepper {
+      .tracker-stepper,
+      .tracker-operator-command,
+      .tracker-operator-action-grid,
+      .tracker-operator-evidence-grid {
         grid-template-columns: 1fr;
       }
 
@@ -10903,7 +11145,8 @@
 
     @media (max-width: 680px) {
       .tracker-metrics,
-      .tracker-passport-facts {
+      .tracker-passport-facts,
+      .tracker-operator-question-strip {
         grid-template-columns: 1fr;
       }
 
@@ -10911,7 +11154,8 @@
       .tracker-insight-item,
       .tracker-passport-head,
       .tracker-table-row,
-      .tracker-bar-row {
+      .tracker-bar-row,
+      .tracker-operator-action-head {
         grid-template-columns: 1fr;
       }
 
@@ -12674,6 +12918,425 @@
         grid-column: auto;
       }
     }
+
+    /* Route and source master panel */
+    .route-master-v4 {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .route-master-v4 *,
+    .route-master-v4 *::before,
+    .route-master-v4 *::after {
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .route-master-hero,
+    .route-master-lane,
+    .route-master-dashboard-row,
+    .route-master-context {
+      border: 1px solid rgba(181, 205, 220, .82);
+      border-radius: 8px;
+      background: rgba(255,255,255,.94);
+      box-shadow: none;
+    }
+
+    .route-master-hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, .4fr) minmax(0, .6fr);
+      gap: 14px;
+      padding: clamp(15px, 1.6vw, 22px);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.92)),
+        linear-gradient(90deg, rgba(79,111,143,.055) 0 1px, transparent 1px 100%);
+      background-size: auto, 34px 100%;
+    }
+
+    .route-master-hero::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--data-01), var(--data-02), var(--data-03));
+      pointer-events: none;
+    }
+
+    .route-master-story {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      align-content: space-between;
+      gap: 16px;
+    }
+
+    .route-master-kicker,
+    .route-master-metric span,
+    .route-master-node span,
+    .route-master-lane-head span,
+    .route-master-line-label,
+    .route-master-dashboard-kicker,
+    .route-master-context-card span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .route-master-story h2 {
+      margin: 4px 0 0;
+      color: var(--ink);
+      font-size: clamp(40px, 4vw, 66px);
+      line-height: .92;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .route-master-story p,
+    .route-master-metric small,
+    .route-master-node small,
+    .route-master-line small,
+    .route-master-dashboard-title small,
+    .route-master-dashboard-count small,
+    .route-master-context-card small,
+    .route-master-note {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.34;
+    }
+
+    .route-master-story p {
+      max-width: 74ch;
+      margin: 8px 0 0;
+      font-size: 13px;
+      line-height: 1.5;
+      text-wrap: pretty;
+    }
+
+    .route-master-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .route-master-metric,
+    .route-master-context-card {
+      display: grid;
+      gap: 6px;
+      align-content: space-between;
+      min-height: 86px;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.68);
+    }
+
+    .route-master-metric.good,
+    .route-master-context-card.good,
+    .route-master-node.good { background: var(--data-soft-02); border-color: rgba(47,143,139,.25); }
+    .route-master-metric.warn,
+    .route-master-context-card.warn,
+    .route-master-node.warn { background: var(--data-soft-03); border-color: rgba(199,138,42,.28); }
+    .route-master-metric.info,
+    .route-master-context-card.info,
+    .route-master-node.info { background: var(--data-soft-09); border-color: rgba(53,153,184,.24); }
+    .route-master-metric.gateway,
+    .route-master-context-card.gateway,
+    .route-master-node.gateway { background: var(--data-soft-01); border-color: rgba(79,111,143,.24); }
+
+    .route-master-metric strong,
+    .route-master-context-card strong,
+    .route-master-node strong {
+      color: var(--ink);
+      font-size: clamp(20px, 1.7vw, 30px);
+      line-height: .98;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .route-master-circuit {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 10px;
+      align-content: stretch;
+    }
+
+    .route-master-flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .route-master-node {
+      position: relative;
+      display: grid;
+      align-content: space-between;
+      gap: 8px;
+      min-height: 108px;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.74);
+    }
+
+    .route-master-node:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -8px;
+      z-index: 2;
+      width: 8px;
+      height: 2px;
+      background: rgba(79,111,143,.44);
+    }
+
+    .route-master-main {
+      display: grid;
+      grid-template-columns: minmax(0, .66fr) minmax(300px, .34fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .route-master-core {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .route-master-lanes {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .route-master-lane {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      background: rgba(255,255,255,.78);
+    }
+
+    .route-master-lane.good { background: var(--data-soft-02); border-color: rgba(47,143,139,.24); }
+    .route-master-lane.warn { background: var(--data-soft-03); border-color: rgba(199,138,42,.28); }
+    .route-master-lane.info { background: var(--data-soft-09); border-color: rgba(53,153,184,.22); }
+    .route-master-lane.gateway { background: var(--data-soft-01); border-color: rgba(79,111,143,.22); }
+
+    .route-master-lane-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .route-master-lane-head strong {
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.1;
+      font-weight: 900;
+      text-align: right;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .route-master-line-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .route-master-line {
+      display: grid;
+      gap: 5px;
+    }
+
+    .route-master-line-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: baseline;
+    }
+
+    .route-master-line-value {
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .route-master-track {
+      height: 9px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5edf3;
+    }
+
+    .route-master-fill {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--data-01);
+    }
+
+    .route-master-fill.good { background: var(--data-02); }
+    .route-master-fill.warn { background: var(--data-03); }
+    .route-master-fill.info { background: var(--data-09); }
+    .route-master-fill.gateway { background: var(--data-05); }
+    .route-master-fill.neutral { background: var(--data-04); }
+
+    .route-master-dashboard-list {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .route-master-dashboard-row {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 46px minmax(0, 1fr) minmax(96px, auto);
+      gap: 11px;
+      align-items: center;
+      padding: 11px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,251,253,.92));
+    }
+
+    .route-master-dashboard-row::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 10px;
+      width: 4px;
+      border-radius: 0 999px 999px 0;
+      background: var(--data-01);
+    }
+
+    .route-master-dashboard-row.good::before { background: var(--data-02); }
+    .route-master-dashboard-row.warn::before { background: var(--data-03); }
+    .route-master-dashboard-row.info::before { background: var(--data-09); }
+
+    .route-master-dashboard-row img {
+      width: 46px;
+      height: 46px;
+      object-fit: cover;
+      border: 1px solid rgba(196,214,226,.76);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .route-master-dashboard-title {
+      display: grid;
+      gap: 4px;
+    }
+
+    .route-master-dashboard-title strong {
+      color: var(--ink);
+      font-size: clamp(18px, 1.45vw, 25px);
+      line-height: 1.02;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .route-master-dashboard-count {
+      display: grid;
+      justify-items: end;
+      gap: 4px;
+      color: var(--ink);
+      text-align: right;
+    }
+
+    .route-master-dashboard-count strong {
+      font-size: clamp(26px, 2.2vw, 36px);
+      line-height: .9;
+      font-weight: 900;
+    }
+
+    .route-master-dashboard-lines {
+      grid-column: 2 / 4;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding-top: 2px;
+    }
+
+    .route-master-context {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+      padding: 12px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.94));
+    }
+
+    .route-master-context-grid {
+      display: grid;
+      gap: 8px;
+    }
+
+    .route-master-note {
+      margin: 0;
+      font-weight: 800;
+      text-wrap: pretty;
+    }
+
+    @media (max-width: 1260px) {
+      .route-master-hero,
+      .route-master-main {
+        grid-template-columns: 1fr;
+      }
+
+      .route-master-flow {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .route-master-node::after {
+        display: none;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .route-master-metrics,
+      .route-master-lanes,
+      .route-master-dashboard-lines {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .route-master-metrics,
+      .route-master-flow,
+      .route-master-lanes,
+      .route-master-dashboard-row,
+      .route-master-dashboard-lines {
+        grid-template-columns: 1fr;
+      }
+
+      .route-master-story h2 {
+        font-size: 34px;
+      }
+
+      .route-master-dashboard-count {
+        justify-items: start;
+        text-align: left;
+      }
+
+      .route-master-dashboard-lines {
+        grid-column: auto;
+      }
+    }
   </style>
 </head>
 <body>
@@ -14270,6 +14933,163 @@
             routeAttribPanel("Herferðir / source", campaignRows, Math.max(total, 1), "gateway", { headerText: campaignCoverage, displayTotal: campaignTotal, limit: 5 }) +
           '</div>' +
           '<div class="route-attrib-foot"><span class="chip neutral">Hlutföll miðast við Taldar kortið</span><span class="chip ' + (forced ? 'warn' : 'neutral') + '">Þvingað: ' + fmt(forced) + ' · mobile ' + fmt(forcedMobile) + ' · desktop ' + fmt(forcedDesktop) + '</span><span class="chip info">Ástæður: ' + (routeMissing ? fmt(routeMissing) + ' vantar' : 'full þekja') + '</span><span class="chip gateway">Herferðir/source: ' + (campaignMissing ? fmt(campaignMissing) + ' vantar' : 'full þekja') + '</span></div>' +
+        '</article>');
+    }
+    function routeMasterTrack(value, total, cls) {
+      var className = cls ? safe(cls) : "";
+      return '<div class="route-master-track" aria-hidden="true"><span class="route-master-fill ' + className + '" style="--fill:' + widthPct(value, total) + '%"></span></div>';
+    }
+    function routeMasterMetric(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="route-master-metric' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function routeMasterNode(label, value, detail, cls, fillValue, fillTotal) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="route-master-node' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' + routeMasterTrack(fillValue || 0, fillTotal || 1, cls || "gateway") + '</article>';
+    }
+    function routeMasterLine(label, value, total, cls, detail) {
+      return '<div class="route-master-line"><div class="route-master-line-top"><span class="route-master-line-label">' + safe(label) + '</span><strong class="route-master-line-value">' + fmt(value) + ' · ' + safe(pct(value, total)) + '</strong></div>' + routeMasterTrack(value, total, cls || "gateway") + '<small>' + safe(detail || "") + '</small></div>';
+    }
+    function routeMasterLane(title, headline, rows, total, cls) {
+      rows = (rows || []).filter(function (row) { return number(row.value) > 0; });
+      total = Math.max(number(total), sumRows(rows, "value"), 1);
+      var className = cls ? " " + safe(cls) : "";
+      var body = rows.length ? rows.slice(0, 5).map(function (row) {
+        return routeMasterLine(row.label, row.value, total, row.className || cls || "gateway", row.detail || "");
+      }).join("") : '<div class="message-card neutral">Engin merki í þessum flokki.</div>';
+      return '<section class="route-master-lane' + className + '"><div class="route-master-lane-head"><span>' + safe(title) + '</span><strong>' + safe(headline || "-") + '</strong></div><div class="route-master-line-list">' + body + '</div></section>';
+    }
+    function routeMasterContext(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="route-master-context-card' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function routeMasterDashboardRow(data, dashboard, totalVisits, index) {
+      var cards = publicMap(data);
+      var card = findPublicCardForDashboard(data, dashboard);
+      var status = publicCardStatus(card);
+      var statusClass = status.cls || "gateway";
+      var total = visitValue(dashboard);
+      var layout = dashboardLayoutContext(data, dashboard);
+      var source = dashboardSourceContext(data, dashboard);
+      var layoutTotal = Math.max(layout.mobile + layout.desktop, layout.total, total, 1);
+      var sourceTotal = Math.max(source.island + source.direct + source.other, source.total, total, 1);
+      var layoutDominant = layout.desktop >= layout.mobile ? "Desktop" : "Mobile";
+      var layoutDominantValue = Math.max(layout.mobile, layout.desktop);
+      var sourceRows = [
+        { label: "island.is", value: source.island, className: "good" },
+        { label: "Beint", value: source.direct, className: "gateway" },
+        { label: "Annað", value: source.other, className: "neutral" }
+      ].sort(function (a, b) { return number(b.value) - number(a.value); });
+      var sourceDominant = sourceRows[0] || { label: "-", value: 0, className: "gateway" };
+      var forcedDetail = layout.forced ? "Þvingun: mobile " + fmt(layout.forcedMobile) + " · desktop " + fmt(layout.forcedDesktop) : "Sjálfvirkt val";
+      return '<article class="route-master-dashboard-row ' + safe(statusClass) + '">' +
+        '<img src="' + safe(iconFor(dashboard, cards)) + '" alt="">' +
+        '<div class="route-master-dashboard-title"><span class="route-master-dashboard-kicker">' + safe(String(index + 1).padStart(2, "0") + " · " + (status.label || "Kort")) + '</span><strong>' + safe(titleFor(dashboard, cards)) + '</strong><small>' + safe(status.detail || cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + '</small></div>' +
+        '<div class="route-master-dashboard-count"><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + ' af heild</small></div>' +
+        '<div class="route-master-dashboard-lines">' +
+          routeMasterLine("Útgáfuval · " + layoutDominant, layoutDominantValue, layoutTotal, layoutDominant === "Mobile" ? "info" : "gateway", "mobile " + fmt(layout.mobile) + " · desktop " + fmt(layout.desktop) + " · " + forcedDetail) +
+          routeMasterLine("Uppruni · " + sourceDominant.label, sourceDominant.value, sourceTotal, sourceDominant.className, "island.is " + fmt(source.island) + " · beint " + fmt(source.direct) + " · annað " + fmt(source.other)) +
+        '</div>' +
+      '</article>';
+    }
+    function renderLayoutAndSourceV4(data) {
+      data = data || {};
+      var k = data.kpis || {};
+      var f = data.root_index_funnel || data.root_index || {};
+      var dashboards = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); });
+      var routeRows = routeMatrixRows(data);
+      var sourceRows = visibleRows(data.sources || []);
+      var total = number(firstValue(k, ["total_counted_visits", "counted_visits", "total_visits"])) || sumRows(dashboards);
+      var mobile = number(firstValue(k, ["mobile_visits", "mobile_counted_visits"]));
+      var desktop = number(firstValue(k, ["desktop_visits", "desktop_counted_visits"]));
+      if (!mobile && !desktop) {
+        mobile = dashboards.reduce(function (acc, row) { return acc + number(row.mobile_visits); }, 0);
+        desktop = dashboards.reduce(function (acc, row) { return acc + number(row.desktop_visits); }, 0);
+      }
+      var island = number(firstValue(k, ["island_is_visits", "island_visits", "source_island_is_visits"]));
+      if (!island) island = sourceCount(sourceRows, function (value) { return isIslandSource(value); });
+      var direct = sourceCount(sourceRows, function (value) { return isDirectSource(value); });
+      var otherSource = Math.max(0, total - island - direct);
+      var layoutTotal = Math.max(mobile + desktop, total, 1);
+      var sourceTotal = Math.max(island + direct + otherSource, total, 1);
+      var layoutDominant = desktop >= mobile ? "Desktop" : "Mobile";
+      var layoutDominantValue = Math.max(mobile, desktop);
+      var sourceRowsSummary = [
+        { label: "island.is", value: island, className: "good", detail: "opinber uppruni" },
+        { label: "Beint", value: direct, className: "gateway", detail: "bein opnun" },
+        { label: "Annað", value: otherSource, className: "neutral", detail: "annar eða óskráður uppruni" }
+      ];
+      var sourceDominant = sourceRowsSummary.slice().sort(function (a, b) { return number(b.value) - number(a.value); })[0] || { label: "-", value: 0, className: "gateway" };
+      var forced = forcedLayoutTotal(routeRows);
+      var forcedMobile = forcedLayoutSum(routeRows, "mobile");
+      var forcedDesktop = forcedLayoutSum(routeRows, "desktop");
+      var auto = routeRows.reduce(function (acc, row) { return acc + (!isForcedLayoutRow(row) ? routeMatrixValue(row) : 0); }, 0);
+      var routeSignalTotal = routeRows.reduce(function (acc, row) { return acc + routeMatrixValue(row); }, 0);
+      var routeReasonRows = topRows(routeRows, function (row) { return labelRoute(row.route_reason); }, 5, routeMatrixValue);
+      var routeReasonTotal = sumRows(routeReasonRows, "visits");
+      var campaignRows = topRows(sourceRows, function (row) { return row.utm_campaign || row.utm_source || labelSource(sourceLabelValue(row)) || "Óþekkt"; }, 5);
+      var campaignTotal = sumRows(campaignRows, "visits");
+      var routeMissing = Math.max(0, total - routeReasonTotal);
+      var campaignMissing = Math.max(0, total - campaignTotal);
+      var routerArrivals = number(firstValue(f, ["router_arrivals", "arrivals"]));
+      var rootViews = number(firstValue(f, ["views", "root_views", "root_index_views"]));
+      var rootClicks = number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"]));
+      var gatewayCounted = number(firstValue(f, ["counted_opens", "counted_visits", "opens"]));
+      var gatewaySignal = Math.max(rootViews, rootClicks, routerArrivals, gatewayCounted, routeSignalTotal, 1);
+      var warningCount = splitWarnings(data).confirmed.length;
+      var topDashboard = dashboards[0];
+      var topDashboardTitle = topDashboard ? titleFor(topDashboard, publicMap(data)) : "-";
+      var topDashboardShare = topDashboard ? pct(visitValue(topDashboard), Math.max(total, 1)) : "0%";
+      var topRoute = routeReasonRows[0];
+      var dashboardHtml = dashboards.slice(0, 8).map(function (dashboard, index) {
+        return routeMasterDashboardRow(data, dashboard, total, index);
+      }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engar taldar production heimsóknir í dashboard aggregate.</p></div>';
+      setHtml("layout-source-panel",
+        '<article class="route-master-v4">' +
+          '<section class="route-master-hero" aria-label="Master panel fyrir leiðingu og uppruna">' +
+            '<div class="route-master-story"><div><span class="route-master-kicker">Master panel</span><h2>Leiðing + uppruni</h2><p>Taldar production opnanir eru miðjan. Útgáfuval, uppruni, route-ástæður og herferðarmerki liggja sem hnit í kringum sömu tölu svo samhengi lesist hratt án tvítalningar.</p></div><div class="route-master-metrics">' +
+              routeMasterMetric("Taldar", fmt(total), fmt(dashboards.length) + " mælaborð í grunni", "good") +
+              routeMasterMetric("Útgáfuval", layoutDominant, pct(layoutDominantValue, layoutTotal) + " af sömu opnunum", layoutDominant === "Mobile" ? "info" : "gateway") +
+              routeMasterMetric("Uppruni", sourceDominant.label, pct(sourceDominant.value, sourceTotal) + " af talinni umferð", sourceDominant.className) +
+              routeMasterMetric("Þvingun", fmt(forced), forced ? "mobile " + fmt(forcedMobile) + " · desktop " + fmt(forcedDesktop) : "sjálfvirkt val", forced ? "warn" : "good") +
+            '</div></div>' +
+            '<div class="route-master-circuit">' +
+              '<div class="route-master-flow">' +
+                routeMasterNode("Gateway", fmt(Math.max(rootViews, rootClicks)), "views " + fmt(rootViews) + " · smellir " + fmt(rootClicks), "gateway", Math.max(rootViews, rootClicks), gatewaySignal) +
+                routeMasterNode("Router", fmt(routerArrivals || routeSignalTotal), "route merki " + fmt(routeSignalTotal), "info", routerArrivals || routeSignalTotal, gatewaySignal) +
+                routeMasterNode("Útgáfuval", layoutDominant, "mobile " + fmt(mobile) + " · desktop " + fmt(desktop), layoutDominant === "Mobile" ? "info" : "gateway", layoutDominantValue, layoutTotal) +
+                routeMasterNode("Uppruni", sourceDominant.label, "island.is " + fmt(island) + " · beint " + fmt(direct), sourceDominant.className, sourceDominant.value, sourceTotal) +
+                routeMasterNode("Taldar", fmt(total), "notkunargrunnur", "good", total, Math.max(total, 1)) +
+              '</div>' +
+              '<p class="route-master-note">Gateway og router sýna samhengi. Taldar opnanir eru eina aðaltalan í samanburði milli útgáfuvals, uppruna og mælaborða.</p>' +
+            '</div>' +
+          '</section>' +
+          '<section class="route-master-main" aria-label="Leiðing, uppruni og mælaborð">' +
+            '<div class="route-master-core">' +
+              '<div class="route-master-lanes">' +
+                routeMasterLane("Útgáfuval", layoutDominant, [
+                  { label: "Mobile", value: mobile, className: "info", detail: "sama notkunargrunnur" },
+                  { label: "Desktop", value: desktop, className: "gateway", detail: "sama notkunargrunnur" }
+                ], layoutTotal, "gateway") +
+                routeMasterLane("Uppruni", sourceDominant.label, sourceRowsSummary, sourceTotal, "good") +
+                routeMasterLane("Ástæður leiðingar", topRoute ? topRoute.key : "engin route merki", routeReasonRows.map(function (row) {
+                  return { label: row.key, value: row.visits, className: routeAttribTone(row.key), detail: fmt(row.rows) + " línur" };
+                }), Math.max(total, 1), routeMissing ? "warn" : "info") +
+                routeMasterLane("Herferðir / source", campaignRows[0] ? campaignRows[0].key : "engin source merki", campaignRows.map(function (row) {
+                  return { label: row.key, value: row.visits, className: routeAttribTone(row.key), detail: fmt(row.rows) + " línur" };
+                }), Math.max(total, 1), campaignMissing ? "gateway" : "info") +
+              '</div>' +
+              '<div class="route-master-dashboard-list">' + dashboardHtml + '</div>' +
+            '</div>' +
+            '<aside class="route-master-context"><div class="route-master-lane-head"><span>Lestrarröð</span><strong>' + safe(topDashboardTitle) + '</strong></div><p class="route-master-note">Byrja á stærstu notkuninni, lesa síðan útgáfuval og uppruna á sömu línu. Þvingun, óskráð route merki og staðfest viðvörun fara í athugun.</p><div class="route-master-context-grid">' +
+              routeMasterContext("Ráðandi kort", topDashboardTitle, topDashboard ? fmt(visitValue(topDashboard)) + " opnanir · " + topDashboardShare : "engin talin opnun", "good") +
+              routeMasterContext("Sjálfvirkt route", fmt(auto), forced ? "þvingun sker sig úr" : "router velur útgáfu", forced ? "warn" : "info") +
+              routeMasterContext("Route þekja", routeMissing ? fmt(routeMissing) + " vantar" : "full þekja", fmt(routeReasonTotal) + " skráð", routeMissing ? "warn" : "good") +
+              routeMasterContext("Source þekja", campaignMissing ? fmt(campaignMissing) + " vantar" : "full þekja", fmt(campaignTotal) + " skráð", campaignMissing ? "gateway" : "good") +
+              routeMasterContext("Gateway", fmt(routerArrivals || rootClicks || rootViews), "views " + fmt(rootViews) + " · clicks " + fmt(rootClicks), "gateway") +
+              routeMasterContext("Gæði", warningCount ? fmt(warningCount) + " merki" : "hreint", warningCount ? "staðfest þarf að skoða" : "engin staðfest viðvörun", warningCount ? "warn" : "good") +
+            '</div></aside>' +
+          '</section>' +
         '</article>');
     }
     function usagePeriodSummary(data, total) {
@@ -15968,20 +16788,62 @@
         return '<div class="tracker-table-row"><strong>' + safe(row.label || row.key || "-") + '</strong><span>' + safe(row.detail || "") + '</span><span class="number">' + safe(row.value || fmt(row.visits || row.count || 0)) + '</span><span class="number">' + safe(row.extra || "") + '</span></div>';
       }).join("") + '</div>';
     }
+    function trackerOperatorStatus(status) {
+      status = String(status || "unknown").toLowerCase();
+      return status === "gateway" ? "gateway" : trackerStatusClass(status);
+    }
+    function trackerOperatorTrack(fill, status) {
+      var cleanStatus = trackerOperatorStatus(status);
+      return '<div class="tracker-operator-track" aria-hidden="true"><span class="tracker-operator-fill ' + safe(cleanStatus) + '" style="--fill:' + clamp(number(fill), 0, 100) + '%"></span></div>';
+    }
+    function trackerOperatorActionHtml(action, index) {
+      var status = trackerStatusClass(action.status);
+      var rank = String(index + 1).padStart(2, "0");
+      return '<article class="tracker-operator-action ' + safe(status) + '">' +
+        '<div class="tracker-operator-action-head"><div class="tracker-operator-rank">' + safe(rank) + '</div><span>' + safe(action.source || "Athugun") + '</span><span class="chip ' + safe(trackerChipClass(status)) + '">' + safe(trackerStatusText(status)) + '</span></div>' +
+        '<div><strong>' + safe(action.title) + '</strong><p>' + safe(action.detail || "") + '</p></div>' +
+        trackerOperatorTrack(action.fill, status) +
+        '<div class="tracker-operator-next"><span>Næst</span><small>' + safe(action.nextCheck || "") + '</small></div>' +
+      '</article>';
+    }
+    function trackerOperatorEvidenceHtml(item) {
+      var status = trackerOperatorStatus(item.status);
+      return '<article class="tracker-operator-evidence ' + safe(status) + '"><span>' + safe(item.label) + '</span><strong>' + safe(item.value) + '</strong>' + trackerOperatorTrack(item.fill, status) + '<small>' + safe(item.detail || "") + '</small></article>';
+    }
+    function trackerOperatorQuestionHtml(question, index) {
+      var status = trackerStatusClass(question.status || "info");
+      return '<article class="tracker-operator-question"><span>' + safe("Prompt " + fmt(index + 1) + " · " + (question.panel || "Rekstur")) + '</span><p>' + safe(question.text || question) + '</p><div class="chip-row"><span class="chip ' + safe(trackerChipClass(status)) + '">' + safe(trackerStatusText(status)) + '</span></div></article>';
+    }
+    function trackerOperatorHtml(operator) {
+      operator = operator || {};
+      var actions = (operator.actions || []).slice(0, 6).map(trackerOperatorActionHtml).join("");
+      var evidence = (operator.evidence || []).slice(0, 4).map(trackerOperatorEvidenceHtml).join("");
+      var prompts = (operator.questions || []).slice(0, 3).map(trackerOperatorQuestionHtml).join("");
+      return '<div class="tracker-operator-panel">' +
+        '<div class="tracker-operator-command">' +
+          '<div class="tracker-operator-copy"><span class="tracker-operator-kicker">' + safe(operator.kicker || "Operator command") + '</span><strong>' + safe(operator.headline || "Næsta athugun") + '</strong><p>' + safe(operator.summary || "") + '</p><div class="chip-row">' + (operator.chips || []).map(function (chip) { return '<span class="chip ' + safe(trackerChipClass(chip.status || "info")) + '">' + safe(chip.label) + '</span>'; }).join("") + '</div></div>' +
+          '<div class="tracker-operator-score ' + safe(trackerStatusClass(operator.status)) + '"><span>Forgangur</span><strong>' + safe(operator.priorityLabel || "0") + '</strong><small>' + safe(operator.priorityDetail || "") + '</small>' + trackerOperatorTrack(operator.score || 0, operator.status) + '</div>' +
+        '</div>' +
+        '<div class="tracker-operator-action-grid">' + actions + '</div>' +
+        '<div class="tracker-operator-evidence-grid">' + evidence + '</div>' +
+        (prompts ? '<div class="tracker-operator-question-strip">' + prompts + '</div>' : '') +
+      '</div>';
+    }
     function trackerModuleHtml(module) {
-      var cls = 'tracker-module ' + safe(trackerStatusClass(module.status)) + (module.wide ? ' wide' : '');
+      var cls = 'tracker-module ' + safe(trackerStatusClass(module.status)) + (module.wide ? ' wide' : '') + (module.variant ? ' ' + safe(module.variant) : '');
       var missing = module.missing && module.missing.length ? '<div class="tracker-partial-state">Hlutagögn: payload vantar ' + safe(module.missing.join(", ")) + '. Sýnt er það sem aggregate payload styður.</div>' : "";
       var metrics = module.metrics && module.metrics.length ? '<div class="tracker-metrics">' + module.metrics.map(trackerMetricHtml).join("") + '</div>' : "";
       var steps = module.steps && module.steps.length ? '<div class="tracker-stepper">' + module.steps.map(trackerStepHtml).join("") + '</div>' : "";
       var bars = module.bars && module.bars.length ? '<div class="tracker-bars">' + module.bars.slice(0, module.barLimit || 8).map(function (row) { return trackerDualBar(row, module.barTotal || 1); }).join("") + '</div>' : "";
       var rows = trackerTableHtml(module.rows || []);
-      var insights = module.insights && module.insights.length ? '<div class="tracker-priority-list">' + module.insights.slice(0, module.insightLimit || 2).map(trackerInsightHtml).join("") + '</div>' : "";
+      var insights = !module.suppressInsights && module.insights && module.insights.length ? '<div class="tracker-priority-list">' + module.insights.slice(0, module.insightLimit || 2).map(trackerInsightHtml).join("") + '</div>' : "";
       var passports = module.passports && module.passports.length ? '<div class="tracker-passport-grid">' + module.passports.map(trackerPassportHtml).join("") + '</div>' : "";
+      var operator = module.operator ? trackerOperatorHtml(module.operator) : "";
       var questions = module.questions && module.questions.length ? '<div class="tracker-question-grid">' + module.questions.map(function (question, index) {
         return '<article class="tracker-question-card"><span>Spurning ' + fmt(index + 1) + '</span><p>' + safe(question.text || question) + '</p><div class="chip-row"><span class="chip ' + safe(trackerChipClass(question.status || "info")) + '">' + safe(question.panel || "Rekstrarinnsýn") + '</span></div></article>';
       }).join("") + '</div>' : "";
       return '<section class="' + cls + '"><div class="tracker-module-head"><div><span class="tracker-kicker">' + safe(module.kicker || "Tracker innsýn") + '</span><h3>' + safe(module.title) + '</h3><p>' + safe(module.intro || "") + '</p></div><span class="chip ' + safe(trackerChipClass(module.status)) + '">' + safe(trackerStatusText(module.status)) + '</span></div>' +
-        metrics + steps + bars + rows + passports + questions + insights + missing + trackerFields(module.fields || []) + '</section>';
+        operator + metrics + steps + bars + rows + passports + questions + insights + missing + trackerFields(module.fields || []) + '</section>';
     }
     function trackerPassportHtml(passport) {
       var facts = (passport.facts || []).slice(0, 12).map(function (fact) {
@@ -16457,29 +17319,167 @@
       };
     }
     function deriveOperatorQuestions(data) {
-      var base = ((data && data.questions) || []).map(function (text) { return { text: text, panel: "Spurningar til rekstrar", status: "info" }; });
-      var additions = [
-        { text: "Eru Teams/Outlook/link previews talin sem raunnotkun eða aðeins diagnostic/source merki?", panel: "Source quality", status: "info" },
-        { text: "Er island.is traffic að falla eftir public-card breytingar eða færist umferð í direct path?", panel: "Gateway funnel", status: "info" },
-        { text: "Er fallback að bjarga brotinni leiðingu án þess að það sjáist í counted opens?", panel: "Fallback björgun", status: "watch" },
-        { text: "Eru veik tæki, Smart TV vafrar, forced dark eða in-app browsers að hafa áhrif á Power BI upplifun?", panel: "Viewer readiness", status: "info" }
+      data = data || {};
+      var k = data.kpis || {};
+      var h = data.health || {};
+      var dashboards = visibleRows(data.dashboards || []);
+      var total = number(firstValue(k, ["total_counted_visits", "counted_visits", "total_visits"])) || sumRows(dashboards);
+      var routeRows = routeMatrixRows(data);
+      var sourceRows = visibleRows(data.sources || []);
+      var warningSplit = splitWarnings(data);
+      var confirmedWarnings = warningSplit.confirmed.length;
+      var fallback = number(firstValue(k, ["fallback_clicks", "confirmed_fallback_error_count", "production_fallback_error_count", "fallback_error_count"]));
+      if (!fallback) fallback = dashboards.reduce(function (acc, row) { return acc + number(row.fallback_clicks) + number(row.safe_fallback_events) + number(row.error_events); }, 0);
+      var unsupportedWarnings = warningSplit.confirmed.concat(warningSplit.unconfirmed, warningSplit.info, warningSplit.diagnostic).filter(function (row) {
+        return /powerbi|unsupported|viewer/i.test(String(row.warning_code || row.code || row.warning_text || row.message || ""));
+      });
+      var unsupported = unsupportedWarnings.reduce(function (acc, row) { return acc + (countWarnings(row) || number(row.counted_count || row.count || 0)); }, 0) || number(firstValue(k, ["powerbi_viewer_unsupported_browser_events"]));
+      var island = number(firstValue(k, ["island_is_visits", "island_visits", "source_island_is_visits"]));
+      if (!island) island = sourceCount(sourceRows, function (value) { return isIslandSource(value); });
+      var direct = sourceCount(sourceRows, function (value) { return isDirectSource(value); });
+      var unknownSource = sourceCount(sourceRows, function (value) { return /unknown|óþekkt|oþekkt/i.test(String(value || "")); });
+      var sourceRisk = direct + unknownSource;
+      var forced = forcedLayoutTotal(routeRows);
+      var forcedMobile = forcedLayoutSum(routeRows, "mobile");
+      var forcedDesktop = forcedLayoutSum(routeRows, "desktop");
+      var routeTotal = Math.max(routeRows.reduce(function (acc, row) { return acc + routeMatrixValue(row); }, 0), 1);
+      var deviceRows = rowsFrom(data, "device_confidence", "device");
+      var weak = number(firstValue(k, ["weak_unknown_signal_count"]));
+      if (!weak) {
+        weak = deviceRows.reduce(function (acc, row) {
+          return acc + (/unknown|weak|low|insufficient|veikt|óþekkt/i.test(String(row.inferred_confidence_band || row.confidence_band || row.inferred_device_class || row.device_class || "")) ? trackerRowValue(row) : 0);
+        }, 0);
+      }
+      var browserRows = rowsFrom(data, "browsers", "device");
+      var browserGroups = trackerGroupRows(browserRows, function (row) { return browserLabel(row); });
+      var deviceGroups = trackerGroupRows(deviceRows, function (row) { return labelDevice(row.inferred_device_class || row.device_class); });
+      var countedTime = latestCountedEventTime(data);
+      var aggregationTime = h.aggregation_generated_at || h.last_aggregation_time || h.dashboard_data_generated_at || data.aggregation_generated_at || data.generated_at;
+      var countedAge = ageInfo(countedTime);
+      var aggregationAge = ageInfo(aggregationTime);
+      var stale = countedAge.minutes > 360 || aggregationAge.minutes > 240 || !countedTime;
+      var topDashboard = dashboards.slice().sort(function (a, b) { return visitValue(b) - visitValue(a); })[0];
+      var topDashboardTitle = topDashboard ? titleFor(topDashboard, publicMap(data)) : "-";
+      var topShare = topDashboard ? pct(visitValue(topDashboard), Math.max(total, 1)) : "0%";
+      var actions = [
+        {
+          title: confirmedWarnings || fallback || unsupported ? "Skoða staðfest rekstrarmerki fyrst" : "Staðfesta að viðvörunarflötur sé hreinn",
+          value: confirmedWarnings + fallback + unsupported,
+          status: confirmedWarnings || unsupported ? "warning" : (fallback ? "watch" : "good"),
+          source: "Gæði",
+          priority: confirmedWarnings || unsupported ? 1 : (fallback ? 3 : 12),
+          fill: clamp((confirmedWarnings * 35) + (unsupported * 24) + (fallback * 16), confirmedWarnings || unsupported || fallback ? 36 : 18, 100),
+          detail: fmt(confirmedWarnings) + " staðfestar viðvaranir · " + fmt(fallback) + " fallback/rescue · " + fmt(unsupported) + " viewer merki.",
+          nextCheck: confirmedWarnings || fallback || unsupported ? "Opna warning/fallback línur og prófa affected dashboard í sama vafra." : "Halda warning surface sem grænu eftirliti."
+        },
+        {
+          title: sourceRisk > total * .45 || !island ? "Lesa source drift áður en route er kennt um" : "Source mix styður public-card lestur",
+          value: sourceRisk,
+          status: sourceRisk > total * .45 || !island ? "watch" : "info",
+          source: "Uppruni",
+          priority: sourceRisk > total * .45 || !island ? 4 : 10,
+          fill: widthPct(sourceRisk, Math.max(total, 1)),
+          detail: "island.is " + fmt(island) + " · beint " + fmt(direct) + " · óþekkt " + fmt(unknownSource) + ".",
+          nextCheck: sourceRisk > total * .45 || !island ? "Bera direct/unknown saman við root gateway og UTM merki." : "Nota island.is share sem baseline í næstu breytingu."
+        },
+        {
+          title: forced ? "Greina þvingað útgáfuval og breakpoint mörk" : "Route policy er að mestu sjálfvirk",
+          value: forced,
+          status: forced ? "watch" : "good",
+          source: "Leiðing",
+          priority: forced ? 5 : 11,
+          fill: widthPct(forced, routeTotal),
+          detail: "Þvingun alls " + fmt(forced) + " · mobile " + fmt(forcedMobile) + " · desktop " + fmt(forcedDesktop) + ".",
+          nextCheck: forced ? "Skoða route_reason og viewport bucket áður en policy er breytt." : "Halda route policy sem samanburðargrunn."
+        },
+        {
+          title: weak || unsupported ? "Prófa viewer/device samhengi á affected umhverfi" : "Viewer merki líta stöðug út",
+          value: weak + unsupported,
+          status: unsupported ? "warning" : (weak ? "watch" : "good"),
+          source: "Viewer",
+          priority: unsupported ? 2 : (weak ? 6 : 12),
+          fill: widthPct(weak + unsupported, Math.max(total, 1)),
+          detail: "Tæki " + (deviceGroups[0] ? deviceGroups[0].key : "-") + " · vafri " + (browserGroups[0] ? browserGroups[0].key : "-") + " · veik merki " + fmt(weak) + ".",
+          nextCheck: weak || unsupported ? "Prófa Power BI viewer á top browser/device og bera saman við confidence reason." : "Halda browser/device sem eftirlitslínu."
+        },
+        {
+          title: stale ? "Staðfesta ferskleika áður en brugðist er við trendi" : "Gögn eru nógu fersk fyrir rekstrarlestur",
+          value: stale ? 1 : 0,
+          status: stale ? "watch" : "good",
+          source: "Ferskleiki",
+          priority: stale ? 4 : 12,
+          fill: stale ? 72 : 24,
+          detail: "Talið " + countedAge.label + " · samantekt " + aggregationAge.label + ".",
+          nextCheck: stale ? "Athuga static snapshot, Apps Script fallback og aggregation timestamp." : "Nota núverandi snapshot sem gildan lestur."
+        },
+        {
+          title: "Lesa stærsta mælaborð sem prófunarpunkt",
+          value: topDashboard ? visitValue(topDashboard) : 0,
+          status: topDashboard ? "info" : "unknown",
+          source: "Áhrif",
+          priority: 8,
+          fill: topDashboard ? widthPct(visitValue(topDashboard), Math.max(total, 1)) : 0,
+          detail: topDashboardTitle + " ber " + topShare + " af notkun.",
+          nextCheck: topDashboard ? "Nota þetta kort sem smoke-test fyrir source, route og viewer samhengi." : "Bíða eftir dashboard aggregate áður en prófunarpunktur er valinn."
+        }
+      ].sort(function (a, b) {
+        return number(a.priority) - number(b.priority) || number(b.fill) - number(a.fill);
+      });
+      var status = actions.some(function (action) { return trackerStatusClass(action.status) === "warning" || trackerStatusClass(action.status) === "bad"; }) ? "warning" :
+        actions.some(function (action) { return trackerStatusClass(action.status) === "watch"; }) ? "watch" : "good";
+      var focusCount = actions.filter(function (action) {
+        var clean = trackerStatusClass(action.status);
+        return clean === "warning" || clean === "watch" || clean === "bad";
+      }).length;
+      var base = (data.questions || []).map(function (text) { return { text: text, panel: "Payload", status: "info" }; });
+      var prompts = [
+        { text: confirmedWarnings || fallback || unsupported ? "Er þetta staðfest production vandamál eða diagnostic/context merki sem þarf aðeins að skýra?" : "Hvaða græna merki á að nota sem baseline fyrir næstu breytingu?", panel: "Gæði", status: confirmedWarnings || fallback || unsupported ? "watch" : "good" },
+        { text: "Breytist source mix milli island.is, beint og óþekkts þegar stærsta mælaborðið er prófað?", panel: "Uppruni", status: sourceRisk > total * .45 ? "watch" : "info" },
+        { text: forced ? "Er þvingað útgáfuval viljandi regla eða merki um breakpoint/policy friction?" : "Er sjálfvirkt route val að skila sömu niðurstöðu í top device og top browser?", panel: "Leiðing", status: forced ? "watch" : "info" },
+        { text: "Eru veik tæki, in-app browsers eða viewer warnings að hafa áhrif á raunupplifun?", panel: "Viewer", status: weak || unsupported ? "watch" : "info" }
       ];
       var seen = {};
-      var questions = base.concat(additions).filter(function (row) {
+      var questions = prompts.concat(base).filter(function (row) {
         var key = String(row.text || row).toLowerCase();
         if (seen[key]) return false;
         seen[key] = true;
         return true;
-      });
+      }).slice(0, 3);
       return {
-        title: "Spurningar til rekstrar",
-        kicker: "Hvað á að skoða næst?",
-        intro: "Operator questions eru sett nálægt insight modules svo þau tengist beint við source, gateway, fallback, device og viewer panels.",
-        status: "info",
+        title: "Næsta athugun",
+        kicker: "Operator command",
+        intro: "Forgangsröðuð rekstrarspjöld úr tracker aggregate: hvað á að sannreyna fyrst, hvaða merki styðja það og hvaða spurningu á að svara næst.",
+        status: status,
         wide: true,
-        fields: ["questions", "insight_cards"],
-        missing: trackerTopLevelMissing(data || {}, ["questions"]),
-        questions: questions
+        variant: "operator-master",
+        suppressInsights: true,
+        fields: ["questions", "insight_cards", "quality_warnings", "sources", "routes", "device_confidence", "browsers", "health"],
+        missing: trackerTopLevelMissing(data, ["questions", "quality_warnings", "sources", "routes", "device_confidence|device", "browsers|device", "health"]),
+        operator: {
+          status: status,
+          score: status === "warning" ? 92 : status === "watch" ? 68 : 32,
+          priorityLabel: focusCount ? fmt(focusCount) : "0",
+          priorityDetail: focusCount ? "atriði fara í virka skoðun" : "engin virk rekstrarfrávik í þessum lestri",
+          kicker: "Forgangsröðun",
+          headline: focusCount ? "Skoða " + fmt(focusCount) + " merki fyrst" : "Stöðugur lestur",
+          summary: "Spurningar eru nú bundnar við gögnin sem sjást: viðvaranir, fallback, source mix, route þvingun, viewer/device merki og ferskleika.",
+          chips: [
+            { label: "Taldar: " + fmt(total), status: "good" },
+            { label: fmt(dashboards.length) + " mælaborð", status: "info" },
+            { label: "Aggregate only", status: "info" }
+          ],
+          actions: actions,
+          evidence: [
+            { label: "Notkunargrunnur", value: fmt(total), detail: fmt(dashboards.length) + " mælaborð · toppkort " + topDashboardTitle, status: "good", fill: 100 },
+            { label: "Uppruni", value: pct(island, Math.max(total, 1)), detail: "island.is share · beint/óþekkt " + fmt(sourceRisk), status: sourceRisk > total * .45 ? "watch" : "info", fill: widthPct(island, Math.max(total, 1)) },
+            { label: "Leiðing", value: fmt(forced), detail: "þvinguð route merki af " + fmt(routeTotal), status: forced ? "watch" : "good", fill: widthPct(forced, routeTotal) },
+            { label: "Viewer", value: browserGroups[0] ? browserGroups[0].key : "-", detail: "top device " + (deviceGroups[0] ? deviceGroups[0].key : "-") + " · veik " + fmt(weak), status: weak || unsupported ? "watch" : "gateway", fill: widthPct(weak + unsupported, Math.max(total, 1)) }
+          ],
+          questions: questions
+        },
+        insights: [
+          trackerMakeInsight("Næsta athugun", focusCount ? fmt(focusCount) : "0", status, "hátt", focusCount ? "Operator panel raðar frávikum í virka skoðun." : "Engin virk rekstrarfrávik skera sig úr í þessum lestri.", "Forgangsröðun notar warning/fallback, source, route, viewer og freshness saman.", focusCount ? "Byrja á fyrsta aðgerðarkorti og staðfesta með evidence línunni." : "Nota top dashboard sem smoke-test baseline.", ["questions", "quality_warnings", "sources", "routes", "device_confidence", "health"], focusCount ? 1 : 11)
+        ]
       };
     }
     function renderTrackerInsightExpansion(data) {
@@ -17095,7 +18095,7 @@
       setStatus(data, "");
       safeRender("signal-panorama-panel", "Signal panorama", function () { renderSignalPanoramaV2(data); });
       safeRender("dashboard-public-master", "Mælaborð", function () { renderDashboardPublicMasterV2(data); });
-      safeRender("layout-source-panel", "Leiðing og uppruni", function () { renderLayoutAndSourceV3(data); });
+      safeRender("layout-source-panel", "Leiðing og uppruni", function () { renderLayoutAndSourceV4(data); });
       safeRender("route-list", "Leiðingarskrá", function () { renderRouteList(data); });
       safeRender("insight-grid", "Rekstrarinnsýn", function () { renderInsightsV2(data); });
       safeRender("technical-panel", "Tæki og vafraumhverfi", function () { renderTechnical(data); });
