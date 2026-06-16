@@ -11328,6 +11328,427 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* Operational intelligence block */
+    .intel-block {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .intel-block *,
+    .intel-block *::before,
+    .intel-block *::after {
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .intel-main,
+    .intel-surface,
+    .intel-spine-card,
+    .intel-dashboard-card,
+    .intel-evidence-card {
+      border: 1px solid rgba(181, 205, 220, .82);
+      border-radius: 10px;
+      background: rgba(255,255,255,.92);
+      box-shadow: none;
+    }
+
+    .intel-main {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(210px, .22fr) minmax(0, .48fr) minmax(280px, .3fr);
+      align-items: stretch;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.94));
+    }
+
+    .intel-main::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      background: linear-gradient(90deg, var(--good), var(--accent), rgba(149,99,0,.45));
+      pointer-events: none;
+    }
+
+    .intel-verdict,
+    .intel-story,
+    .intel-priority {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 14px;
+      padding: clamp(14px, 1.5vw, 20px);
+      align-content: space-between;
+    }
+
+    .intel-verdict,
+    .intel-story {
+      border-right: 1px solid rgba(196,214,226,.72);
+    }
+
+    .intel-verdict {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(239,247,251,.86)),
+        repeating-linear-gradient(90deg, rgba(79,111,143,.08) 0 1px, transparent 1px 18px);
+    }
+
+    .intel-block.good .intel-verdict { background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(231,247,239,.88)); }
+    .intel-block.warn .intel-verdict,
+    .intel-block.bad .intel-verdict { background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,246,222,.88)); }
+
+    .intel-kicker,
+    .intel-metric span,
+    .intel-node span,
+    .intel-evidence-card span,
+    .intel-dashboard-row span,
+    .intel-priority h3 span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .intel-scoreline {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: end;
+    }
+
+    .intel-scoreline strong {
+      color: var(--ink);
+      font-size: clamp(56px, 5vw, 82px);
+      line-height: .84;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .intel-status-word {
+      color: var(--ink);
+      font-size: clamp(20px, 1.8vw, 30px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .intel-status-copy,
+    .intel-copy,
+    .intel-node small,
+    .intel-metric small,
+    .intel-evidence-card small,
+    .intel-dashboard-row small,
+    .intel-dashboard-card p {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.34;
+    }
+
+    .intel-status-copy {
+      margin: 0;
+      font-weight: 800;
+      text-wrap: pretty;
+    }
+
+    .intel-meter {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e5edf3;
+    }
+
+    .intel-meter span {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--accent);
+    }
+
+    .intel-meter .good { background: var(--good); }
+    .intel-meter .warn,
+    .intel-meter .bad { background: #d99500; }
+    .intel-meter .gateway { background: var(--gateway); }
+    .intel-meter .info { background: var(--accent); }
+
+    .intel-title {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(34px, 3.3vw, 54px);
+      line-height: .98;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .intel-copy {
+      max-width: 78ch;
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.48;
+      text-wrap: pretty;
+    }
+
+    .intel-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .intel-metric {
+      display: grid;
+      gap: 6px;
+      align-content: space-between;
+      min-height: 94px;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.82);
+      border-radius: 8px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .intel-metric.good,
+    .intel-node.good,
+    .intel-evidence-card.good { background: var(--good-soft); border-color: var(--good-line); }
+    .intel-metric.warn,
+    .intel-metric.bad,
+    .intel-node.warn,
+    .intel-node.bad,
+    .intel-evidence-card.warn,
+    .intel-evidence-card.bad { background: var(--warn-soft); border-color: var(--warn-line); }
+    .intel-metric.info,
+    .intel-node.info,
+    .intel-evidence-card.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .intel-metric.gateway,
+    .intel-node.gateway,
+    .intel-evidence-card.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+
+    .intel-metric strong {
+      color: var(--ink);
+      font-size: clamp(19px, 1.55vw, 28px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .intel-priority {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,250,235,.78));
+    }
+
+    .intel-priority h3 {
+      display: grid;
+      gap: 4px;
+      margin: 0;
+      color: var(--ink);
+      font-size: 19px;
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    .intel-priority .action-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .intel-priority .insight-line {
+      align-items: start;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.76);
+      border-radius: 8px;
+      background: rgba(255,255,255,.66);
+    }
+
+    .intel-surface {
+      display: grid;
+      grid-template-columns: minmax(0, .64fr) minmax(300px, .36fr);
+      gap: 12px;
+      padding: 12px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,251,253,.9));
+    }
+
+    .intel-spine-card,
+    .intel-dashboard-card {
+      display: grid;
+      gap: 11px;
+      align-content: start;
+      padding: 12px;
+    }
+
+    .intel-section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .intel-section-head strong {
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.1;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .intel-spine {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .intel-node {
+      position: relative;
+      display: grid;
+      grid-template-rows: auto minmax(24px, 1fr) auto 7px;
+      gap: 6px;
+      min-height: 112px;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.82);
+      border-radius: 8px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .intel-node strong {
+      align-self: center;
+      color: var(--ink);
+      font-size: clamp(19px, 1.7vw, 30px);
+      line-height: .98;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .intel-node .intel-meter {
+      align-self: end;
+      height: 7px;
+    }
+
+    .intel-dashboard-card p {
+      margin: 0;
+      font-weight: 800;
+      text-wrap: pretty;
+    }
+
+    .intel-dashboard-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .intel-dashboard-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-rows: auto auto 7px;
+      gap: 5px 10px;
+      padding: 10px;
+      border: 1px solid rgba(207,221,231,.76);
+      border-radius: 8px;
+      background: rgba(255,255,255,.7);
+    }
+
+    .intel-dashboard-row strong {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: center;
+      color: var(--ink);
+      font-size: 22px;
+      line-height: .95;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .intel-dashboard-row small {
+      grid-column: 1;
+      font-weight: 800;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .intel-dashboard-row .intel-meter {
+      grid-column: 1 / -1;
+      grid-row: 3;
+      height: 7px;
+    }
+
+    .intel-evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .intel-evidence-card {
+      display: grid;
+      gap: 6px;
+      align-content: space-between;
+      min-height: 88px;
+      padding: 10px;
+    }
+
+    .intel-evidence-card strong {
+      color: var(--ink);
+      font-size: clamp(15px, 1.1vw, 20px);
+      line-height: 1.05;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 1420px) {
+      .intel-main,
+      .intel-surface {
+        grid-template-columns: 1fr;
+      }
+
+      .intel-verdict,
+      .intel-story {
+        border-right: 0;
+        border-bottom: 1px solid rgba(196,214,226,.72);
+      }
+
+      .intel-evidence-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 900px) {
+      .intel-metrics,
+      .intel-spine {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .intel-evidence-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .intel-scoreline,
+      .intel-metrics,
+      .intel-spine,
+      .intel-evidence-grid,
+      .intel-dashboard-row {
+        grid-template-columns: 1fr;
+      }
+
+      .intel-title {
+        font-size: 31px;
+      }
+
+      .intel-dashboard-row strong,
+      .intel-dashboard-row small,
+      .intel-dashboard-row .intel-meter {
+        grid-column: auto;
+        grid-row: auto;
+        justify-self: start;
+        white-space: normal;
+      }
+    }
   </style>
 </head>
 <body>
@@ -13194,6 +13615,124 @@
               opsStepV4("Sending", methodRows[0] ? methodRows[0].key : "Óþekkt", methodRows[0] ? fmt(methodRows[0].visits) + " merki" : "performance aggregate vantar", methodRows[0] ? "good" : "gateway") +
             '</div><p class="ops-footnote">Gateway/router skýrir leiðina; tracker sýnir tæki, vafra, skjá og sendingu án aukatalningar.</p></section>' +
           '</div>' +
+        '</article>');
+    }
+    function intelRowSignalV4(row) {
+      return visitValue(row) || rawSignalValue(row) || number(firstValue(row, ["count", "events", "event_count", "rows", "raw_count"]));
+    }
+    function intelMeterV4(value, cls) {
+      var fill = clamp(number(value), 0, 100);
+      var className = cls ? safe(cls) : "";
+      return '<div class="intel-meter" aria-hidden="true"><span class="' + className + '" style="--fill:' + fill.toFixed(1) + '%"></span></div>';
+    }
+    function intelMetricV4(label, value, detail, cls, fill) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="intel-metric' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' + intelMeterV4(fill === undefined ? 0 : fill, cls) + '</article>';
+    }
+    function intelNodeV4(label, value, detail, cls, fill) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="intel-node' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' + intelMeterV4(fill === undefined ? 0 : fill, cls) + '</article>';
+    }
+    function intelEvidenceV4(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="intel-evidence-card' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function intelDashboardRowV4(label, value, total, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<div class="intel-dashboard-row' + className + '"><span>' + safe(label) + '</span><strong>' + fmt(value) + '</strong><small>' + safe(pct(value, total)) + ' af m\u00e6labor\u00f0anotkun</small>' + intelMeterV4(number(value) / Math.max(number(total), 1) * 100, cls || "good") + '</div>';
+    }
+    function renderStartPanelV4(data) {
+      var model = opsModel(data);
+      var k = data.kpis || {};
+      var f = data.root_index_funnel || data.root_index || {};
+      var dashboards = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); });
+      var cards = publicMap(data);
+      var diagnosticRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && isDiagnosticRow(row); }).length;
+      var uncountedRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && hasExplicitUncountedFlag(row); }).length;
+      var diagnosticTotal = diagnosticRows + uncountedRows;
+      var rootViews = number(firstValue(f, ["views", "root_views", "root_index_views"]));
+      var rootClicks = number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"]));
+      var routerArrivals = number(firstValue(f, ["router_arrivals", "arrivals"]));
+      var gatewayCounted = number(firstValue(f, ["counted_opens", "counted_visits", "opens"]));
+      var gatewaySignals = rootViews + rootClicks + routerArrivals;
+      var rawSignals = number(firstValue(k, ["total_raw_events", "raw_events", "total_events", "raw_signal_events"]));
+      if (!rawSignals) rawSignals = sumRows(data.performance || [], "raw_signal_events");
+      if (!rawSignals) rawSignals = model.total + gatewaySignals + diagnosticTotal;
+      var totalSignal = Math.max(model.total + gatewaySignals + diagnosticTotal, rawSignals, 1);
+      var scoreFill = clamp(model.score, 0, 100);
+      var freshnessFill = clamp(100 - Math.min(model.eventAge.minutes, 720) / 720 * 100, 0, 100);
+      var qualityFill = clamp(100 - model.warningSplit.confirmed.length * 28 - model.fallback * 16 - model.weakShare * 100, 0, 100);
+      var routeRows = routeMatrixRows(data);
+      var routeTotal = routeRows.reduce(function (acc, row) { return acc + routeMatrixValue(row); }, 0);
+      var forced = forcedLayoutTotal(routeRows);
+      var routeGroups = routeReasonGroups(data, false).filter(function (row) { return number(row.total) > 0; });
+      var topRoute = routeGroups[0];
+      var routeAutoFill = routeTotal ? clamp(100 - forced / routeTotal * 100, 0, 100) : 100;
+      var sourceRows = visibleRows(data.sources || []);
+      var sourceTotal = Math.max(sumRows(sourceRows), model.total, 1);
+      var island = model.island || sourceCount(sourceRows, function (value) { return isIslandSource(value); });
+      var direct = sourceCount(sourceRows, function (value) { return isDirectSource(value); });
+      var unknownSource = sourceCount(sourceRows, function (value) { return /unknown|\u00f3\u00feekkt/i.test(String(value || "")); });
+      var sourceSignal = clamp(sourceTotal - unknownSource, 0, sourceTotal);
+      var sourceTone = unknownSource / sourceTotal > .12 ? "warn" : "good";
+      var topSource = topRows(sourceRows, function (row) { return labelSource(sourceLabelValue(row)); }, 1)[0];
+      var deviceRows = rowsFrom(data, "device_confidence", "device");
+      var topDevice = topRows(deviceRows, function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 1, intelRowSignalV4)[0];
+      var topConfidence = topRows(deviceRows, function (row) { return bandLabel(row.inferred_confidence_band || row.confidence_band); }, 1, intelRowSignalV4)[0];
+      var topBrowser = topRows(rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 1, intelRowSignalV4)[0];
+      var topViewport = topRows(rowsFrom(data, "display", "device"), function (row) { return labelViewport(row.viewport_bucket || row.display_class); }, 1, intelRowSignalV4)[0];
+      var topTransport = topRows(softSignalRows(rowsFrom(data, "performance", "device")), function (row) { return labelTransport(row.tracker_send_method || row.tracking_method); }, 1, intelRowSignalV4)[0];
+      var topDashboard = dashboards[0];
+      var topDashboardTitle = topDashboard ? titleFor(topDashboard, cards) : "\u00d3skr\u00e1\u00f0 m\u00e6labor\u00f0";
+      var dashboardRowsHtml = dashboards.slice(0, 3).map(function (row, index) {
+        return intelDashboardRowV4(titleFor(row, cards), visitValue(row), Math.max(model.total, 1), index === 0 ? "good" : "gateway");
+      }).join("") || '<div class="message-card neutral"><strong>Engin m\u00e6labor\u00f0sg\u00f6gn</strong><p>Production talningar eru ekki komnar \u00ed dashboard aggregate.</p></div>';
+      var dashboardFocus = topDashboard ? safe(topDashboardTitle) + " ber " + safe(pct(visitValue(topDashboard), Math.max(model.total, 1))) + " af t\u00f6ldum opnunum." : "Engin talin production opnun fannst enn.";
+      var statusTitle = model.tone === "good" ? "Rekstur st\u00f6\u00f0ugur" : model.tone === "warn" ? "Athugun \u00ed forgangi" : "Br\u00fdnt a\u00f0 sko\u00f0a";
+      var statusCopy = model.tone === "good" ?
+        "Teljarar, route samhengi og tracker merki lesa hreint saman." :
+        "Settu sta\u00f0fest merki, route \u00fevingun og ferskleika fremst \u00ed sko\u00f0un.";
+      var storyCopy = "Ein rekstrarblokk a\u00f0greinir taldar dashboard opnanir fr\u00e1 gateway, raw og diagnostic merkjum. Fyrst kemur \u00e1kv\u00f6r\u00f0un, svo sannanir: route, uppruni, t\u00e6ki, vafri og g\u00e6\u00f0i.";
+      var actions = actionItems(data, model).slice(0, 3).map(insightLine).join("");
+      var usageMode = model.desktop >= model.mobile ? "Desktop" : "Mobile";
+      var usageDetail = "Mobile " + safe(pct(model.mobile, Math.max(model.total, 1))) + " / desktop " + safe(pct(model.desktop, Math.max(model.total, 1)));
+      var routeValue = topRoute ? topRoute.key : "Sj\u00e1lfvirkt";
+      var routeDetail = forced ? "Forced layout " + fmt(forced) + " af " + fmt(routeTotal) : "Sj\u00e1lfvirkt route val";
+      var sourceValue = topSource ? topSource.key : "\u00d3\u00feekkt";
+      var sourceDetail = "island.is " + fmt(island) + " / beint " + fmt(direct);
+      var topDashboardShare = topDashboard ? pct(visitValue(topDashboard), Math.max(model.total, 1)) : "0%";
+      setHtml("start-panel",
+        '<article class="intel-block ' + safe(model.tone) + '">' +
+          '<section class="intel-main" aria-label="Rekstrarinns\u00fdn">' +
+            '<div class="intel-verdict"><div><span class="intel-kicker">Rekstrarp\u00fals</span><div class="intel-scoreline"><strong>' + fmt(model.score) + '</strong><div><div class="intel-status-word">' + safe(statusTitle) + '</div><p class="intel-status-copy">' + safe(statusCopy) + '</p></div></div></div>' + intelMeterV4(scoreFill, model.tone) + '</div>' +
+            '<div class="intel-story"><div><span class="intel-kicker">Stj\u00f3rnmynd</span><h2 class="intel-title" id="fresh-start-title">' + safe(statusTitle) + '</h2><p class="intel-copy">' + safe(storyCopy) + '</p></div><div class="intel-metrics">' +
+              intelMetricV4("Notkunarhlutfall", pct(model.total, totalSignal), fmt(model.total) + " taldar af " + fmt(totalSignal) + " merkjum", "good", model.total / totalSignal * 100) +
+              intelMetricV4("Ferskleiki", model.eventAge.label, "Talin m\u00e6ling / samantekt " + model.aggregationAge.label, model.eventAge.className, freshnessFill) +
+              intelMetricV4("G\u00e6\u00f0i", model.warningSplit.confirmed.length ? fmt(model.warningSplit.confirmed.length) + " merki" : "Hreint", model.warningSplit.confirmed.length ? "sta\u00f0fest production" : "engin sta\u00f0fest merki", model.warningSplit.confirmed.length ? "warn" : "good", qualityFill) +
+              intelMetricV4("Uppruni", pct(sourceSignal, sourceTotal), sourceDetail, sourceTone, sourceSignal / sourceTotal * 100) +
+            '</div></div>' +
+            '<aside class="intel-priority"><h3><span>\u00c1kv\u00f6r\u00f0un n\u00fana</span>Hva\u00f0 skiptir m\u00e1li fyrst</h3><div class="action-list">' + actions + '</div></aside>' +
+          '</section>' +
+          '<section class="intel-surface" aria-label="Merkjafl\u00e6\u00f0i og m\u00e6labor\u00f0">' +
+            '<div class="intel-spine-card"><div class="intel-section-head"><span class="intel-kicker">Signal spine</span><strong>' + fmt(model.total) + ' taldar opnanir</strong></div><div class="intel-spine">' +
+              intelNodeV4("Gateway", fmt(gatewaySignals), "root views, smellir, router", "gateway", gatewaySignals / totalSignal * 100) +
+              intelNodeV4("Router", topRoute ? fmt(topRoute.total) : fmt(routeTotal), routeValue, forced ? "warn" : "info", routeAutoFill) +
+              intelNodeV4("Telst", fmt(gatewayCounted || model.total), "production dashboard opnun", "good", model.total / totalSignal * 100) +
+              intelNodeV4("Raw / diag", fmt(diagnosticTotal), "haldi\u00f0 utan heims\u00f3kna", diagnosticTotal ? "info" : "good", diagnosticTotal / totalSignal * 100) +
+              intelNodeV4("G\u00e6\u00f0i", model.warningSplit.confirmed.length ? fmt(model.warningSplit.confirmed.length) : "0", "sta\u00f0fest merki", model.warningSplit.confirmed.length ? "warn" : "good", qualityFill) +
+            '</div></div>' +
+            '<div class="intel-dashboard-card"><div class="intel-section-head"><span class="intel-kicker">M\u00e6labor\u00f0 \u00ed f\u00f3kus</span><strong>' + safe(topDashboardShare) + '</strong></div><p>' + dashboardFocus + '</p><div class="intel-dashboard-list">' + dashboardRowsHtml + '</div></div>' +
+          '</section>' +
+          '<section class="intel-evidence-grid" aria-label="Samhengisv\u00edsar">' +
+            intelEvidenceV4("Route", routeValue, routeDetail, forced ? "warn" : "gateway") +
+            intelEvidenceV4("T\u00e6ki", topDevice ? topDevice.key : "\u00d3\u00feekkt", topDevice ? fmt(topDevice.visits || topDevice.raw) + " merki" : "aggregate vantar", topDevice ? "info" : "gateway") +
+            intelEvidenceV4("Vafri", topBrowser ? topBrowser.key : "\u00d3\u00feekkt", topBrowser ? fmt(topBrowser.visits || topBrowser.raw) + " merki" : "browser aggregate vantar", topBrowser ? "info" : "gateway") +
+            intelEvidenceV4("Skj\u00e1r", topViewport ? topViewport.key : "\u00d3\u00feekkt", topViewport ? fmt(topViewport.visits || topViewport.raw) + " merki" : "viewport aggregate vantar", topViewport ? "info" : "gateway") +
+            intelEvidenceV4("Sending", topTransport ? topTransport.key : "\u00d3\u00feekkt", topTransport ? fmt(topTransport.visits || topTransport.raw) + " merki" : "performance aggregate vantar", topTransport ? "good" : "gateway") +
+            intelEvidenceV4("Traust", topConfidence ? topConfidence.key : "\u00d3\u00feekkt", topConfidence ? fmt(topConfidence.visits || topConfidence.raw) + " l\u00ednur" : "confidence aggregate vantar", topConfidence ? "good" : "gateway") +
+            intelEvidenceV4("Notkun", usageMode, usageDetail, "good") +
+            intelEvidenceV4("Raw scope", fmt(rawSignals), "raw og telemetry merki til samanbur\u00f0ar", rawSignals > model.total ? "info" : "gateway") +
+          '</section>' +
         '</article>');
     }
     function dashboardPublicSummary(label, value, detail, cls) {
@@ -15326,7 +15865,7 @@
       }
     }
     function render(data) {
-      safeRender("start-panel", "Fresh start", function () { renderStartPanelV3(data); });
+      safeRender("start-panel", "Fresh start", function () { renderStartPanelV4(data); });
       setStatus(data, "");
       safeRender("signal-panorama-panel", "Signal panorama", function () { renderSignalPanoramaV2(data); });
       safeRender("dashboard-public-master", "Mælaborð", function () { renderDashboardPublicMaster(data); });
