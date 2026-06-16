@@ -14648,10 +14648,7 @@
       <div class="charts-panel" id="echarts-panel" aria-label="ECharts" hidden>
         <div class="status-chart-grid">
           <article class="status-chart-card"><h3>Gateway flæði</h3><div id="chart-gateway-funnel" class="chart-host"></div></article>
-          <article class="status-chart-card"><h3>Útgáfuval</h3><div id="chart-layout-split" class="chart-host"></div></article>
           <article class="status-chart-card"><h3>Vafri / tæki</h3><div id="chart-browser-device" class="chart-host"></div></article>
-          <article class="status-chart-card"><h3>Power BI viewer áhætta</h3><div id="chart-viewer-risk" class="chart-host"></div></article>
-          <article class="status-chart-card"><h3>Traustdreifing</h3><div id="chart-confidence" class="chart-host"></div></article>
           <article class="status-chart-card"><h3>Notkunarþróun</h3><div id="chart-trend" class="chart-host"></div></article>
         </div>
       </div>
@@ -18049,10 +18046,7 @@
       if (panel) panel.hidden = false;
       renderRouteMatrixChart(data);
       renderGatewayFunnelChart(data);
-      renderLayoutSplitChart(data);
       renderBrowserDeviceHeatmapChart(data);
-      renderViewerRiskChart(data);
-      renderConfidenceChart(data);
       renderTrendChart(data);
     }
     window.addEventListener("resize", function () {
