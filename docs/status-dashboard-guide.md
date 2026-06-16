@@ -50,8 +50,6 @@ ECharts var fjarlægt úr active dashboard path. Núverandi myndræn framsetning
 
 Dashboardið notar einn dark token system í `status.css`, reusable primitives (`.shell`, `.command-rail`, `.section`, `.grid-12`, `.card`, `.kpi`, `.metric-row`, `.matrix`, `.bar`, `.stack`, `.queue`, `.audit-table`, `.chip`, `.badge`) og dynamic inline styles aðeins fyrir CSS variables á gagnadrifnum bars/score.
 
-Á símaþröskuldi halda cards, metric rows og matrices sér innan viewport. Matrix töflur fara í fixed/wrapping layout undir 430px, en route audit taflan í Sönnunargögnum má skrolla lárétt inni í eigin `.audit-table-wrap` án þess að búa til page-level horizontal overflow.
-
 ## Implementation notes
 
 - Active render path í `status.js`: constants, DOM/format/safety helpers, data derivation, primitive render helpers, section renderers, data loading og bootstrap.

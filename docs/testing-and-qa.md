@@ -55,7 +55,6 @@ Prófa iPhone Safari, Android Chrome, Samsung Internet, desktop Edge/Chrome/Safa
 - Keyboard focus on toggle, refresh and links.
 - Sufficient contrast and no hover-only essential information.
 - No horizontal page scrollbar; audit tables may scroll internally.
-- At 360px, matrix tables wrap inside cards; only audit evidence tables may use internal horizontal scrolling.
 - Text does not overlap or overflow buttons/cards at narrow widths.
 
 ## Count validation
