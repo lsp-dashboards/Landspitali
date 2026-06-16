@@ -13372,6 +13372,388 @@
       '</div>';
       panel.innerHTML = '<div class="gateway-mega-board">' + megaSignals + flow + analysis + '</div>';
     }
+    function trackerTopLevelMissing(data, keys) {
+      var missing = [];
+      keys.forEach(function (key) {
+        var alternatives = String(key).split("|");
+        var found = alternatives.some(function (name) { return data && data[name] !== undefined && data[name] !== null; });
+        if (!found) missing.push(alternatives.join(" / "));
+      });
+      return missing;
+    }
+    function trackerStatusClass(status) {
+      status = String(status || "unknown").toLowerCase();
+      if (status === "warning") return "warning";
+      if (status === "watch") return "watch";
+      if (status === "bad") return "bad";
+      if (status === "good") return "good";
+      if (status === "info") return "info";
+      return "unknown";
+    }
+    function trackerChipClass(status) {
+      status = trackerStatusClass(status);
+      if (status === "warning" || status === "watch") return "warn";
+      if (status === "bad") return "bad";
+      if (status === "good") return "good";
+      if (status === "info") return "info";
+      return "gateway";
+    }
+    function trackerStatusText(status) {
+      status = trackerStatusClass(status);
+      if (status === "good") return "Gott";
+      if (status === "info") return "Upplýsing";
+      if (status === "watch") return "Til skoðunar";
+      if (status === "warning") return "Viðvörun";
+      if (status === "bad") return "Brýnt";
+      return "Óþekkt";
+    }
+    function trackerRowValue(row) {
+      return visitValue(row) || rawSignalValue(row) || number(firstValue(row || {}, ["events", "event_count", "count", "raw_count"]));
+    }
+    function trackerTruth(value) {
+      if (valueLooksTrue(value)) return true;
+      if (number(value) > 0) return true;
+      return /^(yes|true|detected|possible|unsupported|warning)$/i.test(String(value || "").trim());
+    }
+    function trackerAnySignal(row, keys, pattern) {
+      row = row || {};
+      for (var i = 0; i < keys.length; i += 1) {
+        if (trackerTruth(row[keys[i]])) return true;
+        if (pattern && pattern.test(String(row[keys[i]] || ""))) return true;
+      }
+      return false;
+    }
+    function trackerSumBoolean(rows, keys, pattern) {
+      return (rows || []).reduce(function (acc, row) {
+        return acc + (trackerAnySignal(row, keys, pattern) ? trackerRowValue(row) : 0);
+      }, 0);
+    }
+    function trackerGroupRows(rows, keyFn, valueFn) {
+      var map = {};
+      valueFn = valueFn || trackerRowValue;
+      (rows || []).forEach(function (row) {
+        var counted = visitValue(row);
+        var raw = rawSignalValue(row);
+        var value = valueFn(row);
+        if (!(counted > 0 || raw > 0 || value > 0)) return;
+        var key = keyFn(row) || "Óþekkt";
+        if (!map[key]) map[key] = { key: key, visits: 0, raw: 0, value: 0, rows: 0, examples: [] };
+        map[key].visits += counted;
+        map[key].raw += raw;
+        map[key].value += value;
+        map[key].rows += 1;
+        if (map[key].examples.length < 3) map[key].examples.push(row);
+      });
+      return Object.keys(map).map(function (key) { return map[key]; }).sort(function (a, b) {
+        return b.visits - a.visits || b.value - a.value || b.raw - a.raw || a.key.localeCompare(b.key);
+      });
+    }
+    function trackerMakeInsight(title, value, status, confidence, explanation, why, nextCheck, fields, priority) {
+      return {
+        title: title,
+        value: value,
+        status: trackerStatusClass(status),
+        confidence: confidence || "miðlungs",
+        explanation: explanation || "",
+        why: why || "",
+        nextCheck: nextCheck || "",
+        source_fields_used: fields || [],
+        priority: priority || 99
+      };
+    }
+    function explainInsightInIcelandic(insight) {
+      if (!insight) return "";
+      return [insight.explanation, insight.why ? "Af hverju: " + insight.why : "", insight.nextCheck ? "Næst: " + insight.nextCheck : ""].filter(Boolean).join(" ");
+    }
+    function rankRisksByOperationalImpact(insights) {
+      var weight = { bad: 0, warning: 1, watch: 2, info: 3, unknown: 4, good: 5 };
+      return (insights || []).slice().sort(function (a, b) {
+        return number(a.priority) - number(b.priority) || (weight[a.status] || 4) - (weight[b.status] || 4);
+      });
+    }
+    function trackerMetric(label, value, detail, status) {
+      return { label: label, value: value, detail: detail, status: trackerStatusClass(status) };
+    }
+    function trackerStep(label, value, detail, status) {
+      return { label: label, value: value, detail: detail, status: trackerStatusClass(status) };
+    }
+    function trackerFields(fields) {
+      return '<div class="tracker-source-fields"><span>Notuð aggregate/status svið</span>' + (fields || []).slice(0, 12).map(function (field) {
+        return '<code>' + safe(field) + '</code>';
+      }).join("") + '</div>';
+    }
+    function trackerMetricHtml(metric) {
+      return '<article class="tracker-metric ' + safe(metric.status) + '"><span>' + safe(metric.label) + '</span><strong>' + safe(metric.value) + '</strong><small>' + safe(metric.detail || "") + '</small></article>';
+    }
+    function trackerStepHtml(step) {
+      return '<article class="tracker-step ' + safe(step.status) + '"><span>' + safe(step.label) + '</span><strong>' + safe(step.value) + '</strong><small>' + safe(step.detail || "") + '</small></article>';
+    }
+    function trackerInsightHtml(insight) {
+      return '<article class="tracker-insight-item ' + safe(insight.status) + '"><div><span>' + safe(trackerStatusText(insight.status) + " · Traust: " + insight.confidence) + '</span><strong>' + safe(insight.title) + '</strong><p>' + safe(explainInsightInIcelandic(insight)) + '</p></div><div class="tracker-value">' + safe(insight.value) + '</div></article>';
+    }
+    function trackerDualBar(row, total) {
+      var counted = number(row.visits);
+      var raw = number(row.raw || row.value);
+      var label = row.key || row.label || "Óþekkt";
+      return '<div class="tracker-bar-row"><span class="tracker-bar-label">' + safe(label) + '</span><div class="tracker-dual-track">' +
+        '<div class="bar-track" title="Taldar production opnanir"><span class="bar-fill good" style="width:' + widthPct(counted, total) + '%"></span></div>' +
+        '<div class="bar-track raw" title="Raw/aggregate merki"><span class="bar-fill gateway" style="width:' + widthPct(raw, total) + '%"></span></div>' +
+        '</div><strong class="tracker-bar-value">' + fmt(counted) + ' / ' + fmt(raw) + '</strong></div>';
+    }
+    function trackerTableHtml(rows) {
+      if (!rows || !rows.length) return "";
+      return '<div class="tracker-table">' + rows.slice(0, 8).map(function (row) {
+        return '<div class="tracker-table-row"><strong>' + safe(row.label || row.key || "-") + '</strong><span>' + safe(row.detail || "") + '</span><span class="number">' + safe(row.value || fmt(row.visits || row.count || 0)) + '</span><span class="number">' + safe(row.extra || "") + '</span></div>';
+      }).join("") + '</div>';
+    }
+    function trackerModuleHtml(module) {
+      var cls = 'tracker-module ' + safe(trackerStatusClass(module.status)) + (module.wide ? ' wide' : '');
+      var missing = module.missing && module.missing.length ? '<div class="tracker-partial-state">Hlutagögn: payload vantar ' + safe(module.missing.join(", ")) + '. Sýnt er það sem aggregate payload styður.</div>' : "";
+      var metrics = module.metrics && module.metrics.length ? '<div class="tracker-metrics">' + module.metrics.map(trackerMetricHtml).join("") + '</div>' : "";
+      var steps = module.steps && module.steps.length ? '<div class="tracker-stepper">' + module.steps.map(trackerStepHtml).join("") + '</div>' : "";
+      var bars = module.bars && module.bars.length ? '<div class="tracker-bars">' + module.bars.slice(0, module.barLimit || 8).map(function (row) { return trackerDualBar(row, module.barTotal || 1); }).join("") + '</div>' : "";
+      var rows = trackerTableHtml(module.rows || []);
+      var insights = module.insights && module.insights.length ? '<div class="tracker-priority-list">' + module.insights.slice(0, module.insightLimit || 2).map(trackerInsightHtml).join("") + '</div>' : "";
+      var passports = module.passports && module.passports.length ? '<div class="tracker-passport-grid">' + module.passports.map(trackerPassportHtml).join("") + '</div>' : "";
+      var questions = module.questions && module.questions.length ? '<div class="tracker-question-grid">' + module.questions.map(function (question, index) {
+        return '<article class="tracker-question-card"><span>Spurning ' + fmt(index + 1) + '</span><p>' + safe(question.text || question) + '</p><div class="chip-row"><span class="chip ' + safe(trackerChipClass(question.status || "info")) + '">' + safe(question.panel || "Rekstrarinnsýn") + '</span></div></article>';
+      }).join("") + '</div>' : "";
+      return '<section class="' + cls + '"><div class="tracker-module-head"><div><span class="tracker-kicker">' + safe(module.kicker || "Tracker innsýn") + '</span><h3>' + safe(module.title) + '</h3><p>' + safe(module.intro || "") + '</p></div><span class="chip ' + safe(trackerChipClass(module.status)) + '">' + safe(trackerStatusText(module.status)) + '</span></div>' +
+        metrics + steps + bars + rows + passports + questions + insights + missing + trackerFields(module.fields || []) + '</section>';
+    }
+    function trackerPassportHtml(passport) {
+      var facts = (passport.facts || []).slice(0, 12).map(function (fact) {
+        return '<div class="tracker-fact"><span>' + safe(fact.label) + '</span><strong>' + safe(fact.value) + '</strong></div>';
+      }).join("");
+      return '<article class="tracker-passport ' + safe(trackerStatusClass(passport.status)) + '"><div class="tracker-passport-head"><div><span>' + safe(passport.key || "-") + '</span><h4>' + safe(passport.title || "-") + '</h4><small>' + safe(passport.detail || "") + '</small></div><span class="chip ' + safe(trackerChipClass(passport.status)) + '">' + safe(trackerStatusText(passport.status)) + '</span></div><div class="tracker-passport-facts">' + facts + '</div><small>' + safe(passport.summary || "") + '</small></article>';
+    }
+
+    function deriveCountingIntegrity(data) {
+      data = data || {};
+      var k = data.kpis || {};
+      var h = data.health || {};
+      var counted = number(firstValue(k, ["total_counted_visits", "counted_visits", "total_visits"]));
+      var raw = number(firstValue(k, ["raw_events", "total_events", "total_raw_events", "raw_signal_events"]));
+      var diagnostic = number(firstValue(k, ["diagnostic_events", "diagnostic_signal_count", "diagnostic_signals"]));
+      var debugEvents = number(firstValue(k, ["debug_events", "bot_debug_test_count"]));
+      var botEvents = number(firstValue(k, ["bot_events", "bots"]));
+      var fallback = number(firstValue(k, ["fallback_clicks", "fallback_error_count"]));
+      var errors = number(firstValue(k, ["error_events", "errors", "fallback_error_count"]));
+      var weak = number(firstValue(k, ["weak_unknown_signal_count"]));
+      var confirmed = number(firstValue(k, ["confirmed_warning_count", "confirmed_warnings", "warning_count"]));
+      var excluded = Math.max(0, raw - counted);
+      var countedTime = firstValue(h, ["last_counted_event_time"]) || latestCountedEventTime(data);
+      var rawTime = firstValue(h, ["last_raw_event_time", "last_event_time"]);
+      var status = errors || confirmed ? "warning" : counted ? "good" : (raw ? "watch" : "unknown");
+      return {
+        title: "Talningarheilsa",
+        kicker: "Counting integrity",
+        intro: "Taldar production heimsóknir eru lesnar aðskildar frá raw, diagnostic, bot, debug, root, list, health og test merkjum.",
+        status: status,
+        fields: ["kpis", "health", "total_visits", "raw_events", "diagnostic_events", "debug_events", "bot_events", "fallback_clicks", "error_events", "last_counted_event_time", "last_raw_event_time"],
+        missing: trackerTopLevelMissing(data, ["kpis", "health"]),
+        metrics: [
+          trackerMetric("Taldar heimsóknir", fmt(counted), "Talin production opnun.", counted ? "good" : "watch"),
+          trackerMetric("Raw merki", fmt(raw), "Raw operational activity.", raw ? "info" : "unknown"),
+          trackerMetric("Diagnostic merki", fmt(diagnostic), "Ekki talin heimsókn.", diagnostic ? "info" : "good"),
+          trackerMetric("Útilokað frá talningu", fmt(excluded), "Operational reconciliation.", excluded ? "info" : "good"),
+          trackerMetric("Síðasta talda heimsókn", ageInfo(countedTime).label, dateShort(countedTime), counted ? "good" : "watch"),
+          trackerMetric("Síðasta raw merki", ageInfo(rawTime).label, dateShort(rawTime), raw ? "info" : "unknown"),
+          trackerMetric("Confirmed warning", fmt(confirmed), "StaÃ°fest production warning.", confirmed ? "warning" : "good"),
+          trackerMetric("Veik merki", fmt(weak), "Veikt eða óþekkt tækjamerki.", weak ? "watch" : "good")
+        ],
+        rows: [
+          { label: "Operational reconciliation", detail: "counted visits + non-visit operational signals + diagnostic/debug/bot/fallback/error signals = raw operational activity", value: fmt(counted) + " + " + fmt(excluded), extra: "ekki exact nema payload styðji" },
+          { label: "No counted vs no raw", detail: counted ? "Production opnanir eru til." : (raw ? "Raw til, counted vantar." : "Engin raw móttaka."), value: counted ? "Talið" : (raw ? "Partial" : "Empty"), extra: "" }
+        ],
+        insights: [
+          trackerMakeInsight("Talningarheilsa", counted ? fmt(counted) : "0", status, raw ? "hátt" : "óþekkt", counted ? "Taldar production opnanir eru til staðar." : (raw ? "Raw merki berast en engin talin production opnun sést." : "Hvorki taldar opnanir né raw merki sjást í aggregate payload."), "No counted visits er annað ástand en no raw events.", counted ? "Bera saman counted visits, raw merki og síðustu timestamp." : "Athuga Talningarhlið og síðustu raw móttöku.", ["kpis.total_visits", "kpis.raw_events", "health.last_counted_event_time"], counted ? 11 : 2),
+          trackerMakeInsight("Operational reconciliation", fmt(counted) + " + " + fmt(excluded), "info", "miðlungs", "Reconciliation línan skýrir að production usage og operational/diagnostic merki eru ekki sami teljari.", "Heilbrigður tracker getur haft diagnostic events án production failure.", "Bæta count_as_visit aggregate við ef nákvæma jöfnu þarf.", ["kpis.total_visits", "kpis.raw_events", "kpis.diagnostic_events"], 11)
+        ]
+      };
+    }
+    function deriveGatewayFunnelInsights(data) {
+      data = data || {};
+      var f = data.root_index_funnel || data.root_index || {};
+      var k = data.kpis || {};
+      var views = number(firstValue(f, ["views", "root_views", "root_index_views"]));
+      var clicks = number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"]));
+      var arrivals = number(firstValue(f, ["router_arrivals", "arrivals", "dashboard_router_arrivals"]));
+      var counted = number(firstValue(f, ["counted_opens", "counted_visits", "opens"])) || number(firstValue(k, ["total_visits"]));
+      var fallback = number(firstValue(f, ["fallback_clicks", "safe_fallback_events"]));
+      var island = number(firstValue(k, ["island_is_visits"]));
+      var total = Math.max(number(firstValue(k, ["total_visits"])), counted, 1);
+      var forcedTotal = forcedLayoutTotal(data.routes || []);
+      var unknownSource = sourceCount(visibleRows(data.sources || []), function (value) { return /unknown/i.test(String(value || "")); });
+      var status = fallback ? "watch" : (views || clicks || arrivals ? "info" : "unknown");
+      return {
+        title: "Root gateway og public-card funnel",
+        kicker: "Gateway funnel",
+        intro: "Gateway funnel sýnir hvernig notendur fara frá opinberu korti eða root gateway yfir í talda opnun mælaborðs.",
+        status: status,
+        fields: ["root_index_funnel", "root_index", "sources", "routes", "public_cards", "dashboards", "entry_source_category", "root_dashboard_target_path", "root_launch_choice"],
+        missing: trackerTopLevelMissing(data, ["root_index_funnel|root_index", "sources", "routes", "public_cards", "dashboards"]),
+        metrics: [
+          trackerMetric("island.is share", pct(island, total), fmt(island) + " taldar opnanir.", island ? "good" : "watch"),
+          trackerMetric("Fallback share", pct(fallback, Math.max(clicks + fallback, 1)), "Fallback björgun í gateway.", fallback ? "watch" : "good"),
+          trackerMetric("Forced layout share", pct(forcedTotal, Math.max(sumRows(data.routes || []), 1)), "Þvingað val þegar til staðar.", forcedTotal ? "info" : "good"),
+          trackerMetric("Unknown source", fmt(unknownSource), "Óþekktur uppruni.", unknownSource ? "watch" : "good")
+        ],
+        steps: [
+          trackerStep("Public card / island.is", fmt(island), "Expected public source.", island ? "good" : "watch"),
+          trackerStep("Root gateway", fmt(views), "Root index views.", views ? "info" : "unknown"),
+          trackerStep("Dashboard card clicks", fmt(clicks), "Root dashboard choice.", clicks ? "info" : "unknown"),
+          trackerStep("Router arrivals", fmt(arrivals), "Router decision signal.", arrivals ? "info" : "unknown"),
+          trackerStep("Selected layout", fmt(arrivals || counted), "Mobile/desktop val.", arrivals || counted ? "info" : "unknown"),
+          trackerStep("Counted open", fmt(counted), "Talin production opnun.", counted ? "good" : "watch")
+        ],
+        insights: [
+          trackerMakeInsight("Gateway funnel", views || clicks || arrivals ? fmt(views) + " -> " + fmt(counted) : "partial", status, "miðlungs", "Journey er sýnt sem partial-data þegar skref vantar í aggregate payload.", "Root/router getur verið heilbrigt þó það sé ekki counted usage.", fallback ? "Skoða fallback smell og router arrival áður en Power BI URL er breytt." : "Bera saman root clicks, router arrivals og counted opens.", ["root_index_funnel", "root_index", "sources", "routes"], fallback ? 3 : 7)
+        ]
+      };
+    }
+    function deriveSourceQualityInsights(data) {
+      data = data || {};
+      var rows = visibleRows(data.sources || []);
+      var groups = trackerGroupRows(rows, function (row) { return labelSource(sourceLabelValue(row)); });
+      var total = Math.max(sumRows(rows), number(firstValue(data.kpis || {}, ["total_visits"])), 1);
+      var island = sourceCount(rows, function (value) { return isIslandSource(value); });
+      var direct = sourceCount(rows, function (value) { return isDirectSource(value); });
+      var unknown = sourceCount(rows, function (value) { return /unknown/i.test(String(value || "")); });
+      var missingUtm = rows.reduce(function (acc, row) { return acc + (!(row.utm_source || row.utm_campaign || row.utm_medium || row.utm_content) ? visitValue(row) : 0); }, 0);
+      var status = unknown / total > .25 || direct / total > .6 ? "watch" : "good";
+      return {
+        title: "Source quality og campaign clarity",
+        kicker: "Uppruni",
+        intro: "Sýnir hvort public dashboard traffic komi frá væntum stöðum og hvort UTM/campaign merki skýri public-card flæði.",
+        status: status,
+        fields: ["sources", "entry_source_category", "referrer_domain", "source_confidence_band", "utm_source", "utm_medium", "utm_campaign", "utm_content", "island_is_visits"],
+        missing: trackerTopLevelMissing(data, ["sources"]),
+        metrics: [
+          trackerMetric("Expected source share", pct(island, total), "island.is public traffic.", island ? "good" : "watch"),
+          trackerMetric("Direct/unknown share", pct(direct + unknown, total), "Beint eða óþekkt.", direct + unknown > total * .45 ? "watch" : "info"),
+          trackerMetric("UTM vantar", fmt(missingUtm), "Taldar opnanir án UTM.", missingUtm ? "info" : "good"),
+          trackerMetric("Source confidence", groups[0] ? groups[0].key : "Óþekkt", "Ráðandi source flokkur.", groups[0] ? "info" : "unknown")
+        ],
+        bars: groups,
+        barTotal: Math.max(total, groups.reduce(function (acc, row) { return Math.max(acc, row.raw); }, 1)),
+        rows: groups.slice(0, 5).map(function (row) { return { label: row.key, detail: "Counted / raw", value: fmt(row.visits), extra: fmt(row.raw) }; }),
+        insights: [
+          trackerMakeInsight("Source anomalies", pct(direct + unknown, total), status, rows.length ? "hátt" : "óþekkt", direct + unknown > total * .45 ? "Direct/unknown source er hátt miðað við notkunargrunn." : "Source mix lítur skýrt út miðað við payload.", "Uppruni skýrir hvort public kort og island.is breytingar séu að skila umferð.", "Skoða UTM samræmi og root gateway vs direct dashboard path.", ["sources", "utm_source", "entry_source_category"], status === "watch" ? 7 : 11)
+        ]
+      };
+    }
+    function deriveRouteDecisionInsights(data) {
+      data = data || {};
+      var rows = routeMatrixRows(data);
+      var total = Math.max(rows.reduce(function (acc, row) { return acc + routeMatrixValue(row); }, 0), 1);
+      var mobileAuto = rows.reduce(function (acc, row) { return acc + (!isForcedLayoutRow(row) && normalizeLayoutToken(row.selected_layout) === "mobile" ? routeMatrixValue(row) : 0); }, 0);
+      var desktopAuto = rows.reduce(function (acc, row) { return acc + (!isForcedLayoutRow(row) && normalizeLayoutToken(row.selected_layout) === "desktop" ? routeMatrixValue(row) : 0); }, 0);
+      var forcedMobile = forcedLayoutSum(rows, "mobile");
+      var forcedDesktop = forcedLayoutSum(rows, "desktop");
+      var tabletPortrait = rows.reduce(function (acc, row) { return acc + (/tablet_portrait/i.test(row.tablet_strategy_result || row.route_reason || "") ? routeMatrixValue(row) : 0); }, 0);
+      var narrowDesktopMobile = rows.reduce(function (acc, row) {
+        var device = String(row.device_class || row.inferred_device_class || "").toLowerCase();
+        var layout = normalizeLayoutToken(row.selected_layout);
+        return acc + ((/desktop|narrow/.test(device) && layout === "mobile") ? routeMatrixValue(row) : 0);
+      }, 0);
+      var groups = trackerGroupRows(rows, function (row) { return routeMatrixReasonLabel(row); }, routeMatrixValue);
+      var status = forcedMobile + forcedDesktop || narrowDesktopMobile ? "info" : "good";
+      return {
+        title: "Route decision workbench",
+        kicker: "Leiðingarheilsa",
+        intro: "Leiðing byggir á raunverulegu skjáplássi og route policy, ekki aðeins tækjanafni. Desktop-to-mobile er ekki failure nema policy eða confirmed warning styðji það.",
+        status: status,
+        fields: ["routes", "selected_layout", "auto_selected_layout", "forced_layout", "route_reason", "route_policy_result", "tablet_strategy_result", "viewport_bucket", "display_class"],
+        missing: trackerTopLevelMissing(data, ["routes"]),
+        metrics: [
+          trackerMetric("Mobile sjálfvirkt", fmt(mobileAuto), pct(mobileAuto, total), mobileAuto ? "info" : "unknown"),
+          trackerMetric("Desktop sjálfvirkt", fmt(desktopAuto), pct(desktopAuto, total), desktopAuto ? "good" : "unknown"),
+          trackerMetric("Þvingað mobile", fmt(forcedMobile), "forced_layout_applied.", forcedMobile ? "watch" : "good"),
+          trackerMetric("Þvingað desktop", fmt(forcedDesktop), "forced_layout_applied.", forcedDesktop ? "watch" : "good"),
+          trackerMetric("Tablet portrait", fmt(tabletPortrait), "Policy meðhöndlun.", tabletPortrait ? "info" : "unknown"),
+          trackerMetric("Narrow/desktop -> mobile", fmt(narrowDesktopMobile), "Til skoðunar, ekki sjálfkrafa villa.", narrowDesktopMobile ? "info" : "good")
+        ],
+        bars: groups,
+        barTotal: Math.max(total, groups.reduce(function (acc, row) { return Math.max(acc, row.raw); }, 1)),
+        insights: [
+          trackerMakeInsight("Route mismatches worth reviewing", fmt(narrowDesktopMobile + forcedMobile + forcedDesktop), status, rows.length ? "hátt" : "óþekkt", "Forced layout og policy-zone traffic eru sýnd án þess að merkja narrow desktop -> mobile sem failure.", "Þetta hjálpar að sjá hvort router policy sé að gera vænt val á breakpoint mörkum.", "Skoða route_reason_detail og tablet/narrow strategy áður en policy er breytt.", ["routes", "route_reason", "forced_layout"], status === "watch" ? 5 : 10)
+        ]
+      };
+    }
+    function deriveDeviceConfidenceInsights(data) {
+      data = data || {};
+      var rows = rowsFrom(data, "device_confidence", "device");
+      var counted = visibleRows(rows);
+      var total = Math.max(sumRows(counted), counted.reduce(function (acc, row) { return acc + rawSignalValue(row); }, 0), 1);
+      var bands = trackerGroupRows(rows, function (row) { return bandLabel(row.inferred_confidence_band || row.confidence_band); });
+      var weakRows = rows.filter(function (row) {
+        return /unknown|weak|low|insufficient|veikt|óþekkt/i.test(String(row.inferred_confidence_band || row.confidence_band || row.inferred_device_class || row.device_class || ""));
+      });
+      var weak = weakRows.reduce(function (acc, row) { return acc + trackerRowValue(row); }, 0) || number(firstValue(data.kpis || {}, ["weak_unknown_signal_count"]));
+      var topReasons = trackerGroupRows(weakRows, function (row) { return row.inferred_confidence_reason || row.inferred_primary_evidence || row.inferred_device_class || "Óþekkt ástæða"; });
+      var status = weak / total > .12 ? "watch" : "good";
+      return {
+        title: "Device confidence og inference quality",
+        kicker: "Signal gæði",
+        intro: "Confidence segir hversu traust tækja- og vaframerki eru, ekki hvort notandi hafi lent í villu.",
+        status: status,
+        fields: ["device_confidence", "device", "inferred_device_class", "inferred_confidence_band", "inferred_confidence_score", "inferred_confidence_reason", "inferred_detection_version", "inferred_contradiction_flags_json"],
+        missing: trackerTopLevelMissing(data, ["device_confidence|device"]),
+        metrics: [
+          trackerMetric("Confidence groups", fmt(bands.length), "Band distribution.", bands.length ? "info" : "unknown"),
+          trackerMetric("Top confidence", bands[0] ? bands[0].key : "Óþekkt", bands[0] ? fmt(bands[0].value) + " merki." : "Vantar confidence.", bands[0] ? "good" : "unknown"),
+          trackerMetric("Weak/unknown", fmt(weak), pct(weak, total), weak ? "watch" : "good"),
+          trackerMetric("Detection version", firstValue(rows[0] || {}, ["inferred_detection_version"]) || "-", "Úr aggregate rows.", "info")
+        ],
+        bars: bands,
+        barTotal: Math.max(total, bands.reduce(function (acc, row) { return Math.max(acc, row.raw); }, 1)),
+        rows: topReasons.slice(0, 5).map(function (row) { return { label: row.key, detail: "Weak-confidence reason", value: fmt(row.value || row.raw), extra: "" }; }),
+        insights: [
+          trackerMakeInsight("Veikt eða óþekkt tækjamerki", pct(weak, total), status, rows.length ? "miðlungs" : "óþekkt", weak ? "Hluti merkja hefur veik eða óþekkt device confidence." : "Device confidence lítur stöðugt út.", "Veik merki geta haft áhrif á route túlkun án þess að vera production villa.", "Skoða top weak reasons og dashboards affected.", ["device_confidence", "weak_unknown_signal_count"], status === "watch" ? 6 : 11)
+        ]
+      };
+    }
+    function deriveBrowserViewerRiskInsights(data) {
+      data = data || {};
+      var rows = rowsFrom(data, "browsers", "device");
+      var counted = visibleRows(rows);
+      var total = Math.max(sumRows(counted), 1);
+      var split = splitWarnings(data);
+      var unsupportedWarnings = split.confirmed.concat(split.unconfirmed, split.info, split.diagnostic).filter(function (row) {
+        return /powerbi|unsupported|viewer/i.test(String(row.warning_code || row.code || row.warning_text || row.message || ""));
+      });
+      var unsupported = unsupportedWarnings.reduce(function (acc, row) { return acc + (countWarnings(row) || number(row.counted_count || row.count || 0)); }, 0) || number(firstValue(data.kpis || {}, ["powerbi_viewer_unsupported_browser_events"]));
+      var webview = number(firstValue(data.kpis || {}, ["in_app_browser_visits"])) || trackerSumBoolean(rows, ["is_webview", "in_app_browser_family"], /webview|teams|outlook/i);
+      var unknownVersion = rows.reduce(function (acc, row) { return acc + (!row.browser_major_version && !row.browser_full_version ? trackerRowValue(row) : 0); }, 0);
+      var oldVersion = rows.reduce(function (acc, row) {
+        var major = number(row.browser_major_version);
+        return acc + (major > 0 && major < 100 ? trackerRowValue(row) : 0);
+      }, 0);
+      var groups = trackerGroupRows(rows, function (row) { return browserLabel(row); });
+      var status = unsupported ? "warning" : (webview || oldVersion || unknownVersion ? "watch" : "good");
+      return {
+        title: "Power BI viewer readiness",
+        kicker: "Vafri og viewer",
+        intro: "Aðgreinir confirmed production warning, diagnostic-only risk og informational signal fyrir Power BI publish-to-web viewing.",
+        status: status,
+        fields: ["browsers", "quality_warnings", "browser_family", "browser_major_version", "is_webview", "powerbi_viewer_unsupported_browser", "source_confidence_band"],
+        missing: trackerTopLevelMissing(data, ["browsers", "quality_warnings"]),
+        metrics: [
+          trackerMetric("Supported modern share", pct(Math.max(0, total - unsupported - oldVersion), total), "Áætlað út frá browser aggregate.", unsupported ? "watch" : "good"),
+          trackerMetric("Óstuddur Power BI viewer vafri", fmt(unsupported), "Confirmed eða inferred warning.", unsupported ? "warning" : "good"),
+          trackerMetric("In-app/WebView", fmt(webview), "Teams/Outlook/WebView þegar greinanlegt.", webview ? "info" : "good"),
+          trackerMetric("Old/unknown versions", fmt(oldVersion + unknownVersion), "Gamlar eða óþekktar útgáfur.", oldVersion + unknownVersion ? "watch" : "good")
+        ],
+        bars: groups,
+        barTotal: Math.max(total, groups.reduce(function (acc, row) { return Math.max(acc, row.raw); }, 1)),
+        rows: unsupportedWarnings.slice(0, 5).map(function (row) { return { label: labelWarningCode(row.warning_code || row.code), detail: classifyWarning(row) === "confirmed" ? "Confirmed production warning" : "Diagnostic/info", value: fmt(countWarnings(row) || row.count || 0), extra: bandLabel(row.confidence_band) }; }),
+        insights: [
+          trackerMakeInsight("Óstuddur Power BI viewer vafri", fmt(unsupported), status, unsupported ? "mjög hátt" : "miðlungs", unsupported ? "Óstuddur eða gamall viewer-vafri er í warning aggregate." : "Engin staðfest Power BI viewer warning í payload.", "Viewer readiness getur haft áhrif eftir redirect þótt router virki.", "Prófa affected browser/device og bera saman við warning recommendation.", ["browsers", "quality_warnings"], unsupported ? 4 : 10)
+        ]
+      };
+    }
+
     function renderInsightsV2(data) {
       var k = data.kpis || {};
       var model = opsModel(data);
