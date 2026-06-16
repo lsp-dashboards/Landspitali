@@ -307,12 +307,14 @@ button {
 }
 
 .card {
+  min-width: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--bg-elevated);
 }
 
 .card-body {
+  min-width: 0;
   padding: 14px;
 }
 
@@ -484,6 +486,11 @@ button {
   align-items: center;
   padding: 9px 0;
   border-bottom: 1px solid var(--grid-line);
+}
+
+.metric-row > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .metric-row:last-child {
@@ -687,6 +694,8 @@ button {
 }
 
 .matrix {
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
 }
 
@@ -782,6 +791,8 @@ button {
 }
 
 .audit-table-wrap {
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -866,7 +877,7 @@ button {
   .reconcile-grid,
   .flow-grid,
   .audit-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -954,5 +965,25 @@ button {
 
   .verdict {
     grid-template-columns: 1fr;
+  }
+
+  .matrix {
+    overflow-x: visible;
+  }
+
+  .matrix-table {
+    min-width: 0;
+    table-layout: fixed;
+  }
+
+  .matrix-table th,
+  .matrix-table td {
+    padding: 6px;
+    font-size: 0.72rem;
+    overflow-wrap: anywhere;
+  }
+
+  .matrix-cell {
+    min-width: 0;
   }
 }
