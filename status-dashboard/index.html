@@ -20708,13 +20708,33 @@
         var viewer = row.viewerRiskSummary || row.viewer_risk_summary || {};
         var viewerRisk = number(viewer.unsupportedBrowserEvents || viewer.unsupported_browser_events || row.powerbi_viewer_unsupported_browser_events || 0);
         var lastCounted = dashboardLastCountedTime(row);
+        var freshness = ageInfo(lastCounted);
+        var direct = number(firstValue(row, ["direct_visits", "direct_source_visits", "source_direct_visits", "beint_visits", "direct_count"]));
         var status = errors || warnings ? "warning" : (visits ? "good" : "watch");
         return {
+          dashboardPassport: true,
           key: cleanId(row.dashboard_key || row.dashboard_id || row.key),
           title: titleFor(row, cards),
           iconUrl: card.icon_url || row.icon_url || "",
           detail: cleanId(row.dashboard_id || row.dashboard_key || "") + " · " + (row.status || "active"),
           status: status,
+          visits: visits,
+          today: row.visits_today,
+          seven: row.visits_7d,
+          thirty: row.visits_30d,
+          raw: row.raw_events || row.total_events,
+          diagnostic: row.diagnostic_events,
+          mobile: row.mobile_visits,
+          desktop: row.desktop_visits,
+          island: row.island_is_visits,
+          direct: direct,
+          fallback: fallback,
+          errors: errors,
+          warnings: warnings,
+          viewerRisk: viewerRisk,
+          freshness: freshness.label,
+          freshnessTone: freshness.className === "good" ? "good" : "warning",
+          lastCountedShort: dateShort(lastCounted),
           facts: [
             { label: "Taldar alls", value: fmt(visits) },
             { label: "Í dag", value: fmt(row.visits_today) },
@@ -20735,11 +20755,13 @@
         };
       });
       return {
-        title: "Dashboard-by-dashboard diagnostic passport",
+        title: "Mælaborðspassi",
         kicker: "Mælaborðspassi",
         intro: "Hvert dashboard-kort svarar hvort það sé virkt, fái production opnanir, hafi plausible routing, gott signal quality og skýran uppruna.",
         status: passports.some(function (p) { return p.status === "warning"; }) ? "warning" : "good",
         wide: true,
+        variant: "dashboard-passport-module",
+        suppressInsights: true,
         fields: ["dashboards", "public_cards", "dashboard_key", "dashboard_id", "total_visits", "raw_events", "diagnostic_events", "mobile_visits", "desktop_visits", "island_is_visits", "source_mix_summary", "route_mix_summary", "config_version", "core_version"],
         missing: trackerTopLevelMissing(data, ["dashboards", "public_cards"]),
         passports: passports,
