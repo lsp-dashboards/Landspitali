@@ -10,13 +10,13 @@
   var STATUS_DATA_MAX_ATTEMPTS = 2;
   var STATUS_COMPONENTS = [
     "UI: Vaktborð",
-    "Talningarhlið",
-    "Leiðingarskipting",
-    "Aðeins samantektargögn",
     "Vöktunarkjarni: Rekstrarpúls",
     "Config v1",
     "Atburðasafnari v1",
-    "Gagnasnið 1"
+    "Gagnasnið 1",
+    "Talningarhlið",
+    "Leiðingarskipting",
+    "Aðeins samantektargögn"
   ];
 
   var statusDataMode = readDataModeFromUrl();

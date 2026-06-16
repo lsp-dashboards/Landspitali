@@ -42,7 +42,7 @@ Source styður sameiginlegan public launch timestamp fyrstu tveggja korta: `14.0
 | Status UI dev version | `v1.0.0` | `status-dashboard/index.html`, `assets/router-config.json` |
 | UI component public name | `UI: Vaktborð` | `status-dashboard/index.html`, `assets/router-config.json` |
 | UI component dev version | `v1.0.0` | `status-dashboard/index.html`, `assets/router-config.json` |
-| Component row | `UI: Vaktborð · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1` | `status-dashboard/index.html`, `assets/router-config.json` |
+| Component row | `UI: Vaktborð · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1 · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn` | `status-dashboard/index.html`, `assets/router-config.json` |
 | Core public name | `Vöktunarkjarni: Rekstrarpúls` | `assets/router-config.json`, status dashboard |
 | Core dev version | `v1.0.0` | `assets/router-core.prod.js`, `assets/router-core.v1.0.0.js`, `assets/router-config.json` |
 | Config public name | `Config v1` | `assets/router-config.json` |
