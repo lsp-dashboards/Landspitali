@@ -228,8 +228,13 @@
       align-items: center;
       justify-content: center;
       padding: 5px 10px;
+      border: 0;
       border-radius: 999px;
+      appearance: none;
+      background: transparent;
       color: var(--accent-dark);
+      cursor: pointer;
+      font: inherit;
       font-size: 11px;
       font-weight: 900;
       line-height: 1.1;
@@ -243,7 +248,8 @@
       background: var(--data-soft-01);
     }
 
-    .data-source-link.active {
+    .data-source-link.active,
+    .data-source-link[aria-pressed="true"] {
       color: #fff;
       background: var(--data-01);
     }
@@ -11672,7 +11678,8 @@
       color: #3e566b;
     }
 
-    .command-grid.command-grid-solo .data-source-link.active {
+    .command-grid.command-grid-solo .data-source-link.active,
+    .command-grid.command-grid-solo .data-source-link[aria-pressed="true"] {
       color: #fff;
       background: #12314c;
     }
@@ -14468,10 +14475,10 @@
             </div>
           </div>
           <div class="masthead-actions">
-            <nav class="data-source-toggle" aria-label="Velja gagnasett">
-              <a class="data-source-link active" href="./index.html" aria-current="page">Raun gögn</a>
-              <a class="data-source-link" href="https://docs.google.com/spreadsheets/d/1ORKOx4_oT7b6x52aGr4JzvotLCcuquLY_VyppfXOvu4/edit?gid=694699750#gid=694699750" target="_blank" rel="noopener noreferrer">Sample gögn</a>
-            </nav>
+            <div class="data-source-toggle" role="group" aria-label="Velja gagnasett">
+              <button class="data-source-link active" type="button" data-source-mode="real" aria-pressed="true">Raun gögn</button>
+              <button class="data-source-link" type="button" data-source-mode="sample" aria-pressed="false">Sample gögn</button>
+            </div>
             <div class="pill-row" aria-label="Staða og uppfærsla">
               <span class="pill"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn</span></span>
               <span class="pill" id="generated-pill" title="Uppfært: -">Uppfært: -</span>
@@ -14569,6 +14576,8 @@
   <script>
     var DATA_ENDPOINT = "https://script.google.com/macros/s/AKfycbxRoNEQwlxQUpxEMGzYizAB0_lP1MdqksGLu4fD7c94rzqUul3MW2_E9VCqeRzLK3wD/exec";
     var STATIC_STATUS_URL = "../assets/data/status-latest.json";
+    var SAMPLE_STATUS_URL = "../assets/data/status-sample.json";
+    var SAMPLE_SHEET_JSONP_URL = "https://docs.google.com/spreadsheets/d/1ORKOx4_oT7b6x52aGr4JzvotLCcuquLY_VyppfXOvu4/gviz/tq?sheet=Dashboard_Data&tqx=out:json;responseHandler:";
     var LOGO_URL = "https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png";
     var FALLBACK_ICONS = {
       bradamottaka: "https://images.ctfassets.net/8k0h54kbe6bj/68Ef7p57VqG1aYv99GbzB0/3b98fe5c7b3b11c7d01194a7e9caccd6/bradamottaka-linkimage.png?w=774&fm=webp&q=80",
