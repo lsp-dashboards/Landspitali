@@ -13207,6 +13207,7 @@
       font-weight: 900;
       letter-spacing: 0;
       text-wrap: balance;
+      overflow-wrap: anywhere;
     }
 
     .start-v5-proof-lead p {
@@ -13341,6 +13342,15 @@
         grid-column: auto;
         grid-row: auto;
         white-space: normal;
+      }
+
+      .start-v5-proof-lead {
+        grid-template-columns: 1fr;
+      }
+
+      .start-v5-proof-lead .start-v5-meter {
+        grid-column: auto;
+        grid-row: auto;
       }
     }
 
@@ -18119,7 +18129,7 @@
       setHtml("layout-source-panel",
         '<article class="flow-origin-console">' +
           '<section class="flow-origin-hero" aria-label="Flæðislesning">' +
-            '<div class="flow-origin-brief"><span class="flow-origin-kicker">Flæðislesning</span><h3>Ein talning, skýr leið</h3><p>Hér er sama notkun lesin einu sinni: gateway og router útskýra leiðina, útgáfuval og uppruni útskýra samhengi, og taldar production opnanir eru eini notkunargrunnurinn.</p><div class="flow-origin-pill-row">' +
+            '<div class="flow-origin-brief"><span class="flow-origin-kicker">Flæðislesning</span><h3>Ein talning, skýr leið</h3><div class="flow-origin-pill-row">' +
               flowOriginPill("Útgáfa", layoutDominant + " " + pct(layoutDominantValue, layoutTotal), layoutDominant === "Mobile" ? "info" : "gateway") +
               flowOriginPill("Uppruni", sourceDominant.label + " " + pct(sourceDominant.value, sourceTotal), sourceDominant.className) +
               flowOriginPill("Route", routeCoverage, routeMissing ? "warn" : "info") +
