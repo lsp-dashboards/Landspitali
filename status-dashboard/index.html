@@ -14747,13 +14747,27 @@
       gap: 12px;
     }
 
+    .route-v6-section-head > div,
+    .route-v6-proof-head > div {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+    }
+
     .route-v6-section-head strong,
     .route-v6-proof-head strong {
+      display: block;
       color: var(--ink);
       font-size: 18px;
       font-weight: 900;
       line-height: 1.05;
       letter-spacing: 0;
+    }
+
+    .route-v6-section-head small,
+    .route-v6-proof-head small {
+      max-width: 34ch;
+      text-align: right;
     }
 
     .route-v6-focus-grid {
@@ -14800,7 +14814,7 @@
 
     .route-v6-proof-row {
       display: grid;
-      grid-template-columns: 34px minmax(0, .92fr) minmax(0, 1.08fr) minmax(78px, auto);
+      grid-template-columns: 34px minmax(0, .78fr) minmax(130px, 1.2fr) minmax(74px, auto);
       gap: 9px;
       align-items: center;
       padding: 9px;
@@ -14842,9 +14856,9 @@
       gap: 4px;
     }
 
-    .route-v6-mini-line > div,
-    .route-v6-proof-total {
-      display: flex;
+    .route-v6-mini-line > div {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) max-content;
       align-items: baseline;
       justify-content: space-between;
       gap: 8px;
@@ -14856,6 +14870,7 @@
       font-weight: 900;
       line-height: 1;
       white-space: nowrap;
+      justify-self: end;
     }
 
     .route-v6-proof-total {
@@ -14923,6 +14938,12 @@
       .route-v6-proof-head {
         display: grid;
         align-items: start;
+      }
+
+      .route-v6-section-head small,
+      .route-v6-proof-head small {
+        max-width: none;
+        text-align: left;
       }
 
       .route-v6-proof-lines,
