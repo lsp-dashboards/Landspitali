@@ -18738,6 +18738,26 @@
       var gatewayFill = clamp(gatewaySignals / totalSignal * 100, 0, 100);
       var topDashboardFill = topDashboard ? clamp(visitValue(topDashboard) / Math.max(model.total, 1) * 100, 0, 100) : 16;
       var lcdBars = startV5LcdBars([countedFill, freshnessFill, model.score, qualityFill, gatewayFill, topDashboardFill, dashboardCount ? 88 : 16, confirmed ? 28 : 92]);
+      var flowSection =
+        '<section class="start-v5-flow start-v5-flow-viz" id="start-v5-flow-module" aria-label="Merkjafl\u00e6\u00f0i">' +
+          '<div class="start-v5-flow-canvas-card">' +
+            '<div class="start-v5-panel-head"><span>Merkjafl\u00e6\u00f0i</span><strong>hr\u00e1 merki \u2192 g\u00e1tt \u2192 lei\u00f0ing \u2192 talning, me\u00f0 \u00fatiloku\u00f0um merkjum s\u00fdnilegum</strong></div>' +
+            '<div class="start-v5-chart-wrap"><div id="start-v5-flow-chart" class="start-v5-chart-host" role="img" aria-label="Merkjafl\u00e6\u00f0i fr\u00e1 hr\u00e1um merkjum til taldra opnana"></div><div class="start-v5-flowline start-v5-flow-fallback">' +
+              startV5Node("Hr\u00e1 merki", fmt(rawSignals), "telemetry og t\u00e6knimerki", rawSignals > model.total ? "info" : "gateway", rawSignals / totalSignal * 100) +
+              startV5Node("G\u00e1tt", fmt(gatewaySignals), "r\u00f3t, smellir og lei\u00f0ing", "gateway", gatewaySignals / totalSignal * 100) +
+              startV5Node("Lei\u00f0ing", topRoute ? fmt(topRoute.total) : fmt(routeTotal), routeValue, forced ? "warn" : "info", routeFill) +
+              startV5Node("Taldar", fmt(model.total), "production opnanir", "good", model.total / totalSignal * 100) +
+              startV5Node("Utan talningar", fmt(countGap), "debug, duplicate e\u00f0a greining", countGap ? "warn" : "good", countGap / totalSignal * 100) +
+              startV5Node("G\u00e6\u00f0i", confirmed ? fmt(confirmed) : "0", "sta\u00f0fest rekstrarmerki", confirmed ? "warn" : "good", qualityFill) +
+            '</div></div>' +
+          '</div>' +
+          '<aside class="start-v5-reconcile-rail" aria-label="Talningargrunnur">' +
+            '<div class="start-v5-reconcile-card good"><span>Talin grunnl\u00edna</span><strong>' + fmt(model.total) + '</strong><small>production opnanir sem mega bera saman m\u00e6labor\u00f0.</small></div>' +
+            '<div class="start-v5-reconcile-card ' + (countGap ? "warn" : "good") + '"><span>Utan talningar</span><strong>' + fmt(countGap) + '</strong><small>mismunur milli hr\u00e1merkja og taldra opnana.</small></div>' +
+            '<div class="start-v5-reconcile-card gateway"><span>Lei\u00f0ingargrunnur</span><strong>' + fmt(routeTotal || (topRoute && topRoute.total) || 0) + '</strong><small>' + safe(routeDetail) + '</small></div>' +
+            '<div class="start-v5-flow-legend"><span><i class="good"></i>Tali\u00f0</span><span><i class="info"></i>T\u00e6knimerki</span><span><i class="warn"></i>\u00datiloka\u00f0/sko\u00f0a</span></div>' +
+          '</aside>' +
+        '</section>';
       setHtml("start-panel",
         '<article class="start-v5 ' + safe(scoreTone) + '">' +
           '<section class="start-v5-lcd-hero" aria-label="M\u00e6labor\u00f0sm\u00e6lingar status">' +
@@ -18749,27 +18769,9 @@
                 startV5Metric("Ferskleiki", model.eventAge.label, "samantekt " + model.aggregationAge.label, model.eventAge.className, freshnessFill) +
                 startV5Metric("G\u00e6\u00f0i", confirmed ? fmt(confirmed) : "Hreint", confirmed ? "sta\u00f0fest merki" : "engin sta\u00f0fest merki", confirmed ? "warn" : "good", qualityFill) +
               '</div>' +
+              flowSection +
             '</div>' +
             '<aside class="start-v5-lcd-side"><div class="start-v5-lcd-status"><span>Sta\u00f0a n\u00fana</span><strong>' + safe(statusTitle) + '</strong><small>' + fmt(model.score) + '/100 · ' + fmt(dashboardCount) + ' m\u00e6labor\u00f0 · ' + fmt(model.total) + ' taldar opnanir</small>' + startV5Meter(model.score, scoreTone) + '</div>' + lcdBars + '<div class="start-v5-action-head"><span class="start-v5-lcd-kicker">\u00c1kv\u00f6r\u00f0un</span><strong>N\u00e6st</strong></div><div class="start-v5-action-list">' + actions + '</div></aside>' +
-          '</section>' +
-          '<section class="start-v5-flow start-v5-flow-viz" id="start-v5-flow-module" aria-label="Merkjafl\u00e6\u00f0i">' +
-            '<div class="start-v5-flow-canvas-card">' +
-              '<div class="start-v5-panel-head"><span>Merkjafl\u00e6\u00f0i</span><strong>hr\u00e1 merki \u2192 g\u00e1tt \u2192 lei\u00f0ing \u2192 talning, me\u00f0 \u00fatiloku\u00f0um merkjum s\u00fdnilegum</strong></div>' +
-              '<div class="start-v5-chart-wrap"><div id="start-v5-flow-chart" class="start-v5-chart-host" role="img" aria-label="Merkjafl\u00e6\u00f0i fr\u00e1 hr\u00e1um merkjum til taldra opnana"></div><div class="start-v5-flowline start-v5-flow-fallback">' +
-                startV5Node("Hr\u00e1 merki", fmt(rawSignals), "telemetry og t\u00e6knimerki", rawSignals > model.total ? "info" : "gateway", rawSignals / totalSignal * 100) +
-                startV5Node("G\u00e1tt", fmt(gatewaySignals), "r\u00f3t, smellir og lei\u00f0ing", "gateway", gatewaySignals / totalSignal * 100) +
-                startV5Node("Lei\u00f0ing", topRoute ? fmt(topRoute.total) : fmt(routeTotal), routeValue, forced ? "warn" : "info", routeFill) +
-                startV5Node("Taldar", fmt(model.total), "production opnanir", "good", model.total / totalSignal * 100) +
-                startV5Node("Utan talningar", fmt(countGap), "debug, duplicate e\u00f0a greining", countGap ? "warn" : "good", countGap / totalSignal * 100) +
-                startV5Node("G\u00e6\u00f0i", confirmed ? fmt(confirmed) : "0", "sta\u00f0fest rekstrarmerki", confirmed ? "warn" : "good", qualityFill) +
-              '</div></div>' +
-            '</div>' +
-            '<aside class="start-v5-reconcile-rail" aria-label="Talningargrunnur">' +
-              '<div class="start-v5-reconcile-card good"><span>Talin grunnl\u00edna</span><strong>' + fmt(model.total) + '</strong><small>production opnanir sem mega bera saman m\u00e6labor\u00f0.</small></div>' +
-              '<div class="start-v5-reconcile-card ' + (countGap ? "warn" : "good") + '"><span>Utan talningar</span><strong>' + fmt(countGap) + '</strong><small>mismunur milli hr\u00e1merkja og taldra opnana.</small></div>' +
-              '<div class="start-v5-reconcile-card gateway"><span>Lei\u00f0ingargrunnur</span><strong>' + fmt(routeTotal || (topRoute && topRoute.total) || 0) + '</strong><small>' + safe(routeDetail) + '</small></div>' +
-              '<div class="start-v5-flow-legend"><span><i class="good"></i>Tali\u00f0</span><span><i class="info"></i>T\u00e6knimerki</span><span><i class="warn"></i>\u00datiloka\u00f0/sko\u00f0a</span></div>' +
-            '</aside>' +
           '</section>' +
           '<section class="start-v5-lower" aria-label="F\u00f3kus og sannanir">' +
             '<div class="start-v5-focus"><div class="start-v5-panel-head"><span>M\u00e6labor\u00f0 \u00ed f\u00f3kus</span><strong>' + safe(topDashboard ? pct(visitValue(topDashboard), Math.max(model.total, 1)) : "0%") + '</strong></div><p class="start-v5-note">' + focusCopy + '</p><div class="start-v5-dash-list">' + dashboardRowsHtml + '</div></div>' +
@@ -19657,7 +19659,7 @@
             symbolSize: 8,
             lineStyle: { cap: "round", join: "round" },
             label: {
-              show: true,
+              show: false,
               formatter: function (params) { return fmt(params.data.metric); },
               color: "rgba(234,244,250,.86)",
               fontSize: 11,
