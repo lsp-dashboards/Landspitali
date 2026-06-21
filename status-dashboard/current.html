@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="is">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Mælaborðsmælingar | Landspítali</title>
+  <link rel="stylesheet" href="status.css">
+</head>
+<body>
+  <main class="shell" aria-labelledby="page-title">
+    <header class="command-rail">
+      <a class="brand-lockup" href="../" aria-label="Landspítali forsíða">
+        <img src="https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png" alt="Landspítali">
+      </a>
+      <div class="command-title">
+        <p>Landspítali</p>
+        <h1 id="page-title">Mælaborðsmælingar</h1>
+        <span>Rekstrarvakt fyrir Power BI leiðingu, talningu og afhendingu.</span>
+      </div>
+      <div class="command-actions" aria-label="Gagnastýring">
+        <div class="segmented" role="group" aria-label="Velja gagnasett">
+          <button type="button" data-source-mode="real" aria-pressed="true">Raun</button>
+          <button type="button" data-source-mode="sample" aria-pressed="false">Sample</button>
+        </div>
+        <a class="dashboard-switch" href="index.html" aria-label="Opna fulla stöðuyfirlitið">Fullt yfirlit</a>
+        <button class="icon-button" type="button" id="refresh-button" aria-label="Endurhlaða gögn" title="Endurhlaða gögn">
+          <span aria-hidden="true">↻</span>
+        </button>
+      </div>
+      <div class="command-status" aria-label="Staða gagna">
+        <span class="badge" id="health-badge"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn</span></span>
+        <span class="badge" id="generated-pill" title="Uppfært: -">Uppfært: -</span>
+        <span class="badge" id="source-pill">Gögn: -</span>
+      </div>
+      <div class="version-strip" id="version-strip" aria-label="Kerfishlutar"></div>
+    </header>
+
+    <div id="notice" class="notice" role="status"></div>
+
+    <section class="section" aria-labelledby="status-now-title">
+      <div class="section-head">
+        <div>
+          <p>Staða</p>
+          <h2 id="status-now-title">Staða núna</h2>
+        </div>
+        <span class="section-note">Fyrsta svar við rekstrarstöðu, ferskleika og staðfestum merkjum.</span>
+      </div>
+      <div id="status-now"></div>
+    </section>
+
+    <section class="section" aria-labelledby="counting-title">
+      <div class="section-head">
+        <div>
+          <p>Talningargrunnur</p>
+          <h2 id="counting-title">Talning og traust</h2>
+        </div>
+        <span class="section-note">Aðskilur taldar opnanir frá raw, diagnostic og útilokuðum merkjum.</span>
+      </div>
+      <div id="counting-integrity"></div>
+    </section>
+
+    <section class="section" aria-labelledby="flow-title">
+      <div class="section-head">
+        <div>
+          <p>Upprunarás</p>
+          <h2 id="flow-title">Flæði og uppruni</h2>
+        </div>
+        <span class="section-note">Ein saga frá public entry að talinni Power BI opnun.</span>
+      </div>
+      <div id="flow-source"></div>
+    </section>
+
+    <section class="section" aria-labelledby="portfolio-title">
+      <div class="section-head">
+        <div>
+          <p>Safn</p>
+          <h2 id="portfolio-title">Mælaborðasafn</h2>
+        </div>
+        <span class="section-note">Raðað eftir töldum opnunum með ferskleika, uppruna, leiðingu og viðvörunum.</span>
+      </div>
+      <div id="portfolio"></div>
+    </section>
+
+    <section class="section" aria-labelledby="routing-title">
+      <div class="section-head">
+        <div>
+          <p>Útgáfuval</p>
+          <h2 id="routing-title">Leiðingarskipting</h2>
+        </div>
+        <span class="section-note">Sýnir hvers vegna mobile eða desktop var valið.</span>
+      </div>
+      <div id="routing"></div>
+    </section>
+
+    <section class="section" aria-labelledby="environment-title">
+      <div class="section-head">
+        <div>
+          <p>Tæknimerki</p>
+          <h2 id="environment-title">Umhverfi og afhending</h2>
+        </div>
+        <span class="section-note">Tæki, vafri, skjár, sending og payload í tveimur skönnum.</span>
+      </div>
+      <div id="environment-delivery"></div>
+    </section>
+
+    <section class="section" aria-labelledby="quality-title">
+      <div class="section-head">
+        <div>
+          <p>Aðgerðalisti</p>
+          <h2 id="quality-title">Gæðavakt</h2>
+        </div>
+        <span class="section-note">Staðfest production merki fyrst, diagnostic samhengi rólegra neðar.</span>
+      </div>
+      <div id="quality-queue"></div>
+    </section>
+
+    <section class="section evidence-section" aria-labelledby="evidence-title">
+      <div class="section-head">
+        <div>
+          <p>Traceability</p>
+          <h2 id="evidence-title">Sönnunargögn</h2>
+        </div>
+        <span class="section-note">Samantektargögn fyrir viðhald án raw eða persónugreinanlegra upplýsinga.</span>
+      </div>
+      <div id="audit-evidence"></div>
+    </section>
+
+    <footer class="footer">
+      Persónuvernd: Engin nöfn, netföng, kennitölur, raw IP, raw user-agent texti, request/event auðkenni eða Power BI innri gögn eru birt. Síðan birtir eingöngu aggregate/status gögn, notar örugga HTML-escaping og section-level safeRender, og aðgreinir gateway, raw og diagnostic merki frá töldum opnunum. UI v1.0.0 · Config v1 · Atburðasafnari v1 · Gagnasnið 1.
+    </footer>
+  </main>
+  <script src="status.js"></script>
+</body>
+</html>
