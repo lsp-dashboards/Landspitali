@@ -5943,10 +5943,17 @@
       .alert-count-box { justify-items: start; text-align: left; }
     }
 
+    @media (max-width: 980px) {
+      .route-auto-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
     @media (max-width: 640px) {
       .period-grid,
       .source-overview-grid,
-      .quality-explain-grid { grid-template-columns: 1fr; }
+      .quality-explain-grid,
+      .route-auto-summary { grid-template-columns: 1fr; }
       .reconcile-grid {
         grid-template-columns: 1fr;
       }
@@ -9799,7 +9806,10 @@
 
     .route-auto-board {
       border: 1px solid var(--line-soft);
-      border-radius: 18px;
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.9));
+      overflow: hidden;
     }
 
     .route-auto-section {
@@ -9810,12 +9820,81 @@
     .route-auto-section .route-scroll {
       max-height: min(62vh, 680px);
       overflow: auto;
-      padding-right: 4px;
+      padding: 14px;
       scrollbar-gutter: stable;
+    }
+
+    .route-auto-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .route-auto-stat {
+      display: grid;
+      gap: 7px;
+      min-height: 92px;
+      padding: 12px;
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .route-auto-stat.good { background: var(--good-soft); border-color: var(--good-line); }
+    .route-auto-stat.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .route-auto-stat.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
+    .route-auto-stat.warn { background: var(--warn-soft); border-color: var(--warn-line); }
+
+    .route-auto-stat span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .route-auto-stat strong {
+      color: var(--ink);
+      font-size: clamp(24px, 2.1vw, 36px);
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .route-auto-stat small {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.28;
+      overflow-wrap: anywhere;
+    }
+
+    .route-auto-board .list {
+      display: grid;
+      gap: 8px;
     }
 
     .route-auto-section .list-row.route-enhanced {
       min-height: 92px;
+    }
+
+    @media (max-width: 980px) {
+      .route-auto-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .route-auto-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .route-auto-section .route-scroll {
+        padding: 10px;
+      }
     }
 
     @media (max-width: 1320px) {
@@ -13167,11 +13246,26 @@
 
     .status-hero-shell .start-v5-lcd-hero {
       padding: clamp(14px, 1.8vw, 24px) 0 0;
-      min-height: clamp(210px, 21vw, 286px);
+      min-height: 0;
+      align-items: start;
       border: 0;
       border-radius: 0;
       background: transparent;
       box-shadow: none;
+    }
+
+    .status-hero-shell .start-v5-lcd-main,
+    .status-hero-shell .start-v5-lcd-side {
+      align-content: start;
+    }
+
+    .status-hero-shell .start-v5-lcd-title h2 {
+      font-size: clamp(46px, 5vw, 82px);
+    }
+
+    .status-hero-shell .start-v5-lcd-bars {
+      min-height: 62px;
+      padding-top: 0;
     }
 
     .status-hero-shell .start-v5-lcd-hero::before {
@@ -13756,6 +13850,245 @@
       .status-hero-shell .hero-system-tags .chip {
         white-space: normal;
         overflow-wrap: anywhere;
+      }
+    }
+
+    /* Start header evidence visualization */
+    .status-hero-shell .start-v5-flow,
+    .status-hero-shell .start-v5-focus,
+    .status-hero-shell .start-v5-proof {
+      border-color: rgba(220,238,248,.20);
+      background: rgba(10,31,50,.36);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.035);
+    }
+
+    .status-hero-shell .start-v5-flow::before,
+    .status-hero-shell .start-v5-focus::before,
+    .status-hero-shell .start-v5-proof::before {
+      background: linear-gradient(90deg, var(--data-09), var(--data-02), var(--data-03));
+      opacity: .95;
+    }
+
+    .start-v5-flow-viz {
+      grid-template-columns: minmax(0, 1fr) minmax(250px, .24fr);
+      align-items: stretch;
+      gap: 12px;
+      padding: 12px;
+    }
+
+    .start-v5-flow-canvas-card,
+    .start-v5-reconcile-rail {
+      position: relative;
+      display: grid;
+      min-width: 0;
+      border: 1px solid rgba(220,238,248,.16);
+      border-radius: 8px;
+      background: rgba(255,255,255,.055);
+    }
+
+    .start-v5-flow-canvas-card {
+      gap: 10px;
+      padding: 12px;
+      overflow: hidden;
+    }
+
+    .start-v5-chart-wrap {
+      position: relative;
+      min-height: clamp(210px, 18vw, 290px);
+    }
+
+    .start-v5-chart-host {
+      width: 100%;
+      height: clamp(210px, 18vw, 290px);
+      min-height: 210px;
+    }
+
+    .start-v5-flow-viz:not(.has-echart) .start-v5-chart-host {
+      display: none;
+    }
+
+    .start-v5-flow-viz.has-echart .start-v5-flow-fallback {
+      display: none;
+    }
+
+    .status-hero-shell .start-v5-panel-head > span,
+    .status-hero-shell .start-v5-dash-row span,
+    .status-hero-shell .start-v5-proof-card span,
+    .start-v5-reconcile-card span,
+    .start-v5-flow-legend span {
+      color: rgba(219,238,249,.78);
+    }
+
+    .status-hero-shell .start-v5-panel-head strong,
+    .status-hero-shell .start-v5-dash-row strong,
+    .status-hero-shell .start-v5-proof-card strong,
+    .start-v5-reconcile-card strong {
+      color: rgba(255,255,255,.97);
+    }
+
+    .status-hero-shell .start-v5-panel-head strong {
+      font-size: 13px;
+    }
+
+    .start-v5-reconcile-rail {
+      gap: 8px;
+      align-content: stretch;
+      padding: 10px;
+    }
+
+    .start-v5-reconcile-card {
+      display: grid;
+      gap: 6px;
+      align-content: center;
+      min-height: 76px;
+      padding: 11px;
+      border: 1px solid rgba(220,238,248,.16);
+      border-radius: 8px;
+      background: rgba(255,255,255,.07);
+    }
+
+    .start-v5-reconcile-card.good {
+      border-color: rgba(74,197,187,.28);
+      background: color-mix(in srgb, var(--data-02) 22%, transparent);
+    }
+
+    .start-v5-reconcile-card.warn {
+      border-color: rgba(244,210,90,.32);
+      background: color-mix(in srgb, var(--data-03) 22%, transparent);
+    }
+
+    .start-v5-reconcile-card.gateway {
+      border-color: rgba(169,180,194,.28);
+      background: color-mix(in srgb, var(--data-01) 20%, transparent);
+    }
+
+    .start-v5-reconcile-card span {
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .start-v5-reconcile-card strong {
+      font-size: clamp(24px, 2vw, 34px);
+      line-height: .9;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .start-v5-reconcile-card small,
+    .status-hero-shell .start-v5-node small,
+    .status-hero-shell .start-v5-dash-row small,
+    .status-hero-shell .start-v5-proof-card small,
+    .status-hero-shell .start-v5-note {
+      color: rgba(226,240,248,.76);
+    }
+
+    .start-v5-flow-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+      padding-top: 2px;
+    }
+
+    .start-v5-flow-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 24px;
+      padding: 5px 7px;
+      border: 1px solid rgba(220,238,248,.14);
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .start-v5-flow-legend i {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--data-01);
+    }
+
+    .start-v5-flow-legend i.good { background: var(--data-02); }
+    .start-v5-flow-legend i.info { background: var(--data-09); }
+    .start-v5-flow-legend i.warn { background: var(--data-03); }
+
+    .status-hero-shell .start-v5-lower {
+      gap: 12px;
+    }
+
+    .status-hero-shell .start-v5-focus,
+    .status-hero-shell .start-v5-proof {
+      position: relative;
+      overflow: hidden;
+      padding: 12px;
+    }
+
+    .status-hero-shell .start-v5-dash-row,
+    .status-hero-shell .start-v5-proof-card,
+    .status-hero-shell .start-v5-node {
+      border-color: rgba(220,238,248,.16);
+      background: rgba(255,255,255,.07);
+    }
+
+    .status-hero-shell .start-v5-dash-row.good,
+    .status-hero-shell .start-v5-proof-card.good,
+    .status-hero-shell .start-v5-node.good {
+      border-color: rgba(74,197,187,.26);
+      background: color-mix(in srgb, var(--data-02) 18%, transparent);
+    }
+
+    .status-hero-shell .start-v5-dash-row.warn,
+    .status-hero-shell .start-v5-proof-card.warn,
+    .status-hero-shell .start-v5-node.warn,
+    .status-hero-shell .start-v5-node.bad {
+      border-color: rgba(244,210,90,.30);
+      background: color-mix(in srgb, var(--data-03) 20%, transparent);
+    }
+
+    .status-hero-shell .start-v5-proof-card.info,
+    .status-hero-shell .start-v5-node.info {
+      border-color: rgba(164,221,238,.25);
+      background: color-mix(in srgb, var(--data-09) 18%, transparent);
+    }
+
+    .status-hero-shell .start-v5-proof-card.gateway,
+    .status-hero-shell .start-v5-node.gateway {
+      border-color: rgba(169,180,194,.24);
+      background: color-mix(in srgb, var(--data-01) 18%, transparent);
+    }
+
+    .status-hero-shell .start-v5-meter {
+      background: rgba(226,240,248,.15);
+    }
+
+    @media (max-width: 1240px) {
+      .start-v5-flow-viz {
+        grid-template-columns: 1fr;
+      }
+
+      .start-v5-reconcile-rail {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .start-v5-flow-legend {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .start-v5-reconcile-rail {
+        grid-template-columns: 1fr;
+      }
+
+      .start-v5-chart-wrap,
+      .start-v5-chart-host {
+        min-height: 300px;
+        height: 300px;
       }
     }
 
@@ -15971,14 +16304,18 @@
 
     <div id="notice" class="notice" role="status"></div>
 
-    <section class="panel" aria-labelledby="panorama-title">
+    <section class="panel route-auto-section" aria-labelledby="route-auto-title">
       <div class="panel-head">
         <div>
-          <h2 id="panorama-title">Flæði og samhengi</h2>
-          <div class="panel-note">Ein lesröð frá hráu merki yfir í talda opnun. Neðri spjöldin sýna hvaða mælaborð og tæknisamhengi þarf að skoða án þess að endurtelja heildina.</div>
+          <h2 id="route-auto-title">Sjálfvirk leiðing</h2>
+          <div class="panel-note">Fullbreidd rekstrarskrá yfir útgáfuval úr router: hvaða route-ástæða valdi mobile eða desktop, hvaða tæki/vafri fylgdi með og hversu margar taldar production heimsóknir liggja að baki.</div>
         </div>
       </div>
-      <div id="signal-panorama-panel"></div>
+      <div class="route-auto-board">
+        <div class="route-scroll">
+          <div class="list" id="route-list"></div>
+        </div>
+      </div>
     </section>
 
     <section class="panel charts-panel" id="echarts-panel" aria-label="ECharts" hidden>
@@ -15996,7 +16333,7 @@
       <div id="dashboard-public-master"></div>
     </section>
 
-    <section class="panel route-source-master" aria-label="Leiðing og uppruni">
+    <section class="panel route-source-master" aria-label="Leiðing og uppruni" hidden>
       <div class="split-panel" id="layout-source-panel"></div>
     </section>
 
@@ -16010,20 +16347,6 @@
 
     <section class="panel delivery-shell" aria-label="Tæknimerki til skoðunar">
       <div class="delivery-board" id="delivery-panel"></div>
-    </section>
-
-    <section class="panel route-auto-section" aria-labelledby="route-auto-title" hidden>
-      <div class="panel-head">
-        <div>
-          <h2 id="route-auto-title">Sjálfvirk leiðing</h2>
-          <div class="panel-note">Fullbreidd rekstrarskrá yfir útgáfuval úr router: hvaða route-ástæða valdi mobile eða desktop, hvaða tæki/vafri fylgdi með og hversu margar taldar production heimsóknir liggja að baki.</div>
-        </div>
-      </div>
-      <div class="route-auto-board">
-        <div class="route-scroll">
-          <div class="list" id="route-list"></div>
-        </div>
-      </div>
     </section>
 
     <section class="panel warning-panel" aria-labelledby="warnings-title">
@@ -18313,13 +18636,11 @@
       var className = cls ? " " + safe(cls) : "";
       return '<article class="start-v5-proof-card' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
     }
-    function renderStartPanelV5(data) {
+    function startV5FlowModel(data) {
       data = data || {};
       var model = opsModel(data);
       var k = data.kpis || {};
       var f = data.root_index_funnel || data.root_index || {};
-      var dashboards = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); });
-      var cards = publicMap(data);
       var confirmed = model.warningSplit.confirmed.length;
       var diagnosticRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && isDiagnosticRow(row); }).length;
       var uncountedRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && hasExplicitUncountedFlag(row); }).length;
@@ -18338,8 +18659,48 @@
       var routeGroups = routeReasonGroups(data, false).filter(function (row) { return number(row.total) > 0; });
       var topRoute = routeGroups[0];
       var routeValue = topRoute ? topRoute.key : "Sj\u00e1lfvirkt";
-      var routeDetail = forced ? "Forced layout " + fmt(forced) + " af " + fmt(routeTotal) : "Sj\u00e1lfvirkt route val";
+      var routeDetail = forced ? "\u00devinga\u00f0 layout " + fmt(forced) + " af " + fmt(routeTotal) : "Sj\u00e1lfvirkt route val";
       var routeFill = routeTotal ? clamp(100 - forced / routeTotal * 100, 0, 100) : 100;
+      var countGap = Math.max(0, rawSignals - model.total);
+      return {
+        model: model,
+        confirmed: confirmed,
+        diagnosticTotal: diagnosticTotal,
+        rootViews: rootViews,
+        rootClicks: rootClicks,
+        routerArrivals: routerArrivals,
+        gatewaySignals: gatewaySignals,
+        rawSignals: rawSignals,
+        totalSignal: totalSignal,
+        routeRows: routeRows,
+        routeTotal: routeTotal,
+        forced: forced,
+        topRoute: topRoute,
+        routeValue: routeValue,
+        routeDetail: routeDetail,
+        routeFill: routeFill,
+        countGap: countGap
+      };
+    }
+    function renderStartPanelV5(data) {
+      data = data || {};
+      var model = opsModel(data);
+      var k = data.kpis || {};
+      var flowModel = startV5FlowModel(data);
+      var dashboards = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); });
+      var cards = publicMap(data);
+      var confirmed = flowModel.confirmed;
+      var diagnosticTotal = flowModel.diagnosticTotal;
+      var gatewaySignals = flowModel.gatewaySignals;
+      var rawSignals = flowModel.rawSignals;
+      var totalSignal = flowModel.totalSignal;
+      var routeTotal = flowModel.routeTotal;
+      var forced = flowModel.forced;
+      var topRoute = flowModel.topRoute;
+      var routeValue = flowModel.routeValue;
+      var routeDetail = flowModel.routeDetail;
+      var routeFill = flowModel.routeFill;
+      var countGap = flowModel.countGap;
       var sourceRows = visibleRows(data.sources || []);
       var sourceTotal = Math.max(sumRows(sourceRows), model.total, 1);
       var island = model.island || sourceCount(sourceRows, function (value) { return isIslandSource(value); });
@@ -18391,19 +18752,28 @@
             '</div>' +
             '<aside class="start-v5-lcd-side"><div class="start-v5-lcd-status"><span>Sta\u00f0a n\u00fana</span><strong>' + safe(statusTitle) + '</strong><small>' + fmt(model.score) + '/100 · ' + fmt(dashboardCount) + ' m\u00e6labor\u00f0 · ' + fmt(model.total) + ' taldar opnanir</small>' + startV5Meter(model.score, scoreTone) + '</div>' + lcdBars + '<div class="start-v5-action-head"><span class="start-v5-lcd-kicker">\u00c1kv\u00f6r\u00f0un</span><strong>N\u00e6st</strong></div><div class="start-v5-action-list">' + actions + '</div></aside>' +
           '</section>' +
-          '<section class="start-v5-flow" aria-label="Merkjafl\u00e6\u00f0i">' +
-            '<div class="start-v5-panel-head"><span>Merkjafl\u00e6\u00f0i</span><strong>hr\u00e1 merki -> g\u00e1tt -> lei\u00f0ing -> tali\u00f0 -> g\u00e6\u00f0i</strong></div>' +
-            '<div class="start-v5-flowline">' +
-              startV5Node("Hr\u00e1 merki", fmt(rawSignals), "telemetry og t\u00e6knimerki", rawSignals > model.total ? "info" : "gateway", rawSignals / totalSignal * 100) +
-              startV5Node("G\u00e1tt", fmt(gatewaySignals), "r\u00f3t, smellir og lei\u00f0ing", "gateway", gatewaySignals / totalSignal * 100) +
-              startV5Node("Lei\u00f0ing", topRoute ? fmt(topRoute.total) : fmt(routeTotal), routeValue, forced ? "warn" : "info", routeFill) +
-              startV5Node("Taldar", fmt(model.total), "m\u00e6labor\u00f0sopnanir \u00ed framlei\u00f0slu", "good", model.total / totalSignal * 100) +
-              startV5Node("G\u00e6\u00f0i", confirmed ? fmt(confirmed) : "0", "sta\u00f0fest rekstrarmerki", confirmed ? "warn" : "good", qualityFill) +
+          '<section class="start-v5-flow start-v5-flow-viz" id="start-v5-flow-module" aria-label="Merkjafl\u00e6\u00f0i">' +
+            '<div class="start-v5-flow-canvas-card">' +
+              '<div class="start-v5-panel-head"><span>Merkjafl\u00e6\u00f0i</span><strong>hr\u00e1 merki \u2192 g\u00e1tt \u2192 lei\u00f0ing \u2192 talning, me\u00f0 \u00fatiloku\u00f0um merkjum s\u00fdnilegum</strong></div>' +
+              '<div class="start-v5-chart-wrap"><div id="start-v5-flow-chart" class="start-v5-chart-host" role="img" aria-label="Merkjafl\u00e6\u00f0i fr\u00e1 hr\u00e1um merkjum til taldra opnana"></div><div class="start-v5-flowline start-v5-flow-fallback">' +
+                startV5Node("Hr\u00e1 merki", fmt(rawSignals), "telemetry og t\u00e6knimerki", rawSignals > model.total ? "info" : "gateway", rawSignals / totalSignal * 100) +
+                startV5Node("G\u00e1tt", fmt(gatewaySignals), "r\u00f3t, smellir og lei\u00f0ing", "gateway", gatewaySignals / totalSignal * 100) +
+                startV5Node("Lei\u00f0ing", topRoute ? fmt(topRoute.total) : fmt(routeTotal), routeValue, forced ? "warn" : "info", routeFill) +
+                startV5Node("Taldar", fmt(model.total), "production opnanir", "good", model.total / totalSignal * 100) +
+                startV5Node("Utan talningar", fmt(countGap), "debug, duplicate e\u00f0a greining", countGap ? "warn" : "good", countGap / totalSignal * 100) +
+                startV5Node("G\u00e6\u00f0i", confirmed ? fmt(confirmed) : "0", "sta\u00f0fest rekstrarmerki", confirmed ? "warn" : "good", qualityFill) +
+              '</div></div>' +
             '</div>' +
+            '<aside class="start-v5-reconcile-rail" aria-label="Talningargrunnur">' +
+              '<div class="start-v5-reconcile-card good"><span>Talin grunnl\u00edna</span><strong>' + fmt(model.total) + '</strong><small>production opnanir sem mega bera saman m\u00e6labor\u00f0.</small></div>' +
+              '<div class="start-v5-reconcile-card ' + (countGap ? "warn" : "good") + '"><span>Utan talningar</span><strong>' + fmt(countGap) + '</strong><small>mismunur milli hr\u00e1merkja og taldra opnana.</small></div>' +
+              '<div class="start-v5-reconcile-card gateway"><span>Lei\u00f0ingargrunnur</span><strong>' + fmt(routeTotal || (topRoute && topRoute.total) || 0) + '</strong><small>' + safe(routeDetail) + '</small></div>' +
+              '<div class="start-v5-flow-legend"><span><i class="good"></i>Tali\u00f0</span><span><i class="info"></i>T\u00e6knimerki</span><span><i class="warn"></i>\u00datiloka\u00f0/sko\u00f0a</span></div>' +
+            '</aside>' +
           '</section>' +
           '<section class="start-v5-lower" aria-label="F\u00f3kus og sannanir">' +
             '<div class="start-v5-focus"><div class="start-v5-panel-head"><span>M\u00e6labor\u00f0 \u00ed f\u00f3kus</span><strong>' + safe(topDashboard ? pct(visitValue(topDashboard), Math.max(model.total, 1)) : "0%") + '</strong></div><p class="start-v5-note">' + focusCopy + '</p><div class="start-v5-dash-list">' + dashboardRowsHtml + '</div></div>' +
-            '<div class="start-v5-proof"><div class="start-v5-panel-head"><span>Samhengisv\u00edsar</span><strong>light palette</strong></div><div class="start-v5-proof-grid">' +
+            '<div class="start-v5-proof"><div class="start-v5-panel-head"><span>Samhengisv\u00edsar</span><strong>t\u00e6knisamhengi</strong></div><div class="start-v5-proof-grid">' +
               startV5Proof("Route", routeValue, routeDetail, forced ? "warn" : "gateway") +
               startV5Proof("T\u00e6ki", topDevice ? topDevice.key : "\u00d3\u00feekkt", topDevice ? fmt(topDevice.visits || topDevice.raw) + " merki" : "aggregate vantar", topDevice ? "info" : "gateway") +
               startV5Proof("Vafri", topBrowser ? topBrowser.key : "\u00d3\u00feekkt", topBrowser ? fmt(topBrowser.visits || topBrowser.raw) + " merki" : "browser aggregate vantar", topBrowser ? "info" : "gateway") +
@@ -19213,6 +19583,120 @@
     function chartMutedColor() {
       return cssVar("--muted", "#475052");
     }
+    function renderStartV5FlowChart(data) {
+      var host = byId("start-v5-flow-chart");
+      var module = byId("start-v5-flow-module");
+      if (!host || !module || !window.echarts) return;
+      var flow = startV5FlowModel(data);
+      var model = flow.model;
+      var palette = chartPalette();
+      var raw = Math.max(flow.rawSignals, model.total, 1);
+      var route = Math.max(flow.routeTotal, flow.topRoute ? flow.topRoute.total : 0, flow.routerArrivals, 0);
+      var gap = flow.countGap;
+      var maxNode = Math.max(raw, flow.gatewaySignals, route, model.total, gap, flow.confirmed, 1);
+      function nodeSize(value) {
+        return clamp(34 + Math.sqrt(Math.max(number(value), 0) / maxNode) * 38, 34, 74);
+      }
+      function edgeWidth(value) {
+        return clamp(2 + Math.sqrt(Math.max(number(value), 0) / maxNode) * 11, 2, 13);
+      }
+      var nodes = [
+        { id: "raw", label: "Hr\u00e1 merki", detail: "Allt sem tracker s\u00e9r", metric: raw, value: [8, 58, raw], color: palette[8] },
+        { id: "gateway", label: "G\u00e1tt", detail: "root, smellir, arrival", metric: flow.gatewaySignals, value: [29, 36, flow.gatewaySignals], color: palette[4] },
+        { id: "route", label: "Lei\u00f0ing", detail: flow.routeValue, metric: route, value: [52, 36, route], color: palette[2] },
+        { id: "counted", label: "Taldar", detail: "production grunnur", metric: model.total, value: [75, 36, model.total], color: palette[1] },
+        { id: "quality", label: "G\u00e6\u00f0i", detail: "sta\u00f0fest merki", metric: flow.confirmed, value: [93, 36, flow.confirmed], color: flow.confirmed ? palette[2] : palette[1] },
+        { id: "excluded", label: "Utan talningar", detail: "debug, duplicate, diag.", metric: gap, value: [52, 78, gap], color: gap ? palette[2] : palette[3] }
+      ];
+      var nodeMap = {};
+      nodes.forEach(function (node) { nodeMap[node.id] = node; });
+      function link(source, target, value, color, name, curve) {
+        value = number(value);
+        if (!(value > 0)) return null;
+        return {
+          name: name,
+          metric: value,
+          coords: [nodeMap[source].value.slice(0, 2), nodeMap[target].value.slice(0, 2)],
+          lineStyle: { color: color, width: edgeWidth(value), opacity: .72, curveness: curve || 0 },
+          emphasis: { lineStyle: { opacity: .96, width: edgeWidth(value) + 2 } }
+        };
+      }
+      var links = [
+        link("raw", "gateway", flow.gatewaySignals, palette[4], "hr\u00e1 \u2192 g\u00e1tt", .06),
+        link("gateway", "route", route || flow.gatewaySignals, palette[2], "g\u00e1tt \u2192 lei\u00f0ing", .04),
+        link("route", "counted", model.total, palette[1], "lei\u00f0ing \u2192 tali\u00f0", .04),
+        link("counted", "quality", flow.confirmed || (model.total ? 1 : 0), flow.confirmed ? palette[2] : palette[1], "tali\u00f0 \u2192 g\u00e6\u00f0i", .04),
+        link("raw", "excluded", gap, palette[2], "hr\u00e1 \u2192 utan talningar", .22)
+      ].filter(Boolean);
+      var chart = echarts.init(host, null, { renderer: "svg" });
+      chart.setOption({
+        backgroundColor: "transparent",
+        animation: false,
+        grid: { left: 16, right: 18, top: 18, bottom: 18, containLabel: false },
+        tooltip: {
+          trigger: "item",
+          borderColor: "rgba(220,238,248,.26)",
+          backgroundColor: "rgba(15,35,54,.96)",
+          textStyle: { color: "#eaf4fa", fontWeight: 800 },
+          formatter: function (params) {
+            if (params.seriesType === "scatter") {
+              return safe(params.data.label) + "<br><strong>" + fmt(params.data.metric) + "</strong><br>" + safe(params.data.detail || "");
+            }
+            return safe(params.data.name || "fl\u00e6\u00f0i") + "<br><strong>" + fmt(params.data.metric) + "</strong>";
+          }
+        },
+        xAxis: { min: 0, max: 100, show: false, type: "value" },
+        yAxis: { min: 0, max: 100, show: false, type: "value" },
+        series: [
+          {
+            type: "lines",
+            coordinateSystem: "cartesian2d",
+            z: 1,
+            data: links,
+            symbol: ["none", "arrow"],
+            symbolSize: 8,
+            lineStyle: { cap: "round", join: "round" },
+            label: {
+              show: true,
+              formatter: function (params) { return fmt(params.data.metric); },
+              color: "rgba(234,244,250,.86)",
+              fontSize: 11,
+              fontWeight: 900,
+              backgroundColor: "rgba(12,31,48,.84)",
+              borderColor: "rgba(220,238,248,.16)",
+              borderWidth: 1,
+              borderRadius: 6,
+              padding: [3, 6]
+            }
+          },
+          {
+            type: "scatter",
+            z: 3,
+            data: nodes.map(function (node) {
+              return Object.assign({}, node, {
+                symbolSize: nodeSize(node.metric),
+                itemStyle: { color: node.color, borderColor: "rgba(255,255,255,.92)", borderWidth: 2 },
+                label: {
+                  show: true,
+                  position: node.id === "excluded" ? "bottom" : "top",
+                  distance: 9,
+                  color: "rgba(255,255,255,.96)",
+                  fontSize: 11,
+                  fontWeight: 900,
+                  lineHeight: 15,
+                  formatter: function (params) {
+                    return params.data.label + "\n" + fmt(params.data.metric);
+                  }
+                }
+              });
+            }),
+            emphasis: { scale: 1.08 }
+          }
+        ]
+      });
+      module.classList.add("has-echart");
+      statusCharts.push(chart);
+    }
     function renderGatewayFunnelChart(data) {
       var chart = initStatusChart("chart-gateway-funnel");
       var f = data.root_index_funnel || data.root_index || {};
@@ -19393,6 +19877,7 @@
       if (panel) panel.hidden = true;
       if (!window.echarts) return;
       if (panel) panel.hidden = false;
+      renderStartV5FlowChart(data);
       renderRouteMatrixChart(data);
       renderGatewayFunnelChart(data);
       renderLayoutSplitChart(data);
@@ -20738,8 +21223,30 @@
     }
     function renderRouteList(data) {
       var cards = publicMap(data);
-      var rows = routeMatrixRows(data).sort(function (a, b) { return routeMatrixValue(b) - routeMatrixValue(a); }).slice(0, 14);
-      var html = '<div class="list-row route-enhanced list-head"><span>Mælaborð</span><span>Leiðing</span><span>Tæki / skjár</span><span>Vafri / stýrikerfi</span><span class="number">Heimsóknir</span></div>';
+      var section = document.querySelector(".route-auto-section");
+      if (section) section.hidden = false;
+      var allRows = routeMatrixRows(data).sort(function (a, b) { return routeMatrixValue(b) - routeMatrixValue(a); });
+      var rows = allRows.slice(0, 14);
+      var total = allRows.reduce(function (acc, row) { return acc + routeMatrixValue(row); }, 0);
+      var auto = allRows.reduce(function (acc, row) { return acc + (!isForcedLayoutRow(row) ? routeMatrixValue(row) : 0); }, 0);
+      var forced = total - auto;
+      var mobile = allRows.reduce(function (acc, row) { return acc + (normalizeLayoutToken(row.selected_layout) === "mobile" ? routeMatrixValue(row) : 0); }, 0);
+      var desktop = allRows.reduce(function (acc, row) { return acc + (normalizeLayoutToken(row.selected_layout) === "desktop" ? routeMatrixValue(row) : 0); }, 0);
+      var topReason = topRows(allRows, function (row) { return routeMatrixReasonLabel(row); }, 1, routeMatrixValue)[0];
+      function stat(label, value, detail, cls) {
+        return '<article class="route-auto-stat ' + safe(cls || "gateway") + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+      }
+      var summary = '<div class="route-auto-summary">' +
+        stat("Route merki", fmt(total), fmt(rows.length) + " línur sýndar", "gateway") +
+        stat("Sjálfvirkt val", fmt(auto), total ? pct(auto, total) + " af leiðingu" : "engin merki", "info") +
+        stat("Útgáfuval", mobile >= desktop ? "Mobile" : "Desktop", "mobile " + fmt(mobile) + " · desktop " + fmt(desktop), mobile >= desktop ? "good" : "gateway") +
+        stat("Efsta regla", topReason ? topReason.key : "-", topReason ? fmt(topReason.visits) + " merki" : "vantar route gögn", forced ? "warn" : "good") +
+      '</div>';
+      if (!rows.length) {
+        setHtml("route-list", summary + '<div class="message-card neutral"><strong>Engin leiðingargögn</strong><p>Route aggregate skilaði engum taldum línum. Síðasta þekkta gögn eru samt ekki endurtalin annars staðar á síðunni.</p></div>');
+        return;
+      }
+      var html = summary + '<div class="list-row route-enhanced list-head"><span>Mælaborð</span><span>Leiðing</span><span>Tæki / skjár</span><span>Vafri / stýrikerfi</span><span class="number">Talning</span></div>';
       html += rows.map(function (row) {
         var ctx = routeContextFor(row, data);
         var forcedLayout = forcedLayoutValue(row);
@@ -20748,13 +21255,13 @@
         var rowUnit = visitValue(row) ? "heimsóknir" : "merki";
         return '<div class="list-row route-enhanced">' +
           '<div class="route-main"><div class="route-title">' + safe(titleFor(row, cards)) + '</div><div class="route-sub">' + safe(cleanId(row.dashboard_id || row.dashboard_key)) + '</div></div>' +
-          '<div class="route-decision"><strong>' + safe(labelRoute(row.route_reason)) + '</strong><div class="route-meta">' + safe(routeExplanation(row)) + '</div><div class="chip-row"><span class="chip accent">' + safe(labelLayout(row.selected_layout)) + '</span><span class="chip neutral">' + safe(forced) + '</span></div></div>' +
+          '<div class="route-decision"><strong>' + safe(routeMatrixReasonLabel(row)) + '</strong><div class="route-meta">' + safe(routeExplanation(row)) + '</div><div class="chip-row"><span class="chip accent">' + safe(labelLayout(row.selected_layout)) + '</span><span class="chip neutral">' + safe(forced) + '</span></div></div>' +
           '<div class="route-device"><strong>' + safe(ctx.device) + '</strong><div class="route-meta">' + safe(ctx.viewport) + '</div><div class="route-meta">Traust: ' + safe(ctx.confidence) + '</div></div>' +
           '<div class="route-browser"><strong>' + safe(ctx.browser) + '</strong><div class="route-meta">' + safe(ctx.os) + '</div><div class="route-meta">Samsvarandi tæknilínur: ' + safe(ctx.visits ? fmt(ctx.visits) : "-") + '</div></div>' +
           '<div class="route-count"><strong>' + fmt(rowCount) + '</strong><span>' + safe(rowUnit) + '</span></div>' +
         '</div>';
       }).join("");
-      setHtml("route-list", rows.length ? html : '<div class="message-card neutral">Engin talin route gögn enn.</div>');
+      setHtml("route-list", html);
     }
     function renderSourceList(data) {
       var cards = publicMap(data);
@@ -20955,9 +21462,8 @@
     function render(data) {
       safeRender("start-panel", "Fresh start", function () { renderStartPanelV5(data); });
       setStatus(data, "");
-      safeRender("signal-panorama-panel", "Flæði og samhengi", function () { renderSignalPanoramaV2(data); });
+      safeRender("route-list", "Sjálfvirk leiðing", function () { renderRouteList(data); });
       safeRender("dashboard-public-master", "Mælaborð", function () { renderDashboardPublicMasterV2(data); });
-      safeRender("layout-source-panel", "Leiðing og uppruni", function () { renderLayoutAndSourceV5(data); });
       safeRender("insight-grid", "Rekstrarinnsýn", function () { renderInsightsV2(data); });
       safeRender("technical-panel", "Tæki og vafraumhverfi", function () { renderTechnical(data); });
       safeRender("delivery-panel", "Tæknimerki til skoðunar", function () { renderDeliveryPanel(data); });
