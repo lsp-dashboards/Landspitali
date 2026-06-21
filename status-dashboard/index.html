@@ -254,31 +254,6 @@
       background: var(--data-01);
     }
 
-    .view-switch-link {
-      min-height: 31px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      align-self: flex-end;
-      padding: 7px 13px;
-      border: 1px solid rgba(79, 111, 143, .24);
-      border-radius: 999px;
-      background: var(--ink);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 900;
-      line-height: 1.1;
-      text-decoration: none;
-      white-space: nowrap;
-      box-shadow: 0 10px 20px rgba(14, 36, 56, .08);
-    }
-
-    .view-switch-link:hover,
-    .view-switch-link:focus-visible {
-      background: var(--land);
-      color: #fff;
-    }
-
     .eyebrow {
       margin: 0 0 5px;
       color: var(--accent-dark);
@@ -12297,6 +12272,191 @@
       background-size: auto, 34px 100%;
     }
 
+    .start-v5-lcd-hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, .28fr);
+      gap: clamp(16px, 2vw, 28px);
+      align-items: stretch;
+      min-height: clamp(210px, 22vw, 300px);
+      padding: clamp(20px, 2.6vw, 34px);
+      border: 1px solid rgba(181, 212, 232, .34);
+      border-radius: 8px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(66,148,185,.28), transparent 32%),
+        linear-gradient(135deg, #12314c 0%, #174a6d 58%, #0d2a43 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+    }
+
+    .start-v5-lcd-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 44px 100%, 100% 26px;
+      opacity: .55;
+      pointer-events: none;
+    }
+
+    .start-v5-lcd-main,
+    .start-v5-lcd-side {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      min-width: 0;
+    }
+
+    .start-v5-lcd-main {
+      gap: clamp(16px, 2vw, 24px);
+      align-content: space-between;
+    }
+
+    .start-v5-lcd-title {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+
+    .start-v5-lcd-kicker,
+    .start-v5-lcd-status span,
+    .start-v5-lcd-grid .start-v5-metric span {
+      color: rgba(219,238,249,.92);
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .start-v5-lcd-title h2 {
+      margin: 0;
+      color: #fff;
+      font-size: clamp(52px, 5.6vw, 92px);
+      line-height: .88;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .start-v5-lcd-copy {
+      max-width: 86ch;
+      margin: 0;
+      color: rgba(234,244,250,.9);
+      font-size: clamp(13px, 1.05vw, 15px);
+      line-height: 1.44;
+      font-weight: 800;
+      text-wrap: pretty;
+    }
+
+    .start-v5-lcd-copy strong {
+      color: #fff;
+    }
+
+    .start-v5-lcd-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .start-v5-lcd-grid .start-v5-metric {
+      min-height: 96px;
+      border-color: rgba(220,238,248,.22);
+      background: rgba(255,255,255,.08);
+    }
+
+    .start-v5-lcd-grid .start-v5-metric.good,
+    .start-v5-lcd-grid .start-v5-metric.info,
+    .start-v5-lcd-grid .start-v5-metric.gateway {
+      background: rgba(255,255,255,.095);
+      border-color: rgba(220,238,248,.24);
+    }
+
+    .start-v5-lcd-grid .start-v5-metric.warn,
+    .start-v5-lcd-grid .start-v5-metric.bad {
+      background: rgba(222,158,36,.18);
+      border-color: rgba(246,207,122,.32);
+    }
+
+    .start-v5-lcd-grid .start-v5-metric strong {
+      color: #fff;
+      font-size: clamp(22px, 2vw, 34px);
+    }
+
+    .start-v5-lcd-grid .start-v5-metric small {
+      color: rgba(226,240,248,.78);
+      font-weight: 800;
+    }
+
+    .start-v5-lcd-grid .start-v5-meter {
+      background: rgba(255,255,255,.16);
+    }
+
+    .start-v5-lcd-side {
+      gap: 12px;
+      align-content: space-between;
+    }
+
+    .start-v5-lcd-status {
+      display: grid;
+      gap: 7px;
+      padding: 14px;
+      border: 1px solid rgba(220,238,248,.24);
+      border-radius: 8px;
+      background: rgba(255,255,255,.09);
+    }
+
+    .start-v5-lcd-status strong {
+      color: #fff;
+      font-size: clamp(24px, 2.2vw, 36px);
+      line-height: .94;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .start-v5-lcd-status small {
+      color: rgba(226,240,248,.8);
+      font-size: 11px;
+      line-height: 1.32;
+      font-weight: 800;
+    }
+
+    .start-v5-lcd-bars {
+      display: flex;
+      align-items: end;
+      justify-content: flex-end;
+      gap: 8px;
+      min-height: 82px;
+      padding: 8px 2px 4px;
+    }
+
+    .start-v5-lcd-bars span {
+      width: 7px;
+      height: var(--h, 40%);
+      min-height: 12px;
+      border-radius: 4px 4px 1px 1px;
+      background: linear-gradient(180deg, rgba(239,247,252,.98), rgba(170,207,229,.76));
+      box-shadow: 0 0 16px rgba(168,213,239,.18);
+    }
+
+    .start-v5-lcd-side .start-v5-action-head strong,
+    .start-v5-lcd-side .start-v5-action-list p {
+      color: #fff;
+    }
+
+    .start-v5-lcd-side .start-v5-action-list span {
+      color: rgba(219,238,249,.84);
+    }
+
+    .start-v5-lcd-side .start-v5-action-item {
+      border-color: rgba(220,238,248,.22);
+      background: rgba(255,255,255,.08);
+    }
+
     .start-v5-hero::before,
     .start-v5-flow::before {
       content: "";
@@ -12696,6 +12856,7 @@
     }
 
     @media (max-width: 1240px) {
+      .start-v5-lcd-hero,
       .start-v5-hero,
       .start-v5-title-row,
       .start-v5-lower {
@@ -12709,6 +12870,7 @@
     }
 
     @media (max-width: 900px) {
+      .start-v5-lcd-grid,
       .start-v5-signal-grid,
       .start-v5-flowline,
       .start-v5-proof-grid {
@@ -12721,6 +12883,7 @@
     }
 
     @media (max-width: 560px) {
+      .start-v5-lcd-grid,
       .start-v5-signal-grid,
       .start-v5-flowline,
       .start-v5-proof-grid,
@@ -12731,6 +12894,10 @@
 
       .start-v5-title-row h2 {
         font-size: 34px;
+      }
+
+      .start-v5-lcd-title h2 {
+        font-size: 40px;
       }
 
       .start-v5-dash-row::before {
@@ -13778,6 +13945,14 @@
       align-items: start;
     }
 
+    .route-v5-body.compact {
+      grid-template-columns: 1fr;
+    }
+
+    .route-v5-context.route-v5-context-wide {
+      width: 100%;
+    }
+
     .route-v5-lanes {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -14504,7 +14679,6 @@
               <button class="data-source-link active" type="button" data-source-mode="real" aria-pressed="true">Raun gögn</button>
               <button class="data-source-link" type="button" data-source-mode="sample" aria-pressed="false">Sample gögn</button>
             </div>
-            <a class="view-switch-link" href="current.html" aria-label="Opna compact útgáfu stöðuyfirlitsins">Compact vaktborð</a>
             <div class="pill-row" aria-label="Staða og uppfærsla">
               <span class="pill"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn</span></span>
               <span class="pill" id="generated-pill" title="Uppfært: -">Uppfært: -</span>
@@ -14576,7 +14750,7 @@
       <div class="delivery-board" id="delivery-panel"></div>
     </section>
 
-    <section class="panel route-auto-section" aria-labelledby="route-auto-title">
+    <section class="panel route-auto-section" aria-labelledby="route-auto-title" hidden>
       <div class="panel-head">
         <div>
           <h2 id="route-auto-title">Sjálfvirk leiðing</h2>
@@ -14714,28 +14888,6 @@
     function dateShort(iso) {
       var p = dateParts(iso);
       return p ? p.day + "." + p.month + "." + p.year + ", " + p.hour + ":" + p.minute : "-";
-    }
-    function statusGeneratedAt(data) {
-      var health = data && data.health ? data.health : {};
-      return data && (
-        data.generated_at ||
-        data.generatedAt ||
-        data.dashboard_data_generated_at ||
-        data.aggregation_generated_at ||
-        health.dashboard_data_generated_at ||
-        health.aggregation_generated_at ||
-        health.last_aggregation_time
-      ) || "";
-    }
-    function staleStaticStatusMessage(data) {
-      var timestamp = statusGeneratedAt(data);
-      var date = new Date(timestamp);
-      if (!timestamp) return "Static status JSON has no generated timestamp; using Apps Script fallback.";
-      if (!isFinite(date.getTime())) return "Static status JSON generated timestamp is invalid; using Apps Script fallback.";
-      if (Date.now() - date.getTime() > STATIC_STATUS_MAX_AGE_MS) {
-        return "Static status JSON is older than 24 hours (" + dateShort(timestamp) + "); using Apps Script fallback.";
-      }
-      return "";
     }
     function dateTooltip(iso) {
       var p = dateParts(iso);
@@ -15729,7 +15881,7 @@
           (countedSourceRows.map(function (row) { return bar(row.key, row.visits, countedSourceTotal, { asNumber: true, className: row.key === "island.is" ? "good" : "info" }); }).join("") || '<div class="subtle">Engin talin source gögn.</div>') +
         '</div></div></div></article>' +
       '</div>';
-      panel.innerHTML = flow + analysis;
+      panel.innerHTML = flow;
     }
     function funnelStep(label, value, copy, className, badge) {
       return '<article class="funnel-step ' + safe(className) + '"><div><div class="funnel-label">' + safe(label) + '</div><div class="funnel-value">' + fmt(value) + '</div></div><div><span class="chip ' + safe(className === "visit" ? "good" : className === "gateway" ? "gateway" : "accent") + '">' + safe(badge) + '</span><div class="funnel-copy" style="margin-top:8px;">' + safe(copy) + '</div></div></article>';
@@ -16378,7 +16530,7 @@
       setHtml("layout-source-panel",
         '<article class="route-master-v5">' +
           '<section class="route-v5-command" aria-label="Route og source master panel">' +
-            '<div class="route-v5-story"><span class="route-v5-kicker">Route/source master</span><h2>Leiðing og uppruni</h2><p>Sama talning lesin í þremur hnitum: útgáfuval, uppruna og sönnun per mælaborð. Gateway og router sýna samhengi; Taldar er eini notkunargrunnurinn.</p><div class="route-v5-stat-grid">' +
+            '<div class="route-v5-story"><span class="route-v5-kicker">Route/source master</span><h2>Leiðing og uppruni</h2><p>Eitt sameinað yfirlit heldur utan um gateway, router, útgáfu, uppruna og sönnun per mælaborð. Taldar er áfram eini notkunargrunnurinn.</p><div class="route-v5-stat-grid">' +
               routeV5Stat("Taldar", fmt(total), fmt(dashboards.length) + " mælaborð", "good") +
               routeV5Stat("Útgáfa", layoutDominant, pct(layoutDominantValue, layoutTotal) + " af útgáfuvali", layoutDominant === "Mobile" ? "info" : "gateway") +
               routeV5Stat("Uppruni", sourceDominant.label, pct(sourceDominant.value, sourceTotal) + " af umferð", sourceDominant.className) +
@@ -16399,21 +16551,8 @@
               '</div>' +
             '</div>' +
           '</section>' +
-          '<section class="route-v5-body" aria-label="Route source evidence">' +
-            '<div class="route-v5-lanes">' +
-              routeV5Lane("Útgáfuval", layoutDominant, [
-                { label: "Mobile", value: mobile, className: "info", detail: "sama notkunargrunnur" },
-                { label: "Desktop", value: desktop, className: "gateway", detail: "sama notkunargrunnur" }
-              ], layoutTotal, "gateway") +
-              routeV5Lane("Uppruni", sourceDominant.label, sourceRowsSummary, sourceTotal, "good") +
-              routeV5Lane("Route ástæður", routeReasonRows[0] ? routeReasonRows[0].key : "engin route merki", routeReasonRows.map(function (row) {
-                return { label: row.key, value: row.visits, className: routeAttribTone(row.key), detail: fmt(row.rows) + " línur" };
-              }), Math.max(total, 1), routeMissing ? "warn" : "info") +
-              routeV5Lane("Herferðir / source", campaignRows[0] ? campaignRows[0].key : "engin source merki", campaignRows.map(function (row) {
-                return { label: row.key, value: row.visits, className: routeAttribTone(row.key), detail: fmt(row.rows) + " línur" };
-              }), Math.max(total, 1), campaignMissing ? "gateway" : "info") +
-            '</div>' +
-            '<aside class="route-v5-context">' +
+          '<section class="route-v5-body compact" aria-label="Route source evidence">' +
+            '<aside class="route-v5-context route-v5-context-wide">' +
               '<div class="route-v5-proof-meta ' + (activeChecks ? 'warn' : 'good') + '"><span>Lestrarröð</span><strong>' + (activeChecks ? 'Skoða ' + fmt(activeChecks) : 'Stöðugt') + '</strong><small>' + (activeChecks ? 'Byrja á action-röðinni efst.' : 'Topkort er baseline fyrir næstu prófun.') + '</small>' + routeV5Track(activeChecks, 4, activeChecks ? "warn" : "good") + '</div>' +
               '<div class="route-v5-proof-list">' + proofRows + '</div>' +
             '</aside>' +
@@ -16816,6 +16955,11 @@
       var className = cls ? " " + safe(cls) : "";
       return '<article class="start-v5-metric' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' + startV5Meter(fill === undefined ? 0 : fill, cls) + '</article>';
     }
+    function startV5LcdBars(values) {
+      return '<div class="start-v5-lcd-bars" aria-hidden="true">' + (values || []).map(function (value) {
+        return '<span style="--h:' + clamp(number(value), 12, 100).toFixed(1) + '%"></span>';
+      }).join("") + '</div>';
+    }
     function startV5Action(item, index) {
       item = item || {};
       var tone = item.tone || "info";
@@ -16885,27 +17029,31 @@
       var statusTitle = model.tone === "good" ? "Rekstur st\u00f6\u00f0ugur" : model.tone === "warn" ? "Athugun \u00ed forgangi" : "Br\u00fdnt a\u00f0 sko\u00f0a";
       var lead = confirmed ?
         fmt(confirmed) + " sta\u00f0fest rekstrarmerki eru sett fremst. Taldar opnanir eru a\u00f0altalan; gateway, router og raw merki sk\u00fdra samhengi\u00f0." :
-        "Engin sta\u00f0fest production villa er efst. Taldar opnanir, route, uppruni og tracker g\u00e6\u00f0i lesa saman.";
+        "Engin sta\u00f0fest production villa er efst. Taldar opnanir, ferskleiki og tracker g\u00e6\u00f0i lesa saman.";
       var actions = actionItems(data, model).slice(0, 3).map(startV5Action).join("");
       var freshnessFill = clamp(100 - Math.min(model.eventAge.minutes, 720) / 720 * 100, 0, 100);
       var qualityFill = clamp(100 - confirmed * 28 - model.fallback * 16 - model.weakShare * 100, 0, 100);
       var usageMode = model.desktop >= model.mobile ? "Desktop" : "Mobile";
       var usageDetail = "Mobile " + safe(pct(model.mobile, Math.max(model.total, 1))) + " / desktop " + safe(pct(model.desktop, Math.max(model.total, 1)));
       var focusCopy = topDashboard ? safe(topDashboardTitle) + " ber " + safe(pct(visitValue(topDashboard), Math.max(model.total, 1))) + " af t\u00f6ldum opnunum." : "Engin talin production opnun fannst enn.";
+      var dashboardCount = number(model.dashboardCount) || dashboards.length;
+      var countedFill = clamp(model.total / totalSignal * 100, 0, 100);
+      var gatewayFill = clamp(gatewaySignals / totalSignal * 100, 0, 100);
+      var topDashboardFill = topDashboard ? clamp(visitValue(topDashboard) / Math.max(model.total, 1) * 100, 0, 100) : 16;
+      var lcdBars = startV5LcdBars([countedFill, freshnessFill, model.score, qualityFill, gatewayFill, topDashboardFill, dashboardCount ? 88 : 16, confirmed ? 28 : 92]);
       setHtml("start-panel",
         '<article class="start-v5 ' + safe(scoreTone) + '">' +
-          '<section class="start-v5-hero" aria-label="Upphafsinns\u00fdn">' +
-            '<div class="start-v5-story">' +
-              '<div class="start-v5-title-row"><div><span class="start-v5-kicker">Start / rekstrarlestur</span><h2 id="fresh-start-title">' + safe(statusTitle) + '</h2><p class="start-v5-copy">' + safe(lead) + '</p></div>' +
-                '<div class="start-v5-score"><span class="start-v5-kicker">Rekstrarsta\u00f0a</span><strong>' + fmt(model.score) + '/100</strong><small>Skor er l\u00edna, ekki a\u00f0almynd.</small>' + startV5Meter(model.score, scoreTone) + '</div></div>' +
-              '<div class="start-v5-signal-grid">' +
-                startV5Metric("Taldar opnanir", fmt(model.total), fmt(model.dashboardCount) + " m\u00e6labor\u00f0 \u00ed grunni", "good", model.total / totalSignal * 100) +
-                startV5Metric("Sta\u00f0fest merki", confirmed ? fmt(confirmed) : "0", confirmed ? "sko\u00f0a \u00ed g\u00e6\u00f0avi\u00f0v\u00f6runum" : "engin sta\u00f0fest merki", confirmed ? "warn" : "good", qualityFill) +
+          '<section class="start-v5-lcd-hero" aria-label="M\u00e6labor\u00f0sm\u00e6lingar status">' +
+            '<div class="start-v5-lcd-main">' +
+              '<div class="start-v5-lcd-title"><span class="start-v5-lcd-kicker">V\u00d6KTUNARKJARNI / REKSTRARP\u00daLS</span><h2 id="fresh-start-title">M\u00e6labor\u00f0sm\u00e6lingar</h2><p class="start-v5-lcd-copy"><strong>' + safe(statusTitle) + '.</strong> Ein \u00e1kv\u00f6r\u00f0unarl\u00edna fyrir opnanir, ferskleika, g\u00e6\u00f0i og t\u00e6knimerki. ' + safe(lead) + '</p></div>' +
+              '<div class="start-v5-lcd-grid">' +
+                startV5Metric("Taldar opnanir", fmt(model.total), "production dashboard opnanir", "good", countedFill) +
+                startV5Metric("M\u00e6labor\u00f0", fmt(dashboardCount), "\u00ed notkunargrunni", "info", dashboardCount ? 100 : 0) +
                 startV5Metric("Ferskleiki", model.eventAge.label, "samantekt " + model.aggregationAge.label, model.eventAge.className, freshnessFill) +
-                startV5Metric("Uppruni", pct(sourceSignal, sourceTotal), sourceDetail, sourceTone, sourceSignal / sourceTotal * 100) +
+                startV5Metric("G\u00e6\u00f0i", confirmed ? fmt(confirmed) : "Hreint", confirmed ? "sta\u00f0fest merki" : "engin sta\u00f0fest merki", confirmed ? "warn" : "good", qualityFill) +
               '</div>' +
             '</div>' +
-            '<aside class="start-v5-actions"><div class="start-v5-action-head"><span class="start-v5-kicker">\u00c1kv\u00f6r\u00f0un</span><strong>N\u00e6st</strong></div><div class="start-v5-action-list">' + actions + '</div></aside>' +
+            '<aside class="start-v5-lcd-side"><div class="start-v5-lcd-status"><span>Sta\u00f0a n\u00fana</span><strong>' + safe(statusTitle) + '</strong><small>' + fmt(model.score) + '/100 · ' + fmt(dashboardCount) + ' m\u00e6labor\u00f0 · ' + fmt(model.total) + ' taldar opnanir</small>' + startV5Meter(model.score, scoreTone) + '</div>' + lcdBars + '<div class="start-v5-action-head"><span class="start-v5-lcd-kicker">\u00c1kv\u00f6r\u00f0un</span><strong>N\u00e6st</strong></div><div class="start-v5-action-list">' + actions + '</div></aside>' +
           '</section>' +
           '<section class="start-v5-flow" aria-label="Signal path">' +
             '<div class="start-v5-panel-head"><span>Signal path</span><strong>raw -> gateway -> router -> tali\u00f0 -> g\u00e6\u00f0i</strong></div>' +
@@ -17294,36 +17442,19 @@
       var total = visitValue(dashboard);
       var status = publicCardStatus(card);
       var statusClass = status.cls || "gateway";
-      var layout = dashboardLayoutContext(data, dashboard);
-      var source = dashboardSourceContext(data, dashboard);
       var tracker = dashboardDeviceContext(data, dashboard) || "engin tracker";
       var age = ageInfo(dashboardLastCountedTime(dashboard));
       var lastTime = dashboardLastCountedTime(dashboard);
       var warningCount = number(firstValue(dashboard, ["confirmed_warning_count", "production_warning_count", "warning_count"]));
-      var layoutTotal = Math.max(layout.mobile + layout.desktop, layout.total, total, 1);
-      var sourceTotal = Math.max(source.island + source.direct + source.other, source.total, total, 1);
-      var layoutDominant = layout.desktop >= layout.mobile ? "Desktop" : "Mobile";
-      var sourceRows = [
-        { key: "island.is", value: source.island, cls: "good" },
-        { key: "Beint", value: source.direct, cls: "gateway" },
-        { key: "Annað", value: source.other, cls: "neutral" }
-      ].sort(function (a, b) { return number(b.value) - number(a.value); });
-      var sourceDominant = sourceRows[0] || { key: "-", value: 0, cls: "gateway" };
-      var forcedDetail = layout.forced ? "Þvingun: mobile " + fmt(layout.forcedMobile) + " · desktop " + fmt(layout.forcedDesktop) : "Sjálfvirkt val";
       var today = number(dashboard.visits_today);
       return '<article class="dash-v2-row ' + safe(statusClass) + '">' +
         '<div class="dash-v2-rank">' + safe(String(index + 1).padStart(2, "0")) + '</div>' +
         '<img src="' + safe(iconFor(dashboard, cards)) + '" alt="">' +
         '<div class="dash-v2-row-title"><span class="dash-v2-row-kicker">' + safe(status.label || "Kort") + '</span><strong>' + safe(titleFor(dashboard, cards)) + '</strong><small>' + safe(status.detail || cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + '</small></div>' +
         '<div class="dash-v2-count"><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + ' af heild</small></div>' +
-        '<div class="dash-v2-row-lines">' +
-          dashV2Line("Útgáfuval · " + layoutDominant, Math.max(layout.mobile, layout.desktop), layoutTotal, layoutDominant === "Mobile" ? "info" : "gateway", "mobile " + fmt(layout.mobile) + " · desktop " + fmt(layout.desktop)) +
-          dashV2Line("Uppruni · " + sourceDominant.key, sourceDominant.value, sourceTotal, sourceDominant.cls, "island.is " + fmt(source.island) + " · beint " + fmt(source.direct)) +
-        '</div>' +
         '<div class="dash-v2-facts">' +
           dashV2Fact("Í dag", fmt(today), today ? "ný virkni" : "engin ný virkni", today ? "good" : "gateway") +
           dashV2Fact("Síðast", age.label, lastTime ? dateShort(lastTime) : "engin talin opnun", age.className || "gateway") +
-          dashV2Fact("Leiðing", layout.topRoute, forcedDetail, layout.forced ? "warn" : "gateway") +
           dashV2Fact("Tracker", tracker, warningCount ? fmt(warningCount) + " merki þarf að skoða" : "engin staðfest villa", warningCount ? "warn" : "good") +
         '</div>' +
       '</article>';
@@ -17351,61 +17482,24 @@
       var top = sortedDashboards[0];
       var newest = dashboards.slice().sort(function (a, b) { return new Date(dashboardLastCountedTime(b) || 0) - new Date(dashboardLastCountedTime(a) || 0); })[0];
       var newestAge = newest ? ageInfo(dashboardLastCountedTime(newest)) : null;
-      var routeRows = routeMatrixRows(data);
-      var routeGroups = routeReasonGroups(data, false).filter(function (row) { return number(row.total) > 0; });
-      var topRoute = routeGroups[0];
-      var forced = forcedLayoutTotal(routeRows);
-      var layoutContexts = sortedDashboards.map(function (dashboard) { return dashboardLayoutContext(data, dashboard); });
-      var mobileTotal = layoutContexts.reduce(function (acc, ctx) { return acc + number(ctx.mobile); }, 0);
-      var desktopTotal = layoutContexts.reduce(function (acc, ctx) { return acc + number(ctx.desktop); }, 0);
-      if (!mobileTotal && !desktopTotal) {
-        mobileTotal = model.mobile || number(firstValue(data.kpis || {}, ["mobile_visits", "mobile_counted_visits"]));
-        desktopTotal = model.desktop || number(firstValue(data.kpis || {}, ["desktop_visits", "desktop_counted_visits"]));
-      }
-      var sourceContexts = sortedDashboards.map(function (dashboard) { return dashboardSourceContext(data, dashboard); });
-      var islandTotal = sourceContexts.reduce(function (acc, ctx) { return acc + number(ctx.island); }, 0);
-      var directTotal = sourceContexts.reduce(function (acc, ctx) { return acc + number(ctx.direct); }, 0);
-      var otherTotal = sourceContexts.reduce(function (acc, ctx) { return acc + number(ctx.other); }, 0);
-      if (!islandTotal && !directTotal && !otherTotal) {
-        islandTotal = model.island || number(firstValue(data.kpis || {}, ["island_is_visits", "island_visits", "source_island_is_visits"]));
-        directTotal = sourceCount(visibleRows(data.sources || []), function (value) { return isDirectSource(value); });
-        otherTotal = Math.max(0, totalVisits - islandTotal - directTotal);
-      }
       var warningCount = model.warningSplit && model.warningSplit.confirmed ? model.warningSplit.confirmed.length : 0;
       var topTitle = top ? titleFor(top, publicMap(data)) : "-";
       var topShare = top ? pct(visitValue(top), Math.max(totalVisits, 1)) : "0%";
-      var layoutTotal = Math.max(mobileTotal + desktopTotal, totalVisits, 1);
-      var sourceTotal = Math.max(islandTotal + directTotal + otherTotal, totalVisits, 1);
-      var layoutDominant = desktopTotal >= mobileTotal ? "Desktop" : "Mobile";
-      var sourceDominant = islandTotal >= directTotal && islandTotal >= otherTotal ? "island.is" : directTotal >= otherTotal ? "Beint" : "Annað";
       var dashboardHtml = sortedDashboards.map(function (dashboard, index) { return dashV2DashboardRow(data, dashboard, totalVisits, index); }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engar taldar production heimsóknir í dashboard aggregate.</p></div>';
       setHtml("dashboard-public-master",
         '<div class="dashboard-v2">' +
           '<section class="dash-v2-hero" aria-label="Mælaborðasafn">' +
-            '<div class="dash-v2-story"><div><span class="dash-v2-kicker">Mælaborðasafn</span><h2>Mælaborð</h2><p>Portfolio kortið sýnir hvaða opinberu mælaborð bera notkunina, hvaða route og uppruni skýra hana, og hvaða tracker merki þarf að lesa áður en brugðist er við.</p></div><div class="dash-v2-metrics">' +
+            '<div class="dash-v2-story"><div><span class="dash-v2-kicker">Mælaborðasafn</span><h2>Mælaborð</h2><p>Portfolio kortið sýnir hvaða opinberu mælaborð bera notkunina, hversu ný talningin er og hvaða tracker merki þarf að lesa áður en brugðist er við.</p></div><div class="dash-v2-metrics">' +
               dashV2Metric("Samtals notkun", fmt(totalVisits), "taldar production opnanir", "good") +
               dashV2Metric("Í dag", fmt(todayTotal), "opnanir skráðar", todayTotal ? "good" : "gateway") +
               dashV2Metric("7 dagar", fmt(sevenDayTotal), "síðustu sjö dagar", sevenDayTotal ? "info" : "gateway") +
               dashV2Metric("Kort í rekstri", fmt(published) + "/" + fmt(publicTotal), draftOrTest ? fmt(draftOrTest) + " í próf/drögum" : "opinbert safn", draftOrTest ? "warn" : "info") +
             '</div></div>' +
-            '<div class="dash-v2-distribution">' +
-              dashV2LanePanel("Útgáfuval", layoutDominant, [
-                { label: "Mobile", value: mobileTotal, className: "info", detail: "sama notkunargrunnur" },
-                { label: "Desktop", value: desktopTotal, className: "gateway", detail: "sama notkunargrunnur" }
-              ], layoutTotal) +
-              dashV2LanePanel("Uppruni", sourceDominant, [
-                { label: "island.is", value: islandTotal, className: "good", detail: "opinber uppruni" },
-                { label: "Beint", value: directTotal, className: "gateway", detail: "bein opnun" },
-                { label: "Annað", value: otherTotal, className: "neutral", detail: "annar uppruni" }
-              ], sourceTotal) +
-            '</div>' +
           '</section>' +
           '<section class="dash-v2-main" aria-label="Mælaborð og samhengi">' +
             '<div class="dash-v2-row-list">' + dashboardHtml + '</div>' +
-            '<aside class="dash-v2-context"><div class="dash-v2-panel-head"><span>Lestrarröð</span><strong>' + safe(topTitle) + '</strong></div><p class="dash-v2-note">Mest lesna kortið ber ' + safe(topShare) + ' af mælaborðanotkun. Röðin hér notar sömu stærðargráðu í hverri línu: notkun fyrst, síðan leiðing, uppruni, ferskleiki og gæði.</p><div class="dash-v2-context-grid">' +
+            '<aside class="dash-v2-context"><div class="dash-v2-panel-head"><span>Lestrarröð</span><strong>' + safe(topTitle) + '</strong></div><p class="dash-v2-note">Mest lesna kortið ber ' + safe(topShare) + ' af mælaborðanotkun. Röðin hér notar sömu stærðargráðu í hverri línu: notkun, ferskleika, birtingarstöðu og staðfest gæði.</p><div class="dash-v2-context-grid">' +
               dashV2Context("Ráðandi kort", topTitle, top ? fmt(visitValue(top)) + " opnanir · " + topShare : "engin talin opnun", "good") +
-              dashV2Context("Route", topRoute ? topRoute.key : "engin route merki", topRoute ? fmt(topRoute.total) + " merki" : "ekkert skráð", forced ? "warn" : "gateway") +
-              dashV2Context("Þvingun", fmt(forced), forced ? "forced layout þarf að skoða" : "engin þvingun", forced ? "warn" : "good") +
               dashV2Context("Gæði", warningCount ? fmt(warningCount) + " merki" : "hreint", warningCount ? "staðfest þarf að skoða" : "engin staðfest viðvörun", warningCount ? "warn" : "good") +
               dashV2Context("Nýjast", newest ? titleFor(newest, publicMap(data)) : "-", newestAge ? newestAge.label : "engin gögn", newestAge ? newestAge.className : "gateway") +
               dashV2Context("Birting", fmt(published) + "/" + fmt(publicTotal), draftOrTest ? fmt(draftOrTest) + " í próf/drögum" : "í rekstri", draftOrTest ? "warn" : "info") +
@@ -17499,37 +17593,21 @@
       var k = data.kpis || {};
       var f = data.root_index_funnel || data.root_index || {};
       var dashboards = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); }).slice(0, 4);
-      var routeRows = routeReasonGroups(data, false).filter(function (row) { return number(row.total) > 0; }).slice(0, 8);
-      var routeTotal = Math.max(routeRows.reduce(function (acc, row) { return acc + number(row.total); }, 0), 1);
-      var sourceRows = visibleRows(data.sources || []);
-      var sourceGroups = topRows(sourceRows, function (row) { return labelSource(sourceLabelValue(row)); }, 4);
       var browserRisk = number(k.powerbi_viewer_unsupported_browser_events) || warningTotal(data, "powerbi_viewer_unsupported_browser");
-      var fallback = number(firstValue(k, ["fallback_clicks", "fallback_error_count"]));
-      var weakShare = k.weak_unknown_signal_share !== undefined ? number(k.weak_unknown_signal_share) : (number(k.weak_unknown_signal_count) / Math.max(number(k.total_events), 1));
-      var island = model.island || sourceCount(sourceRows, function (value) { return isIslandSource(value); });
-      var total = Math.max(model.total, 1);
       var rootViews = number(firstValue(f, ["views", "root_views", "root_index_views"]));
       var clicks = number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"]));
       var arrivals = number(firstValue(f, ["router_arrivals", "arrivals"]));
       var countedGateway = number(firstValue(f, ["counted_opens", "counted_visits", "opens"])) || model.total;
-      var routeMode = model.desktop >= model.mobile ? "desktop" : "mobile";
-      var routeModeValue = Math.max(model.desktop, model.mobile);
-      var sourceTotal = Math.max(sumRows(sourceRows), model.total, 1);
-      var sourceMarks = sourceGroups.map(function (row) {
-        return atlasSourceMark(row.key, fmt(row.visits), pct(row.visits, sourceTotal) + " af töldum uppruna", row.visits / sourceTotal * 100, row.key === "island.is" ? "good" : "gateway");
-      }).join("");
-      sourceMarks += atlasSourceMark("Viewer risk", fmt(browserRisk), "Óstuddur Power BI viewer vafri.", browserRisk ? 100 : 0, browserRisk ? "warn" : "good");
-      sourceMarks += atlasSourceMark("Signal gæði", shareValue(weakShare), "Veikt eða óþekkt tækjamerki.", weakShare * 100, weakShare > .12 ? "warn" : "info");
       return '<div class="insight-atlas atlas-v3">' +
         '<section class="atlas-hero atlas-hero-v3" aria-label="Signal atlas">' +
-          '<div class="atlas-story"><div><span class="atlas-kicker">Signal atlas</span><h3>Samhengi notkunar</h3></div><p>Taldar production opnanir eru aðaltalan. Gateway, route, source og tæknimerki eru sýnd sem samhengi svo vægið liggi í merkjunum, ekki fyrirsögninni.</p><div class="atlas-stat-grid">' +
+          '<div class="atlas-story"><div><span class="atlas-kicker">Signal atlas</span><h3>Samhengi notkunar</h3></div><p>Taldar production opnanir eru aðaltalan. Hér sést flæðið frá public kortum yfir í taldar opnanir ásamt tæknimerkjum sem skipta máli.</p><div class="atlas-stat-grid">' +
             atlasStat("Talið", fmt(model.total), "production opnanir", "good") +
-            atlasStat("Ráðandi leið", routeMode + " " + pct(routeModeValue, total), "mobile " + fmt(model.mobile) + " · desktop " + fmt(model.desktop), routeMode === "desktop" ? "gateway" : "info") +
-            atlasStat("Uppruni", pct(island, total), "island.is " + fmt(island), island ? "good" : "gateway") +
+            atlasStat("Gateway", fmt(rootViews), "root views", rootViews ? "info" : "gateway") +
+            atlasStat("Smellir", fmt(clicks), "dashboard choice", clicks ? "info" : "gateway") +
             atlasStat("Viðvörun", browserRisk ? fmt(browserRisk) : "hreint", browserRisk ? "Power BI viewer risk" : "engin staðfest viewer villa", browserRisk ? "warn" : "good") +
           '</div></div>' +
           '<div class="atlas-flow atlas-flow-v3">' +
-            atlasStep("Public kort", fmt(island), "island.is opnanir", island ? "good" : "gateway") +
+            atlasStep("Public kort", fmt(cards.length || dashboards.length), "kort í safni", cards.length || dashboards.length ? "good" : "gateway") +
             atlasStep("Root", fmt(rootViews), "gateway views", rootViews ? "info" : "gateway") +
             atlasStep("Smellir", fmt(clicks), "dashboard choice", clicks ? "info" : "gateway") +
             atlasStep("Router", fmt(arrivals), "ákvörðun", arrivals ? "info" : "gateway") +
@@ -17537,9 +17615,7 @@
           '</div>' +
         '</section>' +
         '<div class="atlas-grid">' +
-          '<section class="atlas-panel"><div class="atlas-panel-head"><div><span class="atlas-panel-kicker">Mælaborð</span><h3>Notkun sem púls</h3><p>Hver lína sýnir mobile/desktop skiptingu án láréttrar töfluskrollunar.</p></div><span class="chip good">' + fmt(dashboards.length) + ' virk</span></div><div class="atlas-dashboard-list">' + (dashboards.map(function (row) { return atlasDashboardRow(row, cards); }).join("") || '<div class="tracker-partial-state">Engin talin dashboard gögn.</div>') + '</div></section>' +
-          '<section class="atlas-panel"><div class="atlas-panel-head"><div><span class="atlas-panel-kicker">Route</span><h3>Ákvörðunarlínur</h3><p>Lengd sýnir þunga route ástæðu. Þvinguð merki eru merkt sem athugun, ekki sjálfkrafa villa.</p></div><span class="chip gateway">' + fmt(routeRows.length) + ' línur</span></div><div class="atlas-route-list">' + (routeRows.map(function (row) { return atlasRouteRow(row, routeTotal); }).join("") || '<div class="tracker-partial-state">Engin route gögn.</div>') + '</div></section>' +
-          '<section class="atlas-panel wide"><div class="atlas-panel-head"><div><span class="atlas-panel-kicker">Uppruni og áhætta</span><h3>Merkin í kringum notkunina</h3><p>Source, viewer risk og signal gæði birtast sem sama grafíska mál: magn, hlutfall, næsta athugun.</p></div><span class="chip ' + (fallback ? 'warn' : 'good') + '">Fallback ' + fmt(fallback) + '</span></div><div class="atlas-source-board">' + sourceMarks + '</div></section>' +
+          '<section class="atlas-panel wide"><div class="atlas-panel-head"><div><span class="atlas-panel-kicker">Mælaborð</span><h3>Notkun sem púls</h3><p>Hver lína sýnir stærð og virkni mælaborða í sömu mælieiningu.</p></div><span class="chip good">' + fmt(dashboards.length) + ' virk</span></div><div class="atlas-dashboard-list">' + (dashboards.map(function (row) { return atlasDashboardRow(row, cards); }).join("") || '<div class="tracker-partial-state">Engin talin dashboard gögn.</div>') + '</div></section>' +
         '</div>' +
       '</div>';
     }
@@ -17981,7 +18057,7 @@
           (countedSourceRows.map(function (row) { return bar(row.key, row.visits, countedSourceTotal, { asNumber: true, className: row.key === "island.is" ? "good" : "info" }); }).join("") || '<div class="subtle">Engin talin source gögn.</div>') +
         '</div></div></div></article>' +
       '</div>';
-      panel.innerHTML = '<div class="gateway-mega-board">' + megaSignals + flow + analysis + '</div>';
+      panel.innerHTML = flow;
     }
     function trackerTopLevelMissing(data, keys) {
       var missing = [];
@@ -18816,8 +18892,6 @@
       var modules = [
         deriveCountingIntegrity(data),
         deriveGatewayFunnelInsights(data),
-        deriveSourceQualityInsights(data),
-        deriveRouteDecisionInsights(data),
         deriveDeviceConfidenceInsights(data),
         deriveBrowserViewerRiskInsights(data),
         deriveUnusualDeviceContextInsights(data),
@@ -19453,7 +19527,6 @@
       safeRender("signal-panorama-panel", "Signal panorama", function () { renderSignalPanoramaV2(data); });
       safeRender("dashboard-public-master", "Mælaborð", function () { renderDashboardPublicMasterV2(data); });
       safeRender("layout-source-panel", "Leiðing og uppruni", function () { renderLayoutAndSourceV5(data); });
-      safeRender("route-list", "Leiðingarskrá", function () { renderRouteList(data); });
       safeRender("insight-grid", "Rekstrarinnsýn", function () { renderInsightsV2(data); });
       safeRender("technical-panel", "Tæki og vafraumhverfi", function () { renderTechnical(data); });
       safeRender("delivery-panel", "Tæknimerki til skoðunar", function () { renderDeliveryPanel(data); });
@@ -19463,8 +19536,6 @@
     var STATUS_DATA_TIMEOUT_MS = 22000;
     var STATUS_DATA_RETRY_DELAY_MS = 1500;
     var STATUS_DATA_MAX_ATTEMPTS = 2;
-    var STATUS_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
-    var STATIC_STATUS_MAX_AGE_MS = 24 * 60 * 60 * 1000;
     var statusLoadSequence = 0;
     var statusDataMode = readDataModeFromUrl();
 
@@ -19649,7 +19720,7 @@
           showError("Could not render status data: " + error.message);
         }
       }
-      function request(attempt, staticError, fallbackMessage, onFailure, source) {
+      function request(attempt, staticError) {
         var callbackName = "__LSP_STATUS_" + Date.now() + "_" + Math.random().toString(16).slice(2);
         var script = document.createElement("script");
         var timeout;
@@ -19675,12 +19746,8 @@
           if (attempt < STATUS_DATA_MAX_ATTEMPTS) {
             showNotice("Apps Script svaraði hægt. Reyni aftur " + (attempt + 1) + "/" + STATUS_DATA_MAX_ATTEMPTS + ".", "warn");
             window.setTimeout(function () {
-              if (stillCurrent()) request(attempt + 1, staticError, fallbackMessage, onFailure, source);
+              if (stillCurrent()) request(attempt + 1, staticError);
             }, STATUS_DATA_RETRY_DELAY_MS);
-            return;
-          }
-          if (onFailure) {
-            onFailure(message);
             return;
           }
           finishLoading();
@@ -19691,7 +19758,7 @@
         }, STATUS_DATA_TIMEOUT_MS);
         window[callbackName] = function (data) {
           cleanup(false);
-          acceptData(data, source || "apps_script_live", fallbackMessage || (staticError ? "Static status JSON failed; using Apps Script fallback." : ""));
+          acceptData(data, "apps_script_fallback", staticError ? "Static status JSON failed; using Apps Script fallback." : "");
         };
         script.onerror = function () {
           retryOrFail("Náði ekki að hlaða JSONP frá Apps Script endpointi eftir " + STATUS_DATA_MAX_ATTEMPTS + " tilraunir. Athugaðu /exec URL og að Web App sé aðgengilegt.");
@@ -19699,20 +19766,6 @@
         var separator = DATA_ENDPOINT.indexOf("?") >= 0 ? "&" : "?";
         script.src = DATA_ENDPOINT + separator + "api=dashboard&format=js&callback=" + encodeURIComponent(callbackName) + "&v=" + Date.now();
         document.body.appendChild(script);
-      }
-      function useStaticSnapshotFallback(liveError) {
-        loadStaticJson(STATIC_STATUS_URL).then(function (data) {
-          if (!stillCurrent()) return;
-          var staleMessage = staleStaticStatusMessage(data);
-          var message = staleMessage
-            ? "Apps Script svaraði ekki; sýni úrelt static snapshot. " + staleMessage
-            : "Apps Script svaraði ekki; sýni síðasta static snapshot.";
-          acceptData(data, staleMessage ? "static_json_stale" : "static_json", message);
-        }).catch(function (staticError) {
-          if (!stillCurrent()) return;
-          finishLoading();
-          showError("Náði ekki að hlaða Raun gögnum úr Apps Script né static snapshot: Apps Script: " + liveError + ". Static: " + (staticError && staticError.message ? staticError.message : "unknown error"));
-        });
       }
       if (mode === "sample") {
         showNotice("Sæki sample gögn úr opinberu Google Sheet.", "info");
@@ -19726,14 +19779,18 @@
         return;
       }
 
-      showNotice("Sæki Raun gögn úr Apps Script.", "info");
-      request(1, "", "", useStaticSnapshotFallback, "apps_script_live");
+      loadStaticJson(STATIC_STATUS_URL).then(function (data) {
+        acceptData(data, "static_json", "");
+      }).catch(function (error) {
+        if (!stillCurrent()) return;
+        request(1, error && error.message ? error.message : "static_status_failed");
+      });
     }
 
     setupDataSourceToggle();
     byId("refresh-button").addEventListener("click", loadData);
     loadData();
-    window.setInterval(loadData, STATUS_REFRESH_INTERVAL_MS);
+    window.setInterval(loadData, 5 * 60 * 1000);
   </script>
 </body>
 </html>
