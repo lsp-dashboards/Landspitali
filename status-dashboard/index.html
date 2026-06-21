@@ -254,6 +254,31 @@
       background: var(--data-01);
     }
 
+    .view-switch-link {
+      min-height: 31px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      align-self: flex-end;
+      padding: 7px 13px;
+      border: 1px solid rgba(79, 111, 143, .24);
+      border-radius: 999px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-decoration: none;
+      white-space: nowrap;
+      box-shadow: 0 10px 20px rgba(14, 36, 56, .08);
+    }
+
+    .view-switch-link:hover,
+    .view-switch-link:focus-visible {
+      background: var(--land);
+      color: #fff;
+    }
+
     .eyebrow {
       margin: 0 0 5px;
       color: var(--accent-dark);
@@ -14679,6 +14704,7 @@
               <button class="data-source-link active" type="button" data-source-mode="real" aria-pressed="true">Raun gögn</button>
               <button class="data-source-link" type="button" data-source-mode="sample" aria-pressed="false">Sample gögn</button>
             </div>
+            <a class="view-switch-link" href="current.html" aria-label="Opna compact útgáfu stöðuyfirlitsins">Compact vaktborð</a>
             <div class="pill-row" aria-label="Staða og uppfærsla">
               <span class="pill"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn</span></span>
               <span class="pill" id="generated-pill" title="Uppfært: -">Uppfært: -</span>
@@ -14888,6 +14914,28 @@
     function dateShort(iso) {
       var p = dateParts(iso);
       return p ? p.day + "." + p.month + "." + p.year + ", " + p.hour + ":" + p.minute : "-";
+    }
+    function statusGeneratedAt(data) {
+      var health = data && data.health ? data.health : {};
+      return data && (
+        data.generated_at ||
+        data.generatedAt ||
+        data.dashboard_data_generated_at ||
+        data.aggregation_generated_at ||
+        health.dashboard_data_generated_at ||
+        health.aggregation_generated_at ||
+        health.last_aggregation_time
+      ) || "";
+    }
+    function staleStaticStatusMessage(data) {
+      var timestamp = statusGeneratedAt(data);
+      var date = new Date(timestamp);
+      if (!timestamp) return "Static status JSON has no generated timestamp; using Apps Script fallback.";
+      if (!isFinite(date.getTime())) return "Static status JSON generated timestamp is invalid; using Apps Script fallback.";
+      if (Date.now() - date.getTime() > STATIC_STATUS_MAX_AGE_MS) {
+        return "Static status JSON is older than 24 hours (" + dateShort(timestamp) + "); using Apps Script fallback.";
+      }
+      return "";
     }
     function dateTooltip(iso) {
       var p = dateParts(iso);
@@ -19536,6 +19584,8 @@
     var STATUS_DATA_TIMEOUT_MS = 22000;
     var STATUS_DATA_RETRY_DELAY_MS = 1500;
     var STATUS_DATA_MAX_ATTEMPTS = 2;
+    var STATUS_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
+    var STATIC_STATUS_MAX_AGE_MS = 24 * 60 * 60 * 1000;
     var statusLoadSequence = 0;
     var statusDataMode = readDataModeFromUrl();
 
@@ -19720,7 +19770,7 @@
           showError("Could not render status data: " + error.message);
         }
       }
-      function request(attempt, staticError) {
+      function request(attempt, staticError, fallbackMessage, onFailure, source) {
         var callbackName = "__LSP_STATUS_" + Date.now() + "_" + Math.random().toString(16).slice(2);
         var script = document.createElement("script");
         var timeout;
@@ -19746,8 +19796,12 @@
           if (attempt < STATUS_DATA_MAX_ATTEMPTS) {
             showNotice("Apps Script svaraði hægt. Reyni aftur " + (attempt + 1) + "/" + STATUS_DATA_MAX_ATTEMPTS + ".", "warn");
             window.setTimeout(function () {
-              if (stillCurrent()) request(attempt + 1, staticError);
+              if (stillCurrent()) request(attempt + 1, staticError, fallbackMessage, onFailure, source);
             }, STATUS_DATA_RETRY_DELAY_MS);
+            return;
+          }
+          if (onFailure) {
+            onFailure(message);
             return;
           }
           finishLoading();
@@ -19758,7 +19812,7 @@
         }, STATUS_DATA_TIMEOUT_MS);
         window[callbackName] = function (data) {
           cleanup(false);
-          acceptData(data, "apps_script_fallback", staticError ? "Static status JSON failed; using Apps Script fallback." : "");
+          acceptData(data, source || "apps_script_live", fallbackMessage || (staticError ? "Static status JSON failed; using Apps Script fallback." : ""));
         };
         script.onerror = function () {
           retryOrFail("Náði ekki að hlaða JSONP frá Apps Script endpointi eftir " + STATUS_DATA_MAX_ATTEMPTS + " tilraunir. Athugaðu /exec URL og að Web App sé aðgengilegt.");
@@ -19766,6 +19820,20 @@
         var separator = DATA_ENDPOINT.indexOf("?") >= 0 ? "&" : "?";
         script.src = DATA_ENDPOINT + separator + "api=dashboard&format=js&callback=" + encodeURIComponent(callbackName) + "&v=" + Date.now();
         document.body.appendChild(script);
+      }
+      function useStaticSnapshotFallback(liveError) {
+        loadStaticJson(STATIC_STATUS_URL).then(function (data) {
+          if (!stillCurrent()) return;
+          var staleMessage = staleStaticStatusMessage(data);
+          var message = staleMessage
+            ? "Apps Script svaraði ekki; sýni úrelt static snapshot. " + staleMessage
+            : "Apps Script svaraði ekki; sýni síðasta static snapshot.";
+          acceptData(data, staleMessage ? "static_json_stale" : "static_json", message);
+        }).catch(function (staticError) {
+          if (!stillCurrent()) return;
+          finishLoading();
+          showError("Náði ekki að hlaða Raun gögnum úr Apps Script né static snapshot: Apps Script: " + liveError + ". Static: " + (staticError && staticError.message ? staticError.message : "unknown error"));
+        });
       }
       if (mode === "sample") {
         showNotice("Sæki sample gögn úr opinberu Google Sheet.", "info");
@@ -19779,18 +19847,14 @@
         return;
       }
 
-      loadStaticJson(STATIC_STATUS_URL).then(function (data) {
-        acceptData(data, "static_json", "");
-      }).catch(function (error) {
-        if (!stillCurrent()) return;
-        request(1, error && error.message ? error.message : "static_status_failed");
-      });
+      showNotice("Sæki Raun gögn úr Apps Script.", "info");
+      request(1, "", "", useStaticSnapshotFallback, "apps_script_live");
     }
 
     setupDataSourceToggle();
     byId("refresh-button").addEventListener("click", loadData);
     loadData();
-    window.setInterval(loadData, 5 * 60 * 1000);
+    window.setInterval(loadData, STATUS_REFRESH_INTERVAL_MS);
   </script>
 </body>
 </html>
