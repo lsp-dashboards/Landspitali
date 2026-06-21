@@ -8,6 +8,7 @@
   var STATUS_DATA_TIMEOUT_MS = 22000;
   var STATUS_DATA_RETRY_DELAY_MS = 1500;
   var STATUS_DATA_MAX_ATTEMPTS = 2;
+  var STATUS_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
   var STATIC_STATUS_MAX_AGE_MS = 24 * 60 * 60 * 1000;
   var STATUS_COMPONENTS = [
     "UI: Vaktborð",
@@ -1014,15 +1015,19 @@
     function current() {
       return sequence === statusLoadSequence;
     }
-    function useAppsScriptFallback(staticError, fallbackMessage) {
-      loadAppsScriptFallback(staticError).then(function (data) {
+    function useStaticSnapshotFallback(liveError) {
+      loadStaticJson(STATIC_STATUS_URL).then(function (data) {
+        if (!current()) return;
+        var staleMessage = staleStaticStatusMessage(data);
+        var message = staleMessage
+          ? "Apps Script svaraði ekki; sýni úrelt static snapshot. " + staleMessage
+          : "Apps Script svaraði ekki; sýni síðasta static snapshot.";
+        finishLoading();
+        acceptData(data, staleMessage ? "static_json_stale" : "static_json", mode, message);
+      }).catch(function (staticError) {
         if (!current()) return;
         finishLoading();
-        acceptData(data, "apps_script_fallback", mode, fallbackMessage || "Static status JSON failed; using Apps Script fallback.");
-      }).catch(function (fallbackError) {
-        if (!current()) return;
-        finishLoading();
-        setStatusError(fallbackError && fallbackError.message ? fallbackError.message : "Endpoint villa");
+        setStatusError("Náði ekki að hlaða Raun gögnum úr Apps Script né static snapshot: Apps Script: " + liveError + ". Static: " + (staticError && staticError.message ? staticError.message : "unknown error"));
       });
     }
     if (mode === "sample") {
@@ -1038,19 +1043,14 @@
       });
       return;
     }
-    loadStaticJson(STATIC_STATUS_URL).then(function (data) {
+    showNotice("Sæki Raun gögn úr Apps Script.", "info");
+    loadAppsScriptFallback("").then(function (data) {
       if (!current()) return;
-      var staleMessage = staleStaticStatusMessage(data);
-      if (staleMessage) {
-        showNotice(staleMessage, "warn");
-        useAppsScriptFallback(staleMessage, staleMessage);
-        return;
-      }
       finishLoading();
-      acceptData(data, "static_json", mode, "");
+      acceptData(data, "apps_script_live", mode, "");
     }).catch(function (error) {
       if (!current()) return;
-      useAppsScriptFallback(error && error.message ? error.message : "static_status_failed", "");
+      useStaticSnapshotFallback(error && error.message ? error.message : "apps_script_failed");
     });
   }
 
@@ -1059,5 +1059,5 @@
   var refresh = byId("refresh-button");
   if (refresh) refresh.addEventListener("click", loadData);
   loadData();
-  window.setInterval(loadData, 5 * 60 * 1000);
+  window.setInterval(loadData, STATUS_REFRESH_INTERVAL_MS);
 }());

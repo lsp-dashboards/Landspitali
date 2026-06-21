@@ -19463,6 +19463,7 @@
     var STATUS_DATA_TIMEOUT_MS = 22000;
     var STATUS_DATA_RETRY_DELAY_MS = 1500;
     var STATUS_DATA_MAX_ATTEMPTS = 2;
+    var STATUS_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
     var STATIC_STATUS_MAX_AGE_MS = 24 * 60 * 60 * 1000;
     var statusLoadSequence = 0;
     var statusDataMode = readDataModeFromUrl();
@@ -19648,7 +19649,7 @@
           showError("Could not render status data: " + error.message);
         }
       }
-      function request(attempt, staticError, fallbackMessage) {
+      function request(attempt, staticError, fallbackMessage, onFailure, source) {
         var callbackName = "__LSP_STATUS_" + Date.now() + "_" + Math.random().toString(16).slice(2);
         var script = document.createElement("script");
         var timeout;
@@ -19674,8 +19675,12 @@
           if (attempt < STATUS_DATA_MAX_ATTEMPTS) {
             showNotice("Apps Script svaraði hægt. Reyni aftur " + (attempt + 1) + "/" + STATUS_DATA_MAX_ATTEMPTS + ".", "warn");
             window.setTimeout(function () {
-              if (stillCurrent()) request(attempt + 1, staticError, fallbackMessage);
+              if (stillCurrent()) request(attempt + 1, staticError, fallbackMessage, onFailure, source);
             }, STATUS_DATA_RETRY_DELAY_MS);
+            return;
+          }
+          if (onFailure) {
+            onFailure(message);
             return;
           }
           finishLoading();
@@ -19686,7 +19691,7 @@
         }, STATUS_DATA_TIMEOUT_MS);
         window[callbackName] = function (data) {
           cleanup(false);
-          acceptData(data, "apps_script_fallback", fallbackMessage || (staticError ? "Static status JSON failed; using Apps Script fallback." : ""));
+          acceptData(data, source || "apps_script_live", fallbackMessage || (staticError ? "Static status JSON failed; using Apps Script fallback." : ""));
         };
         script.onerror = function () {
           retryOrFail("Náði ekki að hlaða JSONP frá Apps Script endpointi eftir " + STATUS_DATA_MAX_ATTEMPTS + " tilraunir. Athugaðu /exec URL og að Web App sé aðgengilegt.");
@@ -19694,6 +19699,20 @@
         var separator = DATA_ENDPOINT.indexOf("?") >= 0 ? "&" : "?";
         script.src = DATA_ENDPOINT + separator + "api=dashboard&format=js&callback=" + encodeURIComponent(callbackName) + "&v=" + Date.now();
         document.body.appendChild(script);
+      }
+      function useStaticSnapshotFallback(liveError) {
+        loadStaticJson(STATIC_STATUS_URL).then(function (data) {
+          if (!stillCurrent()) return;
+          var staleMessage = staleStaticStatusMessage(data);
+          var message = staleMessage
+            ? "Apps Script svaraði ekki; sýni úrelt static snapshot. " + staleMessage
+            : "Apps Script svaraði ekki; sýni síðasta static snapshot.";
+          acceptData(data, staleMessage ? "static_json_stale" : "static_json", message);
+        }).catch(function (staticError) {
+          if (!stillCurrent()) return;
+          finishLoading();
+          showError("Náði ekki að hlaða Raun gögnum úr Apps Script né static snapshot: Apps Script: " + liveError + ". Static: " + (staticError && staticError.message ? staticError.message : "unknown error"));
+        });
       }
       if (mode === "sample") {
         showNotice("Sæki sample gögn úr opinberu Google Sheet.", "info");
@@ -19707,25 +19726,14 @@
         return;
       }
 
-      loadStaticJson(STATIC_STATUS_URL).then(function (data) {
-        var staleMessage = staleStaticStatusMessage(data);
-        if (staleMessage) {
-          if (!stillCurrent()) return;
-          showNotice(staleMessage, "warn");
-          request(1, staleMessage, staleMessage);
-          return;
-        }
-        acceptData(data, "static_json", "");
-      }).catch(function (error) {
-        if (!stillCurrent()) return;
-        request(1, error && error.message ? error.message : "static_status_failed", "");
-      });
+      showNotice("Sæki Raun gögn úr Apps Script.", "info");
+      request(1, "", "", useStaticSnapshotFallback, "apps_script_live");
     }
 
     setupDataSourceToggle();
     byId("refresh-button").addEventListener("click", loadData);
     loadData();
-    window.setInterval(loadData, 5 * 60 * 1000);
+    window.setInterval(loadData, STATUS_REFRESH_INTERVAL_MS);
   </script>
 </body>
 </html>

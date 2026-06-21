@@ -4,16 +4,16 @@ Source: `status-dashboard/index.html`, `status-dashboard/status.css`, `status-da
 
 `Mælaborðsmælingar` er public heiti stöðuyfirlitsins. Síðan er local-first static GitHub Pages dashboard án bundler, framework eða npm dependency. Hún birtir aðeins samantektargögn fyrir opinber Power BI mælaborð Landspítala.
 
-Raunhamur reynir fyrst local static snapshot:
-
-```text
-../assets/data/status-latest.json
-```
-
-Ef static snapshot hleðst ekki, vantar timestamp eða er eldra en 24 klst. notar síðan Apps Script JSONP fallback:
+Raunhamur sækir lifandi Apps Script JSONP gögn á fyrstu hleðslu, refresh og sjálfvirkt á 5 mínútna fresti:
 
 ```text
 DATA_ENDPOINT + ?api=dashboard&format=js&callback=<callback>&v=<timestamp>
+```
+
+Ef Apps Script svarar ekki notar síðan local static snapshot sem fallback. Ef snapshot vantar timestamp eða er eldra en 24 klst. er það samt birt sem úrelt fallback með viðvörun:
+
+```text
+../assets/data/status-latest.json
 ```
 
 Sample hamur reynir fyrst public sample sheet JSONP og fellur síðan í `../assets/data/status-sample.json`.
@@ -54,7 +54,7 @@ Dashboardið notar einn dark token system í `status.css`, reusable primitives (
 
 - Active render path í `status.js`: constants, DOM/format/safety helpers, data derivation, primitive render helpers, section renderers, data loading og bootstrap.
 - Derivation helpers: `deriveStatusNow`, `deriveCountingIntegrity`, `deriveFlowSource`, `derivePortfolio`, `deriveRouting`, `deriveEnvironment`, `deriveQualityQueue`, `deriveAuditEvidence`.
-- Static JSON first load, stale-static Apps Script JSONP fallback, sample mode, refresh, health/status pills og section-level safeRender eru varðveitt.
+- Apps Script live-first load, 5-minute live refresh, stale/static JSON fallback, sample mode, refresh, health/status pills og section-level safeRender eru varðveitt.
 - No aggregate payload fields were added. `docs/data-dictionary.md` þarf ekki breytingu fyrir þessa UI-only endurskipulagningu.
 
 ## Metric inventory
