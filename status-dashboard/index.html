@@ -14525,6 +14525,412 @@
       }
     }
 
+    /* Route/source redesign */
+    .route-master-v6 {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .route-master-v6 *,
+    .route-master-v6 *::before,
+    .route-master-v6 *::after {
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .route-v6-overview,
+    .route-v6-step,
+    .route-v6-decision,
+    .route-v6-proof-panel,
+    .route-v6-focus,
+    .route-v6-proof-row {
+      border: 1px solid rgba(181,205,220,.82);
+      border-radius: 8px;
+      background: rgba(255,255,255,.94);
+      box-shadow: none;
+    }
+
+    .route-v6-overview {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(300px, .72fr) minmax(460px, 1.28fr);
+      gap: 14px;
+      padding: 16px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.92)),
+        linear-gradient(90deg, rgba(79,111,143,.052) 0 1px, transparent 1px 100%);
+      background-size: auto, 36px 100%;
+    }
+
+    .route-v6-overview::before {
+      content: "";
+      position: absolute;
+      inset: 0 14px auto;
+      height: 3px;
+      background: linear-gradient(90deg, var(--data-01), var(--data-02), var(--data-03));
+      pointer-events: none;
+    }
+
+    .route-v6-copy {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      align-content: start;
+      gap: 10px;
+      padding-top: 6px;
+    }
+
+    .route-v6-kicker,
+    .route-v6-metric span,
+    .route-v6-step span,
+    .route-v6-focus span,
+    .route-v6-proof-head span,
+    .route-v6-proof-title span,
+    .route-v6-proof-total span,
+    .route-v6-mini-line span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .route-v6-copy h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(32px, 3.2vw, 58px);
+      line-height: .96;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .route-v6-copy p,
+    .route-v6-metric small,
+    .route-v6-step small,
+    .route-v6-focus p,
+    .route-v6-focus small,
+    .route-v6-section-head small,
+    .route-v6-proof-head small,
+    .route-v6-proof-title small,
+    .route-v6-proof-total small {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .route-v6-copy p {
+      max-width: 68ch;
+      font-size: 12.5px;
+      line-height: 1.45;
+      text-wrap: pretty;
+    }
+
+    .route-v6-metrics {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .route-v6-metric {
+      display: grid;
+      align-content: space-between;
+      gap: 8px;
+      min-height: 96px;
+      padding: 11px;
+      border: 1px solid rgba(207,221,231,.78);
+      border-radius: 8px;
+      background: rgba(255,255,255,.75);
+    }
+
+    .route-v6-metric.good,
+    .route-v6-step.good,
+    .route-v6-focus.good { background: var(--data-soft-02); border-color: rgba(47,143,139,.25); }
+    .route-v6-metric.warn,
+    .route-v6-step.warn,
+    .route-v6-focus.warn { background: var(--data-soft-03); border-color: rgba(199,138,42,.3); }
+    .route-v6-metric.info,
+    .route-v6-step.info,
+    .route-v6-focus.info { background: var(--data-soft-09); border-color: rgba(53,153,184,.24); }
+    .route-v6-metric.gateway,
+    .route-v6-step.gateway,
+    .route-v6-focus.gateway { background: var(--data-soft-01); border-color: rgba(79,111,143,.24); }
+
+    .route-v6-metric strong,
+    .route-v6-step strong,
+    .route-v6-focus strong,
+    .route-v6-proof-total strong {
+      color: var(--ink);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .route-v6-metric strong { font-size: clamp(22px, 1.65vw, 32px); }
+
+    .route-v6-flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .route-v6-step {
+      position: relative;
+      display: grid;
+      align-content: space-between;
+      gap: 9px;
+      min-height: 118px;
+      padding: 12px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,251,253,.9));
+    }
+
+    .route-v6-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -10px;
+      z-index: 2;
+      width: 10px;
+      height: 2px;
+      background: rgba(79,111,143,.42);
+      pointer-events: none;
+    }
+
+    .route-v6-step-index {
+      display: inline-grid;
+      width: 26px;
+      height: 26px;
+      place-items: center;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--ink);
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .route-v6-step strong {
+      font-size: clamp(20px, 1.45vw, 30px);
+      line-height: 1.02;
+    }
+
+    .route-v6-bottom {
+      display: grid;
+      grid-template-columns: minmax(0, .7fr) minmax(360px, .3fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .route-v6-decision,
+    .route-v6-proof-panel {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,251,253,.92));
+    }
+
+    .route-v6-section-head,
+    .route-v6-proof-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .route-v6-section-head strong,
+    .route-v6-proof-head strong {
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .route-v6-focus-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .route-v6-focus {
+      display: grid;
+      gap: 8px;
+      min-height: 116px;
+      padding: 11px;
+      align-content: space-between;
+    }
+
+    .route-v6-focus strong { font-size: clamp(18px, 1.3vw, 26px); }
+
+    .route-v6-track {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(213,226,235,.88);
+    }
+
+    .route-v6-track span {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--data-01);
+    }
+
+    .route-v6-track span.good { background: var(--data-02); }
+    .route-v6-track span.warn { background: var(--data-03); }
+    .route-v6-track span.info { background: var(--data-09); }
+    .route-v6-track span.gateway { background: var(--data-05); }
+    .route-v6-track span.neutral { background: var(--data-04); }
+
+    .route-v6-proof-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .route-v6-proof-row {
+      display: grid;
+      grid-template-columns: 34px minmax(0, .92fr) minmax(0, 1.08fr) minmax(78px, auto);
+      gap: 9px;
+      align-items: center;
+      padding: 9px;
+      background: rgba(255,255,255,.82);
+    }
+
+    .route-v6-rank {
+      display: inline-grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--data-01);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .route-v6-proof-title {
+      display: grid;
+      gap: 3px;
+    }
+
+    .route-v6-proof-title strong {
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1.12;
+      overflow-wrap: anywhere;
+    }
+
+    .route-v6-proof-lines {
+      display: grid;
+      gap: 6px;
+    }
+
+    .route-v6-mini-line {
+      display: grid;
+      gap: 4px;
+    }
+
+    .route-v6-mini-line > div,
+    .route-v6-proof-total {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .route-v6-mini-line strong {
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .route-v6-proof-total {
+      display: grid;
+      justify-items: end;
+      text-align: right;
+    }
+
+    .route-v6-proof-total strong { font-size: 24px; }
+
+    @media (max-width: 1320px) {
+      .route-v6-overview,
+      .route-v6-bottom {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 1120px) {
+      .route-v6-flow {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .route-v6-step::after {
+        display: none;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .route-v6-metrics,
+      .route-v6-focus-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .route-v6-flow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .route-v6-proof-row {
+        grid-template-columns: 34px minmax(0, 1fr);
+      }
+
+      .route-v6-proof-lines,
+      .route-v6-proof-total {
+        grid-column: 2;
+      }
+
+      .route-v6-proof-total {
+        justify-items: start;
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .route-v6-overview,
+      .route-v6-metrics,
+      .route-v6-flow,
+      .route-v6-focus-grid,
+      .route-v6-proof-row,
+      .route-v6-section-head,
+      .route-v6-proof-head {
+        grid-template-columns: 1fr;
+      }
+
+      .route-v6-section-head,
+      .route-v6-proof-head {
+        display: grid;
+        align-items: start;
+      }
+
+      .route-v6-proof-lines,
+      .route-v6-proof-total {
+        grid-column: auto;
+      }
+    }
+
     /* Tracker and delivery master panels */
     .tracker-master-v3,
     .delivery-master-v3 {
@@ -16865,6 +17271,48 @@
         '</div>' +
       '</article>';
     }
+    function routeV6Track(value, total, cls) {
+      return '<div class="route-v6-track" aria-hidden="true"><span class="' + safe(cls || "gateway") + '" style="--fill:' + widthPct(value || 0, total || 1) + '%"></span></div>';
+    }
+    function routeV6Metric(label, value, detail, cls, fillValue, fillTotal) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="route-v6-metric' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' + routeV6Track(fillValue || 0, fillTotal || 1, cls || "gateway") + '</article>';
+    }
+    function routeV6Step(index, label, value, detail, cls, fillValue, fillTotal) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="route-v6-step' + className + '"><div><b class="route-v6-step-index">' + safe(index) + '</b></div><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' + routeV6Track(fillValue || 0, fillTotal || 1, cls || "gateway") + '</article>';
+    }
+    function routeV6Focus(label, value, detail, next, cls, fillValue, fillTotal) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="route-v6-focus' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><p>' + safe(detail || "") + '</p>' + routeV6Track(fillValue || 0, fillTotal || 1, cls || "gateway") + '<small>' + safe(next || "") + '</small></article>';
+    }
+    function routeV6MiniLine(label, value, total, cls) {
+      return '<div class="route-v6-mini-line"><div><span>' + safe(label) + '</span><strong>' + fmt(value) + ' · ' + safe(pct(value, total)) + '</strong></div>' + routeV6Track(value || 0, total || 1, cls || "gateway") + '</div>';
+    }
+    function routeV6DashboardRow(data, dashboard, totalVisits, index) {
+      var layout = dashboardLayoutContext(data, dashboard);
+      var source = dashboardSourceContext(data, dashboard);
+      var total = visitValue(dashboard);
+      var layoutTotal = Math.max(layout.mobile + layout.desktop, layout.total, total, 1);
+      var sourceTotal = Math.max(source.island + source.direct + source.other, source.total, total, 1);
+      var layoutDominant = layout.desktop >= layout.mobile ? "Desktop" : "Mobile";
+      var layoutDominantValue = Math.max(layout.mobile, layout.desktop);
+      var sourceRows = [
+        { label: "island.is", value: source.island, className: "good" },
+        { label: "Beint", value: source.direct, className: "gateway" },
+        { label: "Annað", value: source.other, className: "neutral" }
+      ].sort(function (a, b) { return number(b.value) - number(a.value); });
+      var sourceDominant = sourceRows[0] || { label: "-", value: 0, className: "gateway" };
+      return '<article class="route-v6-proof-row">' +
+        '<div class="route-v6-rank">' + safe(String(index + 1).padStart(2, "0")) + '</div>' +
+        '<div class="route-v6-proof-title"><span>Mælaborð</span><strong>' + safe(titleFor(dashboard, publicMap(data))) + '</strong><small>' + safe(cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + '</small></div>' +
+        '<div class="route-v6-proof-lines">' +
+          routeV6MiniLine("Útgáfa " + layoutDominant, layoutDominantValue, layoutTotal, layoutDominant === "Mobile" ? "info" : "gateway") +
+          routeV6MiniLine("Uppruni " + sourceDominant.label, sourceDominant.value, sourceTotal, sourceDominant.className) +
+        '</div>' +
+        '<div class="route-v6-proof-total"><span>Taldar</span><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + ' af heild</small></div>' +
+      '</article>';
+    }
     function renderLayoutAndSourceV5(data) {
       data = data || {};
       var k = data.kpis || {};
@@ -16898,7 +17346,7 @@
       var forcedDesktop = forcedLayoutSum(routeRows, "desktop");
       var auto = routeRows.reduce(function (acc, row) { return acc + (!isForcedLayoutRow(row) ? routeMatrixValue(row) : 0); }, 0);
       var routeSignalTotal = routeRows.reduce(function (acc, row) { return acc + routeMatrixValue(row); }, 0);
-      var routeReasonRows = topRows(routeRows, function (row) { return labelRoute(row.route_reason); }, 5, routeMatrixValue);
+      var routeReasonRows = topRows(routeRows, function (row) { return routeMatrixReasonLabel(row); }, 5, routeMatrixValue);
       var routeReasonTotal = sumRows(routeReasonRows, "visits");
       var campaignRows = topRows(sourceRows, function (row) { return row.utm_campaign || row.utm_source || labelSource(sourceLabelValue(row)) || "Óþekkt"; }, 5);
       var campaignTotal = sumRows(campaignRows, "visits");
@@ -16909,44 +17357,43 @@
       var rootClicks = number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"]));
       var gatewayCounted = number(firstValue(f, ["counted_opens", "counted_visits", "opens"]));
       var gatewaySignal = Math.max(rootViews, rootClicks, routerArrivals, gatewayCounted, routeSignalTotal, 1);
-      var warnings = splitWarnings(data).confirmed.length;
       var topDashboard = dashboards[0];
       var topDashboardTitle = topDashboard ? titleFor(topDashboard, publicMap(data)) : "-";
       var topDashboardShare = topDashboard ? pct(visitValue(topDashboard), Math.max(total, 1)) : "0%";
       var sourceRisk = direct + otherSource;
-      var activeChecks = (forced ? 1 : 0) + (campaignMissing ? 1 : 0) + (routeMissing ? 1 : 0) + (warnings ? 1 : 0);
-      var proofRows = dashboards.slice(0, 5).map(function (dashboard, index) {
-        return routeV5ProofRow(data, dashboard, total, index);
+      var activeChecks = (forced ? 1 : 0) + (campaignMissing ? 1 : 0) + (routeMissing ? 1 : 0);
+      var gatewayValue = Math.max(rootViews, rootClicks, routerArrivals, gatewayCounted);
+      var routeValue = routerArrivals || routeSignalTotal;
+      var routeDominant = routeReasonRows[0] || { key: auto ? "Sjálfvirkt" : "-", visits: auto || 0 };
+      var routeCoverageDetail = routeMissing ? fmt(routeMissing) + " vantar route-ástæðu" : "route merki ná yfir grunninn";
+      var proofRows = dashboards.slice(0, 4).map(function (dashboard, index) {
+        return routeV6DashboardRow(data, dashboard, total, index);
       }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engar taldar production heimsóknir í dashboard aggregate.</p></div>';
       setHtml("layout-source-panel",
-        '<article class="route-master-v5">' +
-          '<section class="route-v5-command" aria-label="Route og source master panel">' +
-            '<div class="route-v5-story"><span class="route-v5-kicker">Route/source master</span><h2>Leiðing og uppruni</h2><p>Eitt sameinað yfirlit heldur utan um gateway, router, útgáfu, uppruna og sönnun per mælaborð. Taldar er áfram eini notkunargrunnurinn.</p><div class="route-v5-stat-grid">' +
-              routeV5Stat("Taldar", fmt(total), fmt(dashboards.length) + " mælaborð", "good") +
-              routeV5Stat("Útgáfa", layoutDominant, pct(layoutDominantValue, layoutTotal) + " af útgáfuvali", layoutDominant === "Mobile" ? "info" : "gateway") +
-              routeV5Stat("Uppruni", sourceDominant.label, pct(sourceDominant.value, sourceTotal) + " af umferð", sourceDominant.className) +
-              routeV5Stat("Athugun", activeChecks ? fmt(activeChecks) : "0", activeChecks ? "route/source merki til skoðunar" : "engin virk frávik", activeChecks ? "warn" : "good") +
-            '</div></div>' +
-            '<div class="route-v5-instrument">' +
-              '<div class="route-v5-spine">' +
-                routeV5Node("Gateway", fmt(Math.max(rootViews, rootClicks)), "views " + fmt(rootViews) + " · smellir " + fmt(rootClicks), "gateway", Math.max(rootViews, rootClicks), gatewaySignal) +
-                routeV5Node("Router", fmt(routerArrivals || routeSignalTotal), "route merki " + fmt(routeSignalTotal), "info", routerArrivals || routeSignalTotal, gatewaySignal) +
-                routeV5Node("Útgáfa", layoutDominant, "mobile " + fmt(mobile) + " · desktop " + fmt(desktop), layoutDominant === "Mobile" ? "info" : "gateway", layoutDominantValue, layoutTotal) +
-                routeV5Node("Uppruni", sourceDominant.label, "island.is " + fmt(island) + " · beint " + fmt(direct), sourceDominant.className, sourceDominant.value, sourceTotal) +
-                routeV5Node("Taldar", fmt(total), "production opnanir", "good", total, Math.max(total, 1)) +
-              '</div>' +
-              '<div class="route-v5-action-stack">' +
-                routeV5Action("Fyrst", topDashboardTitle, topDashboard ? fmt(visitValue(topDashboard)) + " opnanir · " + topDashboardShare : "engin opnun", "Nota sem smoke-test fyrir route/source.", "good", topDashboard ? visitValue(topDashboard) : 0, Math.max(total, 1)) +
-                routeV5Action("Route", forced ? "Þvingun " + fmt(forced) : "Sjálfvirkt " + fmt(auto), forced ? "mobile " + fmt(forcedMobile) + " · desktop " + fmt(forcedDesktop) : "router velur útgáfu", forced ? "Skoða forced_layout áður en policy breytist." : "Halda sem baseline.", forced ? "warn" : "info", forced || auto, Math.max(routeSignalTotal, 1)) +
-                routeV5Action("Source", campaignMissing ? fmt(campaignMissing) + " vantar" : "full þekja", "beint/annað " + fmt(sourceRisk), campaignMissing ? "Bera UTM/source saman við gateway." : "Nota source mix sem samanburð.", campaignMissing ? "gateway" : "good", campaignTotal, Math.max(total, 1)) +
-              '</div>' +
+        '<article class="route-master-v6">' +
+          '<section class="route-v6-overview" aria-label="Leiðing og uppruni samantekt">' +
+            '<div class="route-v6-copy"><span class="route-v6-kicker">Route / source</span><h2>Leiðing og uppruni</h2><p>Ein lesröð frá gateway að talinni opnun. Heildin birtist einu sinni sem notkunargrunnur; útgáfuval, uppruni og athuganir útskýra hvers vegna sömu opnanir lentu þar sem þær lentu.</p></div>' +
+            '<div class="route-v6-metrics">' +
+              routeV6Metric("Taldar opnanir", fmt(total), fmt(dashboards.length) + " mælaborð í grunninum", "good", total, Math.max(total, 1)) +
+              routeV6Metric("Útgáfuval", layoutDominant, pct(layoutDominantValue, layoutTotal) + " · mobile " + fmt(mobile) + " · desktop " + fmt(desktop), layoutDominant === "Mobile" ? "info" : "gateway", layoutDominantValue, layoutTotal) +
+              routeV6Metric("Uppruni", sourceDominant.label, pct(sourceDominant.value, sourceTotal) + " · island.is " + fmt(island) + " · beint " + fmt(direct), sourceDominant.className, sourceDominant.value, sourceTotal) +
+              routeV6Metric("Athugun", activeChecks ? fmt(activeChecks) : "0", activeChecks ? "route/source merki til skoðunar" : "engin virk route/source frávik", activeChecks ? "warn" : "good", activeChecks, 3) +
             '</div>' +
           '</section>' +
-          '<section class="route-v5-body compact" aria-label="Route source evidence">' +
-            '<aside class="route-v5-context route-v5-context-wide">' +
-              '<div class="route-v5-proof-meta ' + (activeChecks ? 'warn' : 'good') + '"><span>Lestrarröð</span><strong>' + (activeChecks ? 'Skoða ' + fmt(activeChecks) : 'Stöðugt') + '</strong><small>' + (activeChecks ? 'Byrja á action-röðinni efst.' : 'Topkort er baseline fyrir næstu prófun.') + '</small>' + routeV5Track(activeChecks, 4, activeChecks ? "warn" : "good") + '</div>' +
-              '<div class="route-v5-proof-list">' + proofRows + '</div>' +
-            '</aside>' +
+          '<section class="route-v6-flow" aria-label="Ferill frá gateway að talningu">' +
+            routeV6Step("01", "Gateway", gatewayValue ? fmt(gatewayValue) : "-", "views " + fmt(rootViews) + " · smellir " + fmt(rootClicks), "gateway", gatewayValue, gatewaySignal) +
+            routeV6Step("02", "Router", routeValue ? fmt(routeValue) : "-", "aðalástæða: " + routeDominant.key, "info", routeValue, gatewaySignal) +
+            routeV6Step("03", "Útgáfa", layoutDominant, "mobile " + fmt(mobile) + " · desktop " + fmt(desktop), layoutDominant === "Mobile" ? "info" : "gateway", layoutDominantValue, layoutTotal) +
+            routeV6Step("04", "Uppruni", sourceDominant.label, "island.is " + fmt(island) + " · beint " + fmt(direct), sourceDominant.className, sourceDominant.value, sourceTotal) +
+            routeV6Step("05", "Talið", fmt(total), "production opnanir, root/raw haldið sér", "good", total, Math.max(total, 1)) +
+          '</section>' +
+          '<section class="route-v6-bottom" aria-label="Route source evidence">' +
+            '<div class="route-v6-decision"><div class="route-v6-section-head"><div><span class="route-v6-kicker">Næsta skoðun</span><strong>' + safe(activeChecks ? "Skoða " + fmt(activeChecks) : "Stöðugt") + '</strong></div><small>' + safe(activeChecks ? "Byrja á því sem getur breytt túlkun opnana." : "Topkort er baseline fyrir næstu prófun.") + '</small></div><div class="route-v6-focus-grid">' +
+              routeV6Focus("Fyrst að prófa", topDashboardTitle, topDashboard ? fmt(visitValue(topDashboard)) + " opnanir · " + topDashboardShare : "engin opnun", "Nota sem smoke-test fyrir route/source.", "good", topDashboard ? visitValue(topDashboard) : 0, Math.max(total, 1)) +
+              routeV6Focus("Route policy", forced ? "Þvingun " + fmt(forced) : "Sjálfvirkt", forced ? "mobile " + fmt(forcedMobile) + " · desktop " + fmt(forcedDesktop) : routeCoverageDetail, forced ? "Skoða forced_layout áður en policy breytist." : "Halda router sem baseline.", forced ? "warn" : "info", forced || auto, Math.max(routeSignalTotal, 1)) +
+              routeV6Focus("Source þekja", campaignMissing ? fmt(campaignMissing) + " vantar" : "Full þekja", "beint/annað " + fmt(sourceRisk) + " · skráð " + fmt(campaignTotal), campaignMissing ? "Bera UTM/source saman við gateway." : "Nota source mix sem samanburð.", campaignMissing ? "gateway" : "good", campaignTotal, Math.max(total, 1)) +
+            '</div></div>' +
+            '<aside class="route-v6-proof-panel"><div class="route-v6-proof-head"><div><span>Sönnun per mælaborð</span><strong>Top production opnanir</strong></div><small>Útgáfuval og uppruni án þess að endurtelja heildina.</small></div><div class="route-v6-proof-list">' + proofRows + '</div></aside>' +
           '</section>' +
         '</article>');
     }
