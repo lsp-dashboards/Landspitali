@@ -72,7 +72,7 @@ Dashboardið notar einn dark token system í `status.css`, reusable primitives (
 | island.is visits/share | `kpis.island_is_visits`, `sources[].entry_source_category` | Flæði og uppruni | Staða núna | Source bars, KPI | Public source trust and headline provenance |
 | Direct/other source share | `sources[]` | Flæði og uppruni | Mælaborðasafn | Source bars, stack | Explain non-island.is source mix |
 | Fallback clicks | `kpis.fallback_error_count`, `dashboards[].fallback_clicks` | Umhverfi og afhending | Talning og traust | Delivery chip, process side channel | Delivery risk without treating it as usage |
-| Safe fallback events | `dashboards[].safe_fallback_events` | Talning og traust | Umhverfi og afhending | Reconciliation row, chip | Route safety signal |
+| Safe fallback events | `dashboards[].safe_fallback_events` | Talning og traust | Umhverfi og afhending | Samræmingarlína, merki | Route safety signal |
 | Unsupported browser events | `kpis.powerbi_viewer_unsupported_browser_events` | Umhverfi og afhending | Gæðavakt | Delivery chip, queue item | Viewer risk is operational context |
 | Weak/unknown signal share | `kpis.weak_unknown_signal_share`, `kpis.weak_unknown_signal_count` | Staða núna | Sönnunargögn | Score input, version/evidence context | Affects operational score and trust |
 | Latest counted event | `health.last_counted_event_time`, `dashboards[].last_counted_event_time` | Staða núna | Sönnunargögn | KPI, evidence row | Current tracker life signal |

@@ -10,6 +10,8 @@
   var STATUS_DATA_MAX_ATTEMPTS = 2;
   var STATUS_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
   var STATIC_STATUS_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+  var STATUS_LOCALE = "is-IS";
+  var STATUS_COLLATOR = new Intl.Collator(STATUS_LOCALE, { sensitivity: "base", numeric: true });
   var STATUS_COMPONENTS = [
     "UI: Vaktborð",
     "Vöktunarkjarni: Rekstrarpúls",
@@ -54,14 +56,24 @@
       .replace(/'/g, "&#039;");
   }
 
+  function formatIcelandicNumber(value, maximumFractionDigits) {
+    var n = number(value);
+    var sign = n < 0 ? "-" : "";
+    n = Math.abs(n);
+    var fixed = maximumFractionDigits > 0 ? n.toFixed(maximumFractionDigits) : String(Math.round(n));
+    if (maximumFractionDigits > 0) fixed = fixed.replace(/0+$/, "").replace(/\.$/, "");
+    var parts = fixed.split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return sign + parts[0] + (parts[1] ? "," + parts[1] : "");
+  }
+
   function fmt(value) {
-    return new Intl.NumberFormat("is-IS").format(Math.round(number(value)));
+    return formatIcelandicNumber(Math.round(number(value)), 0);
   }
 
   function pct(part, whole) {
     whole = number(whole);
-    if (!whole) return "0%";
-    return new Intl.NumberFormat("is-IS", { maximumFractionDigits: 1 }).format(number(part) / whole * 100) + "%";
+    return formatIcelandicNumber((whole ? number(part) / whole : 0) * 100, 1) + "%";
   }
 
   function cssPct(part, whole) {
@@ -107,7 +119,7 @@
     return Object.keys(map).map(function (key) {
       return { key: key, value: map[key] };
     }).sort(function (a, b) {
-      return b.value - a.value || a.key.localeCompare(b.key);
+      return b.value - a.value || STATUS_COLLATOR.compare(a.key, b.key);
     });
   }
 
@@ -148,7 +160,7 @@
   function dateShort(iso) {
     var date = dateValue(iso);
     if (!date) return "-";
-    return date.toLocaleString("is-IS", { dateStyle: "short", timeStyle: "short" });
+    return date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear() + ", " + String(date.getHours()).padStart(2, "0") + ":" + String(date.getMinutes()).padStart(2, "0");
   }
 
   function ageInfo(iso) {
@@ -398,14 +410,14 @@
     return {
       total: Math.max(raw, counted + diagnostic + excluded + fallback),
       stages: [
-        { label: "Raw merki", value: raw, detail: "Öll aggregate merki úr teljara", tone: "info" },
-        { label: "Production candidates", value: Math.max(counted, raw - diagnostic - excluded), detail: "Mögulegar opnanir eftir síun", tone: "route" },
-        { label: "Taldar opnanir", value: counted, detail: "count_as_visit TRUE og production event", tone: "counted" },
+        { label: "Hrá merki", value: raw, detail: "Öll samantektarmerki úr teljara", tone: "info" },
+        { label: "Mögulegar opnanir", value: Math.max(counted, raw - diagnostic - excluded), detail: "Framleiðsluopnanir eftir síun", tone: "route" },
+        { label: "Taldar opnanir", value: counted, detail: "count_as_visit TRUE og framleiðsluatvik", tone: "counted" },
         { label: "Útilokað frá talningu", value: excluded, detail: "debug, test, bot, root/list/health eða dedupe", tone: "diagnostic" },
         { label: "Fallback/error hliðarrás", value: fallback, detail: "Merki til skoðunar, ekki auka notkun", tone: fallback ? "warn" : "good" }
       ],
       rows: [
-        ["count_as_visit = TRUE", fmt(counted), "Aðeins real dashboard opens teljast."],
+        ["count_as_visit = TRUE", fmt(counted), "Aðeins raunverulegar mælaborðsopnanir teljast."],
         ["Diagnostic merki", fmt(diagnostic), "Rekstrarsamhengi án þess að hækka notkun."],
         ["Debug/test/bot", fmt(botDebug), "Útilokað frá production talningu."],
         ["Safe fallback", fmt(dashboardSafeFallbackEvents(data)), "Hliðarrás ef router þurfti örugga slóð."],
@@ -603,7 +615,7 @@
     var html = '<div class="process-rail">' + model.stages.map(function (stage) {
       return '<article class="process-step"><span>' + safe(stage.label) + '</span><strong>' + fmt(stage.value) + '</strong><div class="bar-track" aria-hidden="true"><span class="bar-fill ' + safe(stage.tone) + '" style="--value:' + safe(cssPct(stage.value, model.total)) + '"></span></div><small>' + safe(stage.detail) + '</small></article>';
     }).join("") + '</div><div class="reconcile-grid">';
-    html += card("Reconciliation", "Hvað hækkar notkun", model.rows.slice(0, 3).map(function (row) { return metricRow(row[0], row[1], row[2]); }).join(""), chip("Raw er ekki notkun", "diagnostic"));
+    html += card("Samræming", "Hvað hækkar notkun", model.rows.slice(0, 3).map(function (row) { return metricRow(row[0], row[1], row[2]); }).join(""), chip("Hrá merki eru ekki notkun", "diagnostic"));
     html += card("Útilokun", "Hvað helst sér", model.rows.slice(3).map(function (row) { return metricRow(row[0], row[1], row[2]); }).join(""), chip("count_as_visit = FALSE er rekstrarmerki", "info"));
     html += '</div>';
     setHtml("counting-integrity", html);
@@ -616,8 +628,8 @@
     var layoutTotal = Math.max(sum(model.layout, function (row) { return row.value; }), model.total);
     var html = '<div class="flow-map">';
     html += '<article class="flow-stage"><h3>Uppruni</h3><strong>' + fmt(model.total) + '</strong><small class="subtle">Taldar opnanir eftir upprunarás.</small><div class="bar-list">' + sourceBars + '</div></article>';
-    html += '<article class="flow-stage"><h3>Gateway</h3><strong>' + fmt(model.root.views || model.root.clicks || model.total) + '</strong><small class="subtle">Root views/clicks eru funnel merki, ekki heimsóknir.</small>' + metricRow("Root smellir", fmt(model.root.clicks), "Public entry") + '</article>';
-    html += '<article class="flow-stage"><h3>Router</h3><strong>' + fmt(model.root.arrivals || model.total) + '</strong><small class="subtle">Leiðing velur mobile eða desktop.</small>' + metricRow("Router arrivals", fmt(model.root.arrivals), "Ef payload hefur root funnel") + '</article>';
+    html += '<article class="flow-stage"><h3>Gátt</h3><strong>' + fmt(model.root.views || model.root.clicks || model.total) + '</strong><small class="subtle">Rótarsýn og smellir eru flæðimerki, ekki heimsóknir.</small>' + metricRow("Rótarsmellir", fmt(model.root.clicks), "Opinber inngangur") + '</article>';
+    html += '<article class="flow-stage"><h3>Leiðing</h3><strong>' + fmt(model.root.arrivals || model.total) + '</strong><small class="subtle">Leiðing velur síma- eða tölvuútgáfu.</small>' + metricRow("Leiðingarkomur", fmt(model.root.arrivals), "Ef payload hefur rótargátt") + '</article>';
     html += '<article class="flow-stage"><h3>Útgáfuval</h3>' + stackedBar(model.layout, layoutTotal) + '</article>';
     html += '<article class="flow-stage"><h3>Talin Power BI opnun</h3><strong>' + fmt(model.total) + '</strong><small class="subtle">Production talning eftir síun.</small>' + metricRow("Fallback/error", fmt(model.fallback), "Hliðarrás til skoðunar") + '</article>';
     html += '</div>';
@@ -626,7 +638,7 @@
 
   function renderPortfolio(rows) {
     if (!rows.length) {
-      setHtml("portfolio", emptyState("Engin dashboard gögn í payload."));
+      setHtml("portfolio", emptyState("Engin mælaborðsgögn í payload."));
       return;
     }
     var html = '<div class="portfolio-list">';
@@ -650,16 +662,16 @@
   function renderRouting(model) {
     var reasonBars = model.reasonGroups.map(function (row) {
       return barRow(labelReason(row.key), row.value, sum(model.reasonGroups, function (item) { return item.value; }), "route");
-    }).join("") || emptyState("Engar route ástæður í payload.");
+    }).join("") || emptyState("Engar leiðingarástæður í payload.");
     var anomalyHtml = model.anomalies.length ? model.anomalies.map(function (row) {
       return metricRow(labelReason(row.route_reason), fmt(rowVisits(row)), (row.route_reason_detail || row.selected_layout || "").slice(0, 120));
     }).join("") : metricRow("Engin sterk frávik", "0", "Þvingað val og diagnostic leiðingar eru róleg.");
     var html = '<div class="two-lane">';
-    html += card("Matrix", "Dashboard route ástæður x layout", renderMatrix(model.reasonMatrix));
-    html += card("Matrix", "Tæki x valin útgáfa", renderMatrix(model.deviceMatrix));
+    html += card("Fylki", "Mælaborð: leiðingarástæður x útgáfa", renderMatrix(model.reasonMatrix));
+    html += card("Fylki", "Tæki x valin útgáfa", renderMatrix(model.deviceMatrix));
     html += card("Sjálfvirkt / þvingað", "Útgáfuval eftir leiðingu", stackedBar(model.decisionSplit, sum(model.decisionSplit, function (row) { return row.value; }) || 1), chip("Þvingað val er merki, ekki sjálfkrafa bilun", "info"));
-    html += card("Route ástæður", "Sterkustu leiðingarreglur", '<div class="bar-list">' + reasonBars + '</div>');
-    html += card("Athuganir", "Compact anomaly list", anomalyHtml);
+    html += card("Leiðingarástæður", "Sterkustu leiðingarreglur", '<div class="bar-list">' + reasonBars + '</div>');
+    html += card("Athuganir", "Þéttur frávikalisti", anomalyHtml);
     html += '</div>';
     setHtml("routing", html);
   }
@@ -686,7 +698,7 @@
 
   function renderQualityQueue(model) {
     var html = '<div class="queue">';
-    html += '<div class="grid-12"><div class="card span-6"><div class="card-body"><p class="card-kicker">Production queue</p><h3>' + safe(model.confirmed.length ? fmt(model.confirmed.length) + " staðfest merki" : "Engin staðfest production merki") + '</h3><p>' + safe(model.confirmed.length ? "Raðað eftir severity, töldum áhrifum og confidence." : "Diagnostic merki eru samt sýnd neðar sem samhengi.") + '</p></div></div><div class="card span-6"><div class="card-body"><p class="card-kicker">Diagnostic samhengi</p><h3>' + fmt(model.diagnostic.length) + ' merki</h3><p>Info og óstaðfest merki líta ekki út eins og staðfest production failure.</p></div></div></div>';
+    html += '<div class="grid-12"><div class="card span-6"><div class="card-body"><p class="card-kicker">Framleiðsluröð</p><h3>' + safe(model.confirmed.length ? fmt(model.confirmed.length) + " staðfest merki" : "Engin staðfest framleiðslumerki") + '</h3><p>' + safe(model.confirmed.length ? "Raðað eftir alvarleika, töldum áhrifum og trausti." : "Greiningarmerki eru samt sýnd neðar sem samhengi.") + '</p></div></div><div class="card span-6"><div class="card-body"><p class="card-kicker">Greiningarsamhengi</p><h3>' + fmt(model.diagnostic.length) + ' merki</h3><p>Óstaðfest merki líta ekki út eins og staðfest framleiðsluvilla.</p></div></div></div>';
     html += '<div class="queue-list offset-large">';
     if (!model.confirmed.length && !model.diagnostic.length) {
       html += emptyState("Engin gæðamerki í payload.");
@@ -706,28 +718,28 @@
     var diagnostic = number(row.diagnostic_count);
     var tone = group === "confirmed" ? (severityWeight(row) >= 3 ? "bad" : "confirmed") : "diagnostic";
     var target = row.dashboard_key || row.dashboard_id || "all";
-    return '<article class="queue-item ' + safe(tone) + '"><span class="queue-rail" aria-hidden="true"></span><div><small>' + safe(group === "confirmed" ? "Staðfest production merki" : "Diagnostic samhengi") + '</small><h3>' + safe(String(row.warning_code || row.code || "warning").replace(/_/g, " ")) + '</h3><p>' + safe(row.warning_text || row.message || "-") + '</p><div class="queue-action"><strong>Næsta skref:</strong> ' + safe(row.recommendation || (group === "confirmed" ? "Staðfesta áhrif í affected vafra/tæki og prófa studdan Power BI vafra." : "Halda sem greiningarmerki þar til talningargrunnur staðfestir production áhrif.")) + '</div><div class="chip-row offset">' + chip(target, "diagnostic") + chip("Traust: " + (row.confidence_band || "unknown"), "diagnostic") + chip(row.signal_quality || "signal", "info") + '</div></div><div class="queue-count"><strong>' + fmt(counted) + '</strong><span>Talið</span><small>diag. ' + fmt(diagnostic) + '</small></div></article>';
+    return '<article class="queue-item ' + safe(tone) + '"><span class="queue-rail" aria-hidden="true"></span><div><small>' + safe(group === "confirmed" ? "Staðfest framleiðslumerki" : "Greiningarsamhengi") + '</small><h3>' + safe(String(row.warning_code || row.code || "warning").replace(/_/g, " ")) + '</h3><p>' + safe(row.warning_text || row.message || "-") + '</p><div class="queue-action"><strong>Næsta skref:</strong> ' + safe(row.recommendation || (group === "confirmed" ? "Staðfesta áhrif í viðkomandi vafra/tæki og prófa studdan Power BI vafra." : "Halda sem greiningarmerki þar til talningargrunnur staðfestir framleiðsluáhrif.")) + '</div><div class="chip-row offset">' + chip(target, "diagnostic") + chip("Traust: " + (row.confidence_band || "unknown"), "diagnostic") + chip(row.signal_quality || "signal", "info") + '</div></div><div class="queue-count"><strong>' + fmt(counted) + '</strong><span>Talið</span><small>grein. ' + fmt(diagnostic) + '</small></div></article>';
   }
 
   function renderAuditEvidence(model) {
     var evidence = [
-      ["generated_at", dateShort(model.generated), "Snapshot birting"],
-      ["dashboard_data_generated_at", dateShort(model.dashboardGenerated), "Dashboard_Data source"],
-      ["aggregation_generated_at", dateShort(model.aggregationGenerated), "Aggregate refresh"],
-      ["last counted event", dateShort(model.latestCounted), "Production talning"],
-      ["last raw event", dateShort(model.latestRaw), "Raw rekstrarmerki"],
-      ["last diagnostic event", dateShort(model.latestDiagnostic), "Diagnostic samhengi"],
-      ["last error event", dateShort(model.latestError), "Villumerki"]
+      ["Birting", dateShort(model.generated), "generated_at"],
+      ["Mælaborðsgögn", dateShort(model.dashboardGenerated), "dashboard_data_generated_at"],
+      ["Samantekt", dateShort(model.aggregationGenerated), "aggregation_generated_at"],
+      ["Síðast talið", dateShort(model.latestCounted), "last counted event"],
+      ["Síðasta hrámerki", dateShort(model.latestRaw), "last raw event"],
+      ["Síðasta greining", dateShort(model.latestDiagnostic), "last diagnostic event"],
+      ["Síðasta villa", dateShort(model.latestError), "last error event"]
     ];
     var html = '<div class="audit-grid">';
     html += card("Ferskleiki", "Tímalína gagna", evidence.map(function (row) { return metricRow(row[0], row[1], row[2]); }).join(""));
     html += card("Útgáfur", "Source og schema", [
-      metricRow("Gagnahamur", model.mode, "real/sample toggle"),
-      metricRow("Gagnaheimild", model.dataSource, "static JSON eða JSONP fallback"),
+      metricRow("Gagnahamur", model.mode, "raun/prufa val"),
+      metricRow("Gagnaheimild", model.dataSource, "static JSON eða JSONP varaleið"),
       metricRow("Script", model.script || "-", "Atburðasafnari"),
       metricRow("Schema", model.schema || "-", "Gagnasnið"),
-      metricRow("Config", model.config || "-", "Router config"),
-      metricRow("Core", model.core || "-", "Router core")
+      metricRow("Config", model.config || "-", "router config"),
+      metricRow("Core", model.core || "-", "router core")
     ].join(""));
     html += '</div>';
     html += '<div class="audit-grid">';
@@ -738,13 +750,13 @@
   }
 
   function routeAuditTable(rows) {
-    if (!rows.length) return card("Route audit", "Engin route evidence", emptyState("Engar route línur í aggregate payload."));
+    if (!rows.length) return card("Leiðingarskoðun", "Engin leiðingargögn", emptyState("Engar leiðingarlínur í samantekt."));
     var html = '<div class="audit-table-wrap"><table class="audit-table"><thead><tr><th>Mælaborð</th><th>Leiðingarregla</th><th>Layout</th><th>Forced</th><th>Taldar</th></tr></thead><tbody>';
     rows.forEach(function (row) {
       html += '<tr><td>' + safe(cleanName(row.dashboard_name || dashboardKey(row))) + '</td><td>' + safe(labelReason(row.route_reason)) + '<br><small>' + safe(row.route_reason_detail || "") + '</small></td><td>' + safe(labelLayout(row.selected_layout)) + '</td><td>' + safe(labelLayout(row.forced_layout || "auto")) + '</td><td>' + fmt(rowVisits(row)) + '</td></tr>';
     });
     html += '</tbody></table></div>';
-    return card("Route audit", "Leiðingarskrá", html, chip("Aggregate-only", "good"));
+    return card("Leiðingarskoðun", "Leiðingarskrá", html, chip("Aðeins samantekt", "good"));
   }
 
   function dashboardPassportEvidence(rows) {
@@ -787,7 +799,7 @@
     var badge = byId("health-badge");
     if (dot) dot.className = "dot " + (!data || model && model.tone === "bad" ? "bad" : model && model.tone === "warn" ? "warn" : "");
     if (badge) badge.className = "badge " + (!data || model && model.tone === "bad" ? "bad" : model && model.tone === "warn" ? "warn" : "good");
-    setText("health-text", data ? (data.sample_data || data.status_data_mode === "sample" ? "Sample gögn" : model && model.confirmedWarnings ? "Staðfest merki" : "Staða í lagi") : "Villa");
+    setText("health-text", data ? (data.sample_data || data.status_data_mode === "sample" ? "Prufugögn" : model && model.confirmedWarnings ? "Staðfest merki" : "Staða í lagi") : "Villa");
     setText("generated-pill", "Uppfært: " + (data ? dateShort(data.generated_at || data.generatedAt) : "-"));
     setText("source-pill", "Gögn: " + (data ? (data.status_data_source || data.data_source || "static_json") : "-"));
     setHtml("version-strip", STATUS_COMPONENTS.map(function (item) { return chip(item, item === "Aðeins samantektargögn" ? "good" : "diagnostic"); }).join(""));

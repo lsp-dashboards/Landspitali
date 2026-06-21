@@ -8,44 +8,46 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f3f7fa;
+      --bg: #f4f8fa;
       --bg-2: #edf3f7;
       --panel: #ffffff;
       --panel-soft: #f7fafc;
       --panel-softer: #fbfdff;
-      --ink: #0e2438;
-      --ink-2: #18334a;
-      --muted: #607286;
-      --muted-2: #7b8c9e;
-      --line: #d8e2ea;
-      --line-soft: #e6edf3;
-      --accent: #4f6f8f;
-      --accent-2: #6f8aa4;
-      --accent-dark: #385a77;
-      --accent-soft: #e8f0f7;
-      --land: #0063a6;
-      --good: #1f7a53;
-      --good-soft: #e6f5ee;
-      --good-line: rgba(31, 122, 83, .24);
-      --warn: #956300;
-      --warn-soft: #fff3cf;
-      --warn-line: rgba(149, 99, 0, .26);
-      --bad: #a43a3a;
-      --bad-soft: #fff0f0;
-      --bad-line: rgba(164, 58, 58, .24);
-      --info: #3e6283;
-      --info-soft: #edf4fa;
-      --gateway: #6a7d90;
-      --gateway-soft: #eef3f7;
-      --visit: #18704b;
-      --route: #4f6f8f;
-      --blue-soft: #e8f3fb;
-      --green-deep: #12643f;
-      --amber: #d99500;
+      --ink: #1C2325;
+      --ink-2: #293537;
+      --muted: #475052;
+      --muted-2: #6F7F92;
+      --line: rgba(79, 111, 143, .24);
+      --line-soft: rgba(169, 180, 194, .34);
+      --accent: #4F6F8F;
+      --accent-2: #6A9FB0;
+      --accent-dark: #3B5A75;
+      --accent-soft: #edf3f7;
+      --land: #4F6F8F;
+      --good: #2F8F8B;
+      --good-ink: #0F5C55;
+      --good-soft: #e8f6f5;
+      --good-line: rgba(47, 143, 139, .26);
+      --warn: #C78A2A;
+      --warn-ink: #9A6B20;
+      --warn-soft: #fff4dc;
+      --warn-line: rgba(199, 138, 42, .3);
+      --bad: #BB4A4A;
+      --bad-soft: #fff0ef;
+      --bad-line: rgba(187, 74, 74, .28);
+      --info: #3599B8;
+      --info-soft: #e9f7fb;
+      --gateway: #6F7F92;
+      --gateway-soft: #eef2f5;
+      --visit: #168980;
+      --route: #4F6F8F;
+      --blue-soft: #edf7fb;
+      --green-deep: #0F5C55;
+      --amber: #C78A2A;
       --panel-glass: rgba(255, 255, 255, .82);
-      --grid-line: rgba(14, 36, 56, .075);
-      --shadow: 0 18px 48px rgba(14, 36, 56, .075);
-      --shadow-soft: 0 10px 26px rgba(14, 36, 56, .055);
+      --grid-line: rgba(79, 111, 143, .12);
+      --shadow: 0 18px 48px rgba(28, 35, 37, .07);
+      --shadow-soft: 0 10px 26px rgba(28, 35, 37, .055);
       --radius-lg: 24px;
       --radius-md: 18px;
       --radius-sm: 13px;
@@ -90,6 +92,25 @@
       --data-soft-13: rgba(251, 130, 129, .12);
     }
 
+    @supports (color: color-mix(in srgb, #000, #fff)) {
+      :root {
+        --panel-soft: color-mix(in srgb, #fff 84%, var(--data-16));
+        --panel-softer: color-mix(in srgb, #fff 92%, var(--data-16));
+        --line: color-mix(in srgb, var(--data-01) 24%, transparent);
+        --line-soft: color-mix(in srgb, var(--data-04) 35%, transparent);
+        --accent-soft: color-mix(in srgb, #fff 86%, var(--data-01));
+        --good-soft: color-mix(in srgb, #fff 88%, var(--data-02));
+        --good-line: color-mix(in srgb, var(--data-02) 30%, transparent);
+        --warn-soft: color-mix(in srgb, #fff 84%, var(--data-03));
+        --warn-line: color-mix(in srgb, var(--data-03) 34%, transparent);
+        --bad-soft: color-mix(in srgb, #fff 87%, var(--data-23));
+        --bad-line: color-mix(in srgb, var(--data-23) 30%, transparent);
+        --info-soft: color-mix(in srgb, #fff 88%, var(--data-09));
+        --gateway-soft: color-mix(in srgb, #fff 84%, var(--data-04));
+        --grid-line: color-mix(in srgb, var(--data-01) 12%, transparent);
+      }
+    }
+
     * { box-sizing: border-box; min-width: 0; }
     html { min-height: 100%; overflow-x: hidden; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     body {
@@ -99,7 +120,7 @@
       font-family: Arial, Helvetica, sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at 9% -6%, rgba(0, 99, 166, .14), transparent 25rem),
+        radial-gradient(circle at 9% -6%, rgba(79, 111, 143, .15), transparent 25rem),
         radial-gradient(circle at 78% 0%, rgba(79, 111, 143, .13), transparent 28rem),
         linear-gradient(180deg, #f9fbfd 0%, var(--bg) 44%, var(--bg-2) 100%);
       font-variant-numeric: tabular-nums;
@@ -111,7 +132,7 @@
     textarea { font: inherit; }
 
     :focus-visible {
-      outline: 3px solid rgba(0, 99, 166, .32);
+      outline: 3px solid rgba(53, 153, 184, .34);
       outline-offset: 3px;
     }
 
@@ -168,7 +189,7 @@
       position: absolute;
       inset: 0 auto 0 0;
       width: 7px;
-      background: linear-gradient(180deg, var(--land), #2b87bd 44%, var(--good));
+      background: linear-gradient(180deg, var(--data-01), var(--data-09) 44%, var(--data-02));
       z-index: -1;
     }
 
@@ -261,21 +282,21 @@
       justify-content: center;
       align-self: flex-end;
       padding: 7px 13px;
-      border: 1px solid rgba(79, 111, 143, .24);
+      border: 1px solid rgba(79, 111, 143, .32);
       border-radius: 999px;
-      background: var(--ink);
+      background: linear-gradient(135deg, var(--data-06), var(--data-31));
       color: #fff;
       font-size: 11px;
       font-weight: 900;
       line-height: 1.1;
       text-decoration: none;
       white-space: nowrap;
-      box-shadow: 0 10px 20px rgba(14, 36, 56, .08);
+      box-shadow: 0 10px 20px rgba(28, 35, 37, .11);
     }
 
     .view-switch-link:hover,
     .view-switch-link:focus-visible {
-      background: var(--land);
+      background: linear-gradient(135deg, var(--data-01), var(--data-02));
       color: #fff;
     }
 
@@ -356,7 +377,7 @@
       color: var(--land);
     }
     .refresh-button:focus-visible {
-      outline: 2px solid rgba(0, 99, 166, .35);
+      outline: 2px solid rgba(79, 111, 143, .35);
       outline-offset: 4px;
     }
     .refresh-button.loading { animation: none; }
@@ -414,8 +435,8 @@
     .chip.bad,
     .status-chip.bad { background: var(--bad-soft); color: var(--bad); border-color: var(--bad-line); }
     .chip.info,
-    .status-chip.info { background: var(--info-soft); color: var(--info); border-color: rgba(62, 98, 131, .22); }
-    .chip.gateway { background: var(--gateway-soft); color: var(--gateway); border-color: rgba(106, 125, 144, .24); }
+    .status-chip.info { background: var(--info-soft); color: var(--info); border-color: rgba(53, 153, 184, .22); }
+    .chip.gateway { background: var(--gateway-soft); color: var(--gateway); border-color: rgba(111, 127, 146, .24); }
     .chip.accent { background: var(--accent-soft); color: var(--accent-dark); }
     .chip.neutral { background: #edf2f6; color: var(--muted); }
 
@@ -425,12 +446,12 @@
       flex: 0 0 auto;
       border-radius: 999px;
       background: var(--good);
-      box-shadow: 0 0 0 4px rgba(31, 122, 83, .12);
+      box-shadow: 0 0 0 4px rgba(47, 143, 139, .12);
     }
 
-    .dot.warn { background: #df9f19; box-shadow: 0 0 0 4px rgba(223, 159, 25, .14); }
-    .dot.bad { background: var(--bad); box-shadow: 0 0 0 4px rgba(164, 58, 58, .14); }
-    .dot.info { background: var(--info); box-shadow: 0 0 0 4px rgba(62, 98, 131, .13); }
+    .dot.warn { background: #C78A2A; box-shadow: 0 0 0 4px rgba(199, 138, 42, .14); }
+    .dot.bad { background: var(--bad); box-shadow: 0 0 0 4px rgba(187, 74, 74, .14); }
+    .dot.info { background: var(--info); box-shadow: 0 0 0 4px rgba(53, 153, 184, .13); }
 
     .freshness-stack {
       display: grid;
@@ -506,7 +527,7 @@
     .freshness-track.warn span,
     .bar-fill.warn,
     .mini-fill.warn,
-    .meter span.warn { background: #dfa019; }
+    .meter span.warn { background: #C78A2A; }
     .freshness-track.bad span,
     .bar-fill.bad,
     .mini-fill.bad,
@@ -531,7 +552,7 @@
     .notice.show { display: block; }
     .notice.bad { border-color: var(--bad-line); background: var(--bad-soft); color: var(--bad); }
     .notice.warn { border-color: var(--warn-line); background: var(--warn-soft); color: var(--warn); }
-    .notice.info { border-color: rgba(62, 98, 131, .22); background: var(--info-soft); color: var(--info); }
+    .notice.info { border-color: rgba(53, 153, 184, .22); background: var(--info-soft); color: var(--info); }
 
     .metric-grid {
       display: grid;
@@ -551,10 +572,10 @@
       background: linear-gradient(180deg, #fff, var(--panel-soft));
     }
 
-    .metric.intent-visit { border-top: 4px solid rgba(31, 122, 83, .65); }
-    .metric.intent-source { border-top: 4px solid rgba(0, 99, 166, .55); }
-    .metric.intent-quality { border-top: 4px solid rgba(149, 99, 0, .48); }
-    .metric.intent-gateway { border-top: 4px solid rgba(106, 125, 144, .6); background: linear-gradient(180deg, #fff, var(--gateway-soft)); }
+    .metric.intent-visit { border-top: 4px solid rgba(47, 143, 139, .65); }
+    .metric.intent-source { border-top: 4px solid rgba(79, 111, 143, .55); }
+    .metric.intent-quality { border-top: 4px solid rgba(199, 138, 42, .48); }
+    .metric.intent-gateway { border-top: 4px solid rgba(111, 127, 146, .6); background: linear-gradient(180deg, #fff, var(--gateway-soft)); }
 
     .metric span.label,
     .metric > span:first-child {
@@ -777,7 +798,7 @@
     .summary-stat.bad,
     .signal-cell.bad { background: var(--bad-soft); border-color: var(--bad-line); }
     .summary-stat.gateway,
-    .signal-cell.gateway { background: var(--gateway-soft); border-color: rgba(106, 125, 144, .22); }
+    .signal-cell.gateway { background: var(--gateway-soft); border-color: rgba(111, 127, 146, .22); }
 
     .summary-stat span,
     .signal-cell span,
@@ -841,7 +862,7 @@
     .segment { min-width: 0; height: 100%; background: var(--accent); }
     .segment.good { background: var(--good); }
     .segment.gateway { background: var(--gateway); }
-    .segment.warn { background: #dfa019; }
+    .segment.warn { background: #C78A2A; }
     .segment.bad { background: var(--bad); }
     .segment:first-child { border-radius: 999px 0 0 999px; }
     .segment:last-child { border-radius: 0 999px 999px 0; }
@@ -862,7 +883,7 @@
     }
 
     .dashboard-card.primary {
-      border-top: 5px solid rgba(0, 99, 166, .45);
+      border-top: 5px solid rgba(79, 111, 143, .45);
     }
 
     #dashboard-grid {
@@ -944,8 +965,8 @@
 
     .dashboard-detail-box.good { background: var(--good-soft); border-color: var(--good-line); }
     .dashboard-detail-box.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .dashboard-detail-box.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .dashboard-detail-box.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .dashboard-detail-box.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .dashboard-detail-box.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
 
     .dashboard-detail-box span {
       color: var(--muted);
@@ -1097,7 +1118,7 @@
       padding: 15px;
       background:
         linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.9)),
-        radial-gradient(circle at 100% 0%, rgba(0,99,166,.08), transparent 26rem);
+        radial-gradient(circle at 100% 0%, rgba(79,111,143,.08), transparent 26rem);
     }
 
     .insight-kicker,
@@ -1137,8 +1158,8 @@
 
     .insight-stat.good { background: var(--good-soft); border-color: var(--good-line); }
     .insight-stat.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .insight-stat.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .insight-stat.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .insight-stat.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .insight-stat.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
 
     .insight-stat strong {
       color: var(--ink);
@@ -1199,7 +1220,7 @@
     .insight-action-item.good { background: var(--good-soft); border-color: var(--good-line); }
     .insight-action-item.warn { background: var(--warn-soft); border-color: var(--warn-line); }
     .insight-action-item.bad { background: var(--bad-soft); border-color: var(--bad-line); }
-    .insight-action-item.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .insight-action-item.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
 
     .insight-evidence-grid {
       display: grid;
@@ -1217,8 +1238,8 @@
 
     .insight-evidence.good { background: var(--good-soft); border-color: var(--good-line); }
     .insight-evidence.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .insight-evidence.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .insight-evidence.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .insight-evidence.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .insight-evidence.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
 
     .insight-evidence strong {
       color: var(--ink);
@@ -1335,7 +1356,7 @@
     .delivery-shell {
       background:
         linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.94)),
-        radial-gradient(circle at 100% 0%, rgba(0,99,166,.06), transparent 30rem);
+        radial-gradient(circle at 100% 0%, rgba(79,111,143,.06), transparent 30rem);
     }
 
     .delivery-board {
@@ -1407,8 +1428,8 @@
 
     .delivery-stat.good { background: var(--good-soft); border-color: var(--good-line); }
     .delivery-stat.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .delivery-stat.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .delivery-stat.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .delivery-stat.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .delivery-stat.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
 
     .delivery-stat strong {
       align-self: center;
@@ -1499,8 +1520,8 @@
 
     .delivery-signal.good { background: var(--good-soft); border-color: var(--good-line); }
     .delivery-signal.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .delivery-signal.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .delivery-signal.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .delivery-signal.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .delivery-signal.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
 
     .delivery-signal span {
       color: var(--muted);
@@ -1542,8 +1563,8 @@
     }
 
     .delivery-viz-panel.good { background: var(--good-soft); border-color: var(--good-line); }
-    .delivery-viz-panel.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .delivery-viz-panel.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .delivery-viz-panel.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .delivery-viz-panel.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
 
     .delivery-viz-head {
       display: flex;
@@ -1584,8 +1605,9 @@
       font-size: 10px;
       font-weight: 900;
       line-height: 1.1;
-      letter-spacing: .055em;
+      letter-spacing: 0;
       text-transform: uppercase;
+      overflow-wrap: anywhere;
     }
 
     .delivery-viz-head strong {
@@ -1617,7 +1639,7 @@
     .delivery-tree-segment.tone-2,
     .delivery-donut.tone-2 { --viz-color: var(--info); }
     .delivery-tree-segment.tone-3,
-    .delivery-donut.tone-3 { --viz-color: #dfa019; }
+    .delivery-donut.tone-3 { --viz-color: #C78A2A; }
     .delivery-tree-segment { background: var(--viz-color); }
 
     .delivery-viz-items {
@@ -1797,8 +1819,8 @@
 
     .delivery-audit-card.good { background: var(--good-soft); border-color: var(--good-line); }
     .delivery-audit-card.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .delivery-audit-card.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .delivery-audit-card.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .delivery-audit-card.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .delivery-audit-card.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
 
     .delivery-audit-card strong {
       color: var(--ink);
@@ -1868,7 +1890,7 @@
     .message-card.good { background: var(--good-soft); border-color: var(--good-line); }
     .message-card.warn { background: var(--warn-soft); border-color: var(--warn-line); }
     .message-card.bad { background: var(--bad-soft); border-color: var(--bad-line); }
-    .message-card.info { background: var(--info-soft); border-color: rgba(62, 98, 131, .22); }
+    .message-card.info { background: var(--info-soft); border-color: rgba(53, 153, 184, .22); }
     .message-card.neutral { background: var(--panel-soft); }
 
     .publication-meta {
@@ -1919,7 +1941,7 @@
       border: 1px solid var(--line-soft);
       border-radius: 22px;
       background:
-        radial-gradient(circle at 50% 0%, rgba(0, 99, 166, .12), transparent 70%),
+        radial-gradient(circle at 50% 0%, rgba(79, 111, 143, .12), transparent 70%),
         #fff;
     }
 
@@ -1936,7 +1958,7 @@
       box-shadow: inset 0 0 0 1px rgba(14, 36, 56, .05), 0 12px 26px rgba(14, 36, 56, .08);
     }
 
-    .score-ring.warn { --score-color: #dfa019; }
+    .score-ring.warn { --score-color: #C78A2A; }
     .score-ring.bad { --score-color: var(--bad); }
 
     .score-ring::after {
@@ -2017,7 +2039,7 @@
     .ops-tile.good { background: linear-gradient(180deg, #fff, var(--good-soft)); border-color: var(--good-line); }
     .ops-tile.warn { background: linear-gradient(180deg, #fff, var(--warn-soft)); border-color: var(--warn-line); }
     .ops-tile.bad { background: linear-gradient(180deg, #fff, var(--bad-soft)); border-color: var(--bad-line); }
-    .ops-tile.info { background: linear-gradient(180deg, #fff, var(--info-soft)); border-color: rgba(62, 98, 131, .22); }
+    .ops-tile.info { background: linear-gradient(180deg, #fff, var(--info-soft)); border-color: rgba(53, 153, 184, .22); }
 
     .ops-label,
     .system-label,
@@ -2070,18 +2092,18 @@
       margin-top: 3px;
       border-radius: 999px;
       background: var(--good);
-      box-shadow: 0 0 0 4px rgba(31, 122, 83, .12);
+      box-shadow: 0 0 0 4px rgba(47, 143, 139, .12);
     }
 
-    .insight-bullet.warn { background: #dfa019; box-shadow: 0 0 0 4px rgba(223, 160, 25, .14); }
-    .insight-bullet.bad { background: var(--bad); box-shadow: 0 0 0 4px rgba(164, 58, 58, .13); }
-    .insight-bullet.info { background: var(--info); box-shadow: 0 0 0 4px rgba(62, 98, 131, .12); }
+    .insight-bullet.warn { background: #C78A2A; box-shadow: 0 0 0 4px rgba(199, 138, 42, .14); }
+    .insight-bullet.bad { background: var(--bad); box-shadow: 0 0 0 4px rgba(187, 74, 74, .13); }
+    .insight-bullet.info { background: var(--info); box-shadow: 0 0 0 4px rgba(53, 153, 184, .12); }
 
     .system-hero {
       display: grid;
       gap: 8px;
       padding: 15px;
-      border: 1px solid rgba(0, 99, 166, .18);
+      border: 1px solid rgba(79, 111, 143, .18);
       border-radius: 20px;
       background:
         linear-gradient(135deg, rgba(232, 243, 251, .88), rgba(255, 255, 255, .94)),
@@ -2113,7 +2135,7 @@
     }
 
     .system-card.good { background: var(--good-soft); border-color: var(--good-line); }
-    .system-card.info { background: var(--info-soft); border-color: rgba(62, 98, 131, .22); }
+    .system-card.info { background: var(--info-soft); border-color: rgba(53, 153, 184, .22); }
     .system-card.warn { background: var(--warn-soft); border-color: var(--warn-line); }
 
     .system-value {
@@ -2337,8 +2359,8 @@
 
     .atlas-stat.good { border-color: var(--good-line); background: rgba(230,245,238,.72); }
     .atlas-stat.warn { border-color: var(--warn-line); background: rgba(255,243,207,.72); }
-    .atlas-stat.info { border-color: rgba(62,98,131,.22); background: rgba(237,244,250,.72); }
-    .atlas-stat.gateway { border-color: rgba(106,125,144,.24); background: rgba(238,243,247,.72); }
+    .atlas-stat.info { border-color: rgba(53,153,184,.22); background: rgba(237,244,250,.72); }
+    .atlas-stat.gateway { border-color: rgba(111,127,146,.24); background: rgba(238,243,247,.72); }
 
     .atlas-flow {
       position: relative;
@@ -2357,7 +2379,7 @@
       right: 8%;
       top: 38px;
       height: 1px;
-      background: linear-gradient(90deg, rgba(31,122,83,.62), rgba(79,111,143,.46), rgba(149,99,0,.42));
+      background: linear-gradient(90deg, rgba(47,143,139,.62), rgba(79,111,143,.46), rgba(199,138,42,.42));
       pointer-events: none;
     }
 
@@ -2380,12 +2402,12 @@
       height: 11px;
       border-radius: 999px;
       background: var(--gateway);
-      box-shadow: 0 0 0 5px rgba(106,125,144,.12);
+      box-shadow: 0 0 0 5px rgba(111,127,146,.12);
     }
 
-    .atlas-step.good::before { background: var(--good); box-shadow: 0 0 0 5px rgba(31,122,83,.12); }
-    .atlas-step.warn::before { background: var(--warn); box-shadow: 0 0 0 5px rgba(149,99,0,.13); }
-    .atlas-step.info::before { background: var(--info); box-shadow: 0 0 0 5px rgba(62,98,131,.12); }
+    .atlas-step.good::before { background: var(--good); box-shadow: 0 0 0 5px rgba(47,143,139,.12); }
+    .atlas-step.warn::before { background: var(--warn); box-shadow: 0 0 0 5px rgba(199,138,42,.13); }
+    .atlas-step.info::before { background: var(--info); box-shadow: 0 0 0 5px rgba(53,153,184,.12); }
 
     .atlas-step strong {
       color: var(--ink);
@@ -2717,6 +2739,423 @@
       }
     }
 
+    .insight-atlas.atlas-lens {
+      gap: 14px;
+    }
+
+    .atlas-lens-flow,
+    .atlas-lens-card {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid rgba(190, 207, 220, .82);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,251,253,.76)),
+        linear-gradient(90deg, rgba(79,111,143,.045) 0 1px, transparent 1px 100%);
+      background-size: auto, 38px 100%;
+    }
+
+    .atlas-lens-flow::before,
+    .atlas-lens-card::before {
+      content: "";
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      top: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--data-01), var(--data-02), var(--data-03));
+      pointer-events: none;
+    }
+
+    .atlas-lens-flow {
+      display: grid;
+      gap: 16px;
+      padding: 16px;
+    }
+
+    .atlas-lens-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(180px, auto);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .atlas-lens-kicker,
+    .atlas-lens-node span,
+    .atlas-lens-card-kicker,
+    .atlas-lens-tile span,
+    .atlas-lens-row small {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.16;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .atlas-lens-title h3 {
+      margin: 5px 0 0;
+      color: var(--ink);
+      font-size: clamp(30px, 3.1vw, 52px);
+      line-height: .98;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .atlas-lens-title p {
+      max-width: 70ch;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.42;
+      font-weight: 700;
+    }
+
+    .atlas-lens-total {
+      justify-self: end;
+      min-width: 176px;
+      text-align: right;
+    }
+
+    .atlas-lens-total strong {
+      display: block;
+      color: var(--ink);
+      font-size: clamp(38px, 4.2vw, 70px);
+      line-height: .88;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .atlas-lens-total span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.22;
+      font-weight: 900;
+    }
+
+    .atlas-lens-rail {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      min-width: 0;
+      padding-top: 2px;
+    }
+
+    .atlas-lens-rail::before {
+      content: "";
+      position: absolute;
+      left: 6%;
+      right: 6%;
+      top: 24px;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(53,153,184,.58), rgba(111,127,146,.46), rgba(199,138,42,.52), rgba(47,143,139,.72));
+      pointer-events: none;
+    }
+
+    .atlas-lens-node {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-rows: 50px minmax(122px, 1fr);
+      gap: 8px;
+      min-width: 0;
+      align-items: stretch;
+    }
+
+    .atlas-lens-dot {
+      display: grid;
+      place-items: center;
+      justify-self: center;
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(255,255,255,.98);
+      border-radius: 999px;
+      background: var(--gateway);
+      color: #fff;
+      font-size: 14px;
+      line-height: 1;
+      font-weight: 900;
+      box-shadow: 0 0 0 1px rgba(190,207,220,.9), 0 8px 18px rgba(16,40,61,.08);
+    }
+
+    .atlas-lens-node.good .atlas-lens-dot { background: var(--good); }
+    .atlas-lens-node.info .atlas-lens-dot { background: var(--info); }
+    .atlas-lens-node.warn .atlas-lens-dot { background: var(--warn); }
+
+    .atlas-lens-node-body {
+      display: grid;
+      align-content: space-between;
+      gap: 10px;
+      min-width: 0;
+      min-height: 122px;
+      padding: 12px;
+      border: 1px solid rgba(216,226,234,.88);
+      border-radius: 8px;
+      background: rgba(255,255,255,.78);
+    }
+
+    .atlas-lens-node.good .atlas-lens-node-body { border-color: rgba(47,143,139,.28); background: var(--data-soft-02); }
+    .atlas-lens-node.info .atlas-lens-node-body { border-color: rgba(53,153,184,.24); background: var(--data-soft-09); }
+    .atlas-lens-node.warn .atlas-lens-node-body { border-color: rgba(199,138,42,.34); background: var(--data-soft-03); }
+
+    .atlas-lens-node strong {
+      display: block;
+      margin-top: 6px;
+      color: var(--ink);
+      font-size: clamp(24px, 2.6vw, 40px);
+      line-height: .96;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .atlas-lens-node small,
+    .atlas-lens-tile small,
+    .atlas-lens-row em {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.28;
+      font-weight: 800;
+      font-style: normal;
+    }
+
+    .atlas-lens-meter {
+      width: 100%;
+      height: 7px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(216,226,234,.84);
+    }
+
+    .atlas-lens-meter span {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--gateway);
+    }
+
+    .atlas-lens-meter span.good { background: var(--good); }
+    .atlas-lens-meter span.info { background: var(--info); }
+    .atlas-lens-meter span.warn { background: var(--warn); }
+
+    .atlas-lens-workbench {
+      display: grid;
+      grid-template-columns: minmax(320px, .72fr) minmax(0, 1.28fr);
+      gap: 14px;
+      align-items: stretch;
+      min-width: 0;
+    }
+
+    .atlas-lens-card {
+      display: grid;
+      align-content: start;
+      gap: 12px;
+      padding: 14px;
+    }
+
+    .atlas-lens-card-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .atlas-lens-card h3 {
+      margin: 5px 0 0;
+      color: var(--ink);
+      font-size: 20px;
+      line-height: 1.05;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .atlas-lens-card p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.38;
+      font-weight: 700;
+    }
+
+    .atlas-lens-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 5px 10px;
+      border: 1px solid var(--good-line);
+      border-radius: 999px;
+      background: var(--data-soft-02);
+      color: var(--good-ink);
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .atlas-lens-rows {
+      display: grid;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .atlas-lens-row {
+      display: grid;
+      grid-template-columns: minmax(150px, .75fr) minmax(0, 1.25fr) minmax(50px, auto);
+      gap: 12px;
+      align-items: center;
+      min-width: 0;
+      min-height: 58px;
+      padding: 9px 10px;
+      border: 1px solid rgba(216,226,234,.84);
+      border-radius: 8px;
+      background: rgba(255,255,255,.7);
+    }
+
+    .atlas-lens-row strong {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.18;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .atlas-lens-row-value {
+      color: var(--ink);
+      font-size: 27px;
+      line-height: .95;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .atlas-lens-bars {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .atlas-lens-mini {
+      height: 7px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(216,226,234,.84);
+    }
+
+    .atlas-lens-mini span {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--good);
+    }
+
+    .atlas-lens-mini.desktop span {
+      background: var(--gateway);
+    }
+
+    .atlas-lens-bar-labels {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.2;
+      font-weight: 900;
+    }
+
+    .atlas-lens-context-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .atlas-lens-tile {
+      display: grid;
+      align-content: space-between;
+      gap: 10px;
+      min-width: 0;
+      min-height: 92px;
+      padding: 11px;
+      border: 1px solid rgba(216,226,234,.84);
+      border-radius: 8px;
+      background: rgba(255,255,255,.68);
+    }
+
+    .atlas-lens-tile.good { border-color: rgba(47,143,139,.26); background: var(--data-soft-02); }
+    .atlas-lens-tile.info { border-color: rgba(53,153,184,.24); background: var(--data-soft-09); }
+    .atlas-lens-tile.warn { border-color: rgba(199,138,42,.34); background: var(--data-soft-03); }
+
+    .atlas-lens-tile strong {
+      display: block;
+      margin-top: 5px;
+      color: var(--ink);
+      font-size: clamp(18px, 1.35vw, 26px);
+      line-height: 1.02;
+      font-weight: 900;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 1180px) {
+      .atlas-lens-head,
+      .atlas-lens-workbench {
+        grid-template-columns: 1fr;
+      }
+
+      .atlas-lens-total {
+        justify-self: start;
+        text-align: left;
+      }
+
+      .atlas-lens-rail,
+      .atlas-lens-context-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .atlas-lens-rail::before {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .atlas-lens-flow,
+      .atlas-lens-card {
+        padding: 12px;
+      }
+
+      .atlas-lens-rail,
+      .atlas-lens-context-grid,
+      .atlas-lens-row,
+      .atlas-lens-card-head {
+        grid-template-columns: 1fr;
+      }
+
+      .atlas-lens-node {
+        grid-template-columns: 44px minmax(0, 1fr);
+        grid-template-rows: auto;
+        align-items: stretch;
+      }
+
+      .atlas-lens-dot {
+        width: 42px;
+        height: 42px;
+      }
+
+      .atlas-lens-row-value {
+        text-align: left;
+      }
+    }
+
     .charts-panel {
       background:
         linear-gradient(180deg, rgba(255,255,255,.92), rgba(248,251,253,.78));
@@ -2846,11 +3285,11 @@
       background: rgba(79, 111, 143, .12);
     }
 
-    .heat-cell.good > span { background: rgba(31, 122, 83, .14); }
-    .heat-cell.warn > span { background: rgba(223, 160, 25, .18); }
-    .heat-cell.bad > span { background: rgba(164, 58, 58, .14); }
-    .heat-cell.info > span { background: rgba(62, 98, 131, .14); }
-    .heat-cell.gateway > span { background: rgba(106, 125, 144, .16); }
+    .heat-cell.good > span { background: rgba(47, 143, 139, .14); }
+    .heat-cell.warn > span { background: rgba(199, 138, 42, .18); }
+    .heat-cell.bad > span { background: rgba(187, 74, 74, .14); }
+    .heat-cell.info > span { background: rgba(53, 153, 184, .14); }
+    .heat-cell.gateway > span { background: rgba(111, 127, 146, .16); }
 
     .heat-cell.empty {
       color: transparent;
@@ -3032,7 +3471,7 @@
       grid-template-columns: minmax(0, 1fr);
       background:
         linear-gradient(128deg, rgba(255,255,255,.97) 0%, rgba(244,249,252,.94) 58%, rgba(231,242,247,.86) 100%),
-        radial-gradient(circle at 8% 8%, rgba(0, 99, 166, .12), transparent 24rem);
+        radial-gradient(circle at 8% 8%, rgba(79, 111, 143, .12), transparent 24rem);
       border: 1px solid rgba(202, 216, 226, .92);
       border-radius: 24px;
       box-shadow: 0 20px 56px rgba(14, 36, 56, .08);
@@ -3054,7 +3493,7 @@
       width: 28rem;
       height: 28rem;
       border-radius: 999px;
-      background: radial-gradient(circle, rgba(0, 99, 166, .10), transparent 68%);
+      background: radial-gradient(circle, rgba(79, 111, 143, .10), transparent 68%);
     }
 
     .command-grid::after {
@@ -3063,7 +3502,7 @@
       bottom: 0;
       height: 4px;
       border-radius: 999px 999px 0 0;
-      background: linear-gradient(90deg, var(--land), rgba(31,122,83,.88), rgba(79,111,143,.35));
+      background: linear-gradient(90deg, var(--land), rgba(47,143,139,.88), rgba(79,111,143,.35));
     }
 
     .command-main {
@@ -3118,7 +3557,7 @@
       min-height: 118px;
       background:
         linear-gradient(140deg, rgba(255,255,255,.92), rgba(247,250,252,.78)),
-        radial-gradient(circle at 100% 0%, rgba(0,99,166,.08), transparent 70%);
+        radial-gradient(circle at 100% 0%, rgba(79,111,143,.08), transparent 70%);
       border-color: rgba(216,226,234,.9);
       box-shadow: 0 14px 38px rgba(14, 36, 56, .06);
     }
@@ -3129,7 +3568,7 @@
       padding: clamp(18px, 2vw, 26px);
       background:
         linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.96)),
-        radial-gradient(circle at 0% 0%, rgba(0,99,166,.08), transparent 28rem);
+        radial-gradient(circle at 0% 0%, rgba(79,111,143,.08), transparent 28rem);
     }
 
     .overview-shell::before {
@@ -3197,7 +3636,7 @@
     .score-dock {
       background:
         linear-gradient(160deg, rgba(255,255,255,.98), rgba(240,248,252,.88)),
-        radial-gradient(circle at 50% 0%, rgba(0, 99, 166, .15), transparent 70%);
+        radial-gradient(circle at 50% 0%, rgba(79, 111, 143, .15), transparent 70%);
     }
 
     .score-caption { font-size: 12px; }
@@ -3206,7 +3645,7 @@
       display: grid;
       gap: 8px;
       padding: 15px;
-      border: 1px solid rgba(0, 99, 166, .18);
+      border: 1px solid rgba(79, 111, 143, .18);
       border-radius: 20px;
       background:
         linear-gradient(135deg, rgba(232, 243, 251, .9), rgba(255, 255, 255, .96)),
@@ -3238,7 +3677,7 @@
     }
 
     .system-card.good { background: var(--good-soft); border-color: var(--good-line); }
-    .system-card.info { background: var(--info-soft); border-color: rgba(62, 98, 131, .22); }
+    .system-card.info { background: var(--info-soft); border-color: rgba(53, 153, 184, .22); }
     .system-card.warn { background: var(--warn-soft); border-color: var(--warn-line); }
 
     .system-value {
@@ -3314,7 +3753,7 @@
       border-radius: 18px;
       background:
         linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,250,252,.9)),
-        radial-gradient(circle at 100% 0%, rgba(0,99,166,.07), transparent 70%);
+        radial-gradient(circle at 100% 0%, rgba(79,111,143,.07), transparent 70%);
     }
 
     .route-source-head {
@@ -3336,7 +3775,7 @@
 
     .route-source-kpi.good { background: var(--good-soft); border-color: var(--good-line); }
     .route-source-kpi.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .route-source-kpi.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .route-source-kpi.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
 
     .route-source-kpi span,
     .route-source-band-label,
@@ -3403,7 +3842,7 @@
 
     .route-source-stack span.good { background: var(--good); }
     .route-source-stack span.gateway { background: var(--gateway); }
-    .route-source-stack span.warn { background: #dfa019; }
+    .route-source-stack span.warn { background: #C78A2A; }
 
     .route-source-legend {
       display: grid;
@@ -3430,7 +3869,7 @@
 
     .legend-dot.good { background: var(--good); }
     .legend-dot.gateway { background: var(--gateway); }
-    .legend-dot.warn { background: #dfa019; }
+    .legend-dot.warn { background: #C78A2A; }
 
     .legend-track {
       height: 9px;
@@ -3448,7 +3887,7 @@
 
     .legend-track span.good { background: var(--good); }
     .legend-track span.gateway { background: var(--gateway); }
-    .legend-track span.warn { background: #dfa019; }
+    .legend-track span.warn { background: #C78A2A; }
 
     .legend-row strong {
       color: var(--ink);
@@ -3482,7 +3921,7 @@
       border-radius: 20px;
       background:
         linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,250,252,.92)),
-        radial-gradient(circle at 100% 0%, rgba(0,99,166,.07), transparent 30rem);
+        radial-gradient(circle at 100% 0%, rgba(79,111,143,.07), transparent 30rem);
     }
 
     .route-map-hero {
@@ -3558,7 +3997,7 @@
 
     .route-map-stat.good { background: var(--good-soft); border-color: var(--good-line); }
     .route-map-stat.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .route-map-stat.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .route-map-stat.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
     .route-map-stat.gateway { background: var(--gateway-soft); border-color: rgba(79,111,143,.24); }
 
     .route-map-stat strong {
@@ -3666,7 +4105,7 @@
     .route-map-stack .gateway,
     .route-map-meter-fill.gateway { background: var(--gateway); }
     .route-map-stack .warn,
-    .route-map-meter-fill.warn { background: #dfa019; }
+    .route-map-meter-fill.warn { background: #C78A2A; }
 
     .route-map-detail {
       min-height: 0;
@@ -3806,7 +4245,7 @@
       overflow: hidden;
       background:
         linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.94)),
-        radial-gradient(circle at 96% 0%, rgba(149,99,0,.08), transparent 26rem);
+        radial-gradient(circle at 96% 0%, rgba(199,138,42,.08), transparent 26rem);
     }
 
     .warning-panel::before {
@@ -3814,7 +4253,7 @@
       position: absolute;
       inset: 0 0 auto 0;
       height: 5px;
-      background: linear-gradient(90deg, var(--good), #dfa019, var(--info));
+      background: linear-gradient(90deg, var(--good), #C78A2A, var(--info));
     }
 
     .quality-board {
@@ -4072,7 +4511,7 @@
 
     .hero-system-tags .component-chip.config {
       background: rgba(228, 242, 249, .96);
-      border-color: rgba(0, 99, 166, .24);
+      border-color: rgba(79, 111, 143, .24);
       color: #115d89;
     }
 
@@ -4359,7 +4798,7 @@
       border-radius: 16px;
       background:
         linear-gradient(135deg, rgba(255,255,255,.92), rgba(247,250,252,.82)),
-        radial-gradient(circle at 0% 0%, rgba(0,99,166,.08), transparent 22rem);
+        radial-gradient(circle at 0% 0%, rgba(79,111,143,.08), transparent 22rem);
     }
 
     .gate-stage {
@@ -4385,9 +4824,9 @@
 
     .gate-stage.good { background: var(--good-soft); border-color: var(--good-line); }
     .gate-stage.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .gate-stage.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .gate-stage.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
     .gate-stage.good::before { background: var(--good); }
-    .gate-stage.warn::before { background: #dfa019; }
+    .gate-stage.warn::before { background: #C78A2A; }
     .gate-stage.info::before { background: var(--info); }
 
     .gate-stage span {
@@ -4445,7 +4884,7 @@
       align-content: center;
       background:
         linear-gradient(140deg, rgba(255,255,255,.92), rgba(247,250,252,.78)),
-        radial-gradient(circle at 100% 0%, rgba(0,99,166,.08), transparent 70%);
+        radial-gradient(circle at 100% 0%, rgba(79,111,143,.08), transparent 70%);
       border-color: rgba(216,226,234,.9);
       box-shadow: none;
     }
@@ -4476,8 +4915,8 @@
 
     .ops-signal-group.good { background: var(--good-soft); border-color: var(--good-line); }
     .ops-signal-group.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .ops-signal-group.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .ops-signal-group.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .ops-signal-group.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .ops-signal-group.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
 
     .ops-signal-head {
       display: flex;
@@ -4803,11 +5242,11 @@
 
     .period-card.info,
     .source-summary-tile.info,
-    .quality-explain-tile.info { background: var(--info-soft); border-color: rgba(62, 98, 131, .22); }
+    .quality-explain-tile.info { background: var(--info-soft); border-color: rgba(53, 153, 184, .22); }
 
     .period-card.gateway,
     .source-summary-tile.gateway,
-    .quality-explain-tile.gateway { background: var(--gateway-soft); border-color: rgba(106, 125, 144, .22); }
+    .quality-explain-tile.gateway { background: var(--gateway-soft); border-color: rgba(111, 127, 146, .22); }
 
     .source-summary-tile.warn { background: var(--warn-soft); border-color: var(--warn-line); }
 
@@ -4877,8 +5316,8 @@
     }
 
     .gateway-read-row.good { background: var(--good-soft); border-color: var(--good-line); }
-    .gateway-read-row.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
-    .gateway-read-row.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .gateway-read-row.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
+    .gateway-read-row.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
     .gateway-read-row.warn { background: var(--warn-soft); border-color: var(--warn-line); }
 
     .gateway-read-row span {
@@ -4940,8 +5379,8 @@
     .signal-tile:last-child::after { display: none; }
     .signal-tile.good { background: var(--good-soft); border-color: var(--good-line); }
     .signal-tile.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .signal-tile.info { background: var(--info-soft); border-color: rgba(62, 98, 131, .22); }
-    .signal-tile.gateway { background: var(--gateway-soft); border-color: rgba(106, 125, 144, .22); }
+    .signal-tile.info { background: var(--info-soft); border-color: rgba(53, 153, 184, .22); }
+    .signal-tile.gateway { background: var(--gateway-soft); border-color: rgba(111, 127, 146, .22); }
 
     .signal-marker {
       width: 34px;
@@ -5041,7 +5480,7 @@
 
     .reconcile-banner {
       padding: 12px 13px;
-      border: 1px solid rgba(62, 98, 131, .22);
+      border: 1px solid rgba(53, 153, 184, .22);
       border-radius: 15px;
       background: var(--info-soft);
     }
@@ -5205,7 +5644,7 @@
     .public-summary-card {
       background:
         linear-gradient(180deg, #fff, var(--info-soft)),
-        radial-gradient(circle at 100% 0%, rgba(0,99,166,.10), transparent 70%);
+        radial-gradient(circle at 100% 0%, rgba(79,111,143,.10), transparent 70%);
     }
 
     .quality-explain {
@@ -5241,13 +5680,13 @@
       border-radius: 20px;
       background:
         linear-gradient(135deg, rgba(255,255,255,.98), rgba(247,251,253,.94)),
-        radial-gradient(circle at 100% 0%, rgba(149,99,0,.08), transparent 70%);
+        radial-gradient(circle at 100% 0%, rgba(199,138,42,.08), transparent 70%);
     }
 
     .quality-command.good {
       background:
         linear-gradient(135deg, rgba(255,255,255,.98), rgba(246,252,249,.94)),
-        radial-gradient(circle at 100% 0%, rgba(31,122,83,.10), transparent 70%);
+        radial-gradient(circle at 100% 0%, rgba(47,143,139,.10), transparent 70%);
     }
 
     .quality-command-main {
@@ -5310,8 +5749,8 @@
 
     .quality-metric.warn { background: var(--warn-soft); border-color: var(--warn-line); }
     .quality-metric.good { background: var(--good-soft); border-color: var(--good-line); }
-    .quality-metric.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .quality-metric.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .quality-metric.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .quality-metric.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
 
     .quality-metric span,
     .quality-rule span,
@@ -5362,8 +5801,8 @@
     }
 
     .quality-rule.warn { border-color: var(--warn-line); background: var(--warn-soft); }
-    .quality-rule.info { border-color: rgba(62,98,131,.22); background: var(--info-soft); }
-    .quality-rule.gateway { border-color: rgba(106,125,144,.22); background: var(--gateway-soft); }
+    .quality-rule.info { border-color: rgba(53,153,184,.22); background: var(--info-soft); }
+    .quality-rule.gateway { border-color: rgba(111,127,146,.22); background: var(--gateway-soft); }
 
     .quality-alerts {
       overflow: hidden;
@@ -5422,7 +5861,7 @@
       background: var(--info);
     }
 
-    .quality-alert-row.warn .alert-rail { background: #dfa019; }
+    .quality-alert-row.warn .alert-rail { background: #C78A2A; }
     .quality-alert-row.bad .alert-rail { background: var(--bad); }
     .quality-alert-row.info .alert-rail { background: var(--info); }
     .quality-alert-row.diagnostic .alert-rail { background: var(--gateway); }
@@ -5613,7 +6052,7 @@
     }
 
     .mini-donut.good { background: var(--good-soft); border-color: var(--good-line); }
-    .mini-donut.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .mini-donut.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
 
     .mini-donut-ring {
       --donut-value: 0;
@@ -5738,11 +6177,11 @@
 
     .tech-top-stat.info,
     .source-path-card.info,
-    .public-state-card.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .public-state-card.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
 
     .tech-top-stat.gateway,
     .source-path-card.gateway,
-    .public-state-card.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .public-state-card.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
 
     .tech-top-stat.warn,
     .source-path-card.warn,
@@ -5883,8 +6322,8 @@
 
     .tech-signal-note.good { background: var(--good-soft); border-color: var(--good-line); }
     .tech-signal-note.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .tech-signal-note.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .tech-signal-note.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .tech-signal-note.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .tech-signal-note.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
 
     .tech-signal-note strong {
       color: var(--ink);
@@ -5908,7 +6347,7 @@
     .delivery-lane.featured {
       background:
         linear-gradient(180deg, rgba(255,255,255,.98), rgba(241,248,252,.92)),
-        radial-gradient(circle at 100% 0%, rgba(0,99,166,.08), transparent 70%);
+        radial-gradient(circle at 100% 0%, rgba(79,111,143,.08), transparent 70%);
     }
 
     .delivery-lane.performance {
@@ -5916,7 +6355,7 @@
       align-content: stretch;
       background:
         linear-gradient(180deg, rgba(255,255,255,.98), rgba(246,252,249,.92)),
-        radial-gradient(circle at 100% 0%, rgba(31,122,83,.08), transparent 70%);
+        radial-gradient(circle at 100% 0%, rgba(47,143,139,.08), transparent 70%);
     }
 
     .delivery-subsection {
@@ -5975,7 +6414,7 @@
       grid-template-columns: minmax(0, .94fr) minmax(420px, 1.06fr);
       background:
         linear-gradient(135deg, rgba(255,255,255,.98), rgba(255,250,236,.9)),
-        radial-gradient(circle at 100% 0%, rgba(223,160,25,.14), transparent 70%);
+        radial-gradient(circle at 100% 0%, rgba(199,138,42,.14), transparent 70%);
     }
 
     .quality-metric-strip {
@@ -6141,7 +6580,7 @@
       padding: 14px;
       background:
         linear-gradient(135deg, rgba(255,255,255,.98), rgba(246,252,249,.9)),
-        radial-gradient(circle at 100% 0%, rgba(31,122,83,.12), transparent 65%);
+        radial-gradient(circle at 100% 0%, rgba(47,143,139,.12), transparent 65%);
     }
 
     .public-console-head h3 {
@@ -6178,8 +6617,8 @@
 
     .public-mini-metric.good { background: var(--good-soft); border-color: var(--good-line); }
     .public-mini-metric.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .public-mini-metric.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .public-mini-metric.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .public-mini-metric.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .public-mini-metric.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
 
     .public-mini-metric span,
     .public-row-state > span:not(.status-chip) {
@@ -6331,14 +6770,14 @@
     .public-publish-card.good {
       background:
         linear-gradient(180deg, rgba(255,255,255,.96), rgba(246,252,249,.92)),
-        radial-gradient(circle at 100% 0%, rgba(31,122,83,.08), transparent 70%);
+        radial-gradient(circle at 100% 0%, rgba(47,143,139,.08), transparent 70%);
       border-color: var(--good-line);
     }
 
     .public-publish-card.warn {
       background:
         linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,248,226,.92)),
-        radial-gradient(circle at 100% 0%, rgba(223,160,25,.10), transparent 70%);
+        radial-gradient(circle at 100% 0%, rgba(199,138,42,.10), transparent 70%);
       border-color: var(--warn-line);
     }
 
@@ -6411,8 +6850,8 @@
     }
 
     .public-context-card.good { background: var(--good-soft); border-color: var(--good-line); }
-    .public-context-card.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .public-context-card.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .public-context-card.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .public-context-card.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
     .public-context-card.warn { background: var(--warn-soft); border-color: var(--warn-line); }
 
     .public-context-card span {
@@ -6636,13 +7075,13 @@
       border-radius: 20px;
       background:
         linear-gradient(135deg, rgba(255,255,255,.98), rgba(255,250,236,.9)),
-        radial-gradient(circle at 100% 0%, rgba(223,160,25,.14), transparent 70%);
+        radial-gradient(circle at 100% 0%, rgba(199,138,42,.14), transparent 70%);
     }
 
     .quality-decision.good {
       background:
         linear-gradient(135deg, rgba(255,255,255,.98), rgba(246,252,249,.94)),
-        radial-gradient(circle at 100% 0%, rgba(31,122,83,.10), transparent 70%);
+        radial-gradient(circle at 100% 0%, rgba(47,143,139,.10), transparent 70%);
     }
 
     .quality-verdict {
@@ -6729,8 +7168,8 @@
 
     .quality-signal-card.good { background: var(--good-soft); border-color: var(--good-line); }
     .quality-signal-card.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .quality-signal-card.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .quality-signal-card.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .quality-signal-card.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .quality-signal-card.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
 
     .quality-signal-card span,
     .quality-playbook span,
@@ -6779,8 +7218,8 @@
     }
 
     .quality-playbook.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .quality-playbook.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .quality-playbook.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.22); }
+    .quality-playbook.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .quality-playbook.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.22); }
     .quality-playbook.good { background: var(--good-soft); border-color: var(--good-line); }
 
     .quality-playbook strong,
@@ -6836,7 +7275,7 @@
     .quality-alert-card.gateway { background: linear-gradient(180deg, #fff, var(--gateway-soft)); }
 
     .quality-alert-card .alert-rail { background: var(--info); }
-    .quality-alert-card.warn .alert-rail { background: #dfa019; }
+    .quality-alert-card.warn .alert-rail { background: #C78A2A; }
     .quality-alert-card.info .alert-rail { background: var(--info); }
     .quality-alert-card.gateway .alert-rail { background: var(--gateway); }
 
@@ -7002,8 +7441,8 @@
     }
 
     .gateway-mega-signals .ops-signal-group.good { background: var(--good-soft); border-color: var(--good-line); }
-    .gateway-mega-signals .ops-signal-group.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .gateway-mega-signals .ops-signal-group.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .gateway-mega-signals .ops-signal-group.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .gateway-mega-signals .ops-signal-group.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
     .gateway-mega-signals .ops-signal-group.warn { background: var(--warn-soft); border-color: var(--warn-line); }
 
     .signal-panorama.signal-panorama-focused {
@@ -7113,7 +7552,7 @@
       grid-template-rows: auto minmax(0, 1fr);
       background:
         linear-gradient(180deg, rgba(255,255,255,.94), rgba(242,248,252,.82)),
-        radial-gradient(circle at 100% 0%, rgba(0,99,166,.08), transparent 70%);
+        radial-gradient(circle at 100% 0%, rgba(79,111,143,.08), transparent 70%);
     }
 
     .executive-panel-head {
@@ -7166,8 +7605,8 @@
     .executive-pulse-card.good { background: var(--good-soft); border-color: var(--good-line); }
     .executive-pulse-card.warn { background: var(--warn-soft); border-color: var(--warn-line); }
     .executive-pulse-card.bad { background: var(--bad-soft); border-color: var(--bad-line); }
-    .executive-pulse-card.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .executive-pulse-card.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .executive-pulse-card.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .executive-pulse-card.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
 
     .executive-pulse-card strong {
       color: var(--ink);
@@ -7200,7 +7639,7 @@
     }
 
     .executive-mini-meter .good { background: var(--good); }
-    .executive-mini-meter .warn { background: #dfa019; }
+    .executive-mini-meter .warn { background: #C78A2A; }
     .executive-mini-meter .bad { background: var(--bad); }
     .executive-mini-meter .info { background: var(--info); }
 
@@ -7306,7 +7745,7 @@
       border: 3px solid #fff;
       border-radius: 999px;
       background: var(--good);
-      box-shadow: 0 0 0 1px var(--line-soft), 0 0 0 6px rgba(31,122,83,.08);
+      box-shadow: 0 0 0 1px var(--line-soft), 0 0 0 6px rgba(47,143,139,.08);
     }
 
     .master-freshness .mini-value {
@@ -7351,8 +7790,8 @@
       background: rgba(255,255,255,.8);
     }
 
-    .gateway-mega-signals .delivery-viz-panel.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .gateway-mega-signals .delivery-viz-panel.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .gateway-mega-signals .delivery-viz-panel.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .gateway-mega-signals .delivery-viz-panel.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
 
     .gateway-mega-signals .delivery-treemap {
       height: 14px;
@@ -7555,7 +7994,7 @@
     .start-brief {
       background:
         linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,250,252,.9)),
-        radial-gradient(circle at 0% 0%, rgba(0,99,166,.08), transparent 34rem);
+        radial-gradient(circle at 0% 0%, rgba(79,111,143,.08), transparent 34rem);
     }
 
     .start-action-panel {
@@ -7607,8 +8046,8 @@
     }
 
     .start-flow-card.good { background: var(--good-soft); border-color: var(--good-line); }
-    .start-flow-card.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .start-flow-card.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .start-flow-card.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .start-flow-card.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
     .start-flow-card.warn { background: var(--warn-soft); border-color: var(--warn-line); }
 
     .start-flow-card strong,
@@ -7745,7 +8184,7 @@
 
     .start-ledger-rail span.good { background: var(--good); }
     .start-ledger-rail span.info { background: var(--accent); }
-    .start-ledger-rail span.warn { background: #dfa019; }
+    .start-ledger-rail span.warn { background: #C78A2A; }
 
     .start-ledger-grid {
       display: grid;
@@ -7770,8 +8209,8 @@
     }
 
     .start-ledger-item.good { background: var(--good-soft); border-color: var(--good-line); }
-    .start-ledger-item.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .start-ledger-item.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .start-ledger-item.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .start-ledger-item.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
     .start-ledger-item.warn { background: var(--warn-soft); border-color: var(--warn-line); }
 
     .start-ledger-item strong,
@@ -7840,7 +8279,7 @@
 
     .start-flow-label {
       background: var(--gateway-soft);
-      border-color: rgba(106,125,144,.22);
+      border-color: rgba(111,127,146,.22);
     }
 
     .start-flow-label span,
@@ -7888,8 +8327,8 @@
     }
 
     .start-flow-node.good { background: var(--good-soft); border-color: var(--good-line); }
-    .start-flow-node.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
-    .start-flow-node.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .start-flow-node.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
+    .start-flow-node.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
 
     .start-flow-node:not(:last-child)::after {
       display: none;
@@ -7965,8 +8404,8 @@
     }
 
     .dashboard-public-summary.good { background: var(--good-soft); border-color: var(--good-line); }
-    .dashboard-public-summary.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .dashboard-public-summary.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .dashboard-public-summary.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .dashboard-public-summary.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
     .dashboard-public-summary.warn { background: var(--warn-soft); border-color: var(--warn-line); }
 
     .dashboard-public-grid {
@@ -8066,8 +8505,8 @@
     .portfolio-master-stat.good,
     .portfolio-master-card.good,
     .public-master-card.good { background: var(--good-soft); border-color: var(--good-line); }
-    .portfolio-master-stat.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .portfolio-master-stat.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .portfolio-master-stat.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .portfolio-master-stat.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
     .portfolio-master-stat.warn,
     .public-master-card.warn { background: var(--warn-soft); border-color: var(--warn-line); }
 
@@ -8207,7 +8646,7 @@
     }
 
     .dashboard-public-master .portfolio-master-rail .portfolio-master-stat.warn {
-      border-top-color: rgba(223,160,25,.78);
+      border-top-color: rgba(199,138,42,.78);
     }
 
     .dashboard-public-master .portfolio-master-rail .portfolio-master-stat strong {
@@ -8593,8 +9032,8 @@
     }
 
     .portfolio-fact.good { background: var(--good-soft); border-color: var(--good-line); }
-    .portfolio-fact.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .portfolio-fact.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .portfolio-fact.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .portfolio-fact.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
     .portfolio-fact.warn { background: var(--warn-soft); border-color: var(--warn-line); }
 
     .portfolio-fact span {
@@ -8861,8 +9300,8 @@
     }
 
     .route-fusion-metric.good { background: var(--good-soft); border-color: var(--good-line); }
-    .route-fusion-metric.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .route-fusion-metric.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .route-fusion-metric.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .route-fusion-metric.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
     .route-fusion-metric.warn { background: var(--warn-soft); border-color: var(--warn-line); }
 
     .route-fusion-metric strong {
@@ -8972,7 +9411,7 @@
 
     .route-compact-stack span.good { background: var(--good); }
     .route-compact-stack span.info { background: var(--accent); }
-    .route-compact-stack span.warn { background: #dfa019; }
+    .route-compact-stack span.warn { background: #C78A2A; }
 
     .route-distribution-list {
       display: grid;
@@ -9158,8 +9597,8 @@
     }
 
     .route-attrib-step.good { background: var(--good-soft); border-color: var(--good-line); }
-    .route-attrib-step.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
-    .route-attrib-step.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .route-attrib-step.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
+    .route-attrib-step.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
     .route-attrib-step.warn { background: var(--warn-soft); border-color: var(--warn-line); }
 
     .route-attrib-step:not(:last-child)::after {
@@ -9204,8 +9643,8 @@
     }
 
     .route-attrib-panel.good { background: var(--good-soft); border-color: var(--good-line); }
-    .route-attrib-panel.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
-    .route-attrib-panel.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .route-attrib-panel.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
+    .route-attrib-panel.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
     .route-attrib-panel.warn { background: var(--warn-soft); border-color: var(--warn-line); }
 
     .route-attrib-panel-head {
@@ -9240,7 +9679,7 @@
 
     .route-attrib-stack span.good { background: var(--good); }
     .route-attrib-stack span.info { background: var(--accent); }
-    .route-attrib-stack span.warn { background: #dfa019; }
+    .route-attrib-stack span.warn { background: #C78A2A; }
 
     .route-attrib-list {
       display: grid;
@@ -9729,8 +10168,8 @@
 
     .ops-metric.good { background: var(--good-soft); border-color: var(--good-line); }
     .ops-metric.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .ops-metric.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .ops-metric.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .ops-metric.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .ops-metric.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
 
     .ops-metric span,
     .ops-step span,
@@ -9853,7 +10292,7 @@
         conic-gradient(
           var(--good) 0 var(--mobile-end),
           var(--gateway) var(--mobile-end) var(--desktop-end),
-          rgba(106,125,144,.34) var(--desktop-end) 100%
+          rgba(111,127,146,.34) var(--desktop-end) 100%
         );
       box-shadow:
         inset 0 0 0 1px rgba(14,36,56,.08),
@@ -9927,7 +10366,7 @@
       width: 11px;
       height: 11px;
       border-radius: 999px;
-      background: rgba(106,125,144,.55);
+      background: rgba(111,127,146,.55);
     }
 
     .usage-donut-legend-item.mobile .usage-dot { background: var(--good); }
@@ -9961,7 +10400,7 @@
 
     .ops-flow-card.gateway {
       background: linear-gradient(180deg, rgba(237,243,248,.9), rgba(255,255,255,.94));
-      border-color: rgba(106,125,144,.24);
+      border-color: rgba(111,127,146,.24);
     }
 
     .ops-main-number {
@@ -10026,8 +10465,8 @@
     }
 
     .ops-step.good { background: var(--good-soft); border-color: var(--good-line); }
-    .ops-step.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .ops-step.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .ops-step.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .ops-step.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
 
     .ops-step strong {
       color: var(--ink);
@@ -10169,9 +10608,9 @@
     }
 
     .mega-stat.good { background: var(--good-soft); border-color: var(--good-line); }
-    .mega-stat.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .mega-stat.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
     .mega-stat.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .mega-stat.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .mega-stat.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
 
     .mega-stat.primary {
       padding: 15px 16px;
@@ -10498,7 +10937,7 @@
 
     .mega-context-item.good { background: var(--good-soft); border-color: var(--good-line); }
     .mega-context-item.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .mega-context-item.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .mega-context-item.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
 
     .mega-context-item strong {
       min-width: 0;
@@ -10604,9 +11043,9 @@
     }
 
     .portfolio-overview-stat.good { background: var(--good-soft); border-color: var(--good-line); }
-    .portfolio-overview-stat.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .portfolio-overview-stat.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
     .portfolio-overview-stat.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .portfolio-overview-stat.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .portfolio-overview-stat.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
 
     .portfolio-master-list {
       gap: 12px;
@@ -10725,8 +11164,8 @@
 
     .insight-lens-card.good { background: var(--good-soft); border-color: var(--good-line); }
     .insight-lens-card.warn { background: var(--warn-soft); border-color: var(--warn-line); }
-    .insight-lens-card.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
-    .insight-lens-card.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .insight-lens-card.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
+    .insight-lens-card.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
 
     .insight-lens-card strong {
       display: block;
@@ -10868,11 +11307,11 @@
     .tracker-insight-item.info,
     .tracker-metric.info,
     .tracker-step.info,
-    .tracker-passport.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .tracker-passport.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
     .tracker-insight-item.unknown,
     .tracker-metric.unknown,
     .tracker-step.unknown,
-    .tracker-passport.unknown { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .tracker-passport.unknown { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
 
     .tracker-module-grid {
       display: grid;
@@ -11077,7 +11516,7 @@
 
     .tracker-partial-state {
       padding: 10px 11px;
-      border: 1px dashed rgba(106,125,144,.34);
+      border: 1px dashed rgba(111,127,146,.34);
       border-radius: 13px;
       background: var(--gateway-soft);
       font-weight: 800;
@@ -11607,7 +12046,7 @@
       border-color: rgba(184, 203, 218, .82);
       background:
         linear-gradient(180deg, rgba(255,255,255,.96), rgba(249,252,254,.9)),
-        linear-gradient(90deg, rgba(31,122,83,.05) 0 1px, transparent 1px 100%);
+        linear-gradient(90deg, rgba(47,143,139,.05) 0 1px, transparent 1px 100%);
       background-size: auto, 44px 100%;
       box-shadow: none;
     }
@@ -11619,7 +12058,7 @@
       width: auto;
       height: 1px;
       border-radius: 0;
-      background: linear-gradient(90deg, rgba(31,122,83,.72), rgba(79,111,143,.44), rgba(149,99,0,.35));
+      background: linear-gradient(90deg, rgba(47,143,139,.72), rgba(79,111,143,.44), rgba(199,138,42,.35));
     }
 
     .command-grid.command-grid-solo::after {
@@ -11890,7 +12329,7 @@
       position: absolute;
       inset: 0 0 auto;
       height: 3px;
-      background: linear-gradient(90deg, var(--good), var(--accent), rgba(149,99,0,.45));
+      background: linear-gradient(90deg, var(--good), var(--accent), rgba(199,138,42,.45));
       pointer-events: none;
     }
 
@@ -11992,8 +12431,8 @@
     }
 
     .intel-meter .good { background: var(--good); }
-    .intel-meter .warn,
-    .intel-meter .bad { background: #d99500; }
+    .intel-meter .warn { background: var(--warn); }
+    .intel-meter .bad { background: var(--bad); }
     .intel-meter .gateway { background: var(--gateway); }
     .intel-meter .info { background: var(--accent); }
 
@@ -12043,10 +12482,10 @@
     .intel-evidence-card.bad { background: var(--warn-soft); border-color: var(--warn-line); }
     .intel-metric.info,
     .intel-node.info,
-    .intel-evidence-card.info { background: var(--info-soft); border-color: rgba(62,98,131,.22); }
+    .intel-evidence-card.info { background: var(--info-soft); border-color: rgba(53,153,184,.22); }
     .intel-metric.gateway,
     .intel-node.gateway,
-    .intel-evidence-card.gateway { background: var(--gateway-soft); border-color: rgba(106,125,144,.24); }
+    .intel-evidence-card.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.24); }
 
     .intel-metric strong {
       color: var(--ink);
@@ -13063,17 +13502,27 @@
 
     .start-v5-panel-head {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: baseline;
       gap: 12px;
     }
 
+    .start-v5-panel-head > span {
+      flex: 0 0 auto;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+
     .start-v5-panel-head strong {
+      flex: 1 1 220px;
+      min-width: min(100%, 220px);
       color: var(--ink);
       font-size: 14px;
       font-weight: 900;
       line-height: 1.1;
       text-align: right;
+      overflow-wrap: anywhere;
     }
 
     .start-v5-flowline {
@@ -13274,6 +13723,16 @@
         grid-column: auto;
         grid-row: auto;
         white-space: normal;
+      }
+
+      .start-v5-panel-head {
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .start-v5-panel-head strong {
+        flex-basis: 100%;
+        text-align: left;
       }
     }
 
@@ -14605,6 +15064,8 @@
       line-height: 1.1;
       letter-spacing: 0;
       text-transform: uppercase;
+      overflow-wrap: anywhere;
+      text-wrap: balance;
     }
 
     .route-v6-copy h2 {
@@ -15480,9 +15941,9 @@
         <div class="status-hero-actions">
           <div class="data-source-toggle" role="group" aria-label="Velja gagnasett">
             <button class="data-source-link active" type="button" data-source-mode="real" aria-pressed="true">Raun gögn</button>
-            <button class="data-source-link" type="button" data-source-mode="sample" aria-pressed="false">Sample gögn</button>
+            <button class="data-source-link" type="button" data-source-mode="sample" aria-pressed="false">Prufugögn</button>
           </div>
-          <a class="view-switch-link" href="current.html" aria-label="Opna compact útgáfu stöðuyfirlitsins">Compact vaktborð</a>
+          <a class="view-switch-link" href="current.html" aria-label="Opna þétta útgáfu stöðuyfirlitsins">Þétt vaktborð</a>
           <button class="refresh-button" type="button" id="refresh-button" aria-label="Endurhlaða gögn" title="Endurhlaða gögn"><span aria-hidden="true">↻</span></button>
         </div>
         <div class="pill-row status-hero-status" aria-label="Staða og uppfærsla">
@@ -15513,8 +15974,8 @@
     <section class="panel" aria-labelledby="panorama-title">
       <div class="panel-head">
         <div>
-          <h2 id="panorama-title">Signal panorama</h2>
-          <div class="panel-note">Heatmap-yfirlit sem sýnir hvaða mælaborð, leiðingarástæður og upprunarásir bera notkunina. Breiðari reitir merkja meiri þunga í flæðinu.</div>
+          <h2 id="panorama-title">Flæði og samhengi</h2>
+          <div class="panel-note">Ein lesröð frá hráu merki yfir í talda opnun. Neðri spjöldin sýna hvaða mælaborð og tæknisamhengi þarf að skoða án þess að endurtelja heildina.</div>
         </div>
       </div>
       <div id="signal-panorama-panel"></div>
@@ -15622,6 +16083,18 @@
     function byId(id) { return document.getElementById(id); }
     function hasOwn(row, key) { return Object.prototype.hasOwnProperty.call(row || {}, key); }
     function number(value) { var n = Number(value); return isFinite(n) ? n : 0; }
+    var STATUS_LOCALE = "is-IS";
+    var STATUS_COLLATOR = new Intl.Collator(STATUS_LOCALE, { sensitivity: "base", numeric: true });
+    function formatIcelandicNumber(value, maximumFractionDigits) {
+      var n = number(value);
+      var sign = n < 0 ? "-" : "";
+      n = Math.abs(n);
+      var fixed = maximumFractionDigits > 0 ? n.toFixed(maximumFractionDigits) : String(Math.round(n));
+      if (maximumFractionDigits > 0) fixed = fixed.replace(/0+$/, "").replace(/\.$/, "");
+      var parts = fixed.split(".");
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      return sign + parts[0] + (parts[1] ? "," + parts[1] : "");
+    }
     function firstValue(row, keys) {
       row = row || {};
       for (var i = 0; i < keys.length; i += 1) {
@@ -15630,11 +16103,10 @@
       }
       return "";
     }
-    function fmt(value) { return new Intl.NumberFormat("is-IS").format(Math.round(number(value))); }
+    function fmt(value) { return formatIcelandicNumber(Math.round(number(value)), 0); }
     function pct(part, whole) {
       whole = number(whole);
-      if (!whole) return "0%";
-      return new Intl.NumberFormat("is-IS", { maximumFractionDigits: 1 }).format(number(part) / whole * 100) + "%";
+      return formatIcelandicNumber((whole ? number(part) / whole : 0) * 100, 1) + "%";
     }
     function safe(value) {
       return String(value === undefined || value === null || value === "" ? "-" : value)
@@ -15651,7 +16123,7 @@
     function cleanId(value) { return String(value || "").replace(/bradamottakan-fossvogi/g, "bradamottaka-fossvogi"); }
     function clamp(value, min, max) { value = number(value); return Math.max(min, Math.min(max, value)); }
     function widthPct(value, total) { total = number(total); return total ? clamp(number(value) / total * 100, number(value) > 0 ? 4 : 0, 100) : 0; }
-    function shareValue(value) { return new Intl.NumberFormat("is-IS", { maximumFractionDigits: 1 }).format(number(value) * 100) + "%"; }
+    function shareValue(value) { return formatIcelandicNumber(number(value) * 100, 1) + "%"; }
 
     function setText(id, value) { var el = byId(id); if (el) el.textContent = value; }
     function setHtml(id, html) { var el = byId(id); if (el) el.innerHTML = html; }
@@ -16449,7 +16921,7 @@
         if (forcedLayout === "desktop") map[key].forcedDesktop += value;
       });
       var groups = Object.keys(map).map(function (key) { return map[key]; }).sort(function (a, b) {
-        if (includeEmpty) return b.total - a.total || number(a.order) - number(b.order) || a.key.localeCompare(b.key, "is");
+        if (includeEmpty) return b.total - a.total || number(a.order) - number(b.order) || STATUS_COLLATOR.compare(a.key, b.key);
         return b.total - a.total;
       });
       if (includeEmpty) return groups;
@@ -16534,7 +17006,7 @@
       var sampleMode = data.sample_data || data.status_data_mode === "sample";
       var dot = byId("health-dot");
       if (dot) dot.className = "dot" + (status === "ok" ? "" : status === "error" ? " bad" : " warn");
-      setText("health-text", sampleMode ? "Sample gögn" : (status === "ok" ? "Staða í lagi" : status === "error" ? "Villa" : "Staðfest viðvörun"));
+      setText("health-text", sampleMode ? "Prufugögn" : (status === "ok" ? "Staða í lagi" : status === "error" ? "Villa" : "Staðfest viðvörun"));
       var generatedText = data.generated_at ? dateShort(data.generated_at) : "-";
       setText("generated-pill", "Uppfært: " + generatedText);
       if (byId("generated-pill")) byId("generated-pill").title = "Uppfært " + (data.generated_at ? dateTooltip(data.generated_at) : "-");
@@ -16675,7 +17147,7 @@
       var maxSource = Math.max(1, sourceRows.reduce(function (acc, row) { return Math.max(acc, number(row.events || row.clicks || row.count)); }, 0));
       var countedSourceTotal = Math.max(sumRows(countedSourceRows, "visits"), 1);
       if (!views && !clicks && !arrivals && !counted) {
-        panel.innerHTML = '<div class="message-card info"><strong>Engin gateway gögn enn</strong><p>Root index telemetry birtist hér þegar root/index payload skilar views, clicks, router arrivals eða counted opens. Taldar dashboard heimsóknir eru áfram sóttar úr dashboard aggregate.</p></div>';
+        panel.innerHTML = '<div class="message-card info"><strong>Engin gáttargögn enn</strong><p>Rótargátt birtist hér þegar payload skilar sýnum, smellum, leiðingarkomum eða töldum opnunum. Taldar mælaborðsheimsóknir eru áfram sóttar úr mælaborðssamantekt.</p></div>';
         return;
       }
       var flow = '<div class="gateway-flow" aria-label="Gateway til taldra heimsókna">' +
@@ -17793,7 +18265,7 @@
             '<div class="intel-spine-card"><div class="intel-section-head"><span class="intel-kicker">Signal spine</span><strong>' + fmt(model.total) + ' taldar opnanir</strong></div><div class="intel-spine">' +
               intelNodeV4("Gateway", fmt(gatewaySignals), "root views, smellir, router", "gateway", gatewaySignals / totalSignal * 100) +
               intelNodeV4("Router", topRoute ? fmt(topRoute.total) : fmt(routeTotal), routeValue, forced ? "warn" : "info", routeAutoFill) +
-              intelNodeV4("Taldar", fmt(model.total), "production dashboard opnanir", "good", model.total / totalSignal * 100) +
+              intelNodeV4("Taldar", fmt(model.total), "mælaborðsopnanir í framleiðslu", "good", model.total / totalSignal * 100) +
               intelNodeV4("Raw / diag", fmt(diagnosticTotal), "haldi\u00f0 utan heims\u00f3kna", diagnosticTotal ? "info" : "good", diagnosticTotal / totalSignal * 100) +
               intelNodeV4("G\u00e6\u00f0i", model.warningSplit.confirmed.length ? fmt(model.warningSplit.confirmed.length) : "0", "sta\u00f0fest merki", model.warningSplit.confirmed.length ? "warn" : "good", qualityFill) +
             '</div></div>' +
@@ -17807,7 +18279,7 @@
             intelEvidenceV4("Sending", topTransport ? topTransport.key : "\u00d3\u00feekkt", topTransport ? fmt(topTransport.visits || topTransport.raw) + " merki" : "performance aggregate vantar", topTransport ? "good" : "gateway") +
             intelEvidenceV4("Traust", topConfidence ? topConfidence.key : "\u00d3\u00feekkt", topConfidence ? fmt(topConfidence.visits || topConfidence.raw) + " l\u00ednur" : "confidence aggregate vantar", topConfidence ? "good" : "gateway") +
             intelEvidenceV4("Notkun", usageMode, usageDetail, "good") +
-            intelEvidenceV4("Raw scope", fmt(rawSignals), "raw og telemetry merki til samanbur\u00f0ar", rawSignals > model.total ? "info" : "gateway") +
+            intelEvidenceV4("Hr\u00e1 merki", fmt(rawSignals), "hr\u00e1 og telemetry merki til samanbur\u00f0ar", rawSignals > model.total ? "info" : "gateway") +
           '</section>' +
         '</article>');
     }
@@ -17911,7 +18383,7 @@
             '<div class="start-v5-lcd-main">' +
               '<div class="start-v5-lcd-title"><span class="start-v5-lcd-kicker">V\u00d6KTUNARKJARNI / REKSTRARP\u00daLS</span><h2 id="fresh-start-title">M\u00e6labor\u00f0sm\u00e6lingar</h2><p class="start-v5-lcd-copy"><strong>' + safe(statusTitle) + '.</strong> Ein \u00e1kv\u00f6r\u00f0unarl\u00edna fyrir opnanir, ferskleika, g\u00e6\u00f0i og t\u00e6knimerki. ' + safe(lead) + '</p></div>' +
               '<div class="start-v5-lcd-grid">' +
-                startV5Metric("Taldar opnanir", fmt(model.total), "production dashboard opnanir", "good", countedFill) +
+                startV5Metric("Taldar opnanir", fmt(model.total), "m\u00e6labor\u00f0sopnanir \u00ed framlei\u00f0slu", "good", countedFill) +
                 startV5Metric("M\u00e6labor\u00f0", fmt(dashboardCount), "\u00ed notkunargrunni", "info", dashboardCount ? 100 : 0) +
                 startV5Metric("Ferskleiki", model.eventAge.label, "samantekt " + model.aggregationAge.label, model.eventAge.className, freshnessFill) +
                 startV5Metric("G\u00e6\u00f0i", confirmed ? fmt(confirmed) : "Hreint", confirmed ? "sta\u00f0fest merki" : "engin sta\u00f0fest merki", confirmed ? "warn" : "good", qualityFill) +
@@ -17919,13 +18391,13 @@
             '</div>' +
             '<aside class="start-v5-lcd-side"><div class="start-v5-lcd-status"><span>Sta\u00f0a n\u00fana</span><strong>' + safe(statusTitle) + '</strong><small>' + fmt(model.score) + '/100 · ' + fmt(dashboardCount) + ' m\u00e6labor\u00f0 · ' + fmt(model.total) + ' taldar opnanir</small>' + startV5Meter(model.score, scoreTone) + '</div>' + lcdBars + '<div class="start-v5-action-head"><span class="start-v5-lcd-kicker">\u00c1kv\u00f6r\u00f0un</span><strong>N\u00e6st</strong></div><div class="start-v5-action-list">' + actions + '</div></aside>' +
           '</section>' +
-          '<section class="start-v5-flow" aria-label="Signal path">' +
-            '<div class="start-v5-panel-head"><span>Signal path</span><strong>raw -> gateway -> router -> tali\u00f0 -> g\u00e6\u00f0i</strong></div>' +
+          '<section class="start-v5-flow" aria-label="Merkjafl\u00e6\u00f0i">' +
+            '<div class="start-v5-panel-head"><span>Merkjafl\u00e6\u00f0i</span><strong>hr\u00e1 merki -> g\u00e1tt -> lei\u00f0ing -> tali\u00f0 -> g\u00e6\u00f0i</strong></div>' +
             '<div class="start-v5-flowline">' +
-              startV5Node("Raw scope", fmt(rawSignals), "telemetry og t\u00e6knimerki", rawSignals > model.total ? "info" : "gateway", rawSignals / totalSignal * 100) +
-              startV5Node("Gateway", fmt(gatewaySignals), "root views, smellir, router", "gateway", gatewaySignals / totalSignal * 100) +
-              startV5Node("Route", topRoute ? fmt(topRoute.total) : fmt(routeTotal), routeValue, forced ? "warn" : "info", routeFill) +
-              startV5Node("Taldar", fmt(model.total), "production dashboard opnanir", "good", model.total / totalSignal * 100) +
+              startV5Node("Hr\u00e1 merki", fmt(rawSignals), "telemetry og t\u00e6knimerki", rawSignals > model.total ? "info" : "gateway", rawSignals / totalSignal * 100) +
+              startV5Node("G\u00e1tt", fmt(gatewaySignals), "r\u00f3t, smellir og lei\u00f0ing", "gateway", gatewaySignals / totalSignal * 100) +
+              startV5Node("Lei\u00f0ing", topRoute ? fmt(topRoute.total) : fmt(routeTotal), routeValue, forced ? "warn" : "info", routeFill) +
+              startV5Node("Taldar", fmt(model.total), "m\u00e6labor\u00f0sopnanir \u00ed framlei\u00f0slu", "good", model.total / totalSignal * 100) +
               startV5Node("G\u00e6\u00f0i", confirmed ? fmt(confirmed) : "0", "sta\u00f0fest rekstrarmerki", confirmed ? "warn" : "good", qualityFill) +
             '</div>' +
           '</section>' +
@@ -17995,11 +18467,11 @@
     }
     function dashboardDonutColor(row, index) {
       if (row.color) return row.color;
-      if (row.className === "good") return "#1f7a53";
-      if (row.className === "info") return "#0063a6";
-      if (row.className === "warn") return "#d99500";
+      if (row.className === "good") return "#2F8F8B";
+      if (row.className === "info") return "#4F6F8F";
+      if (row.className === "warn") return "#C78A2A";
       if (row.className === "neutral") return "#9badbd";
-      return index === 0 ? "#1f7a53" : index === 1 ? "#607286" : "#a8b6c3";
+      return index === 0 ? "#2F8F8B" : index === 1 ? "#475052" : "#A9B4C2";
     }
     function dashboardDonutBg(rows, total) {
       total = Math.max(number(total), 1);
@@ -18483,8 +18955,103 @@
         '</div>' +
       '</div>';
     }
+    function atlasLensMeter(fill, cls) {
+      var className = cls ? safe(cls) : "";
+      return '<div class="atlas-lens-meter" aria-hidden="true"><span class="' + className + '" style="--fill:' + clamp(number(fill), 0, 100).toFixed(1) + '%"></span></div>';
+    }
+    function atlasLensFlowNode(index, label, value, detail, fill, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="atlas-lens-node' + className + '">' +
+        '<div class="atlas-lens-dot">' + safe(index) + '</div>' +
+        '<div class="atlas-lens-node-body"><div><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div><small>' + safe(detail || "") + '</small>' + atlasLensMeter(fill, cls) + '</div>' +
+      '</article>';
+    }
+    function atlasLensTile(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="atlas-lens-tile' + className + '"><div><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div><small>' + safe(detail || "") + '</small></article>';
+    }
+    function atlasLensDashboardRow(row, cards, total) {
+      var visits = visitValue(row);
+      var rowTotal = Math.max(visits, 1);
+      var mobile = number(row.mobile_visits);
+      var desktop = number(row.desktop_visits);
+      return '<div class="atlas-lens-row">' +
+        '<div><strong>' + safe(titleFor(row, cards)) + '</strong><small>' + safe(cleanId(row.dashboard_id || row.dashboard_key)) + '</small></div>' +
+        '<div class="atlas-lens-bars">' +
+          '<div class="atlas-lens-mini"><span style="--fill:' + widthPct(mobile, rowTotal) + '%"></span></div>' +
+          '<div class="atlas-lens-mini desktop"><span style="--fill:' + widthPct(desktop, rowTotal) + '%"></span></div>' +
+          '<div class="atlas-lens-bar-labels"><span>mobile ' + safe(pct(mobile, rowTotal)) + '</span><span>desktop ' + safe(pct(desktop, rowTotal)) + '</span></div>' +
+        '</div>' +
+        '<div class="atlas-lens-row-value">' + fmt(visits) + '</div>' +
+      '</div>';
+    }
+    function renderSignalAtlasLens(data) {
+      var model = opsModel(data);
+      var cards = publicMap(data);
+      var publicCount = Object.keys(cards || {}).length;
+      var k = data.kpis || {};
+      var f = data.root_index_funnel || data.root_index || {};
+      var dashboards = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); });
+      var topDashboards = dashboards.slice(0, 2);
+      var diagnosticRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && isDiagnosticRow(row); }).length;
+      var uncountedRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && hasExplicitUncountedFlag(row); }).length;
+      var diagnosticTotal = number(firstValue(k, ["diagnostic_events", "diagnostic_signal_count", "diagnostic_signals"])) || diagnosticRows + uncountedRows;
+      var rootViews = number(firstValue(f, ["views", "root_views", "root_index_views"]));
+      var clicks = number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"]));
+      var arrivals = number(firstValue(f, ["router_arrivals", "arrivals"]));
+      var gatewaySignals = rootViews + clicks;
+      var rawSignals = number(firstValue(k, ["total_raw_events", "raw_events", "total_events", "raw_signal_events"]));
+      if (!rawSignals) rawSignals = sumRows(data.performance || [], "raw_signal_events");
+      if (!rawSignals) rawSignals = sumRows(data.device || [], "raw_signal_events");
+      if (!rawSignals) rawSignals = model.total + gatewaySignals + arrivals + diagnosticTotal;
+      var routeRows = routeReasonGroups(data, false);
+      var topRoute = routeRows[0];
+      var routeValue = topRoute ? topRoute.total : arrivals;
+      var browserRisk = number(k.powerbi_viewer_unsupported_browser_events) || warningTotal(data, "powerbi_viewer_unsupported_browser");
+      var qualityCount = model.warningSplit.confirmed.length || browserRisk;
+      var deviceRows = visibleRows(rowsFrom(data, "device_confidence", "device"));
+      var topDevice = topRows(deviceRows, function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 1, intelRowSignalV4)[0];
+      var topConfidence = topRows(deviceRows, function (row) { return bandLabel(row.inferred_confidence_band || row.confidence_band); }, 1, intelRowSignalV4)[0];
+      var topBrowser = topRows(rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 1, intelRowSignalV4)[0];
+      var topViewport = topRows(rowsFrom(data, "display", "device"), function (row) { return labelViewport(row.viewport_bucket || row.display_class); }, 1, intelRowSignalV4)[0];
+      var topTransport = topRows(softSignalRows(rowsFrom(data, "performance", "device")), function (row) { return labelTransport(row.tracker_send_method || row.tracking_method); }, 1, intelRowSignalV4)[0];
+      var topDashboard = dashboards[0];
+      var topDashboardTitle = topDashboard ? titleFor(topDashboard, cards) : "Engin talin gögn";
+      var topShare = topDashboard ? pct(visitValue(topDashboard), Math.max(model.total, 1)) : "0%";
+      var totalForFlow = Math.max(rawSignals, gatewaySignals, routeValue, model.total, qualityCount, 1);
+      var routeDetail = topRoute ? topRoute.key + (topRoute.forced ? " · þvingað " + fmt(topRoute.forced) : "") : "router komur " + fmt(arrivals);
+      var focusRows = topDashboards.map(function (row) { return atlasLensDashboardRow(row, cards, model.total); }).join("") || '<div class="tracker-partial-state">Engin talin mælaborðsgögn.</div>';
+      return '<div class="insight-atlas atlas-lens">' +
+        '<section class="atlas-lens-flow" aria-label="Frá merki að talinni opnun">' +
+          '<div class="atlas-lens-head">' +
+            '<div class="atlas-lens-title"><span class="atlas-lens-kicker">Merkjaflæði</span><h3>Frá merki að talinni opnun</h3><p>Hrá merki, gátt og leiðing skýra leiðina. Taldar framleiðsluopnanir standa sem samanburðargrunnur fyrir mælaborð, tæki og gæði.</p></div>' +
+            '<div class="atlas-lens-total"><strong>' + fmt(model.total) + '</strong><span>taldar production opnanir</span></div>' +
+          '</div>' +
+          '<div class="atlas-lens-rail">' +
+            atlasLensFlowNode("01", "Hrá merki", fmt(rawSignals), "móttaka + tæknimerki", widthPct(rawSignals, totalForFlow), "info") +
+            atlasLensFlowNode("02", "Gátt", fmt(gatewaySignals), "rót " + fmt(rootViews) + " · smellir " + fmt(clicks), widthPct(gatewaySignals, totalForFlow), gatewaySignals ? "gateway" : "warn") +
+            atlasLensFlowNode("03", "Leiðing", fmt(routeValue), routeDetail, widthPct(routeValue, totalForFlow), topRoute && topRoute.forced ? "warn" : "info") +
+            atlasLensFlowNode("04", "Talið", fmt(model.total), "mælaborðsopnanir í framleiðslu", widthPct(model.total, totalForFlow), "good") +
+            atlasLensFlowNode("05", "Gæði", qualityCount ? fmt(qualityCount) : "Hreint", qualityCount ? "staðfest rekstrarmerki" : "engin staðfest merki", qualityCount ? widthPct(qualityCount, Math.max(model.total, 10)) : 100, qualityCount ? "warn" : "good") +
+          '</div>' +
+        '</section>' +
+        '<div class="atlas-lens-workbench">' +
+          '<section class="atlas-lens-card"><div class="atlas-lens-card-head"><div><span class="atlas-lens-card-kicker">Mælaborð í fókus</span><h3>' + safe(topDashboardTitle) + '</h3><p>Efsta kortið ber ' + safe(topShare) + ' af töldum opnunum. Línurnar sýna sömu notkun í síma og tölvu án aukatalningar.</p></div><span class="atlas-lens-chip">' + fmt(dashboards.length || publicCount) + ' virk</span></div><div class="atlas-lens-rows">' + focusRows + '</div></section>' +
+          '<section class="atlas-lens-card"><div class="atlas-lens-card-head"><div><span class="atlas-lens-card-kicker">Samhengisvísar</span><h3>Tæknin sem skýrir talninguna</h3><p>Þessir reitir eru lesnir sem samhengi við sömu opnanir: route, tæki, vafri, skjár, sending og traust.</p></div><span class="atlas-lens-chip">' + fmt(model.total) + ' grunnur</span></div><div class="atlas-lens-context-grid">' +
+            atlasLensTile("Leiðing", topRoute ? topRoute.key : "Óþekkt", topRoute ? fmt(topRoute.total) + " merki" : "engin leiðingarröðun", topRoute && topRoute.forced ? "warn" : "info") +
+            atlasLensTile("Tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir" : "device aggregate vantar", topDevice ? "info" : "warn") +
+            atlasLensTile("Vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " merki" : "browser aggregate vantar", topBrowser ? "info" : "warn") +
+            atlasLensTile("Skjár", topViewport ? topViewport.key : "Óþekkt", topViewport ? fmt(topViewport.visits) + " merki" : "viewport aggregate vantar", topViewport ? "info" : "warn") +
+            atlasLensTile("Sending", topTransport ? topTransport.key : "Óþekkt", topTransport ? fmt(topTransport.visits) + " merki" : "performance aggregate vantar", topTransport ? "good" : "warn") +
+            atlasLensTile("Traust", topConfidence ? topConfidence.key : "Óþekkt", topConfidence ? fmt(topConfidence.visits) + " línur" : "confidence aggregate vantar", topConfidence ? "info" : "warn") +
+            atlasLensTile("Diagnostic", fmt(diagnosticTotal), "utan talningar", diagnosticTotal ? "info" : "good") +
+            atlasLensTile("Viðvörun", browserRisk ? fmt(browserRisk) : "0", "Power BI viewer", browserRisk ? "warn" : "good") +
+          '</div></section>' +
+        '</div>' +
+      '</div>';
+    }
     function renderSignalPanoramaV2(data) {
-      setHtml("signal-panorama-panel", renderSignalAtlas(data));
+      setHtml("signal-panorama-panel", renderSignalAtlasLens(data));
     }
     var statusCharts = [];
     function cssVar(name, fallback) {
@@ -18500,9 +19067,9 @@
     }
     function chartCellColor(column, value) {
       if (!(number(value) > 0)) return "rgba(247,250,252,.72)";
-      if (column === 0) return "rgba(31,122,83,.78)";
-      if (column === 1) return "rgba(106,125,144,.78)";
-      return "rgba(223,160,25,.82)";
+      if (column === 0) return "rgba(47,143,139,.78)";
+      if (column === 1) return "rgba(111,127,146,.78)";
+      return "rgba(199,138,42,.82)";
     }
     function renderRouteMatrixChart(data) {
       var host = byId("route-matrix-chart");
@@ -18644,7 +19211,7 @@
       return cssVar("--ink", "#10283d");
     }
     function chartMutedColor() {
-      return cssVar("--muted", "#607286");
+      return cssVar("--muted", "#475052");
     }
     function renderGatewayFunnelChart(data) {
       var chart = initStatusChart("chart-gateway-funnel");
@@ -18726,7 +19293,7 @@
         grid: { left: 88, right: 12, top: 34, bottom: 54 },
         xAxis: { type: "category", data: browsers, axisLabel: { color: chartMutedColor(), rotate: 25, fontWeight: 800 } },
         yAxis: { type: "category", data: devices, inverse: true, axisLabel: { color: chartTextColor(), fontWeight: 800 } },
-        visualMap: { min: 0, max: maxValue, show: false, inRange: { color: ["#f7fafc", cssVar("--accent", "#4f6f8f")] } },
+        visualMap: { min: 0, max: maxValue, show: false, inRange: { color: ["#f7fafc", cssVar("--accent", "#4F6F8F")] } },
         series: [{ type: "heatmap", data: cells, label: { show: true, formatter: function (p) { return p.value[2] ? fmt(p.value[2]) : ""; }, color: chartTextColor(), fontWeight: 900 } }]
       });
     }
@@ -18746,7 +19313,7 @@
       ];
       if (!chart) return;
       chart.setOption({
-        color: [cssVar("--warn", "#956300")],
+        color: [cssVar("--warn", "#C78A2A")],
         animation: false,
         grid: { left: 80, right: 12, top: 20, bottom: 46 },
         tooltip: { trigger: "axis" },
@@ -18770,7 +19337,7 @@
       if (!labels.length) labels = ["unknown"];
       if (!chart) return;
       chart.setOption({
-        color: [cssVar("--info", "#3e6283")],
+        color: [cssVar("--info", "#3599B8")],
         animation: false,
         grid: { left: 50, right: 12, top: 20, bottom: 48 },
         tooltip: { trigger: "axis" },
@@ -18806,7 +19373,7 @@
       var visits = rows.map(function (row) { return number(row.visits); });
       if (!chart) return;
       chart.setOption({
-        color: [cssVar("--good", "#1f7a53"), cssVar("--accent", "#4f6f8f"), cssVar("--gateway", "#6a7d90")],
+        color: [cssVar("--good", "#2F8F8B"), cssVar("--accent", "#4F6F8F"), cssVar("--gateway", "#6F7F92")],
         animation: false,
         grid: { left: 54, right: 12, top: 22, bottom: 50 },
         tooltip: { trigger: "axis" },
@@ -18879,7 +19446,7 @@
       ].filter(function (row) { return row.visits > 0 || row.key !== "Annað"; });
       var denominatorChip = '<span class="chip neutral">af ' + fmt(totalCounted) + ' töldum heimsóknum</span>';
       if (!views && !clicks && !arrivals && !counted && !totalCounted) {
-        panel.innerHTML = '<div class="message-card info"><strong>Engin gateway gögn enn</strong><p>Root index telemetry birtist hér þegar root/index payload skilar views, clicks, router arrivals eða counted opens.</p></div>';
+        panel.innerHTML = '<div class="message-card info"><strong>Engin gáttargögn enn</strong><p>Rótargátt birtist hér þegar payload skilar sýnum, smellum, leiðingarkomum eða töldum opnunum.</p></div>';
         return;
       }
       var megaSignals = '<div class="gateway-mega-signals" aria-label="Samsett rekstrarmerki gateway og taldra heimsókna">' +
@@ -18996,7 +19563,7 @@
         if (map[key].examples.length < 3) map[key].examples.push(row);
       });
       return Object.keys(map).map(function (key) { return map[key]; }).sort(function (a, b) {
-        return b.visits - a.visits || b.value - a.value || b.raw - a.raw || a.key.localeCompare(b.key);
+        return b.visits - a.visits || b.value - a.value || b.raw - a.raw || STATUS_COLLATOR.compare(a.key, b.key);
       });
     }
     function trackerMakeInsight(title, value, status, confidence, explanation, why, nextCheck, fields, priority) {
@@ -19149,19 +19716,19 @@
           trackerMetric("Taldar heimsóknir", fmt(counted), "Talin production opnun.", counted ? "good" : "watch"),
           trackerMetric("Raw merki", fmt(raw), "Raw operational activity.", raw ? "info" : "unknown"),
           trackerMetric("Diagnostic merki", fmt(diagnostic), "Ekki talin heimsókn.", diagnostic ? "info" : "good"),
-          trackerMetric("Útilokað frá talningu", fmt(excluded), "Operational reconciliation.", excluded ? "info" : "good"),
+          trackerMetric("Útilokað frá talningu", fmt(excluded), "Rekstrarsamræming.", excluded ? "info" : "good"),
           trackerMetric("Síðasta talda heimsókn", ageInfo(countedTime).label, dateShort(countedTime), counted ? "good" : "watch"),
           trackerMetric("Síðasta raw merki", ageInfo(rawTime).label, dateShort(rawTime), raw ? "info" : "unknown"),
           trackerMetric("Confirmed warning", fmt(confirmed), "StaÃ°fest production warning.", confirmed ? "warning" : "good"),
           trackerMetric("Veik merki", fmt(weak), "Veikt eða óþekkt tækjamerki.", weak ? "watch" : "good")
         ],
         rows: [
-          { label: "Operational reconciliation", detail: "counted visits + non-visit operational signals + diagnostic/debug/bot/fallback/error signals = raw operational activity", value: fmt(counted) + " + " + fmt(excluded), extra: "ekki exact nema payload styðji" },
+          { label: "Rekstrarsamræming", detail: "taldar heimsóknir + rekstrarmerki án heimsóknar + diagnostic/debug/bot/fallback/error merki = hrá rekstrarvirkni", value: fmt(counted) + " + " + fmt(excluded), extra: "ekki exact nema payload styðji" },
           { label: "No counted vs no raw", detail: counted ? "Production opnanir eru til." : (raw ? "Raw til, counted vantar." : "Engin raw móttaka."), value: counted ? "Talið" : (raw ? "Partial" : "Empty"), extra: "" }
         ],
         insights: [
           trackerMakeInsight("Talningarheilsa", counted ? fmt(counted) : "0", status, raw ? "hátt" : "óþekkt", counted ? "Taldar production opnanir eru til staðar." : (raw ? "Raw merki berast en engin talin production opnun sést." : "Hvorki taldar opnanir né raw merki sjást í aggregate payload."), "No counted visits er annað ástand en no raw events.", counted ? "Bera saman counted visits, raw merki og síðustu timestamp." : "Athuga Talningarhlið og síðustu raw móttöku.", ["kpis.total_visits", "kpis.raw_events", "health.last_counted_event_time"], counted ? 11 : 2),
-          trackerMakeInsight("Operational reconciliation", fmt(counted) + " + " + fmt(excluded), "info", "miðlungs", "Reconciliation línan skýrir að production usage og operational/diagnostic merki eru ekki sami teljari.", "Heilbrigður tracker getur haft diagnostic events án production failure.", "Bæta count_as_visit aggregate við ef nákvæma jöfnu þarf.", ["kpis.total_visits", "kpis.raw_events", "kpis.diagnostic_events"], 11)
+          trackerMakeInsight("Rekstrarsamræming", fmt(counted) + " + " + fmt(excluded), "info", "miðlungs", "Samræmingarlínan skýrir að framleiðslunotkun og rekstrar-/greiningarmerki eru ekki sami teljari.", "Heilbrigður tracker getur haft greiningaratvik án framleiðslubilunar.", "Bæta count_as_visit samantekt við ef nákvæma jöfnu þarf.", ["kpis.total_visits", "kpis.raw_events", "kpis.diagnostic_events"], 11)
         ]
       };
     }
@@ -19181,8 +19748,8 @@
       var status = fallback ? "watch" : (views || clicks || arrivals ? "info" : "unknown");
       return {
         title: "Root gateway og public-card funnel",
-        kicker: "Gateway funnel",
-        intro: "Gateway funnel sýnir hvernig notendur fara frá opinberu korti eða root gateway yfir í talda opnun mælaborðs.",
+        kicker: "Gáttarflæði",
+        intro: "Gáttarflæði sýnir hvernig notendur fara frá opinberu korti eða rótargátt yfir í talda opnun mælaborðs.",
         status: status,
         fields: ["root_index_funnel", "root_index", "sources", "routes", "public_cards", "dashboards", "entry_source_category", "root_dashboard_target_path", "root_launch_choice"],
         missing: trackerTopLevelMissing(data, ["root_index_funnel|root_index", "sources", "routes", "public_cards", "dashboards"]),
@@ -19194,14 +19761,14 @@
         ],
         steps: [
           trackerStep("Public card / island.is", fmt(island), "Expected public source.", island ? "good" : "watch"),
-          trackerStep("Root gateway", fmt(views), "Root index views.", views ? "info" : "unknown"),
-          trackerStep("Dashboard card clicks", fmt(clicks), "Root dashboard choice.", clicks ? "info" : "unknown"),
-          trackerStep("Router arrivals", fmt(arrivals), "Router decision signal.", arrivals ? "info" : "unknown"),
-          trackerStep("Selected layout", fmt(arrivals || counted), "Mobile/desktop val.", arrivals || counted ? "info" : "unknown"),
-          trackerStep("Counted open", fmt(counted), "Talin production opnun.", counted ? "good" : "watch")
+          trackerStep("Rótargátt", fmt(views), "Sýn á rótarsíðu.", views ? "info" : "unknown"),
+          trackerStep("Kortasmellir", fmt(clicks), "Val á mælaborðskorti.", clicks ? "info" : "unknown"),
+          trackerStep("Leiðingar", fmt(arrivals), "Merki fyrir ákvörðun leiðingar.", arrivals ? "info" : "unknown"),
+          trackerStep("Valin útgáfa", fmt(arrivals || counted), "Sími/tölva val.", arrivals || counted ? "info" : "unknown"),
+          trackerStep("Talin opnun", fmt(counted), "Talin opnun í framleiðslu.", counted ? "good" : "watch")
         ],
         insights: [
-          trackerMakeInsight("Gateway funnel", views || clicks || arrivals ? fmt(views) + " -> " + fmt(counted) : "partial", status, "miðlungs", "Journey er sýnt sem partial-data þegar skref vantar í aggregate payload.", "Root/router getur verið heilbrigt þó það sé ekki counted usage.", fallback ? "Skoða fallback smell og router arrival áður en Power BI URL er breytt." : "Bera saman root clicks, router arrivals og counted opens.", ["root_index_funnel", "root_index", "sources", "routes"], fallback ? 3 : 7)
+          trackerMakeInsight("Gáttarflæði", views || clicks || arrivals ? fmt(views) + " -> " + fmt(counted) : "hlutagögn", status, "miðlungs", "Flæðið er sýnt sem hlutagögn þegar skref vantar í samantekt.", "Rótargátt og leiðing geta verið heilbrigð þó þau séu ekki talin notkun.", fallback ? "Skoða fallback-smell og leiðingarkomu áður en Power BI URL er breytt." : "Bera saman rótarsmelli, leiðingarkomur og taldar opnanir.", ["root_index_funnel", "root_index", "sources", "routes"], fallback ? 3 : 7)
         ]
       };
     }
@@ -20388,7 +20955,7 @@
     function render(data) {
       safeRender("start-panel", "Fresh start", function () { renderStartPanelV5(data); });
       setStatus(data, "");
-      safeRender("signal-panorama-panel", "Signal panorama", function () { renderSignalPanoramaV2(data); });
+      safeRender("signal-panorama-panel", "Flæði og samhengi", function () { renderSignalPanoramaV2(data); });
       safeRender("dashboard-public-master", "Mælaborð", function () { renderDashboardPublicMasterV2(data); });
       safeRender("layout-source-panel", "Leiðing og uppruni", function () { renderLayoutAndSourceV5(data); });
       safeRender("insight-grid", "Rekstrarinnsýn", function () { renderInsightsV2(data); });
