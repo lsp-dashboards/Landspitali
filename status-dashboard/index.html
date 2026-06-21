@@ -19426,6 +19426,8 @@
       setHtml("signal-panorama-panel", renderSignalAtlasLens(data));
     }
     var statusCharts = [];
+    var latestStatusChartData = null;
+    var statusChartResizeTimer = 0;
     function cssVar(name, fallback) {
       var value = "";
       try { value = getComputedStyle(document.documentElement).getPropertyValue(name).trim(); } catch (error) {}
@@ -19589,6 +19591,14 @@
       var host = byId("start-v5-flow-chart");
       var module = byId("start-v5-flow-module");
       if (!host || !module || !window.echarts) return;
+      var initialBounds = host.getBoundingClientRect();
+      var renderAttempts = number(host.getAttribute("data-render-attempts"));
+      if (window.innerWidth > 700 && initialBounds.width < 520 && renderAttempts < 4) {
+        host.setAttribute("data-render-attempts", String(renderAttempts + 1));
+        window.requestAnimationFrame(function () { renderStartV5FlowChart(data); });
+        return;
+      }
+      host.removeAttribute("data-render-attempts");
       var flow = startV5FlowModel(data);
       var model = flow.model;
       var palette = chartPalette();
@@ -19596,105 +19606,67 @@
       var route = Math.max(flow.routeTotal, flow.topRoute ? flow.topRoute.total : 0, flow.routerArrivals, 0);
       var gap = flow.countGap;
       var maxNode = Math.max(raw, flow.gatewaySignals, route, model.total, gap, flow.confirmed, 1);
-      function nodeSize(value) {
-        return clamp(34 + Math.sqrt(Math.max(number(value), 0) / maxNode) * 38, 34, 74);
+      var bounds = host.getBoundingClientRect();
+      var width = Math.max(bounds.width || host.clientWidth || 320, 320);
+      var height = Math.max(bounds.height || host.clientHeight || 220, 220);
+      function nodeRadius(value) {
+        return clamp(18 + Math.sqrt(Math.max(number(value), 0) / maxNode) * 16, 18, 34);
       }
       function edgeWidth(value) {
-        return clamp(2 + Math.sqrt(Math.max(number(value), 0) / maxNode) * 11, 2, 13);
+        return clamp(2 + Math.sqrt(Math.max(number(value), 0) / maxNode) * 9, 2, 11);
+      }
+      function point(x, y) {
+        return { x: Math.round(width * x / 100), y: Math.round(height * y / 100) };
       }
       var nodes = [
-        { id: "raw", label: "Hr\u00e1 merki", detail: "Allt sem tracker s\u00e9r", metric: raw, value: [8, 58, raw], color: palette[8] },
-        { id: "gateway", label: "G\u00e1tt", detail: "root, smellir, arrival", metric: flow.gatewaySignals, value: [29, 36, flow.gatewaySignals], color: palette[4] },
-        { id: "route", label: "Lei\u00f0ing", detail: flow.routeValue, metric: route, value: [52, 36, route], color: palette[2] },
-        { id: "counted", label: "Taldar", detail: "production grunnur", metric: model.total, value: [75, 36, model.total], color: palette[1] },
-        { id: "quality", label: "G\u00e6\u00f0i", detail: "sta\u00f0fest merki", metric: flow.confirmed, value: [93, 36, flow.confirmed], color: flow.confirmed ? palette[2] : palette[1] },
-        { id: "excluded", label: "Utan talningar", detail: "debug, duplicate, diag.", metric: gap, value: [52, 78, gap], color: gap ? palette[2] : palette[3] }
+        { id: "raw", nodeLabel: "Hr\u00e1 merki", metric: raw, point: point(9, 56), color: palette[8] },
+        { id: "gateway", nodeLabel: "G\u00e1tt", metric: flow.gatewaySignals, point: point(30, 38), color: palette[4] },
+        { id: "route", nodeLabel: "Lei\u00f0ing", metric: route, point: point(52, 38), color: palette[2] },
+        { id: "counted", nodeLabel: "Taldar", metric: model.total, point: point(74, 38), color: palette[1] },
+        { id: "quality", nodeLabel: "G\u00e6\u00f0i", metric: flow.confirmed, point: point(92, 38), color: flow.confirmed ? palette[2] : palette[1] },
+        { id: "excluded", nodeLabel: "Utan talningar", metric: gap, point: point(52, 77), color: gap ? palette[2] : palette[3] }
       ];
       var nodeMap = {};
       nodes.forEach(function (node) { nodeMap[node.id] = node; });
-      function link(source, target, value, color, name, curve) {
+      function linkElement(source, target, value, color) {
         value = number(value);
         if (!(value > 0)) return null;
+        var from = nodeMap[source].point;
+        var to = nodeMap[target].point;
         return {
-          name: name,
-          metric: value,
-          coords: [nodeMap[source].value.slice(0, 2), nodeMap[target].value.slice(0, 2)],
-          lineStyle: { color: color, width: edgeWidth(value), opacity: .72, curveness: curve || 0 },
-          emphasis: { lineStyle: { opacity: .96, width: edgeWidth(value) + 2 } }
+          type: "line",
+          silent: true,
+          z: 1,
+          shape: { x1: from.x, y1: from.y, x2: to.x, y2: to.y },
+          style: { stroke: color, lineWidth: edgeWidth(value), opacity: .68, lineCap: "round" }
         };
       }
-      var links = [
-        link("raw", "gateway", flow.gatewaySignals, palette[4], "hr\u00e1 \u2192 g\u00e1tt", .06),
-        link("gateway", "route", route || flow.gatewaySignals, palette[2], "g\u00e1tt \u2192 lei\u00f0ing", .04),
-        link("route", "counted", model.total, palette[1], "lei\u00f0ing \u2192 tali\u00f0", .04),
-        link("counted", "quality", flow.confirmed || (model.total ? 1 : 0), flow.confirmed ? palette[2] : palette[1], "tali\u00f0 \u2192 g\u00e6\u00f0i", .04),
-        link("raw", "excluded", gap, palette[2], "hr\u00e1 \u2192 utan talningar", .22)
+      var elements = [
+        linkElement("raw", "gateway", flow.gatewaySignals, palette[4]),
+        linkElement("gateway", "route", route || flow.gatewaySignals, palette[2]),
+        linkElement("route", "counted", model.total, palette[1]),
+        linkElement("counted", "quality", flow.confirmed || (model.total ? 1 : 0), flow.confirmed ? palette[2] : palette[1]),
+        linkElement("raw", "excluded", gap, palette[2])
       ].filter(Boolean);
-      var chart = echarts.init(host, null, { renderer: "svg" });
+      nodes.forEach(function (node) {
+        var radius = nodeRadius(node.metric);
+        elements.push({
+          type: "group",
+          z: 3,
+          x: node.point.x,
+          y: node.point.y,
+          children: [
+            { type: "circle", shape: { cx: 0, cy: 0, r: radius }, style: { fill: node.color, stroke: "rgba(255,255,255,.92)", lineWidth: 2, shadowBlur: 14, shadowColor: "rgba(0,0,0,.18)" } },
+            { type: "text", silent: true, style: { text: fmt(node.metric), x: 0, y: 4, align: "center", verticalAlign: "middle", fill: "#ffffff", fontSize: radius > 28 ? 16 : 13, fontWeight: 900 } },
+            { type: "text", silent: true, style: { text: node.nodeLabel, x: 0, y: radius + 18, align: "center", verticalAlign: "top", fill: "rgba(234,244,250,.94)", fontSize: 11, fontWeight: 900 } }
+          ]
+        });
+      });
+      var chart = echarts.init(host, null, { renderer: "svg", width: Math.round(width), height: Math.round(height) });
       chart.setOption({
         backgroundColor: "transparent",
         animation: false,
-        grid: { left: 16, right: 18, top: 18, bottom: 18, containLabel: false },
-        tooltip: {
-          trigger: "item",
-          borderColor: "rgba(220,238,248,.26)",
-          backgroundColor: "rgba(15,35,54,.96)",
-          textStyle: { color: "#eaf4fa", fontWeight: 800 },
-          formatter: function (params) {
-            if (params.seriesType === "scatter") {
-              return safe(params.data.label) + "<br><strong>" + fmt(params.data.metric) + "</strong><br>" + safe(params.data.detail || "");
-            }
-            return safe(params.data.name || "fl\u00e6\u00f0i") + "<br><strong>" + fmt(params.data.metric) + "</strong>";
-          }
-        },
-        xAxis: { min: 0, max: 100, show: false, type: "value" },
-        yAxis: { min: 0, max: 100, show: false, type: "value" },
-        series: [
-          {
-            type: "lines",
-            coordinateSystem: "cartesian2d",
-            z: 1,
-            data: links,
-            symbol: ["none", "arrow"],
-            symbolSize: 8,
-            lineStyle: { cap: "round", join: "round" },
-            label: {
-              show: false,
-              formatter: function (params) { return fmt(params.data.metric); },
-              color: "rgba(234,244,250,.86)",
-              fontSize: 11,
-              fontWeight: 900,
-              backgroundColor: "rgba(12,31,48,.84)",
-              borderColor: "rgba(220,238,248,.16)",
-              borderWidth: 1,
-              borderRadius: 6,
-              padding: [3, 6]
-            }
-          },
-          {
-            type: "scatter",
-            z: 3,
-            data: nodes.map(function (node) {
-              return Object.assign({}, node, {
-                symbolSize: nodeSize(node.metric),
-                itemStyle: { color: node.color, borderColor: "rgba(255,255,255,.92)", borderWidth: 2 },
-                label: {
-                  show: true,
-                  position: node.id === "excluded" ? "bottom" : "top",
-                  distance: 9,
-                  color: "rgba(255,255,255,.96)",
-                  fontSize: 11,
-                  fontWeight: 900,
-                  lineHeight: 15,
-                  formatter: function (params) {
-                    return params.data.label + "\n" + fmt(params.data.metric);
-                  }
-                }
-              });
-            }),
-            emphasis: { scale: 1.08 }
-          }
-        ]
+        graphic: { elements: elements }
       });
       module.classList.add("has-echart");
       statusCharts.push(chart);
@@ -19875,6 +19847,7 @@
     }
     function renderStatusCharts(data) {
       var panel = byId("echarts-panel");
+      latestStatusChartData = data;
       disposeStatusCharts();
       if (panel) panel.hidden = true;
       if (!window.echarts) return;
@@ -19889,9 +19862,17 @@
       renderTrendChart(data);
     }
     window.addEventListener("resize", function () {
-      statusCharts.forEach(function (chart) {
-        try { chart.resize(); } catch (error) {}
-      });
+      window.clearTimeout(statusChartResizeTimer);
+      statusChartResizeTimer = window.setTimeout(function () {
+        if (latestStatusChartData && window.echarts) {
+          try { renderStatusCharts(latestStatusChartData); return; } catch (error) {
+            if (window.console && console.error) console.error("Chart resize", error);
+          }
+        }
+        statusCharts.forEach(function (chart) {
+          try { chart.resize(); } catch (error) {}
+        });
+      }, 120);
     });
 
     function renderRootFunnelV2(data) {
