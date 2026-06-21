@@ -4,6 +4,7 @@ const path = require("path");
 const {
   readJson,
   writeJson,
+  productVersion,
   dashboardsFromConfig
 } = require("./lib");
 
@@ -70,8 +71,8 @@ function zeroDashboard(config, key, dashboard) {
     weak_unknown_signal_count: 0,
     source_mix_summary: "",
     route_mix_summary: "",
-    config_version: config.configVersion,
-    core_version: config.release && config.release.coreVersion || ""
+    config_version: productVersion,
+    core_version: productVersion
   };
 }
 
@@ -108,10 +109,10 @@ function buildSeedStatusSnapshot(config) {
     data_source: "static_seed",
     publicAggregateOnly: true,
     aggregate_only: true,
-    script_version: "static-status-snapshot",
+    script_version: productVersion,
     schema_version: "1",
-    config_version: config.configVersion,
-    core_version: config.release && config.release.coreVersion || "",
+    config_version: productVersion,
+    core_version: productVersion,
     public_entry: config.publicEntry || {},
     health: {
       status: "seed",
@@ -279,7 +280,9 @@ function normalizeStatusSnapshot(snapshot, config, source) {
   snapshot.publicAggregateOnly = true;
   snapshot.aggregate_only = true;
   snapshot.data_source = source;
-  snapshot.config_version = snapshot.config_version || config.configVersion;
+  snapshot.script_version = productVersion;
+  snapshot.config_version = productVersion;
+  snapshot.core_version = productVersion;
   snapshot.public_entry = snapshot.public_entry || config.publicEntry || {};
   snapshot.kpis = snapshot.kpis || {};
   snapshot.public_cards = snapshot.public_cards || dashboardsFromConfig(config).map(({ key, dashboard }) => publicCardFromConfig(config, key, dashboard));
@@ -296,6 +299,10 @@ function normalizeStatusSnapshot(snapshot, config, source) {
   snapshot.routes = snapshot.routes || [];
   snapshot.quality_warnings = snapshot.quality_warnings || [];
   addDashboardSummaries(snapshot, config);
+  snapshot.dashboards = (snapshot.dashboards || []).map((dashboard) => Object.assign({}, dashboard, {
+    config_version: productVersion,
+    core_version: productVersion
+  }));
   addHistorySummary(snapshot);
   return snapshot;
 }

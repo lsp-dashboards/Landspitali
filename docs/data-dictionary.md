@@ -28,7 +28,7 @@ Raw/internal sheets eru aðeins fyrir rekstur. Public/status payload er aðeins 
 | `DISPLAY_HEADERS` | `Aggregates_Display` | viewport/theme aggregate | Aggregate |
 | `INPUT_HEADERS` | `Aggregates_Input` | touch/pointer/hover aggregate | Aggregate |
 | `PERFORMANCE_HEADERS` | `Aggregates_Performance` | transport/performance aggregate | Aggregate |
-| `SCHEMA_MIGRATION_LOG_HEADERS` | `Schema_Migration_Log` | migration/setup log | Internal |
+| `SCHEMA_MIGRATION_LOG_HEADERS` | `Schema_Migration_Log` | schema setup log | Internal |
 
 ## Critical raw fields
 

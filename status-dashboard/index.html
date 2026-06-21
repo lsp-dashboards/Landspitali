@@ -1848,7 +1848,7 @@
     }
 
     .list-row strong { font-weight: 900; }
-    .number { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .number { text-align: right; font-variant-numeric: tabular-nums; white-space: normal; overflow-wrap: anywhere; }
 
     .warning-main { display: grid; gap: 4px; min-width: 0; }
     .warning-code { color: var(--ink); font-weight: 900; overflow-wrap: anywhere; }
@@ -4711,6 +4711,7 @@
       position: relative;
       display: inline-grid;
       place-items: center;
+      overflow: hidden;
       width: 19px;
       height: 19px;
       margin-left: 6px;
@@ -10939,6 +10940,7 @@
       font-size: 11px;
       line-height: 1.25;
       font-weight: 800;
+      overflow-wrap: anywhere;
     }
 
     .tracker-stepper {
@@ -11012,6 +11014,13 @@
       font-weight: 900;
       text-align: right;
       white-space: nowrap;
+    }
+
+    .tracker-table-row .tracker-note {
+      color: var(--ink);
+      font-weight: 800;
+      text-align: right;
+      overflow-wrap: anywhere;
     }
 
     .tracker-passport-grid {
@@ -14695,15 +14704,7 @@
     }
 
     .route-v6-step:not(:last-child)::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      right: -10px;
-      z-index: 2;
-      width: 10px;
-      height: 2px;
-      background: rgba(79,111,143,.42);
-      pointer-events: none;
+      display: none;
     }
 
     .route-v6-step-index {
@@ -14843,6 +14844,10 @@
       font-size: 14px;
       font-weight: 900;
       line-height: 1.12;
+      overflow-wrap: anywhere;
+    }
+
+    .route-v6-proof-title small {
       overflow-wrap: anywhere;
     }
 
@@ -15490,13 +15495,13 @@
           <div class="chip-row hero-system-tags">
             <span class="chip component-chip good">UI: Vaktborð</span>
             <span class="chip component-chip core">Vöktunarkjarni: Rekstrarpúls</span>
-            <span class="chip component-chip config">Config v1</span>
-            <span class="chip component-chip tracker">Atburðasafnari v1</span>
-            <span class="chip component-chip schema">Gagnasnið 1</span>
+            <span class="chip component-chip config">Config v1.0.0</span>
+            <span class="chip component-chip tracker">Atburðasafnari v1.0.0</span>
+            <span class="chip component-chip schema">Gagnasnið v1.0.0</span>
             <span class="chip component-chip good">Talningarhlið</span>
             <span class="chip component-chip gateway">Leiðingarskipting</span>
             <span class="chip component-chip summary">Aðeins samantektargögn</span>
-            <span class="sr-only" id="hero-core-detail">UI: Vaktborð | Vöktunarkjarni: Rekstrarpúls | Config v1 | Atburðasafnari v1 | Gagnasnið 1 | Talningarhlið | Leiðingarskipting | Aðeins samantektargögn</span>
+            <span class="sr-only" id="hero-core-detail">UI: Vaktborð v1.0.0 | Vöktunarkjarni: Rekstrarpúls v1.0.0 | Config v1.0.0 | Atburðasafnari v1.0.0 | Gagnasnið v1.0.0 | Talningarhlið | Leiðingarskipting | Aðeins samantektargögn</span>
           </div>
         </div>
       </div>
@@ -15598,11 +15603,11 @@
     var STATUS_COUNTING_PUBLIC_NAME = "Talningarhlið";
     var STATUS_ROUTING_PUBLIC_NAME = "Leiðingarskipting";
     var STATUS_AGGREGATE_PUBLIC_NAME = "Aðeins samantektargögn";
-    var STATUS_CONFIG_VERSION = "Config v1";
+    var STATUS_CONFIG_VERSION = "Config v1.0.0";
     var STATUS_CORE_PUBLIC_NAME = "Vöktunarkjarni: Rekstrarpúls";
     var STATUS_CORE_VERSION = "v1.0.0";
-    var STATUS_COLLECTOR_PUBLIC_NAME = "Atburðasafnari v1";
-    var STATUS_SCHEMA_PUBLIC_NAME = "Gagnasnið 1";
+    var STATUS_COLLECTOR_PUBLIC_NAME = "Atburðasafnari v1.0.0";
+    var STATUS_SCHEMA_PUBLIC_NAME = "Gagnasnið v1.0.0";
     var STATUS_COMPONENT_LINE = [
       STATUS_UI_PUBLIC_NAME,
       STATUS_CORE_PUBLIC_NAME,
@@ -19049,7 +19054,7 @@
     function trackerTableHtml(rows) {
       if (!rows || !rows.length) return "";
       return '<div class="tracker-table">' + rows.slice(0, 8).map(function (row) {
-        return '<div class="tracker-table-row"><strong>' + safe(row.label || row.key || "-") + '</strong><span>' + safe(row.detail || "") + '</span><span class="number">' + safe(row.value || fmt(row.visits || row.count || 0)) + '</span><span class="number">' + safe(row.extra || "") + '</span></div>';
+        return '<div class="tracker-table-row"><strong>' + safe(row.label || row.key || "-") + '</strong><span>' + safe(row.detail || "") + '</span><span class="number">' + safe(row.value || fmt(row.visits || row.count || 0)) + '</span><span class="tracker-note">' + safe(row.extra || "") + '</span></div>';
       }).join("") + '</div>';
     }
     function trackerOperatorStatus(status) {
@@ -19331,7 +19336,7 @@
           trackerMetric("Supported modern share", pct(Math.max(0, total - unsupported - oldVersion), total), "Áætlað út frá browser aggregate.", unsupported ? "watch" : "good"),
           trackerMetric("Óstuddur Power BI viewer vafri", fmt(unsupported), "Confirmed eða inferred warning.", unsupported ? "warning" : "good"),
           trackerMetric("In-app/WebView", fmt(webview), "Teams/Outlook/WebView þegar greinanlegt.", webview ? "info" : "good"),
-          trackerMetric("Old/unknown versions", fmt(oldVersion + unknownVersion), "Gamlar eða óþekktar útgáfur.", oldVersion + unknownVersion ? "watch" : "good")
+          trackerMetric("Compatibility-limited/unknown versions", fmt(oldVersion + unknownVersion), "Takmarkaðar eða óþekktar vafraútgáfur.", oldVersion + unknownVersion ? "watch" : "good")
         ],
         bars: groups,
         barTotal: Math.max(total, groups.reduce(function (acc, row) { return Math.max(acc, row.raw); }, 1)),
@@ -19565,7 +19570,7 @@
             { label: "Warnings", value: fmt(warnings) },
             { label: "Confidence", value: bandLabel(row.confidence_band) }
           ],
-          summary: "Uppruni: " + naturalSummaryText(row.source_mix_summary, "source") + ". Route: " + naturalSummaryText(row.route_mix_summary, "route") + ". Síðast talið: " + dateShort(dashboardLastCountedTime(row)) + ". Config/core: " + (row.config_version || "-") + " / " + (row.core_version || "-") + "."
+          summary: "Uppruni: " + naturalSummaryText(row.source_mix_summary, "source") + ". Route: " + naturalSummaryText(row.route_mix_summary, "route") + ". Síðast talið: " + dateShort(dashboardLastCountedTime(row)) + ". Config/core: " + STATUS_DASHBOARD_VERSION + " / " + STATUS_DASHBOARD_VERSION + "."
         };
       });
       return {

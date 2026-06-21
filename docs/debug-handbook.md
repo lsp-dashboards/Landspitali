@@ -97,9 +97,9 @@ Fields: `event_type`, `count_as_visit`, `duplicate_event`, `dashboard_key`, `das
 
 ## iPhone Safari debug protocol
 
-Symptoms: dashboard opnast á iPhone Safari en row birtist ekki; virkaði fyrir upgrade; aðeins desktop/Android rows sjást; `imageGet` URL er langt eða óáreiðanlegt fyrir redirect.
+Symptoms: dashboard opnast á iPhone Safari en row birtist ekki; aðeins desktop/Android rows sjást; `imageGet` URL er langt eða óáreiðanlegt fyrir redirect.
 
-Check: config version er first-production hardening eða nýrri; `transportOrder` er `sendBeacon`, `fetchKeepalive`, `imageGet`; tracking er queued fyrir redirect; routing bíður ekki eftir tracking; payload er ekki of stórt; `imageGet` URL er undir max; Apps Script accepts POST; `Events_Raw` fær POST rows; debug/manual telst ekki visit; normal redirect counts aðeins ef production-countable.
+Check: config version er `v1.0.0`; `transportOrder` er `sendBeacon`, `fetchKeepalive`, `imageGet`; tracking er queued fyrir redirect; routing bíður ekki eftir tracking; payload er ekki of stórt; `imageGet` URL er undir max; Apps Script accepts POST; `Events_Raw` fær POST rows; debug/manual telst ekki visit; normal redirect counts aðeins ef production-countable.
 
 ## Android/Samsung Internet
 
@@ -123,7 +123,7 @@ Skoða JSONP load í console, `api=health`, `api=dashboard`, `api=dashboard&form
 
 ## Apps Script functions
 
-Source contains: `doGet`, `doPost`, `setupProductionWorkbook`, `setupProductionWorkbook_`, `setupWorkbookPublic`, `migrateSchemaV1`, `migrateGagnasnid1`, historical compatibility wrappers such as `migrateSchemaV8`/`migrateSchemaV9`, `migrateSmartTvPowerBiCompatV122`, `aggregateRecent`, `publishDashboardData_`, `getCachedDashboardData_`, `getHealth_`, `getPublicRegistry_`, `outputData_`, `outputJson_`, `sanitizeCallback_`, `addOperationalQualityWarnings_`, `dashboardConfidenceBand_`.
+Source contains: `doGet`, `doPost`, `setupProductionWorkbook`, `setupProductionWorkbook_`, `setupWorkbookPublic`, `migrateSchemaV1`, `migrateGagnasnid1`, compatibility setup wrappers such as `migrateSchemaV8`/`migrateSchemaV9`, `migrateSmartTvPowerBiCompatV122`, `aggregateRecent`, `publishDashboardData_`, `getCachedDashboardData_`, `getHealth_`, `getPublicRegistry_`, `outputData_`, `outputJson_`, `sanitizeCallback_`, `addOperationalQualityWarnings_`, `dashboardConfidenceBand_`.
 
 ## Debug loop
 
@@ -144,19 +144,19 @@ flowchart LR
 |---|---|---|---|---|---|---|---|
 | No data endpoint configured | Tracking disabled/no rows | config tracking endpoint, health | endpoint missing, deployment mismatch | Ekki telja debug rows | Deploy/confirm endpoint | POST row appears | config, `doPost` |
 | Status cannot load data | Timeout/error | JSONP URL, `api=health` | endpoint down, stale cache, publish missing | Ekki breyta Mælaborðsmælingar logic | endpoint/cache/publish | dashboard payload loads | `DATA_ENDPOINT`, `outputData_` |
-| iPhone Safari not tracking | Opens but no row | transport order, POST rows | old config, long GET fallback, POST not deployed | Ekki gera routing wait | first-production config/deploy | normal row counted | router core, Apps Script |
+| iPhone Safari not tracking | Opens but no row | transport order, POST rows | config mismatch, long GET fallback, POST not deployed | Ekki gera routing wait | config/deploy check | normal row counted | router core, Apps Script |
 | Only root events | Gateway rows, no visits | dashboard route click, target path | public link stops at gateway, route missing | Ekki count root | fix public link/router path | router_redirect counted | root index, router |
 | Debug/test in raw | Debug rows visible | `count_as_visit`, reason | expected debug/manual telemetry | Ekki eyða nema policy | leave as diagnostic | not in aggregates visits | `Events_Raw` |
 | Counts too high | usage inflated | Talningarhlið fields | FALSE rows included, duplicate/bot leak | Ekki include FALSE rows | fix aggregation/query | totals match gate | `isRealVisit_` |
 | Counts too low | missing visits | raw row, duplicate, bot, debug | transport, endpoint, exclusion reason | Ekki force count | fix transport/endpoint | counted aggregate rises | tracker/send |
-| ID/key mismatch | unknown dashboard | config vs registry | stale registry, typo, alias missing | Ekki rename history blindly | sync registry/config | dashboard aggregate correct | registry functions |
+| ID/key mismatch | unknown dashboard | config vs registry | stale registry, typo, alias missing | Ekki rename registry rows blindly | sync registry/config | dashboard aggregate correct | registry functions |
 | Wrong Power BI URL | wrong report/layout | debug target hash, force mode | URL role swapped, stale generated config | Ekki swap URLs casually | update source config/rebuild | force tests pass | config/router HTML |
 | High fallback clicks | fallback often used | fallback/error rows | redirect blocked, invalid URL, slow Power BI | Ekki hide warning | validate redirect/Power BI | rate drops | quality sheet |
 | Smart TV fails | Power BI spinner | browser support risk | unsupported TV/HbbTV browser | Ekki call router failure first | test supported browser | diagnostic classified | compatibility funcs |
 | Samsung dark wrong | colors odd | forced dark fields | browser forced dark, theme signal weak | Ekki mark confirmed without visual proof | compare Chrome/Samsung | diagnostic remains info | theme funcs |
 | Cell over limit | publish fails/chunks odd | `Dashboard_Data` chunk count | payload grew beyond cell budget | Ekki store raw JSON in one cell | chunk/publish | JSONP valid | `publishDashboardData_` |
 | Chunking broken | status invalid data | chunks/order/count | partial write, stale cache, bad chunk order | Ekki edit chunks by hand | rerun publish | payload parses | `getCachedDashboardData_` |
-| Cache stale | old numbers | generated/cache pills | 300s cache, aggregation not run | Ekki infer outage | rerun aggregation/publish | timestamp fresh | Control/cache |
+| Cache stale | stale numbers | generated/cache pills | 300s cache, aggregation not run | Ekki infer outage | rerun aggregation/publish | timestamp fresh | Control/cache |
 | Generated config mismatch | JS differs JSON | header/version/content | generator not run, wrong file deployed | Ekki hand-edit generated JS | run generator/owner process | prod/next match | config files |
 | Dashboard not found | router says not found | path/alias/query lock | missing config key, wrong folder, locked page | Ekki unlock pages | add alias/config | route resolves | `resolveDashboard` |
 | Manual links missing | debug lacks links | dashboard/routeDecision | dashboard validation failed | Ekki alter template | validate dashboard URLs | links render | `renderDebug` |

@@ -54,7 +54,7 @@ Forced layout (`force`/`view`) vinnur yfir auto. Bot/link preview fer á desktop
 
 ## Tracking transport
 
-Transport order í source er `sendBeacon`, `fetchKeepalive`, `imageGet`. Routing bíður ekki eftir tracker. First-production notes í config segja að POST transports séu á undan `imageGet` svo iPhone Safari sé ekki háður löngum cross-origin tracking pixel fyrir redirect.
+Transport order í source er `sendBeacon`, `fetchKeepalive`, `imageGet`. Routing bíður ekki eftir tracker. Production `v1.0.0` config setur POST transports á undan `imageGet` svo iPhone Safari sé ekki háður löngum cross-origin tracking pixel fyrir redirect.
 
 ```mermaid
 flowchart TD
@@ -85,4 +85,4 @@ Tracker header segir: no cookies, no localStorage identifiers, no raw IP address
 - Apps Script endpoint unavailable: routing heldur áfram, telemetry getur vantað.
 - Cache stale: status payload getur sýnt eldri gögn í allt að 300 sekúndur eða þar til publish/aggregation refresh.
 - Status JSONP failure: UI sýnir endpoint error eftir 22 sekúndna bið og eina sjálfvirka endurtilraun.
-- Source mismatch: config/status/tracker version values geta verið ósamstillt; skjalfest í [known-issues-and-limits.md](known-issues-and-limits.md).
+- Source mismatch: config/status/tracker version values geta verið ósamstillt; sjá [operational-limits.md](operational-limits.md).

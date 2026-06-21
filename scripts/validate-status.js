@@ -5,6 +5,7 @@ const path = require("path");
 const {
   resolveRepo,
   readJson,
+  productVersion,
   isPlainObject,
   assertPublicSafe,
   printResult
@@ -31,6 +32,12 @@ function requireValue(value, message) {
   if (value === undefined || value === null || value === "") errors.push(message);
 }
 
+function requireProductVersion(value, message) {
+  if (value !== undefined && value !== null && value !== "" && value !== productVersion) {
+    errors.push(`${message}; expected ${productVersion}, received ${value}`);
+  }
+}
+
 function validateStatusFile(relativePath) {
   const fullPath = resolveRepo(relativePath);
   if (!fs.existsSync(fullPath)) {
@@ -49,6 +56,9 @@ function validateStatusFile(relativePath) {
   if (!isPlainObject(data)) errors.push(`${relativePath} must contain a JSON object`);
   if (data.ok !== true) errors.push(`${relativePath}.ok must be true`);
   requireValue(data.generatedAt || data.generated_at, `${relativePath} must include generatedAt/generated_at`);
+  requireProductVersion(data.script_version, `${relativePath}.script_version must use the production product version`);
+  requireProductVersion(data.config_version, `${relativePath}.config_version must use the production product version`);
+  requireProductVersion(data.core_version, `${relativePath}.core_version must use the production product version`);
   if (!Array.isArray(data.dashboards)) errors.push(`${relativePath}.dashboards must be an array`);
   if (data.publicAggregateOnly !== true && data.aggregate_only !== true) {
     errors.push(`${relativePath} must declare publicAggregateOnly or aggregate_only as true`);
@@ -61,6 +71,8 @@ function validateStatusFile(relativePath) {
     requireValue(dashboard.dashboardId || dashboard.dashboard_id, `${prefix} must include dashboardId/dashboard_id`);
     requireValue(dashboard.displayName || dashboard.dashboard_name, `${prefix} must include displayName/dashboard_name`);
     requireValue(dashboard.status, `${prefix} must include status`);
+    requireProductVersion(dashboard.config_version, `${prefix}.config_version must use the production product version`);
+    requireProductVersion(dashboard.core_version, `${prefix}.core_version must use the production product version`);
     if (!isPlainObject(dashboard.reportTypeAvailability || dashboard.report_type_availability || {})) {
       errors.push(`${prefix} must include reportTypeAvailability summary`);
     }

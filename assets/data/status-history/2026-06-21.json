@@ -1,12 +1,12 @@
 {
   "ok": true,
-  "generated_at": "2026-06-21T19:32:35.548Z",
-  "dashboard_data_generated_at": "2026-06-21T19:32:35.548Z",
-  "aggregation_generated_at": "2026-06-21T19:32:29.965Z",
-  "script_version": "2026-06-14-tracker-v1.2.2-smarttv-powerbi-compat",
+  "generated_at": "2026-06-21T21:07:44.807Z",
+  "dashboard_data_generated_at": "2026-06-21T21:07:44.807Z",
+  "aggregation_generated_at": "2026-06-21T21:07:36.600Z",
+  "script_version": "v1.0.0",
   "schema_version": "1",
-  "config_version": "2026-06-15-prod-v1.0.0",
-  "core_version": "",
+  "config_version": "v1.0.0",
+  "core_version": "v1.0.0",
   "public_entry": {
     "name": "Opinber mælaborð Landspítala",
     "site": "island.is",
@@ -30,15 +30,15 @@
     "last_counted_event_time": "2026-06-19T17:38:01.308Z",
     "last_diagnostic_event_time": "2026-06-16T02:23:20.998Z",
     "last_error_event_time": "",
-    "last_aggregation_time": "2026-06-21T19:32:29.965Z",
-    "aggregation_generated_at": "2026-06-21T19:32:29.965Z",
-    "dashboard_data_generated_at": "2026-06-21T19:27:39.132Z",
+    "last_aggregation_time": "2026-06-21T21:07:36.600Z",
+    "aggregation_generated_at": "2026-06-21T21:07:36.600Z",
+    "dashboard_data_generated_at": "2026-06-21T21:02:37.129Z",
     "raw_event_rows": 86,
     "warnings": []
   },
   "kpis": {
     "visits_today": 0,
-    "visits_7d": 40,
+    "visits_7d": 36,
     "visits_30d": 66,
     "active_dashboards": 2,
     "mobile_visits": 11,
@@ -76,7 +76,7 @@
       "public_card_title": "Bráðamóttaka í Fossvogi",
       "status": "active",
       "visits_today": 0,
-      "visits_7d": 21,
+      "visits_7d": 19,
       "visits_30d": 34,
       "total_visits": 34,
       "total_events": 42,
@@ -104,8 +104,8 @@
       "weak_unknown_signal_count": 7,
       "source_mix_summary": "island_is_public:26, direct:6, root_index:2",
       "route_mix_summary": "desktop:6, desktop:4, desktop:3",
-      "config_version": "2026-06-15-prod-v1.0.0",
-      "core_version": "",
+      "config_version": "v1.0.0",
+      "core_version": "v1.0.0",
       "dashboardId": "bradamottaka-fossvogi",
       "dashboardKey": "bradamottaka",
       "displayName": "Bráðamóttaka í Fossvogi",
@@ -118,14 +118,14 @@
       },
       "recentAggregateCounts": {
         "visitsToday": 0,
-        "visits7d": 21,
+        "visits7d": 19,
         "visits30d": 34,
         "events": 42,
         "errors": 0,
         "fallbackClicks": 0
       },
       "trend7d": {
-        "visits": 21,
+        "visits": 19,
         "direction": "flat"
       },
       "trend30d": {
@@ -149,7 +149,7 @@
       "public_card_title": "Þjónustukannanir",
       "status": "active",
       "visits_today": 0,
-      "visits_7d": 19,
+      "visits_7d": 17,
       "visits_30d": 32,
       "total_visits": 32,
       "total_events": 36,
@@ -177,8 +177,8 @@
       "weak_unknown_signal_count": 3,
       "source_mix_summary": "island_is_public:28, direct:3, root_index:1",
       "route_mix_summary": "desktop:8, desktop:4, desktop:4",
-      "config_version": "2026-06-15-prod-v1.0.0",
-      "core_version": "",
+      "config_version": "v1.0.0",
+      "core_version": "v1.0.0",
       "dashboardId": "thjonustukannanir-rikisstofnana",
       "dashboardKey": "thjonustukannanir",
       "displayName": "Þjónustukannanir ríkisstofnana",
@@ -191,14 +191,14 @@
       },
       "recentAggregateCounts": {
         "visitsToday": 0,
-        "visits7d": 19,
+        "visits7d": 17,
         "visits30d": 32,
         "events": 36,
         "errors": 0,
         "fallbackClicks": 0
       },
       "trend7d": {
-        "visits": 19,
+        "visits": 17,
         "direction": "flat"
       },
       "trend30d": {
@@ -5004,7 +5004,7 @@
       "counted_count": 1,
       "diagnostic_count": 0,
       "confirmed_count": 0,
-      "last_seen": "2026-06-21T19:32:15.909Z",
+      "last_seen": "2026-06-21T21:07:21.037Z",
       "signal_quality": "reported",
       "is_confirmed": false,
       "confidence_band": "unknown or insufficient evidence"
@@ -5019,7 +5019,7 @@
       "counted_count": 0,
       "diagnostic_count": 1,
       "confirmed_count": 0,
-      "last_seen": "2026-06-21T19:32:15.909Z",
+      "last_seen": "2026-06-21T21:07:21.037Z",
       "signal_quality": "detected",
       "is_confirmed": false,
       "confidence_band": "high"
@@ -5034,7 +5034,7 @@
       "counted_count": 0,
       "diagnostic_count": 1,
       "confirmed_count": 0,
-      "last_seen": "2026-06-21T19:32:15.909Z",
+      "last_seen": "2026-06-21T21:07:21.037Z",
       "signal_quality": "detected",
       "is_confirmed": false,
       "confidence_band": "high"
@@ -5049,7 +5049,7 @@
       "counted_count": 2,
       "diagnostic_count": 0,
       "confirmed_count": 2,
-      "last_seen": "2026-06-21T19:32:15.909Z",
+      "last_seen": "2026-06-21T21:07:21.037Z",
       "signal_quality": "inferred_from_browser_policy",
       "is_confirmed": true,
       "confidence_band": "very high confidence"
@@ -5064,7 +5064,7 @@
       "counted_count": 2,
       "diagnostic_count": 0,
       "confirmed_count": 2,
-      "last_seen": "2026-06-21T19:32:15.909Z",
+      "last_seen": "2026-06-21T21:07:21.037Z",
       "signal_quality": "inferred_from_browser_policy",
       "is_confirmed": true,
       "confidence_band": "very high confidence"
@@ -5136,10 +5136,10 @@
     "hit": false,
     "cache_key": "dashboard_payload_v1_first_production",
     "cache_seconds": 300,
-    "served_at": "2026-06-21T19:33:34.107Z"
+    "served_at": "2026-06-21T21:11:34.199Z"
   },
   "schemaVersion": "1",
-  "generatedAt": "2026-06-21T19:32:35.548Z",
+  "generatedAt": "2026-06-21T21:07:44.807Z",
   "publicAggregateOnly": true,
   "aggregate_only": true,
   "data_source": "apps_script_snapshot",

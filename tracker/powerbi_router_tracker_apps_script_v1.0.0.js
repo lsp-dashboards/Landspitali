@@ -13,15 +13,15 @@
  * - Raw event rows are internal only.
  * - Public/status dashboard endpoint returns aðeins samantektargögn data.
  *
- * v1.0.0 first production version:
- * - Treat forced_dark_detected as a diagnostic display/theme signal.
- * - Add Power BI/Fabric browser-support classification for publish-to-web viewer risk.
- * - Flag old Smart TV / HbbTV / legacy Chromium/Opera browsers as Power BI viewer compatibility risk.
- * - Separate warning_count, confirmed_warning_count and diagnostic_signal_count.
- * - Keep Gagnasnið 1 advanced device/source fields aligned with the current raw tracker sheet.
+ * Production scope:
+ * - forced_dark_detected is a diagnostic display/theme signal.
+ * - Power BI/Fabric browser-support classification is included for publish-to-web viewer risk.
+ * - Smart TV, HbbTV and compatibility-limited Chromium/Opera browsers are flagged as viewer risk.
+ * - warning_count, confirmed_warning_count and diagnostic_signal_count are separate aggregate measures.
+ * - Gagnasnið v1.0.0 device/source fields are aligned with the raw tracker sheet.
  */
 
-var SCRIPT_VERSION = "atburdasafnari-v1.0.0";
+var SCRIPT_VERSION = "v1.0.0";
 var EVENT_SCHEMA_VERSION = "1";
 var DEFAULT_TIMEZONE = "Atlantic/Reykjavik";
 
@@ -60,10 +60,10 @@ var SHEET_PERFORMANCE = "Aggregates_Performance";
 var SHEET_SCHEMA_MIGRATION_LOG = "Schema_Migration_Log";
 
 var REGISTRY_SNAPSHOT = {
-  "configVersion": "2026-06-15-prod-v1.0.0",
+  "configVersion": "v1.0.0",
   "schemaVersion": "1",
   "release": {
-    "packageVersion": "1.0.0",
+    "packageVersion": "v1.0.0",
     "statusUiPublicName": "Mælaborðsmælingar",
     "statusUiVersionLabel": "v1.0.0",
     "uiPublicName": "UI: Vaktborð",
@@ -71,10 +71,10 @@ var REGISTRY_SNAPSHOT = {
     "aggregateOnlyPublicName": "Aðeins samantektargögn",
     "corePublicName": "Vöktunarkjarni: Rekstrarpúls",
     "coreVersionLabel": "v1.0.0",
-    "configPublicName": "Config v1",
-    "configVersionLabel": "config-v1.0.0",
-    "collectorPublicName": "Atburðasafnari v1",
-    "collectorVersionLabel": "atburdasafnari-v1.0.0"
+    "configPublicName": "Config v1.0.0",
+    "configVersionLabel": "v1.0.0",
+    "collectorPublicName": "Atburðasafnari v1.0.0",
+    "collectorVersionLabel": "v1.0.0"
   },
   "publicEntry": {
     "name": "Opinber mælaborð Landspítala",
@@ -1110,7 +1110,7 @@ function migrateSchemaV1() {
   setControl_("script_version", SCRIPT_VERSION);
   setControl_("schema_v1_migrated_at", nowIso_());
   clearDashboardDataCache_();
-  writeSchemaMigrationLog_("migrateSchemaV1", "ok", "Gagnasnið 1 fields, root gateway funnel support and advanced device taxonomy columns prepared.");
+  writeSchemaMigrationLog_("migrateSchemaV1", "ok", "Gagnasnið v1.0.0 fields, root gateway funnel support and advanced device taxonomy columns prepared.");
   return verifySpreadsheetSetup();
 }
 

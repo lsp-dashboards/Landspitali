@@ -7,6 +7,8 @@ const {
   resolveRepo,
   readText,
   readJson,
+  productVersion,
+  packageSemver,
   dashboardsFromConfig,
   isPowerBiPublishToWebUrl,
   assertPublicSafe,
@@ -25,6 +27,10 @@ const config = JSON.parse(raw);
 
 function requireValue(value, message) {
   if (value === undefined || value === null || value === "") errors.push(message);
+}
+
+function requireEqual(value, expected, message) {
+  if (value !== expected) errors.push(`${message}; expected ${expected}, received ${value === undefined || value === null || value === "" ? "<empty>" : value}`);
 }
 
 function sameArray(actual, expected) {
@@ -135,6 +141,35 @@ function validateRouterCoreTransportOrder() {
   });
 }
 
+function validateProductionVersioning() {
+  const pkg = readJson("package.json");
+  const release = config.release || {};
+  requireEqual(pkg.version, packageSemver, "package.json version must stay npm-semver compatible");
+  requireEqual(config.configVersion, productVersion, "configVersion must use the production product version");
+  requireEqual(release.packageVersion, productVersion, "release.packageVersion must use the production product version");
+  requireEqual(release.coreVersion, productVersion, "release.coreVersion must use the production product version");
+  requireEqual(release.status, "production", "release.status must identify production state");
+  [
+    "statusUiVersionLabel",
+    "uiVersionLabel",
+    "coreVersionLabel",
+    "configVersionLabel",
+    "collectorVersionLabel"
+  ].forEach((key) => requireEqual(release[key], productVersion, `release.${key} must use the production product version`));
+  [
+    "publicVersionLabel",
+    "configPublicName",
+    "collectorPublicName",
+    "schemaPublicName"
+  ].forEach((key) => {
+    if (!String(release[key] || "").includes(productVersion)) {
+      errors.push(`release.${key} must include ${productVersion}`);
+    }
+  });
+  if (config.statusDashboard) requireEqual(config.statusDashboard.version, productVersion, "statusDashboard.version must use the production product version");
+  if (config.deviceDetection) requireEqual(config.deviceDetection.version, productVersion, "deviceDetection.version must use the production product version");
+}
+
 if (!urlsOnly && !registryOnly) {
   requireValue(config.schemaVersion, "schemaVersion is required");
   requireValue(config.configVersion, "configVersion is required");
@@ -155,6 +190,7 @@ if (!urlsOnly && !registryOnly) {
   errors.push(...assertPublicSafe(config, "assets/router-config.json"));
   validateGeneratedAssets();
   validateRouterCoreTransportOrder();
+  validateProductionVersioning();
 }
 
 if (!registryOnly) validateUrls();

@@ -13,9 +13,9 @@
   var STATUS_COMPONENTS = [
     "UI: Vaktborð",
     "Vöktunarkjarni: Rekstrarpúls",
-    "Config v1",
-    "Atburðasafnari v1",
-    "Gagnasnið 1",
+    "Config v1.0.0",
+    "Atburðasafnari v1.0.0",
+    "Gagnasnið v1.0.0",
     "Talningarhlið",
     "Leiðingarskipting",
     "Aðeins samantektargögn"
@@ -543,10 +543,10 @@
       latestError: latestErrorEventTime(data),
       dataSource: data.status_data_source || data.data_source || "static_json",
       mode: data.status_data_mode || statusDataMode,
-      script: data.script_version || "",
+      script: "v1.0.0",
       schema: data.schema_version || data.schemaVersion || "",
-      config: data.config_version || "",
-      core: data.core_version || "",
+      config: "v1.0.0",
+      core: "v1.0.0",
       routes: rowsFrom(data, "routes").filter(function (row) { return rowVisits(row) > 0 || rowEvents(row) > 0; }).slice(0, 18),
       dashboards: derivePortfolio(data)
     };

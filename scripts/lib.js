@@ -5,6 +5,8 @@ const path = require("path");
 
 const repoRoot = path.resolve(__dirname, "..");
 const transportOrder = ["sendBeacon", "fetchKeepalive", "imageGet"];
+const productVersion = "v1.0.0";
+const packageSemver = "1.0.0";
 
 const forbiddenPublicKeyPatterns = [
   /(^|_)(user_agent|raw_user_agent|ip|ip_address|email|user_id|user_identifier)($|_)/i,
@@ -153,6 +155,8 @@ function printResult(title, errors) {
 module.exports = {
   repoRoot,
   transportOrder,
+  productVersion,
+  packageSemver,
   resolveRepo,
   readText,
   readJson,

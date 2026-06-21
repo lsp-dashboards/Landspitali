@@ -3,10 +3,10 @@
   "generated_at": "2027-12-03T23:55:00.000Z",
   "dashboard_data_generated_at": "2027-12-03T23:55:00.000Z",
   "aggregation_generated_at": "2027-12-03T23:55:00.000Z",
-  "script_version": "sample-data-v1.0.0",
+  "script_version": "v1.0.0",
   "schema_version": "1",
-  "config_version": "2027-09-sample-v1.0.0",
-  "core_version": "sample-core-v1.0.0",
+  "config_version": "v1.0.0",
+  "core_version": "v1.0.0",
   "sample_data": true,
   "sample_notes": {
     "purpose": "Synthetic sample clone for status dashboard design and QA.",
@@ -122,8 +122,8 @@
       "weak_unknown_signal_count": 10428,
       "source_mix_summary": "island_is_public:36380, direct:7492, root_index:4286",
       "route_mix_summary": "desktop_viewport:33153, compact_phone_viewport:14480, tablet_portrait_policy:4077",
-      "config_version": "2027-09-sample-v1.0.0",
-      "core_version": "sample-core-v1.0.0"
+      "config_version": "v1.0.0",
+      "core_version": "v1.0.0"
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -163,8 +163,8 @@
       "weak_unknown_signal_count": 3974,
       "source_mix_summary": "island_is_public:13933, direct:3374, root_index:1683",
       "route_mix_summary": "desktop_viewport:12433, compact_phone_viewport:6030, tablet_portrait_policy:1551",
-      "config_version": "2027-09-sample-v1.0.0",
-      "core_version": "sample-core-v1.0.0"
+      "config_version": "v1.0.0",
+      "core_version": "v1.0.0"
     },
     {
       "dashboard_key": "leguthjonusta",
@@ -204,8 +204,8 @@
       "weak_unknown_signal_count": 8967,
       "source_mix_summary": "island_is_public:28091, direct:8679, root_index:3653",
       "route_mix_summary": "desktop_viewport:28290, compact_phone_viewport:11869, tablet_portrait_policy:3508",
-      "config_version": "2027-09-sample-v1.0.0",
-      "core_version": "sample-core-v1.0.0"
+      "config_version": "v1.0.0",
+      "core_version": "v1.0.0"
     },
     {
       "dashboard_key": "ferlithjonusta",
@@ -245,8 +245,8 @@
       "weak_unknown_signal_count": 6999,
       "source_mix_summary": "island_is_public:23771, direct:5758, root_index:2882",
       "route_mix_summary": "desktop_viewport:22081, compact_phone_viewport:9263, tablet_portrait_policy:2738",
-      "config_version": "2027-09-sample-v1.0.0",
-      "core_version": "sample-core-v1.0.0"
+      "config_version": "v1.0.0",
+      "core_version": "v1.0.0"
     },
     {
       "dashboard_key": "mannaudur",
@@ -286,8 +286,8 @@
       "weak_unknown_signal_count": 5051,
       "source_mix_summary": "island_is_public:13995, direct:4325, root_index:1822",
       "route_mix_summary": "desktop_viewport:16358, compact_phone_viewport:3843, tablet_portrait_policy:1623",
-      "config_version": "2027-09-sample-v1.0.0",
-      "core_version": "sample-core-v1.0.0"
+      "config_version": "v1.0.0",
+      "core_version": "v1.0.0"
     },
     {
       "dashboard_key": "adgerdir_bidtimar",
@@ -327,8 +327,8 @@
       "weak_unknown_signal_count": 6210,
       "source_mix_summary": "island_is_public:20555, direct:4982, root_index:2492",
       "route_mix_summary": "desktop_viewport:19784, compact_phone_viewport:7546, tablet_portrait_policy:2231",
-      "config_version": "2027-09-sample-v1.0.0",
-      "core_version": "sample-core-v1.0.0"
+      "config_version": "v1.0.0",
+      "core_version": "v1.0.0"
     },
     {
       "dashboard_key": "heimaspitali",
@@ -368,8 +368,8 @@
       "weak_unknown_signal_count": 4544,
       "source_mix_summary": "island_is_public:17603, direct:3626, root_index:2074",
       "route_mix_summary": "desktop_viewport:13979, compact_phone_viewport:8970, tablet_portrait_policy:2040",
-      "config_version": "2027-09-sample-v1.0.0",
-      "core_version": "sample-core-v1.0.0"
+      "config_version": "v1.0.0",
+      "core_version": "v1.0.0"
     },
     {
       "dashboard_key": "rannsoknarthjonusta",
@@ -409,8 +409,8 @@
       "weak_unknown_signal_count": 4392,
       "source_mix_summary": "island_is_public:14919, direct:3612, root_index:1805",
       "route_mix_summary": "desktop_viewport:13855, compact_phone_viewport:5814, tablet_portrait_policy:1719",
-      "config_version": "2027-09-sample-v1.0.0",
-      "core_version": "sample-core-v1.0.0"
+      "config_version": "v1.0.0",
+      "core_version": "v1.0.0"
     }
   ],
   "public_cards": [

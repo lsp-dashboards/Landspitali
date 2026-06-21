@@ -1,8 +1,8 @@
 // Generated from router-config.json. Do not hand-edit.
-// Config version: 2026-06-15-prod-v1.0.0
+// Config version: v1.0.0
 window.LSP_ROUTER_CONFIG = {
   "schemaVersion": "1",
-  "configVersion": "2026-06-15-prod-v1.0.0",
+  "configVersion": "v1.0.0",
   "routerName": "Landspítali Power BI Router",
   "routerMode": "central-config-static-github-pages-root-gateway",
   "environment": "prod",
@@ -10,15 +10,15 @@ window.LSP_ROUTER_CONFIG = {
   "basePath": "/Landspitali/",
   "supportLabel": "Landspítali",
   "release": {
-    "packageVersion": "1.0.0",
+    "packageVersion": "v1.0.0",
     "releasedAt": "2026-06-15",
     "coreVersion": "v1.0.0",
-    "status": "first-production-version",
+    "status": "production",
     "coreAssetFile": "router-core.prod.js",
     "configAssetFile": "router-config.prod.js",
     "versionedCoreAssetFile": "router-core.v1.0.0.js",
     "versionedConfigAssetFile": "router-config.v1.0.0.js",
-    "publicVersionLabel": "UI: Vaktborð · Vöktunarkjarni: Rekstrarpúls · Config v1 · Atburðasafnari v1 · Gagnasnið 1 · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn",
+    "publicVersionLabel": "UI: Vaktborð v1.0.0 · Vöktunarkjarni: Rekstrarpúls v1.0.0 · Config v1.0.0 · Atburðasafnari v1.0.0 · Gagnasnið v1.0.0 · Talningarhlið · Leiðingarskipting · Aðeins samantektargögn",
     "statusUiPublicName": "Mælaborðsmælingar",
     "statusUiVersionLabel": "v1.0.0",
     "uiPublicName": "UI: Vaktborð",
@@ -28,12 +28,12 @@ window.LSP_ROUTER_CONFIG = {
     "aggregateOnlyPublicName": "Aðeins samantektargögn",
     "corePublicName": "Vöktunarkjarni: Rekstrarpúls",
     "coreVersionLabel": "v1.0.0",
-    "configPublicName": "Config v1",
-    "configVersionLabel": "config-v1.0.0",
-    "collectorPublicName": "Atburðasafnari v1",
-    "collectorVersionLabel": "atburdasafnari-v1.0.0",
-    "schemaPublicName": "Gagnasnið 1",
-    "notes": "First production version. Includes the iOS Safari navigation-safe tracking transport order: sendBeacon, fetchKeepalive, imageGet."
+    "configPublicName": "Config v1.0.0",
+    "configVersionLabel": "v1.0.0",
+    "collectorPublicName": "Atburðasafnari v1.0.0",
+    "collectorVersionLabel": "v1.0.0",
+    "schemaPublicName": "Gagnasnið v1.0.0",
+    "notes": "Production v1.0.0. Uses navigation-safe tracking transport order: sendBeacon, fetchKeepalive, imageGet."
   },
   "publicEntry": {
     "name": "Opinber mælaborð Landspítala",
@@ -422,7 +422,7 @@ window.LSP_ROUTER_CONFIG = {
     "aggregateOnly": true
   },
   "deviceDetection": {
-    "version": "2026-06-15-device-settings-1",
+    "version": "v1.0.0",
     "routeByDeviceInference": false,
     "routeInputs": [
       "forced_layout",

@@ -1,56 +1,56 @@
 # Service Guide
 
-## Tilgangur
+## Purpose
 
-Þjónustan á að halda opinberum Power BI route-slóðum stöðugum, leiða notendur á rétta mobile/desktop útgáfu og gefa viðhaldsaðilum rekstrarsýn án persónugreiningar.
+The service keeps public Power BI route paths stable, sends users to the correct mobile/desktop report view, and gives maintainers operational visibility without personal identification.
 
-## Mörk þjónustu
+## Service Boundary
 
-Innan kerfis: GitHub Pages root gateway, dashboard router pages, router config/core, Apps Script tracker, Google Sheets aggregate sheets og Mælaborðsmælingar.
+Inside the system: GitHub Pages root gateway, dashboard router pages, router config/core, Apps Script tracker, Google Sheets aggregate sheets and Mælaborðsmælingar.
 
-Utan kerfis: Power BI publish-to-web virkni, island.is birtingarkerfi, Google Apps Script/Sheets platform limits, browser policies og corporate network blockers.
+Outside the system: Power BI publish-to-web behavior, island.is publishing, Google Apps Script/Sheets platform limits, browser policy and corporate network blockers.
 
-## Hlutverk
+## Roles
 
-- Content owner: staðfestir að public card texti, birting og Power BI skýrsla séu rétt.
-- Technical owner: heldur config, router pages, tracker og status dashboard samstilltu.
-- Release owner: staðfestir version map, generated files, smoke tests og rollback.
-- Incident owner: skoðar debug handbook, raw/aggregate sheets og status data áður en niðurstaða er gefin.
+- Content owner: confirms public card text, publication state and Power BI report content.
+- Technical owner: keeps config, router pages, tracker and status dashboard aligned.
+- Deployment owner: confirms version identity, generated files, smoke tests and restore path.
+- Incident owner: uses the debug handbook, raw/aggregate sheets and status data before giving a conclusion.
 
-## Reglubundnar athuganir
+## Regular Checks
 
-Daglega eða eftir breytingu: opna root gateway, opna hvert dashboard normal, prófa `?health=1`, prófa status dashboard, staðfesta að aggregation sé fersk.
+Daily and before handoff: open root gateway, open each dashboard normally, test `?health=1`, open Mælaborðsmælingar and confirm aggregation freshness.
 
-Vikulega: skoða `Gæðaviðvaranir`, fallback/error hlutfall, weak/unknown signal share, Leiðingarskipting og public card registry.
+Weekly: inspect confirmed warnings, fallback/error share, weak/unknown signal share, route/source coverage and public card registry.
 
-Mánaðarlega: staðfesta Power BI URL hlutverk, config/generated consistency, Apps Script deployment, registry/control sheet og review dates.
+Monthly: confirm Power BI URL roles, config/generated consistency, Apps Script deployment, registry/control sheet and review dates.
 
-## Eftir breytingar
+## Scope Checks
 
-Eftir public publication: staðfesta island.is kort, root gateway kort, normal dashboard redirect, Apps Script row, aggregation, Mælaborðsmælingar public card og launch timestamp.
+Public publication scope: confirm island.is card, root gateway card, normal dashboard redirect, Apps Script row, aggregation, Mælaborðsmælingar public card and launch timestamp.
 
-Eftir config change: staðfesta JSON valid, generated config JS samræmi, dashboard IDs, aliases, route policy og status registry.
+Config scope: confirm valid JSON, generated config JS consistency, dashboard IDs, aliases, route policy and status registry.
 
-Eftir core change: keyra router smoke tests á desktop/mobile/tablet, debug/manual/health/list og iPhone Safari transport.
+Core scope: run router smoke tests on desktop/mobile/tablet, debug/manual/health/list and iPhone Safari transport.
 
-Eftir Apps Script change: keyra `setupProductionWorkbook`, `validateConfig`, `aggregateRecent`, `publishDashboardData_` ef deployment policy leyfir og staðfesta `api=health`.
+Apps Script scope: run `setupProductionWorkbook`, `validateConfig`, `aggregateRecent`, `publishDashboardData_` when allowed by deployment policy, then confirm `api=health`.
 
-Eftir island.is link change: staðfesta UTM/source, root gateway click tracking og public card metadata.
+island.is link scope: confirm UTM/source, root gateway click tracking and public card metadata.
 
-Eftir Power BI URL change: prófa desktop/mobile URL beint, `?force=mobile`, `?force=desktop`, fallback og noscript.
+Power BI URL scope: test desktop/mobile URL directly, `?force=mobile`, `?force=desktop`, fallback and noscript.
 
-## Incident triage
+## Incident Triage
 
-1. Endurskapa með `?debug=1&manual=1`.
-2. Lesa selected layout, route reason, viewport og target URL role.
-3. Athuga `api=health` og `api=dashboard`.
-4. Finna raw row í `Events_Raw`.
-5. Staðfesta `count_as_visit` og `count_exclusion_reason`.
-6. Keyra aggregation ef viðeigandi.
-7. Lesa Mælaborðsmælingar eftir fresh payload.
+1. Reproduce with `?debug=1&manual=1`.
+2. Read selected layout, route reason, viewport and target URL role.
+3. Check `api=health` and `api=dashboard`.
+4. Find the raw row in `Events_Raw`.
+5. Confirm `count_as_visit` and `count_exclusion_reason`.
+6. Run aggregation when appropriate.
+7. Read Mælaborðsmælingar after fresh payload.
 
-Confirmed warning er production-tengt warning með `confirmed_count` eða counted non-info signal. Diagnostic signal er tæknimerki, oft `severity = info`, sem þarf ekki að þýða production bilun.
+Confirmed warning means a production-linked warning with `confirmed_count` or counted non-info signal. Diagnostic signal is technical context, often `severity = info`, and does not automatically mean production failure.
 
-Known user/device scenarios: iPhone Safari þarf navigation-safe POST transport; Samsung Internet getur haft forced dark diagnostic; tablet portrait er mobile; tablet landscape getur verið desktop; narrow desktop getur réttilega farið á mobile; Smart TV/console/WebView er Power BI viewer compatibility risk en ekki sjálfkrafa router failure.
+Operational device scenarios: iPhone Safari requires navigation-safe POST transport; Samsung Internet can report forced-dark diagnostics; tablet portrait is mobile; tablet landscape can be desktop; narrow desktop can correctly route to mobile; Smart TV/console/WebView is Power BI viewer compatibility risk, not automatic router failure.
 
-Áður en sagt er að þjónustan sé heilbrigð þarf að staðfesta: router opnar rétt Power BI URL, Apps Script tekur við, aggregation keyrir, status payload hleðst, taldar heimsóknir eru aðgreindar frá debug/root/bot/diagnostic/manual/list/health, og engin staðfest production warning er óútskýrð.
+Before service health is stated, confirm that the router opens the correct Power BI URL, Apps Script receives events, aggregation runs, status payload loads, counted visits are separated from debug/root/bot/diagnostic/manual/list/health, and every confirmed production warning is explained.
