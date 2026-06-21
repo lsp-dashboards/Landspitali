@@ -12482,6 +12482,333 @@
       background: rgba(255,255,255,.08);
     }
 
+    .status-hero-shell {
+      position: relative;
+      isolation: isolate;
+      display: grid;
+      gap: 0;
+      margin-bottom: var(--gap);
+      padding: clamp(16px, 2vw, 26px);
+      overflow: hidden;
+      color: #fff;
+      border-color: rgba(181, 212, 232, .34);
+      border-radius: 10px;
+      background:
+        radial-gradient(circle at 78% 16%, rgba(66,148,185,.28), transparent 32%),
+        linear-gradient(135deg, #12314c 0%, #174a6d 58%, #0d2a43 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), 0 18px 48px rgba(14,36,56,.1);
+    }
+
+    .status-hero-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 44px 100%, 100% 26px;
+      opacity: .55;
+      pointer-events: none;
+    }
+
+    .status-hero-control-deck,
+    .status-hero-shell #start-panel {
+      position: relative;
+      z-index: 1;
+    }
+
+    .status-hero-control-deck {
+      display: grid;
+      grid-template-columns: minmax(240px, 1fr) minmax(360px, auto);
+      gap: 12px 18px;
+      align-items: start;
+      padding-bottom: 14px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid rgba(220,238,248,.22);
+    }
+
+    .status-hero-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .status-hero-brand img {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      display: block;
+      padding: 4px;
+      border: 1px solid rgba(220,238,248,.22);
+      border-radius: 8px;
+      background: rgba(255,255,255,.92);
+    }
+
+    .status-hero-brand span,
+    .status-hero-components-label {
+      display: block;
+      color: rgba(219,238,249,.78);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .status-hero-brand strong {
+      display: block;
+      margin-top: 3px;
+      color: rgba(255,255,255,.96);
+      font-size: 13px;
+      line-height: 1.12;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .status-hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .status-hero-status {
+      grid-column: 2;
+      justify-content: flex-end;
+      margin-top: 0;
+      gap: 7px;
+    }
+
+    .status-hero-components {
+      grid-column: 1 / -1;
+      display: grid;
+      gap: 8px;
+      margin-top: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      overflow: visible;
+    }
+
+    .status-hero-components .hero-system-tags {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .status-hero-shell .data-source-toggle {
+      min-height: 32px;
+      align-self: center;
+      border-color: rgba(220,238,248,.26);
+      border-radius: 8px;
+      background: rgba(255,255,255,.10);
+      box-shadow: none;
+    }
+
+    .status-hero-shell .data-source-link {
+      min-height: 26px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      color: rgba(226,240,248,.86);
+      font-size: 11px;
+    }
+
+    .status-hero-shell .data-source-link:hover,
+    .status-hero-shell .data-source-link:focus-visible {
+      color: #fff;
+      background: rgba(255,255,255,.12);
+    }
+
+    .status-hero-shell .data-source-link.active,
+    .status-hero-shell .data-source-link[aria-pressed="true"] {
+      color: #12314c;
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 8px 18px rgba(0,0,0,.12);
+    }
+
+    .status-hero-shell .view-switch-link {
+      min-height: 32px;
+      align-self: center;
+      padding: 7px 12px;
+      border-color: rgba(220,238,248,.22);
+      border-radius: 8px;
+      background: rgba(255,255,255,.94);
+      color: #12314c;
+      box-shadow: 0 8px 18px rgba(0,0,0,.12);
+    }
+
+    .status-hero-shell .view-switch-link:hover,
+    .status-hero-shell .view-switch-link:focus-visible {
+      background: #fff;
+      color: var(--land);
+    }
+
+    .status-hero-shell .refresh-button {
+      width: 32px;
+      height: 32px;
+      transform: none;
+      border: 1px solid rgba(220,238,248,.24);
+      border-radius: 8px;
+      background: rgba(255,255,255,.10);
+      color: rgba(234,244,250,.92);
+      font-size: 25px;
+    }
+
+    .status-hero-shell .refresh-button:hover,
+    .status-hero-shell .refresh-button:focus-visible {
+      background: rgba(255,255,255,.18);
+      color: #fff;
+    }
+
+    .status-hero-shell .pill {
+      min-height: 28px;
+      padding: 6px 9px;
+      border-color: rgba(220,238,248,.22);
+      border-radius: 8px;
+      background: rgba(255,255,255,.09);
+      color: rgba(226,240,248,.88);
+      font-size: 10.5px;
+      box-shadow: none;
+    }
+
+    .status-hero-shell .dot {
+      width: 7px;
+      height: 7px;
+      box-shadow: none;
+    }
+
+    .status-hero-shell .hero-system-tags .chip {
+      justify-content: flex-start;
+      min-height: 28px;
+      padding: 7px 8px;
+      border-color: rgba(220,238,248,.20);
+      border-radius: 7px;
+      background: rgba(255,255,255,.08);
+      color: rgba(226,240,248,.84);
+      font-size: 10px;
+      line-height: 1.05;
+      text-align: left;
+      box-shadow: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .status-hero-shell .hero-system-tags .component-chip.core {
+      background: rgba(255,255,255,.94);
+      border-color: rgba(255,255,255,.94);
+      color: #12314c;
+      box-shadow: 0 8px 18px rgba(0,0,0,.10);
+    }
+
+    .status-hero-shell .hero-system-tags .component-chip.good {
+      background: rgba(47,143,139,.20);
+      color: rgba(224,252,244,.94);
+    }
+
+    .status-hero-shell .hero-system-tags .component-chip.tracker {
+      background: rgba(199,138,42,.20);
+      color: rgba(255,243,211,.94);
+    }
+
+    .status-hero-shell .start-v5-lcd-hero {
+      padding: clamp(14px, 1.8vw, 24px) 0 0;
+      min-height: clamp(210px, 21vw, 286px);
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .status-hero-shell .start-v5-lcd-hero::before {
+      display: none;
+    }
+
+    @media (max-width: 1020px) {
+      .status-hero-control-deck {
+        grid-template-columns: 1fr;
+      }
+
+      .status-hero-actions,
+      .status-hero-status {
+        grid-column: auto;
+        justify-content: flex-start;
+      }
+
+      .status-hero-components .hero-system-tags {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .status-hero-shell {
+        padding: 14px;
+      }
+
+      .status-hero-actions {
+        align-items: stretch;
+      }
+
+      .status-hero-actions .data-source-toggle {
+        width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .status-hero-shell .view-switch-link {
+        flex: 1 1 calc(100% - 52px);
+      }
+
+      .status-hero-shell .refresh-button {
+        flex: 0 0 44px;
+        width: 44px;
+      }
+
+      .status-hero-status {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+      }
+
+      .status-hero-shell .pill {
+        width: 100%;
+        justify-content: flex-start;
+        text-align: left;
+      }
+
+      .status-hero-components .hero-system-tags {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .status-hero-shell .hero-system-tags .chip {
+        min-height: auto;
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .status-hero-components .hero-system-tags {
+        grid-template-columns: 1fr;
+      }
+
+      .status-hero-shell .start-v5-lcd-title h2 {
+        font-size: clamp(32px, 10vw, 38px);
+        line-height: .95;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      .status-hero-shell .start-v5-lcd-copy {
+        font-size: 13px;
+      }
+    }
+
     .start-v5-hero::before,
     .start-v5-flow::before {
       content: "";
@@ -12938,6 +13265,29 @@
         grid-column: auto;
         grid-row: auto;
         white-space: normal;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .status-hero-shell .start-v5-lcd-title {
+        max-width: 100%;
+      }
+
+      .status-hero-shell .start-v5-lcd-title h2 {
+        max-width: 100%;
+        font-size: clamp(27px, 7.6vw, 32px);
+        line-height: .98;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      .status-hero-components .hero-system-tags {
+        grid-template-columns: 1fr;
+      }
+
+      .status-hero-shell .hero-system-tags .chip {
+        white-space: normal;
+        overflow-wrap: anywhere;
       }
     }
 
@@ -14686,34 +15036,30 @@
 </head>
 <body>
   <main class="shell">
-    <header class="command-grid command-grid-solo" aria-labelledby="page-title">
-      <div class="command-main">
-        <div class="hero-title-row">
-          <div class="brand-row">
-            <img src="https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png" alt="Landspítali">
-            <div class="brand-copy">
-              <p class="eyebrow">Landspítali</p>
-              <div class="title-lockup">
-                <h1 id="page-title">Mælaborðsmælingar</h1>
-                <button class="refresh-button" type="button" id="refresh-button" aria-label="Endurhlaða gögn" title="Endurhlaða gögn"><span aria-hidden="true">↻</span></button>
-              </div>
-            </div>
-          </div>
-          <div class="masthead-actions">
-            <div class="data-source-toggle" role="group" aria-label="Velja gagnasett">
-              <button class="data-source-link active" type="button" data-source-mode="real" aria-pressed="true">Raun gögn</button>
-              <button class="data-source-link" type="button" data-source-mode="sample" aria-pressed="false">Sample gögn</button>
-            </div>
-            <a class="view-switch-link" href="current.html" aria-label="Opna compact útgáfu stöðuyfirlitsins">Compact vaktborð</a>
-            <div class="pill-row" aria-label="Staða og uppfærsla">
-              <span class="pill"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn</span></span>
-              <span class="pill" id="generated-pill" title="Uppfært: -">Uppfært: -</span>
-              <span class="pill" id="cache-pill">Cache: -</span>
-            </div>
+    <header class="panel fresh-start-shell status-hero-shell" aria-labelledby="fresh-start-title">
+      <div class="status-hero-control-deck" aria-label="Stýringar, uppfærsla og kerfishlutar">
+        <div class="status-hero-brand">
+          <img src="https://images.ctfassets.net/8k0h54kbe6bj/6PHUWW83ZRNXU0ydxQsipf/6f460fab1a36daf4c6faf4e604b4741a/Logo.png" alt="Landspítali">
+          <div>
+            <span>Landspítali</span>
+            <strong>Vöktunarkjarni / Rekstrarpúls</strong>
           </div>
         </div>
-        <p class="lead">Stöðuyfirlit fyrir opinber Power BI mælaborð Landspítala. Síðan sýnir taldar heimsóknir, leiðingu milli útgáfa, uppruna umferðar, gateway merki og tæknileg rekstrarmerki án persónuupplýsinga.</p>
-        <div class="hero-system-strip" aria-label="Kerfishlutar">
+        <div class="status-hero-actions">
+          <div class="data-source-toggle" role="group" aria-label="Velja gagnasett">
+            <button class="data-source-link active" type="button" data-source-mode="real" aria-pressed="true">Raun gögn</button>
+            <button class="data-source-link" type="button" data-source-mode="sample" aria-pressed="false">Sample gögn</button>
+          </div>
+          <a class="view-switch-link" href="current.html" aria-label="Opna compact útgáfu stöðuyfirlitsins">Compact vaktborð</a>
+          <button class="refresh-button" type="button" id="refresh-button" aria-label="Endurhlaða gögn" title="Endurhlaða gögn"><span aria-hidden="true">↻</span></button>
+        </div>
+        <div class="pill-row status-hero-status" aria-label="Staða og uppfærsla">
+          <span class="pill"><span id="health-dot" class="dot warn"></span><span id="health-text">Sæki gögn</span></span>
+          <span class="pill" id="generated-pill" title="Uppfært: -">Uppfært: -</span>
+          <span class="pill" id="cache-pill">Cache: -</span>
+        </div>
+        <div class="hero-system-strip status-hero-components" aria-label="Kerfishlutar">
+          <span class="status-hero-components-label">Kerfishlutar</span>
           <div class="chip-row hero-system-tags">
             <span class="chip component-chip good">UI: Vaktborð</span>
             <span class="chip component-chip core">Vöktunarkjarni: Rekstrarpúls</span>
@@ -14727,13 +15073,10 @@
           </div>
         </div>
       </div>
+      <div id="start-panel"></div>
     </header>
 
     <div id="notice" class="notice" role="status"></div>
-
-    <section class="panel fresh-start-shell" aria-labelledby="fresh-start-title">
-      <div id="start-panel"></div>
-    </section>
 
     <section class="panel" aria-labelledby="panorama-title">
       <div class="panel-head">
