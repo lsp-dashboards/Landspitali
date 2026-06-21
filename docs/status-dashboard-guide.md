@@ -10,7 +10,7 @@ Raunhamur reynir fyrst local static snapshot:
 ../assets/data/status-latest.json
 ```
 
-Ef static snapshot hleðst ekki notar síðan Apps Script JSONP fallback:
+Ef static snapshot hleðst ekki, vantar timestamp eða er eldra en 24 klst. notar síðan Apps Script JSONP fallback:
 
 ```text
 DATA_ENDPOINT + ?api=dashboard&format=js&callback=<callback>&v=<timestamp>
@@ -54,7 +54,7 @@ Dashboardið notar einn dark token system í `status.css`, reusable primitives (
 
 - Active render path í `status.js`: constants, DOM/format/safety helpers, data derivation, primitive render helpers, section renderers, data loading og bootstrap.
 - Derivation helpers: `deriveStatusNow`, `deriveCountingIntegrity`, `deriveFlowSource`, `derivePortfolio`, `deriveRouting`, `deriveEnvironment`, `deriveQualityQueue`, `deriveAuditEvidence`.
-- Static JSON first load, Apps Script JSONP fallback, sample mode, refresh, health/status pills og section-level safeRender eru varðveitt.
+- Static JSON first load, stale-static Apps Script JSONP fallback, sample mode, refresh, health/status pills og section-level safeRender eru varðveitt.
 - No aggregate payload fields were added. `docs/data-dictionary.md` þarf ekki breytingu fyrir þessa UI-only endurskipulagningu.
 
 ## Metric inventory

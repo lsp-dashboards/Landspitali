@@ -8,6 +8,7 @@
   var STATUS_DATA_TIMEOUT_MS = 22000;
   var STATUS_DATA_RETRY_DELAY_MS = 1500;
   var STATUS_DATA_MAX_ATTEMPTS = 2;
+  var STATIC_STATUS_MAX_AGE_MS = 24 * 60 * 60 * 1000;
   var STATUS_COMPONENTS = [
     "UI: Vaktborð",
     "Vöktunarkjarni: Rekstrarpúls",
@@ -156,6 +157,30 @@
     if (minutes < 60) return { minutes: minutes, label: minutes + " mín", tone: "good" };
     if (minutes < 1440) return { minutes: minutes, label: Math.round(minutes / 60) + " klst", tone: minutes > 360 ? "warn" : "good" };
     return { minutes: minutes, label: Math.round(minutes / 1440) + " d", tone: "warn" };
+  }
+
+  function statusGeneratedAt(data) {
+    var health = data && data.health ? data.health : {};
+    return data && (
+      data.generated_at ||
+      data.generatedAt ||
+      data.dashboard_data_generated_at ||
+      data.aggregation_generated_at ||
+      health.dashboard_data_generated_at ||
+      health.aggregation_generated_at ||
+      health.last_aggregation_time
+    ) || "";
+  }
+
+  function staleStaticStatusMessage(data) {
+    var timestamp = statusGeneratedAt(data);
+    var date = dateValue(timestamp);
+    if (!timestamp) return "Static status JSON has no generated timestamp; using Apps Script fallback.";
+    if (!date) return "Static status JSON generated timestamp is invalid; using Apps Script fallback.";
+    if (Date.now() - date.getTime() > STATIC_STATUS_MAX_AGE_MS) {
+      return "Static status JSON is older than 24 hours (" + dateShort(timestamp) + "); using Apps Script fallback.";
+    }
+    return "";
   }
 
   function labelSource(value) {
@@ -989,6 +1014,17 @@
     function current() {
       return sequence === statusLoadSequence;
     }
+    function useAppsScriptFallback(staticError, fallbackMessage) {
+      loadAppsScriptFallback(staticError).then(function (data) {
+        if (!current()) return;
+        finishLoading();
+        acceptData(data, "apps_script_fallback", mode, fallbackMessage || "Static status JSON failed; using Apps Script fallback.");
+      }).catch(function (fallbackError) {
+        if (!current()) return;
+        finishLoading();
+        setStatusError(fallbackError && fallbackError.message ? fallbackError.message : "Endpoint villa");
+      });
+    }
     if (mode === "sample") {
       showNotice("Sæki sample gögn úr opinberu Google Sheet.", "info");
       loadSampleData().then(function (result) {
@@ -1004,19 +1040,17 @@
     }
     loadStaticJson(STATIC_STATUS_URL).then(function (data) {
       if (!current()) return;
+      var staleMessage = staleStaticStatusMessage(data);
+      if (staleMessage) {
+        showNotice(staleMessage, "warn");
+        useAppsScriptFallback(staleMessage, staleMessage);
+        return;
+      }
       finishLoading();
       acceptData(data, "static_json", mode, "");
     }).catch(function (error) {
       if (!current()) return;
-      loadAppsScriptFallback(error && error.message ? error.message : "static_status_failed").then(function (data) {
-        if (!current()) return;
-        finishLoading();
-        acceptData(data, "apps_script_fallback", mode, "Static status JSON failed; using Apps Script fallback.");
-      }).catch(function (fallbackError) {
-        if (!current()) return;
-        finishLoading();
-        setStatusError(fallbackError && fallbackError.message ? fallbackError.message : "Endpoint villa");
-      });
+      useAppsScriptFallback(error && error.message ? error.message : "static_status_failed", "");
     });
   }
 

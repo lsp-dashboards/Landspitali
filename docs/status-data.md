@@ -5,7 +5,7 @@ Static status data lives under:
 - `assets/data/status-latest.json`
 - `assets/data/status-history/YYYY-MM-DD.json`
 
-The status dashboard loads `status-latest.json` first. The Apps Script `api=dashboard` JSONP endpoint is fallback only when the static snapshot cannot be loaded.
+The status dashboard loads `status-latest.json` first. The Apps Script `api=dashboard` JSONP endpoint is used when the static snapshot cannot be loaded or when its generated timestamp is older than 24 hours.
 
 Public status JSON must stay aggregate-only. It may include dashboard ids, display names, public status, confidence summaries, report availability summaries, recent aggregate counts, trend summaries, viewer risk summaries, and aggregate device/browser/OS summaries.
 

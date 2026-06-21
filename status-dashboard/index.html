@@ -14715,6 +14715,28 @@
       var p = dateParts(iso);
       return p ? p.day + "." + p.month + "." + p.year + ", " + p.hour + ":" + p.minute : "-";
     }
+    function statusGeneratedAt(data) {
+      var health = data && data.health ? data.health : {};
+      return data && (
+        data.generated_at ||
+        data.generatedAt ||
+        data.dashboard_data_generated_at ||
+        data.aggregation_generated_at ||
+        health.dashboard_data_generated_at ||
+        health.aggregation_generated_at ||
+        health.last_aggregation_time
+      ) || "";
+    }
+    function staleStaticStatusMessage(data) {
+      var timestamp = statusGeneratedAt(data);
+      var date = new Date(timestamp);
+      if (!timestamp) return "Static status JSON has no generated timestamp; using Apps Script fallback.";
+      if (!isFinite(date.getTime())) return "Static status JSON generated timestamp is invalid; using Apps Script fallback.";
+      if (Date.now() - date.getTime() > STATIC_STATUS_MAX_AGE_MS) {
+        return "Static status JSON is older than 24 hours (" + dateShort(timestamp) + "); using Apps Script fallback.";
+      }
+      return "";
+    }
     function dateTooltip(iso) {
       var p = dateParts(iso);
       return p ? p.day + "." + p.month + "." + p.year + " kl. " + p.hour + ":" + p.minute : "Óþekktur tími";
@@ -19441,6 +19463,7 @@
     var STATUS_DATA_TIMEOUT_MS = 22000;
     var STATUS_DATA_RETRY_DELAY_MS = 1500;
     var STATUS_DATA_MAX_ATTEMPTS = 2;
+    var STATIC_STATUS_MAX_AGE_MS = 24 * 60 * 60 * 1000;
     var statusLoadSequence = 0;
     var statusDataMode = readDataModeFromUrl();
 
@@ -19625,7 +19648,7 @@
           showError("Could not render status data: " + error.message);
         }
       }
-      function request(attempt, staticError) {
+      function request(attempt, staticError, fallbackMessage) {
         var callbackName = "__LSP_STATUS_" + Date.now() + "_" + Math.random().toString(16).slice(2);
         var script = document.createElement("script");
         var timeout;
@@ -19651,7 +19674,7 @@
           if (attempt < STATUS_DATA_MAX_ATTEMPTS) {
             showNotice("Apps Script svaraði hægt. Reyni aftur " + (attempt + 1) + "/" + STATUS_DATA_MAX_ATTEMPTS + ".", "warn");
             window.setTimeout(function () {
-              if (stillCurrent()) request(attempt + 1, staticError);
+              if (stillCurrent()) request(attempt + 1, staticError, fallbackMessage);
             }, STATUS_DATA_RETRY_DELAY_MS);
             return;
           }
@@ -19663,7 +19686,7 @@
         }, STATUS_DATA_TIMEOUT_MS);
         window[callbackName] = function (data) {
           cleanup(false);
-          acceptData(data, "apps_script_fallback", staticError ? "Static status JSON failed; using Apps Script fallback." : "");
+          acceptData(data, "apps_script_fallback", fallbackMessage || (staticError ? "Static status JSON failed; using Apps Script fallback." : ""));
         };
         script.onerror = function () {
           retryOrFail("Náði ekki að hlaða JSONP frá Apps Script endpointi eftir " + STATUS_DATA_MAX_ATTEMPTS + " tilraunir. Athugaðu /exec URL og að Web App sé aðgengilegt.");
@@ -19685,10 +19708,17 @@
       }
 
       loadStaticJson(STATIC_STATUS_URL).then(function (data) {
+        var staleMessage = staleStaticStatusMessage(data);
+        if (staleMessage) {
+          if (!stillCurrent()) return;
+          showNotice(staleMessage, "warn");
+          request(1, staleMessage, staleMessage);
+          return;
+        }
         acceptData(data, "static_json", "");
       }).catch(function (error) {
         if (!stillCurrent()) return;
-        request(1, error && error.message ? error.message : "static_status_failed");
+        request(1, error && error.message ? error.message : "static_status_failed", "");
       });
     }
 

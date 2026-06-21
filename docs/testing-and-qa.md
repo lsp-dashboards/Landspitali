@@ -35,7 +35,7 @@ Prófa iPhone Safari, Android Chrome, Samsung Internet, desktop Edge/Chrome/Safa
 ## Status dashboard tests
 
 - Real/static JSON mode loads `status-latest.json`.
-- Apps Script JSONP fallback works if static JSON is unavailable.
+- Apps Script JSONP fallback works if static JSON is unavailable or older than 24 hours.
 - Sample mode tries the public sample sheet and falls back to `status-sample.json`.
 - Refresh button reloads the current mode.
 - 22-second timeout and one retry remain in JSONP paths.
