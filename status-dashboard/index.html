@@ -11567,6 +11567,623 @@
       }
     }
 
+    .mega-dashboard-board-v3 {
+      gap: 12px;
+    }
+
+    .mega-dashboard-board-v3 .mega-dashboard-hero {
+      grid-template-columns: minmax(330px, .42fr) minmax(0, .58fr);
+      align-items: stretch;
+      padding: 18px;
+      border-radius: 16px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.99), rgba(239,249,250,.92) 58%, rgba(255,249,236,.68));
+    }
+
+    .mega-dashboard-board-v3 .mega-dashboard-story {
+      grid-row: auto;
+      align-content: space-between;
+    }
+
+    .mega-dashboard-board-v3 .mega-dashboard-story h2 {
+      max-width: 560px;
+      font-size: clamp(56px, 5.8vw, 98px);
+      line-height: .84;
+    }
+
+    .mega-dashboard-board-v3 .mega-dashboard-story h2 span {
+      display: block;
+    }
+
+    .mega-atlas-controls {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 4px;
+      border: 1px solid rgba(196,214,226,.82);
+      border-radius: 999px;
+      background: rgba(255,255,255,.66);
+    }
+
+    .mega-atlas-control {
+      appearance: none;
+      min-height: 28px;
+      padding: 6px 10px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    .mega-atlas-control.active,
+    .mega-atlas-control[aria-selected="true"] {
+      background: var(--ink);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(15, 44, 70, .13);
+    }
+
+    .mega-dashboard-board-v3[data-mega-view="route"] [data-lens]:not([data-lens~="route"]),
+    .mega-dashboard-board-v3[data-mega-view="tech"] [data-lens]:not([data-lens~="tech"]),
+    .mega-dashboard-board-v3[data-mega-view="source"] [data-lens]:not([data-lens~="source"]) {
+      opacity: .54;
+    }
+
+    .mega-atlas-flow-card,
+    .mega-atlas-panel {
+      min-width: 0;
+      border: 1px solid rgba(181,205,220,.84);
+      border-radius: 16px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,252,253,.94));
+    }
+
+    .mega-atlas-flow-card {
+      display: grid;
+      gap: 14px;
+      padding: 15px;
+    }
+
+    .mega-atlas-flow-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .mega-atlas-flow-head > div:first-child {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .mega-atlas-flow-head span {
+      display: block;
+    }
+
+    .mega-atlas-flow-head span,
+    .mega-atlas-kicker,
+    .mega-atlas-panel-kicker,
+    .mega-atlas-metric span,
+    .mega-flow-stat span,
+    .mega-signal-footer span,
+    .mega-hierarchy-row span,
+    .mega-heat-cell span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 950;
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .mega-atlas-flow-head strong {
+      color: var(--ink);
+      font-size: clamp(24px, 2.3vw, 36px);
+      line-height: .95;
+      font-weight: 950;
+      text-wrap: balance;
+    }
+
+    .mega-atlas-flow-total {
+      color: var(--ink);
+      font-size: clamp(36px, 3.8vw, 58px);
+      line-height: .82;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .mega-flow-rail {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      min-width: 0;
+      padding: 10px 4px 0;
+    }
+
+    .mega-flow-rail::before {
+      content: "";
+      position: absolute;
+      left: 9%;
+      right: 9%;
+      top: 34px;
+      height: 5px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--good), var(--warn), var(--good));
+      opacity: .72;
+    }
+
+    .mega-flow-node {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .mega-flow-index {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      justify-self: center;
+      border: 3px solid #fff;
+      border-radius: 999px;
+      background: var(--gateway);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 950;
+      box-shadow: 0 0 0 2px rgba(79,111,143,.24);
+    }
+
+    .mega-flow-node.good .mega-flow-index { background: var(--good); box-shadow: 0 0 0 2px rgba(47,143,139,.24); }
+    .mega-flow-node.warn .mega-flow-index { background: var(--warn); box-shadow: 0 0 0 2px rgba(199,138,42,.32); }
+    .mega-flow-node.info .mega-flow-index { background: var(--accent); box-shadow: 0 0 0 2px rgba(53,153,184,.24); }
+
+    .mega-flow-stat {
+      min-width: 0;
+      display: grid;
+      gap: 6px;
+      padding: 12px;
+      border: 1px solid rgba(216,226,234,.82);
+      border-radius: 13px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .mega-flow-stat strong {
+      color: var(--ink);
+      font-size: clamp(22px, 2vw, 34px);
+      line-height: .95;
+      font-weight: 950;
+    }
+
+    .mega-flow-stat small {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.2;
+      font-weight: 850;
+    }
+
+    .mega-atlas-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mega-atlas-panel {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      padding: 14px;
+    }
+
+    .mega-atlas-panel.feature {
+      background:
+        linear-gradient(180deg, rgba(255,253,247,.98), rgba(249,240,221,.78));
+      border-color: rgba(199,138,42,.35);
+    }
+
+    .mega-atlas-panel-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .mega-atlas-panel-head h3 {
+      margin: 3px 0 0;
+      color: var(--ink);
+      font-size: clamp(22px, 1.8vw, 30px);
+      line-height: .98;
+      font-weight: 950;
+      text-wrap: balance;
+    }
+
+    .mega-atlas-panel-total {
+      color: var(--ink);
+      font-size: clamp(24px, 2.4vw, 38px);
+      line-height: .9;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .mega-atlas-donut-stage {
+      display: grid;
+      grid-template-columns: minmax(118px, .44fr) minmax(0, .56fr);
+      gap: 12px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .mega-atlas-donut {
+      position: relative;
+      width: min(154px, 100%);
+      aspect-ratio: 1;
+      justify-self: center;
+      border-radius: 999px;
+      background: var(--mega-donut, #e7eef4);
+      box-shadow: inset 0 0 0 1px rgba(14,36,56,.07);
+    }
+
+    .mega-atlas-donut::after {
+      content: "";
+      position: absolute;
+      inset: 31px;
+      border-radius: inherit;
+      background: #fff;
+      box-shadow: inset 0 0 0 1px rgba(14,36,56,.08);
+    }
+
+    .mega-atlas-donut-center {
+      position: absolute;
+      inset: 34px;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      text-align: center;
+      color: var(--ink);
+    }
+
+    .mega-atlas-donut-center strong {
+      max-width: 100%;
+      font-size: clamp(20px, 1.55vw, 25px);
+      line-height: 1;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .mega-atlas-donut-center span {
+      max-width: 86px;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.05;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .mega-signal-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mega-signal-panel {
+      min-height: 330px;
+      display: grid;
+      grid-template-rows: auto minmax(142px, 1fr) auto;
+      gap: 10px;
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid rgba(181,205,220,.84);
+      border-radius: 16px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.99), rgba(248,252,253,.94));
+    }
+
+    .mega-signal-title {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .mega-signal-title > div {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .mega-signal-title strong {
+      min-width: 0;
+      color: var(--ink);
+      font-size: clamp(24px, 2vw, 34px);
+      line-height: .96;
+      font-weight: 950;
+      text-wrap: balance;
+    }
+
+    .mega-signal-value {
+      color: var(--ink);
+      font-size: clamp(23px, 2.1vw, 34px);
+      line-height: .9;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .mega-signal-field {
+      position: relative;
+      overflow: hidden;
+      min-height: 150px;
+      border: 1px solid rgba(216,226,234,.86);
+      border-radius: 13px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.82), rgba(232,247,246,.74));
+    }
+
+    .mega-signal-field::before {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: var(--fill, 0%);
+      background: linear-gradient(180deg, rgba(47,143,139,.28), rgba(47,143,139,.74));
+    }
+
+    .mega-signal-field.warn::before {
+      background: linear-gradient(180deg, rgba(199,138,42,.22), rgba(199,138,42,.74));
+    }
+
+    .mega-signal-field.gateway::before {
+      background: linear-gradient(180deg, rgba(79,111,143,.18), rgba(79,111,143,.62));
+    }
+
+    .mega-signal-field strong {
+      position: absolute;
+      left: 14px;
+      bottom: 12px;
+      color: var(--ink);
+      font-size: clamp(24px, 2.2vw, 36px);
+      line-height: 1;
+      font-weight: 950;
+    }
+
+    .mega-signal-footers {
+      display: grid;
+      gap: 6px;
+    }
+
+    .mega-signal-footer,
+    .mega-hierarchy-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: baseline;
+      min-height: 28px;
+      padding: 7px 9px;
+      border: 1px solid rgba(216,226,234,.82);
+      border-radius: 9px;
+      background: rgba(255,255,255,.72);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .mega-wide-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .5fr) minmax(0, .5fr);
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mega-skyline-list {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .mega-skyline-row {
+      display: grid;
+      grid-template-columns: minmax(110px, .38fr) minmax(0, 1fr) auto;
+      gap: 9px;
+      align-items: center;
+      min-width: 0;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .mega-skyline-row span:first-child {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mega-skyline-track {
+      height: 11px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(218,231,239,.92);
+    }
+
+    .mega-skyline-track i {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--gateway), var(--accent));
+    }
+
+    .mega-heatmap {
+      display: grid;
+      grid-template-columns: minmax(82px, .28fr) repeat(var(--cols, 4), minmax(0, 1fr));
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .mega-heat-cell {
+      min-height: 48px;
+      display: grid;
+      align-content: center;
+      gap: 3px;
+      min-width: 0;
+      overflow: hidden;
+      padding: 8px;
+      border: 1px solid rgba(216,226,234,.82);
+      border-radius: 8px;
+      background: rgba(255,255,255,.72);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .mega-heat-cell.hot {
+      background: rgba(47,143,139,var(--alpha,.22));
+      border-color: rgba(47,143,139,.26);
+    }
+
+    .mega-heat-cell.axis {
+      background: rgba(255,255,255,.9);
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: 9px;
+      overflow-wrap: anywhere;
+    }
+
+    .mega-dashboard-board-v3 .mega-analysis-total {
+      min-width: 0;
+      max-width: min(340px, 38vw);
+      white-space: normal;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .mega-bubble-stage {
+      position: relative;
+      min-height: 248px;
+      overflow: hidden;
+      border: 1px solid rgba(216,226,234,.82);
+      border-radius: 13px;
+      background:
+        linear-gradient(rgba(79,111,143,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,111,143,.08) 1px, transparent 1px),
+        rgba(255,255,255,.58);
+      background-size: 32px 32px;
+    }
+
+    .mega-bubble {
+      position: absolute;
+      left: var(--x, 50%);
+      top: var(--y, 50%);
+      width: var(--size, 72px);
+      height: var(--size, 72px);
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(199,138,42,.82);
+      color: var(--ink);
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 950;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(31,51,71,.12);
+    }
+
+    .mega-bubble small {
+      display: block;
+      margin-top: 3px;
+      color: rgba(15,36,56,.78);
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .mega-trend-hierarchy {
+      display: grid;
+      grid-template-columns: minmax(0, .68fr) minmax(260px, .32fr);
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mega-trend-large .mega-trend-svg {
+      height: 258px;
+    }
+
+    .mega-hierarchy-stack {
+      display: grid;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .mega-hierarchy-row strong {
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1;
+      font-weight: 950;
+    }
+
+    @media (max-width: 1420px) {
+      .mega-atlas-grid,
+      .mega-signal-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 980px) {
+      .mega-dashboard-board-v3 .mega-dashboard-hero,
+      .mega-wide-grid,
+      .mega-trend-hierarchy {
+        grid-template-columns: 1fr;
+      }
+
+      .mega-flow-rail {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .mega-flow-rail::before {
+        display: none;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .mega-atlas-grid,
+      .mega-signal-grid,
+      .mega-flow-rail,
+      .mega-atlas-donut-stage {
+        grid-template-columns: 1fr;
+      }
+
+      .mega-dashboard-board-v3 .mega-dashboard-story h2 {
+        font-size: 44px;
+      }
+
+      .mega-dashboard-board-v3 .mega-analysis-head {
+        grid-template-columns: 1fr;
+      }
+
+      .mega-dashboard-board-v3 .mega-analysis-total {
+        max-width: 100%;
+        text-align: left;
+      }
+
+      .mega-heatmap {
+        grid-template-columns: 1fr;
+      }
+
+      .mega-heat-cell.axis {
+        display: none;
+      }
+    }
+
     .portfolio-atelier {
       gap: 16px;
     }
@@ -20980,6 +21597,113 @@
       var className = cls ? " " + safe(cls) : "";
       return '<div class="mega-meta-item' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></div>';
     }
+    function megaAtlasControls() {
+      return '<div class="mega-atlas-controls" role="tablist" aria-label="Velja áherslu mælaborðs">' +
+        '<button class="mega-atlas-control active" type="button" data-mega-view="overview" role="tab" aria-selected="true">Yfirlit</button>' +
+        '<button class="mega-atlas-control" type="button" data-mega-view="route" role="tab" aria-selected="false">Leiðing</button>' +
+        '<button class="mega-atlas-control" type="button" data-mega-view="source" role="tab" aria-selected="false">Uppruni</button>' +
+        '<button class="mega-atlas-control" type="button" data-mega-view="tech" role="tab" aria-selected="false">Tækni</button>' +
+      '</div>';
+    }
+    function megaFlowNode(index, label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="mega-flow-node' + className + '"><div class="mega-flow-index">' + safe(index) + '</div><div class="mega-flow-stat"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></div></article>';
+    }
+    function megaFlowChart(total, raw, gateway, route, quality) {
+      var largest = Math.max(raw, gateway, route, total, quality, 1);
+      return '<section class="mega-atlas-flow-card" data-lens="route tech" aria-label="Frá merki að talinni opnun">' +
+        '<div class="mega-atlas-flow-head"><div><span>Flow chart</span><strong>Frá merki að talinni opnun</strong></div><div class="mega-atlas-flow-total">' + fmt(total) + '</div></div>' +
+        '<div class="mega-flow-rail">' +
+          megaFlowNode("01", "Raw", fmt(raw), "móttaka + tæknimerki", "info") +
+          megaFlowNode("02", "Gateway", fmt(gateway), "rót, smellir og gátt", gateway ? "gateway" : "warn") +
+          megaFlowNode("03", "Router", fmt(route), "útgáfuval og route", route ? "warn" : "gateway") +
+          megaFlowNode("04", "Talið", fmt(total), "production opnanir", total ? "good" : "warn") +
+        '</div><div class="mega-chip-row"><span class="mega-chip">Raw/Talið ' + safe(pct(raw, Math.max(total, 1))) + '</span><span class="mega-chip">Route/Talið ' + safe(pct(route, Math.max(total, 1))) + '</span><span class="mega-chip ' + (quality ? 'warn' : 'good') + '">Gæði ' + safe(quality ? fmt(quality) + " merki" : "hreint") + '</span></div>' +
+      '</section>';
+    }
+    function megaAtlasDonutPanel(kicker, title, total, rows, detail, cls, lens) {
+      rows = rows || [];
+      total = Math.max(number(total), sumRows(rows, "value"), 1);
+      var dominant = rows.slice().sort(function (a, b) { return number(b.value) - number(a.value); })[0] || { label: "-", value: 0 };
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="mega-atlas-panel' + className + '" data-lens="' + safe(lens || "") + '"><div class="mega-atlas-panel-head"><div><span class="mega-atlas-panel-kicker">' + safe(kicker) + '</span><h3>' + safe(title) + '</h3></div><div class="mega-atlas-panel-total">' + fmt(total) + '</div></div>' +
+        '<div class="mega-atlas-donut-stage"><div class="mega-atlas-donut" style="--mega-donut:' + safe(dashboardDonutBg(rows, total)) + '"><div class="mega-atlas-donut-center"><strong>' + safe(pct(dominant.value, total)) + '</strong><span>' + safe(dominant.label) + '</span></div></div><div>' + megaLegend(rows, total) + '<small class="mega-passport-detail">' + safe(detail || "") + '</small></div></div></article>';
+    }
+    function megaSignalFooter(label, value) {
+      return '<div class="mega-signal-footer"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div>';
+    }
+    function megaSignalPanel(kicker, title, value, fill, footers, cls, lens) {
+      var className = cls ? " " + safe(cls) : "";
+      var fieldClass = cls ? " " + safe(cls) : "";
+      return '<article class="mega-signal-panel' + className + '" data-lens="' + safe(lens || "") + '"><div class="mega-signal-title"><div><span class="mega-atlas-panel-kicker">' + safe(kicker) + '</span><strong>' + safe(title) + '</strong></div><div class="mega-signal-value">' + safe(value) + '</div></div>' +
+        '<div class="mega-signal-field' + fieldClass + '" style="--fill:' + clamp(number(fill), 0, 100).toFixed(1) + '%"><strong>' + safe(value) + '</strong></div>' +
+        '<div class="mega-signal-footers">' + (footers || []).map(function (row) { return megaSignalFooter(row.label, row.value); }).join("") + '</div></article>';
+    }
+    function megaSkyline(rows, total) {
+      rows = (rows || []).filter(function (row) { return number(row.value) > 0; });
+      total = Math.max(number(total), rows[0] ? number(rows[0].value) : 1, 1);
+      return '<div class="mega-skyline-list">' + rows.map(function (row) {
+        return '<div class="mega-skyline-row"><span title="' + safe(row.label) + '">' + safe(row.label) + '</span><div class="mega-skyline-track"><i style="--fill:' + widthPct(row.value, total) + '%"></i></div><strong>' + fmt(row.value) + '</strong></div>';
+      }).join("") + '</div>';
+    }
+    function megaHeatmap(rows) {
+      rows = rows || [];
+      var browsers = topRows(rows, function (row) { return browserLabel(row); }, 4, trackerRowValue).map(function (row) { return row.key; });
+      var devices = topRows(rows, function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 4, trackerRowValue).map(function (row) { return row.key; });
+      if (!browsers.length) browsers = ["Vantar"];
+      if (!devices.length) devices = ["Vantar"];
+      var map = {};
+      rows.forEach(function (row) {
+        var browser = browserLabel(row);
+        var device = labelDevice(row.inferred_device_class || row.device_class);
+        var key = device + "||" + browser;
+        map[key] = (map[key] || 0) + trackerRowValue(row);
+      });
+      var max = Math.max.apply(null, Object.keys(map).map(function (key) { return map[key]; }).concat([1]));
+      var cells = '<div class="mega-heat-cell axis"></div>' + browsers.map(function (browser) { return '<div class="mega-heat-cell axis">' + safe(browser) + '</div>'; }).join("");
+      devices.forEach(function (device) {
+        cells += '<div class="mega-heat-cell axis">' + safe(device) + '</div>';
+        browsers.forEach(function (browser) {
+          var value = map[device + "||" + browser] || 0;
+          var alpha = value ? (.16 + (value / max) * .62).toFixed(2) : ".02";
+          cells += '<div class="mega-heat-cell hot" style="--alpha:' + alpha + '"><strong>' + (value ? fmt(value) : "-") + '</strong><span>' + safe(value ? pct(value, max) + " af mesta reit" : "engin lína") + '</span></div>';
+        });
+      });
+      return '<div class="mega-heatmap" style="--cols:' + browsers.length + '">' + cells + '</div>';
+    }
+    function megaBubbleMap(rows, total) {
+      rows = (rows || []).filter(function (row) { return number(row.value) > 0; }).slice(0, 8);
+      total = Math.max(number(total), rows[0] ? number(rows[0].value) : 1, 1);
+      var positions = [[18,36],[42,28],[66,38],[31,62],[55,66],[78,63],[18,74],[84,30]];
+      if (!rows.length) return '<div class="message-card neutral"><strong>Engin áhrifagögn</strong><p>Engin talin mælaborðsgögn til að raða.</p></div>';
+      return '<div class="mega-bubble-stage">' + rows.map(function (row, index) {
+        var pos = positions[index % positions.length];
+        var size = 52 + Math.sqrt(number(row.value) / total) * 72;
+        return '<div class="mega-bubble" style="--x:' + pos[0] + '%;--y:' + pos[1] + '%;--size:' + size.toFixed(1) + 'px" title="' + safe(row.label + ": " + fmt(row.value)) + '">' + fmt(row.value) + '<small>' + safe(pct(row.value, total)) + '</small></div>';
+      }).join("") + '</div>';
+    }
+    function megaHierarchy(rows) {
+      return '<div class="mega-hierarchy-stack">' + (rows || []).map(function (row) {
+        return '<div class="mega-hierarchy-row"><span>' + safe(row.label) + '</span><strong>' + safe(row.value) + '</strong></div>';
+      }).join("") + '</div>';
+    }
+    function bindMegaAtlasControls(root) {
+      root = root || document;
+      var board = root.querySelector ? root.querySelector(".mega-dashboard-board-v3") : null;
+      if (!board || board.__megaAtlasBound) return;
+      board.__megaAtlasBound = true;
+      board.addEventListener("click", function (event) {
+        var button = event.target && event.target.closest ? event.target.closest(".mega-atlas-control") : null;
+        if (!button || !board.contains(button)) return;
+        var view = button.getAttribute("data-mega-view") || "overview";
+        board.setAttribute("data-mega-view", view);
+        board.querySelectorAll(".mega-atlas-control").forEach(function (control) {
+          var active = control === button;
+          control.classList.toggle("active", active);
+          control.setAttribute("aria-selected", active ? "true" : "false");
+        });
+      });
+    }
     function megaDashboardCard(data, dashboard, totalVisits, index) {
       var cards = publicMap(data);
       var card = findPublicCardForDashboard(data, dashboard);
@@ -21105,6 +21829,42 @@
       ];
       var layoutTotal = Math.max(mobileTotal + desktopTotal, totalVisits, 1);
       var sourceTotal = Math.max(islandTotal + directTotal + otherTotal, totalVisits, 1);
+      var k = data.kpis || {};
+      var f = data.root_index_funnel || data.root_index || {};
+      var rawSignals = number(firstValue(k, ["raw_events", "total_raw_events", "total_events", "raw_signal_events"]));
+      if (!rawSignals) rawSignals = sumRows(rowsFrom(data, "performance", "device"), "raw_signal_events") || sumRows(data.device || [], "raw_signal_events");
+      if (!rawSignals) rawSignals = totalVisits;
+      var rootViews = number(firstValue(f, ["views", "root_views", "root_index_views"])) || number(firstValue(k, ["root_views", "gateway_views"]));
+      var clicks = number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"])) || number(firstValue(k, ["gateway_clicks", "root_clicks"]));
+      var gatewaySignals = rootViews + clicks;
+      var routeTotalAll = routeGroups.reduce(function (acc, row) { return acc + number(row.total || row.visits || row.value); }, 0);
+      var browserRisk = number(k.powerbi_viewer_unsupported_browser_events) || warningTotal(data, "powerbi_viewer_unsupported_browser");
+      var qualityCount = warningCount || browserRisk;
+      var sourceKnown = islandTotal + directTotal;
+      var routeCoverage = routeTotalAll ? clamp(totalVisits / Math.max(routeTotalAll, 1) * 100, 0, 100) : 0;
+      var sourceCoverage = sourceTotal ? clamp(sourceKnown / Math.max(sourceTotal, 1) * 100, 0, 100) : 0;
+      var freshnessFill = model.eventAge && isFinite(model.eventAge.minutes) ? clamp(100 - Math.min(model.eventAge.minutes, 480) / 480 * 100, 0, 100) : 100;
+      var routeDonutRows = routeGroups.slice(0, 4).map(function (row) {
+        var value = number(row.total || row.visits || row.value);
+        return {
+          label: row.key,
+          value: value,
+          className: /mobile|síma|phone/i.test(row.key) ? "good" : (/desktop|tölvu|skj/i.test(row.key) ? "gateway" : "warn")
+        };
+      });
+      var routeTopTotal = routeDonutRows.reduce(function (acc, row) { return acc + number(row.value); }, 0);
+      if (routeTotalAll > routeTopTotal) routeDonutRows.push({ label: "Annað", value: routeTotalAll - routeTopTotal, className: "neutral" });
+      var sourceCategoryRows = topRows(visibleRows(data.sources || []), function (row) { return labelSource(sourceLabelValue(row)); }, 4).map(function (row, index) {
+        return { label: row.key, value: row.visits, className: index === 0 ? "info" : index === 1 ? "gateway" : "neutral" };
+      });
+      var sourceCategoryTotal = sourceCategoryRows.reduce(function (acc, row) { return acc + number(row.value); }, 0) || sourceTotal;
+      if (!sourceCategoryRows.length) sourceCategoryRows = sourceRows;
+      var deviceRows = visibleRows(rowsFrom(data, "device", "device_confidence"));
+      var deviceGroups = topRows(rowsFrom(data, "device_confidence", "device"), function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 6, trackerRowValue);
+      var browserGroups = topRows(rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 6, trackerRowValue);
+      var routeLineCount = routeGroups.length;
+      var topDeviceName = deviceGroups[0] ? deviceGroups[0].key : "-";
+      var topBrowserName = browserGroups[0] ? browserGroups[0].key : "-";
       var topDashboardRows = sortedDashboards.slice(0, 6).map(function (dashboard) {
         return {
           label: titleFor(dashboard, publicMapData),
@@ -21113,6 +21873,16 @@
           detail: "Í dag " + fmt(dashboard.visits_today) + " · 7d " + fmt(firstValue(dashboard, ["visits_7d", "visits_7_days", "visits7d"]))
         };
       });
+      var skylineRows = topDashboardRows.length ? topDashboardRows : sortedDashboards.map(function (dashboard) {
+        return { label: titleFor(dashboard, publicMapData), value: visitValue(dashboard), className: "good" };
+      });
+      var hierarchyRows = [
+        { label: "Taldar opnanir", value: fmt(totalVisits) + " production grunnur" },
+        { label: "Mælaborð", value: fmt(sortedDashboards.length) + " opinber kort með notkun" },
+        { label: "Route", value: fmt(routeTotalAll || routeLineCount) + " router/útgáfuval" },
+        { label: "Vafrar", value: fmt(browserGroups.length) + " lesnir hópar" },
+        { label: "Tæki", value: fmt(deviceGroups.length) + " device hópar" }
+      ];
       var routeRows = routeGroups.slice(0, 6).map(function (row) {
         return {
           label: row.key,
@@ -21123,37 +21893,69 @@
       });
       var routeTotal = routeRows.reduce(function (acc, row) { return acc + number(row.value); }, 0);
       setHtml("dashboard-public-master",
-        '<div class="mega-dashboard-board mega-dashboard-board-v2">' +
-          '<section class="mega-dashboard-hero" aria-label="Mælaborðsyfirlit">' +
-            '<div class="mega-dashboard-story"><div><span class="mega-kicker">Portfolio scan</span><h2><span>Mæla-</span><span>borð</span></h2><p>Ein myndræn lesröð fyrir notkun, birtingu, útgáfuval, uppruna, leiðingu og tracker samhengi. Aðaltalan birtist einu sinni; spjöldin fyrir neðan sýna hvað útskýrir hana.</p></div><div class="mega-chip-row">' +
-              '<span class="mega-chip good">Ráðandi: ' + safe(topTitle) + ' · ' + safe(topShare) + '</span>' +
-              '<span class="mega-chip warn">Route: ' + safe(topRoute ? topRoute.key : "engin route merki") + '</span>' +
-              '<span class="mega-chip ' + (warningCount ? 'warn' : 'good') + '">Gæði: ' + safe(warningCount ? fmt(warningCount) + " merki" : "hreint") + '</span>' +
-              '<span class="mega-chip">Nýjast: ' + safe(newestTitle) + '</span>' +
-            '</div></div>' +
-            '<div class="mega-dashboard-kpi-stack">' +
-              megaStat("Samtals notkun", fmt(totalVisits), "taldar production opnanir", "primary") +
-              megaStat("Í dag", fmt(todayTotal), "opnanir skráðar", todayTotal ? "good" : "gateway") +
-              megaStat("7 dagar", fmt(sevenDayTotal), "síðustu sjö dagar", sevenDayTotal ? "info" : "gateway") +
-              megaStat("Kort í rekstri", publicState, draftOrTest ? fmt(draftOrTest) + " í próf/drögum" : "opinbert safn", draftOrTest || hidden ? "warn" : "good") +
-            '</div>' +
-            '<div class="mega-orbit-grid">' +
-              megaOrbitCard("Útgáfuval", layoutRows, layoutTotal, "Mobile og desktop í sömu leiðingarmynd.") +
-              megaOrbitCard("Uppruni", sourceRows, sourceTotal, "island.is, beint og Annað í einni upprunamynd.") +
-            '</div>' +
+        '<div class="mega-dashboard-board mega-dashboard-board-v3" data-mega-view="overview">' +
+          '<section class="mega-dashboard-hero" aria-label="Sjónkort rekstrar">' +
+            '<div class="mega-dashboard-story"><div><span class="mega-kicker">Visual atlas</span><h2><span>Sjónkort</span><span>rekstrar</span></h2><p>Ein myndræn lesning yfir notkun, flæði, uppruna, leiðingu, tæki, vafra og gæði. Kortin hér fyrir neðan nota sömu aggregate gögn og restin af síðunni.</p></div>' +
+              '<div class="mega-chip-row">' +
+                '<span class="mega-chip good">Talið: ' + fmt(totalVisits) + '</span>' +
+                '<span class="mega-chip">Mælaborð: ' + fmt(sortedDashboards.length) + '</span>' +
+                '<span class="mega-chip good">Top kort: ' + safe(topShare) + '</span>' +
+                '<span class="mega-chip ' + (qualityCount ? 'warn' : 'good') + '">Staða: ' + safe(qualityCount ? fmt(qualityCount) + " merki" : "hreint") + '</span>' +
+              '</div>' + megaAtlasControls() + '</div>' +
+            megaFlowChart(totalVisits, rawSignals, gatewaySignals, routeTotalAll, qualityCount) +
           '</section>' +
-          '<section class="mega-analysis-grid" aria-label="Mælaborðsgreining">' +
-            megaAnalysisPanel("Columns", "Top kort", fmt(totalVisits), megaRankList(topDashboardRows, Math.max(totalVisits, 1), 6), "") +
-            megaAnalysisPanel("Route", "Ástæður", fmt(routeTotal || (topRoute ? topRoute.total : 0)), megaRankList(routeRows, Math.max(routeTotal, 1), 6), "feature") +
-            megaAnalysisPanel("Source", "Uppruni", fmt(sourceTotal), megaRankList(sourceRows, sourceTotal, 3), "") +
-            megaAnalysisPanel("Line", "Notkunarþróun", latestTrend ? fmt(latestTrend.visits) : "núna", megaTrendSvg(data), "") +
+          '<section class="mega-atlas-grid" aria-label="Samsetning mælaborðs">' +
+            megaAtlasDonutPanel("Donut", "Útgáfuval", layoutTotal, layoutRows, "Mobile og desktop í sömu notkunargrunni.", "", "route tech") +
+            megaAtlasDonutPanel("Pie", "Route ástæður", Math.max(routeTotalAll, 1), routeDonutRows, "Hvaða routing regla skýrir útgáfuvalið.", "feature", "route") +
+            megaAtlasDonutPanel("Pie", "Uppruni", sourceTotal, sourceRows, "island.is, beint og annað í einni upprunamynd.", "", "source") +
+            megaAtlasDonutPanel("Pie", "Herferðir / source", sourceCategoryTotal, sourceCategoryRows, "Source category úr tracker/samantekt.", "", "source") +
+          '</section>' +
+          '<section class="mega-signal-grid" aria-label="Rekstrarsignöl">' +
+            megaSignalPanel("Signal", "Rekstrarpúls", fmt(model.score || 0), model.score || 0, [
+              { label: "Taldar opnanir", value: fmt(totalVisits) },
+              { label: "Mælaborð", value: fmt(sortedDashboards.length) },
+              { label: "Staðfest merki", value: fmt(qualityCount) }
+            ], qualityCount ? "warn" : "good", "tech") +
+            megaSignalPanel("Signal", "Route þekja", formatIcelandicNumber(routeCoverage, 1) + "%", routeCoverage, [
+              { label: "Route línur", value: fmt(routeLineCount) },
+              { label: "Þvingað", value: fmt(layoutContexts.reduce(function (acc, ctx) { return acc + number(ctx.forced); }, 0)) },
+              { label: "Sjálfvirkt", value: fmt(Math.max(routeTotalAll - layoutContexts.reduce(function (acc, ctx) { return acc + number(ctx.forced); }, 0), 0)) }
+            ], "warn", "route") +
+            megaSignalPanel("Signal", "Source skýrleiki", formatIcelandicNumber(sourceCoverage, 1) + "%", sourceCoverage, [
+              { label: "island.is", value: fmt(islandTotal) },
+              { label: "Beint", value: fmt(directTotal) },
+              { label: "Annað", value: fmt(otherTotal) }
+            ], "good", "source") +
+            megaSignalPanel("Signal", "Ferskleiki", model.eventAge ? model.eventAge.label : "núna", freshnessFill, [
+              { label: "Talin síðast", value: model.eventAge ? model.eventAge.label : "-" },
+              { label: "Saman­tekt", value: model.aggregationAge ? model.aggregationAge.label : "-" },
+              { label: "Gögn", value: data.cache && data.cache.hit ? "cache" : "fresh" }
+            ], model.eventAge ? model.eventAge.className : "good", "tech") +
+          '</section>' +
+          '<section class="mega-wide-grid" aria-label="Portfolio og tæknikort">' +
+            megaAnalysisPanel("Columns", "Portfolio skyline", fmt(sortedDashboards.length), megaSkyline(skylineRows, skylineRows[0] ? skylineRows[0].value : totalVisits), "") +
+            megaAnalysisPanel("Heatmap", "Tæki / vafri", fmt(deviceRows.length || deviceGroups.length + browserGroups.length), megaHeatmap(deviceRows), "feature") +
+          '</section>' +
+          '<section class="mega-trend-hierarchy" aria-label="Notkunarþróun og áhrif">' +
+            megaAnalysisPanel("Line", "Notkunarþróun", latestTrend ? fmt(latestTrend.visits) : "núna", '<div class="mega-trend-large">' + megaTrendSvg(data) + '</div>', "") +
+            megaAnalysisPanel("Hierarchy", "Gögn sem stigveldi", fmt(hierarchyRows.length), megaHierarchy(hierarchyRows), "") +
+          '</section>' +
+          '<section class="mega-wide-grid" aria-label="Áhrifakort og lestrarröð">' +
+            megaAnalysisPanel("Bubble", "Áhrifakort", topShare, megaBubbleMap(skylineRows, skylineRows[0] ? skylineRows[0].value : totalVisits), "feature") +
+            megaAnalysisPanel("Selection", "Lestrarröð", safe(topTitle), megaRankList([
+              { label: "Ráðandi kort", value: top ? visitValue(top) : 0, detail: top ? topTitle : "-", className: "good" },
+              { label: "Route samhengi", value: routeTotalAll, detail: topRoute ? topRoute.key : "-", className: "warn" },
+              { label: "Uppruni þekktur", value: sourceKnown, detail: "island.is + beint", className: "good" },
+              { label: "Tækni/vafri", value: deviceGroups[0] ? deviceGroups[0].visits : 0, detail: topDeviceName + " / " + topBrowserName, className: "info" }
+            ], Math.max(totalVisits, routeTotalAll, sourceKnown, 1), 4), "") +
           '</section>' +
           '<section class="mega-dashboard-lanes" aria-label="Mælaborð og notkun">' +
             '<div class="mega-lane-head"><div><span>Mælaborðspassi</span><strong>Hvert kort sem rekstrarpassi</strong><p>Hvert spjald sýnir það sem er sértækt fyrir kortið: hlutdeild, útgáfuval, uppruna, nýjustu virkni, leiðingu, tracker samhengi og birtingarstöðu.</p></div><div class="mega-chip-row"><span class="mega-chip good">' + fmt(sortedDashboards.length) + ' virk</span><span class="mega-chip ' + (warningCount ? 'warn' : 'good') + '">' + (warningCount ? fmt(warningCount) + ' merki' : 'hreint') + '</span></div></div>' +
             '<div class="mega-card-grid">' + dashboardHtml + '</div>' +
-            '<div class="mega-chip-row" aria-label="Notuð aggregate/status svið"><span class="mega-chip">dashboards</span><span class="mega-chip">public_cards</span><span class="mega-chip">total_visits</span><span class="mega-chip">source_mix_summary</span><span class="mega-chip">route_mix_summary</span><span class="mega-chip">history</span></div>' +
+            '<div class="mega-chip-row" aria-label="Notuð aggregate/status svið"><span class="mega-chip">dashboards</span><span class="mega-chip">public_cards</span><span class="mega-chip">total_visits</span><span class="mega-chip">sources</span><span class="mega-chip">routes</span><span class="mega-chip">device</span><span class="mega-chip">history</span></div>' +
           '</section>' +
         '</div>');
+      bindMegaAtlasControls(byId("dashboard-public-master"));
     }
     function dashV2Track(value, total, cls) {
       var className = cls ? safe(cls) : "";
