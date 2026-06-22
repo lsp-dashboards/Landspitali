@@ -14235,7 +14235,7 @@
       overflow: hidden;
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(300px, .28fr);
-      gap: clamp(16px, 2vw, 28px);
+      gap: clamp(10px, 1.2vw, 16px);
       align-items: stretch;
       min-height: clamp(210px, 22vw, 300px);
       padding: clamp(20px, 2.6vw, 34px);
@@ -14269,7 +14269,7 @@
     }
 
     .start-v5-lcd-main {
-      gap: clamp(16px, 2vw, 24px);
+      gap: clamp(10px, 1.15vw, 16px);
       align-content: space-between;
     }
 
@@ -14318,11 +14318,11 @@
     .start-v5-lcd-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
+      gap: 8px;
     }
 
     .start-v5-lcd-grid .start-v5-metric {
-      min-height: 96px;
+      min-height: 86px;
       border-color: rgba(220,238,248,.22);
       background: rgba(255,255,255,.08);
     }
@@ -14355,8 +14355,7 @@
     }
 
     .start-v5-lcd-side {
-      gap: 12px;
-      grid-template-rows: auto minmax(150px, 1fr);
+      grid-template-rows: minmax(0, 1fr);
       align-content: stretch;
       overflow: visible;
     }
@@ -14418,9 +14417,9 @@
     .start-v5-status-chart {
       position: relative;
       display: grid;
-      grid-template-rows: auto minmax(126px, 1fr) auto;
+      grid-template-rows: auto minmax(112px, 1fr) auto;
       gap: 10px;
-      min-height: clamp(170px, 13vw, 238px);
+      min-height: clamp(234px, 19vw, 322px);
       padding: 12px;
       overflow: visible;
       border: 1px solid rgba(220,238,248,.22);
@@ -14429,6 +14428,11 @@
         linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.055)),
         linear-gradient(90deg, rgba(220,238,248,.06) 1px, transparent 1px);
       background-size: auto, 28px 100%;
+    }
+
+    .start-v5-status-combo-top {
+      display: grid;
+      gap: 8px;
     }
 
     .start-v5-status-chart-head,
@@ -14472,8 +14476,8 @@
       display: flex;
       align-items: stretch;
       gap: clamp(3px, .36vw, 7px);
-      min-height: 126px;
-      padding-top: 26px;
+      min-height: 112px;
+      padding-top: 12px;
     }
 
     .start-v5-status-bars::before,
@@ -14486,8 +14490,8 @@
       pointer-events: none;
     }
 
-    .start-v5-status-bars::before { top: 26px; }
-    .start-v5-status-bars::after { top: calc(26px + 50%); }
+    .start-v5-status-bars::before { top: 12px; }
+    .start-v5-status-bars::after { top: calc(12px + 50%); }
 
     .start-v5-status-bar {
       appearance: none;
@@ -14844,6 +14848,7 @@
 
     .status-hero-shell .start-v5-lcd-hero {
       grid-template-columns: minmax(0, 1fr) minmax(340px, .25fr);
+      gap: clamp(8px, 1vw, 14px);
       padding: clamp(14px, 1.8vw, 24px) 0 0;
       min-height: 0;
       align-items: start;
@@ -14859,7 +14864,7 @@
 
     .status-hero-shell .start-v5-lcd-side {
       align-content: stretch;
-      grid-template-rows: auto minmax(176px, 1fr);
+      grid-template-rows: minmax(0, 1fr);
     }
 
     .status-hero-shell .start-v5-lcd-title h2 {
@@ -14879,7 +14884,7 @@
     }
 
     .status-hero-shell .start-v5-status-chart {
-      min-height: clamp(176px, 13.5vw, 244px);
+      min-height: clamp(250px, 19vw, 330px);
     }
 
     .status-hero-shell .start-v5-lcd-hero::before {
@@ -15486,8 +15491,8 @@
     .start-v5-flow-viz {
       grid-template-columns: minmax(0, 1fr) minmax(250px, .24fr);
       align-items: stretch;
-      gap: 12px;
-      padding: 12px;
+      gap: 10px;
+      padding: 10px;
     }
 
     .start-v5-flow-row {
@@ -15496,7 +15501,7 @@
       grid-column: 1 / -1;
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(330px, .28fr);
-      gap: 12px;
+      gap: 10px;
       align-items: start;
       min-width: 0;
     }
@@ -15504,9 +15509,9 @@
     .start-v5-flow-actions {
       position: relative;
       display: grid;
-      gap: 10px;
+      gap: 8px;
       min-width: 0;
-      padding: 12px;
+      padding: 10px;
       border: 1px solid rgba(220,238,248,.20);
       border-radius: 8px;
       background: rgba(10,31,50,.36);
@@ -15570,14 +15575,14 @@
     }
 
     .start-v5-flow-canvas-card {
-      gap: 10px;
-      padding: 12px;
+      gap: 8px;
+      padding: 10px;
       overflow: hidden;
     }
 
     .start-v5-chart-wrap {
       position: relative;
-      min-height: clamp(210px, 18vw, 290px);
+      min-height: clamp(184px, 15.5vw, 252px);
     }
 
     .start-v5-chart-host {
@@ -21665,8 +21670,31 @@
         return '<span title="' + safe(label) + '" style="--h:' + fill.toFixed(1) + '%"></span>';
       }).join("") + '</div>';
     }
-    function startV5StatusChart(data, model, statusTitle, tone, fallbackMetrics) {
-      var history = trendRows(data).filter(function (row) { return row.date; }).slice(-30);
+    function startV5StatusChart(data, model, statusTitle, tone, dashboardCount, fallbackMetrics) {
+      var history = trendRows(data).filter(function (row) { return row.date; }).slice(-7);
+      if (history.length) {
+        var historyByDay = {};
+        history.forEach(function (row) {
+          var parsed = new Date(row.date);
+          var key = isFinite(parsed.getTime()) ? parsed.toISOString().slice(0, 10) : String(row.date).slice(0, 10);
+          historyByDay[key] = row;
+        });
+        var latestDate = new Date(history[history.length - 1].date);
+        if (isFinite(latestDate.getTime())) {
+          var padded = [];
+          for (var dayOffset = 6; dayOffset >= 0; dayOffset -= 1) {
+            var day = new Date(latestDate.getTime());
+            day.setUTCDate(day.getUTCDate() - dayOffset);
+            var key = day.toISOString().slice(0, 10);
+            padded.push(historyByDay[key] || { date: key, visits: 0 });
+          }
+          history = padded;
+        }
+        while (history.length < 7) {
+          history.unshift({ date: "", visits: 0 });
+        }
+        history = history.slice(-7);
+      }
       var hasHistory = history.length >= 2 && history.some(function (row) { return number(row.visits) > 0; });
       var rows = hasHistory ? history.map(function (row) {
         return {
@@ -21682,30 +21710,32 @@
         };
       });
       if (!rows.length) rows = [{ label: "Núna", value: number(model.score), tip: "Núverandi staða: " + fmt(model.score) + "/100" }];
-      var maxValue = Math.max.apply(null, rows.map(function (row) { return number(row.value); }).concat([1]));
-      var average = rows.reduce(function (acc, row) { return acc + number(row.value); }, 0) / Math.max(rows.length, 1);
+      var visibleValues = rows.map(function (row) { return Math.max(0, Number(row.value) || 0); });
+      var maxValue = Math.max.apply(null, visibleValues.concat([1]));
+      var average = visibleValues.reduce(function (acc, value) { return acc + value; }, 0) / Math.max(visibleValues.length, 1);
       var latest = rows[rows.length - 1] || rows[0];
-      var total = rows.reduce(function (acc, row) { return acc + number(row.value); }, 0);
-      var caption = hasHistory ? "Síðustu " + fmt(rows.length) + " dagar" : "Stöðumat";
-      var lead = hasHistory ? fmt(total) + " samtals" : fmt(model.score) + "/100";
+      var total = visibleValues.reduce(function (acc, value) { return acc + value; }, 0);
+      var caption = hasHistory ? "Síðustu 7 dagar" : "Stöðumat";
+      var lead = hasHistory ? fmt(total) + " samtals · meðaltal " + fmt(average) : fmt(model.score) + "/100";
       var aria = hasHistory ?
         "Notkunarþróun síðustu " + rows.length + " daga. Nýjasta gildi " + fmt(latest.value) + " taldar opnanir." :
         "Samsett rekstrarstaða. Nýjasta gildi " + fmt(model.score) + " af 100.";
       var bars = rows.map(function (row, index) {
-        var value = number(row.value);
-        var fill = clamp(value / maxValue * 100, 8, 100);
+        var value = visibleValues[index] || 0;
+        var fill = value <= 0 ? 0 : clamp(value / maxValue * 100, 4, 100);
         var cls = index === rows.length - 1 ? " latest" : "";
         if (!hasHistory && value < 45) cls += " warn";
         else if (hasHistory && value < average * .55) cls += " gateway";
-        var detail = hasHistory ? row.tip + ". Meðaltal tímabils: " + fmt(average) + "." : row.tip + ".";
+        var detail = hasHistory ? row.tip + ". Hæsti dagur tímabilsins: " + fmt(maxValue) + ". Meðaltal: " + fmt(average) + "." : row.tip + ".";
         return '<button class="start-v5-status-bar' + safe(cls) + '" type="button" style="--h:' + fill.toFixed(1) + '%" title="' + safe(detail) + '" data-tip="' + safe(detail) + '" aria-label="' + safe(detail) + '"><i aria-hidden="true"></i></button>';
       }).join("");
       var footLeft = hasHistory ? rows[0].label + " - " + latest.label : "hlutfallsleg staða";
-      var footRight = hasHistory ? "meðaltal " + fmt(average) : statusTitle || "";
+      var statusDetail = fmt(model.score) + "/100 · " + fmt(dashboardCount || model.dashboardCount || 0) + " mælaborð · " + fmt(model.total) + " taldar opnanir";
+      var statusTip = "Samsett rekstrarstaða: " + statusDetail + ". Súlur sýna síðustu 7 daga og hæsti dagur stýrir 100% hæð.";
       return '<div class="start-v5-status-chart ' + safe(tone || "") + '" role="img" aria-label="' + safe(aria) + '">' +
-        '<div class="start-v5-status-chart-head"><span>Notkunarþróun</span><strong>' + safe(caption) + '</strong></div>' +
+        '<div class="start-v5-status-combo-top"><div class="start-v5-lcd-status" title="' + safe(statusTip) + '"><span>Staða núna</span><strong>' + safe(statusTitle) + '</strong><small>' + safe(statusDetail) + '</small>' + startV5Meter(model.score, tone) + '</div><div class="start-v5-status-chart-head"><span>Notkunarþróun</span><strong>' + safe(caption) + '</strong></div></div>' +
         '<div class="start-v5-status-bars">' + bars + '</div>' +
-        '<div class="start-v5-status-chart-foot"><span>' + safe(footLeft) + '</span><strong>' + safe(lead + " · " + footRight) + '</strong></div>' +
+        '<div class="start-v5-status-chart-foot"><span>' + safe(footLeft) + '</span><strong>' + safe(lead) + '</strong></div>' +
       '</div>';
     }
     function bindStartV5StatusTooltips(root) {
@@ -21887,7 +21917,7 @@
       var countedFill = clamp(model.total / totalSignal * 100, 0, 100);
       var gatewayFill = clamp(gatewaySignals / totalSignal * 100, 0, 100);
       var topDashboardFill = topDashboard ? clamp(visitValue(topDashboard) / Math.max(model.total, 1) * 100, 0, 100) : 16;
-      var statusChart = startV5StatusChart(data, model, statusTitle, scoreTone, [
+      var statusChart = startV5StatusChart(data, model, statusTitle, scoreTone, dashboardCount, [
         { label: "Taldar opnanir", value: countedFill },
         { label: "Ferskleiki", value: freshnessFill },
         { label: "Rekstrarstaða", value: model.score },
@@ -21933,7 +21963,7 @@
                 startV5Metric("G\u00e6\u00f0i", confirmed ? fmt(confirmed) : "Hreint", confirmed ? "sta\u00f0fest merki" : "engin sta\u00f0fest merki", confirmed ? "warn" : "good", qualityFill) +
               '</div>' +
             '</div>' +
-            '<aside class="start-v5-lcd-side"><div class="start-v5-lcd-status" title="Samsett rekstrarsta\u00f0a: ' + fmt(model.score) + '/100. Stikan s\u00fdnir hversu langt sta\u00f0an er fr\u00e1 fullri gr\u00e6nni st\u00f6\u00f0u."><span>Sta\u00f0a n\u00fana</span><strong>' + safe(statusTitle) + '</strong><small>' + fmt(model.score) + '/100 · ' + fmt(dashboardCount) + ' m\u00e6labor\u00f0 · ' + fmt(model.total) + ' taldar opnanir</small>' + startV5Meter(model.score, scoreTone) + '</div>' + statusChart + '</aside>' +
+            '<aside class="start-v5-lcd-side">' + statusChart + '</aside>' +
             '<div class="start-v5-flow-row">' + flowSection + actionPanel + '</div>' +
           '</section>' +
           '<section class="start-v5-lower" aria-label="F\u00f3kus og sannanir">' +
