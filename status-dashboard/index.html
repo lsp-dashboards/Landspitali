@@ -11939,20 +11939,23 @@
 
     .mega-atlas-panel .mega-legend {
       align-content: start;
-      min-height: 108px;
+      gap: 4px;
+      height: 126px;
+      min-height: 126px;
+      overflow: hidden;
     }
 
     .mega-atlas-panel .mega-legend-row {
       grid-template-columns: 10px minmax(0, 1fr) minmax(82px, auto);
-      min-height: 27px;
-      padding: 4px 7px;
+      min-height: 22px;
+      padding: 3px 7px;
     }
 
     .mega-atlas-panel .mega-legend-row > span:not(.mega-dot) {
-      overflow: visible;
-      text-overflow: clip;
-      white-space: normal;
-      line-height: 1.14;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 1.05;
     }
 
     .mega-atlas-donut-center span {
@@ -12071,7 +12074,7 @@
     .mega-signal-footers {
       display: grid;
       grid-auto-rows: minmax(0, 1fr);
-      gap: 6px;
+      gap: 4px;
       min-height: 126px;
       align-self: end;
     }
@@ -12081,15 +12084,21 @@
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 8px;
-      align-items: baseline;
+      align-items: center;
       min-height: 0;
-      padding: 6px 9px;
+      padding: 4px 9px;
       border: 1px solid rgba(216,226,234,.82);
       border-radius: 9px;
       background: rgba(255,255,255,.72);
       color: var(--ink);
       font-size: 12px;
+      line-height: 1.05;
       font-weight: 900;
+    }
+
+    .mega-hierarchy-row {
+      min-height: 28px;
+      padding: 7px 9px;
     }
 
     .mega-wide-grid {
@@ -23636,10 +23645,10 @@
         if (/mobile|sími|simi/.test(label)) return "#2F8F8B";
       }
       if (/route/.test(group)) {
-        if (/tölvuskj|tolvuskj|desktop/.test(label)) return "#C78A2A";
-        if (/þröng|throng|síma|sima|phone|mobile/.test(label)) return "#3599B8";
-        if (/lóðrétt|lodrett/.test(label)) return "#2F8F8B";
+        if (/lóðrétt|lodrett/.test(label)) return "#1F6F6C";
         if (/lárétt|larett|lítil|litil/.test(label)) return "#6F7F92";
+        if (/þröng|throng|síma|sima|phone|mobile/.test(label)) return "#3599B8";
+        if (/tölvuskj|tolvuskj|desktop/.test(label)) return "#C78A2A";
         if (/anna|óflokk|oflokk/.test(label)) return "#A9B4C2";
       }
       if (/uppruni/.test(group)) {
