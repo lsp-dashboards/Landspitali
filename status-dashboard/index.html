@@ -14007,11 +14007,12 @@
     }
 
     .start-v5-lcd-copy {
-      max-width: 86ch;
+      width: min(100%, 980px);
+      max-width: none;
       margin: 0;
       color: rgba(234,244,250,.9);
-      font-size: clamp(13px, 1.05vw, 15px);
-      line-height: 1.44;
+      font-size: clamp(14px, 1.08vw, 17px);
+      line-height: 1.34;
       font-weight: 800;
       text-wrap: pretty;
     }
@@ -14061,7 +14062,9 @@
 
     .start-v5-lcd-side {
       gap: 12px;
-      align-content: space-between;
+      grid-template-rows: auto minmax(150px, 1fr);
+      align-content: stretch;
+      overflow: visible;
     }
 
     .start-v5-lcd-status {
@@ -14116,6 +14119,149 @@
       border-radius: 6px 6px 2px 2px;
       background: linear-gradient(180deg, rgba(239,247,252,.98), rgba(170,207,229,.76));
       box-shadow: 0 0 16px rgba(168,213,239,.18);
+    }
+
+    .start-v5-status-chart {
+      position: relative;
+      display: grid;
+      grid-template-rows: auto minmax(126px, 1fr) auto;
+      gap: 10px;
+      min-height: clamp(170px, 13vw, 238px);
+      padding: 12px;
+      overflow: visible;
+      border: 1px solid rgba(220,238,248,.22);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.055)),
+        linear-gradient(90deg, rgba(220,238,248,.06) 1px, transparent 1px);
+      background-size: auto, 28px 100%;
+    }
+
+    .start-v5-status-chart-head,
+    .start-v5-status-chart-foot {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: baseline;
+      min-width: 0;
+    }
+
+    .start-v5-status-chart-head span,
+    .start-v5-status-chart-foot span {
+      color: rgba(219,238,249,.82);
+      font-size: 10px;
+      line-height: 1.1;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .start-v5-status-chart-head strong {
+      color: #fff;
+      font-size: clamp(16px, 1.25vw, 22px);
+      line-height: 1;
+      font-weight: 950;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .start-v5-status-chart-foot strong {
+      color: rgba(255,255,255,.95);
+      font-size: 11px;
+      line-height: 1.1;
+      font-weight: 900;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .start-v5-status-bars {
+      position: relative;
+      display: flex;
+      align-items: stretch;
+      gap: clamp(3px, .36vw, 7px);
+      min-height: 126px;
+      padding-top: 26px;
+    }
+
+    .start-v5-status-bars::before,
+    .start-v5-status-bars::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      border-top: 1px solid rgba(220,238,248,.12);
+      pointer-events: none;
+    }
+
+    .start-v5-status-bars::before { top: 26px; }
+    .start-v5-status-bars::after { top: calc(26px + 50%); }
+
+    .start-v5-status-bar {
+      appearance: none;
+      position: relative;
+      flex: 1 1 0;
+      align-self: stretch;
+      min-width: 6px;
+      padding: 0;
+      border: 0;
+      border-radius: 7px 7px 3px 3px;
+      background: linear-gradient(180deg, rgba(226,240,248,.12), rgba(226,240,248,.06));
+      cursor: help;
+    }
+
+    .start-v5-status-bar i {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: block;
+      height: var(--h, 12%);
+      min-height: 8px;
+      border-radius: inherit;
+      background: linear-gradient(180deg, rgba(164,221,238,.95), rgba(47,143,139,.78));
+      box-shadow: 0 0 18px rgba(74,197,187,.18);
+    }
+
+    .start-v5-status-bar.warn i {
+      background: linear-gradient(180deg, rgba(244,210,90,.98), rgba(199,138,42,.78));
+    }
+
+    .start-v5-status-bar.gateway i {
+      background: linear-gradient(180deg, rgba(169,180,194,.98), rgba(79,111,143,.74));
+    }
+
+    .start-v5-status-bar.latest i {
+      box-shadow: 0 0 0 2px rgba(255,255,255,.28), 0 0 22px rgba(74,197,187,.26);
+    }
+
+    .start-v5-status-bar::after {
+      content: attr(data-tip);
+      position: absolute;
+      left: 50%;
+      top: 0;
+      z-index: 4;
+      width: max-content;
+      max-width: 230px;
+      transform: translate(-50%, -8px) translateY(-100%);
+      padding: 8px 9px;
+      border: 1px solid rgba(220,238,248,.28);
+      border-radius: 8px;
+      background: rgba(10,31,50,.98);
+      color: #fff;
+      font-size: 11px;
+      line-height: 1.24;
+      font-weight: 850;
+      text-align: left;
+      white-space: normal;
+      box-shadow: 0 16px 34px rgba(0,0,0,.22);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .12s ease, transform .12s ease;
+    }
+
+    .start-v5-status-bar:hover::after,
+    .start-v5-status-bar:focus-visible::after {
+      opacity: 1;
+      transform: translate(-50%, -12px) translateY(-100%);
     }
 
     .start-v5-lcd-side .start-v5-action-head strong,
@@ -14386,9 +14532,20 @@
       font-size: clamp(46px, 5vw, 82px);
     }
 
+    .status-hero-shell .start-v5-lcd-copy {
+      width: min(100%, 1040px);
+      max-width: none;
+      font-size: clamp(14px, 1.08vw, 17px);
+      line-height: 1.32;
+    }
+
     .status-hero-shell .start-v5-lcd-bars {
       min-height: 108px;
       padding-top: 0;
+    }
+
+    .status-hero-shell .start-v5-status-chart {
+      min-height: clamp(176px, 13.5vw, 244px);
     }
 
     .status-hero-shell .start-v5-lcd-hero::before {
