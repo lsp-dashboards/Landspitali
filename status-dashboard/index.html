@@ -18016,6 +18016,501 @@
         text-align: left;
       }
     }
+
+    /* Tracker and delivery mega atlas */
+    .tracker-master-v4,
+    .delivery-master-v4 {
+      --env-line: rgba(190, 207, 220, .84);
+      --env-soft: rgba(238, 246, 249, .78);
+      --env-surface: rgba(255, 255, 255, .96);
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .env-v4-shell {
+      overflow: hidden;
+      border: 1px solid var(--env-line);
+      border-radius: 10px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,251,253,.94)),
+        linear-gradient(90deg, rgba(79,111,143,.055) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(47,143,139,.04) 1px, transparent 1px);
+      background-size: auto, 42px 42px, 42px 42px;
+      box-shadow: none;
+    }
+
+    .env-v4-intro {
+      display: grid;
+      grid-template-columns: minmax(280px, .9fr) minmax(0, 1.25fr);
+      gap: 12px;
+      align-items: stretch;
+      padding: 12px;
+      border-bottom: 1px solid rgba(169,180,194,.28);
+    }
+
+    .env-v4-brief {
+      display: grid;
+      gap: 12px;
+      align-content: space-between;
+      min-height: 150px;
+      padding: 14px;
+      border: 1px solid rgba(190,207,220,.78);
+      border-radius: 9px;
+      background: linear-gradient(135deg, rgba(255,255,255,.98), rgba(235,247,248,.74));
+    }
+
+    .env-v4-kicker,
+    .env-v4-stat span,
+    .env-v4-module-kicker,
+    .env-v4-lane-label,
+    .env-v4-combo-label,
+    .env-v4-audit span,
+    .env-v4-signal span,
+    .env-v4-chip {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .env-v4-brief h3,
+    .env-v4-module-title h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(25px, 2.25vw, 36px);
+      line-height: .96;
+      font-weight: 950;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .env-v4-module-title h3 {
+      font-size: clamp(22px, 1.75vw, 30px);
+    }
+
+    .env-v4-brief p,
+    .env-v4-module-title p,
+    .env-v4-combo small,
+    .env-v4-audit small,
+    .env-v4-signal small,
+    .env-v4-stat small,
+    .env-v4-bar-meta span {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.34;
+      text-wrap: pretty;
+    }
+
+    .env-v4-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .env-v4-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 5px 9px;
+      border: 1px solid rgba(190,207,220,.75);
+      border-radius: 999px;
+      background: rgba(255,255,255,.74);
+      color: var(--accent-dark);
+      white-space: nowrap;
+    }
+
+    .env-v4-chip.warn {
+      border-color: rgba(199,138,42,.34);
+      background: var(--data-soft-03);
+      color: var(--data-08);
+    }
+
+    .env-v4-chip.good {
+      border-color: rgba(47,143,139,.28);
+      background: var(--data-soft-02);
+      color: var(--data-07);
+    }
+
+    .env-v4-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .env-v4-stat,
+    .env-v4-lane,
+    .env-v4-combo,
+    .env-v4-module,
+    .env-v4-audit,
+    .env-v4-signal {
+      border: 1px solid rgba(190,207,220,.78);
+      border-radius: 9px;
+      background: var(--env-surface);
+    }
+
+    .env-v4-stat {
+      display: grid;
+      grid-template-rows: auto 1fr auto auto;
+      gap: 9px;
+      min-height: 150px;
+      padding: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(241,247,251,.9));
+    }
+
+    .env-v4-stat strong,
+    .env-v4-audit strong,
+    .env-v4-signal strong {
+      align-self: end;
+      color: var(--ink);
+      font-size: clamp(25px, 2.1vw, 34px);
+      line-height: .95;
+      font-weight: 950;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .env-v4-stat.info,
+    .env-v4-lane.info,
+    .env-v4-signal.info { background: var(--data-soft-09); border-color: rgba(53,153,184,.25); }
+    .env-v4-stat.good,
+    .env-v4-lane.good,
+    .env-v4-signal.good { background: var(--data-soft-02); border-color: rgba(47,143,139,.26); }
+    .env-v4-stat.warn,
+    .env-v4-lane.warn,
+    .env-v4-signal.warn { background: var(--data-soft-03); border-color: rgba(199,138,42,.34); }
+    .env-v4-stat.gateway,
+    .env-v4-lane.gateway,
+    .env-v4-signal.gateway { background: var(--data-soft-01); border-color: rgba(79,111,143,.25); }
+
+    .env-v4-track,
+    .env-v4-bar-track {
+      overflow: hidden;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(169,180,194,.31);
+    }
+
+    .env-v4-track i,
+    .env-v4-bar-track i {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--bar-color, var(--data-01));
+    }
+
+    .env-v4-stat.good .env-v4-track i,
+    .env-v4-lane.good .env-v4-bar-track i,
+    .env-v4-signal.good .env-v4-track i { --bar-color: var(--data-02); }
+    .env-v4-stat.warn .env-v4-track i,
+    .env-v4-lane.warn .env-v4-bar-track i,
+    .env-v4-signal.warn .env-v4-track i { --bar-color: var(--data-03); }
+    .env-v4-stat.info .env-v4-track i,
+    .env-v4-lane.info .env-v4-bar-track i,
+    .env-v4-signal.info .env-v4-track i { --bar-color: var(--data-09); }
+    .env-v4-stat.gateway .env-v4-track i,
+    .env-v4-lane.gateway .env-v4-bar-track i,
+    .env-v4-signal.gateway .env-v4-track i { --bar-color: var(--data-01); }
+
+    .env-v4-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(340px, .9fr);
+      gap: 12px;
+      padding: 12px;
+      align-items: stretch;
+    }
+
+    .delivery-master-v4 .env-v4-body {
+      grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr);
+    }
+
+    .env-v4-module {
+      display: grid;
+      align-content: start;
+      gap: 12px;
+      padding: 12px;
+      min-width: 0;
+    }
+
+    .env-v4-module-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(169,180,194,.28);
+    }
+
+    .env-v4-module-title {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .env-v4-module-count {
+      flex: 0 0 auto;
+      display: inline-grid;
+      place-items: center;
+      min-height: 30px;
+      padding: 6px 10px;
+      border: 1px solid rgba(190,207,220,.78);
+      border-radius: 999px;
+      background: rgba(255,255,255,.82);
+      color: var(--accent-dark);
+      font-size: 11px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .env-v4-lane-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .env-v4-lane {
+      display: grid;
+      gap: 12px;
+      min-height: 214px;
+      padding: 12px;
+    }
+
+    .env-v4-lane-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .env-v4-lane-head strong {
+      color: var(--ink);
+      font-size: 22px;
+      line-height: 1;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .env-v4-lane-total {
+      display: grid;
+      justify-items: end;
+      color: var(--ink);
+      font-size: 22px;
+      line-height: 1;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .env-v4-lane-total small {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .env-v4-bar-list,
+    .env-v4-combo-list,
+    .env-v4-audit-strip,
+    .env-v4-signal-grid {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .env-v4-bar-row {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .env-v4-bar-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .env-v4-bar-meta strong {
+      min-width: 0;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .env-v4-bar-meta span {
+      flex: 0 0 auto;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .env-v4-bar-row.tone-0 .env-v4-bar-track i { --bar-color: var(--data-02); }
+    .env-v4-bar-row.tone-1 .env-v4-bar-track i { --bar-color: var(--data-01); }
+    .env-v4-bar-row.tone-2 .env-v4-bar-track i { --bar-color: var(--data-03); }
+    .env-v4-bar-row.tone-3 .env-v4-bar-track i { --bar-color: var(--data-09); }
+
+    .env-v4-combo-list {
+      grid-template-columns: 1fr;
+    }
+
+    .env-v4-combo {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) minmax(82px, auto);
+      gap: 10px;
+      align-items: center;
+      min-height: 78px;
+      padding: 10px;
+      background:
+        linear-gradient(90deg, rgba(47,143,139,.11) var(--fill, 0%), transparent 0),
+        rgba(255,255,255,.92);
+    }
+
+    .env-v4-combo::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--data-02) var(--fill, 0%), rgba(169,180,194,.26) 0);
+    }
+
+    .env-v4-index {
+      width: 28px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--data-01);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .env-v4-combo-main {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .env-v4-combo-title {
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.08;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .env-v4-combo-value {
+      display: grid;
+      justify-items: end;
+      gap: 3px;
+      color: var(--ink);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .env-v4-combo-value strong {
+      font-size: 25px;
+      line-height: .95;
+      font-weight: 950;
+    }
+
+    .env-v4-combo-value span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .env-v4-audit-strip {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      padding: 0 12px 12px;
+    }
+
+    .delivery-master-v4 .env-v4-audit-strip {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .env-v4-audit,
+    .env-v4-signal {
+      display: grid;
+      align-content: space-between;
+      gap: 7px;
+      min-height: 82px;
+      padding: 10px;
+      background: rgba(255,255,255,.9);
+    }
+
+    .env-v4-audit.good { background: var(--data-soft-02); border-color: rgba(47,143,139,.25); }
+    .env-v4-audit.warn { background: var(--data-soft-03); border-color: rgba(199,138,42,.34); }
+    .env-v4-audit.info { background: var(--data-soft-09); border-color: rgba(53,153,184,.24); }
+    .env-v4-audit.gateway { background: var(--data-soft-01); border-color: rgba(79,111,143,.25); }
+
+    .env-v4-visual-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .env-v4-signal-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @media (max-width: 1260px) {
+      .env-v4-intro,
+      .env-v4-body,
+      .delivery-master-v4 .env-v4-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .env-v4-stat-grid,
+      .env-v4-lane-grid,
+      .env-v4-visual-grid,
+      .env-v4-audit-strip,
+      .delivery-master-v4 .env-v4-audit-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .env-v4-intro,
+      .env-v4-stat-grid,
+      .env-v4-lane-grid,
+      .env-v4-visual-grid,
+      .env-v4-audit-strip,
+      .delivery-master-v4 .env-v4-audit-strip,
+      .env-v4-signal-grid,
+      .env-v4-combo,
+      .env-v4-module-head {
+        grid-template-columns: 1fr;
+      }
+
+      .env-v4-module-head {
+        display: grid;
+      }
+
+      .env-v4-combo-value,
+      .env-v4-lane-total {
+        justify-items: start;
+        text-align: left;
+      }
+
+      .env-v4-brief,
+      .env-v4-stat {
+        min-height: auto;
+      }
+    }
     .section-kicker {
       display: inline-flex;
       margin: 0 0 5px;
@@ -24987,6 +25482,82 @@
         '<div class="tracker-v3-rank-value"><strong>' + fmt(value) + '</strong><span>' + safe(uncounted ? "ótalið" : pct(value, total)) + '</span></div>' +
       '</article>';
     }
+    function envV4Class(cls) {
+      return cls ? " " + safe(cls) : "";
+    }
+    function envV4Value(row) {
+      return number(firstValue(row, ["visits", "value", "count", "events", "raw_signal_events"]));
+    }
+    function envV4Stat(label, value, detail, cls, fillValue, fillTotal) {
+      var className = envV4Class(cls);
+      var fill = trackerFill(fillValue, fillTotal);
+      var tip = label + ": " + value + (detail ? " - " + detail : "");
+      return '<article class="env-v4-stat' + className + '" title="' + safe(tip) + '">' +
+        '<span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' +
+        '<div class="env-v4-track" aria-hidden="true"><i style="--fill:' + safe(fill) + '"></i></div>' +
+      '</article>';
+    }
+    function envV4BarRows(rows, total, unit, limit) {
+      rows = (rows || []).slice().sort(function (a, b) { return envV4Value(b) - envV4Value(a); }).slice(0, limit || 5);
+      total = Math.max(number(total), 1);
+      if (!rows.length) return '<div class="subtle">Engin gögn.</div>';
+      return rows.map(function (row, index) {
+        var value = envV4Value(row);
+        var fill = trackerFill(value, total);
+        var title = row.key + " - " + fmt(value) + " " + (unit || "merki") + " - " + pct(value, total);
+        return '<div class="env-v4-bar-row tone-' + (index % 4) + '" title="' + safe(title) + '">' +
+          '<div class="env-v4-bar-meta"><strong>' + safe(row.key) + '</strong><span>' + fmt(value) + ' · ' + safe(pct(value, total)) + '</span></div>' +
+          '<div class="env-v4-bar-track" aria-hidden="true"><i style="--fill:' + safe(fill) + '"></i></div>' +
+        '</div>';
+      }).join("");
+    }
+    function envV4Lane(label, rows, total, cls, options) {
+      options = options || {};
+      rows = (rows || []).slice().sort(function (a, b) { return envV4Value(b) - envV4Value(a); });
+      total = Math.max(number(total) || sumRows(rows, "visits"), 1);
+      var top = rows[0];
+      var topValue = top ? envV4Value(top) : 0;
+      var className = envV4Class(cls);
+      var unit = options.unit || "línur";
+      var tip = label + ": " + (top ? top.key + " er efst með " + fmt(topValue) + " (" + pct(topValue, total) + ")" : "engin gögn");
+      return '<article class="env-v4-lane' + className + '" title="' + safe(tip) + '">' +
+        '<div class="env-v4-lane-head"><div><span class="env-v4-lane-label">' + safe(label) + '</span><strong>' + safe(top ? top.key : "Óþekkt") + '</strong></div><div class="env-v4-lane-total">' + fmt(topValue) + '<small>' + safe(pct(topValue, total)) + '</small></div></div>' +
+        '<div class="env-v4-bar-list">' + envV4BarRows(rows, total, unit, options.limit || 5) + '</div>' +
+      '</article>';
+    }
+    function envV4ComboCard(row, cards, total, index) {
+      var browser = browserLabel(row);
+      var os = row.os_family || "Óþekkt";
+      var device = labelDevice(row.device_class || row.inferred_device_class);
+      var layout = labelLayout(row.selected_layout);
+      var theme = labelTheme(row.color_scheme || "unknown");
+      var uncounted = row.visits === 0 && row.raw_signal_events > 0;
+      var diagnostic = row.diagnostic ? "Diagnostic" : "";
+      var merged = number(row.combo_count) > 1 && row.visits > 0 ? fmt(row.combo_count) + " tæknilínur" : "";
+      var label = [device, layout, browser].filter(Boolean).join(" / ");
+      var meta = [os, theme, isSamsungInternetRow(row) ? "Samsung Internet" : "", uncounted ? "ótalið tæknimerki" : "", diagnostic, merged].filter(Boolean).join(" · ");
+      var value = number(row.visits || row.raw_signal_events);
+      var fill = trackerFill(value, total);
+      var tip = titleFor(row, cards) + " - " + label + " - " + fmt(value) + " - " + (uncounted ? "ótalið" : pct(value, total));
+      return '<article class="env-v4-combo" style="--fill:' + safe(fill) + '" title="' + safe(tip) + '">' +
+        '<div class="env-v4-index">' + String(index + 1).padStart(2, "0") + '</div>' +
+        '<div class="env-v4-combo-main"><div class="env-v4-combo-label">' + safe(label) + '</div><div class="env-v4-combo-title">' + safe(titleFor(row, cards)) + '</div><small>' + safe(meta || cleanId(row.dashboard_id || row.dashboard_key)) + '</small></div>' +
+        '<div class="env-v4-combo-value"><strong>' + fmt(value) + '</strong><span>' + safe(uncounted ? "ótalið" : pct(value, total)) + '</span></div>' +
+      '</article>';
+    }
+    function envV4Audit(label, value, detail, cls, fillValue, fillTotal) {
+      var className = envV4Class(cls);
+      var fill = trackerFill(fillValue, fillTotal);
+      return '<article class="env-v4-audit' + className + '" title="' + safe(label + ": " + value + (detail ? " - " + detail : "")) + '">' +
+        '<span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' +
+        '<div class="env-v4-track" aria-hidden="true"><i style="--fill:' + safe(fill) + '"></i></div>' +
+      '</article>';
+    }
+    function envV4Signal(label, value, detail, cls, fillValue, fillTotal) {
+      var className = envV4Class(cls);
+      var fill = fillTotal ? '<div class="env-v4-track" aria-hidden="true"><i style="--fill:' + safe(trackerFill(fillValue, fillTotal)) + '"></i></div>' : "";
+      return '<article class="env-v4-signal' + className + '" title="' + safe(label + ": " + value + (detail ? " - " + detail : "")) + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' + fill + '</article>';
+    }
     function renderTechnical(data) {
       var cards = publicMap(data);
       var browserSource = rowsFrom(data, "browsers", "device");
@@ -25024,6 +25595,39 @@
       var deviceTotal = Math.max(sumRows(deviceGroups, "visits"), 1);
       var confidenceTotal = Math.max(sumRows(confidenceGroups, "visits"), 1);
       var comboTotal = Math.max(rows.reduce(function (acc, row) { return acc + number(row.visits || row.raw_signal_events); }, 0), 1);
+      var comboHtmlV4 = rows.map(function (row, index) { return envV4ComboCard(row, cards, comboTotal, index); }).join("") || '<div class="message-card neutral"><strong>Engin tæknigögn enn</strong><p>Device samantekt vantar í payload eða engar taldar/merkingarbærar línur fundust.</p></div>';
+      setHtml("technical-panel",
+        '<div class="tracker-master-v4">' +
+          '<section class="env-v4-shell">' +
+            '<div class="env-v4-intro">' +
+              '<article class="env-v4-brief"><div><span class="env-v4-kicker">Umhverfisgreining</span><h3>' + safe(verdict) + '</h3></div><p>' + safe(verdictCopy) + '</p><div class="env-v4-chip-row"><span class="env-v4-chip ' + (attention ? "warn" : "good") + '">' + fmt(attention) + ' athuganir</span><span class="env-v4-chip">' + fmt(trackerLines) + ' tracker línur</span><span class="env-v4-chip">' + fmt(countedTech.length) + ' taldar línur</span></div></article>' +
+              '<div class="env-v4-stat-grid">' +
+                envV4Stat("Tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir · " + pct(topDevice.visits, deviceTotal) : "Vantar dreifingu", topDevice ? "info" : "gateway", topDevice ? topDevice.visits : 0, deviceTotal) +
+                envV4Stat("Vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir · " + pct(topBrowser.visits, browserTotal) : "Vantar vafragögn", topBrowser ? "gateway" : "warn", topBrowser ? topBrowser.visits : 0, browserTotal) +
+                envV4Stat("Stýrikerfi", topOS ? topOS.key : "Óþekkt", topOS ? fmt(topOS.visits) + " heimsóknir · " + pct(topOS.visits, osTotal) : "Vantar OS gögn", topOS ? "gateway" : "warn", topOS ? topOS.visits : 0, osTotal) +
+                envV4Stat("Traust", topConfidence ? topConfidence.key : "Óþekkt", topConfidence ? fmt(topConfidence.visits) + " línur · " + pct(topConfidence.visits, confidenceTotal) : "Engin confidence flokkun", topConfidence ? "good" : "gateway", topConfidence ? topConfidence.visits : 0, confidenceTotal) +
+              '</div>' +
+            '</div>' +
+            '<div class="env-v4-body">' +
+              '<section class="env-v4-module"><div class="env-v4-module-head"><div class="env-v4-module-title"><span class="env-v4-module-kicker">Dreifing</span><h3>Umhverfið í fjórum lesanlegum víddum</h3><p>Sömu production heimsóknir eru brotnar eftir tæki, vafra, stýrikerfi og trausti. Stærstu línur ráða lestrarröðinni, ekki kortaraðir.</p></div><span class="env-v4-module-count">' + fmt(countedVisits) + ' heimsóknir</span></div><div class="env-v4-lane-grid">' +
+                envV4Lane("Tæki", deviceDistribution, deviceTotal, "good", { unit: "línur", limit: distributionLimit }) +
+                envV4Lane("Vafri", browserDistribution, browserTotal, "gateway", { unit: "línur", limit: distributionLimit }) +
+                envV4Lane("Stýrikerfi", osDistribution, osTotal, "info", { unit: "línur", limit: distributionLimit }) +
+                envV4Lane("Traust", confidenceDistribution, confidenceTotal, "good", { unit: "línur", limit: distributionLimit }) +
+              '</div></section>' +
+              '<section class="env-v4-module"><div class="env-v4-module-head"><div class="env-v4-module-title"><span class="env-v4-module-kicker">Mynstur</span><h3>Samsetningar sem skipta máli</h3><p>Hver röð sameinar mælaborð, layout, vafra, stýrikerfi og theme svo mest áhrifamiklu notkunarsamhengin sjáist strax.</p></div><span class="env-v4-module-count">' + fmt(rows.length) + ' hópar</span></div><div class="env-v4-combo-list">' + comboHtmlV4 + '</div></section>' +
+            '</div>' +
+            '<div class="env-v4-audit-strip">' +
+              envV4Audit("Veik merki", shareValue(weakShare), "Veik eða óþekkt signal.", weakShare > .12 ? "warn" : "good", weakShare * 100, 100) +
+              envV4Audit("Samsung raw", fmt(samsungRaw), "Greining, ekki heimsókn.", samsungRaw ? "info" : "good", samsungRaw, Math.max(samsungRaw + countedVisits, 1)) +
+              envV4Audit("Diagnostic", fmt(diagnosticRows), "Haldið utan notkunar.", diagnosticRows ? "info" : "good", diagnosticRows, Math.max(trackerLines, 1)) +
+              envV4Audit("Óþekkt tæki", fmt(unknownDevice), "Ætti helst að vera 0.", unknownDevice ? "warn" : "good", unknownDevice, countedVisits) +
+              envV4Audit("Tracker línur", fmt(trackerLines), "Allar device línur.", trackerLines ? "gateway" : "warn", trackerLines, Math.max(trackerLines, 1)) +
+              envV4Audit("Taldar línur", fmt(countedTech.length), "Production heimsóknir.", countedTech.length ? "good" : "warn", countedTech.length, Math.max(trackerLines, 1)) +
+            '</div>' +
+          '</section>' +
+        '</div>');
+      return;
       var comboHtml = rows.map(function (row, index) { return trackerV3ComboCard(row, cards, comboTotal, index); }).join("") || '<div class="message-card neutral"><strong>Engin tæknigögn enn</strong><p>Device samantekt vantar í payload eða engar taldar/merkingarbærar línur fundust.</p></div>';
       setHtml("technical-panel",
         '<div class="tracker-master-v3">' +
