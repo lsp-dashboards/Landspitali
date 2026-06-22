@@ -22143,7 +22143,7 @@
       return "#A9B4C2";
     }
     function megaTipAttr(text) {
-      return text ? ' title="' + safe(text) + '" data-mega-tip="' + safe(text) + '"' : "";
+      return text ? ' tabindex="0" title="' + safe(text) + '" data-mega-tip="' + safe(text) + '"' : "";
     }
     function megaShortLabel(label, max) {
       label = String(label || "-").trim();
@@ -22322,14 +22322,21 @@
     }
     function megaBubbleMap(rows, total) {
       rows = (rows || []).filter(function (row) { return number(row.value) > 0; }).slice(0, 8);
-      total = Math.max(number(total), rows[0] ? number(rows[0].value) : 1, 1);
+      total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + number(row.value); }, 0), 1);
       var positions = [[18,36],[42,28],[66,38],[31,62],[55,66],[78,63],[18,74],[84,30]];
       if (!rows.length) return '<div class="message-card neutral"><strong>Engin áhrifagögn</strong><p>Engin talin mælaborðsgögn til að raða.</p></div>';
-      return '<div class="mega-bubble-stage">' + rows.map(function (row, index) {
+      var bubbles = rows.map(function (row, index) {
         var pos = positions[index % positions.length];
-        var size = 52 + Math.sqrt(number(row.value) / total) * 72;
-        return '<div class="mega-bubble" style="--x:' + pos[0] + '%;--y:' + pos[1] + '%;--size:' + size.toFixed(1) + 'px" title="' + safe(row.label + ": " + fmt(row.value)) + '">' + fmt(row.value) + '<small>' + safe(pct(row.value, total)) + '</small></div>';
-      }).join("") + '</div>';
+        var value = number(row.value);
+        var size = 62 + Math.sqrt(value / total) * 92;
+        var tip = row.label + ": " + fmt(value) + " opnanir, " + pct(value, total) + " af sýndum áhrifagrunni.";
+        return '<div class="mega-bubble" style="--x:' + pos[0] + '%;--y:' + pos[1] + '%;--size:' + size.toFixed(1) + 'px"' + megaTipAttr(tip) + '><div class="mega-bubble-content"><strong>' + safe(megaShortLabel(row.label, 18)) + '</strong><span>' + fmt(value) + '</span><small>' + safe(pct(value, total)) + '</small></div></div>';
+      }).join("");
+      var legend = rows.map(function (row) {
+        var value = number(row.value);
+        return '<div class="mega-impact-row"' + megaTipAttr(row.label + ": " + fmt(value) + " opnanir.") + '><span>' + safe(row.label) + '</span><strong>' + fmt(value) + '</strong></div>';
+      }).join("");
+      return '<div class="mega-impact-map"><div class="mega-bubble-stage">' + bubbles + '</div><div class="mega-impact-list">' + legend + '</div></div>';
     }
     function megaHierarchy(rows) {
       return '<div class="mega-hierarchy-stack">' + (rows || []).map(function (row) {
@@ -22351,6 +22358,68 @@
           control.classList.toggle("active", active);
           control.setAttribute("aria-selected", active ? "true" : "false");
         });
+      });
+    }
+    function bindMegaAtlasTooltips(root) {
+      root = root || document;
+      var board = root.querySelector ? root.querySelector(".mega-dashboard-board-v3") : null;
+      if (!board || board.__megaTooltipBound) return;
+      board.__megaTooltipBound = true;
+      var tooltip = document.getElementById("mega-atlas-tooltip");
+      if (!tooltip) {
+        tooltip = document.createElement("div");
+        tooltip.id = "mega-atlas-tooltip";
+        tooltip.className = "mega-atlas-tooltip";
+        tooltip.setAttribute("role", "tooltip");
+        document.body.appendChild(tooltip);
+      }
+      function targetFrom(event) {
+        return event.target && event.target.closest ? event.target.closest("[data-mega-tip]") : null;
+      }
+      function position(target) {
+        if (!target) return;
+        var rect = target.getBoundingClientRect();
+        var half = Math.min(150, Math.max(96, tooltip.offsetWidth / 2 || 120));
+        var left = clamp(rect.left + rect.width / 2, half + 12, window.innerWidth - half - 12);
+        var top = rect.top - 10;
+        var below = top < 48;
+        if (below) top = rect.bottom + 8;
+        tooltip.style.left = left.toFixed(1) + "px";
+        tooltip.style.top = top.toFixed(1) + "px";
+        tooltip.classList.toggle("below", below);
+      }
+      function show(target) {
+        var text = target && target.getAttribute("data-mega-tip");
+        if (!text) return;
+        tooltip.textContent = text;
+        tooltip.classList.add("visible");
+        position(target);
+      }
+      function hide() {
+        tooltip.classList.remove("visible", "below");
+      }
+      board.addEventListener("pointerover", function (event) {
+        var target = targetFrom(event);
+        if (target && board.contains(target)) show(target);
+      });
+      board.addEventListener("pointermove", function (event) {
+        var target = targetFrom(event);
+        if (target && board.contains(target) && tooltip.classList.contains("visible")) position(target);
+      });
+      board.addEventListener("pointerout", function (event) {
+        var target = targetFrom(event);
+        if (!target || (event.relatedTarget && target.contains(event.relatedTarget))) return;
+        hide();
+      });
+      board.addEventListener("focusin", function (event) {
+        var target = targetFrom(event);
+        if (target && board.contains(target)) show(target);
+      });
+      board.addEventListener("focusout", function (event) {
+        if (targetFrom(event)) hide();
+      });
+      board.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") hide();
       });
     }
     function megaDashboardCard(data, dashboard, totalVisits, index) {
@@ -22554,10 +22623,10 @@
             megaFlowChart(totalVisits, rawSignals, gatewaySignals, routeTotalAll, qualityCount) +
           '</section>' +
           '<section class="mega-atlas-grid" aria-label="Samsetning mælaborðs">' +
-            megaAtlasDonutPanel("Donut", "Útgáfuval", layoutTotal, layoutRows, "Mobile og desktop í sömu notkunargrunni.", "", "route tech") +
-            megaAtlasDonutPanel("Pie", "Route ástæður", Math.max(routeTotalAll, 1), routeDonutRows, "Hvaða routing regla skýrir útgáfuvalið.", "feature", "route") +
-            megaAtlasDonutPanel("Pie", "Uppruni", sourceTotal, sourceRows, "island.is, beint og annað í einni upprunamynd.", "", "source") +
-            megaAtlasDonutPanel("Pie", "Herferðir / source", sourceCategoryTotal, sourceCategoryRows, "Source category úr tracker/samantekt.", "", "source") +
+            megaAtlasDonutPanel("Donut", "Útgáfuval", layoutTotal, layoutRows, "", "", "route tech") +
+            megaAtlasDonutPanel("Pie", "Route ástæður", Math.max(routeTotalAll, 1), routeDonutRows, "", "feature", "route") +
+            megaAtlasDonutPanel("Pie", "Uppruni", sourceTotal, sourceRows, "", "", "source") +
+            megaAtlasDonutPanel("Pie", "Herferðir / source", sourceCategoryTotal, sourceCategoryRows, "", "", "source") +
           '</section>' +
           '<section class="mega-signal-grid" aria-label="Rekstrarsignöl">' +
             megaSignalPanel("Signal", "Rekstrarpúls", fmt(model.score || 0), model.score || 0, [
@@ -22582,21 +22651,21 @@
             ], model.eventAge ? model.eventAge.className : "good", "tech") +
           '</section>' +
           '<section class="mega-wide-grid" aria-label="Portfolio og tæknikort">' +
-            megaAnalysisPanel("Columns", "Portfolio skyline", fmt(sortedDashboards.length), megaSkyline(skylineRows, skylineRows[0] ? skylineRows[0].value : totalVisits), "") +
-            megaAnalysisPanel("Heatmap", "Tæki / vafri", fmt(deviceRows.length || deviceGroups.length + browserGroups.length), megaHeatmap(deviceRows), "feature") +
+            megaAnalysisPanel("Distribution", "Dreifing mælaborða", fmt(sortedDashboards.length), megaSkyline(skylineRows, totalVisits), "", "Raðar mælaborðum eftir talinni notkun og sýnir hvaða kort ber mest af grunni.") +
+            megaAnalysisPanel("Heatmap", "Tæki / vafri", fmt(deviceRows.length || deviceGroups.length + browserGroups.length), megaHeatmap(deviceRows), "feature", "Tracker línur flokkaðar eftir tæki og vafra. Dekkri reitur merkir stærri hóp.") +
           '</section>' +
           '<section class="mega-trend-hierarchy" aria-label="Notkunarþróun og áhrif">' +
-            megaAnalysisPanel("Line", "Notkunarþróun", latestTrend ? fmt(latestTrend.visits) : "núna", '<div class="mega-trend-large">' + megaTrendSvg(data) + '</div>', "") +
-            megaAnalysisPanel("Hierarchy", "Gögn sem stigveldi", fmt(hierarchyRows.length), megaHierarchy(hierarchyRows), "") +
+            megaAnalysisPanel("Trend", "Notkunarþróun", latestTrend ? fmt(latestTrend.visits) : "núna", '<div class="mega-trend-large">' + megaTrendSvg(data) + '</div>', "", "Sýnir síðustu allt að 30 daga sem súlur og línu, með meðaltali sem viðmiði.") +
+            megaAnalysisPanel("Hierarchy", "Gögn sem stigveldi", fmt(hierarchyRows.length), megaHierarchy(hierarchyRows), "", "Gögnin eru lesin frá talinni opnun niður í route, vafra og tæki.") +
           '</section>' +
           '<section class="mega-wide-grid" aria-label="Áhrifakort og lestrarröð">' +
-            megaAnalysisPanel("Bubble", "Áhrifakort", topShare, megaBubbleMap(skylineRows, skylineRows[0] ? skylineRows[0].value : totalVisits), "feature") +
+            megaAnalysisPanel("Impact", "Áhrifakort", topShare, megaBubbleMap(skylineRows, totalVisits), "feature", "Stærð bólu sýnir hlutdeild mælaborðs í sýndum notkunargrunni.") +
             megaAnalysisPanel("Selection", "Lestrarröð", safe(topTitle), megaRankList([
               { label: "Ráðandi kort", value: top ? visitValue(top) : 0, detail: top ? topTitle : "-", className: "good" },
               { label: "Route samhengi", value: routeTotalAll, detail: topRoute ? topRoute.key : "-", className: "warn" },
               { label: "Uppruni þekktur", value: sourceKnown, detail: "island.is + beint", className: "good" },
               { label: "Tækni/vafri", value: deviceGroups[0] ? deviceGroups[0].visits : 0, detail: topDeviceName + " / " + topBrowserName, className: "info" }
-            ], Math.max(totalVisits, routeTotalAll, sourceKnown, 1), 4), "") +
+            ], Math.max(totalVisits, routeTotalAll, sourceKnown, 1), 4), "", "Lestrarröð dregur saman hvaða sönnun á að skoða fyrst án þess að endurtaka öll gildi.") +
           '</section>' +
           '<section class="mega-dashboard-lanes" aria-label="Mælaborð og notkun">' +
             '<div class="mega-lane-head"><div><span>Mælaborðspassi</span><strong>Hvert kort sem rekstrarpassi</strong><p>Hvert spjald sýnir það sem er sértækt fyrir kortið: hlutdeild, útgáfuval, uppruna, nýjustu virkni, leiðingu, tracker samhengi og birtingarstöðu.</p></div><div class="mega-chip-row"><span class="mega-chip good">' + fmt(sortedDashboards.length) + ' virk</span><span class="mega-chip ' + (warningCount ? 'warn' : 'good') + '">' + (warningCount ? fmt(warningCount) + ' merki' : 'hreint') + '</span></div></div>' +
@@ -22605,6 +22674,7 @@
           '</section>' +
         '</div>');
       bindMegaAtlasControls(byId("dashboard-public-master"));
+      bindMegaAtlasTooltips(byId("dashboard-public-master"));
     }
     function dashV2Track(value, total, cls) {
       var className = cls ? safe(cls) : "";
