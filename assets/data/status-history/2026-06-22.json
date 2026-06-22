@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "generated_at": "2026-06-22T11:17:40.341Z",
-  "dashboard_data_generated_at": "2026-06-22T11:17:40.341Z",
-  "aggregation_generated_at": "2026-06-22T11:17:33.408Z",
+  "generated_at": "2026-06-22T11:53:53.470Z",
+  "dashboard_data_generated_at": "2026-06-22T11:53:53.470Z",
+  "aggregation_generated_at": "2026-06-22T11:53:33.841Z",
   "script_version": "v1.0.0",
   "schema_version": "1",
   "config_version": "v1.0.0",
@@ -25,47 +25,47 @@
   },
   "health": {
     "status": "ok",
-    "last_event_time": "2026-06-22T09:54:53.037Z",
-    "last_raw_event_time": "2026-06-22T09:54:53.037Z",
-    "last_counted_event_time": "2026-06-22T09:54:53.037Z",
+    "last_event_time": "2026-06-22T11:36:54.795Z",
+    "last_raw_event_time": "2026-06-22T11:36:54.795Z",
+    "last_counted_event_time": "2026-06-22T11:36:54.795Z",
     "last_diagnostic_event_time": "2026-06-16T02:23:20.998Z",
     "last_error_event_time": "",
-    "last_aggregation_time": "2026-06-22T11:17:33.408Z",
-    "aggregation_generated_at": "2026-06-22T11:17:33.408Z",
-    "dashboard_data_generated_at": "2026-06-22T11:12:45.934Z",
-    "raw_event_rows": 96,
+    "last_aggregation_time": "2026-06-22T11:53:33.841Z",
+    "aggregation_generated_at": "2026-06-22T11:53:33.841Z",
+    "dashboard_data_generated_at": "2026-06-22T11:47:36.894Z",
+    "raw_event_rows": 98,
     "warnings": []
   },
   "kpis": {
-    "visits_today": 5,
-    "visits_7d": 46,
-    "visits_30d": 76,
+    "visits_today": 7,
+    "visits_7d": 48,
+    "visits_30d": 78,
     "active_dashboards": 2,
-    "mobile_visits": 15,
+    "mobile_visits": 17,
     "desktop_visits": 61,
     "tablet_visits": 9,
     "narrow_visits": 1,
     "fallback_error_count": 0,
     "bot_debug_test_count": 6,
-    "island_is_visits": 64,
-    "total_visits": 76,
-    "total_events": 88,
-    "raw_events": 88,
+    "island_is_visits": 66,
+    "total_visits": 78,
+    "total_events": 90,
+    "raw_events": 90,
     "diagnostic_events": 12,
     "confirmed_warnings": 2,
     "warning_count": 2,
     "diagnostic_signals": 3,
     "weak_unknown_signal_count": 10,
-    "reported_dark_visits": 35,
+    "reported_dark_visits": 37,
     "reported_light_visits": 39,
     "forced_dark_detected_visits": 2,
     "samsung_forced_dark_possible_events": 0,
     "in_app_browser_visits": 0,
     "powerbi_viewer_unsupported_browser_events": 4,
     "powerbi_viewer_not_officially_supported_events": 0,
-    "mobile_share": 0.19736842105263158,
-    "desktop_share": 0.8026315789473685,
-    "weak_unknown_signal_share": 0.11363636363636363,
+    "mobile_share": 0.21794871794871795,
+    "desktop_share": 0.782051282051282,
+    "weak_unknown_signal_share": 0.1111111111111111,
     "confidence_health": "ok"
   },
   "dashboards": [
@@ -75,26 +75,26 @@
       "dashboard_name": "Bráðamóttaka í Fossvogi",
       "public_card_title": "Bráðamóttaka í Fossvogi",
       "status": "active",
-      "visits_today": 4,
-      "visits_7d": 26,
-      "visits_30d": 41,
-      "total_visits": 41,
-      "total_events": 49,
-      "raw_events": 49,
+      "visits_today": 5,
+      "visits_7d": 27,
+      "visits_30d": 42,
+      "total_visits": 42,
+      "total_events": 50,
+      "raw_events": 50,
       "diagnostic_events": 8,
-      "mobile_visits": 11,
+      "mobile_visits": 12,
       "desktop_visits": 30,
       "tablet_visits": 5,
       "narrow_visits": 1,
-      "island_is_visits": 33,
+      "island_is_visits": 34,
       "fallback_clicks": 0,
       "error_events": 0,
       "debug_events": 5,
       "bot_events": 0,
       "safe_fallback_events": 0,
-      "last_event_time": "2026-06-22T09:54:53.037Z",
-      "last_raw_event_time": "2026-06-22T09:54:53.037Z",
-      "last_counted_event_time": "2026-06-22T09:54:53.037Z",
+      "last_event_time": "2026-06-22T11:36:35.197Z",
+      "last_raw_event_time": "2026-06-22T11:36:35.197Z",
+      "last_counted_event_time": "2026-06-22T11:36:35.197Z",
       "last_diagnostic_event_time": "2026-06-16T02:23:20.998Z",
       "last_error_event_time": "",
       "warning_count": 1,
@@ -102,8 +102,8 @@
       "diagnostic_signal_count": 2,
       "confidence_band": "good",
       "weak_unknown_signal_count": 7,
-      "source_mix_summary": "island_is_public:33, direct:6, root_index:2",
-      "route_mix_summary": "desktop:6, mobile:5, desktop:4",
+      "source_mix_summary": "island_is_public:34, direct:6, root_index:2",
+      "route_mix_summary": "mobile:6, desktop:6, desktop:4",
       "config_version": "v1.0.0",
       "core_version": "v1.0.0",
       "dashboardId": "bradamottaka-fossvogi",
@@ -117,19 +117,19 @@
         "fallback": "mobile"
       },
       "recentAggregateCounts": {
-        "visitsToday": 4,
-        "visits7d": 26,
-        "visits30d": 41,
-        "events": 49,
+        "visitsToday": 5,
+        "visits7d": 27,
+        "visits30d": 42,
+        "events": 50,
         "errors": 0,
         "fallbackClicks": 0
       },
       "trend7d": {
-        "visits": 26,
+        "visits": 27,
         "direction": "flat"
       },
       "trend30d": {
-        "visits": 41,
+        "visits": 42,
         "direction": "flat"
       },
       "viewerRiskSummary": {
@@ -148,26 +148,26 @@
       "dashboard_name": "Þjónustukannanir ríkisstofnana",
       "public_card_title": "Þjónustukannanir",
       "status": "active",
-      "visits_today": 1,
-      "visits_7d": 20,
-      "visits_30d": 35,
-      "total_visits": 35,
-      "total_events": 39,
-      "raw_events": 39,
+      "visits_today": 2,
+      "visits_7d": 21,
+      "visits_30d": 36,
+      "total_visits": 36,
+      "total_events": 40,
+      "raw_events": 40,
       "diagnostic_events": 4,
-      "mobile_visits": 4,
+      "mobile_visits": 5,
       "desktop_visits": 31,
       "tablet_visits": 4,
       "narrow_visits": 0,
-      "island_is_visits": 31,
+      "island_is_visits": 32,
       "fallback_clicks": 0,
       "error_events": 0,
       "debug_events": 1,
       "bot_events": 0,
       "safe_fallback_events": 0,
-      "last_event_time": "2026-06-22T08:21:52.095Z",
-      "last_raw_event_time": "2026-06-22T08:21:52.095Z",
-      "last_counted_event_time": "2026-06-22T08:21:52.095Z",
+      "last_event_time": "2026-06-22T11:36:54.795Z",
+      "last_raw_event_time": "2026-06-22T11:36:54.795Z",
+      "last_counted_event_time": "2026-06-22T11:36:54.795Z",
       "last_diagnostic_event_time": "2026-06-15T23:41:13.966Z",
       "last_error_event_time": "",
       "warning_count": 1,
@@ -175,7 +175,7 @@
       "diagnostic_signal_count": 1,
       "confidence_band": "good",
       "weak_unknown_signal_count": 3,
-      "source_mix_summary": "island_is_public:31, direct:3, root_index:1",
+      "source_mix_summary": "island_is_public:32, direct:3, root_index:1",
       "route_mix_summary": "desktop:8, desktop:4, desktop:4",
       "config_version": "v1.0.0",
       "core_version": "v1.0.0",
@@ -190,19 +190,19 @@
         "fallback": "mobile"
       },
       "recentAggregateCounts": {
-        "visitsToday": 1,
-        "visits7d": 20,
-        "visits30d": 35,
-        "events": 39,
+        "visitsToday": 2,
+        "visits7d": 21,
+        "visits30d": 36,
+        "events": 40,
         "errors": 0,
         "fallbackClicks": 0
       },
       "trend7d": {
-        "visits": 20,
+        "visits": 21,
         "direction": "flat"
       },
       "trend30d": {
-        "visits": 35,
+        "visits": 36,
         "direction": "flat"
       },
       "viewerRiskSummary": {
@@ -800,8 +800,8 @@
       "entry_source_category": "island_is_public",
       "selected_layout": "mobile",
       "device_class": "phone",
-      "visits": 2,
-      "events": 2,
+      "visits": 3,
+      "events": 3,
       "bots": 0,
       "debug_events": 0,
       "diagnostic_events": 0,
@@ -815,6 +815,21 @@
       "entry_source_category": "island_is_public",
       "selected_layout": "desktop",
       "device_class": "desktop",
+      "visits": 1,
+      "events": 1,
+      "bots": 0,
+      "debug_events": 0,
+      "diagnostic_events": 0,
+      "fallback_clicks": 0,
+      "errors": 0,
+      "safe_fallbacks": 0
+    },
+    {
+      "date": "2026-06-22T00:00:00.000Z",
+      "dashboard_key": "thjonustukannanir",
+      "entry_source_category": "island_is_public",
+      "selected_layout": "mobile",
+      "device_class": "phone",
       "visits": 1,
       "events": 1,
       "bots": 0,
@@ -1159,6 +1174,22 @@
       "dashboard_key": "bradamottaka",
       "visits": 2,
       "events": 2,
+      "errors": 0,
+      "diagnostic_events": 0
+    },
+    {
+      "hour_utc": "2026-06-22T11:00:00Z",
+      "dashboard_key": "bradamottaka",
+      "visits": 1,
+      "events": 1,
+      "errors": 0,
+      "diagnostic_events": 0
+    },
+    {
+      "hour_utc": "2026-06-22T11:00:00Z",
+      "dashboard_key": "thjonustukannanir",
+      "visits": 1,
+      "events": 1,
       "errors": 0,
       "diagnostic_events": 0
     }
@@ -1620,8 +1651,8 @@
       "in_app_browser_family": "none",
       "display_class": "phone_viewport",
       "viewport_bucket": "phone_360_479",
-      "visits": 5,
-      "events": 5
+      "visits": 6,
+      "events": 6
     },
     {
       "dashboard_key": "bradamottaka",
@@ -2214,8 +2245,8 @@
       "in_app_browser_family": "none",
       "display_class": "phone_viewport",
       "viewport_bucket": "phone_360_479",
-      "visits": 2,
-      "events": 2
+      "visits": 3,
+      "events": 3
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -2414,8 +2445,8 @@
       "inferred_is_chromeos_tablet_like": false,
       "inferred_is_smart_tv": false,
       "in_app_browser_family": "none",
-      "visits": 5,
-      "events": 5
+      "visits": 6,
+      "events": 6
     },
     {
       "dashboard_key": "bradamottaka",
@@ -2630,8 +2661,8 @@
       "inferred_is_chromeos_tablet_like": false,
       "inferred_is_smart_tv": false,
       "in_app_browser_family": "none",
-      "visits": 2,
-      "events": 2
+      "visits": 3,
+      "events": 3
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -2798,8 +2829,8 @@
       "browser_version_source": "user_agent",
       "is_webview": false,
       "in_app_browser_family": "none",
-      "visits": 5,
-      "events": 5
+      "visits": 6,
+      "events": 6
     },
     {
       "dashboard_key": "bradamottaka",
@@ -2980,8 +3011,8 @@
       "browser_version_source": "user_agent",
       "is_webview": false,
       "in_app_browser_family": "none",
-      "visits": 2,
-      "events": 2
+      "visits": 3,
+      "events": 3
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -3026,8 +3057,8 @@
       "os_version": 18.7,
       "os_version_source": "user_agent",
       "navigator_platform_raw": "iPhone",
-      "visits": 5,
-      "events": 5
+      "visits": 6,
+      "events": 6
     },
     {
       "dashboard_key": "bradamottaka",
@@ -3106,8 +3137,8 @@
       "os_version": 18.7,
       "os_version_source": "user_agent",
       "navigator_platform_raw": "iPhone",
-      "visits": 2,
-      "events": 2
+      "visits": 3,
+      "events": 3
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -3486,8 +3517,8 @@
       "display_mode": "browser",
       "color_gamut": "p3",
       "dynamic_range": "high",
-      "visits": 4,
-      "events": 4
+      "visits": 5,
+      "events": 5
     },
     {
       "dashboard_key": "bradamottaka",
@@ -4066,8 +4097,8 @@
       "display_mode": "browser",
       "color_gamut": "p3",
       "dynamic_range": "high",
-      "visits": 2,
-      "events": 2
+      "visits": 3,
+      "events": 3
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -4206,8 +4237,8 @@
       "keyboard_mouse_likely": false,
       "remote_control_likely": false,
       "stylus_possible": false,
-      "visits": 10,
-      "events": 10
+      "visits": 11,
+      "events": 11
     },
     {
       "dashboard_key": "bradamottaka",
@@ -4308,8 +4339,8 @@
       "keyboard_mouse_likely": false,
       "remote_control_likely": false,
       "stylus_possible": false,
-      "visits": 6,
-      "events": 6
+      "visits": 7,
+      "events": 7
     }
   ],
   "performance": [
@@ -4422,8 +4453,8 @@
       "dom_content_loaded_bucket": "lt_500ms",
       "load_event_bucket": "unknown",
       "low_capability_device": false,
-      "visits": 3,
-      "events": 3
+      "visits": 4,
+      "events": 4
     },
     {
       "dashboard_key": "bradamottaka",
@@ -4630,8 +4661,8 @@
       "dom_content_loaded_bucket": "lt_500ms",
       "load_event_bucket": "unknown",
       "low_capability_device": false,
-      "visits": 2,
-      "events": 2
+      "visits": 3,
+      "events": 3
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -4758,8 +4789,8 @@
       "utm_medium": "public_dashboard_card",
       "utm_campaign": "landspitali_maelabord",
       "utm_content": "bradamottaka_fossvogi",
-      "visits": 33,
-      "events": 33
+      "visits": 34,
+      "events": 34
     },
     {
       "dashboard_key": "bradamottaka",
@@ -4824,8 +4855,8 @@
       "utm_medium": "public_dashboard_card",
       "utm_campaign": "landspitali_maelabord",
       "utm_content": "thjonustukannanir",
-      "visits": 31,
-      "events": 31
+      "visits": 32,
+      "events": 32
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -4853,8 +4884,8 @@
       "route_policy_result": "policy_auto",
       "tablet_strategy_result": "not_tablet_route",
       "narrow_desktop_strategy_result": "not_narrow_route",
-      "visits": 5,
-      "events": 5
+      "visits": 6,
+      "events": 6
     },
     {
       "dashboard_key": "bradamottaka",
@@ -5253,8 +5284,8 @@
       "route_policy_result": "policy_auto",
       "tablet_strategy_result": "not_tablet_route",
       "narrow_desktop_strategy_result": "not_narrow_route",
-      "visits": 2,
-      "events": 2
+      "visits": 3,
+      "events": 3
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -5540,7 +5571,7 @@
       "counted_count": 1,
       "diagnostic_count": 0,
       "confirmed_count": 0,
-      "last_seen": "2026-06-22T11:17:19.734Z",
+      "last_seen": "2026-06-22T11:52:49.730Z",
       "signal_quality": "reported",
       "is_confirmed": false,
       "confidence_band": "unknown or insufficient evidence"
@@ -5555,7 +5586,7 @@
       "counted_count": 0,
       "diagnostic_count": 1,
       "confirmed_count": 0,
-      "last_seen": "2026-06-22T11:17:19.734Z",
+      "last_seen": "2026-06-22T11:52:49.730Z",
       "signal_quality": "detected",
       "is_confirmed": false,
       "confidence_band": "high"
@@ -5570,7 +5601,7 @@
       "counted_count": 0,
       "diagnostic_count": 1,
       "confirmed_count": 0,
-      "last_seen": "2026-06-22T11:17:19.734Z",
+      "last_seen": "2026-06-22T11:52:49.730Z",
       "signal_quality": "detected",
       "is_confirmed": false,
       "confidence_band": "high"
@@ -5585,7 +5616,7 @@
       "counted_count": 2,
       "diagnostic_count": 0,
       "confirmed_count": 2,
-      "last_seen": "2026-06-22T11:17:19.734Z",
+      "last_seen": "2026-06-22T11:52:49.730Z",
       "signal_quality": "inferred_from_browser_policy",
       "is_confirmed": true,
       "confidence_band": "very high confidence"
@@ -5600,7 +5631,7 @@
       "counted_count": 2,
       "diagnostic_count": 0,
       "confirmed_count": 2,
-      "last_seen": "2026-06-22T11:17:19.734Z",
+      "last_seen": "2026-06-22T11:52:49.730Z",
       "signal_quality": "inferred_from_browser_policy",
       "is_confirmed": true,
       "confidence_band": "very high confidence"
@@ -5610,13 +5641,13 @@
     {
       "code": "traffic_total",
       "title": "Heildarumferð",
-      "value": "76",
+      "value": "78",
       "detail": "Allar taldar heimsóknir yfir virk mælaborð."
     },
     {
       "code": "mobile_share",
       "title": "Mobile hlutfall",
-      "value": "19.7%",
+      "value": "21.8%",
       "detail": "Hlutfall heimsókna sem fóru í mobile útgáfu."
     },
     {
@@ -5628,13 +5659,13 @@
     {
       "code": "confidence_health",
       "title": "Signal gæði",
-      "value": "11.4%",
+      "value": "11.1%",
       "detail": "Hlutfall veikra/óþekktra tækjamerkja í raw/aggregate gögnum."
     },
     {
       "code": "island_is_share",
       "title": "island.is uppruni",
-      "value": "84.2%",
+      "value": "84.6%",
       "detail": "Hlutfall heimsókna sem virðast koma af island.is opinberri síðu."
     },
     {
@@ -5646,7 +5677,7 @@
     {
       "code": "display_theme",
       "title": "Dark/forced signals",
-      "value": "37",
+      "value": "39",
       "detail": "Reported dark og forced-dark merki eru aðgreind."
     },
     {
@@ -5672,10 +5703,10 @@
     "hit": false,
     "cache_key": "dashboard_payload_v1_first_production",
     "cache_seconds": 300,
-    "served_at": "2026-06-22T11:21:29.679Z"
+    "served_at": "2026-06-22T11:57:44.145Z"
   },
   "schemaVersion": "1",
-  "generatedAt": "2026-06-22T11:17:40.341Z",
+  "generatedAt": "2026-06-22T11:53:53.470Z",
   "publicAggregateOnly": true,
   "aggregate_only": true,
   "data_source": "apps_script_snapshot",
@@ -5731,8 +5762,8 @@
     },
     {
       "date": "2026-06-22T00:00:00.000Z",
-      "total_visits": 5,
-      "mobile_visits": 2,
+      "total_visits": 7,
+      "mobile_visits": 4,
       "desktop_visits": 3,
       "warnings": 0
     }

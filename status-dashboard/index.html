@@ -11822,7 +11822,7 @@
       grid-template-rows: auto minmax(0, 1fr);
       gap: 14px;
       align-content: start;
-      min-height: 282px;
+      min-height: 420px;
       padding: 14px;
     }
 
@@ -11939,12 +11939,13 @@
 
     .mega-atlas-panel .mega-legend {
       align-content: start;
+      min-height: 108px;
     }
 
     .mega-atlas-panel .mega-legend-row {
       grid-template-columns: 10px minmax(0, 1fr) minmax(82px, auto);
-      min-height: 28px;
-      padding: 5px 7px;
+      min-height: 27px;
+      padding: 4px 7px;
     }
 
     .mega-atlas-panel .mega-legend-row > span:not(.mega-dot) {
@@ -11968,13 +11969,14 @@
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
+      align-items: stretch;
       min-width: 0;
     }
 
     .mega-signal-panel {
-      min-height: 292px;
+      min-height: 420px;
       display: grid;
-      grid-template-rows: auto minmax(126px, 1fr) auto;
+      grid-template-rows: auto minmax(176px, 1fr) 126px;
       gap: 10px;
       min-width: 0;
       padding: 14px;
@@ -12019,7 +12021,7 @@
     .mega-signal-field {
       position: relative;
       overflow: hidden;
-      min-height: 150px;
+      min-height: 176px;
       display: grid;
       align-content: end;
       gap: 4px;
@@ -12068,7 +12070,10 @@
 
     .mega-signal-footers {
       display: grid;
+      grid-auto-rows: minmax(0, 1fr);
       gap: 6px;
+      min-height: 126px;
+      align-self: end;
     }
 
     .mega-signal-footer,
@@ -12077,8 +12082,8 @@
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 8px;
       align-items: baseline;
-      min-height: 28px;
-      padding: 7px 9px;
+      min-height: 0;
+      padding: 6px 9px;
       border: 1px solid rgba(216,226,234,.82);
       border-radius: 9px;
       background: rgba(255,255,255,.72);
@@ -23622,6 +23627,36 @@
       if (cls === "gateway") return "#4F6F8F";
       return "#A9B4C2";
     }
+    function megaCompositionColor(title, row, index) {
+      var group = String(title || "").toLowerCase();
+      var label = String((row && row.label) || "").toLowerCase();
+      var palette = ["#4F6F8F", "#2F8F8B", "#C78A2A", "#3599B8", "#6F7F92", "#A9B4C2", "#1F6F6C", "#9A6B20"];
+      if (/útgáfu|utgafu/.test(group)) {
+        if (/desktop/.test(label)) return "#4F6F8F";
+        if (/mobile|sími|simi/.test(label)) return "#2F8F8B";
+      }
+      if (/route/.test(group)) {
+        if (/tölvuskj|tolvuskj|desktop/.test(label)) return "#C78A2A";
+        if (/þröng|throng|síma|sima|phone|mobile/.test(label)) return "#3599B8";
+        if (/lóðrétt|lodrett/.test(label)) return "#2F8F8B";
+        if (/lárétt|larett|lítil|litil/.test(label)) return "#6F7F92";
+        if (/anna|óflokk|oflokk/.test(label)) return "#A9B4C2";
+      }
+      if (/uppruni/.test(group)) {
+        if (/island/.test(label)) return "#2F8F8B";
+        if (/beint|direct/.test(label)) return "#293537";
+        if (/anna|óflokk|oflokk/.test(label)) return "#A9B4C2";
+      }
+      if (/herfer|source/.test(group)) {
+        if (/island/.test(label)) return "#4F6F8F";
+        if (/beint|direct/.test(label)) return "#293537";
+        if (/search|leit/.test(label)) return "#3599B8";
+        if (/teams|outlook|netp/.test(label)) return "#C78A2A";
+        if (/root/.test(label)) return "#6F7F92";
+        if (/anna|óflokk|oflokk/.test(label)) return "#A9B4C2";
+      }
+      return palette[index % palette.length];
+    }
     function megaNumericToken(value) {
       if (typeof value === "number") return value;
       var text = String(value === undefined || value === null ? "" : value).replace(/\s/g, "").replace(/\./g, "").replace(",", ".");
@@ -23752,7 +23787,12 @@
       '</section>';
     }
     function megaAtlasDonutPanel(kicker, title, total, rows, detail, cls, lens) {
-      rows = megaSortByValue(rows || []);
+      rows = megaSortByValue(rows || []).map(function (row, index) {
+        var copy = {};
+        Object.keys(row || {}).forEach(function (key) { copy[key] = row[key]; });
+        copy.color = copy.color || megaCompositionColor(title, copy, index);
+        return copy;
+      });
       total = Math.max(number(total), sumRows(rows, "value"), 1);
       var dominant = rows.slice().sort(function (a, b) { return number(b.value) - number(a.value); })[0] || { label: "-", value: 0 };
       var className = cls ? " " + safe(cls) : "";
@@ -24162,8 +24202,13 @@
       var sourceCategoryRows = topRows(visibleRows(data.sources || []), function (row) { return labelSource(sourceLabelValue(row)); }, 4).map(function (row, index) {
         return { label: row.key, value: row.visits, className: index === 0 ? "info" : index === 1 ? "gateway" : "neutral" };
       });
-      var sourceCategoryTotal = sourceCategoryRows.reduce(function (acc, row) { return acc + number(row.value); }, 0) || sourceTotal;
       if (!sourceCategoryRows.length) sourceCategoryRows = sourceRows;
+      var sourceCategoryShown = sourceCategoryRows.reduce(function (acc, row) { return acc + number(row.value); }, 0);
+      var sourceCategoryTotal = Math.max(totalVisits, sourceTotal, sourceCategoryShown, 1);
+      var sourceCategoryMissing = Math.max(0, sourceCategoryTotal - sourceCategoryShown);
+      if (sourceCategoryMissing > 0) {
+        sourceCategoryRows.push({ label: "Óflokkað", value: sourceCategoryMissing, className: "neutral" });
+      }
       var deviceRows = visibleRows(rowsFrom(data, "device", "device_confidence"));
       var deviceGroups = topRows(rowsFrom(data, "device_confidence", "device"), function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 6, trackerRowValue);
       var browserGroups = topRows(rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 6, trackerRowValue);
