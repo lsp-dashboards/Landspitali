@@ -23219,7 +23219,7 @@
       safeRender("delivery-panel", "Afhending og tæknimerki", function () { renderDeliveryPanel(data); });
       safeRender("counting-health-panel", "Talningarheilsa", function () { renderCountingHealthPanel(data); });
       safeRender("route-list", "Sjálfvirk leiðing", function () { renderRouteList(data); });
-      safeRender("dashboard-public-master", "Mælaborð", function () { renderDashboardPublicMasterV2(data); });
+      safeRender("dashboard-public-master", "Mælaborð", function () { renderDashboardPublicMaster(data); });
       try { renderStatusCharts(data); } catch (error) { if (window.console && console.error) console.error("Charts", error); }
     }
     var STATUS_DATA_TIMEOUT_MS = 22000;
