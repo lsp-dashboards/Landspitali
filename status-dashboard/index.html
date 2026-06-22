@@ -20180,7 +20180,7 @@
     function renderExecutivePanel(data) {
       var model = opsModel(data);
       var release = releaseInfo(data);
-      var title = model.tone === "good" ? "Rekstur stöðugur" : model.tone === "warn" ? "Athugun í gangi" : "Brýnt að skoða";
+      var title = model.tone === "good" ? "Rekstur stöðugur" : model.tone === "warn" ? "Athugun í gangi" : "Til yfirferðar";
       var detail = "Byggt á " + fmt(model.total) + " töldum heimsóknum, " + fmt(model.dashboardCount) + " mælaborðum og " + fmt(model.warningSplit.confirmed.length) + " staðfestum viðvörunum.";
       var actions = actionItems(data, model).map(insightLine).join("");
       var scoreTip = "Stigið er 0-100. Grænt er 86-100, gult 70-85 og rautt undir 70. Frádráttur kemur frá staðfestum viðvörunum, fallback/villum, veikum eða óþekktum merkjum og gömlum gögnum. Heimsóknarfjöldi einn hækkar ekki stigið.";
@@ -21420,7 +21420,7 @@
       var gatewaySignals = number(firstValue(f, ["views", "root_views", "root_index_views"])) +
         number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"])) +
         number(firstValue(f, ["router_arrivals", "arrivals"]));
-      var statusTitle = model.tone === "good" ? "Rekstur stöðugur" : model.tone === "warn" ? "Athugun í forgangi" : "Brýnt að skoða";
+      var statusTitle = model.tone === "good" ? "Rekstur stöðugur" : model.tone === "warn" ? "Athugun í forgangi" : "Til yfirferðar";
       var scoreTip = "Stigið er 0-100. Grænt er 86-100, gult 70-85 og rautt undir 70. Frádráttur kemur frá staðfestum viðvörunum, fallback/villum, veikum eða óþekktum merkjum og gömlum gögnum.";
       var actions = actionItems(data, model).slice(0, 2).map(insightLine).join("");
       setHtml("start-panel",
@@ -21493,7 +21493,7 @@
       var rootClicks = number(firstValue(f, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"]));
       var routerArrivals = number(firstValue(f, ["router_arrivals", "arrivals"]));
       var gatewaySignals = rootViews + rootClicks + routerArrivals;
-      var statusTitle = model.tone === "good" ? "Rekstur stöðugur" : model.tone === "warn" ? "Athugun í forgangi" : "Brýnt að skoða";
+      var statusTitle = model.tone === "good" ? "Rekstur stöðugur" : model.tone === "warn" ? "Athugun í forgangi" : "Til yfirferðar";
       var scoreTip = "Stigið er 0-100. Grænt er 86-100, gult 70-85 og rautt undir 70. Frádráttur kemur frá staðfestum viðvörunum, fallback/villum, veikum eða óþekktum merkjum og gömlum gögnum.";
       var actions = actionItems(data, model).slice(0, 2).map(insightLine).join("");
       var diagnosticTotal = diagnosticRows + uncountedRows;
@@ -21916,7 +21916,7 @@
         return startV5DashRow(titleFor(row, cards), value, Math.max(model.total, 1), detail, index === 0 ? "good" : "gateway");
       }).join("") || '<div class="message-card neutral"><strong>Engin m\u00e6labor\u00f0sg\u00f6gn</strong><p>Production talningar eru ekki komnar \u00ed dashboard aggregate.</p></div>';
       var scoreTone = model.tone === "bad" ? "warn" : model.tone;
-      var statusTitle = model.tone === "good" ? "Rekstur st\u00f6\u00f0ugur" : model.tone === "warn" ? "Athugun \u00ed forgangi" : "Br\u00fdnt a\u00f0 sko\u00f0a";
+      var statusTitle = model.tone === "good" ? "Rekstur st\u00f6\u00f0ugur" : model.tone === "warn" ? "Athugun \u00ed forgangi" : "Til yfirfer\u00f0ar";
       var lead = confirmed ?
         fmt(confirmed) + " sta\u00f0fest rekstrarmerki eru sett fremst. Taldar opnanir eru a\u00f0altalan; gateway, router og raw merki sk\u00fdra samhengi\u00f0." :
         "Engin sta\u00f0fest production villa er efst. Taldar opnanir, ferskleiki og tracker g\u00e6\u00f0i lesa saman.";
@@ -23022,7 +23022,7 @@
     }
     function renderExecutivePanelV2(data) {
       var model = opsModel(data);
-      var title = model.tone === "good" ? "Rekstur stöðugur" : model.tone === "warn" ? "Athugun í gangi" : "Brýnt að skoða";
+      var title = model.tone === "good" ? "Rekstur stöðugur" : model.tone === "warn" ? "Athugun í gangi" : "Til yfirferðar";
       var detail = "Rekstrarvaktin les taldar heimsóknir, ferskleika, Talningarhlið og staðfest gæðamerki saman.";
       var actions = actionItems(data, model).map(insightLine).join("");
       var scoreTip = "Stigið er 0-100. Grænt er 86-100, gult 70-85 og rautt undir 70. Frádráttur kemur frá staðfestum viðvörunum, fallback/villum, veikum eða óþekktum merkjum og gömlum gögnum. Heimsóknarfjöldi einn hækkar ekki stigið.";
