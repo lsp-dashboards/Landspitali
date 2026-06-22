@@ -19593,9 +19593,9 @@
       if (!host || !module || !window.echarts) return;
       var initialBounds = host.getBoundingClientRect();
       var renderAttempts = number(host.getAttribute("data-render-attempts"));
-      if (window.innerWidth > 700 && initialBounds.width < 520 && renderAttempts < 4) {
+      if (window.innerWidth > 700 && initialBounds.width < 520 && renderAttempts < 6) {
         host.setAttribute("data-render-attempts", String(renderAttempts + 1));
-        window.requestAnimationFrame(function () { renderStartV5FlowChart(data); });
+        window.setTimeout(function () { renderStartV5FlowChart(data); }, 80);
         return;
       }
       host.removeAttribute("data-render-attempts");
@@ -19609,6 +19609,9 @@
       var bounds = host.getBoundingClientRect();
       var width = Math.max(bounds.width || host.clientWidth || 320, 320);
       var height = Math.max(bounds.height || host.clientHeight || 220, 220);
+      var lateAttempts = number(host.getAttribute("data-late-render-attempts"));
+      host.setAttribute("data-measured-width", String(Math.round(width)));
+      host.setAttribute("data-measured-height", String(Math.round(height)));
       function nodeRadius(value) {
         return clamp(18 + Math.sqrt(Math.max(number(value), 0) / maxNode) * 16, 18, 34);
       }
@@ -19670,6 +19673,19 @@
       });
       module.classList.add("has-echart");
       statusCharts.push(chart);
+      if (window.innerWidth > 700 && width < 520 && lateAttempts < 3) {
+        host.setAttribute("data-late-render-attempts", String(lateAttempts + 1));
+        window.setTimeout(function () {
+          var laterWidth = host.getBoundingClientRect().width;
+          if (host.isConnected && laterWidth > width + 80) {
+            try { chart.dispose(); } catch (error) {}
+            statusCharts = statusCharts.filter(function (item) { return item !== chart; });
+            renderStartV5FlowChart(data);
+          }
+        }, 900);
+      } else if (width >= 520) {
+        host.removeAttribute("data-late-render-attempts");
+      }
     }
     function renderGatewayFunnelChart(data) {
       var chart = initStatusChart("chart-gateway-funnel");
