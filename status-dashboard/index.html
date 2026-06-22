@@ -11598,6 +11598,12 @@
       display: block;
     }
 
+    .mega-dashboard-board-v3 .mega-kicker,
+    .mega-dashboard-board-v3 .mega-atlas-panel-kicker,
+    .mega-dashboard-board-v3 .mega-analysis-head span:empty {
+      display: none;
+    }
+
     .mega-atlas-controls {
       display: inline-flex;
       flex-wrap: wrap;
@@ -11804,10 +11810,12 @@
     .mega-atlas-panel-head h3 {
       margin: 3px 0 0;
       color: var(--ink);
-      font-size: clamp(21px, 1.65vw, 29px);
+      font-size: clamp(21px, 1.48vw, 28px);
       line-height: 1;
       font-weight: 950;
-      text-wrap: balance;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .mega-atlas-panel-total {
@@ -11885,9 +11893,9 @@
     }
 
     .mega-signal-panel {
-      min-height: 330px;
+      min-height: 292px;
       display: grid;
-      grid-template-rows: auto minmax(142px, 1fr) auto;
+      grid-template-rows: auto minmax(126px, 1fr) auto;
       gap: 10px;
       min-width: 0;
       padding: 14px;
@@ -11899,7 +11907,7 @@
 
     .mega-signal-title {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr);
       gap: 8px;
       align-items: start;
     }
@@ -11913,10 +11921,12 @@
     .mega-signal-title strong {
       min-width: 0;
       color: var(--ink);
-      font-size: clamp(24px, 2vw, 34px);
+      font-size: clamp(25px, 1.85vw, 34px);
       line-height: .96;
       font-weight: 950;
-      text-wrap: balance;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .mega-signal-value {
@@ -11931,6 +11941,10 @@
       position: relative;
       overflow: hidden;
       min-height: 150px;
+      display: grid;
+      align-content: end;
+      gap: 4px;
+      padding: 16px;
       border: 1px solid rgba(216,226,234,.86);
       border-radius: 13px;
       background:
@@ -11954,13 +11968,23 @@
     }
 
     .mega-signal-field strong {
-      position: absolute;
-      left: 14px;
-      bottom: 12px;
+      position: relative;
+      z-index: 1;
       color: var(--ink);
       font-size: clamp(24px, 2.2vw, 36px);
       line-height: 1;
       font-weight: 950;
+    }
+
+    .mega-signal-field span {
+      position: relative;
+      z-index: 1;
+      color: rgba(15,36,56,.78);
+      font-size: 11px;
+      line-height: 1.1;
+      font-weight: 950;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .mega-signal-footers {
@@ -11988,7 +12012,14 @@
       display: grid;
       grid-template-columns: minmax(0, .5fr) minmax(0, .5fr);
       gap: 12px;
+      align-items: stretch;
       min-width: 0;
+    }
+
+    .mega-dashboard-board-v3 .mega-analysis-panel {
+      min-height: 0;
+      grid-template-rows: auto minmax(0, 1fr);
+      align-content: stretch;
     }
 
     .mega-portfolio-board {
@@ -12000,9 +12031,11 @@
 
     .mega-portfolio-focus {
       display: grid;
-      align-content: space-between;
-      gap: 14px;
-      min-height: 188px;
+      grid-template-columns: minmax(0, 1fr) 96px;
+      align-items: center;
+      align-content: center;
+      gap: 12px;
+      min-height: 112px;
       padding: 14px;
       border: 1px solid rgba(216,226,234,.86);
       border-radius: 13px;
@@ -12021,7 +12054,7 @@
 
     .mega-portfolio-focus strong {
       color: var(--ink);
-      font-size: clamp(24px, 2.1vw, 34px);
+      font-size: clamp(22px, 1.5vw, 29px);
       line-height: .95;
       font-weight: 950;
       overflow-wrap: normal;
@@ -12039,7 +12072,7 @@
 
     .mega-portfolio-ring {
       position: relative;
-      width: 112px;
+      width: 92px;
       aspect-ratio: 1;
       border-radius: 999px;
       background: conic-gradient(var(--good) var(--share, 0%), rgba(218,231,239,.86) 0);
@@ -12049,7 +12082,7 @@
     .mega-portfolio-ring::after {
       content: "";
       position: absolute;
-      inset: 22px;
+      inset: 19px;
       border-radius: inherit;
       background: #fff;
       box-shadow: inset 0 0 0 1px rgba(14,36,56,.07);
@@ -12062,7 +12095,7 @@
       display: grid;
       place-items: center;
       color: var(--ink);
-      font-size: 20px;
+      font-size: 17px;
       font-weight: 950;
     }
 
@@ -12074,12 +12107,12 @@
 
     .mega-portfolio-row {
       display: grid;
-      grid-template-columns: 34px minmax(0, .92fr) minmax(90px, .28fr);
-      gap: 10px;
+      grid-template-columns: 32px minmax(0, .92fr) minmax(84px, .28fr);
+      gap: 9px;
       align-items: center;
-      min-height: 60px;
+      min-height: 50px;
       min-width: 0;
-      padding: 9px;
+      padding: 8px;
       border: 1px solid rgba(216,226,234,.82);
       border-radius: 11px;
       background: rgba(255,255,255,.72);
@@ -12091,8 +12124,8 @@
     .mega-portfolio-rank {
       display: grid;
       place-items: center;
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       border-radius: 9px;
       background: var(--gateway);
       color: #fff;
@@ -12125,7 +12158,7 @@
 
     .mega-portfolio-measure strong {
       color: var(--ink);
-      font-size: 22px;
+      font-size: 20px;
       line-height: .9;
       font-weight: 950;
       white-space: nowrap;
@@ -12150,12 +12183,14 @@
     .mega-heatmap {
       display: grid;
       grid-template-columns: minmax(82px, .28fr) repeat(var(--cols, 4), minmax(0, 1fr));
+      grid-auto-rows: minmax(54px, 1fr);
       gap: 5px;
+      height: 100%;
       min-width: 0;
     }
 
     .mega-heat-cell {
-      min-height: 48px;
+      min-height: 0;
       display: grid;
       align-content: center;
       gap: 3px;
@@ -12191,6 +12226,18 @@
       overflow-wrap: anywhere;
     }
 
+    .mega-dashboard-board-v3 .mega-analysis-head strong {
+      font-size: clamp(24px, 1.6vw, 31px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-wrap: nowrap;
+    }
+
+    .mega-dashboard-board-v3 .mega-analysis-head > div {
+      overflow: hidden;
+    }
+
     .mega-bubble-stage {
       position: relative;
       min-height: 286px;
@@ -12215,7 +12262,8 @@
       place-items: center;
       padding: 8px;
       border-radius: 999px;
-      background: rgba(199,138,42,.82);
+      background: var(--bubble-bg, rgba(199,138,42,.82));
+      border: 1px solid rgba(255,255,255,.62);
       color: var(--ink);
       font-size: 11px;
       line-height: 1;
@@ -12259,7 +12307,7 @@
 
     .mega-impact-map {
       display: grid;
-      grid-template-columns: minmax(0, .62fr) minmax(180px, .38fr);
+      grid-template-columns: minmax(0, .64fr) minmax(190px, .36fr);
       gap: 10px;
       min-width: 0;
     }
@@ -22164,7 +22212,7 @@
       return '<div class="mega-segment-bar" aria-hidden="true">' + (segments || '<span class="empty" style="width:100%"></span>') + '</div>';
     }
     function megaLegend(rows, total) {
-      rows = rows || [];
+      rows = megaSortByValue(rows || []);
       total = Math.max(number(total), sumRows(rows, "value"), 1);
       return '<div class="mega-legend">' + rows.map(function (row, index) {
         var value = number(row.value);
@@ -22195,6 +22243,22 @@
       if (cls === "gateway") return "#4F6F8F";
       return "#A9B4C2";
     }
+    function megaNumericToken(value) {
+      if (typeof value === "number") return value;
+      var text = String(value === undefined || value === null ? "" : value).replace(/\s/g, "").replace(/\./g, "").replace(",", ".");
+      var match = text.match(/-?\d+(?:\.\d+)?/);
+      return match ? number(match[0]) : NaN;
+    }
+    function megaSortByValue(rows) {
+      return (rows || []).map(function (row, index) {
+        var score = row && row.sortValue !== undefined ? number(row.sortValue) : megaNumericToken(row && row.value);
+        if (!isFinite(score)) score = -Infinity;
+        return { row: row, index: index, score: score };
+      }).sort(function (a, b) {
+        if (b.score !== a.score) return b.score - a.score;
+        return a.index - b.index;
+      }).map(function (entry) { return entry.row; });
+    }
     function megaTipAttr(text) {
       return text ? ' tabindex="0" title="' + safe(text) + '" data-mega-tip="' + safe(text) + '"' : "";
     }
@@ -22204,7 +22268,7 @@
       return label.length > max ? label.slice(0, Math.max(1, max - 1)).trim() + "…" : label;
     }
     function megaRankList(rows, total, limit) {
-      rows = (rows || []).filter(function (row) { return number(row.value) > 0; }).slice(0, limit || 5);
+      rows = megaSortByValue((rows || []).filter(function (row) { return number(row.value) > 0; })).slice(0, limit || 5);
       total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + number(row.value); }, 0), 1);
       if (!rows.length) return '<div class="message-card neutral"><strong>Engin gögn</strong><p>Engin aggregate lína fannst fyrir þessa sýn.</p></div>';
       return '<div class="mega-rank-list">' + rows.map(function (row) {
@@ -22219,7 +22283,8 @@
     }
     function megaAnalysisPanel(kicker, title, total, body, cls, tip) {
       var className = cls ? " " + safe(cls) : "";
-      return '<article class="mega-analysis-panel' + className + '"' + megaTipAttr(tip || "") + '><div class="mega-analysis-head"><div><span>' + safe(kicker || "") + '</span><strong>' + safe(title || "-") + '</strong></div><div class="mega-analysis-total">' + safe(total || "") + '</div></div>' + body + '</article>';
+      var kickerHtml = kicker ? '<span>' + safe(kicker) + '</span>' : "";
+      return '<article class="mega-analysis-panel' + className + '"' + megaTipAttr(tip || "") + '><div class="mega-analysis-head"><div>' + kickerHtml + '<strong title="' + safe(title || "-") + '">' + safe(title || "-") + '</strong></div><div class="mega-analysis-total">' + safe(total || "") + '</div></div>' + body + '</article>';
     }
     function megaTrendSvg(data) {
       var rows = trendRows(data).slice(-30).filter(function (row) { return row.date; });
@@ -22294,7 +22359,7 @@
     function megaFlowChart(total, raw, gateway, route, quality) {
       var largest = Math.max(raw, gateway, route, total, quality, 1);
       return '<section class="mega-atlas-flow-card" data-lens="route tech" aria-label="Frá merki að talinni opnun">' +
-        '<div class="mega-atlas-flow-head"><div><span>Flow chart</span><strong>Frá merki að talinni opnun</strong></div><div class="mega-atlas-flow-total">' + fmt(total) + '</div></div>' +
+        '<div class="mega-atlas-flow-head"><div><strong>Frá merki að talinni opnun</strong></div><div class="mega-atlas-flow-total">' + fmt(total) + '</div></div>' +
         '<div class="mega-flow-rail">' +
           megaFlowNode("01", "Raw", fmt(raw), "móttaka + tæknimerki", "info") +
           megaFlowNode("02", "Gateway", fmt(gateway), "rót, smellir og gátt", gateway ? "gateway" : "warn") +
@@ -22304,27 +22369,31 @@
       '</section>';
     }
     function megaAtlasDonutPanel(kicker, title, total, rows, detail, cls, lens) {
-      rows = rows || [];
+      rows = megaSortByValue(rows || []);
       total = Math.max(number(total), sumRows(rows, "value"), 1);
       var dominant = rows.slice().sort(function (a, b) { return number(b.value) - number(a.value); })[0] || { label: "-", value: 0 };
       var className = cls ? " " + safe(cls) : "";
       var tip = title + ": " + (dominant.label || "-") + " er stærsti hluti, " + fmt(dominant.value) + " af " + fmt(total) + " (" + pct(dominant.value, total) + ").";
       var detailHtml = detail ? '<small class="mega-passport-detail">' + safe(detail) + '</small>' : "";
-      return '<article class="mega-atlas-panel' + className + '" data-lens="' + safe(lens || "") + '"' + megaTipAttr(tip) + '><div class="mega-atlas-panel-head"><div><span class="mega-atlas-panel-kicker">' + safe(kicker) + '</span><h3>' + safe(title) + '</h3></div><div class="mega-atlas-panel-total">' + fmt(total) + '</div></div>' +
+      var kickerHtml = kicker ? '<span class="mega-atlas-panel-kicker">' + safe(kicker) + '</span>' : "";
+      return '<article class="mega-atlas-panel' + className + '" data-lens="' + safe(lens || "") + '"' + megaTipAttr(tip) + '><div class="mega-atlas-panel-head"><div>' + kickerHtml + '<h3 title="' + safe(title) + '">' + safe(title) + '</h3></div><div class="mega-atlas-panel-total">' + fmt(total) + '</div></div>' +
         '<div class="mega-atlas-donut-stage"><div class="mega-atlas-donut" style="--mega-donut:' + safe(dashboardDonutBg(rows, total)) + '"><div class="mega-atlas-donut-center"><strong>' + safe(pct(dominant.value, total)) + '</strong><span>' + safe(dominant.label) + '</span></div></div><div>' + megaLegend(rows, total) + detailHtml + '</div></div></article>';
     }
     function megaSignalFooter(label, value) {
       return '<div class="mega-signal-footer"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div>';
     }
-    function megaSignalPanel(kicker, title, value, fill, footers, cls, lens) {
+    function megaSignalPanel(kicker, title, value, fill, footers, cls, lens, fieldLabel) {
       var className = cls ? " " + safe(cls) : "";
       var fieldClass = cls ? " " + safe(cls) : "";
-      return '<article class="mega-signal-panel' + className + '" data-lens="' + safe(lens || "") + '"><div class="mega-signal-title"><div><span class="mega-atlas-panel-kicker">' + safe(kicker) + '</span><strong>' + safe(title) + '</strong></div><div class="mega-signal-value">' + safe(value) + '</div></div>' +
-        '<div class="mega-signal-field' + fieldClass + '" style="--fill:' + clamp(number(fill), 0, 100).toFixed(1) + '%"><strong>' + safe(value) + '</strong></div>' +
-        '<div class="mega-signal-footers">' + (footers || []).map(function (row) { return megaSignalFooter(row.label, row.value); }).join("") + '</div></article>';
+      var sortedFooters = megaSortByValue(footers || []);
+      var kickerHtml = kicker ? '<span class="mega-atlas-panel-kicker">' + safe(kicker) + '</span>' : "";
+      var fieldName = fieldLabel || (sortedFooters[0] && sortedFooters[0].label) || title;
+      return '<article class="mega-signal-panel' + className + '" data-lens="' + safe(lens || "") + '"><div class="mega-signal-title"><div>' + kickerHtml + '<strong title="' + safe(title) + '">' + safe(title) + '</strong></div></div>' +
+        '<div class="mega-signal-field' + fieldClass + '" style="--fill:' + clamp(number(fill), 0, 100).toFixed(1) + '%"><span>' + safe(fieldName) + '</span><strong>' + safe(value) + '</strong></div>' +
+        '<div class="mega-signal-footers">' + sortedFooters.map(function (row) { return megaSignalFooter(row.label, row.value); }).join("") + '</div></article>';
     }
     function megaSkyline(rows, total) {
-      rows = (rows || []).filter(function (row) { return number(row.value) > 0; });
+      rows = megaSortByValue((rows || []).filter(function (row) { return number(row.value) > 0; }));
       total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + number(row.value); }, 0), 1);
       if (!rows.length) return '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engin talin production opnun fannst.</p></div>';
       var leader = rows[0];
@@ -22374,16 +22443,17 @@
       return '<div class="mega-heatmap" style="--cols:' + browsers.length + '">' + cells + '</div>';
     }
     function megaBubbleMap(rows, total) {
-      rows = (rows || []).filter(function (row) { return number(row.value) > 0; }).slice(0, 8);
+      rows = megaSortByValue((rows || []).filter(function (row) { return number(row.value) > 0; })).slice(0, 8);
       total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + number(row.value); }, 0), 1);
       var positions = [[18,36],[42,28],[66,38],[31,62],[55,66],[78,63],[18,74],[84,30]];
+      var bubbleColors = ["rgba(199,138,42,.86)", "rgba(47,143,139,.82)", "rgba(79,111,143,.82)", "rgba(53,153,184,.78)", "rgba(154,107,32,.76)", "rgba(111,127,146,.78)", "rgba(31,111,108,.76)", "rgba(167,143,143,.78)"];
       if (!rows.length) return '<div class="message-card neutral"><strong>Engin áhrifagögn</strong><p>Engin talin mælaborðsgögn til að raða.</p></div>';
       var bubbles = rows.map(function (row, index) {
         var pos = positions[index % positions.length];
         var value = number(row.value);
         var size = 62 + Math.sqrt(value / total) * 92;
         var tip = row.label + ": " + fmt(value) + " opnanir, " + pct(value, total) + " af sýndum áhrifagrunni.";
-        return '<div class="mega-bubble" style="--x:' + pos[0] + '%;--y:' + pos[1] + '%;--size:' + size.toFixed(1) + 'px"' + megaTipAttr(tip) + '><div class="mega-bubble-content"><strong class="mega-bubble-label">' + safe(megaShortLabel(row.label, 18)) + '</strong><span>' + fmt(value) + '</span><small>' + safe(pct(value, total)) + '</small></div></div>';
+        return '<div class="mega-bubble" style="--x:' + pos[0] + '%;--y:' + pos[1] + '%;--size:' + size.toFixed(1) + 'px;--bubble-bg:' + safe(bubbleColors[index % bubbleColors.length]) + '"' + megaTipAttr(tip) + '><div class="mega-bubble-content"><strong class="mega-bubble-label">' + safe(megaShortLabel(row.label, 18)) + '</strong><span>' + fmt(value) + '</span><small>' + safe(pct(value, total)) + '</small></div></div>';
       }).join("");
       var legend = rows.map(function (row) {
         var value = number(row.value);
@@ -22612,7 +22682,10 @@
       var browserRisk = number(k.powerbi_viewer_unsupported_browser_events) || warningTotal(data, "powerbi_viewer_unsupported_browser");
       var qualityCount = warningCount || browserRisk;
       var sourceKnown = islandTotal + directTotal;
+      var forcedRouteTotal = layoutContexts.reduce(function (acc, ctx) { return acc + number(ctx.forced); }, 0);
+      var automaticRouteTotal = Math.max(routeTotalAll - forcedRouteTotal, 0);
       var routeCoverage = routeTotalAll ? clamp(totalVisits / Math.max(routeTotalAll, 1) * 100, 0, 100) : 0;
+      var automaticRouteShare = routeTotalAll ? clamp(automaticRouteTotal / Math.max(routeTotalAll, 1) * 100, 0, 100) : routeCoverage;
       var sourceCoverage = sourceTotal ? clamp(sourceKnown / Math.max(sourceTotal, 1) * 100, 0, 100) : 0;
       var freshnessFill = model.eventAge && isFinite(model.eventAge.minutes) ? clamp(100 - Math.min(model.eventAge.minutes, 480) / 480 * 100, 0, 100) : 100;
       var routeDonutRows = routeGroups.slice(0, 4).map(function (row) {
@@ -22666,7 +22739,7 @@
       setHtml("dashboard-public-master",
         '<div class="mega-dashboard-board mega-dashboard-board-v3" data-mega-view="overview">' +
           '<section class="mega-dashboard-hero" aria-label="Sjónkort rekstrar">' +
-            '<div class="mega-dashboard-story"><div><span class="mega-kicker">Visual atlas</span><h2><span>Sjónkort</span><span>rekstrar</span></h2><p>Ein myndræn lesning yfir notkun, flæði, uppruna, leiðingu, tæki, vafra og gæði. Kortin hér fyrir neðan nota sömu aggregate gögn og restin af síðunni.</p></div>' +
+            '<div class="mega-dashboard-story"><div><h2><span>Sjónkort</span><span>rekstrar</span></h2><p>Ein myndræn lesning yfir notkun, flæði, uppruna, leiðingu, tæki, vafra og gæði. Kortin hér fyrir neðan nota sömu aggregate gögn og restin af síðunni.</p></div>' +
               '<div class="mega-chip-row">' +
                 '<span class="mega-chip good">Talið: ' + fmt(totalVisits) + '</span>' +
                 '<span class="mega-chip">Mælaborð: ' + fmt(sortedDashboards.length) + '</span>' +
@@ -22676,49 +22749,50 @@
             megaFlowChart(totalVisits, rawSignals, gatewaySignals, routeTotalAll, qualityCount) +
           '</section>' +
           '<section class="mega-atlas-grid" aria-label="Samsetning mælaborðs">' +
-            megaAtlasDonutPanel("Donut", "Útgáfuval", layoutTotal, layoutRows, "", "", "route tech") +
-            megaAtlasDonutPanel("Pie", "Route ástæður", Math.max(routeTotalAll, 1), routeDonutRows, "", "feature", "route") +
-            megaAtlasDonutPanel("Pie", "Uppruni", sourceTotal, sourceRows, "", "", "source") +
-            megaAtlasDonutPanel("Pie", "Herferðir / source", sourceCategoryTotal, sourceCategoryRows, "", "", "source") +
+            megaAtlasDonutPanel("", "Útgáfuval", layoutTotal, layoutRows, "", "", "route tech") +
+            megaAtlasDonutPanel("", "Route ástæður", Math.max(routeTotalAll, 1), routeDonutRows, "", "feature", "route") +
+            megaAtlasDonutPanel("", "Uppruni", sourceTotal, sourceRows, "", "", "source") +
+            megaAtlasDonutPanel("", "Herferðir / source", sourceCategoryTotal, sourceCategoryRows, "", "", "source") +
           '</section>' +
           '<section class="mega-signal-grid" aria-label="Rekstrarsignöl">' +
-            megaSignalPanel("Signal", "Rekstrarpúls", fmt(model.score || 0), model.score || 0, [
-              { label: "Taldar opnanir", value: fmt(totalVisits) },
-              { label: "Mælaborð", value: fmt(sortedDashboards.length) },
-              { label: "Staðfest merki", value: fmt(qualityCount) }
-            ], qualityCount ? "warn" : "good", "tech") +
-            megaSignalPanel("Signal", "Route þekja", formatIcelandicNumber(routeCoverage, 1) + "%", routeCoverage, [
-              { label: "Route línur", value: fmt(routeLineCount) },
-              { label: "Þvingað", value: fmt(layoutContexts.reduce(function (acc, ctx) { return acc + number(ctx.forced); }, 0)) },
-              { label: "Sjálfvirkt", value: fmt(Math.max(routeTotalAll - layoutContexts.reduce(function (acc, ctx) { return acc + number(ctx.forced); }, 0), 0)) }
-            ], "warn", "route") +
-            megaSignalPanel("Signal", "Source skýrleiki", formatIcelandicNumber(sourceCoverage, 1) + "%", sourceCoverage, [
-              { label: "island.is", value: fmt(islandTotal) },
-              { label: "Beint", value: fmt(directTotal) },
-              { label: "Annað", value: fmt(otherTotal) }
-            ], "good", "source") +
-            megaSignalPanel("Signal", "Ferskleiki", model.eventAge ? model.eventAge.label : "núna", freshnessFill, [
+            megaSignalPanel("", "Rekstrarpúls", fmt(model.score || 0), model.score || 0, [
+              { label: "Taldar opnanir", value: fmt(totalVisits), sortValue: totalVisits },
+              { label: "Mælaborð", value: fmt(sortedDashboards.length), sortValue: sortedDashboards.length },
+              { label: "Staðfest merki", value: fmt(qualityCount), sortValue: qualityCount }
+            ], qualityCount ? "warn" : "good", "tech", "Staða") +
+            megaSignalPanel("", "Route þekja", formatIcelandicNumber(automaticRouteShare, 1) + "%", automaticRouteShare, [
+              { label: "Sjálfvirkt", value: formatIcelandicNumber(automaticRouteShare, 1) + "%", sortValue: automaticRouteShare },
+              { label: "Þekja", value: formatIcelandicNumber(routeCoverage, 1) + "%", sortValue: routeCoverage },
+              { label: "Route línur", value: fmt(routeLineCount), sortValue: routeLineCount },
+              { label: "Þvingað", value: fmt(forcedRouteTotal), sortValue: forcedRouteTotal }
+            ], "warn", "route", "Sjálfvirkt") +
+            megaSignalPanel("", "Source skýrleiki", formatIcelandicNumber(sourceCoverage, 1) + "%", sourceCoverage, [
+              { label: "island.is", value: fmt(islandTotal), sortValue: islandTotal },
+              { label: "Annað", value: fmt(otherTotal), sortValue: otherTotal },
+              { label: "Beint", value: fmt(directTotal), sortValue: directTotal }
+            ], "good", "source", "Þekkt") +
+            megaSignalPanel("", "Ferskleiki", model.eventAge ? model.eventAge.label : "núna", freshnessFill, [
               { label: "Talin síðast", value: model.eventAge ? model.eventAge.label : "-" },
               { label: "Saman­tekt", value: model.aggregationAge ? model.aggregationAge.label : "-" },
               { label: "Gögn", value: data.cache && data.cache.hit ? "cache" : "fresh" }
-            ], model.eventAge ? model.eventAge.className : "good", "tech") +
+            ], model.eventAge ? model.eventAge.className : "good", "tech", "Talin síðast") +
           '</section>' +
           '<section class="mega-wide-grid" aria-label="Portfolio og tæknikort">' +
-            megaAnalysisPanel("Distribution", "Dreifing mælaborða", fmt(sortedDashboards.length), megaSkyline(skylineRows, totalVisits), "", "Raðar mælaborðum eftir talinni notkun og sýnir hvaða kort ber mest af grunni.") +
-            megaAnalysisPanel("Heatmap", "Tæki / vafri", fmt(deviceRows.length || deviceGroups.length + browserGroups.length), megaHeatmap(deviceRows), "feature", "Tracker línur flokkaðar eftir tæki og vafra. Dekkri reitur merkir stærri hóp.") +
-          '</section>' +
-          '<section class="mega-trend-hierarchy" aria-label="Notkunarþróun og áhrif">' +
-            megaAnalysisPanel("Trend", "Notkunarþróun", latestTrend ? fmt(latestTrend.visits) : "núna", '<div class="mega-trend-large">' + megaTrendSvg(data) + '</div>', "", "Sýnir síðustu allt að 30 daga sem súlur og línu, með meðaltali sem viðmiði.") +
-            megaAnalysisPanel("Hierarchy", "Gögn sem stigveldi", fmt(hierarchyRows.length), megaHierarchy(hierarchyRows), "", "Gögnin eru lesin frá talinni opnun niður í route, vafra og tæki.") +
+            megaAnalysisPanel("", "Dreifing mælaborða", fmt(sortedDashboards.length), megaSkyline(skylineRows, totalVisits), "distribution", "Raðar mælaborðum eftir talinni notkun og sýnir hvaða kort ber mest af grunni.") +
+            megaAnalysisPanel("", "Tæki / vafri", fmt(deviceRows.length || deviceGroups.length + browserGroups.length), megaHeatmap(deviceRows), "feature heatmap-panel", "Tracker línur flokkaðar eftir tæki og vafra. Dekkri reitur merkir stærri hóp.") +
           '</section>' +
           '<section class="mega-wide-grid" aria-label="Áhrifakort og lestrarröð">' +
-            megaAnalysisPanel("Impact", "Áhrifakort", topShare, megaBubbleMap(skylineRows, totalVisits), "feature", "Stærð bólu sýnir hlutdeild mælaborðs í sýndum notkunargrunni.") +
-            megaAnalysisPanel("Selection", "Lestrarröð", safe(topTitle), megaRankList([
+            megaAnalysisPanel("", "Áhrifakort", topShare, megaBubbleMap(skylineRows, totalVisits), "feature impact-panel", "Stærð bólu sýnir hlutdeild mælaborðs í sýndum notkunargrunni.") +
+            megaAnalysisPanel("", "Lestrarröð", safe(topTitle), megaRankList([
               { label: "Ráðandi kort", value: top ? visitValue(top) : 0, detail: top ? topTitle : "-", className: "good" },
               { label: "Route samhengi", value: routeTotalAll, detail: topRoute ? topRoute.key : "-", className: "warn" },
               { label: "Uppruni þekktur", value: sourceKnown, detail: "island.is + beint", className: "good" },
               { label: "Tækni/vafri", value: deviceGroups[0] ? deviceGroups[0].visits : 0, detail: topDeviceName + " / " + topBrowserName, className: "info" }
             ], Math.max(totalVisits, routeTotalAll, sourceKnown, 1), 4), "", "Lestrarröð dregur saman hvaða sönnun á að skoða fyrst án þess að endurtaka öll gildi.") +
+          '</section>' +
+          '<section class="mega-trend-hierarchy" aria-label="Notkunarþróun og stigveldi">' +
+            megaAnalysisPanel("", "Notkunarþróun", latestTrend ? fmt(latestTrend.visits) : "núna", '<div class="mega-trend-large">' + megaTrendSvg(data) + '</div>', "", "Sýnir síðustu allt að 30 daga sem súlur og línu, með meðaltali sem viðmiði.") +
+            megaAnalysisPanel("", "Gögn sem stigveldi", fmt(hierarchyRows.length), megaHierarchy(hierarchyRows), "", "Gögnin eru lesin frá talinni opnun niður í route, vafra og tæki.") +
           '</section>' +
           '<section class="mega-dashboard-lanes" aria-label="Mælaborð og notkun">' +
             '<div class="mega-lane-head"><div><span>Mælaborðspassi</span><strong>Hvert kort sem rekstrarpassi</strong><p>Hvert spjald sýnir það sem er sértækt fyrir kortið: hlutdeild, útgáfuval, uppruna, nýjustu virkni, leiðingu, tracker samhengi og birtingarstöðu.</p></div><div class="mega-chip-row"><span class="mega-chip good">' + fmt(sortedDashboards.length) + ' virk</span><span class="mega-chip ' + (warningCount ? 'warn' : 'good') + '">' + (warningCount ? fmt(warningCount) + ' merki' : 'hreint') + '</span></div></div>' +
