@@ -18596,7 +18596,7 @@
     }
 
     .env-v4-signal-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
     }
 
     @media (max-width: 1260px) {
@@ -19045,7 +19045,7 @@
 
     .diagnostic-command-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.36fr) minmax(320px, .64fr);
+      grid-template-columns: minmax(0, 1fr);
       gap: 12px;
       min-width: 0;
       align-items: start;
@@ -19058,22 +19058,18 @@
 
     .diagnostic-operator-strip .tracker-operator-panel {
       height: auto;
-      max-height: 760px;
-      overflow: auto;
+      max-height: none;
+      overflow: visible;
       align-content: start;
       border-radius: 8px;
       box-shadow: none;
-      scrollbar-color: var(--data-05) rgba(169,180,194,.18);
-      scrollbar-gutter: stable;
     }
 
     .diagnostic-quality-merge {
-      max-height: 760px;
-      overflow: auto;
+      max-height: none;
+      overflow: visible;
       background:
         linear-gradient(180deg, rgba(255,255,255,.92), rgba(248,251,253,.86));
-      scrollbar-color: var(--data-05) rgba(169,180,194,.18);
-      scrollbar-gutter: stable;
     }
 
     .diagnostic-quality-head {
@@ -19214,6 +19210,11 @@
       min-width: 0;
     }
 
+    .diagnostic-quality-merge .diagnostic-alert-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: stretch;
+    }
+
     .diagnostic-alert-list .quality-alert-card,
     .diagnostic-priority-list .tracker-insight-item {
       border-radius: 8px;
@@ -19224,7 +19225,8 @@
       .counting-health-command,
       .diagnostic-passport-hero,
       .diagnostic-passport-lane,
-      .diagnostic-command-grid {
+      .diagnostic-command-grid,
+      .diagnostic-quality-merge .diagnostic-alert-list {
         grid-template-columns: 1fr;
       }
 
@@ -20158,11 +20160,16 @@
     }
 
     .passport-atlas-feature strong {
+      display: -webkit-box;
       color: var(--ink);
-      font-size: clamp(24px, 2.4vw, 38px);
-      line-height: .94;
+      font-size: clamp(24px, 2vw, 32px);
+      line-height: 1;
       letter-spacing: 0;
+      overflow: hidden;
       overflow-wrap: normal;
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
       word-break: normal;
     }
 
@@ -20238,10 +20245,11 @@
     .passport-atlas-card {
       --card-accent: var(--teal);
       display: grid;
-      grid-template-columns: minmax(220px, .32fr) minmax(0, 1fr);
-      gap: 12px;
+      grid-template-columns: minmax(250px, .36fr) minmax(0, .64fr);
+      gap: 14px;
       min-width: 0;
-      padding: 12px;
+      overflow: hidden;
+      padding: 14px;
       border: 1px solid rgba(79,111,143,.24);
       border-top: 4px solid var(--card-accent);
       border-radius: 10px;
@@ -20272,15 +20280,15 @@
 
     .passport-atlas-card-head {
       display: grid;
-      grid-template-columns: 42px minmax(0, 1fr);
+      grid-template-columns: 40px minmax(0, 1fr);
       gap: 10px;
       align-content: start;
       min-width: 0;
     }
 
     .passport-atlas-icon {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       border: 1px solid rgba(79,111,143,.18);
       border-radius: 9px;
       object-fit: cover;
@@ -20289,15 +20297,21 @@
 
     .passport-atlas-card-title {
       min-width: 0;
+      overflow: hidden;
     }
 
     .passport-atlas-card-title h3 {
+      display: -webkit-box;
       margin: 2px 0 0;
       color: var(--ink);
-      font-size: clamp(21px, 1.65vw, 30px);
-      line-height: .98;
+      font-size: clamp(21px, 1.35vw, 27px);
+      line-height: 1.02;
       letter-spacing: 0;
-      overflow-wrap: normal;
+      overflow: hidden;
+      overflow-wrap: anywhere;
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
       word-break: normal;
     }
 
@@ -20324,12 +20338,15 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
+      max-width: 100%;
       min-height: 23px;
       padding: 4px 8px;
       border: 1px solid rgba(79,111,143,.18);
       border-radius: 999px;
       background: rgba(255,255,255,.72);
       color: var(--ink);
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
@@ -20339,7 +20356,7 @@
 
     .passport-atlas-share {
       display: grid;
-      grid-template-columns: 92px minmax(0, 1fr);
+      grid-template-columns: 86px minmax(0, 1fr);
       gap: 10px;
       align-items: center;
       grid-column: 1 / -1;
@@ -20349,7 +20366,7 @@
 
     .passport-atlas-ring {
       position: relative;
-      width: 92px;
+      width: 86px;
       aspect-ratio: 1;
       border-radius: 50%;
       background: conic-gradient(var(--card-accent) 0deg var(--share-deg), rgba(224,236,243,.96) var(--share-deg) 360deg);
@@ -20359,7 +20376,7 @@
     .passport-atlas-ring::after {
       content: "";
       position: absolute;
-      inset: 16px;
+      inset: 15px;
       border-radius: 50%;
       background: rgba(255,255,255,.96);
       box-shadow: inset 0 0 0 1px rgba(79,111,143,.1);
@@ -20372,14 +20389,14 @@
       display: grid;
       place-items: center;
       color: var(--ink);
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 950;
     }
 
     .passport-atlas-share-copy strong {
       display: block;
       color: var(--ink);
-      font-size: clamp(22px, 2vw, 34px);
+      font-size: clamp(22px, 1.75vw, 30px);
       line-height: 1;
       letter-spacing: 0;
     }
@@ -20395,7 +20412,7 @@
 
     .passport-atlas-body {
       display: grid;
-      grid-template-rows: auto 1fr auto;
+      grid-template-rows: auto auto auto;
       gap: 10px;
       min-width: 0;
     }
@@ -20409,6 +20426,7 @@
     .passport-atlas-field {
       min-width: 0;
       padding: 10px;
+      overflow: hidden;
       border: 1px solid rgba(79,111,143,.18);
       border-radius: 8px;
       background: rgba(238,248,249,.72);
@@ -20427,10 +20445,12 @@
       display: block;
       margin-top: 6px;
       color: var(--ink);
-      font-size: clamp(18px, 1.42vw, 25px);
+      font-size: clamp(18px, 1.18vw, 23px);
       line-height: 1.02;
       letter-spacing: 0;
+      overflow: hidden;
       overflow-wrap: anywhere;
+      text-overflow: ellipsis;
     }
 
     .passport-atlas-field small {
@@ -20451,6 +20471,7 @@
     .passport-atlas-bar {
       min-width: 0;
       padding: 8px 9px;
+      overflow: hidden;
       border: 1px solid rgba(79,111,143,.16);
       border-radius: 8px;
       background: rgba(255,255,255,.72);
@@ -20503,6 +20524,7 @@
     .passport-atlas-risk {
       min-width: 0;
       padding: 8px 9px;
+      overflow: hidden;
       border: 1px solid rgba(79,111,143,.14);
       border-radius: 8px;
       background: rgba(255,255,255,.7);
@@ -25665,7 +25687,7 @@
       var unknownSource = sourceCount(visibleRows(data.sources || []), function (value) { return /unknown/i.test(String(value || "")); });
       var status = fallback ? "watch" : (views || clicks || arrivals ? "info" : "unknown");
       return {
-        title: "Rótargátt og flæði opinberra korta",
+        title: "Public leið og upprunaflæði",
         kicker: "Gáttarflæði",
         intro: "Gáttarflæði sýnir hvernig notendur fara frá opinberu korti eða rótargátt yfir í talda opnun mælaborðs.",
         status: status,
@@ -25772,7 +25794,7 @@
       var topReasons = trackerGroupRows(weakRows, function (row) { return row.inferred_confidence_reason || row.inferred_primary_evidence || row.inferred_device_class || "Óþekkt ástæða"; });
       var status = weak / total > .12 ? "watch" : "good";
       return {
-        title: "Tækjatraust og ályktunargæði",
+        title: "Traust tækjamerkja",
         kicker: "Signal gæði",
         intro: "Confidence segir hversu traust tækja- og vaframerki eru, ekki hvort notandi hafi lent í villu.",
         status: status,
@@ -25811,7 +25833,7 @@
       var groups = trackerGroupRows(rows, function (row) { return browserLabel(row); });
       var status = unsupported ? "warning" : (webview || oldVersion || unknownVersion ? "watch" : "good");
       return {
-        title: "Power BI viewer tilbúið umhverfi",
+        title: "Viewer samhengi",
         kicker: "Vafri og viewer",
         intro: "Aðgreinir staðfest framleiðslumerki, greiningaráhættu og upplýsingamerki fyrir Power BI birtingu.",
         status: status,
@@ -25843,7 +25865,7 @@
       var total = smartTv + consoleLike + kiosk + remote;
       var status = total ? "info" : "good";
       return {
-        title: "Óvenjulegt birtingarumhverfi",
+        title: "Sérstök birtingarsamhengi",
         kicker: "Smart TV / signage",
         intro: total ? "Óvenjuleg birtingarumhverfi eru vísbendingar til prófunar, ekki sjálfkrafa production villa." : "Engin sérstök Smart TV, signage, kiosk, console eða remote-control merki sjást í payload.",
         status: status,
@@ -25856,7 +25878,7 @@
           trackerMetric("Remote-control likely", fmt(remote), "Fjarstýringarsamhengi.", remote ? "info" : "good")
         ],
         insights: [
-          trackerMakeInsight("In-app/WebView og Smart TV merki", fmt(total), status, rows.length ? "miðlungs" : "óþekkt", total ? "Óvenjulegt birtingarumhverfi fannst í samantekt." : "Engin óvenjuleg umhverfismerki fundust.", "Slík merki eru prófunarvísbending, ekki sjálfkrafa bilun.", "Prófa Power BI viewer á affected vafra/tæki ef viðvörun styður það.", ["device_confidence", "inferred_is_smart_tv"], total ? 8 : 11)
+          trackerMakeInsight("In-app/WebView og Smart TV merki", fmt(total), status, rows.length ? "miðlungs" : "óþekkt", total ? "Sérstakt birtingarsamhengi fannst í samantekt." : "Engin sérstök umhverfismerki fundust.", "Slík merki eru prófunarvísbending, ekki sjálfkrafa bilun.", "Prófa Power BI viewer á affected vafra/tæki ef viðvörun styður það.", ["device_confidence", "inferred_is_smart_tv"], total ? 8 : 11)
         ]
       };
     }
@@ -25905,7 +25927,7 @@
       var desktopTouch = counted.reduce(function (acc, row) { return acc + (normalizeLayoutToken(row.selected_layout) === "desktop" && trackerAnySignal(row, ["has_touch", "any_pointer_coarse"], /touch|coarse/i) ? visitValue(row) : 0); }, 0);
       var groups = trackerGroupRows(counted, function (row) { return humanizeToken(row.touch_class || row.pointer_primary || row.inferred_input_context || "unknown"); });
       return {
-        title: "Inntak og samskiptasamhengi",
+        title: "Snerting, lyklaborð og stjórn",
         kicker: "Inntak",
         intro: "Sýnir hvort notendur séu líklega touch, mouse, hybrid, remote-control eða stylus samhengi og tengir það við routing.",
         status: remote || desktopTouch ? "info" : "good",
@@ -26419,7 +26441,6 @@
         '<section class="diagnostic-passport-lane diagnostic-command-lane">' +
           '<div class="diagnostic-command-strip"><div class="diagnostic-strip-head"><div><span>Tracker + operator + gæði</span><h3>Ein aðgerðaröð</h3></div><span>' + safe(operatorPriority) + '</span></div><div class="diagnostic-command-grid"><div class="diagnostic-operator-strip">' + operatorHtml + '</div><div class="diagnostic-quality-merge"><div class="diagnostic-quality-head"><span>Staðfest gæðamerki í sömu röð</span><strong>' + fmt(actionRows.length) + '</strong></div><div class="diagnostic-alert-list">' + alertHtml + '</div></div></div></div>' +
         '</section>' +
-        '<div class="diagnostic-module-grid">' + modules.map(trackerModuleHtml).join("") + '</div>' +
       '</div>';
       setHtml("diagnostic-passport-panel", html);
     }
@@ -26548,7 +26569,13 @@
       return cls ? " " + safe(cls) : "";
     }
     function envV4Value(row) {
-      return number(firstValue(row, ["visits", "value", "count", "events", "raw_signal_events"]));
+      row = row || {};
+      var visits = number(row.visits);
+      if (visits > 0) return visits;
+      return number(firstValue(row, ["value", "count", "events", "raw_signal_events", "raw"]));
+    }
+    function envV4Total(rows) {
+      return Math.max((rows || []).reduce(function (acc, row) { return acc + envV4Value(row); }, 0), 1);
     }
     function envV4Stat(label, value, detail, cls, fillValue, fillTotal) {
       var className = envV4Class(cls);
@@ -26657,6 +26684,19 @@
       var deviceTotal = Math.max(sumRows(deviceGroups, "visits"), 1);
       var confidenceTotal = Math.max(sumRows(confidenceGroups, "visits"), 1);
       var comboTotal = Math.max(rows.reduce(function (acc, row) { return acc + number(row.visits || row.raw_signal_events); }, 0), 1);
+      var sourceContext = deriveSourceQualityInsights(data);
+      var routeContext = deriveRouteDecisionInsights(data);
+      var inputContext = deriveInputContextInsights(data);
+      var rootContext = data.root_index_funnel || data.root_index || {};
+      var sourceContextRows = (sourceContext.bars || []).slice(0, 5);
+      var routeContextRows = (routeContext.bars || []).slice(0, 5);
+      var inputContextRows = (inputContext.bars || []).slice(0, 5);
+      var gatewayContextRows = [
+        { key: "Public kort", value: number(firstValue(rootContext, ["views", "root_views", "root_index_views"])) },
+        { key: "Kortasmellir", value: number(firstValue(rootContext, ["clicks", "root_dashboard_clicks", "dashboard_clicks_count"])) },
+        { key: "Leiðingarkomur", value: number(firstValue(rootContext, ["router_arrivals", "arrivals", "dashboard_router_arrivals"])) },
+        { key: "Varaleið", value: number(firstValue(rootContext, ["fallback_clicks", "safe_fallback_events"])) }
+      ].filter(function (row) { return envV4Value(row) > 0; });
       var comboHtmlV4 = rows.map(function (row, index) { return envV4ComboCard(row, cards, comboTotal, index); }).join("") || '<div class="message-card neutral"><strong>Engin tæknigögn enn</strong><p>Device samantekt vantar í payload eða engar taldar/merkingarbærar línur fundust.</p></div>';
       setHtml("technical-panel",
         '<div class="tracker-master-v4">' +
@@ -26678,6 +26718,12 @@
                 envV4Lane("Traust", confidenceDistribution, confidenceTotal, "good", { unit: "línur", limit: distributionLimit }) +
               '</div></section>' +
               '<section class="env-v4-module"><div class="env-v4-module-head"><div class="env-v4-module-title"><span class="env-v4-module-kicker">Mynstur</span><h3>Samsetningar sem skipta máli</h3><p>Hver röð sameinar mælaborð, layout, vafra, stýrikerfi og theme svo mest áhrifamiklu notkunarsamhengin sjáist strax.</p></div><span class="env-v4-module-count">' + fmt(rows.length) + ' hópar</span></div><div class="env-v4-combo-list">' + comboHtmlV4 + '</div></section>' +
+              '<section class="env-v4-module"><div class="env-v4-module-head"><div class="env-v4-module-title"><span class="env-v4-module-kicker">Samhengi</span><h3>Uppruni, leiðing og inntak í einni stoðmynd</h3><p>Þessi lesröð tekur við af gömlu sérkortunum: public-card uppruni, route-reglur, snerti-/músarsamhengi og gateway-merki eru nú stoðgögn undir sömu rekstrarsýn.</p></div><span class="env-v4-module-count">stoðlag</span></div><div class="env-v4-lane-grid">' +
+                envV4Lane("Uppruni", sourceContextRows, envV4Total(sourceContextRows), "good", { unit: "opnanir", limit: 5 }) +
+                envV4Lane("Leiðing", routeContextRows, envV4Total(routeContextRows), "warn", { unit: "merki", limit: 5 }) +
+                envV4Lane("Inntak", inputContextRows, envV4Total(inputContextRows), "info", { unit: "línur", limit: 5 }) +
+                envV4Lane("Gátt", gatewayContextRows, envV4Total(gatewayContextRows), "gateway", { unit: "merki", limit: 4 }) +
+              '</div></section>' +
             '</div>' +
             '<div class="env-v4-audit-strip">' +
               envV4Audit("Veik merki", shareValue(weakShare), "Veik eða óþekkt signal.", weakShare > .12 ? "warn" : "good", weakShare * 100, 100) +
@@ -26865,7 +26911,13 @@
       var combos = groupedDeviceCombos(data, 4);
       var weakShare = k.weak_unknown_signal_share !== undefined ? number(k.weak_unknown_signal_share) : (number(k.weak_unknown_signal_count) / Math.max(number(k.total_events), 1));
       var diagnosticRows = (data.device || []).filter(function (row) { return !isHardTestRow(row) && isDiagnosticRow(row); }).length;
-      var concernCount = (lowCap ? 1 : 0) + (forcedSignals ? 1 : 0) + (samsungPossible ? 1 : 0) + (weakShare > .12 ? 1 : 0);
+      var baseConcernCount = (lowCap ? 1 : 0) + (forcedSignals ? 1 : 0) + (samsungPossible ? 1 : 0) + (weakShare > .12 ? 1 : 0);
+      var viewerContext = deriveBrowserViewerRiskInsights(data);
+      var viewerMetric = (viewerContext.metrics || [])[1];
+      var webviewMetric = (viewerContext.metrics || [])[2];
+      var specialContext = deriveUnusualDeviceContextInsights(data);
+      var specialContextTotal = (specialContext.metrics || []).reduce(function (acc, metric) { return acc + number(metric.value); }, 0);
+      var concernCount = baseConcernCount + (/warning|watch/.test(viewerContext.status || "") ? 1 : 0) + (specialContextTotal ? 1 : 0);
       var verdict = concernCount ? "Tæknimerki til skoðunar" : "Afhending lítur stöðug út";
       var verdictCopy = "Toppboxin sýna algengasta gildi í hverjum flokki. Litaþema, viewport og afhending eru aðskilin svo raw/diagnostic merki ruglist ekki saman við taldar heimsóknir.";
       var viewportTotal = Math.max(sumRows(viewportRows, "visits"), 1);
@@ -26905,6 +26957,8 @@
                 envV4Signal("Lítil geta", fmt(lowCap), lowCap ? "skoða tæki" : "engin merki", lowCap ? "warn" : "good", lowCap, Math.max(sumRows(countedPerf), 1)) +
                 envV4Signal("Tracker línur", fmt(trackerLines), "performance/device", trackerLines ? "gateway" : "warn", trackerLines, Math.max(trackerLines, 1)) +
                 envV4Signal("Diagnostic", fmt(diagnosticRows), "sýnt sér", diagnosticRows ? "info" : "good", diagnosticRows, Math.max(trackerLines, 1)) +
+                envV4Signal("Viewer", viewerMetric ? viewerMetric.value : "0", webviewMetric ? "WebView " + webviewMetric.value : "vafrasamhengi", viewerContext.status === "warning" ? "warn" : (viewerContext.status === "watch" ? "info" : "good"), number(viewerMetric && viewerMetric.value), Math.max(totalVisits, 1)) +
+                envV4Signal("Sérumhverfi", fmt(specialContextTotal), "TV, kiosk eða remote ef merkt", specialContextTotal ? "info" : "good", specialContextTotal, Math.max(totalVisits, 1)) +
               '</div><div class="env-v4-lane-grid">' +
                 envV4Lane("Sending", methodRows, methodTotal, "good", { unit: "merki", limit: 4 }) +
                 envV4Lane("Payload", payloadRows, payloadTotal, "info", { unit: "merki", limit: 4 }) +
