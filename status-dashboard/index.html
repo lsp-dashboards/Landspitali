@@ -11587,8 +11587,11 @@
 
     .mega-dashboard-board-v3 .mega-dashboard-story h2 {
       max-width: 560px;
+      display: grid;
+      gap: .02em;
       font-size: clamp(56px, 5.8vw, 98px);
-      line-height: .84;
+      line-height: .88;
+      letter-spacing: 0;
     }
 
     .mega-dashboard-board-v3 .mega-dashboard-story h2 span {
@@ -11779,7 +11782,7 @@
 
     .mega-atlas-panel {
       display: grid;
-      gap: 12px;
+      gap: 14px;
       align-content: start;
       padding: 14px;
     }
@@ -11801,8 +11804,8 @@
     .mega-atlas-panel-head h3 {
       margin: 3px 0 0;
       color: var(--ink);
-      font-size: clamp(22px, 1.8vw, 30px);
-      line-height: .98;
+      font-size: clamp(21px, 1.65vw, 29px);
+      line-height: 1;
       font-weight: 950;
       text-wrap: balance;
     }
@@ -11817,15 +11820,15 @@
 
     .mega-atlas-donut-stage {
       display: grid;
-      grid-template-columns: minmax(118px, .44fr) minmax(0, .56fr);
-      gap: 12px;
+      grid-template-columns: minmax(126px, .43fr) minmax(0, .57fr);
+      gap: 14px;
       align-items: center;
       min-width: 0;
     }
 
     .mega-atlas-donut {
       position: relative;
-      width: min(154px, 100%);
+      width: min(168px, 100%);
       aspect-ratio: 1;
       justify-self: center;
       border-radius: 999px;
@@ -11836,7 +11839,7 @@
     .mega-atlas-donut::after {
       content: "";
       position: absolute;
-      inset: 31px;
+      inset: 34px;
       border-radius: inherit;
       background: #fff;
       box-shadow: inset 0 0 0 1px rgba(14,36,56,.08);
@@ -11844,7 +11847,7 @@
 
     .mega-atlas-donut-center {
       position: absolute;
-      inset: 34px;
+      inset: 38px;
       z-index: 1;
       display: grid;
       place-items: center;
@@ -11855,7 +11858,7 @@
 
     .mega-atlas-donut-center strong {
       max-width: 100%;
-      font-size: clamp(20px, 1.55vw, 25px);
+      font-size: clamp(20px, 1.45vw, 25px);
       line-height: 1;
       font-weight: 950;
       overflow-wrap: anywhere;
@@ -11864,7 +11867,7 @@
     .mega-atlas-donut-center span {
       max-width: 86px;
       color: var(--muted);
-      font-size: 9px;
+      font-size: 8.5px;
       line-height: 1.05;
       font-weight: 950;
       overflow-wrap: anywhere;
@@ -11984,38 +11987,150 @@
       min-width: 0;
     }
 
-    .mega-skyline-list {
+    .mega-portfolio-board {
       display: grid;
-      gap: 7px;
+      grid-template-columns: minmax(180px, .34fr) minmax(0, .66fr);
+      gap: 12px;
       min-width: 0;
     }
 
-    .mega-skyline-row {
+    .mega-portfolio-focus {
       display: grid;
-      grid-template-columns: minmax(110px, .38fr) minmax(0, 1fr) auto;
-      gap: 9px;
-      align-items: center;
+      align-content: space-between;
+      gap: 14px;
+      min-height: 188px;
+      padding: 14px;
+      border: 1px solid rgba(216,226,234,.86);
+      border-radius: 13px;
+      background:
+        linear-gradient(180deg, rgba(232,247,246,.88), rgba(255,255,255,.66));
+    }
+
+    .mega-portfolio-focus span,
+    .mega-portfolio-row span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 950;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .mega-portfolio-focus strong {
+      color: var(--ink);
+      font-size: clamp(28px, 3vw, 46px);
+      line-height: .9;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .mega-portfolio-focus small {
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1.25;
+      font-weight: 780;
+    }
+
+    .mega-portfolio-ring {
+      position: relative;
+      width: 112px;
+      aspect-ratio: 1;
+      border-radius: 999px;
+      background: conic-gradient(var(--good) var(--share, 0%), rgba(218,231,239,.86) 0);
+      box-shadow: inset 0 0 0 1px rgba(14,36,56,.07);
+    }
+
+    .mega-portfolio-ring::after {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border-radius: inherit;
+      background: #fff;
+      box-shadow: inset 0 0 0 1px rgba(14,36,56,.07);
+    }
+
+    .mega-portfolio-ring b {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      font-size: 20px;
+      font-weight: 950;
+    }
+
+    .mega-portfolio-list {
+      display: grid;
+      gap: 8px;
       min-width: 0;
+    }
+
+    .mega-portfolio-row {
+      display: grid;
+      grid-template-columns: 34px minmax(0, .92fr) minmax(90px, .28fr);
+      gap: 10px;
+      align-items: center;
+      min-height: 60px;
+      min-width: 0;
+      padding: 9px;
+      border: 1px solid rgba(216,226,234,.82);
+      border-radius: 11px;
+      background: rgba(255,255,255,.72);
       color: var(--ink);
       font-size: 12px;
       font-weight: 900;
     }
 
-    .mega-skyline-row span:first-child {
+    .mega-portfolio-rank {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      background: var(--gateway);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 950;
+    }
+
+    .mega-portfolio-name {
+      display: grid;
+      gap: 5px;
       min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    }
+
+    .mega-portfolio-name strong {
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.05;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .mega-portfolio-measure {
+      display: grid;
+      gap: 5px;
+      justify-items: end;
+      text-align: right;
+    }
+
+    .mega-portfolio-measure strong {
+      color: var(--ink);
+      font-size: 22px;
+      line-height: .9;
+      font-weight: 950;
       white-space: nowrap;
     }
 
-    .mega-skyline-track {
-      height: 11px;
+    .mega-portfolio-track {
+      grid-column: 2 / 4;
+      height: 9px;
       overflow: hidden;
       border-radius: 999px;
       background: rgba(218,231,239,.92);
     }
 
-    .mega-skyline-track i {
+    .mega-portfolio-track i {
       display: block;
       width: var(--fill, 0%);
       height: 100%;
@@ -12069,7 +12184,7 @@
 
     .mega-bubble-stage {
       position: relative;
-      min-height: 248px;
+      min-height: 286px;
       overflow: hidden;
       border: 1px solid rgba(216,226,234,.82);
       border-radius: 13px;
@@ -12089,14 +12204,40 @@
       transform: translate(-50%, -50%);
       display: grid;
       place-items: center;
+      padding: 8px;
       border-radius: 999px;
       background: rgba(199,138,42,.82);
       color: var(--ink);
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1;
       font-weight: 950;
       text-align: center;
       box-shadow: 0 12px 30px rgba(31,51,71,.12);
+    }
+
+    .mega-bubble-content {
+      display: grid;
+      gap: 3px;
+      place-items: center;
+      max-width: 92%;
+    }
+
+    .mega-bubble-content strong {
+      max-width: 100%;
+      overflow: hidden;
+      color: var(--ink);
+      font-size: 11px;
+      line-height: 1.05;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mega-bubble-content span {
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1;
+      font-weight: 950;
     }
 
     .mega-bubble small {
@@ -12107,6 +12248,45 @@
       font-weight: 900;
     }
 
+    .mega-impact-map {
+      display: grid;
+      grid-template-columns: minmax(0, .62fr) minmax(180px, .38fr);
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .mega-impact-list {
+      display: grid;
+      align-content: start;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .mega-impact-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      padding: 7px 8px;
+      border: 1px solid rgba(216,226,234,.82);
+      border-radius: 9px;
+      background: rgba(255,255,255,.72);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .mega-impact-row span {
+      min-width: 0;
+      overflow: hidden;
+      color: var(--text);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mega-impact-row strong {
+      white-space: nowrap;
+    }
+
     .mega-trend-hierarchy {
       display: grid;
       grid-template-columns: minmax(0, .68fr) minmax(260px, .32fr);
@@ -12115,7 +12295,106 @@
     }
 
     .mega-trend-large .mega-trend-svg {
-      height: 258px;
+      height: 256px;
+    }
+
+    .mega-trend-card {
+      display: grid;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .mega-trend-svg {
+      width: 100%;
+      min-height: 250px;
+      border: 1px solid rgba(216,226,234,.82);
+      border-radius: 13px;
+      background:
+        linear-gradient(rgba(79,111,143,.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,111,143,.04) 1px, transparent 1px),
+        rgba(232,247,246,.58);
+      background-size: 100% 34px, 34px 100%;
+    }
+
+    .mega-trend-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .mega-trend-bar {
+      fill: rgba(47,143,139,.28);
+      stroke: rgba(47,143,139,.34);
+      stroke-width: 1;
+    }
+
+    .mega-trend-bar.latest {
+      fill: rgba(47,143,139,.62);
+    }
+
+    .mega-trend-bar.low {
+      fill: rgba(79,111,143,.20);
+      stroke: rgba(79,111,143,.28);
+    }
+
+    .mega-trend-svg circle.latest {
+      fill: #C78A2A;
+      stroke: #fff;
+      stroke-width: 2;
+    }
+
+    .mega-trend-summary div {
+      display: grid;
+      gap: 3px;
+      min-height: 48px;
+      padding: 8px;
+      border: 1px solid rgba(216,226,234,.82);
+      border-radius: 9px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .mega-trend-summary span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 950;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .mega-trend-summary strong {
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1;
+      font-weight: 950;
+    }
+
+    .mega-atlas-tooltip {
+      position: fixed;
+      z-index: 2100;
+      left: 0;
+      top: 0;
+      max-width: min(300px, calc(100vw - 32px));
+      padding: 8px 9px;
+      border: 1px solid rgba(181,205,220,.86);
+      border-radius: 8px;
+      background: rgba(15,36,56,.98);
+      color: #fff;
+      font-size: 11px;
+      line-height: 1.3;
+      font-weight: 850;
+      box-shadow: 0 16px 34px rgba(15,36,56,.22);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, calc(-100% - 10px));
+      transition: opacity .12s ease, transform .12s ease;
+    }
+
+    .mega-atlas-tooltip.visible {
+      opacity: 1;
+    }
+
+    .mega-atlas-tooltip.below {
+      transform: translate(-50%, 10px);
     }
 
     .mega-hierarchy-stack {
@@ -12141,7 +12420,9 @@
     @media (max-width: 980px) {
       .mega-dashboard-board-v3 .mega-dashboard-hero,
       .mega-wide-grid,
-      .mega-trend-hierarchy {
+      .mega-trend-hierarchy,
+      .mega-portfolio-board,
+      .mega-impact-map {
         grid-template-columns: 1fr;
       }
 
@@ -12163,7 +12444,7 @@
       }
 
       .mega-dashboard-board-v3 .mega-dashboard-story h2 {
-        font-size: 44px;
+        font-size: 46px;
       }
 
       .mega-dashboard-board-v3 .mega-analysis-head {
@@ -12181,6 +12462,10 @@
 
       .mega-heat-cell.axis {
         display: none;
+      }
+
+      .mega-trend-summary {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -14264,6 +14549,41 @@
       transform: translate(-50%, -12px) translateY(-100%);
     }
 
+    .start-v5-status-bar::after {
+      display: none;
+    }
+
+    .start-v5-status-tooltip {
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      max-width: min(260px, calc(100vw - 32px));
+      padding: 8px 9px;
+      border: 1px solid rgba(220,238,248,.30);
+      border-radius: 8px;
+      background: rgba(10,31,50,.98);
+      color: #fff;
+      font-size: 11px;
+      line-height: 1.24;
+      font-weight: 850;
+      text-align: left;
+      box-shadow: 0 16px 34px rgba(0,0,0,.24);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -100%);
+      transition: opacity .12s ease, transform .12s ease;
+    }
+
+    .start-v5-status-tooltip.visible {
+      opacity: 1;
+      transform: translate(-50%, calc(-100% - 10px));
+    }
+
+    .start-v5-status-tooltip.below {
+      transform: translate(-50%, 10px);
+    }
+
     .start-v5-lcd-side .start-v5-action-head strong,
     .start-v5-lcd-side .start-v5-action-list p {
       color: #fff;
@@ -14514,6 +14834,7 @@
     }
 
     .status-hero-shell .start-v5-lcd-hero {
+      grid-template-columns: minmax(0, 1fr) minmax(340px, .25fr);
       padding: clamp(14px, 1.8vw, 24px) 0 0;
       min-height: 0;
       align-items: start;
@@ -14523,9 +14844,13 @@
       box-shadow: none;
     }
 
-    .status-hero-shell .start-v5-lcd-main,
-    .status-hero-shell .start-v5-lcd-side {
+    .status-hero-shell .start-v5-lcd-main {
       align-content: start;
+    }
+
+    .status-hero-shell .start-v5-lcd-side {
+      align-content: stretch;
+      grid-template-rows: auto minmax(176px, 1fr);
     }
 
     .status-hero-shell .start-v5-lcd-title h2 {
@@ -21374,6 +21699,67 @@
         '<div class="start-v5-status-chart-foot"><span>' + safe(footLeft) + '</span><strong>' + safe(lead + " · " + footRight) + '</strong></div>' +
       '</div>';
     }
+    function bindStartV5StatusTooltips(root) {
+      root = root || document;
+      if (!root || root.__startV5TooltipBound) return;
+      root.__startV5TooltipBound = true;
+      var tooltip = document.getElementById("start-v5-status-tooltip");
+      if (!tooltip) {
+        tooltip = document.createElement("div");
+        tooltip.id = "start-v5-status-tooltip";
+        tooltip.className = "start-v5-status-tooltip";
+        tooltip.setAttribute("role", "tooltip");
+        document.body.appendChild(tooltip);
+      }
+      function targetFrom(event) {
+        return event.target && event.target.closest ? event.target.closest(".start-v5-status-bar") : null;
+      }
+      function position(target) {
+        if (!target) return;
+        var rect = target.getBoundingClientRect();
+        var half = Math.min(130, Math.max(90, tooltip.offsetWidth / 2 || 110));
+        var left = clamp(rect.left + rect.width / 2, half + 12, window.innerWidth - half - 12);
+        var top = rect.top - 10;
+        var below = top < 44;
+        if (below) top = rect.bottom + 8;
+        tooltip.style.left = left.toFixed(1) + "px";
+        tooltip.style.top = top.toFixed(1) + "px";
+        tooltip.classList.toggle("below", below);
+      }
+      function show(target) {
+        var text = target && target.getAttribute("data-tip");
+        if (!text) return;
+        tooltip.textContent = text;
+        tooltip.classList.add("visible");
+        position(target);
+      }
+      function hide() {
+        tooltip.classList.remove("visible", "below");
+      }
+      root.addEventListener("pointerover", function (event) {
+        var target = targetFrom(event);
+        if (target && root.contains(target)) show(target);
+      });
+      root.addEventListener("pointermove", function (event) {
+        var target = targetFrom(event);
+        if (target && root.contains(target) && tooltip.classList.contains("visible")) position(target);
+      });
+      root.addEventListener("pointerout", function (event) {
+        var target = targetFrom(event);
+        if (!target || (event.relatedTarget && target.contains(event.relatedTarget))) return;
+        hide();
+      });
+      root.addEventListener("focusin", function (event) {
+        var target = targetFrom(event);
+        if (target && root.contains(target)) show(target);
+      });
+      root.addEventListener("focusout", function (event) {
+        if (targetFrom(event)) hide();
+      });
+      root.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") hide();
+      });
+    }
     function startV5Action(item, index) {
       item = item || {};
       var tone = item.tone || "info";
@@ -21755,6 +22141,14 @@
       if (cls === "gateway") return "#4F6F8F";
       return "#A9B4C2";
     }
+    function megaTipAttr(text) {
+      return text ? ' title="' + safe(text) + '" data-mega-tip="' + safe(text) + '"' : "";
+    }
+    function megaShortLabel(label, max) {
+      label = String(label || "-").trim();
+      max = max || 22;
+      return label.length > max ? label.slice(0, Math.max(1, max - 1)).trim() + "…" : label;
+    }
     function megaRankList(rows, total, limit) {
       rows = (rows || []).filter(function (row) { return number(row.value) > 0; }).slice(0, limit || 5);
       total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + number(row.value); }, 0), 1);
@@ -21762,40 +22156,65 @@
       return '<div class="mega-rank-list">' + rows.map(function (row) {
         var value = number(row.value);
         var detail = row.detail ? '<small class="mega-passport-detail">' + safe(row.detail) + '</small>' : "";
-        return '<div class="mega-rank-row" title="' + safe(row.title || row.detail || row.label || "") + '">' +
+        return '<div class="mega-rank-row"' + megaTipAttr(row.title || row.detail || row.label || "") + '>' +
           '<div class="mega-rank-top"><span class="mega-rank-name">' + safe(row.label || "-") + '</span><strong class="mega-rank-value">' + fmt(value) + ' · ' + safe(pct(value, total)) + '</strong></div>' +
           '<div class="mega-rank-track"><span style="--fill:' + widthPct(value, total) + '%;--bar-color:' + safe(megaClassColor(row.className)) + '"></span></div>' +
           detail +
         '</div>';
       }).join("") + '</div>';
     }
-    function megaAnalysisPanel(kicker, title, total, body, cls) {
+    function megaAnalysisPanel(kicker, title, total, body, cls, tip) {
       var className = cls ? " " + safe(cls) : "";
-      return '<article class="mega-analysis-panel' + className + '"><div class="mega-analysis-head"><div><span>' + safe(kicker || "") + '</span><strong>' + safe(title || "-") + '</strong></div><div class="mega-analysis-total">' + safe(total || "") + '</div></div>' + body + '</article>';
+      return '<article class="mega-analysis-panel' + className + '"' + megaTipAttr(tip || "") + '><div class="mega-analysis-head"><div><span>' + safe(kicker || "") + '</span><strong>' + safe(title || "-") + '</strong></div><div class="mega-analysis-total">' + safe(total || "") + '</div></div>' + body + '</article>';
     }
     function megaTrendSvg(data) {
-      var rows = trendRows(data).slice(-14).filter(function (row) { return row.date; });
+      var rows = trendRows(data).slice(-30).filter(function (row) { return row.date; });
       if (!rows.length) return '<div class="message-card neutral"><strong>Engin þróunarlína</strong><p>History aggregate vantar í payload.</p></div>';
       if (rows.length === 1) rows.push({ date: rows[0].date, visits: rows[0].visits });
       var values = rows.map(function (row) { return number(row.visits); });
       var max = Math.max.apply(null, values.concat([1]));
-      var min = Math.min.apply(null, values.concat([0]));
-      var spread = Math.max(max - min, 1);
+      var average = values.reduce(function (acc, value) { return acc + value; }, 0) / Math.max(values.length, 1);
+      var min = Math.min.apply(null, values);
+      var chartW = 420;
+      var chartH = 184;
+      var left = 30;
+      var right = 14;
+      var top = 18;
+      var bottom = 32;
+      var plotW = chartW - left - right;
+      var plotH = chartH - top - bottom;
+      var barGap = Math.min(8, Math.max(3, plotW / rows.length * .22));
+      var barW = Math.max(4, (plotW - barGap * (rows.length - 1)) / rows.length);
       var points = rows.map(function (row, index) {
-        var x = rows.length === 1 ? 50 : 6 + (index / Math.max(rows.length - 1, 1)) * 88;
-        var y = 88 - ((number(row.visits) - min) / spread) * 66;
+        var x = left + (rows.length === 1 ? plotW / 2 : (index / Math.max(rows.length - 1, 1)) * plotW);
+        var y = top + plotH - (number(row.visits) / max) * plotH;
         return { x: x, y: y, value: number(row.visits), date: row.date };
       });
       var line = points.map(function (point, index) { return (index ? "L" : "M") + point.x.toFixed(2) + " " + point.y.toFixed(2); }).join(" ");
-      var area = line + " L " + points[points.length - 1].x.toFixed(2) + " 96 L " + points[0].x.toFixed(2) + " 96 Z";
-      var dots = points.map(function (point) {
-        return '<circle cx="' + point.x.toFixed(2) + '" cy="' + point.y.toFixed(2) + '" r="1.8"><title>' + safe(chartDateLabel(point.date) + ": " + fmt(point.value)) + '</title></circle>';
+      var bars = rows.map(function (row, index) {
+        var value = number(row.visits);
+        var height = Math.max(3, (value / max) * plotH);
+        var x = left + index * (barW + barGap);
+        var y = top + plotH - height;
+        var cls = index === rows.length - 1 ? " latest" : value < average * .55 ? " low" : "";
+        var tip = chartDateLabel(row.date) + ": " + fmt(value) + " taldar opnanir. Meðaltal tímabils: " + fmt(average) + ".";
+        return '<rect class="mega-trend-bar' + cls + '" x="' + x.toFixed(2) + '" y="' + y.toFixed(2) + '" width="' + barW.toFixed(2) + '" height="' + height.toFixed(2) + '" rx="3"' + megaTipAttr(tip) + '></rect>';
       }).join("");
-      return '<div class="mega-trend-card"><svg class="mega-trend-svg" viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label="Notkunarþróun síðustu daga">' +
-        '<path d="' + safe(area) + '" fill="rgba(47,143,139,.18)"></path>' +
-        '<path d="' + safe(line) + '" fill="none" stroke="#1F6F6C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>' +
+      var dots = points.map(function (point, index) {
+        var tip = chartDateLabel(point.date) + ": " + fmt(point.value) + " taldar opnanir";
+        return '<circle class="' + (index === points.length - 1 ? 'latest' : '') + '" cx="' + point.x.toFixed(2) + '" cy="' + point.y.toFixed(2) + '" r="' + (index === points.length - 1 ? "4.4" : "3") + '"' + megaTipAttr(tip) + '></circle>';
+      }).join("");
+      var avgY = top + plotH - (average / max) * plotH;
+      var latest = rows[rows.length - 1];
+      return '<div class="mega-trend-card"><svg class="mega-trend-svg" viewBox="0 0 ' + chartW + ' ' + chartH + '" role="img" aria-label="Notkunarþróun síðustu daga">' +
+        '<line x1="' + left + '" x2="' + (chartW - right) + '" y1="' + avgY.toFixed(2) + '" y2="' + avgY.toFixed(2) + '" stroke="#A9B4C2" stroke-dasharray="4 5" stroke-width="1.5"></line>' +
+        '<g fill="rgba(47,143,139,.20)">' + bars + '</g>' +
+        '<path d="' + safe(line) + '" fill="none" stroke="#1F6F6C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>' +
         '<g fill="#1F6F6C">' + dots + '</g>' +
-      '</svg><div class="mega-trend-axis"><span>' + safe(chartDateLabel(rows[0].date)) + '</span><span>' + safe(chartDateLabel(rows[rows.length - 1].date)) + '</span></div></div>';
+        '<text x="' + left + '" y="' + (chartH - 9) + '" fill="#51677c" font-size="11" font-weight="900">' + safe(chartDateLabel(rows[0].date)) + '</text>' +
+        '<text x="' + (chartW - right) + '" y="' + (chartH - 9) + '" fill="#51677c" font-size="11" font-weight="900" text-anchor="end">' + safe(chartDateLabel(rows[rows.length - 1].date)) + '</text>' +
+        '<text x="' + (chartW - right) + '" y="' + Math.max(14, avgY - 6).toFixed(2) + '" fill="#6F7F92" font-size="10" font-weight="900" text-anchor="end">meðaltal ' + fmt(average) + '</text>' +
+      '</svg><div class="mega-trend-summary"><div><span>Nýjast</span><strong>' + fmt(latest.visits) + '</strong></div><div><span>Meðaltal</span><strong>' + fmt(average) + '</strong></div><div><span>Bil</span><strong>' + fmt(min) + "-" + fmt(max) + '</strong></div></div></div>';
     }
     function megaPassportBar(label, headline, rows, total, detail) {
       rows = rows || [];
@@ -24617,12 +25036,6 @@
       if (section) section.hidden = false;
       var allRows = routeMatrixRows(data).sort(function (a, b) { return routeMatrixValue(b) - routeMatrixValue(a); });
       var rows = allRows.slice(0, 14);
-      var total = allRows.reduce(function (acc, row) { return acc + routeMatrixValue(row); }, 0);
-      var auto = allRows.reduce(function (acc, row) { return acc + (!isForcedLayoutRow(row) ? routeMatrixValue(row) : 0); }, 0);
-      var forced = total - auto;
-      var mobile = allRows.reduce(function (acc, row) { return acc + (normalizeLayoutToken(row.selected_layout) === "mobile" ? routeMatrixValue(row) : 0); }, 0);
-      var desktop = allRows.reduce(function (acc, row) { return acc + (normalizeLayoutToken(row.selected_layout) === "desktop" ? routeMatrixValue(row) : 0); }, 0);
-      var topReason = topRows(allRows, function (row) { return routeMatrixReasonLabel(row); }, 1, routeMatrixValue)[0];
       if (!rows.length) {
         setHtml("route-list", '<div class="message-card neutral"><strong>Engin leiðingargögn</strong><p>Route aggregate skilaði engum taldum línum. Síðasta þekkta gögn eru samt ekki endurtalin annars staðar á síðunni.</p></div>');
         return;
