@@ -12977,20 +12977,31 @@
       font-weight: 800;
     }
 
+    .start-v5-lcd-status .start-v5-meter {
+      width: 100%;
+      height: 10px;
+      margin-top: 4px;
+      background: rgba(226,240,248,.20);
+    }
+
+    .start-v5-lcd-status .start-v5-meter span {
+      box-shadow: 0 0 18px rgba(199,138,42,.28);
+    }
+
     .start-v5-lcd-bars {
       display: flex;
       align-items: end;
       justify-content: flex-end;
       gap: 8px;
-      min-height: 82px;
+      min-height: 110px;
       padding: 8px 2px 4px;
     }
 
     .start-v5-lcd-bars span {
-      width: 7px;
+      width: 10px;
       height: var(--h, 40%);
-      min-height: 12px;
-      border-radius: 4px 4px 1px 1px;
+      min-height: 18px;
+      border-radius: 6px 6px 2px 2px;
       background: linear-gradient(180deg, rgba(239,247,252,.98), rgba(170,207,229,.76));
       box-shadow: 0 0 16px rgba(168,213,239,.18);
     }
@@ -13264,7 +13275,7 @@
     }
 
     .status-hero-shell .start-v5-lcd-bars {
-      min-height: 62px;
+      min-height: 108px;
       padding-top: 0;
     }
 
@@ -13876,6 +13887,75 @@
       padding: 12px;
     }
 
+    .start-v5-flow-row {
+      position: relative;
+      z-index: 1;
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(330px, .28fr);
+      gap: 12px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .start-v5-flow-actions {
+      position: relative;
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid rgba(220,238,248,.20);
+      border-radius: 8px;
+      background: rgba(10,31,50,.36);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.035);
+    }
+
+    .start-v5-flow-actions::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--data-09), var(--data-02), var(--data-03));
+      pointer-events: none;
+    }
+
+    .status-hero-shell .start-v5-flow-row .start-v5-flow {
+      min-width: 0;
+    }
+
+    .status-hero-shell .start-v5-flow-row .start-v5-panel-head,
+    .status-hero-shell .start-v5-flow-row .start-v5-action-head {
+      min-height: 32px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0;
+    }
+
+    .status-hero-shell .start-v5-flow-row .start-v5-panel-head > span,
+    .status-hero-shell .start-v5-flow-row .start-v5-action-head > span {
+      color: rgba(219,238,249,.86);
+      font-size: 11px;
+      font-weight: 950;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .status-hero-shell .start-v5-flow-row .start-v5-panel-head strong,
+    .status-hero-shell .start-v5-flow-row .start-v5-action-head strong {
+      flex: 1 1 auto;
+      min-width: 0;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 950;
+      line-height: 1.1;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
     .start-v5-flow-canvas-card,
     .start-v5-reconcile-rail {
       position: relative;
@@ -14068,6 +14148,10 @@
 
     @media (max-width: 1240px) {
       .start-v5-flow-viz {
+        grid-template-columns: 1fr;
+      }
+
+      .start-v5-flow-row {
         grid-template-columns: 1fr;
       }
 
@@ -19963,15 +20047,19 @@
     }
     function startV5Meter(value, cls) {
       var fill = clamp(number(value), 0, 100);
-      return '<div class="start-v5-meter" aria-hidden="true"><span class="' + safe(cls || "") + '" style="--fill:' + fill.toFixed(1) + '%"></span></div>';
+      var title = "Staða: " + formatIcelandicNumber(fill, 1) + "%";
+      return '<div class="start-v5-meter" title="' + safe(title) + '" aria-label="' + safe(title) + '"><span class="' + safe(cls || "") + '" style="--fill:' + fill.toFixed(1) + '%"></span></div>';
     }
     function startV5Metric(label, value, detail, cls, fill) {
       var className = cls ? " " + safe(cls) : "";
       return '<article class="start-v5-metric' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small>' + startV5Meter(fill === undefined ? 0 : fill, cls) + '</article>';
     }
     function startV5LcdBars(values) {
-      return '<div class="start-v5-lcd-bars" aria-hidden="true">' + (values || []).map(function (value) {
-        return '<span style="--h:' + clamp(number(value), 12, 100).toFixed(1) + '%"></span>';
+      var labels = ["Taldar opnanir", "Ferskleiki", "Rekstrarstaða", "Gæði", "Gateway", "Top mælaborð", "Mælaborð", "Viðvörun"];
+      return '<div class="start-v5-lcd-bars" role="img" aria-label="Smástikur fyrir rekstrarstöðu">' + (values || []).map(function (value, index) {
+        var fill = clamp(number(value), 12, 100);
+        var label = (labels[index] || "Stika") + ": " + formatIcelandicNumber(fill, 1) + "%";
+        return '<span title="' + safe(label) + '" style="--h:' + fill.toFixed(1) + '%"></span>';
       }).join("") + '</div>';
     }
     function startV5Action(item, index) {
@@ -20113,6 +20201,10 @@
             '<div class="start-v5-flow-legend"><span><i class="good"></i>Tali\u00f0</span><span><i class="info"></i>T\u00e6knimerki</span><span><i class="warn"></i>\u00datiloka\u00f0/sko\u00f0a</span></div>' +
           '</aside>' +
         '</section>';
+      var actionPanel = '<aside class="start-v5-flow-actions" aria-label="\u00c1kv\u00f6r\u00f0un">' +
+        '<div class="start-v5-action-head"><span class="start-v5-lcd-kicker">\u00c1kv\u00f6r\u00f0un</span><strong>N\u00e6st</strong></div>' +
+        '<div class="start-v5-action-list">' + actions + '</div>' +
+      '</aside>';
       setHtml("start-panel",
         '<article class="start-v5 ' + safe(scoreTone) + '">' +
           '<section class="start-v5-lcd-hero" aria-label="M\u00e6labor\u00f0sm\u00e6lingar status">' +
@@ -20124,9 +20216,9 @@
                 startV5Metric("Ferskleiki", model.eventAge.label, "samantekt " + model.aggregationAge.label, model.eventAge.className, freshnessFill) +
                 startV5Metric("G\u00e6\u00f0i", confirmed ? fmt(confirmed) : "Hreint", confirmed ? "sta\u00f0fest merki" : "engin sta\u00f0fest merki", confirmed ? "warn" : "good", qualityFill) +
               '</div>' +
-              flowSection +
             '</div>' +
-            '<aside class="start-v5-lcd-side"><div class="start-v5-lcd-status"><span>Sta\u00f0a n\u00fana</span><strong>' + safe(statusTitle) + '</strong><small>' + fmt(model.score) + '/100 · ' + fmt(dashboardCount) + ' m\u00e6labor\u00f0 · ' + fmt(model.total) + ' taldar opnanir</small>' + startV5Meter(model.score, scoreTone) + '</div>' + lcdBars + '<div class="start-v5-action-head"><span class="start-v5-lcd-kicker">\u00c1kv\u00f6r\u00f0un</span><strong>N\u00e6st</strong></div><div class="start-v5-action-list">' + actions + '</div></aside>' +
+            '<aside class="start-v5-lcd-side"><div class="start-v5-lcd-status" title="Samsett rekstrarsta\u00f0a: ' + fmt(model.score) + '/100. Stikan s\u00fdnir hversu langt sta\u00f0an er fr\u00e1 fullri gr\u00e6nni st\u00f6\u00f0u."><span>Sta\u00f0a n\u00fana</span><strong>' + safe(statusTitle) + '</strong><small>' + fmt(model.score) + '/100 · ' + fmt(dashboardCount) + ' m\u00e6labor\u00f0 · ' + fmt(model.total) + ' taldar opnanir</small>' + startV5Meter(model.score, scoreTone) + '</div>' + lcdBars + '</aside>' +
+            '<div class="start-v5-flow-row">' + flowSection + actionPanel + '</div>' +
           '</section>' +
           '<section class="start-v5-lower" aria-label="F\u00f3kus og sannanir">' +
             '<div class="start-v5-focus"><div class="start-v5-panel-head"><span>M\u00e6labor\u00f0 \u00ed f\u00f3kus</span><strong>' + safe(topDashboard ? pct(visitValue(topDashboard), Math.max(model.total, 1)) : "0%") + '</strong></div><p class="start-v5-note">' + focusCopy + '</p><div class="start-v5-dash-list">' + dashboardRowsHtml + '</div></div>' +
