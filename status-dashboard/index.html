@@ -12117,23 +12117,32 @@
 
     .mega-portfolio-board {
       display: grid;
-      grid-template-columns: minmax(220px, .38fr) minmax(0, .62fr);
+      grid-template-columns: minmax(190px, .44fr) minmax(0, .56fr);
       gap: 12px;
       min-width: 0;
     }
 
     .mega-portfolio-focus {
+      container: mega-portfolio-focus / inline-size;
       display: grid;
       grid-template-columns: 1fr;
-      align-items: start;
-      align-content: start;
-      gap: 10px;
-      min-height: 112px;
+      grid-template-rows: auto minmax(138px, 1fr);
+      align-items: stretch;
+      align-content: stretch;
+      gap: 14px;
+      min-height: 286px;
       padding: 12px;
       border: 1px solid rgba(216,226,234,.86);
       border-radius: 13px;
       background:
         linear-gradient(180deg, rgba(232,247,246,.88), rgba(255,255,255,.66));
+    }
+
+    .mega-portfolio-focus > div:first-child {
+      display: grid;
+      gap: 3px;
+      min-width: 0;
+      align-content: start;
     }
 
     .mega-portfolio-focus span,
@@ -12169,9 +12178,10 @@
 
     .mega-portfolio-ring {
       position: relative;
-      width: 82px;
+      width: clamp(124px, 54cqi, 172px);
       aspect-ratio: 1;
-      justify-self: start;
+      justify-self: center;
+      align-self: center;
       border-radius: 999px;
       background: conic-gradient(var(--good) var(--share, 0%), rgba(218,231,239,.86) 0);
       box-shadow: inset 0 0 0 1px rgba(14,36,56,.07);
@@ -12180,7 +12190,7 @@
     .mega-portfolio-ring::after {
       content: "";
       position: absolute;
-      inset: 17px;
+      inset: 23%;
       border-radius: inherit;
       background: #fff;
       box-shadow: inset 0 0 0 1px rgba(14,36,56,.07);
@@ -12193,19 +12203,25 @@
       display: grid;
       place-items: center;
       color: var(--ink);
-      font-size: 16px;
+      font-size: clamp(20px, 10cqi, 31px);
+      line-height: .9;
       font-weight: 950;
     }
 
     .mega-portfolio-list {
+      container: mega-portfolio-list / inline-size;
       display: grid;
       gap: 8px;
+      align-content: start;
       min-width: 0;
     }
 
     .mega-portfolio-row {
       display: grid;
-      grid-template-columns: 32px minmax(0, .92fr) minmax(84px, .28fr);
+      grid-template-columns: 32px minmax(0, 1fr) auto;
+      grid-template-areas:
+        "rank name measure"
+        ". track track";
       gap: 9px;
       align-items: center;
       min-height: 50px;
@@ -12220,6 +12236,7 @@
     }
 
     .mega-portfolio-rank {
+      grid-area: rank;
       display: grid;
       place-items: center;
       width: 28px;
@@ -12232,6 +12249,7 @@
     }
 
     .mega-portfolio-name {
+      grid-area: name;
       display: grid;
       gap: 5px;
       min-width: 0;
@@ -12242,15 +12260,20 @@
       font-size: 14px;
       line-height: 1.05;
       font-weight: 950;
+      overflow: hidden;
       overflow-wrap: normal;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       word-break: normal;
       hyphens: none;
     }
 
     .mega-portfolio-measure {
+      grid-area: measure;
       display: grid;
       gap: 5px;
       justify-items: end;
+      min-width: 48px;
       text-align: right;
     }
 
@@ -12262,8 +12285,15 @@
       white-space: nowrap;
     }
 
+    .mega-portfolio-measure span {
+      max-width: 124px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .mega-portfolio-track {
-      grid-column: 2 / 4;
+      grid-area: track;
       height: 9px;
       overflow: hidden;
       border-radius: 999px;
@@ -20933,6 +20963,7 @@
     function visitValue(row) { return isCountedProductionRow(row) ? visitMeasure(row) : 0; }
     function rawSignalValue(row) { return number(firstValue(row, ["raw_signal_events", "raw_events", "events", "raw_count", "event_count", "count", "diagnostic_count"])); }
     function visibleRows(rows) { return (rows || []).filter(function (row) { return visitValue(row) > 0; }); }
+    function trackerVisibleRows(rows) { return (rows || []).filter(function (row) { return !isHardTestRow(row) && trackerRowValue(row) > 0; }); }
     function softSignalRows(rows) { return (rows || []).filter(function (row) { return !isHardTestRow(row) && rawSignalValue(row) > 0; }); }
     function sumRows(rows, field) { return (rows || []).reduce(function (acc, row) { return acc + number(field ? row[field] : visitValue(row)); }, 0); }
     function rowsFrom(data, key, fallback) { return (data && data[key] && data[key].length ? data[key] : (fallback ? data[fallback] || [] : [])); }
@@ -21224,6 +21255,7 @@
       var brand = String((row && row.browser_brand) || "");
       var family = String((row && row.browser_family) || "");
       var combined = (brand + " " + family).trim();
+      if (!combined || /^(unknown|\-)(\s+(unknown|\-))*$/i.test(combined)) return "Óþekkt";
       if (/Samsung Internet/i.test(combined)) return "Samsung Internet";
       return brand || family || "Óþekkt";
     }
@@ -23857,15 +23889,27 @@
       '</div>';
     }
     function megaHeatmap(rows) {
-      rows = rows || [];
-      var browsers = topRows(rows, function (row) { return browserLabel(row); }, 4, trackerRowValue).map(function (row) { return row.key; });
-      var devices = topRows(rows, function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 4, trackerRowValue).map(function (row) { return row.key; });
+      rows = trackerVisibleRows(rows || []);
+      var trackerTotal = rows.reduce(function (acc, row) { return acc + trackerRowValue(row); }, 0);
+      function axisKeys(keyFn) {
+        var keys = topRows(rows, keyFn, 4, trackerRowValue).map(function (row) { return row.key; });
+        var seen = {};
+        rows.forEach(function (row) { seen[keyFn(row) || "Óþekkt"] = true; });
+        var hasOther = Object.keys(seen).some(function (key) { return keys.indexOf(key) < 0; });
+        if (hasOther) keys.push("Annað");
+        return keys;
+      }
+      var browsers = axisKeys(function (row) { return browserLabel(row); });
+      var devices = axisKeys(function (row) { return labelDevice(row.inferred_device_class || row.device_class); });
       if (!browsers.length) browsers = ["Vantar"];
       if (!devices.length) devices = ["Vantar"];
+      function bucket(key, keys) {
+        return keys.indexOf(key) >= 0 ? key : (keys.indexOf("Annað") >= 0 ? "Annað" : key);
+      }
       var map = {};
       rows.forEach(function (row) {
-        var browser = browserLabel(row);
-        var device = labelDevice(row.inferred_device_class || row.device_class);
+        var browser = bucket(browserLabel(row), browsers);
+        var device = bucket(labelDevice(row.inferred_device_class || row.device_class), devices);
         var key = device + "||" + browser;
         map[key] = (map[key] || 0) + trackerRowValue(row);
       });
@@ -23876,8 +23920,9 @@
         browsers.forEach(function (browser) {
           var value = map[device + "||" + browser] || 0;
           var alpha = value ? (.16 + (value / max) * .62).toFixed(2) : ".02";
-          var tip = device + " / " + browser + ": " + (value ? fmt(value) + " tracker línur, " + pct(value, max) + " af stærsta reit." : "engin lína í aggregate.");
-          cells += '<div class="mega-heat-cell hot" style="--alpha:' + alpha + '"' + megaTipAttr(tip) + '><strong>' + (value ? fmt(value) : "-") + '</strong><span>' + safe(value ? pct(value, max) + " af mesta reit" : "engin lína") + '</span></div>';
+          var share = trackerTotal ? pct(value, trackerTotal) : "0%";
+          var tip = device + " / " + browser + ": " + (value ? fmt(value) + " tracker merki, " + share + " af tracker-grunni. Liturinn er styrkur miðað við stærsta reit." : "engin tracker lína í aggregate.");
+          cells += '<div class="mega-heat-cell hot" style="--alpha:' + alpha + '"' + megaTipAttr(tip) + '><strong>' + (value ? fmt(value) : "-") + '</strong><span>' + safe(value ? share + " af grunni" : "engin lína") + '</span></div>';
         });
       });
       return '<div class="mega-heatmap" style="--cols:' + browsers.length + '">' + cells + '</div>';
@@ -24218,7 +24263,8 @@
       if (sourceCategoryMissing > 0) {
         sourceCategoryRows.push({ label: "Óflokkað", value: sourceCategoryMissing, className: "neutral" });
       }
-      var deviceRows = visibleRows(rowsFrom(data, "device", "device_confidence"));
+      var deviceRows = trackerVisibleRows(rowsFrom(data, "device", "device_confidence"));
+      var deviceTrackerTotal = deviceRows.reduce(function (acc, row) { return acc + trackerRowValue(row); }, 0);
       var deviceGroups = topRows(rowsFrom(data, "device_confidence", "device"), function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 6, trackerRowValue);
       var browserGroups = topRows(rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 6, trackerRowValue);
       var routeLineCount = routeGroups.length;
@@ -24294,7 +24340,7 @@
           '</section>' +
           '<section class="mega-wide-grid" aria-label="Portfolio og tæknikort">' +
             megaAnalysisPanel("", "Dreifing mælaborða", fmt(sortedDashboards.length), megaSkyline(skylineRows, totalVisits), "distribution", "Raðar mælaborðum eftir talinni notkun og sýnir hvaða kort ber mest af grunni.") +
-            megaAnalysisPanel("", "Tæki / vafri", fmt(deviceRows.length || deviceGroups.length + browserGroups.length), megaHeatmap(deviceRows), "feature heatmap-panel", "Tracker línur flokkaðar eftir tæki og vafra. Dekkri reitur merkir stærri hóp.") +
+            megaAnalysisPanel("", "Tæki / vafri", fmt(deviceTrackerTotal || deviceRows.length) + " merki", megaHeatmap(deviceRows), "feature heatmap-panel", "Allar non-test tracker-línur með tækja/vafra merkjum: " + fmt(deviceRows.length) + " línur. Reitur sýnir merki og hlutdeild af " + fmt(deviceTrackerTotal) + " tracker merkjum; Annað safnar flokkum utan sýnilegra ása.") +
           '</section>' +
           '<section class="mega-wide-grid" aria-label="Áhrifakort og lestrarröð">' +
             megaAnalysisPanel("", "Áhrifakort", topShare, megaBubbleMap(skylineRows, totalVisits), "feature impact-panel", "Stærð bólu sýnir hlutdeild mælaborðs í sýndum notkunargrunni.") +
