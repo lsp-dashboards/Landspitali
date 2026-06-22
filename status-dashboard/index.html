@@ -19607,11 +19607,10 @@
       var gap = flow.countGap;
       var maxNode = Math.max(raw, flow.gatewaySignals, route, model.total, gap, flow.confirmed, 1);
       var bounds = host.getBoundingClientRect();
-      var width = Math.max(bounds.width || host.clientWidth || 320, 320);
+      var minChartWidth = window.innerWidth > 700 ? 320 : 260;
+      var width = Math.max(bounds.width || host.clientWidth || minChartWidth, minChartWidth);
       var height = Math.max(bounds.height || host.clientHeight || 220, 220);
       var lateAttempts = number(host.getAttribute("data-late-render-attempts"));
-      host.setAttribute("data-measured-width", String(Math.round(width)));
-      host.setAttribute("data-measured-height", String(Math.round(height)));
       function nodeRadius(value) {
         return clamp(18 + Math.sqrt(Math.max(number(value), 0) / maxNode) * 16, 18, 34);
       }
