@@ -16423,6 +16423,16 @@
       min-width: 0;
     }
 
+    .diagnostic-support-panel .tracker-insight-board,
+    .diagnostic-support-panel .tracker-master-v3,
+    .diagnostic-support-panel .delivery-master-v3 {
+      max-height: min(900px, 74vh);
+      overflow: auto;
+      padding-right: 4px;
+      scrollbar-color: var(--data-05) rgba(169,180,194,.18);
+      scrollbar-gutter: stable;
+    }
+
     .counting-health-board,
     .diagnostic-passport-board {
       display: grid;
@@ -16624,7 +16634,9 @@
     }
 
     .diagnostic-alert-strip,
-    .diagnostic-priority-strip {
+    .diagnostic-priority-strip,
+    .diagnostic-command-strip,
+    .diagnostic-quality-merge {
       display: grid;
       gap: 10px;
       min-width: 0;
@@ -16634,6 +16646,155 @@
       border-radius: 8px;
       background:
         linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.92));
+    }
+
+    .diagnostic-command-lane {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .diagnostic-command-strip {
+      gap: 14px;
+    }
+
+    .diagnostic-command-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.36fr) minmax(320px, .64fr);
+      gap: 12px;
+      min-width: 0;
+      align-items: start;
+    }
+
+    .diagnostic-operator-strip,
+    .diagnostic-quality-merge {
+      min-width: 0;
+    }
+
+    .diagnostic-operator-strip .tracker-operator-panel {
+      height: auto;
+      max-height: 760px;
+      overflow: auto;
+      align-content: start;
+      border-radius: 8px;
+      box-shadow: none;
+      scrollbar-color: var(--data-05) rgba(169,180,194,.18);
+      scrollbar-gutter: stable;
+    }
+
+    .diagnostic-quality-merge {
+      max-height: 760px;
+      overflow: auto;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(248,251,253,.86));
+      scrollbar-color: var(--data-05) rgba(169,180,194,.18);
+      scrollbar-gutter: stable;
+    }
+
+    .diagnostic-quality-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .diagnostic-quality-head span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: 0;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .diagnostic-quality-head strong {
+      color: var(--ink);
+      font-size: clamp(26px, 2.5vw, 42px);
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .diagnostic-quality-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(74px, auto);
+      gap: 10px;
+      align-items: stretch;
+      min-width: 0;
+      padding: 10px;
+      border: 1px solid rgba(169,180,194,.48);
+      border-radius: 8px;
+      background: rgba(255,255,255,.8);
+      box-shadow: inset 3px 0 0 rgba(79,111,143,.55);
+    }
+
+    .diagnostic-quality-item.warn,
+    .diagnostic-quality-item.warning {
+      border-color: rgba(199,138,42,.36);
+      background: var(--warn-soft);
+      box-shadow: inset 3px 0 0 var(--data-03);
+    }
+
+    .diagnostic-quality-item.info {
+      border-color: rgba(53,153,184,.28);
+      background: var(--info-soft);
+      box-shadow: inset 3px 0 0 var(--data-09);
+    }
+
+    .diagnostic-quality-item.gateway {
+      border-color: rgba(111,127,146,.3);
+      background: var(--gateway-soft);
+      box-shadow: inset 3px 0 0 var(--data-05);
+    }
+
+    .diagnostic-quality-item-main {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .diagnostic-quality-item-main span,
+    .diagnostic-quality-count span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 950;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .diagnostic-quality-item-main strong {
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 950;
+      line-height: 1.08;
+      overflow-wrap: anywhere;
+    }
+
+    .diagnostic-quality-item-main p,
+    .diagnostic-quality-item-main small,
+    .diagnostic-quality-count small {
+      margin: 0;
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 720;
+      line-height: 1.28;
+      overflow-wrap: anywhere;
+    }
+
+    .diagnostic-quality-count {
+      display: grid;
+      gap: 4px;
+      align-content: center;
+      justify-items: end;
+      min-width: 0;
+      padding-left: 10px;
+      border-left: 1px solid rgba(169,180,194,.34);
+      text-align: right;
+    }
+
+    .diagnostic-quality-count strong {
+      color: var(--ink);
+      font-size: clamp(26px, 2.4vw, 38px);
+      font-weight: 950;
+      line-height: .92;
     }
 
     .diagnostic-strip-head {
@@ -16675,7 +16836,8 @@
     @media (max-width: 1080px) {
       .counting-health-command,
       .diagnostic-passport-hero,
-      .diagnostic-passport-lane {
+      .diagnostic-passport-lane,
+      .diagnostic-command-grid {
         grid-template-columns: 1fr;
       }
 
@@ -17197,6 +17359,240 @@
         min-height: 260px;
       }
     }
+
+    .dashboard-passport-modern {
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .dashboard-passport-modern-hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(470px, .86fr) minmax(410px, 1fr) minmax(260px, .52fr);
+      gap: 14px;
+      align-items: stretch;
+      min-width: 0;
+      padding: 16px;
+      border: 1px solid rgba(169,180,194,.58);
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(79,111,143,.08), rgba(47,143,139,.06) 48%, rgba(199,138,42,.07)),
+        linear-gradient(180deg, rgba(255,255,255,.99), rgba(247,251,253,.94));
+    }
+
+    .dashboard-passport-modern-hero::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--data-01), var(--data-02), var(--data-03));
+    }
+
+    .dashboard-passport-modern-hero > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .dashboard-passport-modern-copy {
+      display: grid;
+      gap: 9px;
+      align-content: start;
+      min-width: 0;
+    }
+
+    .dashboard-passport-modern-copy h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(34px, 3.7vw, 56px);
+      font-weight: 950;
+      line-height: .92;
+      overflow-wrap: normal;
+      text-wrap: balance;
+    }
+
+    .dashboard-passport-modern-copy p {
+      margin: 0;
+      max-width: 68ch;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 760;
+      line-height: 1.45;
+    }
+
+    .dashboard-passport-modern-stats,
+    .dashboard-passport-modern-read {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .dashboard-passport-modern-stats {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .dashboard-passport-modern-stat,
+    .dashboard-passport-modern-cue {
+      display: grid;
+      gap: 5px;
+      align-content: space-between;
+      min-width: 0;
+      padding: 10px;
+      border: 1px solid rgba(169,180,194,.5);
+      border-radius: 8px;
+      background: rgba(255,255,255,.82);
+    }
+
+    .dashboard-passport-modern-stat span,
+    .dashboard-passport-modern-cue span,
+    .dashboard-passport-modern-fields span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 950;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .dashboard-passport-modern-stat strong,
+    .dashboard-passport-modern-cue strong {
+      color: var(--ink);
+      font-size: clamp(18px, 1.8vw, 30px);
+      font-weight: 950;
+      line-height: 1.02;
+      overflow-wrap: anywhere;
+    }
+
+    .dashboard-passport-modern-stat small,
+    .dashboard-passport-modern-cue small {
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 720;
+      line-height: 1.25;
+    }
+
+    .dashboard-passport-modern-stat.good,
+    .dashboard-passport-modern-cue.good { background: var(--good-soft); border-color: rgba(47,143,139,.28); }
+    .dashboard-passport-modern-stat.info,
+    .dashboard-passport-modern-cue.info { background: var(--info-soft); border-color: rgba(53,153,184,.28); }
+    .dashboard-passport-modern-stat.warn,
+    .dashboard-passport-modern-cue.warn { background: var(--warn-soft); border-color: rgba(199,138,42,.35); }
+    .dashboard-passport-modern-stat.gateway,
+    .dashboard-passport-modern-cue.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.3); }
+
+    .dashboard-passport-modern-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .dashboard-passport-modern .dashboard-passport-card {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: inset 4px 0 0 rgba(47,143,139,.74);
+    }
+
+    .dashboard-passport-modern .dashboard-passport-card:not(.good) {
+      box-shadow: inset 4px 0 0 rgba(199,138,42,.86);
+    }
+
+    .dashboard-passport-modern .dashboard-passport-measure,
+    .dashboard-passport-modern .dashboard-donut-card,
+    .dashboard-passport-modern .dashboard-passport-evidence > div {
+      border-radius: 8px;
+    }
+
+    .dashboard-passport-modern .dashboard-passport-measure {
+      grid-template-columns: minmax(150px, .28fr) minmax(0, .72fr);
+    }
+
+    .dashboard-passport-modern .dashboard-passport-donuts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-passport-modern .dashboard-donut-card {
+      min-height: 124px;
+      grid-template-columns: 72px minmax(0, 1fr);
+    }
+
+    .dashboard-passport-modern .dashboard-donut {
+      width: 68px;
+    }
+
+    .dashboard-passport-modern .dashboard-donut::after {
+      inset: 14px;
+    }
+
+    .dashboard-passport-modern .dashboard-donut-center strong {
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .dashboard-passport-modern .dashboard-donut-center small {
+      max-width: 38px;
+      font-size: 8px;
+      line-height: 1;
+    }
+
+    .dashboard-passport-modern .dashboard-donut-legend-row {
+      grid-template-columns: 8px minmax(0, 1fr);
+      row-gap: 2px;
+    }
+
+    .dashboard-passport-modern .dashboard-donut-legend-row strong {
+      grid-column: 2;
+      font-size: 10px;
+      white-space: normal;
+    }
+
+    .dashboard-passport-modern-fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+      min-width: 0;
+      padding: 11px 12px;
+      border: 1px solid rgba(169,180,194,.46);
+      border-radius: 8px;
+      background: rgba(255,255,255,.74);
+    }
+
+    .dashboard-passport-modern-fields code {
+      padding: 5px 7px;
+      border-radius: 8px;
+      color: var(--ink);
+      background: rgba(79,111,143,.08);
+      font-size: 11px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1180px) {
+      .dashboard-passport-modern-hero,
+      .dashboard-passport-modern-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-passport-modern-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .dashboard-passport-modern-hero,
+      .dashboard-passport-modern .dashboard-passport-measure,
+      .dashboard-passport-modern .dashboard-passport-donuts,
+      .dashboard-passport-modern .dashboard-passport-evidence,
+      .dashboard-passport-modern-stats {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -17250,17 +17646,10 @@
           <div>
             <span class="section-kicker">Stoðlög rekstrarpassa</span>
             <h2 id="diagnostic-support-title">Samhengi sem útskýrir stöðuna</h2>
-            <div class="panel-note">Rekstrarinnsýn, tæki/vafrar og afhendingarmerki eru varðveitt hér sem stoð undir sameinaða tracker- og gæðapassanum. Gæðaviðvaranir eru ekki sérblokk, þær eru sameinaðar í passanum sjálfum.</div>
+            <div class="panel-note">Tæki/vafrar og afhendingarmerki eru varðveitt hér sem stoð undir sameinaða tracker- og gæðapassanum. Gæðaviðvaranir eru ekki sérblokk, þær eru sameinaðar í passanum sjálfum.</div>
           </div>
         </div>
         <div class="diagnostic-support-grid">
-          <section class="diagnostic-support-panel diagnostic-support-panel-wide" aria-label="Rekstrarinnsýn">
-            <div class="diagnostic-support-panel-head">
-              <span>Rekstrarinnsýn</span>
-              <strong>Tracker sem heimild</strong>
-            </div>
-            <div class="insight-grid" id="insight-grid"></div>
-          </section>
           <section class="diagnostic-support-panel" aria-label="Tæki og vafraumhverfi">
             <div class="diagnostic-support-panel-head">
               <span>Tæki og vafraumhverfi</span>
@@ -19174,9 +19563,9 @@
             routeV6Step("04", "Uppruni", sourceDominant.label, "island.is " + fmt(island) + " · beint " + fmt(direct), sourceDominant.className, sourceDominant.value, sourceTotal) +
             routeV6Step("05", "Talið", fmt(total), "production opnanir, root/raw haldið sér", "good", total, Math.max(total, 1)) +
           '</section>' +
-          '<section class="route-v6-bottom" aria-label="Route source evidence">' +
+          '<section class="route-v6-bottom" aria-label="Leiðingar- og upprunasönnun">' +
             '<div class="route-v6-decision"><div class="route-v6-section-head"><div><span class="route-v6-kicker">Næsta skoðun</span><strong>' + safe(activeChecks ? "Skoða " + fmt(activeChecks) : "Stöðugt") + '</strong></div><small>' + safe(activeChecks ? "Byrja á því sem getur breytt túlkun opnana." : "Topkort er baseline fyrir næstu prófun.") + '</small></div><div class="route-v6-focus-grid">' +
-              routeV6Focus("Fyrst að prófa", topDashboardTitle, topDashboard ? fmt(visitValue(topDashboard)) + " opnanir · " + topDashboardShare : "engin opnun", "Nota sem smoke-test fyrir route/source.", "good", topDashboard ? visitValue(topDashboard) : 0, Math.max(total, 1)) +
+              routeV6Focus("Fyrst að prófa", topDashboardTitle, topDashboard ? fmt(visitValue(topDashboard)) + " opnanir · " + topDashboardShare : "engin opnun", "Nota sem prófunargrunn fyrir leiðingu og uppruna.", "good", topDashboard ? visitValue(topDashboard) : 0, Math.max(total, 1)) +
               routeV6Focus("Route policy", forced ? "Þvingun " + fmt(forced) : "Sjálfvirkt", forced ? "mobile " + fmt(forcedMobile) + " · desktop " + fmt(forcedDesktop) : routeCoverageDetail, forced ? "Skoða forced_layout áður en policy breytist." : "Halda router sem baseline.", forced ? "warn" : "info", forced || auto, Math.max(routeSignalTotal, 1)) +
               routeV6Focus("Source þekja", campaignMissing ? fmt(campaignMissing) + " vantar" : "Full þekja", "beint/annað " + fmt(sourceRisk) + " · skráð " + fmt(campaignTotal), campaignMissing ? "Bera UTM/source saman við gateway." : "Nota source mix sem samanburð.", campaignMissing ? "gateway" : "good", campaignTotal, Math.max(total, 1)) +
             '</div></div>' +
@@ -19271,7 +19660,7 @@
               insightEvidence("Talin síðast", model.eventAge.label, "Síðasta production heimsókn", model.eventAge.className) +
               insightEvidence("Samantekt", model.aggregationAge.label, "Apps Script aggregate", model.aggregationAge.className) +
             '</div></article>' +
-            '<article class="insight-panel"><div><span class="insight-panel-kicker">Tracker evidence</span><h3>Tæki, sending og veik merki</h3></div><div class="insight-evidence-grid">' +
+            '<article class="insight-panel"><div><span class="insight-panel-kicker">Tracker sönnunargögn</span><h3>Tæki, sending og veik merki</h3></div><div class="insight-evidence-grid">' +
               insightEvidence("Tæki", topDevice ? topDevice.key : "Óþekkt", topDevice ? fmt(topDevice.visits) + " heimsóknir" : "Vantar device línur", topDevice ? "" : "gateway") +
               insightEvidence("Vafri", topBrowser ? topBrowser.key : "Óþekkt", topBrowser ? fmt(topBrowser.visits) + " heimsóknir" : "Vantar vafralínur", topBrowser ? "" : "gateway") +
               insightEvidence("Sending", methodRows[0] ? methodRows[0].key : "Óþekkt", methodRows[0] ? fmt(methodRows[0].visits) + " merki" : "Engin sendigögn", methodRows[0] ? "info" : "gateway") +
@@ -20254,7 +20643,7 @@
         }]
       });
     }
-    function renderDashboardPublicMasterV2(data) {
+    function renderDashboardPublicMasterLensV2(data) {
       data = data || {};
       var cards = data.public_cards || [];
       var rows = dashboardLensRows(data);
@@ -20280,7 +20669,7 @@
       var listHtml = rows.map(dashboardLensRowHtml).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engar taldar framleiðsluheimsóknir í dashboard aggregate.</p></div>';
       var lead = top ? top.title + " ber safnið núna; lesið hlutdeild, ferskleika og gæðamerki saman áður en farið er í route eða talningarheilsa." : "Safnið birtist hér þegar dashboard aggregate skilar töldum opnunum.";
       var firstBrief = top ? top.title + " er ráðandi kort í safninu með " + top.shareLabel + " hlutdeild; þetta er samanburðargrunnur, ekki ný heildartala." : "Engin ráðandi kortalína er til í þessari keyrslu.";
-      var secondBrief = newest ? "Ferskasta merkið kemur frá " + newest.title + " (" + newest.age.label + "), sem segir hvaða kort er best sem smoke-test eftir breytingu." : "Ferskleiki birtist þegar síðasta talda opnun fylgir payload.";
+      var secondBrief = newest ? "Ferskasta merkið kemur frá " + newest.title + " (" + newest.age.label + "), sem segir hvaða kort er best sem prófunarkort eftir breytingu." : "Ferskleiki birtist þegar síðasta talda opnun fylgir payload.";
       var thirdBrief = warningRows.length ? fmt(warningRows.length) + " mælaborð bera staðfest gæðamerki; þau eru vísað áfram í gæðapassa í stað þess að tvítelja hér." : "Engin mælaborðslína ber staðfesta gæðaviðvörun í þessum lestri.";
       setHtml("dashboard-public-master",
         '<div class="dashboard-lens">' +
@@ -20302,11 +20691,77 @@
             '<div class="dashboard-lens-list"><div class="dashboard-lens-panel-head"><div><span>Mælaborð í safni</span><strong>Röðun eftir hlutdeild</strong></div><span class="chip neutral">' + fmt(rows.length) + ' virk</span></div>' + listHtml + '</div>' +
             '<aside class="dashboard-lens-inspector"><div class="dashboard-lens-panel-head"><div><span>Lesa safnið</span><strong>Ályktun án tvítalningar</strong></div></div><div class="dashboard-lens-proof-grid">' +
               dashboardLensProof("Ráðandi kort", top ? top.title : "-", top ? top.shareLabel + " hlutdeild" : "engin opnun", "good") +
-              dashboardLensProof("Smoke-test", newest ? newest.title : "-", newest ? newest.age.label : "vantar tíma", newest ? newest.age.className : "gateway") +
+              dashboardLensProof("Prófunarkort", newest ? newest.title : "-", newest ? newest.age.label : "vantar tíma", newest ? newest.age.className : "gateway") +
               dashboardLensProof("Opinber birting", fmt(published) + "/" + fmt(publicTotal), draftOrTest ? fmt(draftOrTest) + " ekki full staðfest" : "allt í rekstri", draftOrTest ? "warn" : "info") +
               dashboardLensProof("Gæðapassi", warningRows.length ? fmt(warningRows.length) + " kort" : "hreint", warningRows.length ? "forgangur neðar" : "engin staðfest villa", warningRows.length ? "warn" : "good") +
             '</div><ul class="dashboard-lens-brief">' + dashboardLensBrief("01", firstBrief) + dashboardLensBrief("02", secondBrief) + dashboardLensBrief("03", thirdBrief) + '</ul></aside>' +
           '</section>' +
+        '</div>');
+    }
+    function renderDashboardPublicMasterV2(data) {
+      data = data || {};
+      var cards = data.public_cards || [];
+      var rows = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); });
+      var totalVisits = rows.reduce(function (acc, row) { return acc + visitValue(row); }, 0);
+      var todayTotal = rows.reduce(function (acc, row) { return acc + number(row.visits_today); }, 0);
+      var sevenDayTotal = number(firstValue(data.kpis || {}, ["visits_7d", "visits_7_days", "visits7d"]));
+      if (!sevenDayTotal) {
+        sevenDayTotal = rows.reduce(function (acc, row) {
+          return acc + number(firstValue(row, ["visits_7d", "visits_7_days", "visits7d"]));
+        }, 0);
+      }
+      var publicTotal = cards.length || rows.length || 0;
+      var published = cards.filter(function (card) { return publicCardStatus(card).label === "Birt"; }).length;
+      var draftOrTest = cards.filter(function (card) {
+        var status = publicCardStatus(card);
+        return status.label === "Drög" || status.label === "Próf";
+      }).length;
+      var warningRows = rows.filter(function (row) {
+        return number(firstValue(row, ["confirmed_warning_count", "production_warning_count", "warning_count"])) > 0;
+      });
+      var top = rows[0];
+      function passportAgeValue(row) {
+        var info = ageInfo(dashboardLastCountedTime(row));
+        return isFinite(info.minutes) ? info.minutes : Number.MAX_SAFE_INTEGER;
+      }
+      var newest = rows.slice().sort(function (a, b) { return passportAgeValue(a) - passportAgeValue(b); })[0];
+      var cardsHtml = rows.map(function (row) { return portfolioDashboardCard(data, row, Math.max(totalVisits, 1)); }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Dashboard aggregate skilaði engri talinni línu fyrir passann.</p></div>';
+      var topTitle = top ? titleFor(top, publicMap(data)) : "-";
+      var topShare = top ? pct(visitValue(top), Math.max(totalVisits, 1)) : "0%";
+      var newestAge = newest ? ageInfo(dashboardLastCountedTime(newest)) : null;
+      var topLayout = top ? dashboardLayoutContext(data, top) : null;
+      var topSource = top ? dashboardSourceContext(data, top) : null;
+      var topRoute = topLayout ? topLayout.topRoute : "-";
+      var topSourceText = topSource ? "island.is " + pct(topSource.island, Math.max(topSource.total, 1)) : "uppruni vantar";
+      function stat(label, value, detail, cls) {
+        var className = cls ? " " + safe(cls) : "";
+        return '<article class="dashboard-passport-modern-stat' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></article>';
+      }
+      function cue(label, value, detail, cls) {
+        var className = cls ? " " + safe(cls) : "";
+        return '<article class="dashboard-passport-modern-cue' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></article>';
+      }
+      setHtml("dashboard-public-master",
+        '<div class="dashboard-passport-modern">' +
+          '<section class="dashboard-passport-modern-hero" aria-label="Mælaborðspassi">' +
+            '<div class="dashboard-passport-modern-copy"><span class="section-kicker">Mælaborðspassi</span><h2>Rekstrarpassi mælaborða</h2><p>Hvert kort er lesið sem rekstrarpassi: birting, talin notkun, leiðing, uppruni, tracker samhengi, ferskleiki og gæði. Passinn er botnlagið sem staðfestir hvaða mælaborð eru raunverulega í rekstri.</p></div>' +
+            '<div class="dashboard-passport-modern-stats">' +
+              stat("Passar", fmt(rows.length), "mælaborð í rekstrarlestri", rows.length ? "good" : "gateway") +
+              stat("Opnanir", fmt(totalVisits), "taldar production opnanir", totalVisits ? "good" : "gateway") +
+              stat("Í dag", fmt(todayTotal), "ný virkni", todayTotal ? "good" : "gateway") +
+              stat("7 dagar", fmt(sevenDayTotal), "samantektargluggi", sevenDayTotal ? "info" : "gateway") +
+              stat("Birting", fmt(published) + "/" + fmt(publicTotal), draftOrTest ? fmt(draftOrTest) + " í próf/drögum" : "opinbert safn", draftOrTest ? "warn" : "good") +
+              stat("Gæði", warningRows.length ? fmt(warningRows.length) + " kort" : "hreint", warningRows.length ? "sameinað í rekstrarpassa" : "engin staðfest villa", warningRows.length ? "warn" : "good") +
+            '</div>' +
+            '<aside class="dashboard-passport-modern-read">' +
+              cue("Ráðandi passi", topTitle, topShare + " af safni", "good") +
+              cue("Ferskast", newest ? titleFor(newest, publicMap(data)) : "-", newestAge ? newestAge.label : "vantar tíma", newestAge ? newestAge.className : "gateway") +
+              cue("Leiðing", topRoute, topLayout && topLayout.forced ? "þvingun í efsta korti" : "sjálfvirkt eða skráð val", topLayout && topLayout.forced ? "warn" : "info") +
+              cue("Uppruni", topSourceText, "efsta kortið sem samanburðargrunnur", topSource && topSource.island ? "good" : "gateway") +
+            '</aside>' +
+          '</section>' +
+          '<section class="dashboard-passport-modern-grid" aria-label="Dashboard-by-dashboard diagnostic passport">' + cardsHtml + '</section>' +
+          '<div class="dashboard-passport-modern-fields"><span>Notuð aggregate/status svið</span><code>dashboards</code><code>public_cards</code><code>dashboard_key</code><code>dashboard_id</code><code>total_visits</code><code>raw_events</code><code>diagnostic_events</code><code>mobile_visits</code><code>desktop_visits</code><code>island_is_visits</code><code>source_mix_summary</code><code>route_mix_summary</code></div>' +
         '</div>');
     }
     function renderExecutivePanelV2(data) {
@@ -21278,27 +21733,27 @@
       var status = errors || confirmed ? "warning" : counted ? "good" : (raw ? "watch" : "unknown");
       return {
         title: "Talningarheilsa",
-        kicker: "Counting integrity",
+        kicker: "Talningaheilindi",
         intro: "Taldar production heimsóknir eru lesnar aðskildar frá raw, diagnostic, bot, debug, root, list, health og test merkjum.",
         status: status,
         fields: ["kpis", "health", "total_visits", "raw_events", "diagnostic_events", "debug_events", "bot_events", "fallback_clicks", "error_events", "last_counted_event_time", "last_raw_event_time"],
         missing: trackerTopLevelMissing(data, ["kpis", "health"]),
         metrics: [
           trackerMetric("Taldar heimsóknir", fmt(counted), "Talin production opnun.", counted ? "good" : "watch"),
-          trackerMetric("Raw merki", fmt(raw), "Raw operational activity.", raw ? "info" : "unknown"),
+          trackerMetric("Raw merki", fmt(raw), "Hrá rekstrarvirkni.", raw ? "info" : "unknown"),
           trackerMetric("Diagnostic merki", fmt(diagnostic), "Ekki talin heimsókn.", diagnostic ? "info" : "good"),
           trackerMetric("Útilokað frá talningu", fmt(excluded), "Rekstrarsamræming.", excluded ? "info" : "good"),
           trackerMetric("Síðasta talda heimsókn", ageInfo(countedTime).label, dateShort(countedTime), counted ? "good" : "watch"),
           trackerMetric("Síðasta raw merki", ageInfo(rawTime).label, dateShort(rawTime), raw ? "info" : "unknown"),
-          trackerMetric("Confirmed warning", fmt(confirmed), "StaÃ°fest production warning.", confirmed ? "warning" : "good"),
+          trackerMetric("Staðfest viðvörun", fmt(confirmed), "Staðfest production viðvörun.", confirmed ? "warning" : "good"),
           trackerMetric("Veik merki", fmt(weak), "Veikt eða óþekkt tækjamerki.", weak ? "watch" : "good")
         ],
         rows: [
           { label: "Rekstrarsamræming", detail: "taldar heimsóknir + rekstrarmerki án heimsóknar + diagnostic/debug/bot/fallback/error merki = hrá rekstrarvirkni", value: fmt(counted) + " + " + fmt(excluded), extra: "ekki exact nema payload styðji" },
-          { label: "No counted vs no raw", detail: counted ? "Production opnanir eru til." : (raw ? "Raw til, counted vantar." : "Engin raw móttaka."), value: counted ? "Talið" : (raw ? "Partial" : "Empty"), extra: "" }
+          { label: "Talið vs hrámerki", detail: counted ? "Production opnanir eru til." : (raw ? "Raw til, talningu vantar." : "Engin raw móttaka."), value: counted ? "Talið" : (raw ? "Hluti" : "Tómt"), extra: "" }
         ],
         insights: [
-          trackerMakeInsight("Talningarheilsa", counted ? fmt(counted) : "0", status, raw ? "hátt" : "óþekkt", counted ? "Taldar production opnanir eru til staðar." : (raw ? "Raw merki berast en engin talin production opnun sést." : "Hvorki taldar opnanir né raw merki sjást í aggregate payload."), "No counted visits er annað ástand en no raw events.", counted ? "Bera saman counted visits, raw merki og síðustu timestamp." : "Athuga Talningarhlið og síðustu raw móttöku.", ["kpis.total_visits", "kpis.raw_events", "health.last_counted_event_time"], counted ? 11 : 2),
+          trackerMakeInsight("Talningarheilsa", counted ? fmt(counted) : "0", status, raw ? "hátt" : "óþekkt", counted ? "Taldar production opnanir eru til staðar." : (raw ? "Raw merki berast en engin talin production opnun sést." : "Hvorki taldar opnanir né raw merki sjást í samantektargögnum."), "Engar taldar heimsóknir eru annað ástand en engin hrámerki.", counted ? "Bera saman taldar heimsóknir, raw merki og síðasta tímastimpil." : "Athuga Talningarhlið og síðustu raw móttöku.", ["kpis.total_visits", "kpis.raw_events", "health.last_counted_event_time"], counted ? 11 : 2),
           trackerMakeInsight("Rekstrarsamræming", fmt(counted) + " + " + fmt(excluded), "info", "miðlungs", "Samræmingarlínan skýrir að framleiðslunotkun og rekstrar-/greiningarmerki eru ekki sami teljari.", "Heilbrigður tracker getur haft greiningaratvik án framleiðslubilunar.", "Bæta count_as_visit samantekt við ef nákvæma jöfnu þarf.", ["kpis.total_visits", "kpis.raw_events", "kpis.diagnostic_events"], 11)
         ]
       };
@@ -21318,20 +21773,20 @@
       var unknownSource = sourceCount(visibleRows(data.sources || []), function (value) { return /unknown/i.test(String(value || "")); });
       var status = fallback ? "watch" : (views || clicks || arrivals ? "info" : "unknown");
       return {
-        title: "Root gateway og public-card funnel",
+        title: "Rótargátt og flæði opinberra korta",
         kicker: "Gáttarflæði",
         intro: "Gáttarflæði sýnir hvernig notendur fara frá opinberu korti eða rótargátt yfir í talda opnun mælaborðs.",
         status: status,
         fields: ["root_index_funnel", "root_index", "sources", "routes", "public_cards", "dashboards", "entry_source_category", "root_dashboard_target_path", "root_launch_choice"],
         missing: trackerTopLevelMissing(data, ["root_index_funnel|root_index", "sources", "routes", "public_cards", "dashboards"]),
         metrics: [
-          trackerMetric("island.is share", pct(island, total), fmt(island) + " taldar opnanir.", island ? "good" : "watch"),
-          trackerMetric("Fallback share", pct(fallback, Math.max(clicks + fallback, 1)), "Fallback björgun í gateway.", fallback ? "watch" : "good"),
-          trackerMetric("Forced layout share", pct(forcedTotal, Math.max(sumRows(data.routes || []), 1)), "Þvingað val þegar til staðar.", forcedTotal ? "info" : "good"),
-          trackerMetric("Unknown source", fmt(unknownSource), "Óþekktur uppruni.", unknownSource ? "watch" : "good")
+          trackerMetric("island.is hlutdeild", pct(island, total), fmt(island) + " taldar opnanir.", island ? "good" : "watch"),
+          trackerMetric("Varaleiðarhlutdeild", pct(fallback, Math.max(clicks + fallback, 1)), "Varaleið í gátt.", fallback ? "watch" : "good"),
+          trackerMetric("Þvingað layout hlutfall", pct(forcedTotal, Math.max(sumRows(data.routes || []), 1)), "Þvingað val þegar til staðar.", forcedTotal ? "info" : "good"),
+          trackerMetric("Óþekktur uppruni", fmt(unknownSource), "Óþekktur uppruni.", unknownSource ? "watch" : "good")
         ],
         steps: [
-          trackerStep("Public card / island.is", fmt(island), "Expected public source.", island ? "good" : "watch"),
+          trackerStep("Opinbert kort / island.is", fmt(island), "Vænt opinber rás.", island ? "good" : "watch"),
           trackerStep("Rótargátt", fmt(views), "Sýn á rótarsíðu.", views ? "info" : "unknown"),
           trackerStep("Kortasmellir", fmt(clicks), "Val á mælaborðskorti.", clicks ? "info" : "unknown"),
           trackerStep("Leiðingar", fmt(arrivals), "Merki fyrir ákvörðun leiðingar.", arrivals ? "info" : "unknown"),
@@ -21354,7 +21809,7 @@
       var missingUtm = rows.reduce(function (acc, row) { return acc + (!(row.utm_source || row.utm_campaign || row.utm_medium || row.utm_content) ? visitValue(row) : 0); }, 0);
       var status = unknown / total > .25 || direct / total > .6 ? "watch" : "good";
       return {
-        title: "Source quality og campaign clarity",
+        title: "Upprunagæði og herferðarmerking",
         kicker: "Uppruni",
         intro: "Sýnir hvort public dashboard traffic komi frá væntum stöðum og hvort UTM/campaign merki skýri public-card flæði.",
         status: status,
@@ -21391,7 +21846,7 @@
       var groups = trackerGroupRows(rows, function (row) { return routeMatrixReasonLabel(row); }, routeMatrixValue);
       var status = forcedMobile + forcedDesktop || narrowDesktopMobile ? "info" : "good";
       return {
-        title: "Route decision workbench",
+        title: "Leiðingarákvörðun og reglur",
         kicker: "Leiðingarheilsa",
         intro: "Leiðing byggir á raunverulegu skjáplássi og route policy, ekki aðeins tækjanafni. Desktop-to-mobile er ekki failure nema policy eða confirmed warning styðji það.",
         status: status,
@@ -21408,7 +21863,7 @@
         bars: groups,
         barTotal: Math.max(total, groups.reduce(function (acc, row) { return Math.max(acc, row.raw); }, 1)),
         insights: [
-          trackerMakeInsight("Route mismatches worth reviewing", fmt(narrowDesktopMobile + forcedMobile + forcedDesktop), status, rows.length ? "hátt" : "óþekkt", "Forced layout og policy-zone traffic eru sýnd án þess að merkja narrow desktop -> mobile sem failure.", "Þetta hjálpar að sjá hvort router policy sé að gera vænt val á breakpoint mörkum.", "Skoða route_reason_detail og tablet/narrow strategy áður en policy er breytt.", ["routes", "route_reason", "forced_layout"], status === "watch" ? 5 : 10)
+          trackerMakeInsight("Leiðingarfrávik til skoðunar", fmt(narrowDesktopMobile + forcedMobile + forcedDesktop), status, rows.length ? "hátt" : "óþekkt", "Þvingað útgáfuval og policy-svæði eru sýnd án þess að merkja þröngan desktop yfir í mobile sem bilun.", "Þetta hjálpar að sjá hvort router policy sé að gera vænt val á breakpoint mörkum.", "Skoða route_reason_detail og tablet/narrow strategy áður en policy er breytt.", ["routes", "route_reason", "forced_layout"], status === "watch" ? 5 : 10)
         ]
       };
     }
@@ -21425,7 +21880,7 @@
       var topReasons = trackerGroupRows(weakRows, function (row) { return row.inferred_confidence_reason || row.inferred_primary_evidence || row.inferred_device_class || "Óþekkt ástæða"; });
       var status = weak / total > .12 ? "watch" : "good";
       return {
-        title: "Device confidence og inference quality",
+        title: "Tækjatraust og ályktunargæði",
         kicker: "Signal gæði",
         intro: "Confidence segir hversu traust tækja- og vaframerki eru, ekki hvort notandi hafi lent í villu.",
         status: status,
@@ -21441,7 +21896,7 @@
         barTotal: Math.max(total, bands.reduce(function (acc, row) { return Math.max(acc, row.raw); }, 1)),
         rows: topReasons.slice(0, 5).map(function (row) { return { label: row.key, detail: "Weak-confidence reason", value: fmt(row.value || row.raw), extra: "" }; }),
         insights: [
-          trackerMakeInsight("Veikt eða óþekkt tækjamerki", pct(weak, total), status, rows.length ? "miðlungs" : "óþekkt", weak ? "Hluti merkja hefur veik eða óþekkt device confidence." : "Device confidence lítur stöðugt út.", "Veik merki geta haft áhrif á route túlkun án þess að vera production villa.", "Skoða top weak reasons og dashboards affected.", ["device_confidence", "weak_unknown_signal_count"], status === "watch" ? 6 : 11)
+          trackerMakeInsight("Veikt eða óþekkt tækjamerki", pct(weak, total), status, rows.length ? "miðlungs" : "óþekkt", weak ? "Hluti merkja hefur veikt eða óþekkt tækjatraust." : "Tækjatraust lítur stöðugt út.", "Veik merki geta haft áhrif á leiðingartúlkun án þess að vera framleiðsluvilla.", "Skoða efstu veiku ástæður og mælaborð sem verða fyrir áhrifum.", ["device_confidence", "weak_unknown_signal_count"], status === "watch" ? 6 : 11)
         ]
       };
     }
@@ -21464,23 +21919,23 @@
       var groups = trackerGroupRows(rows, function (row) { return browserLabel(row); });
       var status = unsupported ? "warning" : (webview || oldVersion || unknownVersion ? "watch" : "good");
       return {
-        title: "Power BI viewer readiness",
+        title: "Power BI viewer tilbúið umhverfi",
         kicker: "Vafri og viewer",
-        intro: "Aðgreinir confirmed production warning, diagnostic-only risk og informational signal fyrir Power BI publish-to-web viewing.",
+        intro: "Aðgreinir staðfest framleiðslumerki, greiningaráhættu og upplýsingamerki fyrir Power BI birtingu.",
         status: status,
         fields: ["browsers", "quality_warnings", "browser_family", "browser_major_version", "is_webview", "powerbi_viewer_unsupported_browser", "source_confidence_band"],
         missing: trackerTopLevelMissing(data, ["browsers", "quality_warnings"]),
         metrics: [
-          trackerMetric("Supported modern share", pct(Math.max(0, total - unsupported - oldVersion), total), "Áætlað út frá browser aggregate.", unsupported ? "watch" : "good"),
-          trackerMetric("Óstuddur Power BI viewer vafri", fmt(unsupported), "Confirmed eða inferred warning.", unsupported ? "warning" : "good"),
-          trackerMetric("In-app/WebView", fmt(webview), "Teams/Outlook/WebView þegar greinanlegt.", webview ? "info" : "good"),
-          trackerMetric("Compatibility-limited/unknown versions", fmt(oldVersion + unknownVersion), "Takmarkaðar eða óþekktar vafraútgáfur.", oldVersion + unknownVersion ? "watch" : "good")
+          trackerMetric("Studd nútímaleg hlutdeild", pct(Math.max(0, total - unsupported - oldVersion), total), "Áætlað út frá vafrasamantekt.", unsupported ? "watch" : "good"),
+          trackerMetric("Óstuddur Power BI viewer vafri", fmt(unsupported), "Staðfest eða ályktað viðvörunarmerki.", unsupported ? "warning" : "good"),
+          trackerMetric("In-app / WebView", fmt(webview), "Teams, Outlook eða WebView þegar greinanlegt.", webview ? "info" : "good"),
+          trackerMetric("Takmarkaðar eða óþekktar útgáfur", fmt(oldVersion + unknownVersion), "Vafraútgáfur sem þarf að lesa með varúð.", oldVersion + unknownVersion ? "watch" : "good")
         ],
         bars: groups,
         barTotal: Math.max(total, groups.reduce(function (acc, row) { return Math.max(acc, row.raw); }, 1)),
-        rows: unsupportedWarnings.slice(0, 5).map(function (row) { return { label: labelWarningCode(row.warning_code || row.code), detail: classifyWarning(row) === "confirmed" ? "Confirmed production warning" : "Diagnostic/info", value: fmt(countWarnings(row) || row.count || 0), extra: bandLabel(row.confidence_band) }; }),
+        rows: unsupportedWarnings.slice(0, 5).map(function (row) { return { label: labelWarningCode(row.warning_code || row.code), detail: classifyWarning(row) === "confirmed" ? "Staðfest framleiðslumerki" : "Greining/upplýsingar", value: fmt(countWarnings(row) || row.count || 0), extra: bandLabel(row.confidence_band) }; }),
         insights: [
-          trackerMakeInsight("Óstuddur Power BI viewer vafri", fmt(unsupported), status, unsupported ? "mjög hátt" : "miðlungs", unsupported ? "Óstuddur eða gamall viewer-vafri er í warning aggregate." : "Engin staðfest Power BI viewer warning í payload.", "Viewer readiness getur haft áhrif eftir redirect þótt router virki.", "Prófa affected browser/device og bera saman við warning recommendation.", ["browsers", "quality_warnings"], unsupported ? 4 : 10)
+          trackerMakeInsight("Óstuddur Power BI viewer vafri", fmt(unsupported), status, unsupported ? "mjög hátt" : "miðlungs", unsupported ? "Óstuddur eða gamall viewer-vafri er í viðvörunarsamantekt." : "Engin staðfest Power BI viewer viðvörun í payload.", "Viewer-staða getur haft áhrif eftir redirect þótt router virki.", "Prófa viðkomandi vafra/tæki og bera saman við ráðleggingu viðvörunar.", ["browsers", "quality_warnings"], unsupported ? 4 : 10)
         ]
       };
     }
@@ -21509,7 +21964,7 @@
           trackerMetric("Remote-control likely", fmt(remote), "Fjarstýringarsamhengi.", remote ? "info" : "good")
         ],
         insights: [
-          trackerMakeInsight("In-app/WebView og Smart TV signals", fmt(total), status, rows.length ? "miðlungs" : "óþekkt", total ? "Óvenjulegt birtingarumhverfi fannst í aggregate." : "Engin óvenjuleg umhverfismerki fundust.", "Slík merki eru prófunarvísbending, ekki sjálfkrafa failure.", "Prófa Power BI viewer á affected browser/device ef warning styður það.", ["device_confidence", "inferred_is_smart_tv"], total ? 8 : 11)
+          trackerMakeInsight("In-app/WebView og Smart TV merki", fmt(total), status, rows.length ? "miðlungs" : "óþekkt", total ? "Óvenjulegt birtingarumhverfi fannst í samantekt." : "Engin óvenjuleg umhverfismerki fundust.", "Slík merki eru prófunarvísbending, ekki sjálfkrafa bilun.", "Prófa Power BI viewer á affected vafra/tæki ef viðvörun styður það.", ["device_confidence", "inferred_is_smart_tv"], total ? 8 : 11)
         ]
       };
     }
@@ -21526,22 +21981,22 @@
       var viewportGroups = trackerGroupRows(counted, function (row) { return labelViewport(row.viewport_bucket || row.display_class); });
       var status = forced || samsung || a11y ? "info" : "good";
       return {
-        title: "Display, theme og accessibility",
+        title: "Skjár, þema og aðgengi",
         kicker: "Birtingarumhverfi",
         intro: "Dark/forced-dark merki eru birt sem birtingarumhverfi til skoðunar, ekki sjálfkrafa villa.",
         status: status,
         fields: ["display", "display_class", "viewport_bucket", "prefers_color_scheme", "forced_dark_detection", "samsung_dark_mode_status", "forced_colors", "prefers_contrast", "prefers_reduced_motion", "display_mode"],
         missing: trackerTopLevelMissing(data, ["display"]),
         metrics: [
-          trackerMetric("Dark reported", pct(dark, total), fmt(dark) + " taldar opnanir.", dark ? "info" : "good"),
-          trackerMetric("Light reported", pct(light, total), fmt(light) + " taldar opnanir.", light ? "good" : "unknown"),
-          trackerMetric("Forced dark signals", fmt(forced), "Diagnostic display/theme signal.", forced ? "info" : "good"),
-          trackerMetric("A11y/visual signals", fmt(a11y + samsung), "Forced colors, contrast, Samsung o.fl.", a11y + samsung ? "info" : "good")
+          trackerMetric("Dark skráð", pct(dark, total), fmt(dark) + " taldar opnanir.", dark ? "info" : "good"),
+          trackerMetric("Light skráð", pct(light, total), fmt(light) + " taldar opnanir.", light ? "good" : "unknown"),
+          trackerMetric("Forced dark merki", fmt(forced), "Greiningarmerki fyrir skjá/þema.", forced ? "info" : "good"),
+          trackerMetric("Aðgengis- og sjónmerki", fmt(a11y + samsung), "Forced colors, contrast, Samsung o.fl.", a11y + samsung ? "info" : "good")
         ],
         bars: viewportGroups,
         barTotal: Math.max(total, viewportGroups.reduce(function (acc, row) { return Math.max(acc, row.raw); }, 1)),
         insights: [
-          trackerMakeInsight("Visual/theme environment signals", fmt(forced + samsung + a11y), status, rows.length ? "miðlungs" : "óþekkt", "Forced dark, Samsung forced-dark possible og accessibility merki eru diagnostic display signals.", "Þau hjálpa við report readability án þess að vera confirmed Power BI failure.", "Skoða affected dashboards og prófa liti í Power BI ef warning styður það.", ["display", "forced_dark_detection", "prefers_contrast"], 10)
+          trackerMakeInsight("Skjá- og þemamerki", fmt(forced + samsung + a11y), status, rows.length ? "miðlungs" : "óþekkt", "Forced dark, Samsung forced-dark possible og aðgengismerki eru greiningarmerki fyrir skjá.", "Þau hjálpa við læsileika án þess að vera staðfest Power BI bilun.", "Skoða affected mælaborð og prófa liti í Power BI ef viðvörun styður það.", ["display", "forced_dark_detection", "prefers_contrast"], 10)
         ]
       };
     }
@@ -21558,7 +22013,7 @@
       var desktopTouch = counted.reduce(function (acc, row) { return acc + (normalizeLayoutToken(row.selected_layout) === "desktop" && trackerAnySignal(row, ["has_touch", "any_pointer_coarse"], /touch|coarse/i) ? visitValue(row) : 0); }, 0);
       var groups = trackerGroupRows(counted, function (row) { return humanizeToken(row.touch_class || row.pointer_primary || row.inferred_input_context || "unknown"); });
       return {
-        title: "Input og interaction context",
+        title: "Inntak og samskiptasamhengi",
         kicker: "Inntak",
         intro: "Sýnir hvort notendur séu líklega touch, mouse, hybrid, remote-control eða stylus samhengi og tengir það við routing.",
         status: remote || desktopTouch ? "info" : "good",
@@ -21574,7 +22029,7 @@
         bars: groups,
         barTotal: Math.max(total, groups.reduce(function (acc, row) { return Math.max(acc, row.raw); }, 1)),
         insights: [
-          trackerMakeInsight("Touch-heavy but desktop layout", fmt(desktopTouch), desktopTouch ? "info" : "good", rows.length ? "miðlungs" : "óþekkt", desktopTouch ? "Snertimerki birtust með desktop layout." : "Engin sérstök touch/desktop tenging til skoðunar.", "Input samhengi hjálpar að skýra hvort selected layout sé nothæft.", "Skoða route policy fyrir hybrid/touch tæki við breakpoint mörk.", ["input", "selected_layout", "has_touch"], desktopTouch ? 8 : 11)
+          trackerMakeInsight("Snertimerki með desktop layout", fmt(desktopTouch), desktopTouch ? "info" : "good", rows.length ? "miðlungs" : "óþekkt", desktopTouch ? "Snertimerki birtust með desktop layout." : "Engin sérstök touch/desktop tenging til skoðunar.", "Inntakssamhengi hjálpar að skýra hvort valið layout sé nothæft.", "Skoða route policy fyrir hybrid/touch tæki við breakpoint mörk.", ["input", "selected_layout", "has_touch"], desktopTouch ? 8 : 11)
         ]
       };
     }
@@ -21591,23 +22046,23 @@
       var lowCap = trackerSumBoolean(rows, ["low_capability_device"], /true/i);
       var status = imageLimit || slow ? "watch" : "good";
       return {
-        title: "Performance og tracking transport health",
-        kicker: "Telemetry transport",
+        title: "Afköst og flutningsheilsa tracker",
+        kicker: "Flutningur merkja",
         intro: "Sýnir hvort telemetry sjálft sé að berast áreiðanlega: sendBeacon/fetch/imageGet, endpoint status, payload stærðir og tengimerki.",
         status: status,
         fields: ["performance", "tracker_send_method", "tracking_method", "tracker_send_status", "endpoint_result_known", "tracker_send_ms", "payload_size_bucket", "imageget_payload_near_limit", "diagnostic_payload_too_large", "connection_effective_type", "low_capability_device"],
         missing: trackerTopLevelMissing(data, ["performance"]),
         metrics: [
           trackerMetric("Ráðandi sending", methods[0] ? methods[0].key : "Óþekkt", methods[0] ? fmt(methods[0].value) + " merki." : "Performance aggregate vantar.", methods[0] ? "good" : "unknown"),
-          trackerMetric("Endpoint result", statuses[0] ? statuses[0].key : "Óþekkt", "Known endpoint result share.", statuses[0] ? "info" : "unknown"),
-          trackerMetric("Payload warning", fmt(imageLimit), "imageGet near-limit eða diagnostic payload too large.", imageLimit ? "watch" : "good"),
-          trackerMetric("Slow/low capability", fmt(slow + lowCap), "Slow connection eða low capability.", slow + lowCap ? "info" : "good")
+          trackerMetric("Endpoint niðurstaða", statuses[0] ? statuses[0].key : "Óþekkt", "Þekkt niðurstaða endpointa.", statuses[0] ? "info" : "unknown"),
+          trackerMetric("Payload viðvörun", fmt(imageLimit), "imageGet nálægt mörkum eða diagnostic payload of stórt.", imageLimit ? "watch" : "good"),
+          trackerMetric("Hæg tenging / lítil geta", fmt(slow + lowCap), "Hæg tenging eða tæki með litla getu.", slow + lowCap ? "info" : "good")
         ],
         bars: payloads.length ? payloads : methods,
         barTotal: Math.max(total, payloads.concat(methods).reduce(function (acc, row) { return Math.max(acc, row.raw); }, 1)),
         rows: methods.slice(0, 4).map(function (row) { return { label: row.key, detail: "Sendiaðferð", value: fmt(row.value), extra: fmt(row.raw) }; }),
         insights: [
-          trackerMakeInsight("Payload/transport warnings", fmt(imageLimit + slow), status, rows.length ? "miðlungs" : "óþekkt", imageLimit ? "Telemetry payload size gæti þurft review; það þýðir ekki að heimsóknir séu brotnar." : "Engin payload/transport warning í aggregate.", "Transport health skýrir hvort tracker merki séu áreiðanleg.", "Skoða payload_size_bucket og imageGet near-limit trend.", ["performance", "payload_size_bucket", "tracker_send_status"], status === "watch" ? 9 : 11)
+          trackerMakeInsight("Payload og flutningsviðvaranir", fmt(imageLimit + slow), status, rows.length ? "miðlungs" : "óþekkt", imageLimit ? "Payload stærð gæti þurft skoðun; það þýðir ekki að heimsóknir séu brotnar." : "Engin payload/flutningsviðvörun í samantekt.", "Flutningsheilsa skýrir hvort tracker merki séu áreiðanleg.", "Skoða payload_size_bucket og imageGet nálægt mörkum.", ["performance", "payload_size_bucket", "tracker_send_status"], status === "watch" ? 9 : 11)
         ]
       };
     }
@@ -21627,21 +22082,21 @@
         return { label: titleFor(row, publicMap(data)), detail: "Fallback / safe / error", value: fmt(number(row.fallback_clicks)), extra: fmt(number(row.safe_fallback_events) + number(row.error_events)) };
       });
       return {
-        title: "Error, fallback og rescue behavior",
+        title: "Villur, varaleið og björgunarhegðun",
         kicker: "Fallback björgun",
-        intro: "Low fallback = normal. Rising fallback = watch. High fallback = investigate Power BI URL, browser, network eða redirect friction.",
+        intro: "Lág varaleið = eðlilegt. Hækkandi varaleið = fylgjast með. Há varaleið = skoða Power BI slóð, vafra, net eða redirect núning.",
         status: status,
         fields: ["fallback_clicks", "safe_fallback_events", "safe_fallback_used", "safe_fallback_reason", "error_events", "router_errors_seen", "target_url_type", "endpoint_slow_possible"],
         missing: trackerTopLevelMissing(data, ["dashboards", "kpis"]),
         metrics: [
-          trackerMetric("Fallback click rate", pct(fallback, total), fmt(fallback) + " fallback clicks.", rate > .05 ? "warning" : (fallback ? "watch" : "good")),
-          trackerMetric("Safe fallback", fmt(safeFallback), "Rescue path used.", safeFallback ? "watch" : "good"),
-          trackerMetric("Router errors", fmt(errors), "Error events.", errors ? "warning" : "good"),
-          trackerMetric("Last fallback/error", dateShort(newestIso(dashboards.map(function (row) { return row.last_error_event_time; }))), "Síðasta error ef til.", errors ? "watch" : "good")
+          trackerMetric("Varaleiðarhlutfall", pct(fallback, total), fmt(fallback) + " varaleiðarsmellir.", rate > .05 ? "warning" : (fallback ? "watch" : "good")),
+          trackerMetric("Örugg varaleið", fmt(safeFallback), "Björgunarleið notuð.", safeFallback ? "watch" : "good"),
+          trackerMetric("Router villur", fmt(errors), "Villuviðburðir.", errors ? "warning" : "good"),
+          trackerMetric("Síðasta varaleið/villa", dateShort(newestIso(dashboards.map(function (row) { return row.last_error_event_time; }))), "Síðasta villa ef til.", errors ? "watch" : "good")
         ],
         rows: rows,
         insights: [
-          trackerMakeInsight("High fallback/error/safe fallback", fmt(fallback + safeFallback + errors), status, "hátt", fallback || safeFallback || errors ? "Router þurfti rescue path eða skráði error/fallback merki." : "Fallback og error merki eru lág.", "Rescue behavior getur falið redirect eða Power BI friction.", "Skoða fallback by dashboard/device/browser og warning recommendation.", ["fallback_clicks", "safe_fallback_events", "error_events"], status === "warning" ? 3 : 11)
+          trackerMakeInsight("Há varaleið eða villumerki", fmt(fallback + safeFallback + errors), status, "hátt", fallback || safeFallback || errors ? "Router þurfti björgunarleið eða skráði villu/varaleiðarmerki." : "Varaleiðar- og villumerki eru lág.", "Björgunarhegðun getur falið redirect eða Power BI núning.", "Skoða varaleið eftir mælaborði, tæki og vafra.", ["fallback_clicks", "safe_fallback_events", "error_events"], status === "warning" ? 3 : 11)
         ]
       };
     }
@@ -21659,23 +22114,23 @@
       var countedAge = ageInfo(counted);
       var status = aggAge.minutes > 240 ? "watch" : (counted ? "good" : (raw ? "watch" : "unknown"));
       return {
-        title: "Freshness og aggregation health",
+        title: "Ferskleiki og samantektarheilsa",
         kicker: "Ferskleiki gagna",
-        intro: "Sýnir hvort status data sjálft sé current og hvaðan það kom: static JSON, live Apps Script fallback, partial eða empty.",
+        intro: "Sýnir hvort stöðugögnin sjálf séu fersk og hvaðan þau komu: stöðuskrá, lifandi Apps Script varaleið, hlutagögn eða tóm svör.",
         status: status,
         fields: ["generated_at", "dashboard_data_generated_at", "aggregation_generated_at", "last_aggregation_time", "last_raw_event_time", "last_counted_event_time", "raw_event_rows", "health", "cache"],
         missing: trackerTopLevelMissing(data, ["health", "generated_at|generatedAt"]),
         metrics: [
-          trackerMetric("Data generated", dateShort(generated), aggAge.label, generated ? "info" : "unknown"),
+          trackerMetric("Gögn mynduð", dateShort(generated), aggAge.label, generated ? "info" : "unknown"),
           trackerMetric("Aggregation", dateShort(aggregation), aggAge.label, aggAge.className === "warn" ? "watch" : "good"),
-          trackerMetric("Last counted visit", dateShort(counted), countedAge.label, counted ? "good" : "watch"),
-          trackerMetric("Last raw event", dateShort(raw), ageInfo(raw).label, raw ? "info" : "unknown"),
-          trackerMetric("Diagnostic/error", (diagnostic ? dateShort(diagnostic) : "-") + " / " + (errorTime ? dateShort(errorTime) : "-"), "Síðustu operational merki.", errorTime ? "watch" : "info"),
-          trackerMetric("Raw rows", fmt(rawRows), "Aggregate source rows.", rawRows ? "info" : "unknown"),
-          trackerMetric("Data source", data.status_data_source || data.data_source || "static/live", "Storage/cache format.", "info")
+          trackerMetric("Síðasta talda heimsókn", dateShort(counted), countedAge.label, counted ? "good" : "watch"),
+          trackerMetric("Síðasta raw merki", dateShort(raw), ageInfo(raw).label, raw ? "info" : "unknown"),
+          trackerMetric("Greining/villa", (diagnostic ? dateShort(diagnostic) : "-") + " / " + (errorTime ? dateShort(errorTime) : "-"), "Síðustu rekstrarmerki.", errorTime ? "watch" : "info"),
+          trackerMetric("Raw línur", fmt(rawRows), "Samantektargrunnlínur.", rawRows ? "info" : "unknown"),
+          trackerMetric("Gagnaheimild", data.status_data_source || data.data_source || "static/live", "Geymslu/cache snið.", "info")
         ],
         insights: [
-          trackerMakeInsight("Stale or missing counted data", counted ? countedAge.label : "vantar", status, aggregation || generated ? "hátt" : "óþekkt", counted ? "Síðasta talda heimsókn og aggregation timestamp eru sýnileg." : "No counted visits yet eða Talningarhlið vantar counted timestamp.", "Ferskleiki segir hvort vöktunin sjálf sé nothæf áður en rýnt er í trend.", "Athuga static snapshot, Apps Script fallback og aggregation_generated_at.", ["health", "generated_at", "aggregation_generated_at"], status === "watch" || status === "unknown" ? 2 : 11)
+          trackerMakeInsight("Úrelt eða vantar talin gögn", counted ? countedAge.label : "vantar", status, aggregation || generated ? "hátt" : "óþekkt", counted ? "Síðasta talda heimsókn og samantektartími eru sýnileg." : "Engin talin heimsókn enn eða Talningarhlið vantar talinn tímastimpil.", "Ferskleiki segir hvort vöktunin sjálf sé nothæf áður en rýnt er í þróun.", "Athuga stöðuskrá, Apps Script varaleið og aggregation_generated_at.", ["health", "generated_at", "aggregation_generated_at"], status === "watch" || status === "unknown" ? 2 : 11)
         ]
       };
     }
@@ -21827,7 +22282,7 @@
           priority: 8,
           fill: topDashboard ? widthPct(visitValue(topDashboard), Math.max(total, 1)) : 0,
           detail: topDashboardTitle + " ber " + topShare + " af notkun.",
-          nextCheck: topDashboard ? "Nota þetta kort sem smoke-test fyrir source, route og viewer samhengi." : "Bíða eftir dashboard aggregate áður en prófunarpunktur er valinn."
+          nextCheck: topDashboard ? "Nota þetta kort sem prófunargrunn fyrir uppruna, leiðingu og viewer samhengi." : "Bíða eftir dashboard aggregate áður en prófunarpunktur er valinn."
         }
       ].sort(function (a, b) {
         return number(a.priority) - number(b.priority) || number(b.fill) - number(a.fill);
@@ -21873,19 +22328,19 @@
           chips: [
             { label: "Taldar: " + fmt(total), status: "good" },
             { label: fmt(dashboards.length) + " mælaborð", status: "info" },
-            { label: "Aggregate only", status: "info" }
+            { label: "Aðeins samantekt", status: "info" }
           ],
           actions: actions,
           evidence: [
             { label: "Notkunargrunnur", value: fmt(total), detail: fmt(dashboards.length) + " mælaborð · toppkort " + topDashboardTitle, status: "good", fill: 100 },
-            { label: "Uppruni", value: pct(island, Math.max(total, 1)), detail: "island.is share · beint/óþekkt " + fmt(sourceRisk), status: sourceRisk > total * .45 ? "watch" : "info", fill: widthPct(island, Math.max(total, 1)) },
+            { label: "Uppruni", value: pct(island, Math.max(total, 1)), detail: "island.is hlutdeild · beint/óþekkt " + fmt(sourceRisk), status: sourceRisk > total * .45 ? "watch" : "info", fill: widthPct(island, Math.max(total, 1)) },
             { label: "Leiðing", value: fmt(forced), detail: "þvinguð route merki af " + fmt(routeTotal), status: forced ? "watch" : "good", fill: widthPct(forced, routeTotal) },
-            { label: "Viewer", value: browserGroups[0] ? browserGroups[0].key : "-", detail: "top device " + (deviceGroups[0] ? deviceGroups[0].key : "-") + " · veik " + fmt(weak), status: weak || unsupported ? "watch" : "gateway", fill: widthPct(weak + unsupported, Math.max(total, 1)) }
+            { label: "Viewer", value: browserGroups[0] ? browserGroups[0].key : "-", detail: "efsta tæki " + (deviceGroups[0] ? deviceGroups[0].key : "-") + " · veik " + fmt(weak), status: weak || unsupported ? "watch" : "gateway", fill: widthPct(weak + unsupported, Math.max(total, 1)) }
           ],
           questions: questions
         },
         insights: [
-          trackerMakeInsight("Næsta athugun", focusCount ? fmt(focusCount) : "0", status, "hátt", focusCount ? "Operator panel raðar frávikum í virka skoðun." : "Engin virk rekstrarfrávik skera sig úr í þessum lestri.", "Forgangsröðun notar warning/fallback, source, route, viewer og freshness saman.", focusCount ? "Byrja á fyrsta aðgerðarkorti og staðfesta með evidence línunni." : "Nota top dashboard sem smoke-test baseline.", ["questions", "quality_warnings", "sources", "routes", "device_confidence", "health"], focusCount ? 1 : 11)
+          trackerMakeInsight("Næsta athugun", focusCount ? fmt(focusCount) : "0", status, "hátt", focusCount ? "Rekstrarspjald raðar frávikum í virka skoðun." : "Engin virk rekstrarfrávik skera sig úr í þessum lestri.", "Forgangsröðun notar viðvörun, varaleið, uppruna, leiðingu, viewer og ferskleika saman.", focusCount ? "Byrja á fyrsta aðgerðarkorti og staðfesta með sönnunarlínunni." : "Nota efsta mælaborð sem prófunargrunnlínu.", ["questions", "quality_warnings", "sources", "routes", "device_confidence", "health"], focusCount ? 1 : 11)
         ]
       };
     }
@@ -21911,11 +22366,14 @@
       });
       var ranked = rankRisksByOperationalImpact(allInsights).slice(0, 7);
       var suppliedCards = ((data.insight_cards || []).slice(0, 5).map(function (card) {
-        return trackerMakeInsight(card.title || card.code, card.value || "-", "info", "payload", card.detail || "", "Tracker payload supplied insight_card.", "Nota sem context við modules hér fyrir neðan.", ["insight_cards"], 11);
+        var suppliedTitle = String(card.title || card.code || "Payload innsýn").replace(/^payload\s*/i, "").trim();
+        if (!suppliedTitle) suppliedTitle = "Payload innsýn";
+        if (/heildarumfer/i.test(suppliedTitle)) suppliedTitle = "Heildarumferð úr payload";
+        return trackerMakeInsight(suppliedTitle, card.value || "-", "info", "miðlungs", card.detail || "", "Tracker payload skilaði innsýnarkorti.", "Nota sem samhengi við rekstrarlögin hér fyrir neðan.", ["insight_cards"], 11);
       }));
       var heroInsights = ranked.concat(suppliedCards).slice(0, 8);
       return '<div class="tracker-insight-board">' +
-        '<section class="tracker-hero"><div class="tracker-hero-copy"><span class="tracker-kicker">Tracker operational insight source</span><strong>Trackerinn er rekstrarheimild, ekki bara visit counter</strong><p>Þessi sýn notar aðeins aggregate/status payload: kpis, dashboards, sources, routes, root funnel, device, browser, OS, display, input, performance, quality warnings, health og operator questions. Raw event rows eru ekki birt.</p><div class="chip-row"><span class="chip good">Aggregate only</span><span class="chip info">' + fmt(modules.length) + ' modules</span><span class="chip ' + safe(trackerChipClass(ranked[0] && ranked[0].status)) + '">Forgangur: ' + safe(ranked[0] ? ranked[0].title : "engin") + '</span></div></div>' +
+        '<section class="tracker-hero"><div class="tracker-hero-copy"><span class="tracker-kicker">Rekstrarheimild tracker</span><strong>Tracker samhengi í rekstrarlestri</strong><p>Þessi sýn notar aðeins samantektar- og stöðugögn: kpis, mælaborð, uppruna, leiðir, rótargátt, tæki, vafra, stýrikerfi, skjá, inntak, flutning, gæðamerki, heilsu og rekstrarspurningar. Hráar atburðalínur eru ekki birtar.</p><div class="chip-row"><span class="chip good">Aðeins samantekt</span><span class="chip info">' + fmt(modules.length) + ' rekstrarlög</span><span class="chip ' + safe(trackerChipClass(ranked[0] && ranked[0].status)) + '">Forgangur: ' + safe(ranked[0] ? ranked[0].title : "engin") + '</span></div></div>' +
         '<div class="tracker-priority-list">' + heroInsights.map(trackerInsightHtml).join("") + '</div></section>' +
         '<div class="tracker-module-grid">' + modules.map(trackerModuleHtml).join("") + '</div>' +
       '</div>';
@@ -21944,10 +22402,10 @@
         deriveTransportHealthInsights(data),
         deriveFallbackRescueInsights(data)
       ];
-      modules[0].title = "Talning og reconciliation";
+      modules[0].title = "Talning og afstemming";
       modules[1].title = "Ferskleiki gagna";
       modules[2].title = "Flutningur merkja";
-      modules[3].title = "Fallback og björgun";
+      modules[3].title = "Varaleið og björgun";
       modules.forEach(function (module) {
         module.insightLimit = 1;
         module.barLimit = 5;
@@ -22034,9 +22492,10 @@
         deriveBrowserViewerRiskInsights(data),
         deriveUnusualDeviceContextInsights(data),
         deriveDisplayEnvironmentInsights(data),
-        deriveInputContextInsights(data),
-        deriveOperatorQuestions(data)
+        deriveInputContextInsights(data)
       ];
+      var operatorModule = deriveOperatorQuestions(data);
+      var operatorStatus = trackerStatusClass(operatorModule.status || "info");
       modules.forEach(function (module) {
         module.insightLimit = 1;
         module.barLimit = 5;
@@ -22047,25 +22506,26 @@
       });
       var ranked = rankRisksByOperationalImpact(allInsights).slice(0, 6);
       var actionRows = allWarnings.slice(0, 6);
-      var status = confirmed ? "warning" : (ranked[0] ? ranked[0].status : "good");
+      var status = confirmed ? "warning" : (operatorStatus === "warning" || operatorStatus === "bad" ? "warning" : (operatorStatus === "watch" ? "watch" : (ranked[0] ? ranked[0].status : "good")));
       var riskScore = clamp((confirmed * 24) + (split.unconfirmed.length * 10) + (split.info.length * 4) + (split.diagnostic.length * 2) + (weakShare * 100), 0, 100);
       var warningCopy = confirmed ? "Staðfest framleiðslugæðamerki eru sett í sömu rekstrarsýn og tracker samhengi svo næsta skoðun sé skýr." : "Engin staðfest framleiðsluviðvörun. Info og diagnostic haldast sýnileg sem rótargreining, en hækka ekki rekstrarstöðu.";
-      var alertHtml = actionRows.length ? actionRows.map(function (row) { return qualityActionCard(row, classifyWarning(row)); }).join("") : '<div class="message-card good"><strong>Engin gæðamerki í forgangi</strong><p>Gæðapayload skilar engu sem þarf að setja í aðgerð núna.</p></div>';
-      var priorityHtml = ranked.length ? ranked.map(trackerInsightHtml).join("") : '<div class="message-card good"><strong>Engin rekstrarfrávik raðast ofarlega</strong><p>Tracker-samantekt skilar ekki áhættumerkjum í þessari keyrslu.</p></div>';
+      var alertHtml = actionRows.length ? actionRows.map(function (row) { return qualityMergeRow(row, classifyWarning(row)); }).join("") : '<div class="message-card good"><strong>Engin gæðamerki í forgangi</strong><p>Gæðapayload skilar engu sem þarf að setja í aðgerð núna.</p></div>';
+      var operator = operatorModule.operator || null;
+      var operatorHtml = operator ? trackerOperatorHtml(operator) : '<div class="message-card neutral"><strong>Engin operator-lína</strong><p>Payload skilaði ekki forgangsröðun, en gæða- og trackermerki eru samt lesin hér.</p></div>';
+      var operatorPriority = operator ? (operator.priorityLabel || "0") : "0";
       var html = '<div class="diagnostic-passport-board">' +
         '<section class="diagnostic-passport-hero ' + safe(trackerStatusClass(status)) + '">' +
-          '<div class="diagnostic-passport-copy"><span class="section-kicker">Rekstrar- og gæðapassi</span><h2 id="diagnostic-passport-title">Trackerinn er rekstrarheimild</h2><p>Þessi lokasýn sameinar tæknisamhengi, route, tæki, skjá, inntak og gæðaviðvaranir. Markmiðið er að svara einni spurningu: hvaða merki breyta rekstrarstöðu og hvaða merki skýra hana?</p>' +
+          '<div class="diagnostic-passport-copy"><span class="section-kicker">Rekstrar- og gæðapassi</span><h2 id="diagnostic-passport-title">Sameinuð rekstrarstjórn</h2><p>Tracker, operator command og staðfest gæðamerki eru lesin sem ein rekstrarheimild. Tæknisamhengið er fyrir neðan sem sönnunarlag, ekki endurtekin fyrirsögn.</p>' +
             '<div class="diagnostic-proof-grid">' +
               diagnosticProofCard("Talin notkun", fmt(total), "grunnur rekstrarstöðu", total ? "good" : "watch") +
               diagnosticProofCard("Tracker samhengi", fmt(modules.length), "rekstrarflokkar", "info") +
               diagnosticProofCard("Staðfest gæði", fmt(confirmedSignals || confirmed), "framleiðslumerki", confirmed ? "warning" : "good") +
-              diagnosticProofCard("Diagnostic", fmt(split.info.length + split.diagnostic.length), "utan heimsókna", split.info.length + split.diagnostic.length ? "info" : "good") +
+              diagnosticProofCard("Aðgerðastjórn", operatorPriority, "virk forgangsatriði", operatorStatus || "info") +
             '</div></div>' +
-          '<aside class="diagnostic-passport-side"><div class="diagnostic-score-card"><span>Gæðaviðvaranir</span><strong>' + fmt(confirmedSignals || confirmed) + '</strong><small>' + safe(warningCopy) + '</small><div class="diagnostic-score-track" aria-hidden="true"><i style="--fill:' + safe(riskScore.toFixed(1)) + '%"></i></div><div class="chip-row"><span class="chip ' + safe(trackerChipClass(status)) + '">' + safe(trackerStatusText(status)) + '</span><span class="chip neutral">' + fmt(allWarnings.length) + ' merki alls</span><span class="chip neutral">Veik merki ' + safe(shareValue(weakShare)) + '</span></div></div></aside>' +
+          '<aside class="diagnostic-passport-side"><div class="diagnostic-score-card"><span>Command + gæði</span><strong>' + safe(operatorPriority) + '</strong><small>' + safe(warningCopy) + '</small><div class="diagnostic-score-track" aria-hidden="true"><i style="--fill:' + safe(riskScore.toFixed(1)) + '%"></i></div><div class="chip-row"><span class="chip ' + safe(trackerChipClass(status)) + '">' + safe(trackerStatusText(status)) + '</span><span class="chip neutral">' + fmt(allWarnings.length) + ' merki alls</span><span class="chip neutral">Veik merki ' + safe(shareValue(weakShare)) + '</span></div></div></aside>' +
         '</section>' +
-        '<section class="diagnostic-passport-lane">' +
-          '<div class="diagnostic-alert-strip"><div class="diagnostic-strip-head"><div><span>Gæðaviðvaranir</span><h3>Aðgerðaspjöld</h3></div><span>' + fmt(actionRows.length) + '</span></div><div class="diagnostic-alert-list">' + alertHtml + '</div></div>' +
-          '<div class="diagnostic-priority-strip"><div class="diagnostic-strip-head"><div><span>Tracker samhengi</span><h3>Næsta rekstrarskoðun</h3></div><span>' + fmt(ranked.length) + '</span></div><div class="diagnostic-priority-list">' + priorityHtml + '</div></div>' +
+        '<section class="diagnostic-passport-lane diagnostic-command-lane">' +
+          '<div class="diagnostic-command-strip"><div class="diagnostic-strip-head"><div><span>Tracker + operator + gæði</span><h3>Ein aðgerðaröð</h3></div><span>' + safe(operatorPriority) + '</span></div><div class="diagnostic-command-grid"><div class="diagnostic-operator-strip">' + operatorHtml + '</div><div class="diagnostic-quality-merge"><div class="diagnostic-quality-head"><span>Staðfest gæðamerki í sömu röð</span><strong>' + fmt(actionRows.length) + '</strong></div><div class="diagnostic-alert-list">' + alertHtml + '</div></div></div></div>' +
         '</section>' +
         '<div class="diagnostic-module-grid">' + modules.map(trackerModuleHtml).join("") + '</div>' +
       '</div>';
@@ -22611,57 +23071,20 @@
         '<div class="alert-count-box"><span>Talið</span><strong>' + fmt(counted) + '</strong><span>diag. ' + fmt(diagnostic) + '</span></div></article>';
     }
 
-    function renderWarnings(data) {
-      var split = splitWarnings(data);
-      var confirmed = split.confirmed.length;
-      var unconfirmed = split.unconfirmed.length;
-      var info = split.info.length;
-      var diagnostic = split.diagnostic.length;
-      var tone = confirmed ? "warn" : "good";
-      var headline = confirmed ? "Aðgerð: staðfest production merki" : "Engin staðfest production viðvörun";
-      var copy = confirmed ? "Þessi sýn byrjar á því sem breytir rekstrarstöðu: staðfest production merki. Info og diagnostic eru haldin sýnileg, en þau eru greiningarhjálp og hækka ekki stöðu." : "Engin staðfest warning/error fer í gegnum Talningarhlið. Greiningarmerki eru samt sýnd svo hægt sé að rekja veik merki áður en þau verða vandamál.";
-      var allWarnings = split.confirmed.concat(split.unconfirmed, split.info, split.diagnostic);
-      var allCount = allWarnings.length;
-      var k = data.kpis || {};
-      var weakShare = k.weak_unknown_signal_share !== undefined ? number(k.weak_unknown_signal_share) : (number(k.weak_unknown_signal_count) / Math.max(number(k.total_events), 1));
-      var deviceRows = visibleRows(data.device || []);
-      var topBrowser = topRows(rowsFrom(data, "browsers", "device"), function (row) { return browserLabel(row); }, 1)[0];
-      var topDevice = topRows(rowsFrom(data, "device_confidence", "device"), function (row) { return labelDevice(row.inferred_device_class || row.device_class); }, 1)[0];
-      var unsupported = allWarnings.reduce(function (acc, row) { return acc + (/powerbi|unsupported/i.test(row.warning_code || row.code || row.warning_text || row.message || "") ? countWarnings(row) : 0); }, 0);
-      var confidenceMap = {};
-      allWarnings.forEach(function (row) {
-        var key = bandLabel(row.confidence_band || row.signal_quality);
-        confidenceMap[key] = (confidenceMap[key] || 0) + 1;
-      });
-      var confidenceText = Object.keys(confidenceMap).sort(function (a, b) { return confidenceMap[b] - confidenceMap[a]; }).map(function (key) { return key + ": " + fmt(confidenceMap[key]); }).join(" · ") || "Engin merki";
-      var confidenceTip = "Traust segir hversu sterk stoð er fyrir merkinu. Mjög hátt: explicit production staðfesting eða skýr vafrastefna. Hátt/miðlungs: tæknimerki sem þarf samhengi. Diagnostic/test hækkar ekki rekstrarstöðu.";
-      var actionRows = split.confirmed.concat(split.unconfirmed, split.info, split.diagnostic).slice(0, 10);
-      var html = '<div class="quality-action-board">' +
-        '<section class="quality-decision ' + tone + '">' +
-          '<div class="quality-verdict"><span class="quality-kicker">Gæðaviðvaranir</span><div class="quality-title-line"><h3>' + safe(headline) + '</h3>' + infoTip(confidenceTip) + '</div><p>' + safe(copy) + '</p><div class="quality-status-line"><div class="quality-status-number"><strong>' + fmt(confirmed) + '</strong><span>staðfest</span></div><span class="chip ' + (confirmed ? 'warn' : 'good') + '">' + (confirmed ? 'Skoða fyrst' : 'Production í lagi') + '</span><span class="chip neutral">' + fmt(allCount) + ' merki alls</span><span class="chip neutral">Traust: ' + safe(confidenceText) + '</span></div></div>' +
-          '<div class="quality-triage-grid">' +
-            qualitySignalCard("Talningarhlið", confirmed ? fmt(confirmed) : "Hreint", confirmed ? "Hækkar rekstrarstöðu." : "Ekkert staðfest merki.", confirmed ? "warn" : "good") +
-            qualitySignalCard("Power BI / vafri", fmt(unsupported), unsupported ? "Óstuddur eða gamall vafri." : "Engin staðfest vafravilla.", unsupported ? "warn" : "good") +
-            qualitySignalCard("Greiningarmerki", fmt(info + diagnostic), "Info + diagnostic, ekki heimsóknir.", info + diagnostic ? "info" : "good") +
-            qualitySignalCard("Tracker samhengi", topDevice || topBrowser ? safe((topDevice ? topDevice.key : "-") + " / " + (topBrowser ? topBrowser.key : "-")) : "-", "Veik merki " + shareValue(weakShare) + " · " + fmt(deviceRows.length) + " device línur.", weakShare > .12 ? "warn" : "gateway") +
-          '</div>' +
-        '</section>' +
-        '<section class="quality-playbook-grid" aria-label="Hvernig gæðamerki eru lesin">' +
-          qualityPlaybookCard("1", "Production fyrst", "Aðeins staðfest warning/error breytir rekstrarstöðu og fer í aðgerðarforgang.", confirmed ? "warn" : "good") +
-          qualityPlaybookCard("2", "Info er samhengi", "Upplýsingamerki hjálpa við rótargreiningu en teljast ekki heimsóknir.", "info") +
-          qualityPlaybookCard("3", "Diagnostic er prófun", "Raw/test merki eru sýnd til rekjanleika og eru haldin utan notkunar.", "gateway") +
-          qualityPlaybookCard("4", "Traust skýrir vægi", "Mjög hátt/hátt er sterk stoð; lægra traust þarf samanburð við tracker og vafra.", "info") +
-        '</section>';
-      if (!actionRows.length) {
-        html += '<div class="quality-context-note good"><span>Staða</span><strong>Engin gæðamerki í payload</strong><p>Endpoint skilaði engum quality_warnings línum.</p></div>';
-      } else {
-        html += '<section class="quality-alert-board"><div class="quality-alert-board-head"><div><span class="quality-kicker">Aðgerðaspjöld</span><h3>Hvað á að skoða og hvers vegna</h3><div class="subtle">Raðað þannig að production merki koma fyrst, síðan óstaðfest, upplýsingamerki og diagnostic.</div></div><span class="quality-group-count">' + fmt(actionRows.length) + '</span></div><div class="quality-action-list">' +
-          actionRows.map(function (row) { return qualityActionCard(row, classifyWarning(row)); }).join("") +
-        '</div></section>';
-      }
-      html += '</div>';
-      setHtml("warning-list", html);
+    function qualityMergeRow(row, group) {
+      var severity = String(row.severity || (group === "confirmed" ? "warning" : "info")).toLowerCase();
+      var cls = group === "confirmed" ? (severity === "error" ? "warn" : "warn") : group === "diagnostic" ? "gateway" : "info";
+      var counted = countWarnings(row);
+      var diagnostic = number(row.diagnostic_count || row.raw_count || 0);
+      var confidence = bandLabel(row.confidence_band || row.signal_quality);
+      var label = group === "confirmed" ? "Production" : group === "diagnostic" ? "Diagnostic" : group === "info" ? "Upplýsingar" : "Óstaðfest";
+      var next = row.recommendation || (group === "confirmed" ? "Staðfesta áhrif í vafra/tæki og prófa studdan Power BI vafra." : "Halda sem greiningarmerki þar til Talningarhlið staðfestir áhrif.");
+      return '<article class="diagnostic-quality-item ' + safe(cls) + '">' +
+        '<div class="diagnostic-quality-item-main"><span>' + safe(label + " · Traust: " + confidence) + '</span><strong>' + safe(labelWarningCode(row.warning_code || row.code || "warning")) + '</strong><p>' + safe(row.warning_text || row.message || "-") + '</p><small>Næst: ' + safe(next) + '</small></div>' +
+        '<div class="diagnostic-quality-count"><strong>' + fmt(counted) + '</strong><span>talið</span><small>diag. ' + fmt(diagnostic) + '</small></div>' +
+      '</article>';
     }
+
     function qualityMetric(label, value, detail, cls) {
       var className = cls ? " " + safe(cls) : "";
       return '<div class="quality-metric' + className + '"><span>' + safe(label) + '</span><strong>' + fmt(value) + '</strong><small>' + safe(detail || "") + '</small></div>';
@@ -22700,7 +23123,6 @@
       safeRender("start-panel", "Fresh start", function () { renderStartPanelV5(data); });
       setStatus(data, "");
       safeRender("diagnostic-passport-panel", "Rekstrar- og gæðapassi", function () { renderDiagnosticPassport(data); });
-      safeRender("insight-grid", "Rekstrarinnsýn", function () { renderInsightsV2(data); });
       safeRender("technical-panel", "Tæki og vafraumhverfi", function () { renderTechnical(data); });
       safeRender("delivery-panel", "Afhending og tæknimerki", function () { renderDeliveryPanel(data); });
       safeRender("counting-health-panel", "Talningarheilsa", function () { renderCountingHealthPanel(data); });
