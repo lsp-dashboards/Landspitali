@@ -25813,6 +25813,53 @@
       var a11yChips = a11yRows.map(function (row) { return '<span class="chip neutral">' + safe(row.key) + ': ' + fmt(row.visits) + '</span>'; }).join("") || '<span class="chip neutral">Engin aðgengismerki</span>';
       var themeChips = '<span class="chip ' + (forcedSignals ? 'info' : 'neutral') + '">Auto-dark: ' + fmt(forcedSignals) + '</span><span class="chip ' + (samsungPossible ? 'info' : 'neutral') + '">Samsung: ' + fmt(samsungPossible) + '</span>';
       var comboTotal = Math.max(sumRows(combos, "visits"), 1);
+      var themeRowsV4 = themeRows.filter(function (row) { return number(row.visits) > 0; }).sort(function (a, b) { return number(b.visits) - number(a.visits); });
+      if (!themeRowsV4.length) themeRowsV4 = themeRows.slice();
+      var themeTotal = Math.max(sumRows(themeRowsV4, "visits"), displayTotal, 1);
+      var topTheme = themeRowsV4[0];
+      var a11yTotal = Math.max(sumRows(a11yRows, "visits"), 1);
+      var deliveryComboHtmlV4 = combos.map(function (row, index) { return envV4ComboCard(row, cards, comboTotal, index); }).join("") || '<div class="message-card neutral"><strong>Engar tækjasamsetningar</strong><p>Device/browser samantekt vantar í payload.</p></div>';
+      var comboLaneRowsV4 = combos.map(function (row) { return { key: titleFor(row, cards), visits: number(row.visits || row.raw_signal_events) }; });
+      setHtml("delivery-panel",
+        '<div class="delivery-master-v4">' +
+          '<section class="env-v4-shell">' +
+            '<div class="env-v4-intro">' +
+              '<article class="env-v4-brief"><div><span class="env-v4-kicker">Afhendingarlag</span><h3>' + safe(verdict) + '</h3></div><p>' + safe(verdictCopy) + '</p><div class="env-v4-chip-row"><span class="env-v4-chip ' + (concernCount ? "warn" : "good") + '">' + fmt(concernCount) + ' athuganir</span><span class="env-v4-chip">' + fmt(trackerLines) + ' rekstrarlínur</span><span class="env-v4-chip">Cache: ' + safe(cacheText) + '</span></div></article>' +
+              '<div class="env-v4-stat-grid">' +
+                envV4Stat("Þema", topTheme ? topTheme.key : "Óþekkt", topTheme ? fmt(topTheme.visits) + " talin · " + pct(topTheme.visits, themeTotal) : "Engin þemagögn", topTheme ? "good" : "gateway", topTheme ? topTheme.visits : 0, themeTotal) +
+                envV4Stat("Viewport", topViewport ? topViewport.key : "Óþekkt", topViewport ? fmt(topViewport.visits) + " talin · " + pct(topViewport.visits, viewportTotal) : "Engin skjágögn", topViewport ? "gateway" : "warn", topViewport ? topViewport.visits : 0, viewportTotal) +
+                envV4Stat("Sending", methodRows[0] ? methodRows[0].key : "Óþekkt", methodRows[0] ? fmt(methodRows[0].visits) + " merki · " + pct(methodRows[0].visits, methodTotal) : "Engin sendingargögn", methodRows[0] ? "info" : "gateway", methodRows[0] ? methodRows[0].visits : 0, methodTotal) +
+                envV4Stat("Net", connectionRows[0] ? connectionRows[0].key : "Óþekkt", connectionRows[0] ? fmt(connectionRows[0].visits) + " merki · " + pct(connectionRows[0].visits, connectionTotal) : "Vafri gaf ekki upp", connectionRows[0] ? "gateway" : "warn", connectionRows[0] ? connectionRows[0].visits : 0, connectionTotal) +
+              '</div>' +
+            '</div>' +
+            '<div class="env-v4-body">' +
+              '<section class="env-v4-module"><div class="env-v4-module-head"><div class="env-v4-module-title"><span class="env-v4-module-kicker">Skjár</span><h3>Skjáviðmið sem hafa áhrif á lestur</h3><p>Þema, viewport og aðgengi eru lesin sem skilyrði utan talningarinnar. Hér sjást aðstæður sem geta breytt upplifun án þess að tvítelja opnanir.</p></div><span class="env-v4-module-count">' + fmt(sumRows(countedDisplay)) + ' talin</span></div><div class="env-v4-lane-grid">' +
+                envV4Lane("Litaþema", themeRowsV4, themeTotal, "good", { unit: "talin", limit: 4 }) +
+                envV4Lane("Viewport", viewportRows, viewportTotal, "gateway", { unit: "talin", limit: 5 }) +
+                envV4Lane("Aðgengi", a11yRows, a11yTotal, "info", { unit: "línur", limit: 4 }) +
+                envV4Lane("Tæki/vafri", comboLaneRowsV4, comboTotal, "warn", { unit: "heimsóknir", limit: 4 }) +
+              '</div></section>' +
+              '<section class="env-v4-module"><div class="env-v4-module-head"><div class="env-v4-module-title"><span class="env-v4-module-kicker">Flutningur</span><h3>Sending, payload og netmerki</h3><p>Þessi hluti sýnir hvort afhendingin sjálf geti skýrt veik merki: sendiaðferð, payload stærð, nettenging og sterkustu samsetningar.</p></div><span class="env-v4-module-count">' + safe(cacheText) + '</span></div><div class="env-v4-signal-grid">' +
+                envV4Signal("Lítil geta", fmt(lowCap), lowCap ? "skoða tæki" : "engin merki", lowCap ? "warn" : "good", lowCap, Math.max(sumRows(countedPerf), 1)) +
+                envV4Signal("Tracker línur", fmt(trackerLines), "performance/device", trackerLines ? "gateway" : "warn", trackerLines, Math.max(trackerLines, 1)) +
+                envV4Signal("Diagnostic", fmt(diagnosticRows), "sýnt sér", diagnosticRows ? "info" : "good", diagnosticRows, Math.max(trackerLines, 1)) +
+              '</div><div class="env-v4-lane-grid">' +
+                envV4Lane("Sending", methodRows, methodTotal, "good", { unit: "merki", limit: 4 }) +
+                envV4Lane("Payload", payloadRows, payloadTotal, "info", { unit: "merki", limit: 4 }) +
+                envV4Lane("Netmerki", connectionRows, connectionTotal, "gateway", { unit: "merki", limit: 4 }) +
+                envV4Lane("Samsetningar", comboLaneRowsV4, comboTotal, "warn", { unit: "heimsóknir", limit: 4 }) +
+              '</div><div class="env-v4-combo-list">' + deliveryComboHtmlV4 + '</div></section>' +
+            '</div>' +
+            '<div class="env-v4-audit-strip">' +
+              envV4Audit("Tracker línur", fmt(trackerLines), "Taldar device/performance línur.", trackerLines ? "good" : "warn", trackerLines, Math.max(trackerLines, 1)) +
+              envV4Audit("Payload", payloadRows[0] ? payloadRows[0].key : "Óþekkt", payloadRows[0] ? fmt(payloadRows[0].visits) + " merki" : "Vantar stærð", payloadRows[0] ? "info" : "gateway", payloadRows[0] ? payloadRows[0].visits : 0, payloadTotal) +
+              envV4Audit("Netmerki", connectionRows[0] ? connectionRows[0].key : "Óþekkt", connectionRows[0] ? fmt(connectionRows[0].visits) + " merki" : "Vafri gaf ekki upp", connectionRows[0] ? "gateway" : "warn", connectionRows[0] ? connectionRows[0].visits : 0, connectionTotal) +
+              envV4Audit("Veik merki", shareValue(weakShare), "Veik eða óþekkt signal.", weakShare > .12 ? "warn" : "good", weakShare * 100, 100) +
+              envV4Audit("Diagnostic", fmt(diagnosticRows), "Sýnt sér, ekki heimsóknir.", diagnosticRows ? "info" : "good", diagnosticRows, Math.max(trackerLines, 1)) +
+            '</div>' +
+          '</section>' +
+        '</div>');
+      return;
       var comboHtml = combos.map(function (row) { return deliveryV3Combo(row, cards, comboTotal); }).join("") || '<div class="message-card neutral"><strong>Engar tækjasamsetningar</strong><p>Device/browser samantekt vantar í payload.</p></div>';
 
       setHtml("delivery-panel",
