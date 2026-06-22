@@ -22115,7 +22115,8 @@
       total = Math.max(number(total), sumRows(rows, "value"), 1);
       return '<div class="mega-legend">' + rows.map(function (row, index) {
         var value = number(row.value);
-        return '<div class="mega-legend-row"><span class="mega-dot" style="--dot-bg:' + safe(dashboardDonutColor(row, index)) + '"></span><span>' + safe(row.label) + '</span><strong>' + fmt(value) + ' · ' + safe(pct(value, total)) + '</strong></div>';
+        var tip = row.label + ": " + fmt(value) + " (" + pct(value, total) + ")";
+        return '<div class="mega-legend-row"' + megaTipAttr(tip) + '><span class="mega-dot" style="--dot-bg:' + safe(dashboardDonutColor(row, index)) + '"></span><span>' + safe(row.label) + '</span><strong>' + fmt(value) + ' · ' + safe(pct(value, total)) + '</strong></div>';
       }).join("") + '</div>';
     }
     function megaOrbitCard(title, rows, total, detail) {
@@ -22254,8 +22255,10 @@
       total = Math.max(number(total), sumRows(rows, "value"), 1);
       var dominant = rows.slice().sort(function (a, b) { return number(b.value) - number(a.value); })[0] || { label: "-", value: 0 };
       var className = cls ? " " + safe(cls) : "";
-      return '<article class="mega-atlas-panel' + className + '" data-lens="' + safe(lens || "") + '"><div class="mega-atlas-panel-head"><div><span class="mega-atlas-panel-kicker">' + safe(kicker) + '</span><h3>' + safe(title) + '</h3></div><div class="mega-atlas-panel-total">' + fmt(total) + '</div></div>' +
-        '<div class="mega-atlas-donut-stage"><div class="mega-atlas-donut" style="--mega-donut:' + safe(dashboardDonutBg(rows, total)) + '"><div class="mega-atlas-donut-center"><strong>' + safe(pct(dominant.value, total)) + '</strong><span>' + safe(dominant.label) + '</span></div></div><div>' + megaLegend(rows, total) + '<small class="mega-passport-detail">' + safe(detail || "") + '</small></div></div></article>';
+      var tip = title + ": " + (dominant.label || "-") + " er stærsti hluti, " + fmt(dominant.value) + " af " + fmt(total) + " (" + pct(dominant.value, total) + ").";
+      var detailHtml = detail ? '<small class="mega-passport-detail">' + safe(detail) + '</small>' : "";
+      return '<article class="mega-atlas-panel' + className + '" data-lens="' + safe(lens || "") + '"' + megaTipAttr(tip) + '><div class="mega-atlas-panel-head"><div><span class="mega-atlas-panel-kicker">' + safe(kicker) + '</span><h3>' + safe(title) + '</h3></div><div class="mega-atlas-panel-total">' + fmt(total) + '</div></div>' +
+        '<div class="mega-atlas-donut-stage"><div class="mega-atlas-donut" style="--mega-donut:' + safe(dashboardDonutBg(rows, total)) + '"><div class="mega-atlas-donut-center"><strong>' + safe(pct(dominant.value, total)) + '</strong><span>' + safe(dominant.label) + '</span></div></div><div>' + megaLegend(rows, total) + detailHtml + '</div></div></article>';
     }
     function megaSignalFooter(label, value) {
       return '<div class="mega-signal-footer"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div>';
@@ -22269,10 +22272,27 @@
     }
     function megaSkyline(rows, total) {
       rows = (rows || []).filter(function (row) { return number(row.value) > 0; });
-      total = Math.max(number(total), rows[0] ? number(rows[0].value) : 1, 1);
-      return '<div class="mega-skyline-list">' + rows.map(function (row) {
-        return '<div class="mega-skyline-row"><span title="' + safe(row.label) + '">' + safe(row.label) + '</span><div class="mega-skyline-track"><i style="--fill:' + widthPct(row.value, total) + '%"></i></div><strong>' + fmt(row.value) + '</strong></div>';
-      }).join("") + '</div>';
+      total = Math.max(number(total), rows.reduce(function (acc, row) { return acc + number(row.value); }, 0), 1);
+      if (!rows.length) return '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engin talin production opnun fannst.</p></div>';
+      var leader = rows[0];
+      var leaderShare = pct(leader.value, total);
+      var rowsHtml = rows.map(function (row, index) {
+        var value = number(row.value);
+        var share = pct(value, total);
+        var tip = row.label + ": " + fmt(value) + " opnanir, " + share + " af sýndum mælaborðum" + (row.detail ? ". " + row.detail : ".");
+        return '<div class="mega-portfolio-row"' + megaTipAttr(tip) + '>' +
+          '<div class="mega-portfolio-rank">' + safe(String(index + 1).padStart(2, "0")) + '</div>' +
+          '<div class="mega-portfolio-name"><span>' + safe(share) + ' af safni</span><strong>' + safe(row.label) + '</strong></div>' +
+          '<div class="mega-portfolio-measure"><strong>' + fmt(value) + '</strong><span>' + safe(row.detail || "taldar opnanir") + '</span></div>' +
+          '<div class="mega-portfolio-track"><i style="--fill:' + widthPct(value, Math.max(number(leader.value), 1)) + '%"></i></div>' +
+        '</div>';
+      }).join("");
+      return '<div class="mega-portfolio-board">' +
+        '<div class="mega-portfolio-focus"' + megaTipAttr("Ráðandi mælaborð í sýndum notkunargrunni: " + leader.label + ", " + fmt(leader.value) + " opnanir.") + '>' +
+          '<div><span>Ráðandi kort</span><strong>' + safe(leader.label) + '</strong><small>' + fmt(leader.value) + ' opnanir · ' + safe(leaderShare) + ' af sýndum grunni</small></div>' +
+          '<div class="mega-portfolio-ring" style="--share:' + clamp(number(leader.value) / total * 100, 0, 100).toFixed(1) + '%"><b>' + safe(leaderShare) + '</b></div>' +
+        '</div><div class="mega-portfolio-list">' + rowsHtml + '</div>' +
+      '</div>';
     }
     function megaHeatmap(rows) {
       rows = rows || [];
@@ -22294,7 +22314,8 @@
         browsers.forEach(function (browser) {
           var value = map[device + "||" + browser] || 0;
           var alpha = value ? (.16 + (value / max) * .62).toFixed(2) : ".02";
-          cells += '<div class="mega-heat-cell hot" style="--alpha:' + alpha + '"><strong>' + (value ? fmt(value) : "-") + '</strong><span>' + safe(value ? pct(value, max) + " af mesta reit" : "engin lína") + '</span></div>';
+          var tip = device + " / " + browser + ": " + (value ? fmt(value) + " tracker línur, " + pct(value, max) + " af stærsta reit." : "engin lína í aggregate.");
+          cells += '<div class="mega-heat-cell hot" style="--alpha:' + alpha + '"' + megaTipAttr(tip) + '><strong>' + (value ? fmt(value) : "-") + '</strong><span>' + safe(value ? pct(value, max) + " af mesta reit" : "engin lína") + '</span></div>';
         });
       });
       return '<div class="mega-heatmap" style="--cols:' + browsers.length + '">' + cells + '</div>';
