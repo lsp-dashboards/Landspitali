@@ -10806,20 +10806,51 @@
 
     .mega-legend {
       display: grid;
-      gap: 6px;
+      gap: 5px;
       min-width: 0;
     }
 
     .mega-legend-row {
       display: grid;
-      grid-template-columns: 10px minmax(0, 1fr) auto;
-      gap: 7px;
+      grid-template-columns: 10px minmax(0, 1fr) minmax(72px, auto);
+      gap: 8px;
       align-items: center;
       min-width: 0;
       color: var(--text);
-      font-size: 12px;
-      line-height: 1.15;
+      min-height: 25px;
+      padding: 4px 6px;
+      border: 1px solid rgba(216,226,234,.72);
+      border-radius: 8px;
+      background: rgba(255,255,255,.62);
+      font-size: 11px;
+      line-height: 1.12;
       font-weight: 800;
+    }
+
+    .mega-legend-row > span:not(.mega-dot) {
+      min-width: 0;
+      overflow: hidden;
+      color: var(--ink);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mega-legend-row strong {
+      display: inline-flex;
+      justify-content: flex-end;
+      gap: 5px;
+      align-items: baseline;
+      min-width: 0;
+      color: var(--ink);
+      font-size: 11px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .mega-legend-row strong em {
+      color: var(--muted);
+      font-style: normal;
+      font-weight: 900;
     }
 
     .mega-dot {
@@ -11788,8 +11819,10 @@
 
     .mega-atlas-panel {
       display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
       gap: 14px;
       align-content: start;
+      min-height: 282px;
       padding: 14px;
     }
 
@@ -11828,20 +11861,44 @@
 
     .mega-atlas-donut-stage {
       display: grid;
-      grid-template-columns: minmax(126px, .43fr) minmax(0, .57fr);
-      gap: 14px;
-      align-items: center;
+      grid-template-rows: 164px minmax(0, 1fr);
+      gap: 11px;
+      align-items: start;
       min-width: 0;
+      height: 100%;
+    }
+
+    .mega-atlas-donut-wrap {
+      display: grid;
+      place-items: center;
+      min-width: 0;
+      min-height: 164px;
     }
 
     .mega-atlas-donut {
       position: relative;
-      width: min(168px, 100%);
+      width: 156px;
       aspect-ratio: 1;
       justify-self: center;
       border-radius: 999px;
       background: var(--mega-donut, #e7eef4);
       box-shadow: inset 0 0 0 1px rgba(14,36,56,.07);
+    }
+
+    .mega-atlas-donut.is-echarts {
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .mega-atlas-donut.is-echarts::after {
+      display: none;
+    }
+
+    .mega-atlas-donut-chart {
+      position: absolute;
+      inset: -2px;
+      z-index: 0;
+      border-radius: inherit;
     }
 
     .mega-atlas-donut::after {
@@ -11856,7 +11913,7 @@
     .mega-atlas-donut-center {
       position: absolute;
       inset: 35px;
-      z-index: 1;
+      z-index: 2;
       display: grid;
       place-items: center;
       align-content: center;
@@ -11873,6 +11930,28 @@
       white-space: nowrap;
       overflow-wrap: normal;
       word-break: keep-all;
+    }
+
+    .mega-atlas-legend-wrap {
+      min-width: 0;
+      align-self: stretch;
+    }
+
+    .mega-atlas-panel .mega-legend {
+      align-content: start;
+    }
+
+    .mega-atlas-panel .mega-legend-row {
+      grid-template-columns: 10px minmax(0, 1fr) minmax(82px, auto);
+      min-height: 28px;
+      padding: 5px 7px;
+    }
+
+    .mega-atlas-panel .mega-legend-row > span:not(.mega-dot) {
+      overflow: visible;
+      text-overflow: clip;
+      white-space: normal;
+      line-height: 1.14;
     }
 
     .mega-atlas-donut-center span {
@@ -18172,7 +18251,12 @@
       line-height: .95;
       font-weight: 950;
       letter-spacing: 0;
-      overflow-wrap: anywhere;
+      overflow-wrap: normal;
+      word-break: normal;
+    }
+
+    .delivery-master-v4 .env-v4-stat strong {
+      font-size: clamp(23px, 1.65vw, 30px);
     }
 
     .env-v4-stat.info,
@@ -18223,7 +18307,7 @@
       grid-template-columns: minmax(0, 1.35fr) minmax(340px, .9fr);
       gap: 12px;
       padding: 12px;
-      align-items: stretch;
+      align-items: start;
     }
 
     .delivery-master-v4 .env-v4-body {
@@ -18287,6 +18371,12 @@
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 8px;
       align-items: start;
+    }
+
+    .env-v4-lane-head > div {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
     }
 
     .env-v4-lane-head strong {
@@ -19846,6 +19936,616 @@
         grid-template-columns: 1fr;
       }
     }
+
+    .dashboard-passport-atlas-shell {
+      padding: 10px;
+      border-color: rgba(79,111,143,.26);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(246,251,253,.98)),
+        radial-gradient(circle at 8% 0%, rgba(74,197,187,.18), transparent 34%);
+    }
+
+    .passport-atlas {
+      display: grid;
+      gap: 12px;
+      color: var(--ink);
+    }
+
+    .passport-atlas [data-pass-tip] {
+      position: relative;
+      cursor: help;
+    }
+
+    .passport-atlas [data-pass-tip]::after,
+    .passport-atlas [data-pass-tip]::before {
+      position: absolute;
+      z-index: 25;
+      right: 0;
+      bottom: calc(100% + 10px);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(4px);
+      transition: opacity .16s ease, transform .16s ease;
+    }
+
+    .passport-atlas [data-pass-tip]::after {
+      content: attr(data-pass-tip);
+      width: min(320px, 72vw);
+      padding: 10px 12px;
+      border: 1px solid rgba(79,111,143,.34);
+      border-radius: 8px;
+      background: rgba(28,35,37,.96);
+      color: #fff;
+      box-shadow: 0 18px 36px rgba(31,54,76,.2);
+      font-size: 12px;
+      font-weight: 750;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    .passport-atlas [data-pass-tip]::before {
+      content: "";
+      border: 7px solid transparent;
+      border-top-color: rgba(28,35,37,.96);
+      bottom: calc(100% - 3px);
+      right: 18px;
+    }
+
+    .passport-atlas [data-pass-tip]:hover::after,
+    .passport-atlas [data-pass-tip]:hover::before,
+    .passport-atlas [data-pass-tip]:focus-visible::after,
+    .passport-atlas [data-pass-tip]:focus-visible::before {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .passport-atlas-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(360px, .75fr);
+      gap: 12px;
+      align-items: stretch;
+      padding: 16px;
+      border: 1px solid rgba(79,111,143,.24);
+      border-radius: 10px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.95), rgba(230,245,247,.9)),
+        linear-gradient(90deg, rgba(47,143,139,.09), rgba(199,138,42,.08));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+    }
+
+    .passport-atlas-title {
+      min-width: 0;
+    }
+
+    .passport-atlas-title span,
+    .passport-atlas-kicker,
+    .passport-atlas-mini span,
+    .passport-atlas-chip,
+    .passport-atlas-card-kicker,
+    .passport-atlas-label,
+    .passport-atlas-row span,
+    .passport-atlas-field-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: .045em;
+      text-transform: uppercase;
+    }
+
+    .passport-atlas-title h2 {
+      margin: 2px 0 6px;
+      font-size: clamp(34px, 5.4vw, 72px);
+      line-height: .9;
+      letter-spacing: 0;
+    }
+
+    .passport-atlas-title p {
+      max-width: 980px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+      line-height: 1.45;
+    }
+
+    .passport-atlas-brief {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .passport-atlas-mini {
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid rgba(79,111,143,.22);
+      border-radius: 8px;
+      background: rgba(255,255,255,.68);
+    }
+
+    .passport-atlas-mini strong {
+      display: block;
+      margin-top: 4px;
+      color: var(--ink);
+      font-size: clamp(23px, 2.4vw, 38px);
+      line-height: .95;
+      letter-spacing: 0;
+    }
+
+    .passport-atlas-mini small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+      line-height: 1.25;
+    }
+
+    .passport-atlas-overview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .passport-atlas-spotlight,
+    .passport-atlas-compass {
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid rgba(79,111,143,.24);
+      border-radius: 10px;
+      background: rgba(255,255,255,.74);
+    }
+
+    .passport-atlas-spotlight {
+      display: grid;
+      grid-template-columns: minmax(260px, .38fr) minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .passport-atlas-feature {
+      display: grid;
+      gap: 9px;
+      align-content: start;
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid rgba(74,197,187,.24);
+      border-radius: 9px;
+      background: linear-gradient(180deg, rgba(233,249,249,.92), rgba(255,255,255,.72));
+    }
+
+    .passport-atlas-feature strong {
+      color: var(--ink);
+      font-size: clamp(24px, 2.4vw, 38px);
+      line-height: .94;
+      letter-spacing: 0;
+      overflow-wrap: normal;
+      word-break: normal;
+    }
+
+    .passport-atlas-feature small {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .passport-atlas-radar {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .passport-atlas-radar-row,
+    .passport-atlas-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      min-width: 0;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(79,111,143,.14);
+    }
+
+    .passport-atlas-radar-row:last-child,
+    .passport-atlas-row:last-child {
+      border-bottom: 0;
+    }
+
+    .passport-atlas-radar-row strong,
+    .passport-atlas-row strong {
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .passport-atlas-track {
+      grid-column: 1 / -1;
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(169,180,194,.22);
+    }
+
+    .passport-atlas-track i {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--teal));
+      box-shadow: 0 0 0 1px rgba(255,255,255,.26) inset;
+    }
+
+    .passport-atlas-track .warn {
+      background: linear-gradient(90deg, var(--amber), #D7A946);
+    }
+
+    .passport-atlas-track .info {
+      background: linear-gradient(90deg, #3599B8, #4F6F8F);
+    }
+
+    .passport-atlas-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .passport-atlas-card {
+      --card-accent: var(--teal);
+      display: grid;
+      grid-template-columns: minmax(220px, .32fr) minmax(0, 1fr);
+      gap: 12px;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid rgba(79,111,143,.24);
+      border-top: 4px solid var(--card-accent);
+      border-radius: 10px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,251,252,.96)),
+        linear-gradient(135deg, rgba(47,143,139,.1), transparent 45%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.95);
+    }
+
+    .passport-atlas-card.warn,
+    .passport-atlas-mini.warn {
+      --card-accent: var(--amber);
+      border-color: rgba(199,138,42,.42);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,249,237,.96)),
+        linear-gradient(135deg, rgba(199,138,42,.12), transparent 44%);
+    }
+
+    .passport-atlas-card.watch,
+    .passport-atlas-mini.watch {
+      --card-accent: #4F6F8F;
+    }
+
+    .passport-atlas-card.good,
+    .passport-atlas-mini.good {
+      --card-accent: var(--teal);
+    }
+
+    .passport-atlas-card-head {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 10px;
+      align-content: start;
+      min-width: 0;
+    }
+
+    .passport-atlas-icon {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(79,111,143,.18);
+      border-radius: 9px;
+      object-fit: cover;
+      background: #fff;
+    }
+
+    .passport-atlas-card-title {
+      min-width: 0;
+    }
+
+    .passport-atlas-card-title h3 {
+      margin: 2px 0 0;
+      color: var(--ink);
+      font-size: clamp(21px, 1.65vw, 30px);
+      line-height: .98;
+      letter-spacing: 0;
+      overflow-wrap: normal;
+      word-break: normal;
+    }
+
+    .passport-atlas-card-title small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .passport-atlas-stamp {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      grid-column: 1 / -1;
+      margin-top: 2px;
+    }
+
+    .passport-atlas-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 23px;
+      padding: 4px 8px;
+      border: 1px solid rgba(79,111,143,.18);
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .passport-atlas-chip.good { background: rgba(47,143,139,.12); color: #0F5C55; border-color: rgba(47,143,139,.25); }
+    .passport-atlas-chip.warn { background: rgba(199,138,42,.14); color: #7A4D03; border-color: rgba(199,138,42,.3); }
+    .passport-atlas-chip.watch { background: rgba(79,111,143,.12); color: #314b63; border-color: rgba(79,111,143,.25); }
+
+    .passport-atlas-share {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      grid-column: 1 / -1;
+      min-width: 0;
+      margin-top: 8px;
+    }
+
+    .passport-atlas-ring {
+      position: relative;
+      width: 92px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: conic-gradient(var(--card-accent) 0deg var(--share-deg), rgba(224,236,243,.96) var(--share-deg) 360deg);
+      box-shadow: inset 0 0 0 1px rgba(79,111,143,.12);
+    }
+
+    .passport-atlas-ring::after {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.96);
+      box-shadow: inset 0 0 0 1px rgba(79,111,143,.1);
+    }
+
+    .passport-atlas-ring span {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      font-size: 17px;
+      font-weight: 950;
+    }
+
+    .passport-atlas-share-copy strong {
+      display: block;
+      color: var(--ink);
+      font-size: clamp(22px, 2vw, 34px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .passport-atlas-share-copy small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .passport-atlas-body {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .passport-atlas-evidence {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .passport-atlas-field {
+      min-width: 0;
+      padding: 10px;
+      border: 1px solid rgba(79,111,143,.18);
+      border-radius: 8px;
+      background: rgba(238,248,249,.72);
+    }
+
+    .passport-atlas-field.warn {
+      border-color: rgba(199,138,42,.32);
+      background: rgba(255,247,231,.72);
+    }
+
+    .passport-atlas-field.info {
+      background: rgba(240,246,251,.78);
+    }
+
+    .passport-atlas-field strong {
+      display: block;
+      margin-top: 6px;
+      color: var(--ink);
+      font-size: clamp(18px, 1.42vw, 25px);
+      line-height: 1.02;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .passport-atlas-field small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.28;
+    }
+
+    .passport-atlas-flow {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .passport-atlas-bar {
+      min-width: 0;
+      padding: 8px 9px;
+      border: 1px solid rgba(79,111,143,.16);
+      border-radius: 8px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .passport-atlas-bar-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: baseline;
+      min-width: 0;
+    }
+
+    .passport-atlas-bar-top span,
+    .passport-atlas-bar small {
+      min-width: 0;
+      overflow: visible;
+      text-overflow: clip;
+      white-space: normal;
+      line-height: 1.15;
+    }
+
+    .passport-atlas-bar-top strong {
+      flex: 0 0 auto;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .passport-atlas-bar .passport-atlas-track {
+      margin-top: 7px;
+      height: 9px;
+    }
+
+    .passport-atlas-bar small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .passport-atlas-riskline {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .passport-atlas-risk {
+      min-width: 0;
+      padding: 8px 9px;
+      border: 1px solid rgba(79,111,143,.14);
+      border-radius: 8px;
+      background: rgba(255,255,255,.7);
+    }
+
+    .passport-atlas-risk strong {
+      display: block;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .passport-atlas-risk span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .passport-atlas-risk small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 750;
+      line-height: 1.2;
+    }
+
+    .passport-atlas-footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1px solid rgba(79,111,143,.18);
+      border-radius: 8px;
+      background: rgba(255,255,255,.68);
+    }
+
+    .passport-atlas-footer code {
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(79,111,143,.08);
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1280px) {
+      .passport-atlas-card,
+      .passport-atlas-spotlight {
+        grid-template-columns: 1fr;
+      }
+
+      .passport-atlas-evidence,
+      .passport-atlas-flow,
+      .passport-atlas-riskline {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 1040px) {
+      .passport-atlas-hero,
+      .passport-atlas-overview,
+      .passport-atlas-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .passport-atlas-brief,
+      .passport-atlas-evidence,
+      .passport-atlas-flow,
+      .passport-atlas-riskline,
+      .passport-atlas-share {
+        grid-template-columns: 1fr;
+      }
+
+      .passport-atlas-title h2 {
+        font-size: 38px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -19960,6 +20660,10 @@
           <div class="list" id="route-list"></div>
         </div>
       </div>
+    </section>
+
+    <section class="panel dashboard-passport-atlas-shell" aria-labelledby="dashboard-passport-atlas-title">
+      <div id="dashboard-passport-atlas"></div>
     </section>
 
     <p class="footer">Persónuvernd: Engin nöfn, netföng, kennitölur, raw IP, raw user-agent texti eða Power BI innri gögn eru birt. Síðan birtir eingöngu aggregate/status gögn úr Google Apps Script endpointi, notar örugga HTML-escaping við birtingu og aðgreinir gateway, raw og diagnostic merki frá töldum heimsóknum.</p>
@@ -22697,6 +23401,181 @@
         total: total
       };
     }
+    function passportAtlasTipAttr(text) {
+      return text ? ' data-pass-tip="' + safe(text) + '" tabindex="0"' : "";
+    }
+    function passportAtlasRows(data, key, fallback, dashboard, valueFn) {
+      valueFn = valueFn || visitValue;
+      return rowsFrom(data, key, fallback).filter(function (row) {
+        return sameDashboard(row, dashboard) && valueFn(row) > 0;
+      });
+    }
+    function passportAtlasSum(rows, valueFn) {
+      valueFn = valueFn || visitValue;
+      return (rows || []).reduce(function (acc, row) { return acc + number(valueFn(row)); }, 0);
+    }
+    function passportAtlasTop(rows, labelFn, valueFn) {
+      return topRows(rows || [], labelFn, 1, valueFn || visitValue)[0] || null;
+    }
+    function passportAtlasStatus(data, dashboard) {
+      var age = ageInfo(dashboardLastCountedTime(dashboard));
+      var warnings = number(firstValue(dashboard, ["confirmed_warning_count", "production_warning_count", "warning_count"]));
+      var errors = number(firstValue(dashboard, ["error_events", "errors"]));
+      var fallback = number(dashboard.fallback_clicks) + number(dashboard.safe_fallback_events);
+      var rawGap = Math.max(0, number(dashboard.raw_events) - visitValue(dashboard));
+      if (warnings || errors || fallback) return { cls: "warn", label: "Til skoðunar", detail: fmt(warnings + errors + fallback) + " rekstrarmerki" };
+      if (age.className === "bad" || age.className === "warn") return { cls: "watch", label: "Ferskleiki", detail: age.label + " frá síðustu talningu" };
+      if (rawGap > Math.max(12, visitValue(dashboard) * .16)) return { cls: "watch", label: "Samræming", detail: fmt(rawGap) + " raw merki utan talningar" };
+      return { cls: "good", label: "Staðfest", detail: "engin staðfest rekstrarfrávik" };
+    }
+    function passportAtlasMini(label, value, detail, cls, tip) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="passport-atlas-mini' + className + '"' + passportAtlasTipAttr(tip || (label + ": " + value + ". " + (detail || ""))) + '><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function passportAtlasRadarRow(label, value, total, detail, cls, tip) {
+      var className = cls ? safe(cls) : "good";
+      var fill = widthPct(value, total);
+      return '<div class="passport-atlas-radar-row"' + passportAtlasTipAttr(tip || (label + ": " + fmt(value) + " af " + fmt(total))) + '><span>' + safe(label) + '</span><strong>' + fmt(value) + '</strong><div class="passport-atlas-track"><i class="' + className + '" style="--fill:' + fill + '%"></i></div><small>' + safe(detail || pct(value, total)) + '</small></div>';
+    }
+    function passportAtlasField(label, value, detail, cls, tip) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<div class="passport-atlas-field' + className + '"' + passportAtlasTipAttr(tip || (label + ": " + value + ". " + (detail || ""))) + '><span class="passport-atlas-field-label">' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></div>';
+    }
+    function passportAtlasBar(label, value, total, detail, cls, tip) {
+      var className = cls ? safe(cls) : "good";
+      var fill = widthPct(value, total);
+      return '<div class="passport-atlas-bar"' + passportAtlasTipAttr(tip || (label + ": " + fmt(value) + " af " + fmt(total))) + '><div class="passport-atlas-bar-top"><span class="passport-atlas-label">' + safe(label) + '</span><strong>' + fmt(value) + ' · ' + safe(pct(value, total)) + '</strong></div><div class="passport-atlas-track"><i class="' + className + '" style="--fill:' + fill + '%"></i></div><small>' + safe(detail || "") + '</small></div>';
+    }
+    function passportAtlasRisk(label, value, detail, cls, tip) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<div class="passport-atlas-risk' + className + '"' + passportAtlasTipAttr(tip || (label + ": " + value + ". " + (detail || ""))) + '><strong>' + safe(value) + '</strong><span>' + safe(label) + '</span><small>' + safe(detail || "") + '</small></div>';
+    }
+    function passportAtlasSourceLabel(row) {
+      return labelSource(firstValue(row || {}, ["entry_source_category", "source_category", "utm_source", "source", "source_medium"]));
+    }
+    function passportAtlasCard(data, dashboard, index, totalVisits, maxDashboardVisits) {
+      var cards = publicMap(data);
+      var card = findPublicCardForDashboard(data, dashboard);
+      var publicStatus = publicCardStatus(card);
+      var status = passportAtlasStatus(data, dashboard);
+      var total = visitValue(dashboard);
+      var share = totalVisits ? total / Math.max(totalVisits, 1) * 100 : 0;
+      var shareLabel = formatIcelandicNumber(share, 1) + "%";
+      var shareDeg = (clamp(share, 0, 100) * 3.6).toFixed(1) + "deg";
+      var age = ageInfo(dashboardLastCountedTime(dashboard));
+      var lastTime = dashboardLastCountedTime(dashboard);
+      var layout = dashboardLayoutContext(data, dashboard);
+      var source = dashboardSourceContext(data, dashboard);
+      var sourceRows = source.rows || [];
+      var sourceTop = passportAtlasTop(sourceRows, passportAtlasSourceLabel);
+      var sourceKnown = source.island + source.direct;
+      var sourceLabel = sourceTop ? sourceTop.key : (source.island >= source.direct && source.island >= source.other ? "island.is" : source.direct >= source.other ? "Beint" : "Annað");
+      var sourceValue = sourceTop ? sourceTop.visits : Math.max(source.island, source.direct, source.other);
+      var deviceRows = passportAtlasRows(data, "device", "device_confidence", dashboard, trackerRowValue);
+      var deviceTop = passportAtlasTop(deviceRows, function (row) { return labelDevice(row.device_class || row.inferred_device_class); }, trackerRowValue);
+      var browserTop = passportAtlasTop(deviceRows, browserLabel, trackerRowValue);
+      var viewportTop = passportAtlasTop(deviceRows, function (row) { return labelViewport(row.viewport_bucket || row.display_class); }, trackerRowValue);
+      var osTop = passportAtlasTop(deviceRows, function (row) { return row.os_family || "Óþekkt"; }, trackerRowValue);
+      var trackerTotal = passportAtlasSum(deviceRows, trackerRowValue) || total;
+      var dominantLayout = layout.desktop >= layout.mobile ? "Desktop" : "Mobile";
+      var automaticRoute = Math.max(layout.total - layout.forced, 0);
+      var warnings = number(firstValue(dashboard, ["confirmed_warning_count", "production_warning_count", "warning_count"]));
+      var errors = number(firstValue(dashboard, ["error_events", "errors"]));
+      var fallback = number(dashboard.fallback_clicks) + number(dashboard.safe_fallback_events);
+      var diagnostic = number(firstValue(dashboard, ["diagnostic_events", "diagnostic_signal_count"]));
+      var rawGap = Math.max(0, number(dashboard.raw_events) - total);
+      var healthDetail = warnings ? fmt(warnings) + " staðfest merki" : errors || fallback ? fmt(errors + fallback) + " afhendingarmerki" : "engin staðfest villa";
+      var techTitle = [deviceTop && deviceTop.key, browserTop && browserTop.key].filter(Boolean).join(" / ") || dashboardDeviceContext(data, dashboard) || "Tækni óþekkt";
+      var routeTip = "Leiðing lesin úr routes aggregate fyrir þetta mælaborð. Sjálfvirkt: " + fmt(automaticRoute) + ", þvingað: " + fmt(layout.forced) + ".";
+      var sourceTip = "Uppruni lesinn úr sources aggregate. Þekktur uppruni sameinar island.is og beina opnun.";
+      var techTip = "Tracker samhengi byggir á device/browser/viewport aggregate línum fyrir sama mælaborð.";
+      var qualityTip = "Gæði sameinar confirmed warnings, error/fallback og mismun raw merkja og talinna opnana.";
+      return '<article class="passport-atlas-card ' + safe(status.cls) + '" style="--share-deg:' + safe(shareDeg) + '"' + passportAtlasTipAttr(titleFor(dashboard, cards) + ": " + status.label + ". " + status.detail) + '>' +
+        '<div class="passport-atlas-card-head">' +
+          '<img class="passport-atlas-icon" src="' + safe(iconFor(dashboard, cards)) + '" alt="">' +
+          '<div class="passport-atlas-card-title"><span class="passport-atlas-card-kicker">Passi · ' + String(index + 1).padStart(2, "0") + '</span><h3>' + safe(titleFor(dashboard, cards)) + '</h3><small>' + safe(cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + '</small></div>' +
+          '<div class="passport-atlas-stamp"><span class="passport-atlas-chip ' + safe(status.cls) + '">' + safe(status.label) + '</span><span class="passport-atlas-chip ' + safe(publicStatus.cls === "warn" ? "warn" : publicStatus.cls === "good" ? "good" : "watch") + '">' + safe(publicStatus.label) + '</span><span class="passport-atlas-chip">' + safe(age.label) + '</span></div>' +
+          '<div class="passport-atlas-share"><div class="passport-atlas-ring"><span>' + safe(shareLabel) + '</span></div><div class="passport-atlas-share-copy"><span class="passport-atlas-label">Hlutdeild í grunni</span><strong>' + fmt(total) + '</strong><small>' + safe(shareLabel) + ' af talinni notkun · síðast ' + safe(lastTime ? dateShort(lastTime) : "ekkert talið") + '</small></div></div>' +
+        '</div>' +
+        '<div class="passport-atlas-body">' +
+          '<div class="passport-atlas-evidence">' +
+            passportAtlasField("Leiðing", layout.topRoute, dominantLayout + " · " + fmt(layout.forced) + " þvinguð", layout.forced ? "warn" : "info", routeTip) +
+            passportAtlasField("Uppruni", sourceLabel, fmt(sourceValue) + " merki · " + safe(pct(sourceKnown, source.total)) + " þekkt", source.other > sourceKnown ? "warn" : "good", sourceTip) +
+            passportAtlasField("Tækni", techTitle, (viewportTop ? viewportTop.key : "skjár óþekktur") + " · " + (osTop ? osTop.key : "OS óþekkt"), "info", techTip) +
+            passportAtlasField("Gæði", warnings || errors || fallback ? "Skoða" : "Staðfest", healthDetail, warnings || errors || fallback ? "warn" : "good", qualityTip) +
+          '</div>' +
+          '<div class="passport-atlas-flow">' +
+            passportAtlasBar("Talning", total, Math.max(maxDashboardVisits, 1), "miðað við stærsta kort", "good", "Hlutfall af stærsta mælaborði í sama gagnasetti.") +
+            passportAtlasBar("Sjálfvirk leiðing", automaticRoute, Math.max(layout.total, 1), "án handvirkrar þvingunar", layout.forced ? "warn" : "good", routeTip) +
+            passportAtlasBar("Þekktur uppruni", sourceKnown, Math.max(source.total, 1), "island.is + beint", "good", sourceTip) +
+            passportAtlasBar("Tracker lestur", deviceTop ? deviceTop.visits : trackerTotal, Math.max(trackerTotal, 1), deviceTop ? deviceTop.key : "aggregate", "info", techTip) +
+          '</div>' +
+          '<div class="passport-atlas-riskline">' +
+            passportAtlasRisk("Viðvörun", fmt(warnings), warnings ? "staðfest merki" : "ekkert staðfest", warnings ? "warn" : "good", qualityTip) +
+            passportAtlasRisk("Raw mismunur", fmt(rawGap), "hrá merki utan talningar", rawGap ? "watch" : "good", qualityTip) +
+            passportAtlasRisk("Diagnostic", fmt(diagnostic), "haldið utan talningar", diagnostic ? "watch" : "good", "Diagnostic merki eru lesin en ekki talin sem production opnanir.") +
+            passportAtlasRisk("Fallback", fmt(fallback + errors), "fallback/error", fallback || errors ? "warn" : "good", "Fallback og error merki sýna hvort router eða afhending þurfti björgunarleið.") +
+          '</div>' +
+        '</div>' +
+      '</article>';
+    }
+    function renderDashboardPassportAtlas(data) {
+      var dashboards = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); });
+      var cards = data.public_cards || [];
+      var totalVisits = sumRows(dashboards);
+      var maxDashboardVisits = dashboards.reduce(function (max, row) { return Math.max(max, visitValue(row)); }, 0);
+      var published = cards.filter(function (card) { return publicCardStatus(card).label === "Birt"; }).length;
+      var watchRows = dashboards.filter(function (dashboard) { return passportAtlasStatus(data, dashboard).cls !== "good"; });
+      var newest = dashboards.slice().sort(function (a, b) { return new Date(dashboardLastCountedTime(b) || 0) - new Date(dashboardLastCountedTime(a) || 0); })[0];
+      var top = dashboards[0];
+      var sourceContexts = dashboards.map(function (dashboard) { return dashboardSourceContext(data, dashboard); });
+      var sourceKnown = sourceContexts.reduce(function (acc, ctx) { return acc + ctx.island + ctx.direct; }, 0);
+      var sourceTotal = sourceContexts.reduce(function (acc, ctx) { return acc + ctx.total; }, 0) || totalVisits || 1;
+      var layoutContexts = dashboards.map(function (dashboard) { return dashboardLayoutContext(data, dashboard); });
+      var routeTotal = layoutContexts.reduce(function (acc, ctx) { return acc + ctx.total; }, 0) || totalVisits || 1;
+      var forcedTotal = layoutContexts.reduce(function (acc, ctx) { return acc + ctx.forced; }, 0);
+      var automaticTotal = Math.max(routeTotal - forcedTotal, 0);
+      var deviceRows = rowsFrom(data, "device", "device_confidence").filter(function (row) { return trackerRowValue(row) > 0; });
+      var topDevice = passportAtlasTop(deviceRows, function (row) { return labelDevice(row.device_class || row.inferred_device_class); }, trackerRowValue);
+      var topBrowser = passportAtlasTop(deviceRows, browserLabel, trackerRowValue);
+      var topStatus = top ? passportAtlasStatus(data, top) : { cls: "watch", label: "-", detail: "-" };
+      var spotlight = watchRows[0] || top;
+      var spotlightStatus = spotlight ? passportAtlasStatus(data, spotlight) : topStatus;
+      var spotlightTitle = spotlight ? titleFor(spotlight, publicMap(data)) : "Engin mælaborð";
+      var atlasCards = dashboards.map(function (dashboard, index) {
+        return passportAtlasCard(data, dashboard, index, Math.max(totalVisits, 1), Math.max(maxDashboardVisits, 1));
+      }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Dashboard aggregate skilaði engum production línum.</p></div>';
+      setHtml("dashboard-passport-atlas",
+        '<div class="passport-atlas">' +
+          '<section class="passport-atlas-hero">' +
+            '<div class="passport-atlas-title"><span>Tæknilegt yfirlit</span><h2 id="dashboard-passport-atlas-title">Tæknipassar mælaborða</h2><p>Botnlagið les hvert mælaborð sem rekstrarpassa: ekki bara talningu, heldur hvort leiðing, uppruni, tracker-samhengi, ferskleiki og gæðamerki styðji sömu niðurstöðu.</p></div>' +
+            '<div class="passport-atlas-brief">' +
+              passportAtlasMini("Mælaborð", fmt(dashboards.length), fmt(published || dashboards.length) + " birt / virk", "good", "Fjöldi opinberra mælaborða með talda production notkun.") +
+              passportAtlasMini("Til skoðunar", fmt(watchRows.length), watchRows.length ? "viðvörun eða samræming" : "engin opin frávik", watchRows.length ? "warn" : "good", "Kort teljast til skoðunar þegar staðfest viðvörun, fallback/error, ferskleiki eða raw mismunur kallar á athygli.") +
+              passportAtlasMini("Uppruni þekktur", pct(sourceKnown, sourceTotal), "island.is + beint", sourceKnown < sourceTotal ? "watch" : "good", "Hlutfall uppruna sem er annaðhvort island.is eða bein opnun.") +
+              passportAtlasMini("Síðast talið", newest ? ageInfo(dashboardLastCountedTime(newest)).label : "-", newest ? titleFor(newest, publicMap(data)) : "engin talning", newest ? ageInfo(dashboardLastCountedTime(newest)).className : "watch", "Ferskasta talda production opnun í dashboard aggregate.") +
+            '</div>' +
+          '</section>' +
+          '<section class="passport-atlas-overview" aria-label="Passayfirlit">' +
+            '<article class="passport-atlas-spotlight">' +
+              '<div class="passport-atlas-feature ' + safe(spotlightStatus.cls) + '"' + passportAtlasTipAttr("Valið er fyrsta kortið sem þarf skoðun; annars stærsta kortið í grunninum.") + '><span class="passport-atlas-kicker">Ráðandi athugun</span><strong>' + safe(spotlightTitle) + '</strong><small>' + safe(spotlightStatus.label + " · " + spotlightStatus.detail) + '</small></div>' +
+              '<div class="passport-atlas-radar">' +
+                passportAtlasRadarRow("Sjálfvirk leiðing", automaticTotal, routeTotal, fmt(forcedTotal) + " þvinguð merki", forcedTotal ? "warn" : "good", "Sýnir hversu stór hluti route merkja fer sjálfvirkt án forced layout.") +
+                passportAtlasRadarRow("Þekktur uppruni", sourceKnown, sourceTotal, "island.is + beint", "good", "Sýnir hvað mikið af uppruna er skýrt í aggregate.") +
+                passportAtlasRadarRow("Stærsta kort", top ? visitValue(top) : 0, Math.max(totalVisits, 1), top ? titleFor(top, publicMap(data)) : "-", "info", "Hlutdeild stærsta mælaborðs í talinni notkun.") +
+              '</div>' +
+            '</article>' +
+            '<article class="passport-atlas-compass">' +
+              '<div class="passport-atlas-row"><span>Lesið tæki</span><strong>' + safe(topDevice ? topDevice.key : "Óþekkt") + '</strong></div>' +
+              '<div class="passport-atlas-row"><span>Lesinn vafri</span><strong>' + safe(topBrowser ? topBrowser.key : "Óþekkt") + '</strong></div>' +
+              '<div class="passport-atlas-row"><span>Talin grunntala</span><strong>' + fmt(totalVisits) + '</strong></div>' +
+              '<div class="passport-atlas-row"><span>Raðað eftir</span><strong>notkun + áhættu</strong></div>' +
+            '</article>' +
+          '</section>' +
+          '<section class="passport-atlas-grid" aria-label="Mælaborðapassar">' + atlasCards + '</section>' +
+          '<div class="passport-atlas-footer" aria-label="Notuð aggregate og status svið"><span class="passport-atlas-label">Notuð svið</span><code>dashboards</code><code>public_cards</code><code>routes</code><code>sources</code><code>device</code><code>raw_events</code><code>diagnostic_events</code><code>fallback_clicks</code><code>warning_count</code></div>' +
+        '</div>');
+    }
     function megaStat(label, value, detail, cls) {
       var className = cls ? " " + safe(cls) : "";
       return '<div class="mega-stat' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></div>';
@@ -22717,7 +23596,7 @@
       return '<div class="mega-legend">' + rows.map(function (row, index) {
         var value = number(row.value);
         var tip = row.label + ": " + fmt(value) + " (" + pct(value, total) + ")";
-        return '<div class="mega-legend-row"' + megaTipAttr(tip) + '><span class="mega-dot" style="--dot-bg:' + safe(dashboardDonutColor(row, index)) + '"></span><span>' + safe(row.label) + '</span><strong>' + fmt(value) + ' · ' + safe(pct(value, total)) + '</strong></div>';
+        return '<div class="mega-legend-row"' + megaTipAttr(tip) + '><span class="mega-dot" style="--dot-bg:' + safe(dashboardDonutColor(row, index)) + '"></span><span title="' + safe(row.label) + '">' + safe(row.label) + '</span><strong><b>' + fmt(value) + '</b><em>' + safe(pct(value, total)) + '</em></strong></div>';
       }).join("") + '</div>';
     }
     function megaOrbitCard(title, rows, total, detail) {
@@ -22761,6 +23640,10 @@
     }
     function megaTipAttr(text) {
       return text ? ' tabindex="0" title="' + safe(text) + '" data-mega-tip="' + safe(text) + '"' : "";
+    }
+    function megaJsonAttr(value) {
+      try { return safe(JSON.stringify(value || [])); }
+      catch (error) { return "[]"; }
     }
     function megaShortLabel(label, max) {
       label = String(label || "-").trim();
@@ -22876,8 +23759,16 @@
       var tip = title + ": " + (dominant.label || "-") + " er stærsti hluti, " + fmt(dominant.value) + " af " + fmt(total) + " (" + pct(dominant.value, total) + ").";
       var detailHtml = detail ? '<small class="mega-passport-detail">' + safe(detail) + '</small>' : "";
       var kickerHtml = kicker ? '<span class="mega-atlas-panel-kicker">' + safe(kicker) + '</span>' : "";
+      var chartRows = rows.map(function (row, index) {
+        return {
+          label: row.label || "-",
+          value: number(row.value),
+          color: dashboardDonutColor(row, index),
+          className: row.className || ""
+        };
+      });
       return '<article class="mega-atlas-panel' + className + '" data-lens="' + safe(lens || "") + '"' + megaTipAttr(tip) + '><div class="mega-atlas-panel-head"><div>' + kickerHtml + '<h3 title="' + safe(title) + '">' + safe(title) + '</h3></div><div class="mega-atlas-panel-total">' + fmt(total) + '</div></div>' +
-        '<div class="mega-atlas-donut-stage"><div class="mega-atlas-donut" style="--mega-donut:' + safe(dashboardDonutBg(rows, total)) + '"><div class="mega-atlas-donut-center"><strong>' + safe(pct(dominant.value, total)) + '</strong><span>' + safe(dominant.label) + '</span></div></div><div>' + megaLegend(rows, total) + detailHtml + '</div></div></article>';
+        '<div class="mega-atlas-donut-stage"><div class="mega-atlas-donut-wrap"><div class="mega-atlas-donut" style="--mega-donut:' + safe(dashboardDonutBg(rows, total)) + '" data-mega-donut-title="' + safe(title) + '" data-mega-donut-total="' + safe(total) + '" data-mega-donut-rows="' + megaJsonAttr(chartRows) + '"><div class="mega-atlas-donut-chart" aria-hidden="true"></div><div class="mega-atlas-donut-center"><strong>' + safe(pct(dominant.value, total)) + '</strong><span>' + safe(dominant.label) + '</span></div></div></div><div class="mega-atlas-legend-wrap">' + megaLegend(rows, total) + detailHtml + '</div></div></article>';
     }
     function megaSignalFooter(label, value) {
       return '<div class="mega-signal-footer"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong></div>';
@@ -23044,6 +23935,76 @@
       board.addEventListener("keydown", function (event) {
         if (event.key === "Escape") hide();
       });
+    }
+    function renderMegaAtlasDonutCharts(root) {
+      root = root || document;
+      var board = root.querySelector ? root.querySelector(".mega-dashboard-board-v3") : null;
+      if (!board) return;
+      (board.__megaDonutCharts || []).forEach(function (chart) {
+        try { chart.dispose(); } catch (error) {}
+      });
+      board.__megaDonutCharts = [];
+      if (!window.echarts) return;
+      board.querySelectorAll(".mega-atlas-donut[data-mega-donut-rows]").forEach(function (donut) {
+        var host = donut.querySelector(".mega-atlas-donut-chart");
+        if (!host) return;
+        var rows = [];
+        try { rows = JSON.parse(donut.getAttribute("data-mega-donut-rows") || "[]"); }
+        catch (error) { rows = []; }
+        rows = (rows || []).filter(function (row) { return number(row.value) > 0; });
+        if (!rows.length) return;
+        var total = Math.max(number(donut.getAttribute("data-mega-donut-total")), rows.reduce(function (acc, row) { return acc + number(row.value); }, 0), 1);
+        var chart = echarts.init(host, null, { renderer: "svg" });
+        donut.classList.add("is-echarts");
+        chart.setOption({
+          animation: false,
+          color: rows.map(function (row) { return row.color || "#A9B4C2"; }),
+          tooltip: {
+            trigger: "item",
+            confine: true,
+            backgroundColor: "rgba(15,36,56,.97)",
+            borderColor: "rgba(181,205,220,.5)",
+            borderWidth: 1,
+            padding: [8, 10],
+            textStyle: { color: "#fff", fontSize: 11, fontWeight: 800 },
+            formatter: function (params) {
+              return safe(params.name) + "<br><strong>" + fmt(params.value) + " · " + pct(params.value, total) + "</strong>";
+            }
+          },
+          series: [{
+            type: "pie",
+            radius: ["58%", "86%"],
+            center: ["50%", "50%"],
+            minAngle: 4,
+            avoidLabelOverlap: true,
+            selectedMode: false,
+            stillShowZeroSum: false,
+            label: { show: false },
+            labelLine: { show: false },
+            emphasis: { scale: true, scaleSize: 4, focus: "self" },
+            itemStyle: {
+              borderColor: "#fff",
+              borderWidth: 2,
+              borderRadius: 3
+            },
+            data: rows.map(function (row) {
+              return { name: row.label || "-", value: number(row.value), itemStyle: { color: row.color || "#A9B4C2" } };
+            })
+          }]
+        });
+        chart.resize();
+        board.__megaDonutCharts.push(chart);
+      });
+      if (!window.__megaAtlasDonutResizeBound) {
+        window.__megaAtlasDonutResizeBound = true;
+        window.addEventListener("resize", function () {
+          document.querySelectorAll(".mega-dashboard-board-v3").forEach(function (activeBoard) {
+            (activeBoard.__megaDonutCharts || []).forEach(function (chart) {
+              try { chart.resize(); } catch (error) {}
+            });
+          });
+        });
+      }
     }
     function megaDashboardCard(data, dashboard, totalVisits, index) {
       var cards = publicMap(data);
@@ -23302,6 +24263,7 @@
         '</div>');
       bindMegaAtlasControls(byId("dashboard-public-master"));
       bindMegaAtlasTooltips(byId("dashboard-public-master"));
+      renderMegaAtlasDonutCharts(byId("dashboard-public-master"));
     }
     function dashV2Track(value, total, cls) {
       var className = cls ? safe(cls) : "";
@@ -26099,6 +27061,7 @@
       safeRender("counting-health-panel", "Talningarheilsa", function () { renderCountingHealthPanel(data); });
       safeRender("route-list", "Sjálfvirk leiðing", function () { renderRouteList(data); });
       safeRender("dashboard-public-master", "Mælaborð", function () { renderDashboardPublicMaster(data); });
+      safeRender("dashboard-passport-atlas", "Tæknipassar mælaborða", function () { renderDashboardPassportAtlas(data); });
       try { renderStatusCharts(data); } catch (error) { if (window.console && console.error) console.error("Charts", error); }
     }
     var STATUS_DATA_TIMEOUT_MS = 22000;
