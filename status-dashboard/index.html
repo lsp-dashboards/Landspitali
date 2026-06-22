@@ -21727,7 +21727,7 @@
         if (!hasHistory && value < 45) cls += " warn";
         else if (hasHistory && value < average * .55) cls += " gateway";
         var detail = hasHistory ? row.tip + ". Hæsti dagur tímabilsins: " + fmt(maxValue) + ". Meðaltal: " + fmt(average) + "." : row.tip + ".";
-        return '<button class="start-v5-status-bar' + safe(cls) + '" type="button" style="--h:' + fill.toFixed(1) + '%" title="' + safe(detail) + '" data-tip="' + safe(detail) + '" aria-label="' + safe(detail) + '"><i aria-hidden="true"></i></button>';
+        return '<button class="start-v5-status-bar' + (cls ? safe(cls) : "") + '" type="button" style="--h:' + fill.toFixed(1) + '%" title="' + safe(detail) + '" data-tip="' + safe(detail) + '" aria-label="' + safe(detail) + '"><i aria-hidden="true"></i></button>';
       }).join("");
       var footLeft = hasHistory ? rows[0].label + " - " + latest.label : "hlutfallsleg staða";
       var statusDetail = fmt(model.score) + "/100 · " + fmt(dashboardCount || model.dashboardCount || 0) + " mælaborð · " + fmt(model.total) + " taldar opnanir";
