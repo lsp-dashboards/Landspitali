@@ -18366,6 +18366,10 @@
       min-width: 0;
     }
 
+    .env-v4-module.wide {
+      grid-column: 1 / -1;
+    }
+
     .env-v4-module-head {
       display: flex;
       align-items: flex-start;
@@ -26718,7 +26722,7 @@
                 envV4Lane("Traust", confidenceDistribution, confidenceTotal, "good", { unit: "línur", limit: distributionLimit }) +
               '</div></section>' +
               '<section class="env-v4-module"><div class="env-v4-module-head"><div class="env-v4-module-title"><span class="env-v4-module-kicker">Mynstur</span><h3>Samsetningar sem skipta máli</h3><p>Hver röð sameinar mælaborð, layout, vafra, stýrikerfi og theme svo mest áhrifamiklu notkunarsamhengin sjáist strax.</p></div><span class="env-v4-module-count">' + fmt(rows.length) + ' hópar</span></div><div class="env-v4-combo-list">' + comboHtmlV4 + '</div></section>' +
-              '<section class="env-v4-module"><div class="env-v4-module-head"><div class="env-v4-module-title"><span class="env-v4-module-kicker">Samhengi</span><h3>Uppruni, leiðing og inntak í einni stoðmynd</h3><p>Þessi lesröð tekur við af gömlu sérkortunum: public-card uppruni, route-reglur, snerti-/músarsamhengi og gateway-merki eru nú stoðgögn undir sömu rekstrarsýn.</p></div><span class="env-v4-module-count">stoðlag</span></div><div class="env-v4-lane-grid">' +
+              '<section class="env-v4-module wide"><div class="env-v4-module-head"><div class="env-v4-module-title"><span class="env-v4-module-kicker">Samhengi</span><h3>Uppruni, leiðing og inntak í einni stoðmynd</h3><p>Þessi lesröð tekur við af gömlu sérkortunum: public-card uppruni, route-reglur, snerti-/músarsamhengi og gateway-merki eru nú stoðgögn undir sömu rekstrarsýn.</p></div><span class="env-v4-module-count">stoðlag</span></div><div class="env-v4-lane-grid">' +
                 envV4Lane("Uppruni", sourceContextRows, envV4Total(sourceContextRows), "good", { unit: "opnanir", limit: 5 }) +
                 envV4Lane("Leiðing", routeContextRows, envV4Total(routeContextRows), "warn", { unit: "merki", limit: 5 }) +
                 envV4Lane("Inntak", inputContextRows, envV4Total(inputContextRows), "info", { unit: "línur", limit: 5 }) +
