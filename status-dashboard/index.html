@@ -21331,6 +21331,49 @@
         return '<span title="' + safe(label) + '" style="--h:' + fill.toFixed(1) + '%"></span>';
       }).join("") + '</div>';
     }
+    function startV5StatusChart(data, model, statusTitle, tone, fallbackMetrics) {
+      var history = trendRows(data).filter(function (row) { return row.date; }).slice(-30);
+      var hasHistory = history.length >= 2 && history.some(function (row) { return number(row.visits) > 0; });
+      var rows = hasHistory ? history.map(function (row) {
+        return {
+          label: chartDateLabel(row.date),
+          value: number(row.visits),
+          tip: chartDateLabel(row.date) + ": " + fmt(row.visits) + " taldar opnanir"
+        };
+      }) : (fallbackMetrics || []).map(function (row) {
+        return {
+          label: row.label,
+          value: number(row.value),
+          tip: row.label + ": " + formatIcelandicNumber(row.value, 1) + "%"
+        };
+      });
+      if (!rows.length) rows = [{ label: "Núna", value: number(model.score), tip: "Núverandi staða: " + fmt(model.score) + "/100" }];
+      var maxValue = Math.max.apply(null, rows.map(function (row) { return number(row.value); }).concat([1]));
+      var average = rows.reduce(function (acc, row) { return acc + number(row.value); }, 0) / Math.max(rows.length, 1);
+      var latest = rows[rows.length - 1] || rows[0];
+      var total = rows.reduce(function (acc, row) { return acc + number(row.value); }, 0);
+      var caption = hasHistory ? "Síðustu " + fmt(rows.length) + " dagar" : "Stöðumat";
+      var lead = hasHistory ? fmt(total) + " samtals" : fmt(model.score) + "/100";
+      var aria = hasHistory ?
+        "Notkunarþróun síðustu " + rows.length + " daga. Nýjasta gildi " + fmt(latest.value) + " taldar opnanir." :
+        "Samsett rekstrarstaða. Nýjasta gildi " + fmt(model.score) + " af 100.";
+      var bars = rows.map(function (row, index) {
+        var value = number(row.value);
+        var fill = clamp(value / maxValue * 100, 8, 100);
+        var cls = index === rows.length - 1 ? " latest" : "";
+        if (!hasHistory && value < 45) cls += " warn";
+        else if (hasHistory && value < average * .55) cls += " gateway";
+        var detail = hasHistory ? row.tip + ". Meðaltal tímabils: " + fmt(average) + "." : row.tip + ".";
+        return '<button class="start-v5-status-bar' + safe(cls) + '" type="button" style="--h:' + fill.toFixed(1) + '%" title="' + safe(detail) + '" data-tip="' + safe(detail) + '" aria-label="' + safe(detail) + '"><i aria-hidden="true"></i></button>';
+      }).join("");
+      var footLeft = hasHistory ? rows[0].label + " - " + latest.label : "hlutfallsleg staða";
+      var footRight = hasHistory ? "meðaltal " + fmt(average) : statusTitle || "";
+      return '<div class="start-v5-status-chart ' + safe(tone || "") + '" role="img" aria-label="' + safe(aria) + '">' +
+        '<div class="start-v5-status-chart-head"><span>Notkunarþróun</span><strong>' + safe(caption) + '</strong></div>' +
+        '<div class="start-v5-status-bars">' + bars + '</div>' +
+        '<div class="start-v5-status-chart-foot"><span>' + safe(footLeft) + '</span><strong>' + safe(lead + " · " + footRight) + '</strong></div>' +
+      '</div>';
+    }
     function startV5Action(item, index) {
       item = item || {};
       var tone = item.tone || "info";
@@ -21449,7 +21492,16 @@
       var countedFill = clamp(model.total / totalSignal * 100, 0, 100);
       var gatewayFill = clamp(gatewaySignals / totalSignal * 100, 0, 100);
       var topDashboardFill = topDashboard ? clamp(visitValue(topDashboard) / Math.max(model.total, 1) * 100, 0, 100) : 16;
-      var lcdBars = startV5LcdBars([countedFill, freshnessFill, model.score, qualityFill, gatewayFill, topDashboardFill, dashboardCount ? 88 : 16, confirmed ? 28 : 92]);
+      var statusChart = startV5StatusChart(data, model, statusTitle, scoreTone, [
+        { label: "Taldar opnanir", value: countedFill },
+        { label: "Ferskleiki", value: freshnessFill },
+        { label: "Rekstrarstaða", value: model.score },
+        { label: "Gæði", value: qualityFill },
+        { label: "Gateway", value: gatewayFill },
+        { label: "Top mælaborð", value: topDashboardFill },
+        { label: "Mælaborð", value: dashboardCount ? 88 : 16 },
+        { label: "Viðvörun", value: confirmed ? 28 : 92 }
+      ]);
       var flowSection =
         '<section class="start-v5-flow start-v5-flow-viz" id="start-v5-flow-module" aria-label="Merkjafl\u00e6\u00f0i">' +
           '<div class="start-v5-flow-canvas-card">' +
@@ -21486,7 +21538,7 @@
                 startV5Metric("G\u00e6\u00f0i", confirmed ? fmt(confirmed) : "Hreint", confirmed ? "sta\u00f0fest merki" : "engin sta\u00f0fest merki", confirmed ? "warn" : "good", qualityFill) +
               '</div>' +
             '</div>' +
-            '<aside class="start-v5-lcd-side"><div class="start-v5-lcd-status" title="Samsett rekstrarsta\u00f0a: ' + fmt(model.score) + '/100. Stikan s\u00fdnir hversu langt sta\u00f0an er fr\u00e1 fullri gr\u00e6nni st\u00f6\u00f0u."><span>Sta\u00f0a n\u00fana</span><strong>' + safe(statusTitle) + '</strong><small>' + fmt(model.score) + '/100 · ' + fmt(dashboardCount) + ' m\u00e6labor\u00f0 · ' + fmt(model.total) + ' taldar opnanir</small>' + startV5Meter(model.score, scoreTone) + '</div>' + lcdBars + '</aside>' +
+            '<aside class="start-v5-lcd-side"><div class="start-v5-lcd-status" title="Samsett rekstrarsta\u00f0a: ' + fmt(model.score) + '/100. Stikan s\u00fdnir hversu langt sta\u00f0an er fr\u00e1 fullri gr\u00e6nni st\u00f6\u00f0u."><span>Sta\u00f0a n\u00fana</span><strong>' + safe(statusTitle) + '</strong><small>' + fmt(model.score) + '/100 · ' + fmt(dashboardCount) + ' m\u00e6labor\u00f0 · ' + fmt(model.total) + ' taldar opnanir</small>' + startV5Meter(model.score, scoreTone) + '</div>' + statusChart + '</aside>' +
             '<div class="start-v5-flow-row">' + flowSection + actionPanel + '</div>' +
           '</section>' +
           '<section class="start-v5-lower" aria-label="F\u00f3kus og sannanir">' +
@@ -24571,20 +24623,11 @@
       var mobile = allRows.reduce(function (acc, row) { return acc + (normalizeLayoutToken(row.selected_layout) === "mobile" ? routeMatrixValue(row) : 0); }, 0);
       var desktop = allRows.reduce(function (acc, row) { return acc + (normalizeLayoutToken(row.selected_layout) === "desktop" ? routeMatrixValue(row) : 0); }, 0);
       var topReason = topRows(allRows, function (row) { return routeMatrixReasonLabel(row); }, 1, routeMatrixValue)[0];
-      function stat(label, value, detail, cls) {
-        return '<article class="route-auto-stat ' + safe(cls || "gateway") + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
-      }
-      var summary = '<div class="route-auto-summary">' +
-        stat("Route merki", fmt(total), fmt(rows.length) + " línur sýndar", "gateway") +
-        stat("Sjálfvirkt val", fmt(auto), total ? pct(auto, total) + " af leiðingu" : "engin merki", "info") +
-        stat("Útgáfuval", mobile >= desktop ? "Mobile" : "Desktop", "mobile " + fmt(mobile) + " · desktop " + fmt(desktop), mobile >= desktop ? "good" : "gateway") +
-        stat("Efsta regla", topReason ? topReason.key : "-", topReason ? fmt(topReason.visits) + " merki" : "vantar route gögn", forced ? "warn" : "good") +
-      '</div>';
       if (!rows.length) {
-        setHtml("route-list", summary + '<div class="message-card neutral"><strong>Engin leiðingargögn</strong><p>Route aggregate skilaði engum taldum línum. Síðasta þekkta gögn eru samt ekki endurtalin annars staðar á síðunni.</p></div>');
+        setHtml("route-list", '<div class="message-card neutral"><strong>Engin leiðingargögn</strong><p>Route aggregate skilaði engum taldum línum. Síðasta þekkta gögn eru samt ekki endurtalin annars staðar á síðunni.</p></div>');
         return;
       }
-      var html = summary + '<div class="list-row route-enhanced list-head"><span>Mælaborð</span><span>Leiðing</span><span>Tæki / skjár</span><span>Vafri / stýrikerfi</span><span class="number">Talning</span></div>';
+      var html = '<div class="list-row route-enhanced list-head"><span>Mælaborð</span><span>Leiðing</span><span>Tæki / skjár</span><span>Vafri / stýrikerfi</span><span class="number">Talning</span></div>';
       html += rows.map(function (row) {
         var ctx = routeContextFor(row, data);
         var forcedLayout = forcedLayoutValue(row);
