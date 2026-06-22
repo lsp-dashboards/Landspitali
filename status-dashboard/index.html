@@ -11847,21 +11847,24 @@
 
     .mega-atlas-donut-center {
       position: absolute;
-      inset: 38px;
+      inset: 35px;
       z-index: 1;
       display: grid;
       place-items: center;
       align-content: center;
+      gap: 2px;
       text-align: center;
       color: var(--ink);
     }
 
     .mega-atlas-donut-center strong {
       max-width: 100%;
-      font-size: clamp(20px, 1.45vw, 25px);
-      line-height: 1;
+      font-size: clamp(17px, 1.18vw, 21px);
+      line-height: .94;
       font-weight: 950;
-      overflow-wrap: anywhere;
+      white-space: nowrap;
+      overflow-wrap: normal;
+      word-break: keep-all;
     }
 
     .mega-atlas-donut-center span {
@@ -11870,7 +11873,8 @@
       font-size: 8.5px;
       line-height: 1.05;
       font-weight: 950;
-      overflow-wrap: anywhere;
+      overflow-wrap: normal;
+      word-break: keep-all;
     }
 
     .mega-signal-grid {
@@ -11989,7 +11993,7 @@
 
     .mega-portfolio-board {
       display: grid;
-      grid-template-columns: minmax(180px, .34fr) minmax(0, .66fr);
+      grid-template-columns: minmax(220px, .38fr) minmax(0, .62fr);
       gap: 12px;
       min-width: 0;
     }
@@ -12017,10 +12021,13 @@
 
     .mega-portfolio-focus strong {
       color: var(--ink);
-      font-size: clamp(28px, 3vw, 46px);
-      line-height: .9;
+      font-size: clamp(24px, 2.1vw, 34px);
+      line-height: .95;
       font-weight: 950;
-      overflow-wrap: anywhere;
+      overflow-wrap: normal;
+      word-break: normal;
+      hyphens: none;
+      text-wrap: balance;
     }
 
     .mega-portfolio-focus small {
@@ -12104,7 +12111,9 @@
       font-size: 14px;
       line-height: 1.05;
       font-weight: 950;
-      overflow-wrap: anywhere;
+      overflow-wrap: normal;
+      word-break: normal;
+      hyphens: none;
     }
 
     .mega-portfolio-measure {
@@ -21941,6 +21950,7 @@
             '</div></div>' +
           '</section>' +
         '</article>');
+      bindStartV5StatusTooltips(byId("start-panel"));
     }
     function dashboardPublicSummary(label, value, detail, cls) {
       var className = cls ? " " + safe(cls) : "";
