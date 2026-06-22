@@ -19317,6 +19317,10 @@
 
     <div id="notice" class="notice" role="status"></div>
 
+    <section class="panel dashboard-public-master mega-dashboard-shell dashboard-passport-shell" aria-label="Mælaborðspassi">
+      <div id="dashboard-public-master"></div>
+    </section>
+
     <section class="panel diagnostic-passport-section" aria-labelledby="diagnostic-passport-title">
       <div id="diagnostic-passport-panel"></div>
       <section class="diagnostic-support-layers" aria-labelledby="diagnostic-support-title">
@@ -19344,10 +19348,6 @@
           </section>
         </div>
       </section>
-    </section>
-
-    <section class="panel dashboard-public-master mega-dashboard-shell dashboard-passport-shell" aria-label="Mælaborðspassi">
-      <div id="dashboard-public-master"></div>
     </section>
 
     <section class="panel counting-health-section" aria-labelledby="counting-health-title">
@@ -21250,6 +21250,7 @@
             '<aside class="route-v6-proof-panel"><div class="route-v6-proof-head"><div><span>Sönnun per mælaborð</span><strong>Top production opnanir</strong></div><small>Útgáfuval og uppruni án þess að endurtelja heildina.</small></div><div class="route-v6-proof-list">' + proofRows + '</div></aside>' +
           '</section>' +
         '</article>');
+      bindStartV5StatusTooltips(byId("start-panel"));
     }
     function usagePeriodSummary(data, total) {
       var k = data.kpis || {};

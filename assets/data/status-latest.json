@@ -1,8 +1,8 @@
 {
   "ok": true,
-  "generated_at": "2026-06-22T07:53:32.955Z",
-  "dashboard_data_generated_at": "2026-06-22T07:53:32.955Z",
-  "aggregation_generated_at": "2026-06-22T07:53:18.406Z",
+  "generated_at": "2026-06-22T08:27:40.591Z",
+  "dashboard_data_generated_at": "2026-06-22T08:27:40.591Z",
+  "aggregation_generated_at": "2026-06-22T08:27:34.990Z",
   "script_version": "v1.0.0",
   "schema_version": "1",
   "config_version": "v1.0.0",
@@ -25,47 +25,47 @@
   },
   "health": {
     "status": "ok",
-    "last_event_time": "2026-06-22T00:01:08.047Z",
-    "last_raw_event_time": "2026-06-22T00:01:08.047Z",
-    "last_counted_event_time": "2026-06-22T00:01:08.047Z",
+    "last_event_time": "2026-06-22T08:21:52.095Z",
+    "last_raw_event_time": "2026-06-22T08:21:52.095Z",
+    "last_counted_event_time": "2026-06-22T08:21:52.095Z",
     "last_diagnostic_event_time": "2026-06-16T02:23:20.998Z",
     "last_error_event_time": "",
-    "last_aggregation_time": "2026-06-22T07:53:18.406Z",
-    "aggregation_generated_at": "2026-06-22T07:53:18.406Z",
-    "dashboard_data_generated_at": "2026-06-22T07:47:36.466Z",
-    "raw_event_rows": 92,
+    "last_aggregation_time": "2026-06-22T08:27:34.990Z",
+    "aggregation_generated_at": "2026-06-22T08:27:34.990Z",
+    "dashboard_data_generated_at": "2026-06-22T08:22:46.185Z",
+    "raw_event_rows": 94,
     "warnings": []
   },
   "kpis": {
-    "visits_today": 1,
-    "visits_7d": 42,
-    "visits_30d": 72,
+    "visits_today": 3,
+    "visits_7d": 44,
+    "visits_30d": 74,
     "active_dashboards": 2,
     "mobile_visits": 13,
-    "desktop_visits": 59,
+    "desktop_visits": 61,
     "tablet_visits": 9,
     "narrow_visits": 1,
     "fallback_error_count": 0,
     "bot_debug_test_count": 6,
-    "island_is_visits": 60,
-    "total_visits": 72,
-    "total_events": 84,
-    "raw_events": 84,
+    "island_is_visits": 62,
+    "total_visits": 74,
+    "total_events": 86,
+    "raw_events": 86,
     "diagnostic_events": 12,
     "confirmed_warnings": 2,
     "warning_count": 2,
     "diagnostic_signals": 3,
     "weak_unknown_signal_count": 10,
-    "reported_dark_visits": 31,
+    "reported_dark_visits": 33,
     "reported_light_visits": 39,
     "forced_dark_detected_visits": 2,
     "samsung_forced_dark_possible_events": 0,
     "in_app_browser_visits": 0,
     "powerbi_viewer_unsupported_browser_events": 4,
     "powerbi_viewer_not_officially_supported_events": 0,
-    "mobile_share": 0.18055555555555555,
-    "desktop_share": 0.8194444444444444,
-    "weak_unknown_signal_share": 0.11904761904761904,
+    "mobile_share": 0.17567567567567569,
+    "desktop_share": 0.8243243243243243,
+    "weak_unknown_signal_share": 0.11627906976744186,
     "confidence_health": "ok"
   },
   "dashboards": [
@@ -75,34 +75,34 @@
       "dashboard_name": "Bráðamóttaka í Fossvogi",
       "public_card_title": "Bráðamóttaka í Fossvogi",
       "status": "active",
-      "visits_today": 1,
-      "visits_7d": 23,
-      "visits_30d": 38,
-      "total_visits": 38,
-      "total_events": 46,
-      "raw_events": 46,
+      "visits_today": 2,
+      "visits_7d": 24,
+      "visits_30d": 39,
+      "total_visits": 39,
+      "total_events": 47,
+      "raw_events": 47,
       "diagnostic_events": 8,
       "mobile_visits": 9,
-      "desktop_visits": 29,
+      "desktop_visits": 30,
       "tablet_visits": 5,
       "narrow_visits": 1,
-      "island_is_visits": 30,
+      "island_is_visits": 31,
       "fallback_clicks": 0,
       "error_events": 0,
       "debug_events": 5,
       "bot_events": 0,
       "safe_fallback_events": 0,
-      "last_event_time": "2026-06-22T00:01:08.047Z",
-      "last_raw_event_time": "2026-06-22T00:01:08.047Z",
-      "last_counted_event_time": "2026-06-22T00:01:08.047Z",
+      "last_event_time": "2026-06-22T08:21:35.034Z",
+      "last_raw_event_time": "2026-06-22T08:21:35.034Z",
+      "last_counted_event_time": "2026-06-22T08:21:35.034Z",
       "last_diagnostic_event_time": "2026-06-16T02:23:20.998Z",
       "last_error_event_time": "",
       "warning_count": 1,
       "confirmed_warning_count": 1,
       "diagnostic_signal_count": 2,
-      "confidence_band": "watch",
+      "confidence_band": "good",
       "weak_unknown_signal_count": 7,
-      "source_mix_summary": "island_is_public:30, direct:6, root_index:2",
+      "source_mix_summary": "island_is_public:31, direct:6, root_index:2",
       "route_mix_summary": "desktop:6, desktop:4, desktop:3",
       "config_version": "v1.0.0",
       "core_version": "v1.0.0",
@@ -117,19 +117,19 @@
         "fallback": "mobile"
       },
       "recentAggregateCounts": {
-        "visitsToday": 1,
-        "visits7d": 23,
-        "visits30d": 38,
-        "events": 46,
+        "visitsToday": 2,
+        "visits7d": 24,
+        "visits30d": 39,
+        "events": 47,
         "errors": 0,
         "fallbackClicks": 0
       },
       "trend7d": {
-        "visits": 23,
+        "visits": 24,
         "direction": "flat"
       },
       "trend30d": {
-        "visits": 38,
+        "visits": 39,
         "direction": "flat"
       },
       "viewerRiskSummary": {
@@ -148,26 +148,26 @@
       "dashboard_name": "Þjónustukannanir ríkisstofnana",
       "public_card_title": "Þjónustukannanir",
       "status": "active",
-      "visits_today": 0,
-      "visits_7d": 19,
-      "visits_30d": 34,
-      "total_visits": 34,
-      "total_events": 38,
-      "raw_events": 38,
+      "visits_today": 1,
+      "visits_7d": 20,
+      "visits_30d": 35,
+      "total_visits": 35,
+      "total_events": 39,
+      "raw_events": 39,
       "diagnostic_events": 4,
       "mobile_visits": 4,
-      "desktop_visits": 30,
+      "desktop_visits": 31,
       "tablet_visits": 4,
       "narrow_visits": 0,
-      "island_is_visits": 30,
+      "island_is_visits": 31,
       "fallback_clicks": 0,
       "error_events": 0,
       "debug_events": 1,
       "bot_events": 0,
       "safe_fallback_events": 0,
-      "last_event_time": "2026-06-21T23:19:12.854Z",
-      "last_raw_event_time": "2026-06-21T23:19:12.854Z",
-      "last_counted_event_time": "2026-06-21T23:19:12.854Z",
+      "last_event_time": "2026-06-22T08:21:52.095Z",
+      "last_raw_event_time": "2026-06-22T08:21:52.095Z",
+      "last_counted_event_time": "2026-06-22T08:21:52.095Z",
       "last_diagnostic_event_time": "2026-06-15T23:41:13.966Z",
       "last_error_event_time": "",
       "warning_count": 1,
@@ -175,7 +175,7 @@
       "diagnostic_signal_count": 1,
       "confidence_band": "good",
       "weak_unknown_signal_count": 3,
-      "source_mix_summary": "island_is_public:30, direct:3, root_index:1",
+      "source_mix_summary": "island_is_public:31, direct:3, root_index:1",
       "route_mix_summary": "desktop:8, desktop:4, desktop:4",
       "config_version": "v1.0.0",
       "core_version": "v1.0.0",
@@ -190,19 +190,19 @@
         "fallback": "mobile"
       },
       "recentAggregateCounts": {
-        "visitsToday": 0,
-        "visits7d": 19,
-        "visits30d": 34,
-        "events": 38,
+        "visitsToday": 1,
+        "visits7d": 20,
+        "visits30d": 35,
+        "events": 39,
         "errors": 0,
         "fallbackClicks": 0
       },
       "trend7d": {
-        "visits": 19,
+        "visits": 20,
         "direction": "flat"
       },
       "trend30d": {
-        "visits": 34,
+        "visits": 35,
         "direction": "flat"
       },
       "viewerRiskSummary": {
@@ -785,6 +785,21 @@
       "entry_source_category": "island_is_public",
       "selected_layout": "desktop",
       "device_class": "desktop",
+      "visits": 2,
+      "events": 2,
+      "bots": 0,
+      "debug_events": 0,
+      "diagnostic_events": 0,
+      "fallback_clicks": 0,
+      "errors": 0,
+      "safe_fallbacks": 0
+    },
+    {
+      "date": "2026-06-22T00:00:00.000Z",
+      "dashboard_key": "thjonustukannanir",
+      "entry_source_category": "island_is_public",
+      "selected_layout": "desktop",
+      "device_class": "desktop",
       "visits": 1,
       "events": 1,
       "bots": 0,
@@ -1107,6 +1122,22 @@
       "events": 1,
       "errors": 0,
       "diagnostic_events": 0
+    },
+    {
+      "hour_utc": "2026-06-22T08:00:00Z",
+      "dashboard_key": "bradamottaka",
+      "visits": 1,
+      "events": 1,
+      "errors": 0,
+      "diagnostic_events": 0
+    },
+    {
+      "hour_utc": "2026-06-22T08:00:00Z",
+      "dashboard_key": "thjonustukannanir",
+      "visits": 1,
+      "events": 1,
+      "errors": 0,
+      "diagnostic_events": 0
     }
   ],
   "device": [
@@ -1323,6 +1354,33 @@
       "in_app_browser_family": "none",
       "display_class": "desktop_viewport",
       "viewport_bucket": "desktop_1280_1535",
+      "visits": 1,
+      "events": 1
+    },
+    {
+      "dashboard_key": "bradamottaka",
+      "dashboard_name": "Bráðamóttaka í Fossvogi",
+      "device_class": "desktop",
+      "selected_layout": "desktop",
+      "browser_family": "Edge",
+      "browser_brand": "Edge",
+      "browser_engine": "Blink",
+      "os_family": "Windows",
+      "language": "is",
+      "timezone": "Atlantic/Reykjavik",
+      "color_scheme": "dark",
+      "forced_colors": "none",
+      "prefers_contrast": "no-preference",
+      "inverted_colors": "none",
+      "forced_dark_detection": "not_detected",
+      "samsung_dark_mode_status": "not_samsung_android",
+      "theme_signal_quality": "reported",
+      "connection_type": "4g",
+      "inferred_device_class": "desktop",
+      "inferred_confidence_band": "high confidence",
+      "in_app_browser_family": "none",
+      "display_class": "small_desktop_viewport",
+      "viewport_bucket": "desktop_1024_1279",
       "visits": 1,
       "events": 1
     },
@@ -1820,6 +1878,33 @@
       "browser_family": "Chrome",
       "browser_brand": "Chrome",
       "browser_engine": "Blink",
+      "os_family": "Windows",
+      "language": "en",
+      "timezone": "Atlantic/Reykjavik",
+      "color_scheme": "dark",
+      "forced_colors": "none",
+      "prefers_contrast": "no-preference",
+      "inverted_colors": "none",
+      "forced_dark_detection": "not_detected",
+      "samsung_dark_mode_status": "not_samsung_android",
+      "theme_signal_quality": "reported",
+      "connection_type": "4g",
+      "inferred_device_class": "desktop",
+      "inferred_confidence_band": "very high confidence",
+      "in_app_browser_family": "none",
+      "display_class": "desktop_viewport",
+      "viewport_bucket": "desktop_1280_1535",
+      "visits": 1,
+      "events": 1
+    },
+    {
+      "dashboard_key": "thjonustukannanir",
+      "dashboard_name": "Þjónustukannanir ríkisstofnana",
+      "device_class": "desktop",
+      "selected_layout": "desktop",
+      "browser_family": "Chrome",
+      "browser_brand": "Chrome",
+      "browser_engine": "Blink",
       "os_family": "macOS",
       "language": "en-GB",
       "timezone": "Atlantic/Reykjavik",
@@ -2276,6 +2361,24 @@
     {
       "dashboard_key": "bradamottaka",
       "dashboard_name": "Bráðamóttaka í Fossvogi",
+      "inferred_device_class": "desktop",
+      "inferred_device_subclass": "small_desktop_sized_browser",
+      "inferred_confidence_band": "high confidence",
+      "inferred_confidence_score": 82,
+      "inferred_confidence_reason": "small desktop or tablet landscape viewport; Device Posture signal available",
+      "inferred_is_ipad_like": false,
+      "inferred_is_android_tablet_like": false,
+      "inferred_is_samsung_galaxy_tab_like": false,
+      "inferred_is_surface_like": false,
+      "inferred_is_chromeos_tablet_like": false,
+      "inferred_is_smart_tv": false,
+      "in_app_browser_family": "none",
+      "visits": 1,
+      "events": 1
+    },
+    {
+      "dashboard_key": "bradamottaka",
+      "dashboard_name": "Bráðamóttaka í Fossvogi",
       "inferred_device_class": "phone",
       "inferred_device_subclass": "iphone",
       "inferred_confidence_band": "very high confidence",
@@ -2468,8 +2571,8 @@
       "inferred_is_chromeos_tablet_like": false,
       "inferred_is_smart_tv": false,
       "in_app_browser_family": "none",
-      "visits": 24,
-      "events": 25
+      "visits": 25,
+      "events": 26
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -2630,8 +2733,8 @@
       "browser_version_source": "user_agent",
       "is_webview": false,
       "in_app_browser_family": "none",
-      "visits": 13,
-      "events": 15
+      "visits": 14,
+      "events": 16
     },
     {
       "dashboard_key": "bradamottaka",
@@ -2798,8 +2901,8 @@
       "browser_version_source": "user_agent",
       "is_webview": false,
       "in_app_browser_family": "none",
-      "visits": 5,
-      "events": 5
+      "visits": 6,
+      "events": 6
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -2890,8 +2993,8 @@
       "os_version": 10,
       "os_version_source": "user_agent",
       "navigator_platform_raw": "Win32",
-      "visits": 26,
-      "events": 28
+      "visits": 27,
+      "events": 29
     },
     {
       "dashboard_key": "bradamottaka",
@@ -2970,8 +3073,8 @@
       "os_version": 10,
       "os_version_source": "user_agent",
       "navigator_platform_raw": "Win32",
-      "visits": 23,
-      "events": 24
+      "visits": 24,
+      "events": 25
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -3395,6 +3498,35 @@
     {
       "dashboard_key": "bradamottaka",
       "dashboard_name": "Bráðamóttaka í Fossvogi",
+      "display_class": "small_desktop_viewport",
+      "viewport_bucket": "desktop_1024_1279",
+      "breakpoint_bucket": "small_desktop_1024_1279",
+      "selected_layout": "desktop",
+      "prefers_color_scheme": "dark",
+      "color_scheme": "dark",
+      "forced_dark_detection": "not_detected",
+      "samsung_dark_mode_status": "not_samsung_android",
+      "theme_signal_quality": "reported",
+      "theme_confidence_band": "high",
+      "forced_colors": "none",
+      "prefers_contrast": "no-preference",
+      "prefers_reduced_motion": "no-preference",
+      "prefers_reduced_data": "no-preference",
+      "prefers_reduced_transparency": "no-preference",
+      "monochrome": "color",
+      "update_frequency": "fast",
+      "overflow_block": "scroll",
+      "overflow_inline": "scroll",
+      "scripting": "enabled",
+      "display_mode": "browser",
+      "color_gamut": "srgb",
+      "dynamic_range": "standard",
+      "visits": 1,
+      "events": 1
+    },
+    {
+      "dashboard_key": "bradamottaka",
+      "dashboard_name": "Bráðamóttaka í Fossvogi",
       "display_class": "tablet_landscape_or_small_desktop",
       "viewport_bucket": "desktop_1024_1279",
       "breakpoint_bucket": "small_desktop_1024_1279",
@@ -3563,6 +3695,35 @@
       "display_mode": "unknown",
       "color_gamut": "unknown",
       "dynamic_range": "unknown",
+      "visits": 1,
+      "events": 1
+    },
+    {
+      "dashboard_key": "thjonustukannanir",
+      "dashboard_name": "Þjónustukannanir ríkisstofnana",
+      "display_class": "desktop_viewport",
+      "viewport_bucket": "desktop_1280_1535",
+      "breakpoint_bucket": "wide_desktop_1421_plus",
+      "selected_layout": "desktop",
+      "prefers_color_scheme": "dark",
+      "color_scheme": "dark",
+      "forced_dark_detection": "not_detected",
+      "samsung_dark_mode_status": "not_samsung_android",
+      "theme_signal_quality": "reported",
+      "theme_confidence_band": "high",
+      "forced_colors": "none",
+      "prefers_contrast": "no-preference",
+      "prefers_reduced_motion": "no-preference",
+      "prefers_reduced_data": "no-preference",
+      "prefers_reduced_transparency": "no-preference",
+      "monochrome": "color",
+      "update_frequency": "fast",
+      "overflow_block": "scroll",
+      "overflow_inline": "scroll",
+      "scripting": "enabled",
+      "display_mode": "browser",
+      "color_gamut": "srgb",
+      "dynamic_range": "standard",
       "visits": 1,
       "events": 1
     },
@@ -4005,8 +4166,8 @@
       "keyboard_mouse_likely": true,
       "remote_control_likely": false,
       "stylus_possible": false,
-      "visits": 29,
-      "events": 31
+      "visits": 30,
+      "events": 32
     },
     {
       "dashboard_key": "bradamottaka",
@@ -4107,8 +4268,8 @@
       "keyboard_mouse_likely": true,
       "remote_control_likely": false,
       "stylus_possible": false,
-      "visits": 27,
-      "events": 28
+      "visits": 28,
+      "events": 29
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -4174,8 +4335,8 @@
       "dom_content_loaded_bucket": "lt_500ms",
       "load_event_bucket": "unknown",
       "low_capability_device": false,
-      "visits": 11,
-      "events": 12
+      "visits": 12,
+      "events": 13
     },
     {
       "dashboard_key": "bradamottaka",
@@ -4366,8 +4527,8 @@
       "dom_content_loaded_bucket": "500_1500ms",
       "load_event_bucket": "unknown",
       "low_capability_device": false,
-      "visits": 1,
-      "events": 1
+      "visits": 2,
+      "events": 2
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -4574,8 +4735,8 @@
       "utm_medium": "public_dashboard_card",
       "utm_campaign": "landspitali_maelabord",
       "utm_content": "bradamottaka_fossvogi",
-      "visits": 30,
-      "events": 30
+      "visits": 31,
+      "events": 31
     },
     {
       "dashboard_key": "bradamottaka",
@@ -4640,8 +4801,8 @@
       "utm_medium": "public_dashboard_card",
       "utm_campaign": "landspitali_maelabord",
       "utm_content": "thjonustukannanir",
-      "visits": 30,
-      "events": 30
+      "visits": 31,
+      "events": 31
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -4883,6 +5044,22 @@
     {
       "dashboard_key": "bradamottaka",
       "dashboard_name": "Bráðamóttaka í Fossvogi",
+      "route_reason": "small_desktop_policy",
+      "route_reason_detail": "usable viewport width 1273 in 1024-1279 desktop-capable zone selected desktop",
+      "selected_layout": "desktop",
+      "auto_selected_layout": "desktop",
+      "forced_layout": "auto",
+      "forced_layout_applied": false,
+      "layout_source": "auto",
+      "route_policy_result": "policy_auto",
+      "tablet_strategy_result": "not_tablet_route",
+      "narrow_desktop_strategy_result": "not_narrow_route",
+      "visits": 1,
+      "events": 1
+    },
+    {
+      "dashboard_key": "bradamottaka",
+      "dashboard_name": "Bráðamóttaka í Fossvogi",
       "route_reason": "tablet_landscape_or_small_desktop_policy",
       "route_reason_detail": "usable viewport width 1180 in 1024-1279 desktop-capable zone selected desktop",
       "selected_layout": "desktop",
@@ -5087,6 +5264,22 @@
       "narrow_desktop_strategy_result": "not_narrow_route",
       "visits": 3,
       "events": 3
+    },
+    {
+      "dashboard_key": "thjonustukannanir",
+      "dashboard_name": "Þjónustukannanir ríkisstofnana",
+      "route_reason": "desktop_viewport",
+      "route_reason_detail": "usable viewport width 1491 >= 1280 selected desktop",
+      "selected_layout": "desktop",
+      "auto_selected_layout": "desktop",
+      "forced_layout": "auto",
+      "forced_layout_applied": false,
+      "layout_source": "auto",
+      "route_policy_result": "policy_auto",
+      "tablet_strategy_result": "not_tablet_route",
+      "narrow_desktop_strategy_result": "not_narrow_route",
+      "visits": 1,
+      "events": 1
     },
     {
       "dashboard_key": "thjonustukannanir",
@@ -5324,7 +5517,7 @@
       "counted_count": 1,
       "diagnostic_count": 0,
       "confirmed_count": 0,
-      "last_seen": "2026-06-22T07:52:43.689Z",
+      "last_seen": "2026-06-22T08:27:18.932Z",
       "signal_quality": "reported",
       "is_confirmed": false,
       "confidence_band": "unknown or insufficient evidence"
@@ -5339,7 +5532,7 @@
       "counted_count": 0,
       "diagnostic_count": 1,
       "confirmed_count": 0,
-      "last_seen": "2026-06-22T07:52:43.689Z",
+      "last_seen": "2026-06-22T08:27:18.932Z",
       "signal_quality": "detected",
       "is_confirmed": false,
       "confidence_band": "high"
@@ -5354,7 +5547,7 @@
       "counted_count": 0,
       "diagnostic_count": 1,
       "confirmed_count": 0,
-      "last_seen": "2026-06-22T07:52:43.689Z",
+      "last_seen": "2026-06-22T08:27:18.932Z",
       "signal_quality": "detected",
       "is_confirmed": false,
       "confidence_band": "high"
@@ -5369,7 +5562,7 @@
       "counted_count": 2,
       "diagnostic_count": 0,
       "confirmed_count": 2,
-      "last_seen": "2026-06-22T07:52:43.689Z",
+      "last_seen": "2026-06-22T08:27:18.932Z",
       "signal_quality": "inferred_from_browser_policy",
       "is_confirmed": true,
       "confidence_band": "very high confidence"
@@ -5384,7 +5577,7 @@
       "counted_count": 2,
       "diagnostic_count": 0,
       "confirmed_count": 2,
-      "last_seen": "2026-06-22T07:52:43.689Z",
+      "last_seen": "2026-06-22T08:27:18.932Z",
       "signal_quality": "inferred_from_browser_policy",
       "is_confirmed": true,
       "confidence_band": "very high confidence"
@@ -5394,13 +5587,13 @@
     {
       "code": "traffic_total",
       "title": "Heildarumferð",
-      "value": "72",
+      "value": "74",
       "detail": "Allar taldar heimsóknir yfir virk mælaborð."
     },
     {
       "code": "mobile_share",
       "title": "Mobile hlutfall",
-      "value": "18.1%",
+      "value": "17.6%",
       "detail": "Hlutfall heimsókna sem fóru í mobile útgáfu."
     },
     {
@@ -5412,13 +5605,13 @@
     {
       "code": "confidence_health",
       "title": "Signal gæði",
-      "value": "11.9%",
+      "value": "11.6%",
       "detail": "Hlutfall veikra/óþekktra tækjamerkja í raw/aggregate gögnum."
     },
     {
       "code": "island_is_share",
       "title": "island.is uppruni",
-      "value": "83.3%",
+      "value": "83.8%",
       "detail": "Hlutfall heimsókna sem virðast koma af island.is opinberri síðu."
     },
     {
@@ -5430,7 +5623,7 @@
     {
       "code": "display_theme",
       "title": "Dark/forced signals",
-      "value": "33",
+      "value": "35",
       "detail": "Reported dark og forced-dark merki eru aðgreind."
     },
     {
@@ -5456,10 +5649,10 @@
     "hit": false,
     "cache_key": "dashboard_payload_v1_first_production",
     "cache_seconds": 300,
-    "served_at": "2026-06-22T07:55:37.611Z"
+    "served_at": "2026-06-22T08:31:42.471Z"
   },
   "schemaVersion": "1",
-  "generatedAt": "2026-06-22T07:53:32.955Z",
+  "generatedAt": "2026-06-22T08:27:40.591Z",
   "publicAggregateOnly": true,
   "aggregate_only": true,
   "data_source": "apps_script_snapshot",
@@ -5515,9 +5708,9 @@
     },
     {
       "date": "2026-06-22T00:00:00.000Z",
-      "total_visits": 1,
+      "total_visits": 3,
       "mobile_visits": 0,
-      "desktop_visits": 1,
+      "desktop_visits": 3,
       "warnings": 0
     }
   ]
