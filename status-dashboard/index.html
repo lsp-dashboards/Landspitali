@@ -21250,7 +21250,6 @@
             '<aside class="route-v6-proof-panel"><div class="route-v6-proof-head"><div><span>Sönnun per mælaborð</span><strong>Top production opnanir</strong></div><small>Útgáfuval og uppruni án þess að endurtelja heildina.</small></div><div class="route-v6-proof-list">' + proofRows + '</div></aside>' +
           '</section>' +
         '</article>');
-      bindStartV5StatusTooltips(byId("start-panel"));
     }
     function usagePeriodSummary(data, total) {
       var k = data.kpis || {};
@@ -22331,7 +22330,7 @@
         var value = number(row.value);
         var size = 62 + Math.sqrt(value / total) * 92;
         var tip = row.label + ": " + fmt(value) + " opnanir, " + pct(value, total) + " af sýndum áhrifagrunni.";
-        return '<div class="mega-bubble" style="--x:' + pos[0] + '%;--y:' + pos[1] + '%;--size:' + size.toFixed(1) + 'px"' + megaTipAttr(tip) + '><div class="mega-bubble-content"><strong>' + safe(megaShortLabel(row.label, 18)) + '</strong><span>' + fmt(value) + '</span><small>' + safe(pct(value, total)) + '</small></div></div>';
+        return '<div class="mega-bubble" style="--x:' + pos[0] + '%;--y:' + pos[1] + '%;--size:' + size.toFixed(1) + 'px"' + megaTipAttr(tip) + '><div class="mega-bubble-content"><strong class="mega-bubble-label">' + safe(megaShortLabel(row.label, 18)) + '</strong><span>' + fmt(value) + '</span><small>' + safe(pct(value, total)) + '</small></div></div>';
       }).join("");
       var legend = rows.map(function (row) {
         var value = number(row.value);
