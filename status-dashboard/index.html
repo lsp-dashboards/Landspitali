@@ -16258,6 +16258,945 @@
         text-align: left;
       }
     }
+    .section-kicker {
+      display: inline-flex;
+      margin: 0 0 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .section-orbit-head {
+      align-items: end;
+      border-bottom: 1px solid rgba(169,180,194,.32);
+      padding-bottom: 14px;
+    }
+
+    .dashboard-passport-shell,
+    .counting-health-section,
+    .diagnostic-passport-section {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      border-color: rgba(169,180,194,.7);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.94));
+    }
+
+    .dashboard-passport-shell::before,
+    .counting-health-section::before,
+    .diagnostic-passport-section::before,
+    .route-auto-section::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--data-01), var(--data-02), var(--data-03));
+      pointer-events: none;
+    }
+
+    .dashboard-passport-shell .dash-v2,
+    .dashboard-passport-shell .mega-dashboard-board {
+      gap: 12px;
+    }
+
+    .dashboard-passport-shell .dash-v2-hero,
+    .dashboard-passport-shell .dash-v2-main,
+    .dashboard-passport-shell .dash-v2-row,
+    .dashboard-passport-shell .dash-v2-context,
+    .dashboard-passport-shell .mega-dashboard-hero,
+    .dashboard-passport-shell .mega-dashboard-strip,
+    .dashboard-passport-shell .mega-dashboard-card {
+      border-radius: 8px;
+      border-color: rgba(169,180,194,.6);
+      box-shadow: none;
+    }
+
+    .route-auto-section {
+      border-radius: 16px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(242,248,250,.95));
+    }
+
+    .route-auto-section .route-auto-board {
+      border-radius: 8px;
+      border: 1px solid rgba(169,180,194,.5);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,251,253,.9));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.88);
+    }
+
+    .route-auto-section .route-scroll {
+      max-height: 560px;
+      scrollbar-color: var(--data-05) rgba(169,180,194,.18);
+    }
+
+    .route-auto-section .route-auto-summary {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .route-auto-section .route-auto-stat,
+    .route-auto-section .list-row.route-enhanced {
+      border-radius: 8px;
+      box-shadow: none;
+    }
+
+    .route-auto-section .list-row.route-enhanced.list-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(12px);
+      border-color: rgba(169,180,194,.44);
+    }
+
+    .diagnostic-support-layers {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(169,180,194,.36);
+    }
+
+    .diagnostic-support-head {
+      margin: 0;
+    }
+
+    .diagnostic-support-grid {
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .diagnostic-support-panel {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid rgba(169,180,194,.52);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,251,253,.9));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.84);
+    }
+
+    .diagnostic-support-panel-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(169,180,194,.28);
+    }
+
+    .diagnostic-support-panel-head span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: 0;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .diagnostic-support-panel-head strong {
+      color: var(--ink);
+      font-size: clamp(18px, 2vw, 26px);
+      font-weight: 950;
+      line-height: 1;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .diagnostic-support-panel .tracker-insight-board,
+    .diagnostic-support-panel .tracker-master-v3,
+    .diagnostic-support-panel .delivery-master-v3,
+    .diagnostic-support-panel .technical-layout,
+    .diagnostic-support-panel .delivery-board,
+    .diagnostic-support-panel .insight-grid {
+      min-width: 0;
+    }
+
+    .counting-health-board,
+    .diagnostic-passport-board {
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .counting-health-command,
+    .diagnostic-passport-hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(340px, .58fr);
+      gap: 18px;
+      align-items: stretch;
+      padding: 18px;
+      border: 1px solid rgba(169,180,194,.56);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(79,111,143,.1), rgba(47,143,139,.08) 48%, rgba(199,138,42,.08)),
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.94));
+    }
+
+    .counting-health-command::before,
+    .diagnostic-passport-hero::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--data-01), var(--data-02), var(--data-03));
+    }
+
+    .counting-health-copy,
+    .diagnostic-passport-copy {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      min-width: 0;
+    }
+
+    .counting-health-copy h3,
+    .diagnostic-passport-copy h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(30px, 4vw, 58px);
+      line-height: .96;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .counting-health-copy p,
+    .diagnostic-passport-copy p,
+    .diagnostic-passport-side p {
+      max-width: 78ch;
+      margin: 0;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 750;
+    }
+
+    .counting-health-proof,
+    .diagnostic-proof-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .counting-proof-card,
+    .diagnostic-proof-card {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+      min-height: 92px;
+      align-content: space-between;
+      padding: 12px;
+      border: 1px solid rgba(169,180,194,.52);
+      border-radius: 8px;
+      background: rgba(255,255,255,.82);
+    }
+
+    .counting-proof-card span,
+    .diagnostic-proof-card span,
+    .diagnostic-score-card span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .counting-proof-card strong,
+    .diagnostic-proof-card strong {
+      color: var(--ink);
+      font-size: clamp(24px, 2.5vw, 38px);
+      line-height: 1;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .counting-proof-card small,
+    .diagnostic-proof-card small,
+    .diagnostic-score-card small {
+      color: var(--text);
+      font-size: 11px;
+      line-height: 1.25;
+      font-weight: 760;
+    }
+
+    .counting-proof-card.good,
+    .diagnostic-proof-card.good { border-color: rgba(47,143,139,.28); background: var(--good-soft); }
+    .counting-proof-card.info,
+    .diagnostic-proof-card.info { border-color: rgba(53,153,184,.28); background: var(--info-soft); }
+    .counting-proof-card.warn,
+    .counting-proof-card.warning,
+    .diagnostic-proof-card.warn,
+    .diagnostic-proof-card.warning { border-color: rgba(199,138,42,.35); background: var(--warn-soft); }
+    .counting-proof-card.gateway,
+    .diagnostic-proof-card.gateway { border-color: rgba(111,127,146,.3); background: var(--gateway-soft); }
+
+    .counting-health-visual,
+    .diagnostic-passport-side {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+      align-content: stretch;
+    }
+
+    .counting-health-chart-card,
+    .diagnostic-score-card {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+      min-height: 100%;
+      padding: 14px;
+      border: 1px solid rgba(169,180,194,.56);
+      border-radius: 8px;
+      background: rgba(255,255,255,.72);
+    }
+
+    .diagnostic-chart-host {
+      width: 100%;
+      min-height: 230px;
+    }
+
+    .counting-health-module-grid,
+    .diagnostic-module-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .counting-health-module-grid .tracker-module,
+    .diagnostic-module-grid .tracker-module {
+      border-radius: 8px;
+      box-shadow: none;
+    }
+
+    .diagnostic-passport-hero.warning {
+      background:
+        linear-gradient(135deg, rgba(199,138,42,.15), rgba(47,143,139,.07) 48%, rgba(79,111,143,.1)),
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.94));
+    }
+
+    .diagnostic-score-card {
+      align-content: space-between;
+    }
+
+    .diagnostic-score-card strong {
+      color: var(--ink);
+      font-size: clamp(34px, 4vw, 62px);
+      line-height: 1;
+      font-weight: 950;
+    }
+
+    .diagnostic-score-track {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(169,180,194,.28);
+    }
+
+    .diagnostic-score-track i {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--data-02), var(--data-03));
+    }
+
+    .diagnostic-passport-lane {
+      display: grid;
+      grid-template-columns: minmax(360px, .82fr) minmax(0, 1.18fr);
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .diagnostic-alert-strip,
+    .diagnostic-priority-strip {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+      align-content: start;
+      padding: 14px;
+      border: 1px solid rgba(169,180,194,.56);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.92));
+    }
+
+    .diagnostic-strip-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .diagnostic-strip-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(18px, 1.7vw, 24px);
+      line-height: 1.06;
+      font-weight: 950;
+    }
+
+    .diagnostic-strip-head span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .diagnostic-alert-list,
+    .diagnostic-priority-list {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .diagnostic-alert-list .quality-alert-card,
+    .diagnostic-priority-list .tracker-insight-item {
+      border-radius: 8px;
+      box-shadow: none;
+    }
+
+    @media (max-width: 1080px) {
+      .counting-health-command,
+      .diagnostic-passport-hero,
+      .diagnostic-passport-lane {
+        grid-template-columns: 1fr;
+      }
+
+      .counting-health-proof,
+      .diagnostic-proof-grid,
+      .route-auto-section .route-auto-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .counting-health-module-grid,
+      .diagnostic-module-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .counting-health-command,
+      .diagnostic-passport-hero,
+      .counting-health-chart-card,
+      .diagnostic-score-card,
+      .diagnostic-alert-strip,
+      .diagnostic-priority-strip {
+        padding: 12px;
+      }
+
+      .counting-health-proof,
+      .diagnostic-proof-grid,
+      .route-auto-section .route-auto-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .diagnostic-chart-host {
+        min-height: 220px;
+      }
+    }
+
+    .dashboard-lens {
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .dashboard-lens-hero,
+    .dashboard-lens-workspace {
+      min-width: 0;
+      border: 1px solid rgba(169,180,194,.58);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,253,.94));
+      box-shadow: none;
+    }
+
+    .dashboard-lens-hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(360px, .86fr) minmax(420px, 1.14fr);
+      gap: 16px;
+      align-items: stretch;
+      padding: 18px;
+      border-color: rgba(79,111,143,.72);
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 100%),
+        linear-gradient(180deg, rgba(255,255,255,.04) 0 1px, transparent 1px 100%),
+        linear-gradient(90deg, rgba(53,153,184,.12), transparent 42%, rgba(199,138,42,.1)),
+        linear-gradient(135deg, rgba(14,48,73,.99), rgba(22,83,111,.96) 54%, rgba(11,39,60,.99));
+      background-size: 44px 44px, 44px 44px, auto, auto;
+    }
+
+    .dashboard-lens-hero::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--data-01), var(--data-02), var(--data-03));
+      pointer-events: none;
+    }
+
+    .dashboard-lens-hero > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .dashboard-lens-copy {
+      display: grid;
+      gap: 14px;
+      align-content: space-between;
+      min-width: 0;
+    }
+
+    .dashboard-lens-title {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .dashboard-lens-title h2 {
+      margin: 0;
+      color: #fff;
+      font-size: clamp(38px, 5vw, 76px);
+      line-height: .92;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .dashboard-lens-title p {
+      max-width: 72ch;
+      margin: 0;
+      color: rgba(236,246,250,.9);
+      font-size: 13px;
+      line-height: 1.48;
+      font-weight: 740;
+    }
+
+    .dashboard-lens-hero .section-kicker {
+      color: rgba(228,241,248,.72);
+    }
+
+    .dashboard-lens-metrics,
+    .dashboard-lens-cues {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .dashboard-lens-metric,
+    .dashboard-lens-cue,
+    .dashboard-lens-mini,
+    .dashboard-lens-proof {
+      min-width: 0;
+      display: grid;
+      gap: 5px;
+      align-content: space-between;
+      padding: 11px;
+      border: 1px solid rgba(169,180,194,.5);
+      border-radius: 8px;
+      background: rgba(255,255,255,.76);
+    }
+
+    .dashboard-lens-metric {
+      min-height: 92px;
+      background: rgba(255,255,255,.1);
+      border-color: rgba(198,222,235,.24);
+    }
+
+    .dashboard-lens-metric span,
+    .dashboard-lens-cue span,
+    .dashboard-lens-mini span,
+    .dashboard-lens-proof span,
+    .dashboard-lens-row-kicker,
+    .dashboard-lens-chart-head span,
+    .dashboard-lens-panel-head span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .dashboard-lens-metric strong,
+    .dashboard-lens-cue strong,
+    .dashboard-lens-mini strong,
+    .dashboard-lens-proof strong {
+      color: var(--ink);
+      font-size: clamp(18px, 1.6vw, 27px);
+      line-height: 1.02;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .dashboard-lens-metric span {
+      color: rgba(228,241,248,.74);
+    }
+
+    .dashboard-lens-metric strong {
+      color: #fff;
+      font-size: clamp(24px, 2.5vw, 42px);
+    }
+
+    .dashboard-lens-metric small,
+    .dashboard-lens-cue small,
+    .dashboard-lens-mini small,
+    .dashboard-lens-proof small,
+    .dashboard-lens-row small,
+    .dashboard-lens-note {
+      color: var(--text);
+      font-size: 11px;
+      line-height: 1.32;
+      font-weight: 700;
+    }
+
+    .dashboard-lens-metric small {
+      color: rgba(236,246,250,.86);
+    }
+
+    .dashboard-lens-hero .dashboard-lens-cue {
+      background: rgba(255,255,255,.88);
+      border-color: rgba(198,222,235,.46);
+    }
+
+    .dashboard-lens-cue.good,
+    .dashboard-lens-mini.good,
+    .dashboard-lens-proof.good { background: var(--good-soft); border-color: rgba(47,143,139,.28); }
+    .dashboard-lens-cue.info,
+    .dashboard-lens-mini.info,
+    .dashboard-lens-proof.info { background: var(--info-soft); border-color: rgba(53,153,184,.28); }
+    .dashboard-lens-cue.gateway,
+    .dashboard-lens-mini.gateway,
+    .dashboard-lens-proof.gateway { background: var(--gateway-soft); border-color: rgba(111,127,146,.3); }
+    .dashboard-lens-cue.warn,
+    .dashboard-lens-mini.warn,
+    .dashboard-lens-proof.warn { background: var(--warn-soft); border-color: rgba(199,138,42,.35); }
+    .dashboard-lens-cue.bad,
+    .dashboard-lens-mini.bad,
+    .dashboard-lens-proof.bad,
+    .dashboard-lens-cue.unknown,
+    .dashboard-lens-mini.unknown,
+    .dashboard-lens-proof.unknown { background: var(--warn-soft); border-color: rgba(199,138,42,.35); }
+
+    .dashboard-lens-chart-card {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid rgba(169,180,194,.56);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.97), rgba(245,250,252,.92));
+    }
+
+    .dashboard-lens-chart-head,
+    .dashboard-lens-panel-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .dashboard-lens-chart-head strong,
+    .dashboard-lens-panel-head strong {
+      color: var(--ink);
+      font-size: clamp(18px, 1.9vw, 28px);
+      line-height: 1.05;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .dashboard-portfolio-chart {
+      width: 100%;
+      min-height: 300px;
+    }
+
+    .dashboard-lens-chart-card.has-chart .dashboard-lens-map-fallback {
+      display: none;
+    }
+
+    .dashboard-lens-map-fallback,
+    .dashboard-lens-list,
+    .dashboard-lens-proof-grid {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .dashboard-lens-map-row {
+      display: grid;
+      grid-template-columns: minmax(130px, .35fr) minmax(0, 1fr) minmax(76px, auto);
+      gap: 10px;
+      align-items: center;
+      min-width: 0;
+      padding: 9px 10px;
+      border: 1px solid rgba(169,180,194,.38);
+      border-radius: 8px;
+      background: rgba(255,255,255,.7);
+    }
+
+    .dashboard-lens-map-row strong {
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.15;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .dashboard-lens-map-track,
+    .dashboard-lens-share-track {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(169,180,194,.26);
+    }
+
+    .dashboard-lens-map-track i,
+    .dashboard-lens-share-track i {
+      display: block;
+      width: var(--fill, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--data-02), var(--data-01));
+    }
+
+    .dashboard-lens-map-row.warn .dashboard-lens-map-track i,
+    .dashboard-lens-row.warn .dashboard-lens-share-track i {
+      background: linear-gradient(90deg, var(--data-03), var(--data-08));
+    }
+
+    .dashboard-lens-workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(330px, .58fr);
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+    }
+
+    .dashboard-lens-row {
+      display: grid;
+      grid-template-columns: 42px 42px minmax(0, 1fr) minmax(160px, .36fr);
+      gap: 12px;
+      align-items: center;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid rgba(169,180,194,.48);
+      border-radius: 8px;
+      background: rgba(255,255,255,.76);
+    }
+
+    .dashboard-lens-row.good {
+      box-shadow: inset 4px 0 0 rgba(47,143,139,.84);
+    }
+
+    .dashboard-lens-row.warn {
+      box-shadow: inset 4px 0 0 rgba(199,138,42,.9);
+      background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(249,242,229,.72));
+    }
+
+    .dashboard-lens-rank {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--data-01);
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .dashboard-lens-row img {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid rgba(169,180,194,.46);
+      background: rgba(255,255,255,.8);
+    }
+
+    .dashboard-lens-row-main {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .dashboard-lens-row-title {
+      color: var(--ink);
+      font-size: clamp(18px, 1.8vw, 29px);
+      line-height: 1.03;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .dashboard-lens-row-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .dashboard-lens-mini {
+      min-height: 66px;
+      padding: 8px;
+    }
+
+    .dashboard-lens-mini strong {
+      font-size: clamp(13px, 1.1vw, 17px);
+    }
+
+    .dashboard-lens-row-measure {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+      justify-items: stretch;
+    }
+
+    .dashboard-lens-share {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .dashboard-lens-share strong {
+      color: var(--ink);
+      font-size: clamp(24px, 2.5vw, 42px);
+      line-height: .95;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .dashboard-lens-share span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .dashboard-lens-inspector {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid rgba(169,180,194,.48);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(240,247,249,.78));
+    }
+
+    .dashboard-lens-proof-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-lens-brief {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .dashboard-lens-brief li {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 9px;
+      align-items: start;
+      min-width: 0;
+      padding: 9px;
+      border: 1px solid rgba(169,180,194,.42);
+      border-radius: 8px;
+      background: rgba(255,255,255,.68);
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1.34;
+      font-weight: 740;
+    }
+
+    .dashboard-lens-brief i {
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--data-02);
+      font-style: normal;
+      font-size: 11px;
+      font-weight: 950;
+    }
+
+    @media (max-width: 1180px) {
+      .dashboard-lens-hero,
+      .dashboard-lens-workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-lens-row {
+        grid-template-columns: 42px 42px minmax(0, 1fr);
+      }
+
+      .dashboard-lens-row-measure {
+        grid-column: 3;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .dashboard-lens-hero,
+      .dashboard-lens-workspace,
+      .dashboard-lens-chart-card,
+      .dashboard-lens-inspector {
+        padding: 12px;
+      }
+
+      .dashboard-lens-cues,
+      .dashboard-lens-row-strip,
+      .dashboard-lens-proof-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-lens-row {
+        grid-template-columns: 34px minmax(0, 1fr);
+      }
+
+      .dashboard-lens-row img {
+        display: none;
+      }
+
+      .dashboard-lens-row-main,
+      .dashboard-lens-row-measure {
+        grid-column: 2;
+      }
+
+      .dashboard-portfolio-chart {
+        min-height: 260px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -16304,18 +17243,51 @@
 
     <div id="notice" class="notice" role="status"></div>
 
-    <section class="panel route-auto-section" aria-labelledby="route-auto-title">
-      <div class="panel-head">
+    <section class="panel diagnostic-passport-section" aria-labelledby="diagnostic-passport-title">
+      <div id="diagnostic-passport-panel"></div>
+      <section class="diagnostic-support-layers" aria-labelledby="diagnostic-support-title">
+        <div class="panel-head section-orbit-head diagnostic-support-head">
+          <div>
+            <span class="section-kicker">Stoðlög rekstrarpassa</span>
+            <h2 id="diagnostic-support-title">Samhengi sem útskýrir stöðuna</h2>
+            <div class="panel-note">Rekstrarinnsýn, tæki/vafrar og afhendingarmerki eru varðveitt hér sem stoð undir sameinaða tracker- og gæðapassanum. Gæðaviðvaranir eru ekki sérblokk, þær eru sameinaðar í passanum sjálfum.</div>
+          </div>
+        </div>
+        <div class="diagnostic-support-grid">
+          <section class="diagnostic-support-panel diagnostic-support-panel-wide" aria-label="Rekstrarinnsýn">
+            <div class="diagnostic-support-panel-head">
+              <span>Rekstrarinnsýn</span>
+              <strong>Tracker sem heimild</strong>
+            </div>
+            <div class="insight-grid" id="insight-grid"></div>
+          </section>
+          <section class="diagnostic-support-panel" aria-label="Tæki og vafraumhverfi">
+            <div class="diagnostic-support-panel-head">
+              <span>Tæki og vafraumhverfi</span>
+              <strong>Vafri, tæki og traust</strong>
+            </div>
+            <div class="technical-layout" id="technical-panel"></div>
+          </section>
+          <section class="diagnostic-support-panel" aria-label="Afhending og tæknimerki">
+            <div class="diagnostic-support-panel-head">
+              <span>Afhending og tæknimerki</span>
+              <strong>Sending, skjár og payload</strong>
+            </div>
+            <div class="delivery-board" id="delivery-panel"></div>
+          </section>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel counting-health-section" aria-labelledby="counting-health-title">
+      <div class="panel-head section-orbit-head">
         <div>
-          <h2 id="route-auto-title">Sjálfvirk leiðing</h2>
-          <div class="panel-note">Fullbreidd rekstrarskrá yfir útgáfuval úr router: hvaða route-ástæða valdi mobile eða desktop, hvaða tæki/vafri fylgdi með og hversu margar taldar production heimsóknir liggja að baki.</div>
+          <span class="section-kicker">Talningarheilsa</span>
+          <h2 id="counting-health-title">Talningarheilsa</h2>
+          <div class="panel-note">Ein lesröð fyrir taldar framleiðsluheimsóknir, raw merki, ferskleika, flutning og fallback svo tölurnar séu skýrðar áður en gæði eru túlkuð.</div>
         </div>
       </div>
-      <div class="route-auto-board">
-        <div class="route-scroll">
-          <div class="list" id="route-list"></div>
-        </div>
-      </div>
+      <div id="counting-health-panel"></div>
     </section>
 
     <section class="panel charts-panel" id="echarts-panel" aria-label="ECharts" hidden>
@@ -16329,29 +17301,23 @@
       </div>
     </section>
 
-    <section class="panel dashboard-public-master mega-dashboard-shell" aria-label="Mælaborð">
+    <section class="panel route-auto-section" aria-labelledby="route-auto-title">
+      <div class="panel-head section-orbit-head">
+        <div>
+          <span class="section-kicker">Leiðingarpassi</span>
+          <h2 id="route-auto-title">Sjálfvirk leiðing</h2>
+          <div class="panel-note">Fullbreidd rekstrarskrá yfir útgáfuval úr router: hvaða regla valdi mobile eða desktop, hvaða tæki og vafri fylgdu með og hversu margar taldar framleiðsluheimsóknir liggja að baki.</div>
+        </div>
+      </div>
+      <div class="route-auto-board">
+        <div class="route-scroll">
+          <div class="list" id="route-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel dashboard-public-master mega-dashboard-shell dashboard-passport-shell" aria-label="Mælaborðspassi">
       <div id="dashboard-public-master"></div>
-    </section>
-
-    <section class="panel route-source-master" aria-label="Leiðing og uppruni" hidden>
-      <div class="split-panel" id="layout-source-panel"></div>
-    </section>
-
-    <section class="panel" aria-label="Rekstrarinnsýn">
-      <div class="insight-grid" id="insight-grid"></div>
-    </section>
-
-    <section class="panel" aria-label="Tæki og vafraumhverfi">
-      <div class="technical-layout" id="technical-panel"></div>
-    </section>
-
-    <section class="panel delivery-shell" aria-label="Tæknimerki til skoðunar">
-      <div class="delivery-board" id="delivery-panel"></div>
-    </section>
-
-    <section class="panel warning-panel" aria-labelledby="warnings-title">
-      <div class="panel-head"><div><h2 id="warnings-title">Gæðaviðvaranir</h2><div class="panel-note">Staðfest production vandamál eru sýnd sem viðvaranir. Óstaðfest, informational og diagnostic/test merki eru aðskilin og hækka ekki viðvörunarstöðu.</div></div></div>
-      <div class="list" id="warning-list"></div>
     </section>
 
     <p class="footer">Persónuvernd: Engin nöfn, netföng, kennitölur, raw IP, raw user-agent texti eða Power BI innri gögn eru birt. Síðan birtir eingöngu aggregate/status gögn úr Google Apps Script endpointi, notar örugga HTML-escaping við birtingu og aðgreinir gateway, raw og diagnostic merki frá töldum heimsóknum.</p>
@@ -19144,74 +20110,202 @@
       var className = cls ? " " + safe(cls) : "";
       return '<article class="dash-v2-context-card' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></article>';
     }
-    function dashV2DashboardRow(data, dashboard, totalVisits, index) {
+    function dashboardLensCue(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="dashboard-lens-cue' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function dashboardLensMetric(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="dashboard-lens-metric' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function dashboardLensMini(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<div class="dashboard-lens-mini' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></div>';
+    }
+    function dashboardLensProof(label, value, detail, cls) {
+      var className = cls ? " " + safe(cls) : "";
+      return '<article class="dashboard-lens-proof' + className + '"><span>' + safe(label) + '</span><strong>' + safe(value || "-") + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function dashboardLensBrief(index, text) {
+      return '<li><i>' + safe(index) + '</i><span>' + safe(text || "") + '</span></li>';
+    }
+    function dashboardLensRows(data) {
+      data = data || {};
       var cards = publicMap(data);
-      var card = findPublicCardForDashboard(data, dashboard);
-      var total = visitValue(dashboard);
-      var status = publicCardStatus(card);
-      var statusClass = status.cls || "gateway";
-      var tracker = dashboardDeviceContext(data, dashboard) || "engin tracker";
-      var age = ageInfo(dashboardLastCountedTime(dashboard));
-      var lastTime = dashboardLastCountedTime(dashboard);
-      var warningCount = number(firstValue(dashboard, ["confirmed_warning_count", "production_warning_count", "warning_count"]));
-      var today = number(dashboard.visits_today);
-      return '<article class="dash-v2-row ' + safe(statusClass) + '">' +
-        '<div class="dash-v2-rank">' + safe(String(index + 1).padStart(2, "0")) + '</div>' +
-        '<img src="' + safe(iconFor(dashboard, cards)) + '" alt="">' +
-        '<div class="dash-v2-row-title"><span class="dash-v2-row-kicker">' + safe(status.label || "Kort") + '</span><strong>' + safe(titleFor(dashboard, cards)) + '</strong><small>' + safe(status.detail || cleanId(dashboard.dashboard_id || dashboard.dashboard_key)) + '</small></div>' +
-        '<div class="dash-v2-count"><strong>' + fmt(total) + '</strong><small>' + safe(pct(total, Math.max(totalVisits, 1))) + ' af heild</small></div>' +
-        '<div class="dash-v2-facts">' +
-          dashV2Fact("Í dag", fmt(today), today ? "ný virkni" : "engin ný virkni", today ? "good" : "gateway") +
-          dashV2Fact("Síðast", age.label, lastTime ? dateShort(lastTime) : "engin talin opnun", age.className || "gateway") +
-          dashV2Fact("Tracker", tracker, warningCount ? fmt(warningCount) + " merki þarf að skoða" : "engin staðfest villa", warningCount ? "warn" : "good") +
-        '</div>' +
+      var dashboards = visibleRows(data.dashboards || []).sort(function (a, b) { return visitValue(b) - visitValue(a); });
+      var totalVisits = Math.max(sumRows(dashboards), 1);
+      return dashboards.map(function (dashboard, index) {
+        var card = findPublicCardForDashboard(data, dashboard);
+        var total = visitValue(dashboard);
+        var age = ageInfo(dashboardLastCountedTime(dashboard));
+        var lastTime = dashboardLastCountedTime(dashboard);
+        var status = publicCardStatus(card);
+        var warningCount = number(firstValue(dashboard, ["confirmed_warning_count", "production_warning_count", "warning_count"]));
+        var layout = dashboardLayoutContext(data, dashboard);
+        var source = dashboardSourceContext(data, dashboard);
+        var tracker = dashboardDeviceContext(data, dashboard) || "engin tracker";
+        var dominantLayout = layout.desktop >= layout.mobile ? "Desktop" : "Mobile";
+        var dominantSource = source.island >= source.direct && source.island >= source.other ? "island.is" : source.direct >= source.other ? "Beint" : "Annað";
+        var share = total / totalVisits * 100;
+        var rowClass = warningCount ? "warn" : (status.cls === "good" && age.className === "good" ? "good" : status.cls || "gateway");
+        return {
+          dashboard: dashboard,
+          index: index,
+          title: titleFor(dashboard, cards),
+          id: cleanId(dashboard.dashboard_id || dashboard.dashboard_key),
+          icon: iconFor(dashboard, cards),
+          total: total,
+          share: share,
+          shareLabel: formatIcelandicNumber(share, 1) + "%",
+          fill: clamp(share, total > 0 ? 5 : 0, 100).toFixed(1) + "%",
+          today: number(dashboard.visits_today),
+          days30: number(firstValue(dashboard, ["visits_30d", "visits_30_days", "visits30d"])),
+          age: age,
+          lastTime: lastTime,
+          status: status,
+          warningCount: warningCount,
+          layout: layout,
+          source: source,
+          tracker: tracker,
+          dominantLayout: dominantLayout,
+          dominantSource: dominantSource,
+          rowClass: rowClass
+        };
+      });
+    }
+    function dashboardLensMapRow(row) {
+      return '<div class="dashboard-lens-map-row ' + safe(row.rowClass) + '"><strong>' + safe(row.title) + '</strong><div class="dashboard-lens-map-track"><i style="--fill:' + safe(row.fill) + '"></i></div><span class="chip ' + safe(row.warningCount ? "warn" : "good") + '">' + safe(row.shareLabel) + '</span></div>';
+    }
+    function dashboardLensRowHtml(row) {
+      var lastDetail = row.lastTime ? dateShort(row.lastTime) : "engin talin opnun";
+      var qualityText = row.warningCount ? fmt(row.warningCount) + " merki" : "hreint";
+      var qualityDetail = row.warningCount ? "skoða í gæðapassa" : "engin staðfest villa";
+      return '<article class="dashboard-lens-row ' + safe(row.rowClass) + '">' +
+        '<div class="dashboard-lens-rank">' + safe(String(row.index + 1).padStart(2, "0")) + '</div>' +
+        '<img src="' + safe(row.icon) + '" alt="">' +
+        '<div class="dashboard-lens-row-main"><div><span class="dashboard-lens-row-kicker">' + safe(row.status.label || "Kort") + '</span><div class="dashboard-lens-row-title">' + safe(row.title) + '</div><small>' + safe(row.id) + '</small></div>' +
+          '<div class="dashboard-lens-row-strip">' +
+            dashboardLensMini("Virkni", fmt(row.today), "30 dagar " + fmt(row.days30), row.today ? "good" : "gateway") +
+            dashboardLensMini("Ferskleiki", row.age.label, lastDetail, row.age.className || "gateway") +
+            dashboardLensMini("Leiðing", row.dominantLayout, row.layout.topRoute, row.layout.forced ? "warn" : "info") +
+            dashboardLensMini("Uppruni", row.dominantSource, "island.is " + safe(pct(row.source.island, row.source.total)), row.source.island ? "good" : "gateway") +
+            dashboardLensMini("Gæði", qualityText, qualityDetail, row.warningCount ? "warn" : "good") +
+          '</div></div>' +
+        '<div class="dashboard-lens-row-measure"><div class="dashboard-lens-share"><strong>' + safe(row.shareLabel) + '</strong><span>hlutdeild</span></div><div class="dashboard-lens-share-track"><i style="--fill:' + safe(row.fill) + '"></i></div><small>' + safe(row.tracker) + '</small></div>' +
       '</article>';
+    }
+    function renderDashboardPortfolioChart(data) {
+      var card = byId("dashboard-lens-chart-card");
+      var chart = initStatusChart("dashboard-portfolio-chart");
+      if (!chart) return;
+      var rows = dashboardLensRows(data).slice(0, 8);
+      if (!rows.length) return;
+      if (card) card.classList.add("has-chart");
+      chart.setOption({
+        animation: false,
+        color: [cssVar("--data-02", "#2F8F8B")],
+        grid: { left: 10, right: 80, top: 14, bottom: 22, containLabel: true },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: { type: "shadow" },
+          formatter: function (items) {
+            var item = items && items[0];
+            var row = rows[item ? item.dataIndex : 0] || rows[0];
+            return '<strong>' + safe(row.title) + '</strong><br>Hlutdeild: ' + safe(row.shareLabel) + '<br>Ferskleiki: ' + safe(row.age.label) + '<br>Gæði: ' + safe(row.warningCount ? fmt(row.warningCount) + " merki" : "hreint");
+          }
+        },
+        xAxis: {
+          type: "value",
+          min: 0,
+          max: 100,
+          axisLabel: { color: chartMutedColor(), fontWeight: 800, formatter: function (value) { return formatIcelandicNumber(value, 0) + "%"; } },
+          splitLine: { lineStyle: { color: cssVar("--line-soft", "#e6edf3") } }
+        },
+        yAxis: {
+          type: "category",
+          inverse: true,
+          data: rows.map(function (row) { return row.title; }),
+          axisLabel: { color: chartTextColor(), fontWeight: 900, width: 168, overflow: "truncate" },
+          axisTick: { show: false },
+          axisLine: { show: false }
+        },
+        series: [{
+          type: "bar",
+          barWidth: 18,
+          data: rows.map(function (row) {
+            return {
+              value: row.share,
+              itemStyle: {
+                borderRadius: [0, 8, 8, 0],
+                color: row.warningCount ? cssVar("--data-03", "#C78A2A") : cssVar("--data-02", "#2F8F8B")
+              }
+            };
+          }),
+          label: {
+            show: true,
+            position: "right",
+            color: chartTextColor(),
+            fontWeight: 950,
+            formatter: function (params) {
+              var row = rows[params.dataIndex];
+              return row ? row.shareLabel + " · " + row.age.label : "";
+            }
+          }
+        }]
+      });
     }
     function renderDashboardPublicMasterV2(data) {
       data = data || {};
       var cards = data.public_cards || [];
-      var dashboards = visibleRows(data.dashboards || []);
-      var sortedDashboards = dashboards.slice().sort(function (a, b) { return visitValue(b) - visitValue(a); });
-      var totalVisits = sumRows(dashboards);
-      var todayTotal = dashboards.reduce(function (acc, row) { return acc + number(row.visits_today); }, 0);
+      var rows = dashboardLensRows(data);
+      var totalVisits = rows.reduce(function (acc, row) { return acc + row.total; }, 0);
+      var todayTotal = rows.reduce(function (acc, row) { return acc + row.today; }, 0);
       var sevenDayTotal = number(firstValue(data.kpis || {}, ["visits_7d", "visits_7_days", "visits7d"]));
       if (!sevenDayTotal) {
-        sevenDayTotal = dashboards.reduce(function (acc, row) {
+        sevenDayTotal = visibleRows(data.dashboards || []).reduce(function (acc, row) {
           return acc + number(firstValue(row, ["visits_7d", "visits_7_days", "visits7d"]));
         }, 0);
       }
-      var model = opsModel(data);
-      var publicTotal = cards.length || dashboards.length || 0;
+      var publicTotal = cards.length || rows.length || 0;
       var published = cards.filter(function (card) { return publicCardStatus(card).label === "Birt"; }).length;
       var draftOrTest = cards.filter(function (card) {
         var status = publicCardStatus(card);
         return status.label === "Drög" || status.label === "Próf";
       }).length;
-      var top = sortedDashboards[0];
-      var newest = dashboards.slice().sort(function (a, b) { return new Date(dashboardLastCountedTime(b) || 0) - new Date(dashboardLastCountedTime(a) || 0); })[0];
-      var newestAge = newest ? ageInfo(dashboardLastCountedTime(newest)) : null;
-      var warningCount = model.warningSplit && model.warningSplit.confirmed ? model.warningSplit.confirmed.length : 0;
-      var topTitle = top ? titleFor(top, publicMap(data)) : "-";
-      var topShare = top ? pct(visitValue(top), Math.max(totalVisits, 1)) : "0%";
-      var dashboardHtml = sortedDashboards.map(function (dashboard, index) { return dashV2DashboardRow(data, dashboard, totalVisits, index); }).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engar taldar production heimsóknir í dashboard aggregate.</p></div>';
+      var top = rows[0];
+      function ageSortValue(row) { return isFinite(row.age.minutes) ? row.age.minutes : Number.MAX_SAFE_INTEGER; }
+      var newest = rows.slice().sort(function (a, b) { return ageSortValue(a) - ageSortValue(b); })[0];
+      var warningRows = rows.filter(function (row) { return row.warningCount > 0; });
+      var chartFallback = rows.slice(0, 8).map(dashboardLensMapRow).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Dashboard aggregate skilaði engri talinni línu.</p></div>';
+      var listHtml = rows.map(dashboardLensRowHtml).join("") || '<div class="message-card neutral"><strong>Engin mælaborðsgögn</strong><p>Engar taldar framleiðsluheimsóknir í dashboard aggregate.</p></div>';
+      var lead = top ? top.title + " ber safnið núna; lesið hlutdeild, ferskleika og gæðamerki saman áður en farið er í route eða talningarheilsa." : "Safnið birtist hér þegar dashboard aggregate skilar töldum opnunum.";
+      var firstBrief = top ? top.title + " er ráðandi kort í safninu með " + top.shareLabel + " hlutdeild; þetta er samanburðargrunnur, ekki ný heildartala." : "Engin ráðandi kortalína er til í þessari keyrslu.";
+      var secondBrief = newest ? "Ferskasta merkið kemur frá " + newest.title + " (" + newest.age.label + "), sem segir hvaða kort er best sem smoke-test eftir breytingu." : "Ferskleiki birtist þegar síðasta talda opnun fylgir payload.";
+      var thirdBrief = warningRows.length ? fmt(warningRows.length) + " mælaborð bera staðfest gæðamerki; þau eru vísað áfram í gæðapassa í stað þess að tvítelja hér." : "Engin mælaborðslína ber staðfesta gæðaviðvörun í þessum lestri.";
       setHtml("dashboard-public-master",
-        '<div class="dashboard-v2">' +
-          '<section class="dash-v2-hero" aria-label="Mælaborðasafn">' +
-            '<div class="dash-v2-story"><div><span class="dash-v2-kicker">Mælaborðasafn</span><h2>Mælaborð</h2><p>Portfolio kortið sýnir hvaða opinberu mælaborð bera notkunina, hversu ný talningin er og hvaða tracker merki þarf að lesa áður en brugðist er við.</p></div><div class="dash-v2-metrics">' +
-              dashV2Metric("Samtals notkun", fmt(totalVisits), "taldar production opnanir", "good") +
-              dashV2Metric("Í dag", fmt(todayTotal), "opnanir skráðar", todayTotal ? "good" : "gateway") +
-              dashV2Metric("7 dagar", fmt(sevenDayTotal), "síðustu sjö dagar", sevenDayTotal ? "info" : "gateway") +
-              dashV2Metric("Kort í rekstri", fmt(published) + "/" + fmt(publicTotal), draftOrTest ? fmt(draftOrTest) + " í próf/drögum" : "opinbert safn", draftOrTest ? "warn" : "info") +
+        '<div class="dashboard-lens">' +
+          '<section class="dashboard-lens-hero" aria-label="Mælaborðspassi">' +
+            '<div class="dashboard-lens-copy"><div class="dashboard-lens-title"><span class="section-kicker">Mælaborðspassi</span><h2>Safnið í rekstrarlestri</h2><p>' + safe(lead) + '</p></div><div class="dashboard-lens-metrics">' +
+              dashboardLensMetric("Samtals", fmt(totalVisits), "taldar opnanir", "good") +
+              dashboardLensMetric("Í dag", fmt(todayTotal), "ný virkni", todayTotal ? "good" : "gateway") +
+              dashboardLensMetric("7 dagar", fmt(sevenDayTotal), "gluggi", sevenDayTotal ? "info" : "gateway") +
+              dashboardLensMetric("Kort í rekstri", fmt(published) + "/" + fmt(publicTotal), draftOrTest ? fmt(draftOrTest) + " í próf/drögum" : "opinbert safn", draftOrTest ? "warn" : "info") +
+            '</div><div class="dashboard-lens-cues">' +
+              dashboardLensCue("Mest ber", top ? top.title : "-", top ? top.shareLabel + " af safni" : "engin talin opnun", "good") +
+              dashboardLensCue("Ferskast", newest ? newest.title : "-", newest ? newest.age.label : "vantar tíma", newest ? newest.age.className : "gateway") +
+              dashboardLensCue("Birting", fmt(published) + "/" + fmt(publicTotal), draftOrTest ? fmt(draftOrTest) + " í próf/drögum" : "opinbert safn", draftOrTest ? "warn" : "info") +
+              dashboardLensCue("Gæðamerki", warningRows.length ? fmt(warningRows.length) + " kort" : "hreint", warningRows.length ? "sjá gæðapassa" : "engin staðfest villa", warningRows.length ? "warn" : "good") +
             '</div></div>' +
+            '<div class="dashboard-lens-chart-card" id="dashboard-lens-chart-card"><div class="dashboard-lens-chart-head"><div><span>Hlutdeild safns</span><strong>Hvaða mælaborð ber notkunina?</strong></div><span class="chip neutral">hlutdeild + ferskleiki</span></div><div id="dashboard-portfolio-chart" class="dashboard-portfolio-chart" role="img" aria-label="Hlutdeild mælaborða í notkunarsafni"></div><div class="dashboard-lens-map-fallback">' + chartFallback + '</div></div>' +
           '</section>' +
-          '<section class="dash-v2-main" aria-label="Mælaborð og samhengi">' +
-            '<div class="dash-v2-row-list">' + dashboardHtml + '</div>' +
-            '<aside class="dash-v2-context"><div class="dash-v2-panel-head"><span>Lestrarröð</span><strong>' + safe(topTitle) + '</strong></div><p class="dash-v2-note">Mest lesna kortið ber ' + safe(topShare) + ' af mælaborðanotkun. Röðin hér notar sömu stærðargráðu í hverri línu: notkun, ferskleika, birtingarstöðu og staðfest gæði.</p><div class="dash-v2-context-grid">' +
-              dashV2Context("Ráðandi kort", topTitle, top ? fmt(visitValue(top)) + " opnanir · " + topShare : "engin talin opnun", "good") +
-              dashV2Context("Gæði", warningCount ? fmt(warningCount) + " merki" : "hreint", warningCount ? "staðfest þarf að skoða" : "engin staðfest viðvörun", warningCount ? "warn" : "good") +
-              dashV2Context("Nýjast", newest ? titleFor(newest, publicMap(data)) : "-", newestAge ? newestAge.label : "engin gögn", newestAge ? newestAge.className : "gateway") +
-              dashV2Context("Birting", fmt(published) + "/" + fmt(publicTotal), draftOrTest ? fmt(draftOrTest) + " í próf/drögum" : "í rekstri", draftOrTest ? "warn" : "info") +
-            '</div></aside>' +
+          '<section class="dashboard-lens-workspace" aria-label="Mælaborð og lestrarröð">' +
+            '<div class="dashboard-lens-list"><div class="dashboard-lens-panel-head"><div><span>Mælaborð í safni</span><strong>Röðun eftir hlutdeild</strong></div><span class="chip neutral">' + fmt(rows.length) + ' virk</span></div>' + listHtml + '</div>' +
+            '<aside class="dashboard-lens-inspector"><div class="dashboard-lens-panel-head"><div><span>Lesa safnið</span><strong>Ályktun án tvítalningar</strong></div></div><div class="dashboard-lens-proof-grid">' +
+              dashboardLensProof("Ráðandi kort", top ? top.title : "-", top ? top.shareLabel + " hlutdeild" : "engin opnun", "good") +
+              dashboardLensProof("Smoke-test", newest ? newest.title : "-", newest ? newest.age.label : "vantar tíma", newest ? newest.age.className : "gateway") +
+              dashboardLensProof("Opinber birting", fmt(published) + "/" + fmt(publicTotal), draftOrTest ? fmt(draftOrTest) + " ekki full staðfest" : "allt í rekstri", draftOrTest ? "warn" : "info") +
+              dashboardLensProof("Gæðapassi", warningRows.length ? fmt(warningRows.length) + " kort" : "hreint", warningRows.length ? "forgangur neðar" : "engin staðfest villa", warningRows.length ? "warn" : "good") +
+            '</div><ul class="dashboard-lens-brief">' + dashboardLensBrief("01", firstBrief) + dashboardLensBrief("02", secondBrief) + dashboardLensBrief("03", thirdBrief) + '</ul></aside>' +
           '</section>' +
         '</div>');
     }
@@ -19866,15 +20960,9 @@
       disposeStatusCharts();
       if (panel) panel.hidden = true;
       if (!window.echarts) return;
-      if (panel) panel.hidden = false;
       renderStartV5FlowChart(data);
-      renderRouteMatrixChart(data);
-      renderGatewayFunnelChart(data);
-      renderLayoutSplitChart(data);
-      renderBrowserDeviceHeatmapChart(data);
-      renderViewerRiskChart(data);
-      renderConfidenceChart(data);
-      renderTrendChart(data);
+      renderDashboardPortfolioChart(data);
+      renderCountingHealthChart(data);
     }
     window.addEventListener("resize", function () {
       window.clearTimeout(statusChartResizeTimer);
@@ -20833,6 +21921,157 @@
       '</div>';
     }
 
+    function countingProofCard(label, value, detail, status) {
+      return '<article class="counting-proof-card ' + safe(trackerStatusClass(status)) + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function diagnosticProofCard(label, value, detail, status) {
+      return '<article class="diagnostic-proof-card ' + safe(trackerStatusClass(status)) + '"><span>' + safe(label) + '</span><strong>' + safe(value) + '</strong><small>' + safe(detail || "") + '</small></article>';
+    }
+    function renderCountingHealthPanel(data) {
+      data = data || {};
+      var k = data.kpis || {};
+      var split = splitWarnings(data);
+      var counted = number(firstValue(k, ["total_counted_visits", "counted_visits", "total_visits"])) || sumRows(visibleRows(data.dashboards || []));
+      var raw = number(firstValue(k, ["raw_events", "total_events", "total_raw_events", "raw_signal_events"]));
+      var diagnostic = number(firstValue(k, ["diagnostic_events", "diagnostic_signal_count", "diagnostic_signals"]));
+      var confirmed = number(firstValue(k, ["confirmed_warning_count", "confirmed_warnings", "warning_count"]));
+      if (!confirmed) confirmed = split.confirmed.reduce(function (acc, row) { return acc + Math.max(countWarnings(row), 1); }, 0);
+      var excluded = Math.max(0, raw - counted);
+      var countedTime = latestCountedEventTime(data);
+      var modules = [
+        deriveCountingIntegrity(data),
+        deriveFreshnessInsights(data),
+        deriveTransportHealthInsights(data),
+        deriveFallbackRescueInsights(data)
+      ];
+      modules[0].title = "Talning og reconciliation";
+      modules[1].title = "Ferskleiki gagna";
+      modules[2].title = "Flutningur merkja";
+      modules[3].title = "Fallback og björgun";
+      modules.forEach(function (module) {
+        module.insightLimit = 1;
+        module.barLimit = 5;
+      });
+      var status = confirmed ? "warning" : modules.reduce(function (current, module) {
+        return current === "warning" || module.status === "warning" ? "warning" : current === "watch" || module.status === "watch" ? "watch" : current;
+      }, counted ? "good" : "watch");
+      var html = '<div class="counting-health-board">' +
+        '<section class="counting-health-command ' + safe(trackerStatusClass(status)) + '">' +
+          '<div class="counting-health-copy"><span class="section-kicker">Talningarheilsa</span><h3>Frá hráu merki að staðfestri tölu</h3><p>Þetta er rekstrargrunnurinn áður en gæðamerki eru metin: taldar opnanir standa sér, raw og diagnostic eru sýnd utan talningar og ferskleiki segir hvort stöðugögnin séu nothæf.</p>' +
+            '<div class="counting-health-proof">' +
+              countingProofCard("Taldar opnanir", fmt(counted), "framleiðsluheimsóknir", counted ? "good" : "watch") +
+              countingProofCard("Raw merki", fmt(raw), "rekstrarmerki", raw ? "info" : "unknown") +
+              countingProofCard("Utan talningar", fmt(excluded), "raw mínus taldar", excluded ? "gateway" : "good") +
+              countingProofCard("Síðast talið", countedTime ? ageInfo(countedTime).label : "vantar", countedTime ? dateShort(countedTime) : "engin production opnun", countedTime ? "good" : "watch") +
+            '</div></div>' +
+          '<div class="counting-health-visual"><div class="counting-health-chart-card"><span class="section-kicker">Talningarmynd</span><div id="counting-health-chart" class="diagnostic-chart-host" aria-label="Talningarheilsa myndrit"></div><p>Talin notkun er sett við hlið merkja sem eiga ekki að hækka heimsóknartöluna. Viðvaranir eru lesnar sem rekstrarmerki, ekki sem nýjar heimsóknir.</p></div></div>' +
+        '</section>' +
+        '<div class="counting-health-module-grid">' + modules.map(trackerModuleHtml).join("") + '</div>' +
+      '</div>';
+      setHtml("counting-health-panel", html);
+    }
+    function renderCountingHealthChart(data) {
+      var chart = initStatusChart("counting-health-chart");
+      if (!chart) return;
+      var k = data.kpis || {};
+      var split = splitWarnings(data || {});
+      var counted = number(firstValue(k, ["total_counted_visits", "counted_visits", "total_visits"])) || sumRows(visibleRows(data.dashboards || []));
+      var raw = number(firstValue(k, ["raw_events", "total_events", "total_raw_events", "raw_signal_events"]));
+      var diagnostic = number(firstValue(k, ["diagnostic_events", "diagnostic_signal_count", "diagnostic_signals"]));
+      var confirmed = number(firstValue(k, ["confirmed_warning_count", "confirmed_warnings", "warning_count"]));
+      if (!confirmed) confirmed = split.confirmed.reduce(function (acc, row) { return acc + Math.max(countWarnings(row), 1); }, 0);
+      var excluded = Math.max(0, raw - counted);
+      chart.setOption({
+        animation: false,
+        grid: { left: 8, right: 58, top: 10, bottom: 8, containLabel: true },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: { type: "shadow" },
+          valueFormatter: function (value) { return fmt(value); }
+        },
+        xAxis: {
+          type: "value",
+          axisLabel: { color: chartMutedColor(), fontWeight: 800, formatter: function (value) { return fmt(value); } },
+          splitLine: { lineStyle: { color: cssVar("--line-soft", "#e6edf3") } }
+        },
+        yAxis: {
+          type: "category",
+          inverse: true,
+          data: ["Talið", "Utan talningar", "Diagnostic", "Viðvörun"],
+          axisLabel: { color: cssVar("--ink", "#102336"), fontWeight: 900 }
+        },
+        series: [{
+          type: "bar",
+          barWidth: 16,
+          data: [
+            { value: counted, itemStyle: { color: cssVar("--data-02", "#2F8F8B") } },
+            { value: excluded, itemStyle: { color: cssVar("--data-05", "#6F7F92") } },
+            { value: diagnostic, itemStyle: { color: cssVar("--data-09", "#3599B8") } },
+            { value: confirmed, itemStyle: { color: cssVar("--data-03", "#C78A2A") } }
+          ],
+          label: {
+            show: true,
+            position: "right",
+            color: cssVar("--ink", "#102336"),
+            fontWeight: 950,
+            formatter: function (params) { return fmt(params.value); }
+          }
+        }]
+      });
+    }
+    function renderDiagnosticPassport(data) {
+      data = data || {};
+      var k = data.kpis || {};
+      var split = splitWarnings(data);
+      var confirmed = split.confirmed.length;
+      var allWarnings = split.confirmed.concat(split.unconfirmed, split.info, split.diagnostic);
+      var confirmedSignals = split.confirmed.reduce(function (acc, row) { return acc + Math.max(countWarnings(row), 1); }, 0);
+      var weakShare = k.weak_unknown_signal_share !== undefined ? number(k.weak_unknown_signal_share) : (number(k.weak_unknown_signal_count) / Math.max(number(k.total_events), 1));
+      var total = number(firstValue(k, ["total_counted_visits", "counted_visits", "total_visits"])) || sumRows(visibleRows(data.dashboards || []));
+      var modules = [
+        deriveGatewayFunnelInsights(data),
+        deriveDeviceConfidenceInsights(data),
+        deriveBrowserViewerRiskInsights(data),
+        deriveUnusualDeviceContextInsights(data),
+        deriveDisplayEnvironmentInsights(data),
+        deriveInputContextInsights(data),
+        deriveOperatorQuestions(data)
+      ];
+      modules.forEach(function (module) {
+        module.insightLimit = 1;
+        module.barLimit = 5;
+      });
+      var allInsights = [];
+      modules.forEach(function (module) {
+        (module.insights || []).forEach(function (insight) { allInsights.push(insight); });
+      });
+      var ranked = rankRisksByOperationalImpact(allInsights).slice(0, 6);
+      var actionRows = allWarnings.slice(0, 6);
+      var status = confirmed ? "warning" : (ranked[0] ? ranked[0].status : "good");
+      var riskScore = clamp((confirmed * 24) + (split.unconfirmed.length * 10) + (split.info.length * 4) + (split.diagnostic.length * 2) + (weakShare * 100), 0, 100);
+      var warningCopy = confirmed ? "Staðfest framleiðslugæðamerki eru sett í sömu rekstrarsýn og tracker samhengi svo næsta skoðun sé skýr." : "Engin staðfest framleiðsluviðvörun. Info og diagnostic haldast sýnileg sem rótargreining, en hækka ekki rekstrarstöðu.";
+      var alertHtml = actionRows.length ? actionRows.map(function (row) { return qualityActionCard(row, classifyWarning(row)); }).join("") : '<div class="message-card good"><strong>Engin gæðamerki í forgangi</strong><p>Gæðapayload skilar engu sem þarf að setja í aðgerð núna.</p></div>';
+      var priorityHtml = ranked.length ? ranked.map(trackerInsightHtml).join("") : '<div class="message-card good"><strong>Engin rekstrarfrávik raðast ofarlega</strong><p>Tracker-samantekt skilar ekki áhættumerkjum í þessari keyrslu.</p></div>';
+      var html = '<div class="diagnostic-passport-board">' +
+        '<section class="diagnostic-passport-hero ' + safe(trackerStatusClass(status)) + '">' +
+          '<div class="diagnostic-passport-copy"><span class="section-kicker">Rekstrar- og gæðapassi</span><h2 id="diagnostic-passport-title">Trackerinn er rekstrarheimild</h2><p>Þessi lokasýn sameinar tæknisamhengi, route, tæki, skjá, inntak og gæðaviðvaranir. Markmiðið er að svara einni spurningu: hvaða merki breyta rekstrarstöðu og hvaða merki skýra hana?</p>' +
+            '<div class="diagnostic-proof-grid">' +
+              diagnosticProofCard("Talin notkun", fmt(total), "grunnur rekstrarstöðu", total ? "good" : "watch") +
+              diagnosticProofCard("Tracker samhengi", fmt(modules.length), "rekstrarflokkar", "info") +
+              diagnosticProofCard("Staðfest gæði", fmt(confirmedSignals || confirmed), "framleiðslumerki", confirmed ? "warning" : "good") +
+              diagnosticProofCard("Diagnostic", fmt(split.info.length + split.diagnostic.length), "utan heimsókna", split.info.length + split.diagnostic.length ? "info" : "good") +
+            '</div></div>' +
+          '<aside class="diagnostic-passport-side"><div class="diagnostic-score-card"><span>Gæðaviðvaranir</span><strong>' + fmt(confirmedSignals || confirmed) + '</strong><small>' + safe(warningCopy) + '</small><div class="diagnostic-score-track" aria-hidden="true"><i style="--fill:' + safe(riskScore.toFixed(1)) + '%"></i></div><div class="chip-row"><span class="chip ' + safe(trackerChipClass(status)) + '">' + safe(trackerStatusText(status)) + '</span><span class="chip neutral">' + fmt(allWarnings.length) + ' merki alls</span><span class="chip neutral">Veik merki ' + safe(shareValue(weakShare)) + '</span></div></div></aside>' +
+        '</section>' +
+        '<section class="diagnostic-passport-lane">' +
+          '<div class="diagnostic-alert-strip"><div class="diagnostic-strip-head"><div><span>Gæðaviðvaranir</span><h3>Aðgerðaspjöld</h3></div><span>' + fmt(actionRows.length) + '</span></div><div class="diagnostic-alert-list">' + alertHtml + '</div></div>' +
+          '<div class="diagnostic-priority-strip"><div class="diagnostic-strip-head"><div><span>Tracker samhengi</span><h3>Næsta rekstrarskoðun</h3></div><span>' + fmt(ranked.length) + '</span></div><div class="diagnostic-priority-list">' + priorityHtml + '</div></div>' +
+        '</section>' +
+        '<div class="diagnostic-module-grid">' + modules.map(trackerModuleHtml).join("") + '</div>' +
+      '</div>';
+      setHtml("diagnostic-passport-panel", html);
+    }
+
     function renderInsightsV2(data) {
       setHtml("insight-grid", renderTrackerInsightExpansion(data));
       return;
@@ -21460,12 +22699,13 @@
     function render(data) {
       safeRender("start-panel", "Fresh start", function () { renderStartPanelV5(data); });
       setStatus(data, "");
-      safeRender("route-list", "Sjálfvirk leiðing", function () { renderRouteList(data); });
-      safeRender("dashboard-public-master", "Mælaborð", function () { renderDashboardPublicMasterV2(data); });
+      safeRender("diagnostic-passport-panel", "Rekstrar- og gæðapassi", function () { renderDiagnosticPassport(data); });
       safeRender("insight-grid", "Rekstrarinnsýn", function () { renderInsightsV2(data); });
       safeRender("technical-panel", "Tæki og vafraumhverfi", function () { renderTechnical(data); });
-      safeRender("delivery-panel", "Tæknimerki til skoðunar", function () { renderDeliveryPanel(data); });
-      safeRender("warning-list", "Gæðaviðvaranir", function () { renderWarnings(data); });
+      safeRender("delivery-panel", "Afhending og tæknimerki", function () { renderDeliveryPanel(data); });
+      safeRender("counting-health-panel", "Talningarheilsa", function () { renderCountingHealthPanel(data); });
+      safeRender("route-list", "Sjálfvirk leiðing", function () { renderRouteList(data); });
+      safeRender("dashboard-public-master", "Mælaborð", function () { renderDashboardPublicMasterV2(data); });
       try { renderStatusCharts(data); } catch (error) { if (window.console && console.error) console.error("Charts", error); }
     }
     var STATUS_DATA_TIMEOUT_MS = 22000;
