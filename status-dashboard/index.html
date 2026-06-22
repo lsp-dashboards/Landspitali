@@ -21619,7 +21619,7 @@
         return intelDashboardRowV4(titleFor(row, cards), visitValue(row), Math.max(model.total, 1), index === 0 ? "good" : "gateway");
       }).join("") || '<div class="message-card neutral"><strong>Engin m\u00e6labor\u00f0sg\u00f6gn</strong><p>Production talningar eru ekki komnar \u00ed dashboard aggregate.</p></div>';
       var dashboardFocus = topDashboard ? safe(topDashboardTitle) + " ber " + safe(pct(visitValue(topDashboard), Math.max(model.total, 1))) + " af t\u00f6ldum opnunum." : "Engin talin production opnun fannst enn.";
-      var statusTitle = model.tone === "good" ? "Rekstur st\u00f6\u00f0ugur" : model.tone === "warn" ? "Athugun \u00ed forgangi" : "Til yfirfer\u00f0ar";
+      var statusTitle = "Rekstrarp\u00fals";
       var statusCopy = model.tone === "good" ?
         "Teljarar, route samhengi og tracker merki lesa hreint saman." :
         "Settu sta\u00f0fest merki, route \u00fevingun og ferskleika fremst \u00ed sko\u00f0un.";
@@ -21916,7 +21916,7 @@
         return startV5DashRow(titleFor(row, cards), value, Math.max(model.total, 1), detail, index === 0 ? "good" : "gateway");
       }).join("") || '<div class="message-card neutral"><strong>Engin m\u00e6labor\u00f0sg\u00f6gn</strong><p>Production talningar eru ekki komnar \u00ed dashboard aggregate.</p></div>';
       var scoreTone = model.tone === "bad" ? "warn" : model.tone;
-      var statusTitle = model.tone === "good" ? "Rekstur st\u00f6\u00f0ugur" : model.tone === "warn" ? "Athugun \u00ed forgangi" : "Til yfirfer\u00f0ar";
+      var statusTitle = "Rekstrarp\u00fals";
       var lead = confirmed ?
         fmt(confirmed) + " sta\u00f0fest rekstrarmerki eru sett fremst. Taldar opnanir eru a\u00f0altalan; gateway, router og raw merki sk\u00fdra samhengi\u00f0." :
         "Engin sta\u00f0fest production villa er efst. Taldar opnanir, ferskleiki og tracker g\u00e6\u00f0i lesa saman.";
@@ -21968,7 +21968,7 @@
         '<article class="start-v5 ' + safe(scoreTone) + '">' +
           '<section class="start-v5-lcd-hero" aria-label="M\u00e6labor\u00f0sm\u00e6lingar status">' +
             '<div class="start-v5-lcd-main">' +
-              '<div class="start-v5-lcd-title"><span class="start-v5-lcd-kicker">V\u00d6KTUNARKJARNI / REKSTRARP\u00daLS</span><h2 id="fresh-start-title">M\u00e6labor\u00f0sm\u00e6lingar</h2><p class="start-v5-lcd-copy"><strong>' + safe(statusTitle) + '.</strong> Ein \u00e1kv\u00f6r\u00f0unarl\u00edna fyrir opnanir, ferskleika, g\u00e6\u00f0i og t\u00e6knimerki. ' + safe(lead) + '</p></div>' +
+              '<div class="start-v5-lcd-title"><span class="start-v5-lcd-kicker">V\u00d6KTUNARKJARNI / REKSTRARP\u00daLS</span><h2 id="fresh-start-title">M\u00e6labor\u00f0sm\u00e6lingar</h2><p class="start-v5-lcd-copy">Lesanlegur rekstrarp\u00fals fyrir opnanir, ferskleika, g\u00e6\u00f0i og t\u00e6knimerki. ' + safe(lead) + '</p></div>' +
               '<div class="start-v5-lcd-grid">' +
                 startV5Metric("Taldar opnanir", fmt(model.total), "m\u00e6labor\u00f0sopnanir \u00ed framlei\u00f0slu", "good", countedFill) +
                 startV5Metric("M\u00e6labor\u00f0", fmt(dashboardCount), "\u00ed notkunargrunni", "info", dashboardCount ? 100 : 0) +
